@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/sessions.dart';
+import 'package:pi_hole_client/domain/model/auth/auth.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
@@ -10,15 +8,14 @@ import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/session_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/session_list_view.dart';
-import 'package:pi_hole_client/utils/logger.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/viewmodel/sessions_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 // fake data for Skeletonizer
-final _fakeSessionInfo = SessionInfo(
+final _fakeSession = AuthSession(
   id: 0,
   isValid: false,
   isCurrentSession: false,
@@ -31,190 +28,136 @@ final _fakeSessionInfo = SessionInfo(
   clientIp: '192.168.1.100',
   userAgent: 'Dart/3.7 (dart:io)',
 );
-final _fakeSessionsInfo = SessionsInfo(
-  sessions: List.filled(5, _fakeSessionInfo),
-);
+final _fakeSessions = List.filled(5, _fakeSession);
 
 /// A screen that displays session information to the user.
 ///
 /// Users can view their current sessions and delete them if necessary.
 /// Session information is fetched and displayed only when this screen is accessed.
-///
-/// The displayed session information does not update automatically after session deletion
-/// or when viewing session details. To refresh the session list, users must either
-/// navigate back and reopen this screen, or tap the refresh icon in the top right corner.
 class SessionsScreen extends StatefulWidget {
-  const SessionsScreen({super.key});
+  const SessionsScreen({required this.viewModel, super.key});
+
+  final SessionsViewModel viewModel;
 
   @override
-  State<SessionsScreen> createState() => _SessionState();
+  State<SessionsScreen> createState() => _SessionsScreenState();
 }
 
-class _SessionState extends State<SessionsScreen> {
-  late AppConfigProvider appConfigProvider;
-  SessionInfo? selectedSession;
-  SessionsInfo? sessionsInfo;
-  ApiGateway? apiGateway;
-  ApiGateway? previousApiGateway;
-  bool isLoading = true;
-  bool isFetchError = false;
+class _SessionsScreenState extends State<SessionsScreen> {
+  Future<void> _removeSession(AuthSession session) async {
+    final locale = AppLocalizations.of(context)!;
+    final appConfigProvider = context.read<AppConfigProvider>();
+    final process = ProcessModal(context: context);
+    process.open(locale.deleting);
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final currentApiGateway = context
-        .watch<ServersProvider>()
-        .selectedApiGateway;
-    appConfigProvider = context.watch<AppConfigProvider>();
+    try {
+      await widget.viewModel.deleteSession.runAsync(session.id);
+      if (!mounted) return;
+      process.close();
+      // TODO: migrate to context.pop() when detail screen uses go_router
+      await Navigator.maybePop(context);
 
-    // Check if the selected API gateway has changed
-    if (currentApiGateway != previousApiGateway) {
-      previousApiGateway = currentApiGateway;
-      apiGateway = currentApiGateway;
-
-      if (apiGateway != null) {
-        _loadSessions();
-      } else {
-        setState(() {
-          isLoading = false;
-        });
-      }
+      if (!mounted) return;
+      showSuccessSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: locale.sessionDeleteSuccess,
+      );
+    } catch (_) {
+      if (!mounted) return;
+      process.close();
+      showErrorSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: locale.sessionDeleteFailed,
+      );
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    previousApiGateway = null;
-    isLoading = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (apiGateway == null) {
-      return Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.sessions)),
-        body: const SafeArea(child: EmptyDataScreen()),
-      );
-    }
+    final locale = AppLocalizations.of(context)!;
 
-    Future<void> removeSession(SessionInfo session) async {
-      final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.deleting);
+    return ListenableBuilder(
+      listenable: widget.viewModel,
+      builder: (context, _) {
+        final viewModel = widget.viewModel;
+        final isLoading = viewModel.loadSessions.isRunning.value;
+        final hasError = viewModel.loadSessions.errors.value != null;
+        final sessions = viewModel.loadSessions.value;
 
-      final result = await apiGateway?.deleteSession(session.id);
-      if (!context.mounted) return;
-
-      process.close();
-
-      if (result?.result == APiResponseType.success) {
-        await Navigator.maybePop(context);
-        await _loadSessions();
-
-        if (!context.mounted) return;
-        showSuccessSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.sessionDeleteSuccess,
-        );
-      } else {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.sessionDeleteFailed,
-        );
-      }
-    }
-
-    return ScrollConfiguration(
-      behavior: CustomScrollBehavior(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.sessions),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: IconButton(
-                icon: const Icon(Icons.refresh_rounded),
-                onPressed: _loadSessions,
-                tooltip: AppLocalizations.of(context)!.refresh,
-              ),
+        return ScrollConfiguration(
+          behavior: CustomScrollBehavior(),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(locale.sessions),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: IconButton(
+                    icon: const Icon(Icons.refresh_rounded),
+                    onPressed: () => viewModel.loadSessions.run(),
+                    tooltip: locale.refresh,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        body: SafeArea(
-          child: RefreshIndicator(
-            onRefresh: _loadSessions,
-            child: Builder(
-              builder: (context) {
-                if (isLoading) {
-                  return Skeletonizer(
-                    effect: ShimmerEffect(
-                      baseColor: Theme.of(
-                        context,
-                      ).colorScheme.secondaryContainer,
-                      highlightColor: Theme.of(context).colorScheme.surface,
-                    ),
-                    child: SessionListView(
-                      sessionsInfo: _fakeSessionsInfo,
-                      onSessionTap: (session) {},
-                    ),
-                  );
-                }
-
-                if (isFetchError) {
-                  return ErrorMessage(
-                    message: AppLocalizations.of(context)!.dataFetchFailed,
-                  );
-                }
-
-                if (sessionsInfo == null || sessionsInfo!.sessions.isEmpty) {
-                  return const EmptyDataScreen();
-                }
-
-                return SessionListView(
-                  sessionsInfo: sessionsInfo!,
-                  onSessionTap: (session) {
-                    setState(() {
-                      selectedSession = session;
-                    });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SessionDetailScreen(
-                          session: session,
-                          onDelete: removeSession,
+            body: SafeArea(
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  try {
+                    await viewModel.loadSessions.runAsync();
+                  } catch (_) {
+                    // Error handled by command.errors
+                  }
+                },
+                child: Builder(
+                  builder: (context) {
+                    if (isLoading) {
+                      return Skeletonizer(
+                        effect: ShimmerEffect(
+                          baseColor: Theme.of(
+                            context,
+                          ).colorScheme.secondaryContainer,
+                          highlightColor: Theme.of(context).colorScheme.surface,
                         ),
-                      ),
+                        child: SessionListView(
+                          sessions: _fakeSessions,
+                          onSessionTap: (session) {},
+                        ),
+                      );
+                    }
+
+                    if (hasError) {
+                      return ErrorMessage(message: locale.dataFetchFailed);
+                    }
+
+                    if (sessions.isEmpty) {
+                      return const EmptyDataScreen();
+                    }
+
+                    return SessionListView(
+                      sessions: sessions,
+                      onSessionTap: (session) {
+                        // TODO: migrate to go_router named route
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SessionDetailScreen(
+                              session: session,
+                              onDelete: _removeSession,
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
-  }
-
-  Future<void> _loadSessions() async {
-    if (!mounted) return;
-
-    setState(() {
-      isLoading = true;
-    });
-
-    final result = await apiGateway!.getSessions();
-    if (!mounted) return;
-
-    setState(() {
-      if (result.result == APiResponseType.success) {
-        sessionsInfo = result.data;
-      } else {
-        isFetchError = true;
-        logger.e('Failed to load sessions');
-      }
-      isLoading = false;
-    });
   }
 }

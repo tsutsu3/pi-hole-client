@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/base.dart';
+import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
+import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/routing/routes.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/viewmodel/sessions_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 /// Creates the application router configuration.
 ///
@@ -18,19 +24,8 @@ import 'package:pi_hole_client/routing/routes.dart';
 /// ## ViewModel DI Pattern (Phase 3)
 ///
 /// New ViewModels will be created in route builders, NOT in MultiProvider.
-/// Repositories are available via `context.read<T>()` from MultiProvider.
-///
-/// ```dart
-/// GoRoute(
-///   path: '/domains',
-///   name: Routes.domains,
-///   builder: (context, state) => DomainsScreen(
-///     viewModel: DomainsViewModel(
-///       repository: context.read<DomainRepository>(),
-///     ),
-///   ),
-/// )
-/// ```
+/// [RepositoryBundleFactory] creates repositories based on the selected
+/// server's API version. ViewModels receive repositories via constructor.
 ///
 /// The [navigatorKey] parameter allows external observers like
 /// [SentryNavigatorObserver] to track navigation events.
@@ -51,6 +46,22 @@ GoRouter createAppRouter({
         path: '/',
         name: Routes.home,
         builder: (context, state) => const Base(),
+      ),
+      GoRoute(
+        path: '/settings/server/advanced/sessions',
+        name: Routes.settingsServerAdvancedSessions,
+        builder: (context, state) {
+          final server = context.read<ServersProvider>().selectedServer!;
+          final storage = context.read<SecureStorageService>();
+          final bundle = RepositoryBundleFactory.create(
+            server: server,
+            storage: storage,
+          );
+          return SessionsScreen(
+            viewModel: SessionsViewModel(authRepository: bundle.auth)
+              ..loadSessions.run(),
+          );
+        },
       ),
     ],
   );

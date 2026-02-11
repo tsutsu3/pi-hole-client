@@ -1,62 +1,32 @@
-// class RepositoryFactory {
-//   const RepositoryFactory();
+import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/api/v5/auth_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/auth_repository.dart';
+import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
+import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
+import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
+import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
+import 'package:pi_hole_client/domain/models_old/server.dart';
 
-//   DomainRepository createDomainRepository({
-//     required ServerConfig config,
-//     required SessionCredentialService creds,
-//     required PiholeApiClient api,
-//   }) {
-//     switch (config.version) {
-//       case ApiVersion.v5:
-//         return DomainRepositoryV5(
-//           client: api as PiholeV5ApiClient,
-//           creds: creds,
-//         );
-//       case ApiVersion.v6:
-//         return DomainRepositoryV6(
-//           client: api as PiholeV6ApiClient,
-//           creds: creds,
-//         );
-//     }
-//   }
-// }
+class RepositoryBundleFactory {
+  static RepositoryBundle create({
+    required Server server,
+    required SecureStorageService storage,
+  }) {
+    final creds = SessionCredentialService(storage, server.address);
 
-// class Repositories {
-//   Repositories({
-//     required this.domain,
-//     // required this.actions,
-//     // required this.auth,
-//     required this.apiClient,
-//   });
-
-//   final DomainRepository domain;
-//   // final ActionsRepository actions;
-//   // final AuthRepository auth;
-//   final PiholeApiClient apiClient;
-
-//   void dispose() {
-//     apiClient.close();
-//   }
-// }
-
-// class RepositoryBundleFactory {
-//   const RepositoryBundleFactory(this.repoFactory);
-//   final RepositoryFactory repoFactory;
-
-//   Repositories create({
-//     required ServerConfig config,
-//     required SessionCredentialService creds,
-//   }) {
-//     final api = config.version == ApiVersion.v5
-//         ? PiholeV5ApiClient(url: config.baseUrl)
-//         : PiholeV6ApiClient(url: config.baseUrl);
-
-//     final domain = repoFactory.createDomainRepository(
-//       config: config,
-//       creds: creds,
-//       api: api,
-//     );
-
-//     return Repositories(domain: domain, apiClient: api);
-//   }
-// }
+    switch (server.apiVersion) {
+      case 'v6':
+        final client = PiholeV6ApiClient(url: server.address);
+        return RepositoryBundle(
+          auth: AuthRepositoryV6(client: client, creds: creds),
+          serverAddress: server.address,
+        );
+      default:
+        final client = PiholeV5ApiClient(url: server.address);
+        return RepositoryBundle(
+          auth: AuthRepositoryV5(client: client, creds: creds),
+          serverAddress: server.address,
+        );
+    }
+  }
+}
