@@ -1,6 +1,8 @@
 ignore:
-  - "lib/ui/settings/about/about.dart"
+  - "lib/**/*.freezed.dart"
   - "lib/**/*.g.dart"
+  - "lib/data/services/api/generated/**"
   - "lib/ui/core/l10n/generated/**"
+  - "lib/ui/settings/about/about.dart"
   - "mock_api_server/**"
   - "tools/**"
