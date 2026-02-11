@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:command_it/command_it.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/viewmodel/sessions_viewmodel.dart';
@@ -31,8 +33,12 @@ void main() {
     test('loadSessions failure sets error', () async {
       fakeAuthRepository.shouldFail = true;
 
+      final completer = Completer<void>();
+      viewModel.loadSessions.errors.addListener(() {
+        if (!completer.isCompleted) completer.complete();
+      });
       viewModel.loadSessions.run();
-      await Future<void>.delayed(const Duration(milliseconds: 100));
+      await completer.future;
 
       expect(viewModel.loadSessions.errors.value, isNotNull);
     });
@@ -55,8 +61,12 @@ void main() {
       // Now make repository fail
       fakeAuthRepository.shouldFail = true;
 
+      final completer = Completer<void>();
+      viewModel.deleteSession.errors.addListener(() {
+        if (!completer.isCompleted) completer.complete();
+      });
       viewModel.deleteSession.run(0);
-      await Future<void>.delayed(const Duration(milliseconds: 100));
+      await completer.future;
 
       expect(viewModel.deleteSession.errors.value, isNotNull);
     });
