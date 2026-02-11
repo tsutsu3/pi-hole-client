@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/formats.dart';
-import 'package:pi_hole_client/domain/models_old/sessions.dart';
+import 'package:pi_hole_client/domain/model/auth/auth.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/utils/format.dart';
@@ -17,13 +17,13 @@ import 'package:pi_hole_client/utils/format.dart';
 /// - A trailing chip if the session is currently active.
 ///
 /// Tapping a session triggers the optional [onSessionTap] callback with the
-/// selected [SessionInfo] instance.
+/// selected [AuthSession] instance.
 ///
 /// {@tool snippet}
 /// Example usage:
 /// ```dart
 /// SessionListView(
-///   sessionsInfo: mySessionsInfo,
+///   sessions: mySessions,
 ///   onSessionTap: (session) {
 ///     print('Selected: ${session.clientIp}');
 ///   },
@@ -32,21 +32,21 @@ import 'package:pi_hole_client/utils/format.dart';
 /// {@end-tool}
 class SessionListView extends StatelessWidget {
   const SessionListView({
-    required this.sessionsInfo,
+    required this.sessions,
     this.onSessionTap,
     super.key,
   });
 
-  final SessionsInfo sessionsInfo;
-  final void Function(SessionInfo)? onSessionTap;
+  final List<AuthSession> sessions;
+  final void Function(AuthSession)? onSessionTap;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.only(top: 32),
-      itemCount: sessionsInfo.sessions.length,
+      itemCount: sessions.length,
       itemBuilder: (context, index) {
-        final session = sessionsInfo.sessions[index];
+        final session = sessions[index];
         return ListTile(
           leading: _buildStatusIcon(context, session.isValid),
           title: Column(
