@@ -1,5 +1,4 @@
 // ignore_for_file: unused_import
-import 'package:pi_hole_client/base.dart';
 import 'package:pi_hole_client/build_info/git_commit.dart';
 import 'package:pi_hole_client/config/api_versions.dart';
 import 'package:pi_hole_client/config/app_screens.dart';
@@ -85,6 +84,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/group_repository
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/actions_respository.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/adlist_repository.dart';
@@ -585,6 +585,7 @@ import 'package:pi_hole_client/ui/core/ui/components/option_box.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/color_helpers.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/icons.dart';
 import 'package:pi_hole_client/ui/core/ui/icons/pihole_icon.dart';
@@ -709,8 +710,10 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/net
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/session_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/session_list_view.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/viewmodel/sessions_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/server_info/viewmodel/server_info_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/subscriptions.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/add_client_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/add_group_modal.dart';
@@ -736,6 +739,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/subscription_tile.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/subscriptions_list.dart';
 import 'package:pi_hole_client/ui/settings/settings.dart';
+import 'package:pi_hole_client/ui/shell/base.dart';
 import 'package:pi_hole_client/ui/statistics/animated_percent_indicator.dart';
 import 'package:pi_hole_client/ui/statistics/custom_pie_chart.dart';
 import 'package:pi_hole_client/ui/statistics/dns_tab.dart';
