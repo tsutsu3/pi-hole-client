@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/base.dart';
-import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
-import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
+import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen.dart';
@@ -26,8 +25,9 @@ import 'package:provider/provider.dart';
 /// ## ViewModel DI Pattern (Phase 3)
 ///
 /// New ViewModels will be created in route builders, NOT in MultiProvider.
-/// [RepositoryBundleFactory] creates repositories based on the selected
-/// server's API version. ViewModels receive repositories via constructor.
+/// [RepositoryBundle] is provided via [ProxyProvider] in the widget tree,
+/// creating version-specific repositories based on the selected server.
+/// ViewModels receive repositories via constructor.
 ///
 /// The [navigatorKey] parameter allows external observers like
 /// [SentryNavigatorObserver] to track navigation events.
@@ -54,13 +54,9 @@ GoRouter createAppRouter({
         name: Routes.settingsServerInfo,
         builder: (context, state) {
           final server = context.read<ServersProvider>().selectedServer!;
-          final storage = context.read<SecureStorageService>();
-          final bundle = RepositoryBundleFactory.create(
-            server: server,
-            storage: storage,
-          );
+          final bundle = context.read<RepositoryBundle?>();
           return ServerInfoScreen(
-            viewModel: ServerInfoViewModel(ftlRepository: bundle.ftl)
+            viewModel: ServerInfoViewModel(ftlRepository: bundle!.ftl)
               ..loadServerInfo.run(),
             serverAlias: server.alias,
             serverAddress: server.address,
@@ -71,14 +67,9 @@ GoRouter createAppRouter({
         path: '/settings/server/advanced/sessions',
         name: Routes.settingsServerAdvancedSessions,
         builder: (context, state) {
-          final server = context.read<ServersProvider>().selectedServer!;
-          final storage = context.read<SecureStorageService>();
-          final bundle = RepositoryBundleFactory.create(
-            server: server,
-            storage: storage,
-          );
+          final bundle = context.read<RepositoryBundle?>();
           return SessionsScreen(
-            viewModel: SessionsViewModel(authRepository: bundle.auth)
+            viewModel: SessionsViewModel(authRepository: bundle!.auth)
               ..loadSessions.run(),
           );
         },
