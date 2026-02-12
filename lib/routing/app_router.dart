@@ -7,6 +7,8 @@ import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/viewmodel/sessions_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/server_info.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/server_info/viewmodel/server_info_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 /// Creates the application router configuration.
@@ -46,6 +48,24 @@ GoRouter createAppRouter({
         path: '/',
         name: Routes.home,
         builder: (context, state) => const Base(),
+      ),
+      GoRoute(
+        path: '/settings/server/info',
+        name: Routes.settingsServerInfo,
+        builder: (context, state) {
+          final server = context.read<ServersProvider>().selectedServer!;
+          final storage = context.read<SecureStorageService>();
+          final bundle = RepositoryBundleFactory.create(
+            server: server,
+            storage: storage,
+          );
+          return ServerInfoScreen(
+            viewModel: ServerInfoViewModel(ftlRepository: bundle.ftl)
+              ..loadServerInfo.run(),
+            serverAlias: server.alias,
+            serverAddress: server.address,
+          );
+        },
       ),
       GoRoute(
         path: '/settings/server/advanced/sessions',

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/domain/model/ftl/version.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/list_tile_title.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
@@ -9,7 +10,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 class PiholeVersionSection extends StatelessWidget {
   const PiholeVersionSection({required this.version, super.key});
 
-  final dynamic version;
+  final FtlVersion? version;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +30,9 @@ class PiholeVersionSection extends StatelessWidget {
           title: Skeleton.keep(
             child: listTileTitleNoPadding('Core', colorScheme: colorScheme),
           ),
-          subtitle: Text('${version?.core.local.branch ?? '-'}'),
+          subtitle: Text(version?.core.local.branch ?? '-'),
           trailing: InfoTrailing(
-            isUpdate: version?.core.canUpdate,
+            isUpdate: version?.core.canUpdate ?? false,
             text: version?.core.local.version ?? '-',
           ),
         ),
@@ -41,9 +42,9 @@ class PiholeVersionSection extends StatelessWidget {
           title: Skeleton.keep(
             child: listTileTitleNoPadding('FTL', colorScheme: colorScheme),
           ),
-          subtitle: Text('${version?.ftl.local.branch ?? '-'}'),
+          subtitle: Text(version?.ftl.local.branch ?? '-'),
           trailing: InfoTrailing(
-            isUpdate: version?.ftl.canUpdate,
+            isUpdate: version?.ftl.canUpdate ?? false,
             text: version?.ftl.local.version ?? '-',
           ),
         ),
@@ -53,9 +54,9 @@ class PiholeVersionSection extends StatelessWidget {
           title: Skeleton.keep(
             child: listTileTitleNoPadding('Web', colorScheme: colorScheme),
           ),
-          subtitle: Text('${version?.web.local.branch ?? '-'}'),
+          subtitle: Text(version?.web.local.branch ?? '-'),
           trailing: InfoTrailing(
-            isUpdate: version?.web.canUpdate,
+            isUpdate: version?.web.canUpdate ?? false,
             text: version?.web.local.version ?? '-',
           ),
         ),
@@ -66,9 +67,9 @@ class PiholeVersionSection extends StatelessWidget {
             child: listTileTitleNoPadding('Docker', colorScheme: colorScheme),
           ),
           subtitle: const Skeleton.replace(child: Text('-')),
-          trailing: version?.docker.local.version.isNotEmpty
+          trailing: version?.docker.local.version.isNotEmpty == true
               ? InfoTrailing(
-                  isUpdate: version?.docker.canUpdate,
+                  isUpdate: version?.docker.canUpdate ?? false,
                   text: version?.docker.local.version ?? '-',
                 )
               : Skeleton.replace(

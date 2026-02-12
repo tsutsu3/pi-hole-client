@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/list_tile_title.dart';
@@ -7,9 +6,14 @@ import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ServerConnectionSection extends StatelessWidget {
-  const ServerConnectionSection({required this.server, super.key});
+  const ServerConnectionSection({
+    required this.serverAlias,
+    required this.serverAddress,
+    super.key,
+  });
 
-  final Server? server;
+  final String serverAlias;
+  final String serverAddress;
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +31,11 @@ class ServerConnectionSection extends StatelessWidget {
           dense: true,
           leading: const Skeleton.keep(child: Icon(Icons.storage_outlined)),
           title: Skeleton.keep(
-            child: listTileTitle(
-              server?.alias ?? AppLocalizations.of(context)!.unknown,
-              colorScheme: colorScheme,
-            ),
+            child: listTileTitle(serverAlias, colorScheme: colorScheme),
           ),
           subtitle: Skeleton.keep(
             child: Text(
-              server?.address ?? AppLocalizations.of(context)!.unknown,
+              serverAddress,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
