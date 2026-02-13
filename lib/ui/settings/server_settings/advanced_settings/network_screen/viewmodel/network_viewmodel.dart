@@ -2,7 +2,9 @@ import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
+import 'package:pi_hole_client/domain/model/ftl/client.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
+import 'package:result_dart/result_dart.dart';
 
 class NetworkData {
   const NetworkData({required this.devices, required this.currentClientIp});
@@ -34,10 +36,12 @@ class NetworkViewModel extends ChangeNotifier {
   late final Command<int, void> deleteDevice;
 
   Future<NetworkData> _loadDevices() async {
-    final devicesFuture = _networkRepository.fetchDevices();
-    final clientFuture = _ftlRepository.fetchInfoClient();
-    final devices = (await devicesFuture).getOrThrow();
-    final client = (await clientFuture).getOrThrow();
+    final results = await Future.wait([
+      _networkRepository.fetchDevices(),
+      _ftlRepository.fetchInfoClient(),
+    ]);
+    final devices = (results[0] as Result<List<Device>>).getOrThrow();
+    final client = (results[1] as Result<FtlClient>).getOrThrow();
     return NetworkData(devices: devices, currentClientIp: client.addr);
   }
 
