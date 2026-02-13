@@ -33,6 +33,9 @@ class FakeNetworkRepository implements NetworkRepository {
     if (shouldFail) {
       return Failure(Exception('Force fetchGateways failure'));
     }
+    if (isDetailed == true) {
+      return const Success(kRepoFetchGatewaysDetailed);
+    }
     return const Success(kRepoFetchGateways);
   }
 }

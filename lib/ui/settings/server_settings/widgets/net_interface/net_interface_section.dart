@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/model/v6/network/interfaces.dart';
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/adaptive_trailing_text.dart';
 import 'package:pi_hole_client/ui/core/ui/components/list_tile_title.dart';
@@ -12,24 +13,18 @@ import 'package:skeletonizer/skeletonizer.dart';
 class NetInterfaceSection extends StatelessWidget {
   const NetInterfaceSection(this.interface, {super.key});
 
-  // TODO: use domain model
-  final InterfaceData interface;
+  final NetInterface interface;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final locale = AppLocalizations.of(context)!;
 
-    String detectAddressType(String addressType) {
-      switch (addressType) {
-        case 'inet6':
-          return 'IPv6';
-        case 'inet':
-          return 'IPv4';
-        default:
-          return locale.unknown;
-      }
-    }
+    String detectAddressType(RouteFamilyType family) => switch (family) {
+      RouteFamilyType.inet => 'IPv4',
+      RouteFamilyType.inet6 => 'IPv6',
+      _ => locale.unknown,
+    };
 
     Widget buildDetailTile({
       required IconData icon,
@@ -57,7 +52,7 @@ class NetInterfaceSection extends StatelessWidget {
           ),
           children: interface.addresses.map((address) {
             final title =
-                '${locale.adlistAddress}: ${address.family} ${address.address} / ${address.prefixlen} (${detectAddressType(address.family)} ${address.addressType})';
+                '${locale.adlistAddress}: ${address.family.name} ${address.address} / ${address.prefixlen} (${detectAddressType(address.family)} ${address.addressType})';
 
             return ListTile(
               leading: const Icon(Icons.location_on_outlined),

@@ -16,7 +16,6 @@ import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
@@ -415,11 +414,8 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                 leadingIcon: Icons.wifi_rounded,
                 label: AppLocalizations.of(context)!.interface,
                 description: AppLocalizations.of(context)!.interfaceDescription,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const InterfaceScreen(),
-                  ),
+                onTap: () => context.pushNamed(
+                  Routes.settingsServerAdvancedInterface,
                 ),
               ),
               CustomListTile(
