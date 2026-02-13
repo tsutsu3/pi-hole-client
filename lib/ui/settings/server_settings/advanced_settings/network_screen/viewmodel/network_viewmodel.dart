@@ -1,0 +1,58 @@
+import 'package:command_it/command_it.dart';
+import 'package:flutter/foundation.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
+import 'package:pi_hole_client/domain/model/network/network.dart';
+
+class NetworkData {
+  const NetworkData({required this.devices, required this.currentClientIp});
+
+  final List<Device> devices;
+  final String currentClientIp;
+}
+
+class NetworkViewModel extends ChangeNotifier {
+  NetworkViewModel({
+    required NetworkRepository networkRepository,
+    required FtlRepository ftlRepository,
+  }) : _networkRepository = networkRepository,
+       _ftlRepository = ftlRepository {
+    loadDevices = Command.createAsyncNoParam<NetworkData>(
+      _loadDevices,
+      initialValue: const NetworkData(devices: [], currentClientIp: ''),
+    );
+    deleteDevice = Command.createAsyncNoResult<int>(_deleteDevice);
+
+    loadDevices.addListener(notifyListeners);
+    deleteDevice.addListener(notifyListeners);
+  }
+
+  final NetworkRepository _networkRepository;
+  final FtlRepository _ftlRepository;
+
+  late final Command<void, NetworkData> loadDevices;
+  late final Command<int, void> deleteDevice;
+
+  Future<NetworkData> _loadDevices() async {
+    final devicesFuture = _networkRepository.fetchDevices();
+    final clientFuture = _ftlRepository.fetchInfoClient();
+    final devices = (await devicesFuture).getOrThrow();
+    final client = (await clientFuture).getOrThrow();
+    return NetworkData(devices: devices, currentClientIp: client.addr);
+  }
+
+  Future<void> _deleteDevice(int deviceId) async {
+    final result = await _networkRepository.deleteDevice(deviceId);
+    result.getOrThrow();
+    await loadDevices.runAsync();
+  }
+
+  @override
+  void dispose() {
+    loadDevices.removeListener(notifyListeners);
+    deleteDevice.removeListener(notifyListeners);
+    loadDevices.dispose();
+    deleteDevice.dispose();
+    super.dispose();
+  }
+}

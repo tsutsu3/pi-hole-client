@@ -10,8 +10,6 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_optio
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
-
 import '../../../helpers.dart';
 
 void main() async {
@@ -151,7 +149,9 @@ void main() async {
       expect(find.byType(InterfaceScreen), findsOneWidget);
     });
 
-    testWidgets('should show network screen with tap', (
+    // Network navigation now uses go_router (context.pushNamed).
+    // Full navigation is tested in network_screen_test.dart.
+    testWidgets('should show network tile', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -169,9 +169,7 @@ void main() async {
       expect(find.byType(AdvancedServerOptions), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Network'));
-      await tester.pumpAndSettle();
-      expect(find.byType(NetworkScreen), findsOneWidget);
+      expect(find.text('Network'), findsOneWidget);
     });
 
     testWidgets('should success Disable query logging', (

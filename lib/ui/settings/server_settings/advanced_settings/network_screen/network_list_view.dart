@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/formats.dart';
-import 'package:pi_hole_client/domain/models_old/devices.dart';
+import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/utils/format.dart';
@@ -14,38 +14,38 @@ import 'package:pi_hole_client/utils/format.dart';
 /// - The last query timestamp or a "never" label if the device was never active.
 /// - A trailing chip if the device is currently in use (matches [currentClientIp]).
 ///
-/// Tapping a device triggers the [onDeviceTap] callback with the selected [DeviceInfo].
+/// Tapping a device triggers the [onDeviceTap] callback with the selected [Device].
 ///
 /// {@tool snippet}
 /// Example usage:
 /// ```dart
 /// NetworkListView(
-///   devicesInfo: myDevicesInfo,
-///  currentClientIp: currentIp,
+///   devices: myDevices,
+///   currentClientIp: currentIp,
 ///   onDeviceTap: (device) {
-///    print('Selected device: ${device.ips.first.ip}');
-///  },
-// )
+///     print('Selected device: ${device.ips.first.ip}');
+///   },
+/// )
 /// ```
 /// {@end-tool}
 class NetworkListView extends StatelessWidget {
   const NetworkListView({
-    required this.devicesInfo,
+    required this.devices,
     required this.currentClientIp,
     required this.onDeviceTap,
     super.key,
   });
 
-  final DevicesInfo devicesInfo;
+  final List<Device> devices;
   final String currentClientIp;
-  final void Function(DeviceInfo)? onDeviceTap;
+  final void Function(Device)? onDeviceTap;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: devicesInfo.devices.length,
+      itemCount: devices.length,
       itemBuilder: (context, index) {
-        final device = devicesInfo.devices[index];
+        final device = devices[index];
         return ListTile(
           leading: _buildStatusIcon(context, device.lastQuery),
           title: _buildDeviceTitle(context, device),
@@ -108,7 +108,7 @@ class NetworkListView extends StatelessWidget {
   /// [device] - The device information containing IP addresses and optional names.
   ///
   /// Returns a [Text] widget with the formatted device IP information.
-  Widget _buildDeviceTitle(BuildContext context, DeviceInfo device) {
+  Widget _buildDeviceTitle(BuildContext context, Device device) {
     if (device.ips.isEmpty) {
       return Text(
         AppLocalizations.of(context)!.unknown,

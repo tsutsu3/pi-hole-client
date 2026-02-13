@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/viewmodel/sessions_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info.dart';
@@ -71,6 +73,19 @@ GoRouter createAppRouter({
           return SessionsScreen(
             viewModel: SessionsViewModel(authRepository: bundle!.auth)
               ..loadSessions.run(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/settings/server/advanced/network',
+        name: Routes.settingsServerAdvancedNetwork,
+        builder: (context, state) {
+          final bundle = context.read<RepositoryBundle?>();
+          return NetworkScreen(
+            viewModel: NetworkViewModel(
+              networkRepository: bundle!.network,
+              ftlRepository: bundle.ftl,
+            )..loadDevices.run(),
           );
         },
       ),

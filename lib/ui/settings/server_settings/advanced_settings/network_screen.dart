@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
-import 'package:pi_hole_client/domain/models_old/devices.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
@@ -9,15 +7,14 @@ import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/network_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/network_list_view.dart';
-import 'package:pi_hole_client/utils/logger.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 // fake data for Skeletonizer
-final _fakeDeviceInfo = DeviceInfo(
+final _fakeDevice = Device(
   id: 0,
   hwaddr: '00:11:22:33:44:55',
   interface: 'eth0',
@@ -25,7 +22,7 @@ final _fakeDeviceInfo = DeviceInfo(
   lastQuery: DateTime(2025, 6, 28, 12),
   numQueries: 100,
   ips: [
-    DeviceAddress(
+    DeviceIp(
       ip: '192.168.1.100',
       lastSeen: DateTime(2025, 6, 28, 12),
       nameUpdated: DateTime(2025, 6, 28, 11),
@@ -34,212 +31,139 @@ final _fakeDeviceInfo = DeviceInfo(
   ],
   macVendor: 'ExampleVendor',
 );
-final _fakeDevicesInfo = DevicesInfo(devices: List.filled(5, _fakeDeviceInfo));
+final _fakeDevices = List.filled(5, _fakeDevice);
 
-/// A screen that displays network devices from the selected `ApiGateway`.
+/// A screen that displays network devices from the selected server.
 ///
 /// Loads device and client IP info, shows a device list, and supports
 /// viewing and deleting devices. Handles loading, error, and empty states.
 class NetworkScreen extends StatefulWidget {
-  const NetworkScreen({super.key});
+  const NetworkScreen({required this.viewModel, super.key});
+
+  final NetworkViewModel viewModel;
 
   @override
-  State<NetworkScreen> createState() => _NetworkState();
+  State<NetworkScreen> createState() => _NetworkScreenState();
 }
 
-class _NetworkState extends State<NetworkScreen> {
-  late AppConfigProvider appConfigProvider;
-  DeviceInfo? selectedDevice;
-  DevicesInfo? devicesInfo;
-  ApiGateway? apiGateway;
-  ApiGateway? previousApiGateway;
-  bool isLoading = true;
-  bool isFetchError = false;
-  String? currentClientIp;
+class _NetworkScreenState extends State<NetworkScreen> {
+  Future<void> _removeDevice(Device device) async {
+    final locale = AppLocalizations.of(context)!;
+    final appConfigProvider = context.read<AppConfigProvider>();
+    final process = ProcessModal(context: context);
+    process.open(locale.deleting);
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final currentApiGateway = context
-        .watch<ServersProvider>()
-        .selectedApiGateway;
-    appConfigProvider = context.watch<AppConfigProvider>();
+    try {
+      await widget.viewModel.deleteDevice.runAsync(device.id);
+      if (!mounted) return;
+      process.close();
+      // TODO: migrate to context.pop() when detail screen uses go_router
+      await Navigator.maybePop(context);
 
-    // Check if the selected API gateway has changed
-    if (currentApiGateway != previousApiGateway) {
-      previousApiGateway = currentApiGateway;
-      apiGateway = currentApiGateway;
-
-      if (apiGateway != null) {
-        _loadDevice();
-      } else {
-        setState(() {
-          isLoading = false;
-        });
-      }
+      if (!mounted) return;
+      showSuccessSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: locale.deviceDeleteSuccess,
+      );
+    } catch (_) {
+      if (!mounted) return;
+      process.close();
+      showErrorSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: locale.deviceDeleteFailed,
+      );
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    previousApiGateway = null;
-    isLoading = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (apiGateway == null) {
-      return Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.network)),
-        body: const SafeArea(child: EmptyDataScreen()),
-      );
-    }
+    final locale = AppLocalizations.of(context)!;
 
-    Future<void> removeDevice(DeviceInfo device) async {
-      final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.deleting);
+    return ListenableBuilder(
+      listenable: widget.viewModel,
+      builder: (context, _) {
+        final viewModel = widget.viewModel;
+        final isLoading = viewModel.loadDevices.isRunning.value;
+        final hasError = viewModel.loadDevices.errors.value != null;
+        final networkData = viewModel.loadDevices.value;
 
-      final result = await apiGateway?.deleteDevice(device.id);
-      if (!context.mounted) return;
-
-      process.close();
-
-      if (result?.result == APiResponseType.success) {
-        await Navigator.maybePop(context);
-        await _loadDevice();
-
-        if (!context.mounted) return;
-        showSuccessSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.deviceDeleteSuccess,
-        );
-      } else {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.deviceDeleteFailed,
-        );
-      }
-    }
-
-    return ScrollConfiguration(
-      behavior: CustomScrollBehavior(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.network),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: IconButton(
-                icon: const Icon(Icons.refresh_rounded),
-                onPressed: _loadDevice,
-                tooltip: AppLocalizations.of(context)!.refresh,
-              ),
+        return ScrollConfiguration(
+          behavior: CustomScrollBehavior(),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(locale.network),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: IconButton(
+                    icon: const Icon(Icons.refresh_rounded),
+                    onPressed: () => viewModel.loadDevices.run(),
+                    tooltip: locale.refresh,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        body: SafeArea(
-          child: RefreshIndicator(
-            onRefresh: _loadDevice,
-            child: Builder(
-              builder: (context) {
-                if (isLoading) {
-                  return Skeletonizer(
-                    effect: ShimmerEffect(
-                      baseColor: Theme.of(
-                        context,
-                      ).colorScheme.secondaryContainer,
-                      highlightColor: Theme.of(context).colorScheme.surface,
-                    ),
-                    child: NetworkListView(
-                      devicesInfo: _fakeDevicesInfo,
-                      currentClientIp: currentClientIp ?? '',
-                      onDeviceTap: (session) {},
-                    ),
-                  );
-                }
-
-                if (isFetchError) {
-                  return ErrorMessage(
-                    message: AppLocalizations.of(context)!.dataFetchFailed,
-                  );
-                }
-
-                if (devicesInfo == null || devicesInfo!.devices.isEmpty) {
-                  return const EmptyDataScreen();
-                }
-
-                return NetworkListView(
-                  devicesInfo: devicesInfo!,
-                  currentClientIp: currentClientIp ?? '',
-                  onDeviceTap: (device) {
-                    setState(() {
-                      selectedDevice = device;
-                    });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NetworkDetailScreen(
-                          device: device,
-                          onDelete: removeDevice,
+            body: SafeArea(
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  try {
+                    await viewModel.loadDevices.runAsync();
+                  } catch (_) {
+                    // Error handled by command.errors
+                  }
+                },
+                child: Builder(
+                  builder: (context) {
+                    if (isLoading) {
+                      return Skeletonizer(
+                        effect: ShimmerEffect(
+                          baseColor: Theme.of(
+                            context,
+                          ).colorScheme.secondaryContainer,
+                          highlightColor:
+                              Theme.of(context).colorScheme.surface,
                         ),
-                      ),
+                        child: NetworkListView(
+                          devices: _fakeDevices,
+                          currentClientIp: '',
+                          onDeviceTap: (device) {},
+                        ),
+                      );
+                    }
+
+                    if (hasError) {
+                      return ErrorMessage(message: locale.dataFetchFailed);
+                    }
+
+                    if (networkData.devices.isEmpty) {
+                      return const EmptyDataScreen();
+                    }
+
+                    return NetworkListView(
+                      devices: networkData.devices,
+                      currentClientIp: networkData.currentClientIp,
+                      onDeviceTap: (device) {
+                        // TODO: migrate to go_router named route
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NetworkDetailScreen(
+                              device: device,
+                              onDelete: _removeDevice,
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
-  }
-
-  Future<void> _loadDevice() async {
-    if (!mounted) return;
-
-    setState(() {
-      isLoading = true;
-      isFetchError = false;
-    });
-
-    try {
-      final result = await Future.wait<BaseInfoResponse<dynamic>>([
-        apiGateway!.getDevices(),
-        apiGateway!.getClient(),
-      ]);
-      if (!mounted) return;
-
-      setState(() {
-        if (result[0].result == APiResponseType.success &&
-            result[1].result == APiResponseType.success) {
-          devicesInfo = result[0].data;
-          currentClientIp = result[1].data?.addr;
-        } else {
-          isFetchError = true;
-          logger.e(
-            'Failed to load network data. '
-            'getDevices: ${result[0].result} (${result[0].message ?? 'no message'}), '
-            'getClient: ${result[1].result} (${result[1].message ?? 'no message'})',
-          );
-        }
-      });
-    } catch (e) {
-      logger.e('Failed to load network devices or client info', error: e);
-
-      if (mounted) {
-        setState(() {
-          isFetchError = true;
-        });
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          isLoading = false;
-        });
-      }
-    }
   }
 }

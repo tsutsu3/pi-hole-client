@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:command_it/command_it.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -294,7 +295,11 @@ void main() async {
         // for route-level ViewModel creation via context.read().
         // Recreated only when the selected server changes.
         // ===================================================
-        ProxyProvider2<ServersProvider, SecureStorageService, RepositoryBundle?>(
+        ProxyProvider2<
+          ServersProvider,
+          SecureStorageService,
+          RepositoryBundle?
+        >(
           update: (_, servers, storage, previous) {
             final server = servers.selectedServer;
             if (server == null) return null;
@@ -353,6 +358,11 @@ void main() async {
       child: SentryWidget(child: Phoenix(child: const PiHoleClient())),
     ),
   );
+
+  Command.globalExceptionHandler = (error, stackTrace) {
+    Sentry.captureException(error.error, stackTrace: stackTrace);
+    logger.e('Command error: ${error.error}', stackTrace: stackTrace);
+  };
 
   await initializeSentry();
   startApp();

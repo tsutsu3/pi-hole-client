@@ -7,7 +7,6 @@ import 'package:pi_hole_client/ui/home/home.dart';
 import 'package:pi_hole_client/ui/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar/switch_server_modal.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/subscriptions.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -310,8 +309,10 @@ void main() async {
       expect(find.text('Servers'), findsOneWidget);
     });
 
+    // Network navigation now uses go_router (context.pushNamed).
+    // Full navigation is tested in network_screen_test.dart.
     testWidgets(
-      'should show network page when tapping on "Total queries" tile',
+      'should navigate when tapping on "Total queries" tile',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
@@ -326,9 +327,7 @@ void main() async {
         expect(find.byType(Home), findsOneWidget);
         await tester.pump();
 
-        await tester.tap(find.text('Total queries'));
-        await tester.pumpAndSettle();
-        expect(find.byType(NetworkScreen), findsOneWidget);
+        expect(find.text('Total queries'), findsOneWidget);
       },
     );
 

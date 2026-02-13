@@ -741,7 +741,10 @@ class PiholeV6ApiClient {
       );
 
       if (resp.statusCode == 200) {
-        return Devices.fromJson(jsonDecode(resp.body));
+        // Use allowMalformed to handle invalid UTF-8 characters in device
+        // names or MAC vendor names
+        final body = utf8.decode(resp.bodyBytes, allowMalformed: true);
+        return Devices.fromJson(jsonDecode(body));
       }
 
       throw HttpStatusCodeException(resp.statusCode, resp.body);
