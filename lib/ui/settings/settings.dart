@@ -6,6 +6,7 @@ import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/languages.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/config/urls.dart';
+import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
@@ -24,6 +25,7 @@ import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/subscriptions.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
@@ -97,7 +99,17 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                   .selectedServer
                   ?.apiVersion;
               if (apiVersion == 'v6') {
-                splitView.push(const NetworkScreen());
+                final bundle = context.read<RepositoryBundle?>();
+                if (bundle != null) {
+                  splitView.push(
+                    NetworkScreen(
+                      viewModel: NetworkViewModel(
+                        networkRepository: bundle.network,
+                        ftlRepository: bundle.ftl,
+                      )..loadDevices.run(),
+                    ),
+                  );
+                }
               }
           }
           appConfigProvider.setSelectedSettingsScreen(screen: null);
