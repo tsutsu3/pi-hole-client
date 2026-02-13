@@ -1,232 +1,159 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
-import 'package:pi_hole_client/domain/models_old/dhcp.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/model/dhcp/dhcp.dart';
 import 'package:pi_hole_client/ui/common/dhcp_disabled_screen.dart';
-import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/dhcp_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/dhcp_list_view.dart';
-import 'package:pi_hole_client/utils/logger.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/viewmodel/dhcp_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 // fake data for Skeletonizer
-final _fakeDhcpInfo = DhcpInfo(
-  expires: DateTime(2025, 6, 28, 10),
+final _fakeLease = DhcpLease(
   name: 'raspberrypi',
   hwaddr: '00:00:00:00:00:00',
   ip: '192.168.2.111',
   clientid: '00:00:00:00:00:00',
+  expires: DateTime(2025, 6, 28, 10),
 );
-final _fakeDhcpsInfo = DhcpsInfo(leases: List.filled(5, _fakeDhcpInfo));
+final _fakeLeases = List.filled(5, _fakeLease);
 
-/// A screen that displays dhpc dhcps from the selected `ApiGateway`.
+/// A screen that displays DHCP leases from the selected server.
 ///
-/// Loads dhcp and client IP info, shows a dhcp list, and supports
-/// viewing and deleting dhcps. Handles loading, error, and empty states.
+/// Loads DHCP leases and client IP info, shows a lease list, and supports
+/// viewing and deleting leases. Handles loading, error, and empty states.
 class DhcpScreen extends StatefulWidget {
-  const DhcpScreen({super.key});
+  const DhcpScreen({required this.viewModel, super.key});
+
+  final DhcpViewModel viewModel;
 
   @override
-  State<DhcpScreen> createState() => _DhcpState();
+  State<DhcpScreen> createState() => _DhcpScreenState();
 }
 
-class _DhcpState extends State<DhcpScreen> {
-  late AppConfigProvider appConfigProvider;
-  DhcpInfo? selectedDhcp;
-  DhcpsInfo? dhcpsInfo;
-  ApiGateway? apiGateway;
-  ApiGateway? previousApiGateway;
-  bool isLoading = true;
-  bool isFetchError = false;
-  String? currentClientIp;
+class _DhcpScreenState extends State<DhcpScreen> {
+  Future<void> _removeLease(DhcpLease lease) async {
+    final locale = AppLocalizations.of(context)!;
+    final appConfigProvider = context.read<AppConfigProvider>();
+    final process = ProcessModal(context: context);
+    process.open(locale.deleting);
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final currentApiGateway = context
-        .watch<ServersProvider>()
-        .selectedApiGateway;
-    appConfigProvider = context.watch<AppConfigProvider>();
+    try {
+      await widget.viewModel.deleteLease.runAsync(lease.ip);
+      if (!mounted) return;
+      process.close();
+      // TODO: migrate to context.pop() when detail screen uses go_router
+      await Navigator.maybePop(context);
 
-    // Check if the selected API gateway has changed
-    if (currentApiGateway != previousApiGateway) {
-      previousApiGateway = currentApiGateway;
-      apiGateway = currentApiGateway;
-
-      if (apiGateway != null) {
-        _loadDhcps();
-      } else {
-        setState(() {
-          isLoading = false;
-        });
-      }
+      if (!mounted) return;
+      showSuccessSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: locale.dhcpRemoved,
+      );
+    } catch (_) {
+      if (!mounted) return;
+      process.close();
+      showErrorSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: locale.deviceDeleteFailed,
+      );
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    previousApiGateway = null;
-    isLoading = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (apiGateway == null) {
-      return Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.dhcp)),
-        body: const SafeArea(child: EmptyDataScreen()),
-      );
-    }
+    final locale = AppLocalizations.of(context)!;
 
-    Future<void> removeDevice(DhcpInfo dhcp) async {
-      final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.deleting);
+    return ListenableBuilder(
+      listenable: widget.viewModel,
+      builder: (context, _) {
+        final viewModel = widget.viewModel;
+        final isLoading = viewModel.loadLeases.isRunning.value;
+        final hasError = viewModel.loadLeases.errors.value != null;
+        final dhcpData = viewModel.loadLeases.value;
 
-      final result = await apiGateway?.deleteDhcp(dhcp.ip);
-      if (!context.mounted) return;
-
-      process.close();
-
-      if (result?.result == APiResponseType.success) {
-        await Navigator.maybePop(context);
-        await _loadDhcps();
-
-        if (!context.mounted) return;
-        showSuccessSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.dhcpRemoved,
-        );
-      } else {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.deviceDeleteFailed,
-        );
-      }
-    }
-
-    return ScrollConfiguration(
-      behavior: CustomScrollBehavior(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.dhcp),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: IconButton(
-                icon: const Icon(Icons.refresh_rounded),
-                onPressed: _loadDhcps,
-                tooltip: AppLocalizations.of(context)!.refresh,
-              ),
+        return ScrollConfiguration(
+          behavior: CustomScrollBehavior(),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(locale.dhcp),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: IconButton(
+                    icon: const Icon(Icons.refresh_rounded),
+                    onPressed: () => viewModel.loadLeases.run(),
+                    tooltip: locale.refresh,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        body: SafeArea(
-          child: RefreshIndicator(
-            onRefresh: _loadDhcps,
-            child: Builder(
-              builder: (context) {
-                if (isLoading) {
-                  return Skeletonizer(
-                    effect: ShimmerEffect(
-                      baseColor: Theme.of(
-                        context,
-                      ).colorScheme.secondaryContainer,
-                      highlightColor: Theme.of(context).colorScheme.surface,
-                    ),
-                    child: DhcpListView(
-                      dhcpsInfo: _fakeDhcpsInfo,
-                      currentClientIp: currentClientIp ?? '',
-                      onDeviceTap: (dhcp) {},
-                    ),
-                  );
-                }
-
-                if (isFetchError) {
-                  return ErrorMessage(
-                    message: AppLocalizations.of(context)!.dataFetchFailed,
-                  );
-                }
-
-                if (dhcpsInfo == null || dhcpsInfo!.leases.isEmpty) {
-                  return const DhcpDisabledScreen();
-                }
-
-                return DhcpListView(
-                  dhcpsInfo: dhcpsInfo!,
-                  currentClientIp: currentClientIp ?? '',
-                  onDeviceTap: (dhcp) {
-                    setState(() {
-                      selectedDhcp = dhcp;
-                    });
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DhcpDetailScreen(
-                          dhcp: dhcp,
-                          onDelete: removeDevice,
+            body: SafeArea(
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  try {
+                    await viewModel.loadLeases.runAsync();
+                  } catch (_) {
+                    // Error handled by command.errors
+                  }
+                },
+                child: Builder(
+                  builder: (context) {
+                    if (isLoading) {
+                      return Skeletonizer(
+                        effect: ShimmerEffect(
+                          baseColor: Theme.of(
+                            context,
+                          ).colorScheme.secondaryContainer,
+                          highlightColor:
+                              Theme.of(context).colorScheme.surface,
                         ),
-                      ),
+                        child: DhcpListView(
+                          leases: _fakeLeases,
+                          currentClientIp: '',
+                          onLeaseTap: (lease) {},
+                        ),
+                      );
+                    }
+
+                    if (hasError) {
+                      return ErrorMessage(message: locale.dataFetchFailed);
+                    }
+
+                    if (dhcpData.leases.isEmpty) {
+                      return const DhcpDisabledScreen();
+                    }
+
+                    return DhcpListView(
+                      leases: dhcpData.leases,
+                      currentClientIp: dhcpData.currentClientIp,
+                      onLeaseTap: (lease) {
+                        // TODO: migrate to go_router named route
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DhcpDetailScreen(
+                              lease: lease,
+                              onDelete: _removeLease,
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
-  }
-
-  Future<void> _loadDhcps() async {
-    if (!mounted) return;
-
-    setState(() {
-      isLoading = true;
-      isFetchError = false;
-    });
-
-    try {
-      final result = await Future.wait<BaseInfoResponse<dynamic>>([
-        apiGateway!.getDhcps(),
-        apiGateway!.getClient(),
-      ]);
-      if (!mounted) return;
-
-      setState(() {
-        if (result[0].result == APiResponseType.success &&
-            result[1].result == APiResponseType.success) {
-          dhcpsInfo = result[0].data;
-          currentClientIp = result[1].data?.addr;
-        } else {
-          isFetchError = true;
-          logger.e('Failed to load dhpc dhcps or client info');
-        }
-      });
-    } catch (e) {
-      logger.e('Failed to load dhpc dhcps or client info', error: e);
-
-      if (mounted) {
-        setState(() {
-          isFetchError = true;
-        });
-      }
-    } finally {
-      if (mounted) {
-        setState(() {
-          isLoading = false;
-        });
-      }
-    }
   }
 }
