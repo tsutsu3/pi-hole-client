@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/formats.dart';
-import 'package:pi_hole_client/domain/models_old/dhcp.dart';
+import 'package:pi_hole_client/domain/model/dhcp/dhcp.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
@@ -9,13 +9,13 @@ import 'package:pi_hole_client/utils/format.dart';
 
 class DhcpDetailScreen extends StatelessWidget {
   const DhcpDetailScreen({
-    required this.dhcp,
+    required this.lease,
     required this.onDelete,
     super.key,
   });
 
-  final DhcpInfo dhcp;
-  final void Function(DhcpInfo) onDelete;
+  final DhcpLease lease;
+  final void Function(DhcpLease) onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class DhcpDetailScreen extends StatelessWidget {
                 message: AppLocalizations.of(context)!.deleteDhcpMessage,
                 onDelete: () {
                   Navigator.maybePop(context);
-                  onDelete(dhcp);
+                  onDelete(lease);
                 },
               ),
             ),
@@ -54,24 +54,24 @@ class DhcpDetailScreen extends StatelessWidget {
               CustomListTile(
                 leadingIcon: Icons.computer_rounded,
                 label: locale.hostname,
-                description: dhcp.name,
+                description: lease.name,
               ),
               CustomListTile(
                 leadingIcon: Icons.memory_rounded,
                 label: locale.macAddress,
-                description: dhcp.hwaddr,
+                description: lease.hwaddr,
               ),
               CustomListTile(
                 leadingIcon: Icons.tag_rounded,
                 label: locale.clientId,
-                description: dhcp.clientid,
+                description: lease.clientid,
               ),
               const SizedBox(height: 16),
               SectionLabel(label: locale.leaseInfo),
               CustomListTile(
                 leadingIcon: Icons.location_on_rounded,
                 label: locale.ipAddress,
-                description: dhcp.ip,
+                description: lease.ip,
               ),
               CustomListTile(
                 leadingIcon: Icons.event_busy_rounded,
@@ -86,13 +86,13 @@ class DhcpDetailScreen extends StatelessWidget {
   }
 
   String _buildLastQueryValue(AppLocalizations locale) {
-    final isUnknown = dhcp.expires.millisecondsSinceEpoch == 0;
-    if (isUnknown) {
+    final expires = lease.expires;
+    if (expires == null || expires.millisecondsSinceEpoch == 0) {
       return locale.unknown;
     }
 
-    final timestamp = formatTimestamp(dhcp.expires, kUnifiedDateTimeLogFormat);
-    final hoursAgo = (dhcp.expires.difference(DateTime.now()).inMinutes / 60)
+    final timestamp = formatTimestamp(expires, kUnifiedDateTimeLogFormat);
+    final hoursAgo = (expires.difference(DateTime.now()).inMinutes / 60)
         .round();
     final relativeTime = locale.timeHoursIn(hoursAgo);
 
