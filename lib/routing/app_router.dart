@@ -5,6 +5,8 @@ import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/viewmodel/dhcp_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/viewmodel/interface_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen.dart';
@@ -88,6 +90,18 @@ GoRouter createAppRouter({
               dhcpRepository: bundle!.dhcp,
               ftlRepository: bundle.ftl,
             )..loadLeases.run(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/settings/server/advanced/interface',
+        name: Routes.settingsServerAdvancedInterface,
+        builder: (context, state) {
+          final bundle = context.read<RepositoryBundle?>();
+          return InterfaceScreen(
+            viewModel: InterfaceViewModel(
+              networkRepository: bundle!.network,
+            )..loadInterfaces.run(),
           );
         },
       ),

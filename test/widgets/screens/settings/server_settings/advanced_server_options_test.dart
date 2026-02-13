@@ -5,7 +5,6 @@ import 'package:pi_hole_client/data/model/v6/config/config.dart';
 import 'package:pi_hole_client/domain/models_old/config.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen.dart';
 import '../../../helpers.dart';
 
@@ -91,7 +90,9 @@ void main() async {
       expect(find.text('192.168.1.2'), findsOneWidget);
     });
 
-    testWidgets('should show interface screen with tap', (
+    // Interface navigation now uses go_router (context.pushNamed).
+    // Full navigation is tested in interface_screen_test.dart.
+    testWidgets('should show interface tile', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -109,9 +110,7 @@ void main() async {
       expect(find.byType(AdvancedServerOptions), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Interface'));
-      await tester.pumpAndSettle();
-      expect(find.byType(InterfaceScreen), findsOneWidget);
+      expect(find.text('Interface'), findsOneWidget);
     });
 
     // Network navigation now uses go_router (context.pushNamed).

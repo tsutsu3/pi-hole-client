@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
-import 'package:pi_hole_client/data/model/v6/network/interfaces.dart';
-import 'package:pi_hole_client/domain/models_old/gateway.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/viewmodel/interface_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/net_interface/net_interface_section.dart';
-import 'package:pi_hole_client/utils/logger.dart';
-import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-// TODO: use domain model
 // fake data for Skeletonizer
-const fakeInterfaceData = InterfaceData(
+const _fakeInterfaceData = NetInterface(
   name: 'eth0',
   type: 'ether',
   flags: ['up', 'broadcast', 'running', 'multicast'],
@@ -56,7 +51,7 @@ const fakeInterfaceData = InterfaceData(
       address: '192.168.11.3',
       addressType: 'private',
       index: 2,
-      family: 'inet',
+      family: RouteFamilyType.inet,
       scope: 'universe',
       flags: ['permanent'],
       prefixlen: 24,
@@ -74,7 +69,7 @@ const fakeInterfaceData = InterfaceData(
       address: 'fe80::e65f:1ff:feca:3fd1',
       addressType: 'link-local',
       index: 2,
-      family: 'inet6',
+      family: RouteFamilyType.inet6,
       scope: 'link',
       flags: ['permanent'],
       prefixlen: 64,
@@ -112,88 +107,81 @@ const fakeInterfaceData = InterfaceData(
 );
 
 class InterfaceScreen extends StatefulWidget {
-  const InterfaceScreen({super.key});
+  const InterfaceScreen({required this.viewModel, super.key});
+
+  final InterfaceViewModel viewModel;
 
   @override
   State<InterfaceScreen> createState() => _InterfaceScreenState();
 }
 
 class _InterfaceScreenState extends State<InterfaceScreen> {
-  ApiGateway? _apiGateway;
-  Future<GatewayResponse?>? _gatewayFuture;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    final selectedGateway = context.watch<ServersProvider>().selectedApiGateway;
-
-    if (!identical(selectedGateway, _apiGateway)) {
-      _apiGateway = selectedGateway;
-      _gatewayFuture = _apiGateway?.getGateway(isDetailed: true);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (_apiGateway == null) {
-      return Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.interface)),
-        body: const SafeArea(child: EmptyDataScreen()),
-      );
-    }
+    final locale = AppLocalizations.of(context)!;
 
-    return ScrollConfiguration(
-      behavior: CustomScrollBehavior(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.interface),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: IconButton(
-                icon: const Icon(Icons.refresh_rounded),
-                onPressed: _refreshData,
-                tooltip: AppLocalizations.of(context)!.refresh,
+    return ListenableBuilder(
+      listenable: widget.viewModel,
+      builder: (context, _) {
+        final viewModel = widget.viewModel;
+        final isLoading = viewModel.loadInterfaces.isRunning.value;
+        final hasError = viewModel.loadInterfaces.errors.value != null;
+        final interfaces = viewModel.loadInterfaces.value;
+
+        return ScrollConfiguration(
+          behavior: CustomScrollBehavior(),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(locale.interface),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: IconButton(
+                    icon: const Icon(Icons.refresh_rounded),
+                    onPressed: () => viewModel.loadInterfaces.run(),
+                    tooltip: locale.refresh,
+                  ),
+                ),
+              ],
+            ),
+            body: SafeArea(
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  try {
+                    await viewModel.loadInterfaces.runAsync();
+                  } catch (_) {
+                    // Error handled by command.errors
+                  }
+                },
+                child: Builder(
+                  builder: (context) {
+                    if (isLoading) {
+                      return _buildSkeletonLoading(context);
+                    }
+
+                    if (hasError) {
+                      return ErrorMessage(message: locale.dataFetchFailed);
+                    }
+
+                    if (interfaces.isEmpty) {
+                      return const EmptyDataScreen();
+                    }
+
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children:
+                            interfaces.map(NetInterfaceSection.new).toList(),
+                      ),
+                    );
+                  },
+                ),
               ),
             ),
-          ],
-        ),
-        body: SafeArea(
-          child: RefreshIndicator(
-            onRefresh: _refreshData,
-            child: FutureBuilder<GatewayResponse?>(
-              future: _gatewayFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return _buildSkeletonLoading(context);
-                } else if (snapshot.hasError) {
-                  return ErrorMessage(
-                    message: AppLocalizations.of(context)!.dataFetchFailed,
-                  );
-                } else if (!snapshot.hasData) {
-                  return const EmptyDataScreen();
-                }
-
-                final gatewayInfo = snapshot.data;
-
-                if (gatewayInfo?.result != APiResponseType.success) {
-                  logger.e('Gateway Info fetch failed: ${gatewayInfo?.result}');
-                  return ErrorMessage(
-                    message: AppLocalizations.of(context)!.dataFetchFailed,
-                  );
-                }
-
-                logger.d(
-                  'Interfaces: ${gatewayInfo?.data?.interfaces?.map((e) => e.name).join(', ')}',
-                );
-
-                return _buildGatewayInfoContent(data: gatewayInfo?.data);
-              },
-            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -208,35 +196,11 @@ class _InterfaceScreenState extends State<InterfaceScreen> {
         child: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            NetInterfaceSection(fakeInterfaceData),
-            NetInterfaceSection(fakeInterfaceData),
+            NetInterfaceSection(_fakeInterfaceData),
+            NetInterfaceSection(_fakeInterfaceData),
           ],
         ),
       ),
     );
-  }
-
-  Widget _buildGatewayInfoContent({required GatewayInfo? data}) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children:
-            data?.interfaces?.map(NetInterfaceSection.new).toList() ??
-            [const EmptyDataScreen()],
-      ),
-    );
-  }
-
-  Future<void> _refreshData() async {
-    if (_apiGateway == null) return;
-    setState(() {
-      _gatewayFuture = _apiGateway!.getGateway(isDetailed: true);
-    });
-    try {
-      await _gatewayFuture;
-    } catch (e, s) {
-      logger.e('Error refreshing interface data', error: e, stackTrace: s);
-    }
   }
 }

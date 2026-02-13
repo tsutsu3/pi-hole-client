@@ -700,6 +700,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/int
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/address_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/more_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/statistics_detail_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/viewmodel/interface_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/add_local_dns_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/edit_local_dns_modal.dart';
