@@ -3288,7 +3288,7 @@ void main() {
   });
 
   group('patchConfig', () {
-    final url = Uri.parse('$baseUrl/api/config');
+    final url = Uri.parse('$baseUrl/api/config?restart=true');
 
     test('updates a configuration element successfully', () async {
       final data = {

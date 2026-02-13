@@ -507,11 +507,38 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   Future<Result<Config>> patchConfig(
     String sid, {
     required ConfigData body,
+    bool isRestart = true,
   }) async {
     if (shouldFail) {
       return Failure(Exception('Forced patchConfig failure'));
     }
     return Success(kSrvPatchConfig);
+  }
+
+  @override
+  Future<Result<Unit>> putConfigElement(
+    String sid, {
+    required String element,
+    required String value,
+    bool isRestart = true,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced putConfigElement failure'));
+    }
+    return const Success(unit);
+  }
+
+  @override
+  Future<Result<Unit>> deleteConfigElement(
+    String sid, {
+    required String element,
+    required String value,
+    bool isRestart = true,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced deleteConfigElement failure'));
+    }
+    return const Success(unit);
   }
 
   // ==========================================================================

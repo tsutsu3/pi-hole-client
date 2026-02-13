@@ -16,7 +16,6 @@ import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -389,11 +388,8 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                 leadingIcon: Icons.dns_rounded,
                 label: AppLocalizations.of(context)!.localDns,
                 description: AppLocalizations.of(context)!.localDnsDescription,
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LocalDnsScreen(),
-                  ),
+                onTap: () => context.pushNamed(
+                  Routes.settingsServerAdvancedLocalDns,
                 ),
               ),
               SectionLabel(label: AppLocalizations.of(context)!.tools),
