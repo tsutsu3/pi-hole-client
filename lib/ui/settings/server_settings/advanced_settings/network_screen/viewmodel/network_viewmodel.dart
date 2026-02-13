@@ -34,10 +34,12 @@ class NetworkViewModel extends ChangeNotifier {
   late final Command<int, void> deleteDevice;
 
   Future<NetworkData> _loadDevices() async {
-    final devicesFuture = _networkRepository.fetchDevices();
-    final clientFuture = _ftlRepository.fetchInfoClient();
-    final devices = (await devicesFuture).getOrThrow();
-    final client = (await clientFuture).getOrThrow();
+    final (devicesResult, clientResult) = await (
+      _networkRepository.fetchDevices(),
+      _ftlRepository.fetchInfoClient(),
+    ).wait;
+    final devices = devicesResult.getOrThrow();
+    final client = clientResult.getOrThrow();
     return NetworkData(devices: devices, currentClientIp: client.addr);
   }
 
