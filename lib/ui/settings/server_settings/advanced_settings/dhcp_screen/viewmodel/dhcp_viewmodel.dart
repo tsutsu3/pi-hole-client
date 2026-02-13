@@ -3,8 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/dhcp_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
 import 'package:pi_hole_client/domain/model/dhcp/dhcp.dart';
-import 'package:pi_hole_client/domain/model/ftl/client.dart';
-import 'package:result_dart/result_dart.dart';
 
 class DhcpData {
   const DhcpData({required this.leases, required this.currentClientIp});
@@ -36,12 +34,12 @@ class DhcpViewModel extends ChangeNotifier {
   late final Command<String, void> deleteLease;
 
   Future<DhcpData> _loadLeases() async {
-    final results = await Future.wait([
+    final (leasesResult, clientResult) = await (
       _dhcpRepository.fetchDhcpLeases(),
       _ftlRepository.fetchInfoClient(),
-    ]);
-    final leases = (results[0] as Result<List<DhcpLease>>).getOrThrow();
-    final client = (results[1] as Result<FtlClient>).getOrThrow();
+    ).wait;
+    final leases = leasesResult.getOrThrow();
+    final client = clientResult.getOrThrow();
     return DhcpData(leases: leases, currentClientIp: client.addr);
   }
 
