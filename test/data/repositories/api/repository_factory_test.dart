@@ -1,7 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/auth_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/v5/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/auth_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 
@@ -33,6 +35,7 @@ void main() {
     );
 
     expect(bundle.auth, isA<AuthRepositoryV6>());
+    expect(bundle.ftl, isA<FtlRepositoryV6>());
     expect(bundle.serverAddress, 'http://localhost');
   });
 
@@ -43,6 +46,7 @@ void main() {
     );
 
     expect(bundle.auth, isA<AuthRepositoryV5>());
+    expect(bundle.ftl, isA<FtlRepositoryV5>());
     expect(bundle.serverAddress, 'http://localhost');
   });
 
@@ -53,6 +57,7 @@ void main() {
     );
 
     expect(bundle.auth, isA<AuthRepositoryV5>());
+    expect(bundle.ftl, isA<FtlRepositoryV5>());
   });
 
   test('preserves server address in bundle', () {

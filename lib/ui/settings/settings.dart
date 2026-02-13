@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_split_view/flutter_split_view.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/languages.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
@@ -23,7 +25,6 @@ import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/server_info.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/subscriptions.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:provider/provider.dart';
@@ -228,17 +229,16 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionLabel(label: AppLocalizations.of(context)!.serverSettings),
-          settingsTile(
-            icon: Icons.connected_tv_rounded,
-            title: AppLocalizations.of(context)!.serverInfo,
-            subtitle: _buildServerSubtitle(
+          CustomListTile(
+            leadingIcon: Icons.connected_tv_rounded,
+            label: AppLocalizations.of(context)!.serverInfo,
+            description: _buildServerSubtitle(
               context: context,
               selectedServer: selectedServer,
               serverStatus: serverStatus,
               isAliasOnly: true,
             ),
-            screenToNavigate: const ServerInfoScreen(),
-            thisItem: 4,
+            onTap: () => context.pushNamed(Routes.settingsServerInfo),
           ),
           settingsTile(
             icon: Icons.security_rounded,

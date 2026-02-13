@@ -9,6 +9,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
 import 'package:pi_hole_client/data/repositories/local/app_config_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
@@ -285,6 +287,25 @@ void main() async {
           create: (context) => serversProvider,
           update: (context, appConfig, servers) => servers!..update(appConfig),
         ),
+        // ===================================================
+        // Layer 3.5: Repository Bundle (depends on selected server)
+        //
+        // Provides version-specific API repositories (v5/v6)
+        // for route-level ViewModel creation via context.read().
+        // Recreated only when the selected server changes.
+        // ===================================================
+        ProxyProvider2<ServersProvider, SecureStorageService, RepositoryBundle?>(
+          update: (_, servers, storage, previous) {
+            final server = servers.selectedServer;
+            if (server == null) return null;
+            if (previous?.serverAddress == server.address) return previous;
+            return RepositoryBundleFactory.create(
+              server: server,
+              storage: storage,
+            );
+          },
+        ),
+
         ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
           create: (context) => filtersProvider,
           update: (context, serverConfig, servers) =>

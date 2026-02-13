@@ -15,7 +15,6 @@ import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/server_info.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/subscriptions.dart';
 import 'package:pi_hole_client/ui/settings/settings.dart';
 
@@ -263,7 +262,7 @@ void main() async {
       expect(find.byType(AdvancedOptions), findsOneWidget);
     });
 
-    testWidgets('should show Pi-hole server screen with tap', (
+    testWidgets('should show Pi-hole server tile', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -279,9 +278,8 @@ void main() async {
       expect(find.byType(Settings), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Pi-hole Server'));
-      await tester.pumpAndSettle();
-      expect(find.byType(ServerInfoScreen), findsOneWidget);
+      expect(find.text('Pi-hole Server'), findsOneWidget);
+      expect(find.byIcon(Icons.connected_tv_rounded), findsOneWidget);
     });
 
     testWidgets('should show adlists screen with tap', (
