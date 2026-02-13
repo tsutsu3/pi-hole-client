@@ -85,7 +85,9 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
         final hosts = List<String>.from(config.config?.dns?.hosts ?? []);
 
         // 2. Find and replace the entry matching oldIp
-        final oldEntry = hosts.indexWhere((h) => h.startsWith('$oldIp '));
+        final oldEntry = hosts.indexWhere(
+          (h) => h.trim().split(RegExp(r'\s+')).first == oldIp,
+        );
         if (oldEntry == -1) {
           throw Exception('Entry with IP $oldIp not found');
         }
@@ -105,8 +107,13 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
   List<LocalDns> _parseHosts(List<String>? hosts) {
     if (hosts == null || hosts.isEmpty) return [];
     return hosts.map((entry) {
-      final parts = entry.split(' ');
-      return LocalDns(ip: parts[0], name: parts.length > 1 ? parts[1] : '');
+      final trimmed = entry.trim();
+      final sep = trimmed.indexOf(RegExp(r'\s'));
+      if (sep == -1) return LocalDns(ip: trimmed, name: '');
+      return LocalDns(
+        ip: trimmed.substring(0, sep),
+        name: trimmed.substring(sep).trimLeft(),
+      );
     }).toList();
   }
 }
