@@ -70,7 +70,9 @@ import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../testing/fakes/repositories/api/fake_actions_repository.dart';
 import '../../testing/fakes/repositories/api/fake_auth_repository.dart';
+import '../../testing/fakes/repositories/api/fake_config_repository.dart';
 import '../../testing/fakes/repositories/api/fake_dhcp_repository.dart';
 import '../../testing/fakes/repositories/api/fake_dns_repository.dart';
 import '../../testing/fakes/repositories/api/fake_ftl_repository.dart';
@@ -1476,6 +1478,9 @@ class TestSetupHelper {
 
     mockStatusUpdateService =
         customStatusUpdateService ?? MockStatusUpdateService();
+
+    fakeActionsRepository = FakeActionsRepository();
+    fakeConfigRepository = FakeConfigRepository();
   }
 
   late MockAppConfigProvider mockConfigProvider;
@@ -1493,6 +1498,9 @@ class TestSetupHelper {
   late MockApiGatewayV6 mockApiGatewayV6;
 
   late MockStatusUpdateService mockStatusUpdateService;
+
+  late FakeActionsRepository fakeActionsRepository;
+  late FakeConfigRepository fakeConfigRepository;
 
   void initializeMock({String useApiGatewayVersion = 'v5'}) {
     _initConfiProviderMock(useApiGatewayVersion);
@@ -1588,7 +1596,9 @@ class TestSetupHelper {
             ),
             Provider<RepositoryBundle?>(
               create: (_) => RepositoryBundle(
+                actions: fakeActionsRepository,
                 auth: FakeAuthRepository(),
+                config: fakeConfigRepository,
                 dhcp: FakeDhcpRepository(),
                 dns: FakeDnsRepository(),
                 ftl: FakeFtlRepository(),
@@ -1683,7 +1693,9 @@ class TestSetupHelper {
         ),
         Provider<RepositoryBundle?>(
           create: (_) => RepositoryBundle(
+            actions: fakeActionsRepository,
             auth: FakeAuthRepository(),
+            config: fakeConfigRepository,
             dhcp: FakeDhcpRepository(),
             dns: FakeDnsRepository(),
             ftl: FakeFtlRepository(),

@@ -2,6 +2,8 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/actions_resposit
 import 'package:pi_hole_client/data/repositories/api/v6/base_v6_sid_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
+import 'package:pi_hole_client/data/services/utils/exceptions.dart';
+import 'package:pi_hole_client/utils/logger.dart';
 import 'package:result_dart/result_dart.dart';
 
 class ActionsRepositoryV6 extends BaseV6SidRepository
@@ -19,8 +21,22 @@ class ActionsRepositoryV6 extends BaseV6SidRepository
     return runWithResultRetry<Unit>(
       action: () async {
         final sid = await getSid();
-        final result = await _client.postActionFlushArp(sid);
-        return result.map((_) => unit);
+
+        // Try flush/network first (v6.3+)
+        final networkResult = await _client.postActionFlushNetwork(sid);
+        if (networkResult.isSuccess()) {
+          return networkResult.map((_) => unit);
+        }
+
+        // Fall back to flush/arp for Pi-hole < v6.3
+        final error = networkResult.exceptionOrNull();
+        if (error is HttpStatusCodeException && error.statusCode == 404) {
+          logger.w('flush/network not found, falling back to flush/arp');
+          final arpResult = await _client.postActionFlushArp(sid);
+          return arpResult.map((_) => unit);
+        }
+
+        return networkResult.map((_) => unit);
       },
       onRetry: (_) => clearSid(),
     );

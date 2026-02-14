@@ -28,7 +28,17 @@ void main() {
       client.shouldFail = true;
 
       final result = await repository.flushArp();
-      expectError(result, messageContains: 'Forced postActionFlushArp failure');
+      expectError(
+        result,
+        messageContains: 'Forced postActionFlushNetwork failure',
+      );
+    });
+
+    test('falls back to flush/arp when flush/network returns 404', () async {
+      client.shouldFlushNetworkReturn404 = true;
+
+      final result = await repository.flushArp();
+      expectSuccess(result);
     });
   });
 

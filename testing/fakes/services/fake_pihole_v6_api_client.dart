@@ -27,6 +27,7 @@ import 'package:pi_hole_client/data/model/v6/metrics/stats.dart'
 import 'package:pi_hole_client/data/model/v6/network/devices.dart' show Devices;
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart' show Gateway;
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
+import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../../models/v6/actions.dart';
@@ -43,6 +44,7 @@ import '../../models/v6/network.dart';
 
 class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   bool shouldFail = false;
+  bool shouldFlushNetworkReturn404 = false;
   bool shouldPostDnsBlockingReturnEnabled = false;
   bool shouldGetInfoVersionWithDocker = false;
   bool shouldGetInfoSystemOld = false;
@@ -455,6 +457,17 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   Future<Result<Action>> postActionFlushArp(String sid) async {
     if (shouldFail) {
       return Failure(Exception('Forced postActionFlushArp failure'));
+    }
+    return const Success(kSrvPostActionFlushArp);
+  }
+
+  @override
+  Future<Result<Action>> postActionFlushNetwork(String sid) async {
+    if (shouldFlushNetworkReturn404) {
+      return Failure(HttpStatusCodeException(404, 'Not Found'));
+    }
+    if (shouldFail) {
+      return Failure(Exception('Forced postActionFlushNetwork failure'));
     }
     return const Success(kSrvPostActionFlushArp);
   }
