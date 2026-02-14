@@ -147,7 +147,6 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
                 adlist: adlist,
                 groups: groups,
                 colors: colors,
-                apiGateway: apiGateway,
                 appConfigProvider: appConfigProvider,
               ),
             ),
@@ -307,7 +306,6 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     required Adlist adlist,
     required Map<int, String> groups,
     required AppColors? colors,
-    required ApiGateway apiGateway,
     required AppConfigProvider appConfigProvider,
   }) async {
     await Navigator.push(
@@ -322,7 +320,6 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
           },
           remove: (selected) => _removeAdlist(
             selected,
-            apiGateway: apiGateway,
             appConfigProvider: appConfigProvider,
           ),
         ),
@@ -403,46 +400,44 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
 
   Future<void> _removeAdlist(
     Adlist adlist, {
-    required ApiGateway apiGateway,
     required AppConfigProvider appConfigProvider,
   }) async {
+    final bundle = context.read<RepositoryBundle?>();
+    if (bundle == null) return;
+
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.deleting);
 
-    final result = await apiGateway.removeSubscription(
-      url: adlist.address,
-      stype: adlist.type.name,
+    final result = await bundle.adlist.deleteAdlist(
+      adlist.address,
+      adlist.type,
     );
 
     process.close();
     if (!mounted) return;
 
-    if (result.result == APiResponseType.success) {
-      await Navigator.maybePop(context);
-      if (!mounted) return;
-      setState(() {
-        _gravityResults = _gravityResults
-            .where((item) => item.id != adlist.id)
-            .toList();
-      });
-      showSuccessSnackBar(
-        context: context,
-        appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.adlistRemoved,
-      );
-    } else if (result.result == APiResponseType.error &&
-        result.message == 'not_exists') {
-      showErrorSnackBar(
-        context: context,
-        appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.adlistNotExists,
-      );
-    } else {
-      showErrorSnackBar(
-        context: context,
-        appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.adlistDeleteError,
-      );
-    }
+    await result.fold(
+      (_) async {
+        await Navigator.maybePop(context);
+        if (!mounted) return;
+        setState(() {
+          _gravityResults = _gravityResults
+              .where((item) => item.id != adlist.id)
+              .toList();
+        });
+        showSuccessSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.adlistRemoved,
+        );
+      },
+      (_) {
+        showErrorSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.adlistDeleteError,
+        );
+      },
+    );
   }
 }
