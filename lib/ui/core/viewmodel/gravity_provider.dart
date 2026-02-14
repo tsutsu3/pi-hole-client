@@ -7,6 +7,12 @@ import 'package:pi_hole_client/domain/model/ftl/message.dart';
 import 'package:pi_hole_client/domain/use_cases/gravity_update_service.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
+/// ViewModel for the Gravity Update screen.
+///
+/// Manages gravity update state (logs, status, messages) and exposes it to
+/// the UI. Delegates business logic to [GravityUpdateService]. Registered as
+/// a global-scope provider in `main.dart` because gravity updates persist
+/// across navigation.
 class GravityUpdateProvider with ChangeNotifier {
   GravityUpdateProvider({required GravityRepository repository})
       : _repository = repository;
@@ -60,6 +66,11 @@ class GravityUpdateProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Re-initializes the service when the active server changes.
+  ///
+  /// Called by `ChangeNotifierProxyProvider2` whenever `RepositoryBundle` or
+  /// `ServersProvider` updates. Creates a new [GravityUpdateService] with the
+  /// provided repositories, or sets it to `null` if repositories are absent.
   void update({
     ActionsRepository? actionsRepository,
     FtlRepository? ftlRepository,
@@ -79,6 +90,7 @@ class GravityUpdateProvider with ChangeNotifier {
     reset();
   }
 
+  /// Removes an info message by [id] from both the API and local database.
   Future<bool> removeMessage(int id) async {
     if (_service == null) {
       logger.d('Service is null. removeMessage() cannot be performed.');
@@ -93,6 +105,7 @@ class GravityUpdateProvider with ChangeNotifier {
     return result;
   }
 
+  /// Loads persisted gravity data (logs, messages, status) from local storage.
   Future<void> load() async {
     if (_service == null) {
       logger.d('Service is null. load() cannot be performed.');
@@ -117,6 +130,7 @@ class GravityUpdateProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Starts a new gravity update, streaming logs and status to the UI.
   Future<void> start() async {
     if (_service == null) {
       logger.d('Service is null. start() cannot be performed.');
@@ -158,6 +172,7 @@ class GravityUpdateProvider with ChangeNotifier {
     );
   }
 
+  /// Resets all state to idle and cancels any active update.
   void reset() {
     if (_service == null) {
       logger.d('Service is null. reset() cannot be performed.');

@@ -8,6 +8,13 @@ import 'package:pi_hole_client/domain/model/ftl/message.dart';
 import 'package:pi_hole_client/domain/models_old/database.dart';
 import 'package:result_dart/result_dart.dart';
 
+/// Orchestrates Pi-hole gravity database updates.
+///
+/// Manages the full lifecycle of a gravity update: streaming log output from
+/// the API, persisting progress to the local database, and fetching
+/// post-update info messages. Depends on [ActionsRepository] for the update
+/// stream, [FtlRepository] for info messages, and [GravityRepository] for
+/// local persistence.
 class GravityUpdateService {
   GravityUpdateService({
     required GravityRepository repository,
@@ -23,6 +30,10 @@ class GravityUpdateService {
 
   StreamSubscription<Result<List<String>>>? _subscription;
 
+  /// Starts a gravity update and streams progress via callbacks.
+  ///
+  /// Clears previous data for [address], then listens to the update stream.
+  /// On completion, fetches info messages from the API and persists them.
   Future<void> startUpdate({
     required String address,
     required void Function(List<String> logs) onLogsUpdated,
@@ -142,6 +153,9 @@ class GravityUpdateService {
     );
   }
 
+  /// Removes an info message from both the API and local database.
+  ///
+  /// Returns `true` if both deletions succeed, `false` otherwise.
   Future<bool> removeMessage(String address, int id) async {
     final resp = await _ftlRepository.deleteInfoMessage(id);
     if (resp.isError()) {
@@ -154,6 +168,8 @@ class GravityUpdateService {
     return true;
   }
 
+  /// Loads persisted gravity data (logs, messages, status) from the local
+  /// database for the given server [address].
   Future<Map<String, dynamic>> loadGravityData(String address) async {
     final data = await _repository.fetchGravityData(address);
     final gravityData = data.getOrNull();
@@ -190,6 +206,7 @@ class GravityUpdateService {
     };
   }
 
+  /// Cancels the active gravity update stream subscription.
   void cancelUpdate() {
     _subscription?.cancel();
     _subscription = null;
