@@ -483,14 +483,17 @@ class PiholeV6ApiClient {
     String? comment = '',
     bool? enabled = true,
   }) async {
+    final queryString = _buildQueryString({'type': type.name});
+    final path = queryString.isEmpty ? '/api/lists' : '/api/lists?$queryString';
+
     return safeApiCall<Lists>(() async {
       final resp = await _sendRequest(
         method: HttpMethod.post,
-        path: '/api/lists',
+        path: path,
         sid: sid,
         body: {
           'address': address,
-          'type': type.name,
+          'type': type.name, // Not necessary, but just in case.
           'groups': groups,
           'comment': comment,
           'enabled': enabled,

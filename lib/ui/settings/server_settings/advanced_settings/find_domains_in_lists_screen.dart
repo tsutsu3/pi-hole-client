@@ -4,10 +4,9 @@ import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/model/v6/lists/search.dart' as v6_search;
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
+import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/search.dart';
-import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
-import 'package:pi_hole_client/utils/punycode.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
@@ -22,6 +21,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/fin
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/results_section.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/search_form.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/subscription_details_screen.dart';
+import 'package:pi_hole_client/utils/punycode.dart';
 import 'package:provider/provider.dart';
 
 class FindDomainsInListsScreen extends StatefulWidget {
@@ -47,7 +47,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
   List<Domain> _domainResults = [];
   List<v6_search.GravityEntry> _gravityResults = [];
   Domain? _pendingDomainUpdate;
-  Subscription? _pendingSubscriptionUpdate;
+  Adlist? _pendingSubscriptionUpdate;
 
   @override
   void initState() {
@@ -143,8 +143,8 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
                 apiGateway: apiGateway,
                 appConfigProvider: appConfigProvider,
               ),
-              onAdlistTap: (subscription) => _openSubscriptionDetails(
-                subscription: subscription,
+              onAdlistTap: (adlist) => _openSubscriptionDetails(
+                adlist: adlist,
                 groups: groups,
                 colors: colors,
                 apiGateway: apiGateway,
@@ -304,7 +304,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
   }
 
   Future<void> _openSubscriptionDetails({
-    required Subscription subscription,
+    required Adlist adlist,
     required Map<int, String> groups,
     required AppColors? colors,
     required ApiGateway apiGateway,
@@ -314,7 +314,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => SubscriptionDetailsScreen(
-          subscription: subscription,
+          adlist: adlist,
           groups: groups,
           colors: colors,
           onUpdated: (updated) {
@@ -402,7 +402,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
   }
 
   Future<void> _removeSubscription(
-    Subscription subscription, {
+    Adlist adlist, {
     required ApiGateway apiGateway,
     required AppConfigProvider appConfigProvider,
   }) async {
@@ -410,8 +410,8 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     process.open(AppLocalizations.of(context)!.deleting);
 
     final result = await apiGateway.removeSubscription(
-      url: subscription.address,
-      stype: subscription.type,
+      url: adlist.address,
+      stype: adlist.type.name,
     );
 
     process.close();
@@ -422,7 +422,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       if (!mounted) return;
       setState(() {
         _gravityResults = _gravityResults
-            .where((item) => item.id != subscription.id)
+            .where((item) => item.id != adlist.id)
             .toList();
       });
       showSuccessSnackBar(

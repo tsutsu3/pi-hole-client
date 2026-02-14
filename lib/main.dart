@@ -28,8 +28,8 @@ import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/subscriptions/viewmodel/subscriptions_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
@@ -160,9 +160,7 @@ void main() async {
   final statusProvider = StatusProvider();
   final filtersProvider = FiltersProvider(serversProvider: serversProvider);
   final domainsViewModel = DomainsViewModel();
-  final subscriptionsListProvider = SubscriptionsListProvider(
-    serversProvider: serversProvider,
-  );
+  final subscriptionsViewModel = SubscriptionsViewModel();
   final clientsListProvider = ClientsListProvider(
     serversProvider: serversProvider,
   );
@@ -319,10 +317,10 @@ void main() async {
           update: (context, bundle, previous) =>
               previous!..update(bundle?.domain),
         ),
-        ChangeNotifierProxyProvider<ServersProvider, SubscriptionsListProvider>(
-          create: (context) => subscriptionsListProvider,
-          update: (context, serverConfig, servers) =>
-              servers!..update(serverConfig),
+        ChangeNotifierProxyProvider<RepositoryBundle?, SubscriptionsViewModel>(
+          create: (context) => subscriptionsViewModel,
+          update: (context, bundle, previous) =>
+              previous!..update(bundle?.adlist),
         ),
         ChangeNotifierProxyProvider<ServersProvider, ClientsListProvider>(
           create: (context) => clientsListProvider,

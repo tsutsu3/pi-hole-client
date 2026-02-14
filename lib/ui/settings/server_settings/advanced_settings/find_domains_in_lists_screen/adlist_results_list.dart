@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/model/v6/lists/search.dart' as v6_search;
-import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
+import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/helpers.dart';
@@ -16,7 +16,7 @@ class AdlistResultsList extends StatelessWidget {
   });
 
   final List<AdlistSearchResult> results;
-  final ValueChanged<Subscription> onTap;
+  final ValueChanged<Adlist> onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +27,11 @@ class AdlistResultsList extends StatelessWidget {
       separatorBuilder: (_, _) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final entry = results[index];
-        final subscription = mapGravityEntry(entry.entry);
+        final adlist = mapGravityEntry(entry.entry);
         return AdlistResultCard(
           entry: entry,
-          subscription: subscription,
-          onTap: () => onTap(subscription),
+          adlist: adlist,
+          onTap: () => onTap(adlist),
         );
       },
     );
@@ -41,13 +41,13 @@ class AdlistResultsList extends StatelessWidget {
 class AdlistResultCard extends StatelessWidget {
   const AdlistResultCard({
     required this.entry,
-    required this.subscription,
+    required this.adlist,
     required this.onTap,
     super.key,
   });
 
   final AdlistSearchResult entry;
-  final Subscription subscription;
+  final Adlist adlist;
   final VoidCallback onTap;
 
   @override
@@ -55,25 +55,25 @@ class AdlistResultCard extends StatelessWidget {
     final listType = entry.entry.type == v6_search.GravityType.allow
         ? AppLocalizations.of(context)!.allowList
         : AppLocalizations.of(context)!.blockList;
-    final enabledLabel = subscription.enabled
+    final enabledLabel = adlist.enabled
         ? AppLocalizations.of(context)!.enabled
         : AppLocalizations.of(context)!.disabled;
     final appColors = Theme.of(context).extension<AppColors>()!;
     final listBadgeColor = entry.entry.type == v6_search.GravityType.allow
         ? appColors.commonGreen
         : appColors.commonRed;
-    final enabledBadgeColor = subscription.enabled
+    final enabledBadgeColor = adlist.enabled
         ? Theme.of(context).colorScheme.primary
         : appColors.queryGrey;
     final listBadgeBackground = listBadgeColor?.withAlpha(38);
-    final enabledBadgeBackground = subscription.enabled
+    final enabledBadgeBackground = adlist.enabled
         ? Theme.of(context).colorScheme.primaryContainer
         : appColors.queryGrey?.withAlpha(38);
-    final groupCount = subscription.groups.length;
+    final groupCount = adlist.groups.length;
     final groupLabel = groupCount == 1
         ? AppLocalizations.of(context)!.groupSettings
         : AppLocalizations.of(context)!.groups;
-    final comment = (subscription.comment ?? '').trim();
+    final comment = (adlist.comment ?? '').trim();
 
     return Card(
       child: InkWell(
@@ -84,7 +84,7 @@ class AdlistResultCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                subscription.address,
+                adlist.address,
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
@@ -102,7 +102,7 @@ class AdlistResultCard extends StatelessWidget {
                   const SizedBox(width: 8),
                   Tag(
                     label: enabledLabel,
-                    icon: subscription.enabled
+                    icon: adlist.enabled
                         ? Icons.check_circle_outline_rounded
                         : Icons.remove_circle_outline_rounded,
                     backgroundColor: enabledBadgeBackground,
@@ -119,7 +119,7 @@ class AdlistResultCard extends StatelessWidget {
               IconMetaRow(
                 icon: Icons.event_repeat_rounded,
                 text:
-                    '${formatTimestamp(subscription.dateUpdated)} (${subscription.number} ${AppLocalizations.of(context)!.domains.toLowerCase()})',
+                    '${formatTimestamp(adlist.dateUpdated)} (${adlist.number} ${AppLocalizations.of(context)!.domains.toLowerCase()})',
               ),
               const SizedBox(height: 8),
               IconMetaRow(
@@ -130,7 +130,7 @@ class AdlistResultCard extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               ExpansionTile(
-                key: PageStorageKey<String>(subscription.address),
+                key: PageStorageKey<String>(adlist.address),
                 title: Text(AppLocalizations.of(context)!.matchingEntries),
                 tilePadding: EdgeInsets.zero,
                 childrenPadding: const EdgeInsets.only(left: 8, right: 8),
@@ -138,7 +138,7 @@ class AdlistResultCard extends StatelessWidget {
                   MatchingList(
                     matches: entry.matchingDomains,
                     storageKey: PageStorageKey<String>(
-                      'matching-${subscription.id}',
+                      'matching-${adlist.id}',
                     ),
                   ),
                 ],

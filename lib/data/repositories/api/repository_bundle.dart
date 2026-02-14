@@ -1,4 +1,5 @@
 import 'package:pi_hole_client/data/repositories/api/interfaces/actions_respository.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/adlist_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/auth_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/config_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/dhcp_repository.dart';
@@ -11,6 +12,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/network_reposito
 class RepositoryBundle {
   const RepositoryBundle({
     required this.actions,
+    required this.adlist,
     required this.auth,
     required this.config,
     required this.dhcp,
@@ -23,6 +25,7 @@ class RepositoryBundle {
   });
 
   final ActionsRepository actions;
+  final AdListRepository adlist;
   final AuthRepository auth;
   final ConfigRepository config;
   final DhcpRepository dhcp;

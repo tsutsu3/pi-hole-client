@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
+import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/models_old/search.dart';
-import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
@@ -30,7 +30,7 @@ class ResultsSection extends StatelessWidget {
   final List<AdlistSearchResult> adlistResults;
   final AppColors? colors;
   final ValueChanged<Domain> onDomainTap;
-  final ValueChanged<Subscription> onAdlistTap;
+  final ValueChanged<Adlist> onAdlistTap;
 
   @override
   Widget build(BuildContext context) {

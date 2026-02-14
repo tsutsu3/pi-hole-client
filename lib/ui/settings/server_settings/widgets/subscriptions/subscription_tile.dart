@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
+import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 
@@ -23,21 +23,21 @@ import 'package:pi_hole_client/ui/core/themes/theme.dart';
 class SubscriptionTile extends StatelessWidget {
   /// Creates a [SubscriptionTile].
   ///
-  /// The [subscription], [showSubscriptionDetails], and [colors] parameters must not be null.
+  /// The [adlist], [showSubscriptionDetails], and [colors] parameters must not be null.
   /// The optional [isSubscriptionSelected] controls the visual highlight for selection.
   const SubscriptionTile({
-    required this.subscription,
+    required this.adlist,
     required this.showSubscriptionDetails,
     required this.colors,
     this.isSubscriptionSelected,
     super.key,
   });
 
-  /// The subscription data to display.
-  final Subscription subscription;
+  /// The adlist data to display.
+  final Adlist adlist;
 
   /// A callback to be triggered when the tile is tapped.
-  final void Function(Subscription) showSubscriptionDetails;
+  final void Function(Adlist) showSubscriptionDetails;
 
   /// Custom color palette for themed elements.
   final AppColors colors;
@@ -73,14 +73,14 @@ class SubscriptionTile extends StatelessWidget {
     final Widget content = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        subscriptionStatusIcon(subscription.status.index),
+        subscriptionStatusIcon(adlist.status.index),
         const SizedBox(width: 16),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                subscription.address,
+                adlist.address,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontWeight: FontWeight.w400,
@@ -89,7 +89,7 @@ class SubscriptionTile extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                '${AppLocalizations.of(context)!.domains}: ${subscription.number}',
+                '${AppLocalizations.of(context)!.domains}: ${adlist.number}',
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: Theme.of(context).listTileTheme.textColor,
@@ -104,20 +104,20 @@ class SubscriptionTile extends StatelessWidget {
         const SizedBox(width: 24),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-          decoration: subscription.enabled
+          decoration: adlist.enabled
               ? BoxDecoration(
                   color: Theme.of(context).colorScheme.primaryContainer,
                   borderRadius: BorderRadius.circular(12),
                 )
               : null,
           child: Text(
-            subscription.enabled
+            adlist.enabled
                 ? AppLocalizations.of(context)!.enabled
                 : AppLocalizations.of(context)!.disabled,
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: subscription.enabled
+              color: adlist.enabled
                   ? Theme.of(context).colorScheme.primary
                   : colors.queryGrey,
             ),
@@ -135,7 +135,7 @@ class SubscriptionTile extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: isWide ? BorderRadius.circular(28) : null,
-          onTap: () => showSubscriptionDetails(subscription),
+          onTap: () => showSubscriptionDetails(adlist),
           child: AnimatedContainer(
             curve: Curves.ease,
             duration: const Duration(milliseconds: 200),

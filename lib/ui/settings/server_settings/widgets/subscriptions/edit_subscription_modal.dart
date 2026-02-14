@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
+import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 
 class EditSubscriptionModal extends StatefulWidget {
   const EditSubscriptionModal({
-    required this.subscription,
+    required this.adlist,
     required this.keyItem,
     required this.title,
     required this.icon,
@@ -15,11 +15,11 @@ class EditSubscriptionModal extends StatefulWidget {
     super.key,
   });
 
-  final Subscription subscription;
+  final Adlist adlist;
   final String keyItem;
   final String title;
   final IconData icon;
-  final void Function(Map<String, dynamic>) onConfirm;
+  final void Function(Adlist) onConfirm;
   final bool window;
   final Map<int, String> groups;
 
@@ -27,12 +27,9 @@ class EditSubscriptionModal extends StatefulWidget {
   State<EditSubscriptionModal> createState() => _EditSubscriptionModalState();
 }
 
-enum ListType { whitelist, blacklist }
-
 class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
   final TextEditingController subscriptionController = TextEditingController();
   String? subscriptionError;
-  ListType selectedType = ListType.whitelist;
   bool status = true;
   bool allDataValid = false;
   List<int> selectedGroups = [];
@@ -42,15 +39,15 @@ class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
   void initState() {
     super.initState();
     if (widget.keyItem == 'comment') {
-      commentController.text = widget.subscription.comment ?? '';
+      commentController.text = widget.adlist.comment ?? '';
     }
     if (widget.keyItem == 'groups') {
-      selectedGroups = widget.subscription.groups;
+      selectedGroups = widget.adlist.groups;
     }
   }
 
   void validateComment(String? value) {
-    if (value == widget.subscription.comment) {
+    if (value == widget.adlist.comment) {
       setState(() {
         allDataValid = false;
       });
@@ -62,7 +59,7 @@ class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
   }
 
   void validateGroups() {
-    if (selectedGroups == widget.subscription.groups) {
+    if (selectedGroups == widget.adlist.groups) {
       setState(() {
         allDataValid = false;
       });
@@ -127,7 +124,7 @@ class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
                       if (widget.keyItem == 'groups')
                         LabeledMultiSelectTile(
                           isExpanded: true,
-                          initiallySelectedItems: widget.subscription.groups,
+                          initiallySelectedItems: widget.adlist.groups,
                           labelText: AppLocalizations.of(context)!.groups,
                           hintText: AppLocalizations.of(
                             context,
@@ -161,16 +158,16 @@ class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
                         ? () {
                             if (widget.keyItem == 'comment') {
                               widget.onConfirm(
-                                widget.subscription
-                                    .copyWith(comment: commentController.text)
-                                    .toJson(),
+                                widget.adlist.copyWith(
+                                  comment: commentController.text,
+                                ),
                               );
                             }
                             if (widget.keyItem == 'groups') {
                               widget.onConfirm(
-                                widget.subscription
-                                    .copyWith(groups: selectedGroups)
-                                    .toJson(),
+                                widget.adlist.copyWith(
+                                  groups: selectedGroups,
+                                ),
                               );
                             }
                             Navigator.maybePop(context);

@@ -1,11 +1,13 @@
-import 'package:pi_hole_client/config/enums.dart' show ListsStatus;
+import 'package:pi_hole_client/config/enums.dart' show ListType, ListsStatus;
 import 'package:pi_hole_client/data/model/v6/lists/search.dart' as v6_search;
-import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
+import 'package:pi_hole_client/domain/model/list/adlist.dart';
 
-Subscription mapGravityEntry(v6_search.GravityEntry entry) {
-  return Subscription(
+Adlist mapGravityEntry(v6_search.GravityEntry entry) {
+  return Adlist(
     address: entry.address,
-    type: entry.type.name,
+    type: entry.type == v6_search.GravityType.allow
+        ? ListType.allow
+        : ListType.block,
     comment: entry.comment,
     groups: entry.groups,
     enabled: entry.enabled,

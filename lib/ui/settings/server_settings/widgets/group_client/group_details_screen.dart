@@ -14,9 +14,9 @@ import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/ui/domains/filtered_domains.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/subscriptions/viewmodel/subscriptions_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/edit_group_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/filtered_subscriptions.dart';
 import 'package:pi_hole_client/utils/format.dart';
@@ -44,7 +44,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   late AppConfigProvider appConfigProvider;
   late ClientsListProvider clientsListProvider;
   late DomainsViewModel domainsViewModel;
-  late SubscriptionsListProvider subscriptionsListProvider;
+  late SubscriptionsViewModel subscriptionsViewModel;
 
   @override
   void initState() {
@@ -70,7 +70,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     groupsProvider = context.watch<GroupsProvider>();
     clientsListProvider = context.watch<ClientsListProvider>();
     domainsViewModel = context.watch<DomainsViewModel>();
-    subscriptionsListProvider = context.watch<SubscriptionsListProvider>();
+    subscriptionsViewModel = context.watch<SubscriptionsViewModel>();
     apiGateway = serversProvider.selectedApiGateway;
   }
 
@@ -188,7 +188,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             _buildMemberCountTile(
               icon: Icons.playlist_add_check_rounded,
               label: AppLocalizations.of(context)!.adlistsAllow,
-              count: subscriptionsListProvider.whitelistSubscriptions
+              count: subscriptionsViewModel.whitelistAdlists
                   .where((s) => s.groups.contains(_group.id))
                   .length,
               onTap: () => _navigateToFilteredSubscriptions(initialTab: 0),
@@ -196,7 +196,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             _buildMemberCountTile(
               icon: Icons.playlist_remove_rounded,
               label: AppLocalizations.of(context)!.adlistsBlock,
-              count: subscriptionsListProvider.blacklistSubscriptions
+              count: subscriptionsViewModel.blacklistAdlists
                   .where((s) => s.groups.contains(_group.id))
                   .length,
               onTap: () => _navigateToFilteredSubscriptions(initialTab: 1),

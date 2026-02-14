@@ -11,8 +11,8 @@ import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/subscriptions/viewmodel/subscriptions_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/add_group_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/group_tile.dart';
 import 'package:provider/provider.dart';
@@ -71,8 +71,7 @@ class _GroupsListState extends State<GroupsList> {
     final groupsProvider = Provider.of<GroupsProvider>(context);
     final clientsListProvider = Provider.of<ClientsListProvider>(context);
     final domainsViewModel = Provider.of<DomainsViewModel>(context);
-    final subscriptionsListProvider =
-        Provider.of<SubscriptionsListProvider>(context);
+    final subscriptionsViewModel = Provider.of<SubscriptionsViewModel>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
     final apiGateway = serversProvider.selectedApiGateway;
 
@@ -81,9 +80,9 @@ class _GroupsListState extends State<GroupsList> {
       ...domainsViewModel.whitelistDomains,
       ...domainsViewModel.blacklistDomains,
     ];
-    final allSubscriptions = [
-      ...subscriptionsListProvider.whitelistSubscriptions,
-      ...subscriptionsListProvider.blacklistSubscriptions,
+    final allAdlists = [
+      ...subscriptionsViewModel.whitelistAdlists,
+      ...subscriptionsViewModel.blacklistAdlists,
     ];
 
     final groups = widget.searchTerm.isNotEmpty
@@ -139,7 +138,10 @@ class _GroupsListState extends State<GroupsList> {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.groupUpdating);
 
-      final result = await apiGateway?.updateGroup(name: group.name, body: body);
+      final result = await apiGateway?.updateGroup(
+        name: group.name,
+        body: body,
+      );
 
       process.close();
 
@@ -225,7 +227,7 @@ class _GroupsListState extends State<GroupsList> {
                 domainCount: allDomains
                     .where((domain) => domain.groups.contains(thisGroup.id))
                     .length,
-                adlistCount: allSubscriptions
+                adlistCount: allAdlists
                     .where((sub) => sub.groups.contains(thisGroup.id))
                     .length,
                 isGroupSelected: widget.selectedGroup == thisGroup,

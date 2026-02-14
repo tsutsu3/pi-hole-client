@@ -614,7 +614,6 @@ import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/ui/domains/domains.dart';
 import 'package:pi_hole_client/ui/domains/filtered_domains.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
@@ -722,6 +721,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.d
 import 'package:pi_hole_client/ui/settings/server_settings/server_info.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info/viewmodel/server_info_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/subscriptions.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/subscriptions/viewmodel/subscriptions_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/add_client_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/add_group_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/client_details_screen.dart';

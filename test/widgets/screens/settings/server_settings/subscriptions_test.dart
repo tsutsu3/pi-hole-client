@@ -41,7 +41,7 @@ void main() async {
       );
 
       expect(find.byType(SubscriptionLists), findsOneWidget);
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(find.text('Adlists'), findsOneWidget);
       expect(find.text('Allowlist'), findsOneWidget);
@@ -68,7 +68,7 @@ void main() async {
       );
 
       expect(find.byType(SubscriptionLists), findsOneWidget);
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(find.byType(PiHoleV5NotSupportedScreen), findsOneWidget);
       expect(find.text('Adlists'), findsOneWidget);
@@ -95,7 +95,7 @@ void main() async {
       );
 
       expect(find.byType(SubscriptionLists), findsOneWidget);
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(find.byType(EmptyDataScreen), findsOneWidget);
       expect(find.text('Adlists'), findsOneWidget);
@@ -110,7 +110,7 @@ void main() async {
         tester.view.devicePixelRatio = 2.0;
 
         when(
-          testSetup.mockSubscriptionsListProvider.loadingStatus,
+          testSetup.mockSubscriptionsViewModel.loadingStatus,
         ).thenReturn(LoadStatus.error);
 
         addTearDown(() {
@@ -141,7 +141,7 @@ void main() async {
         tester.view.devicePixelRatio = 2.0;
 
         when(
-          testSetup.mockSubscriptionsListProvider.loadingStatus,
+          testSetup.mockSubscriptionsViewModel.loadingStatus,
         ).thenReturn(LoadStatus.loading);
 
         addTearDown(() {
@@ -152,6 +152,7 @@ void main() async {
         await tester.pumpWidget(
           testSetup.buildTestWidget(const SubscriptionLists()),
         );
+        await tester.pump(const Duration(seconds: 1));
 
         expect(find.byType(SubscriptionLists), findsOneWidget);
         expect(find.text('Adlists'), findsOneWidget);
@@ -224,10 +225,10 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      when(testSetup.mockSubscriptionsListProvider.searchMode).thenReturn(true);
+      when(testSetup.mockSubscriptionsViewModel.searchMode).thenReturn(true);
 
       when(
-        testSetup.mockSubscriptionsListProvider.searchTerm,
+        testSetup.mockSubscriptionsViewModel.searchTerm,
       ).thenReturn('xxx');
 
       await tester.pumpWidget(
@@ -235,11 +236,11 @@ void main() async {
       );
 
       expect(find.byType(SubscriptionLists), findsOneWidget);
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       await tester.tap(find.text('Blocklist'));
-      when(testSetup.mockSubscriptionsListProvider.searchMode).thenReturn(true);
-      await tester.pump();
+      when(testSetup.mockSubscriptionsViewModel.searchMode).thenReturn(true);
+      await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.close_rounded), findsOneWidget);
     });
