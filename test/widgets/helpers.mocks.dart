@@ -56,7 +56,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart' as _i16;
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart' as _i21;
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart'
     as _i25;
-import 'package:pi_hole_client/ui/settings/server_settings/subscriptions/viewmodel/subscriptions_viewmodel.dart'
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart'
     as _i42;
 
 // ignore_for_file: type=lint
@@ -3865,12 +3865,11 @@ class MockGroupsProvider extends _i1.Mock implements _i41.GroupsProvider {
   );
 }
 
-/// A class which mocks [SubscriptionsViewModel].
+/// A class which mocks [AdlistsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSubscriptionsViewModel extends _i1.Mock
-    implements _i42.SubscriptionsViewModel {
-  MockSubscriptionsViewModel() {
+class MockAdlistsViewModel extends _i1.Mock implements _i42.AdlistsViewModel {
+  MockAdlistsViewModel() {
     _i1.throwOnMissingStub(this);
   }
 

@@ -12,8 +12,8 @@ import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_tiles/home_tile.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/subscriptions.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -167,7 +167,7 @@ class HomeTiles extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const SubscriptionLists(),
+                      builder: (context) => const AdlistScreen(),
                     ),
                   );
                 }

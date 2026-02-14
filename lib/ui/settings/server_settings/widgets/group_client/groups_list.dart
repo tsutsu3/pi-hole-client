@@ -12,7 +12,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/subscriptions/viewmodel/subscriptions_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/add_group_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/group_tile.dart';
 import 'package:provider/provider.dart';
@@ -71,7 +71,7 @@ class _GroupsListState extends State<GroupsList> {
     final groupsProvider = Provider.of<GroupsProvider>(context);
     final clientsListProvider = Provider.of<ClientsListProvider>(context);
     final domainsViewModel = Provider.of<DomainsViewModel>(context);
-    final subscriptionsViewModel = Provider.of<SubscriptionsViewModel>(context);
+    final adlistsViewModel = Provider.of<AdlistsViewModel>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
     final apiGateway = serversProvider.selectedApiGateway;
 
@@ -81,8 +81,8 @@ class _GroupsListState extends State<GroupsList> {
       ...domainsViewModel.blacklistDomains,
     ];
     final allAdlists = [
-      ...subscriptionsViewModel.whitelistAdlists,
-      ...subscriptionsViewModel.blacklistAdlists,
+      ...adlistsViewModel.whitelistAdlists,
+      ...adlistsViewModel.blacklistAdlists,
     ];
 
     final groups = widget.searchTerm.isNotEmpty

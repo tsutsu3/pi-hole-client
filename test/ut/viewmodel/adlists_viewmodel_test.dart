@@ -1,20 +1,20 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/subscriptions/viewmodel/subscriptions_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 
 import '../../../testing/fakes/repositories/api/fake_adlist_repository.dart';
 
 void main() {
-  group('SubscriptionsViewModel', () {
+  group('AdlistsViewModel', () {
     late bool listenerCalled;
-    late SubscriptionsViewModel viewModel;
+    late AdlistsViewModel viewModel;
     late FakeAdlistRepository fakeAdlistRepository;
 
     setUp(() {
       Command.globalExceptionHandler = (_, _) {};
       fakeAdlistRepository = FakeAdlistRepository();
-      viewModel = SubscriptionsViewModel();
+      viewModel = AdlistsViewModel();
       viewModel.update(fakeAdlistRepository);
       listenerCalled = false;
       viewModel.addListener(() {

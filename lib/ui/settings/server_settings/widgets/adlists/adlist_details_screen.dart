@@ -11,15 +11,15 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/subscriptions/viewmodel/subscriptions_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/edit_subscription_modal.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/edit_adlist_modal.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:pi_hole_client/utils/format.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:provider/provider.dart';
 
-class SubscriptionDetailsScreen extends StatefulWidget {
-  const SubscriptionDetailsScreen({
+class AdlistDetailsScreen extends StatefulWidget {
+  const AdlistDetailsScreen({
     required this.adlist,
     required this.remove,
     required this.groups,
@@ -35,11 +35,11 @@ class SubscriptionDetailsScreen extends StatefulWidget {
   final AppColors? colors;
 
   @override
-  State<SubscriptionDetailsScreen> createState() =>
-      _SubscriptionDetailsScreenState();
+  State<AdlistDetailsScreen> createState() =>
+      _AdlistDetailsScreenState();
 }
 
-class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
+class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
   late Adlist _adlist;
 
   @override
@@ -49,7 +49,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
   }
 
   @override
-  void didUpdateWidget(covariant SubscriptionDetailsScreen oldWidget) {
+  void didUpdateWidget(covariant AdlistDetailsScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.adlist != widget.adlist) {
@@ -156,7 +156,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
             CustomListTile(
               leadingIcon: Icons.monitor_heart_outlined,
               label: AppLocalizations.of(context)!.adlistStatus,
-              description: getSubscriptionStatusType(
+              description: getAdlistStatusType(
                 _adlist.status.index,
               ),
             ),
@@ -210,7 +210,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
   }
 
   Future<void> onEditAdlist(Adlist updated) async {
-    final viewModel = context.read<SubscriptionsViewModel>();
+    final viewModel = context.read<AdlistsViewModel>();
     final appConfigProvider = context.read<AppConfigProvider>();
 
     final process = ProcessModal(context: context);
@@ -256,7 +256,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
         useSafeArea: !isSmallLandscape,
         useRootNavigator:
             false, // Prevents unexpected app exit on mobile when pressing back
-        builder: (ctx) => EditSubscriptionModal(
+        builder: (ctx) => EditAdlistModal(
           adlist: _adlist,
           keyItem: 'comment',
           title: AppLocalizations.of(context)!.editComment,
@@ -269,7 +269,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
     } else {
       showModalBottomSheet(
         context: context,
-        builder: (ctx) => EditSubscriptionModal(
+        builder: (ctx) => EditAdlistModal(
           adlist: _adlist,
           keyItem: 'comment',
           title: AppLocalizations.of(context)!.editComment,
@@ -290,7 +290,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
         context: context,
         useRootNavigator:
             false, // Prevents unexpected app exit on mobile when pressing back
-        builder: (ctx) => EditSubscriptionModal(
+        builder: (ctx) => EditAdlistModal(
           adlist: _adlist,
           keyItem: 'groups',
           title: AppLocalizations.of(context)!.editGroups,
@@ -303,7 +303,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
     } else {
       showModalBottomSheet(
         context: context,
-        builder: (ctx) => EditSubscriptionModal(
+        builder: (ctx) => EditAdlistModal(
           adlist: _adlist,
           keyItem: 'groups',
           title: AppLocalizations.of(context)!.editGroups,

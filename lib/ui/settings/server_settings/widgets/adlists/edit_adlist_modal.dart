@@ -3,8 +3,8 @@ import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 
-class EditSubscriptionModal extends StatefulWidget {
-  const EditSubscriptionModal({
+class EditAdlistModal extends StatefulWidget {
+  const EditAdlistModal({
     required this.adlist,
     required this.keyItem,
     required this.title,
@@ -24,12 +24,12 @@ class EditSubscriptionModal extends StatefulWidget {
   final Map<int, String> groups;
 
   @override
-  State<EditSubscriptionModal> createState() => _EditSubscriptionModalState();
+  State<EditAdlistModal> createState() => _EditAdlistModalState();
 }
 
-class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
-  final TextEditingController subscriptionController = TextEditingController();
-  String? subscriptionError;
+class _EditAdlistModalState extends State<EditAdlistModal> {
+  final TextEditingController addressController = TextEditingController();
+  String? addressError;
   bool status = true;
   bool allDataValid = false;
   List<int> selectedGroups = [];

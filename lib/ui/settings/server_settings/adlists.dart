@@ -11,14 +11,14 @@ import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/subscriptions/viewmodel/subscriptions_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/gravity_update.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/subscription_details_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/subscriptions_list.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_details_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlists_list.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/gravity_update.dart';
 import 'package:provider/provider.dart';
 
-class SubscriptionLists extends StatelessWidget {
-  const SubscriptionLists({super.key});
+class AdlistScreen extends StatelessWidget {
+  const AdlistScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,19 +42,19 @@ class SubscriptionLists extends StatelessWidget {
       );
     }
 
-    return const SubscriptionListsWidget();
+    return const AdlistScreenWidget();
   }
 }
 
-class SubscriptionListsWidget extends StatefulWidget {
-  const SubscriptionListsWidget({super.key});
+class AdlistScreenWidget extends StatefulWidget {
+  const AdlistScreenWidget({super.key});
 
   @override
-  State<SubscriptionListsWidget> createState() =>
-      _SubscriptionListsWidgetState();
+  State<AdlistScreenWidget> createState() =>
+      _AdlistScreenWidgetState();
 }
 
-class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
+class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
     with TickerProviderStateMixin {
   late TabController tabController;
   final ScrollController scrollController = ScrollController();
@@ -67,7 +67,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
   void initState() {
     super.initState();
 
-    final viewModel = context.read<SubscriptionsViewModel>();
+    final viewModel = context.read<AdlistsViewModel>();
 
     Future.microtask(() async {
       viewModel.loadAdlists.run();
@@ -95,7 +95,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<SubscriptionsViewModel>(context);
+    final viewModel = Provider.of<AdlistsViewModel>(context);
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
     final groups = context.watch<GroupsProvider>().groupItems;
@@ -238,10 +238,10 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
           body: TabBarView(
             controller: tabController,
             children: [
-              SubscriptionsList(
+              AdlistsList(
                 type: 'whitelist',
                 scrollController: scrollController,
-                onSubscriptionSelected: (d) {
+                onAdlistSelected: (d) {
                   if (onTap != null) {
                     onTap(d);
                   } else {
@@ -250,10 +250,10 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                 },
                 selectedAdlist: selectedAdlist,
               ),
-              SubscriptionsList(
+              AdlistsList(
                 type: 'blacklist',
                 scrollController: scrollController,
-                onSubscriptionSelected: (d) {
+                onAdlistSelected: (d) {
                   if (onTap != null) {
                     onTap(d);
                   } else {
@@ -276,7 +276,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
           Expanded(child: scaffold()),
           Expanded(
             child: selectedAdlist != null
-                ? SubscriptionDetailsScreen(
+                ? AdlistDetailsScreen(
                     adlist: selectedAdlist!,
                     remove: (adlist) {
                       setState(() => selectedAdlist = null);
@@ -314,7 +314,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SubscriptionDetailsScreen(
+              builder: (context) => AdlistDetailsScreen(
                 adlist: adlist,
                 remove: (s) {
                   setState(() => selectedAdlist = null);

@@ -6,10 +6,10 @@ import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/subscriptions.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/add_subscription_modal.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/edit_subscription_modal.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/subscription_details_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/add_adlist_modal.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/edit_adlist_modal.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_details_screen.dart';
 import 'package:pi_hole_client/utils/format.dart';
 
 import '../../../helpers.dart';
@@ -37,10 +37,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pumpAndSettle();
 
       expect(find.text('Adlists'), findsOneWidget);
@@ -64,10 +64,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pumpAndSettle();
 
       expect(find.byType(PiHoleV5NotSupportedScreen), findsOneWidget);
@@ -91,10 +91,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pumpAndSettle();
 
       expect(find.byType(EmptyDataScreen), findsOneWidget);
@@ -110,7 +110,7 @@ void main() async {
         tester.view.devicePixelRatio = 2.0;
 
         when(
-          testSetup.mockSubscriptionsViewModel.loadingStatus,
+          testSetup.mockAdlistsViewModel.loadingStatus,
         ).thenReturn(LoadStatus.error);
 
         addTearDown(() {
@@ -119,10 +119,10 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(const SubscriptionLists()),
+          testSetup.buildTestWidget(const AdlistScreen()),
         );
 
-        expect(find.byType(SubscriptionLists), findsOneWidget);
+        expect(find.byType(AdlistScreen), findsOneWidget);
         await tester.pump();
         await tester.pumpAndSettle(const Duration(seconds: 3));
 
@@ -141,7 +141,7 @@ void main() async {
         tester.view.devicePixelRatio = 2.0;
 
         when(
-          testSetup.mockSubscriptionsViewModel.loadingStatus,
+          testSetup.mockAdlistsViewModel.loadingStatus,
         ).thenReturn(LoadStatus.loading);
 
         addTearDown(() {
@@ -150,11 +150,11 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(const SubscriptionLists()),
+          testSetup.buildTestWidget(const AdlistScreen()),
         );
         await tester.pump(const Duration(seconds: 1));
 
-        expect(find.byType(SubscriptionLists), findsOneWidget);
+        expect(find.byType(AdlistScreen), findsOneWidget);
         expect(find.text('Adlists'), findsOneWidget);
         expect(find.text('Allowlist'), findsOneWidget);
         expect(find.text('Blocklist'), findsOneWidget);
@@ -174,10 +174,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Blocklist'));
@@ -200,17 +200,17 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Blocklist'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('https://hosts-file.net/ad_servers.txt'));
       await tester.pumpAndSettle();
-      expect(find.byType(SubscriptionDetailsScreen), findsOneWidget);
+      expect(find.byType(AdlistDetailsScreen), findsOneWidget);
       expect(find.text('Adlist Details'), findsOneWidget);
     });
 
@@ -225,21 +225,21 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      when(testSetup.mockSubscriptionsViewModel.searchMode).thenReturn(true);
+      when(testSetup.mockAdlistsViewModel.searchMode).thenReturn(true);
 
       when(
-        testSetup.mockSubscriptionsViewModel.searchTerm,
+        testSetup.mockAdlistsViewModel.searchTerm,
       ).thenReturn('xxx');
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Blocklist'));
-      when(testSetup.mockSubscriptionsViewModel.searchMode).thenReturn(true);
+      when(testSetup.mockAdlistsViewModel.searchMode).thenReturn(true);
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.close_rounded), findsOneWidget);
@@ -257,10 +257,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.byIcon(Icons.add), findsOneWidget);
@@ -268,7 +268,7 @@ void main() async {
       await tester.pumpAndSettle();
 
       // Show add modal
-      expect(find.byType(AddSubscriptionModal), findsOneWidget);
+      expect(find.byType(AddAdlistModal), findsOneWidget);
       expect(find.text('Add Adlist'), findsOneWidget);
 
       // Add
@@ -298,24 +298,24 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Blocklist'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('https://hosts-file.net/ad_servers.txt'));
       await tester.pumpAndSettle();
-      expect(find.byType(SubscriptionDetailsScreen), findsOneWidget);
+      expect(find.byType(AdlistDetailsScreen), findsOneWidget);
       expect(find.text('Adlist Details'), findsOneWidget);
 
       // Show edit modal
       expect(find.text('Comment'), findsOneWidget);
       await tester.tap(find.text('Comment'));
       await tester.pumpAndSettle();
-      expect(find.byType(EditSubscriptionModal), findsOneWidget);
+      expect(find.byType(EditAdlistModal), findsOneWidget);
       expect(find.text('Edit comment'), findsOneWidget);
 
       // Edit
@@ -340,24 +340,24 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Blocklist'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('https://hosts-file.net/ad_servers.txt'));
       await tester.pumpAndSettle();
-      expect(find.byType(SubscriptionDetailsScreen), findsOneWidget);
+      expect(find.byType(AdlistDetailsScreen), findsOneWidget);
       expect(find.text('Adlist Details'), findsOneWidget);
 
       // Show edit modal
       expect(find.text('Groups'), findsOneWidget);
       await tester.tap(find.text('Groups'));
       await tester.pumpAndSettle();
-      expect(find.byType(EditSubscriptionModal), findsOneWidget);
+      expect(find.byType(EditAdlistModal), findsOneWidget);
       expect(find.byType(LabeledMultiSelectTile), findsOneWidget);
       expect(find.text('Edit groups'), findsOneWidget);
 
@@ -383,17 +383,17 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Blocklist'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('https://hosts-file.net/ad_servers.txt'));
       await tester.pumpAndSettle();
-      expect(find.byType(SubscriptionDetailsScreen), findsOneWidget);
+      expect(find.byType(AdlistDetailsScreen), findsOneWidget);
       expect(find.text('Adlist Details'), findsOneWidget);
 
       expect(find.text('Status'), findsOneWidget);
@@ -416,17 +416,17 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Blocklist'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('https://hosts-file.net/ad_servers.txt'));
       await tester.pumpAndSettle();
-      expect(find.byType(SubscriptionDetailsScreen), findsOneWidget);
+      expect(find.byType(AdlistDetailsScreen), findsOneWidget);
       expect(find.text('Adlist Details'), findsOneWidget);
 
       expect(find.byIcon(Icons.delete_rounded), findsOneWidget);
@@ -455,17 +455,17 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Blocklist'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('https://hosts-file.net/ad_servers.txt'));
       await tester.pumpAndSettle();
-      expect(find.byType(SubscriptionDetailsScreen), findsOneWidget);
+      expect(find.byType(AdlistDetailsScreen), findsOneWidget);
       expect(find.text('Adlist Details'), findsOneWidget);
 
       expect(find.byIcon(Icons.delete_rounded), findsOneWidget);
@@ -498,10 +498,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Update Gravity'));
@@ -538,10 +538,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Update Gravity'));
@@ -587,10 +587,10 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(const SubscriptionLists()),
+          testSetup.buildTestWidget(const AdlistScreen()),
         );
 
-        expect(find.byType(SubscriptionLists), findsOneWidget);
+        expect(find.byType(AdlistScreen), findsOneWidget);
         await tester.pump();
 
         await tester.tap(find.text('Update Gravity'));
@@ -643,10 +643,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Update Gravity'));
@@ -697,10 +697,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Update Gravity'));
@@ -738,10 +738,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Update Gravity'));
@@ -784,10 +784,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const SubscriptionLists()),
+        testSetup.buildTestWidget(const AdlistScreen()),
       );
 
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Update Gravity'));

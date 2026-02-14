@@ -12,7 +12,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/subscriptions/viewmodel/subscriptions_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/client_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/clients_list.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/group_details_screen.dart';
@@ -98,14 +98,14 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
       final groupsProvider = context.read<GroupsProvider>();
       final localDnsProvider = context.read<LocalDnsProvider>();
       final domainsViewModel = context.read<DomainsViewModel>();
-      final subscriptionsViewModel = context.read<SubscriptionsViewModel>();
+      final adlistsViewModel = context.read<AdlistsViewModel>();
 
       await Future.wait([
         widget.clientsListProvider.fetchClients(),
         groupsProvider.loadGroups(),
         localDnsProvider.load(),
         domainsViewModel.loadDomains.runAsync(),
-        subscriptionsViewModel.loadAdlists.runAsync(),
+        adlistsViewModel.loadAdlists.runAsync(),
       ]);
     });
 

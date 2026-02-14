@@ -20,7 +20,7 @@ import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/models.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/results_section.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/search_form.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/subscription_details_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_details_screen.dart';
 import 'package:pi_hole_client/utils/punycode.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +47,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
   List<Domain> _domainResults = [];
   List<v6_search.GravityEntry> _gravityResults = [];
   Domain? _pendingDomainUpdate;
-  Adlist? _pendingSubscriptionUpdate;
+  Adlist? _pendingAdlistUpdate;
 
   @override
   void initState() {
@@ -143,7 +143,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
                 apiGateway: apiGateway,
                 appConfigProvider: appConfigProvider,
               ),
-              onAdlistTap: (adlist) => _openSubscriptionDetails(
+              onAdlistTap: (adlist) => _openAdlistDetails(
                 adlist: adlist,
                 groups: groups,
                 colors: colors,
@@ -303,7 +303,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     }
   }
 
-  Future<void> _openSubscriptionDetails({
+  Future<void> _openAdlistDetails({
     required Adlist adlist,
     required Map<int, String> groups,
     required AppColors? colors,
@@ -313,14 +313,14 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SubscriptionDetailsScreen(
+        builder: (context) => AdlistDetailsScreen(
           adlist: adlist,
           groups: groups,
           colors: colors,
           onUpdated: (updated) {
-            _pendingSubscriptionUpdate = updated;
+            _pendingAdlistUpdate = updated;
           },
-          remove: (selected) => _removeSubscription(
+          remove: (selected) => _removeAdlist(
             selected,
             apiGateway: apiGateway,
             appConfigProvider: appConfigProvider,
@@ -329,7 +329,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       ),
     );
     if (!mounted) return;
-    final pending = _pendingSubscriptionUpdate;
+    final pending = _pendingAdlistUpdate;
     if (pending != null) {
       final dateModified = pending.dateModified.millisecondsSinceEpoch ~/ 1000;
       final dateUpdated = pending.dateUpdated.millisecondsSinceEpoch ~/ 1000;
@@ -351,7 +351,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
                   : item,
             )
             .toList();
-        _pendingSubscriptionUpdate = null;
+        _pendingAdlistUpdate = null;
       });
     }
   }
@@ -401,7 +401,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     );
   }
 
-  Future<void> _removeSubscription(
+  Future<void> _removeAdlist(
     Adlist adlist, {
     required ApiGateway apiGateway,
     required AppConfigProvider appConfigProvider,

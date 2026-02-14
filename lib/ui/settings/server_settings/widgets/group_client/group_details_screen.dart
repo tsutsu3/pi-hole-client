@@ -16,9 +16,9 @@ import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/domains/filtered_domains.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/subscriptions/viewmodel/subscriptions_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/filtered_adlists.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/edit_group_modal.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/filtered_subscriptions.dart';
 import 'package:pi_hole_client/utils/format.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +44,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   late AppConfigProvider appConfigProvider;
   late ClientsListProvider clientsListProvider;
   late DomainsViewModel domainsViewModel;
-  late SubscriptionsViewModel subscriptionsViewModel;
+  late AdlistsViewModel adlistsViewModel;
 
   @override
   void initState() {
@@ -70,7 +70,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     groupsProvider = context.watch<GroupsProvider>();
     clientsListProvider = context.watch<ClientsListProvider>();
     domainsViewModel = context.watch<DomainsViewModel>();
-    subscriptionsViewModel = context.watch<SubscriptionsViewModel>();
+    adlistsViewModel = context.watch<AdlistsViewModel>();
     apiGateway = serversProvider.selectedApiGateway;
   }
 
@@ -188,18 +188,18 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             _buildMemberCountTile(
               icon: Icons.playlist_add_check_rounded,
               label: AppLocalizations.of(context)!.adlistsAllow,
-              count: subscriptionsViewModel.whitelistAdlists
+              count: adlistsViewModel.whitelistAdlists
                   .where((s) => s.groups.contains(_group.id))
                   .length,
-              onTap: () => _navigateToFilteredSubscriptions(initialTab: 0),
+              onTap: () => _navigateToFilteredAdlists(initialTab: 0),
             ),
             _buildMemberCountTile(
               icon: Icons.playlist_remove_rounded,
               label: AppLocalizations.of(context)!.adlistsBlock,
-              count: subscriptionsViewModel.blacklistAdlists
+              count: adlistsViewModel.blacklistAdlists
                   .where((s) => s.groups.contains(_group.id))
                   .length,
-              onTap: () => _navigateToFilteredSubscriptions(initialTab: 1),
+              onTap: () => _navigateToFilteredAdlists(initialTab: 1),
             ),
           ],
         ),
@@ -358,11 +358,11 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     );
   }
 
-  void _navigateToFilteredSubscriptions({required int initialTab}) {
+  void _navigateToFilteredAdlists({required int initialTab}) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FilteredSubscriptionLists(
+        builder: (context) => FilteredAdlists(
           groupId: _group.id,
           groupName: _group.name,
           initialTab: initialTab,
