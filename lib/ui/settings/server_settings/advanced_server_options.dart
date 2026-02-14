@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
@@ -28,26 +27,21 @@ class AdvancedServerOptions extends StatefulWidget {
 }
 
 class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
-  late AppConfigProvider appConfigProvider;
-  ApiGateway? apiGateway;
-  ApiGateway? _previousApiGateway;
+  RepositoryBundle? _bundle;
+  RepositoryBundle? _previousBundle;
   bool? isLoggingEnabled;
   bool isLoading = true;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final currentApiGateway = context
-        .watch<ServersProvider>()
-        .selectedApiGateway;
-    appConfigProvider = context.watch<AppConfigProvider>();
+    final currentBundle = context.watch<RepositoryBundle?>();
 
-    // Check if the selected API gateway has changed
-    if (currentApiGateway != _previousApiGateway) {
-      _previousApiGateway = currentApiGateway;
-      apiGateway = currentApiGateway;
+    if (currentBundle != _previousBundle) {
+      _previousBundle = currentBundle;
+      _bundle = currentBundle;
 
-      if (apiGateway != null) {
+      if (_bundle != null) {
         _loadQueryLoggingStatus();
       } else {
         setState(() {
@@ -66,25 +60,26 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
   }
 
   Future<void> _loadQueryLoggingStatus() async {
-    if (!mounted) return;
+    if (!mounted || _bundle == null) return;
 
     setState(() {
       isLoading = true;
       isLoggingEnabled = null;
     });
 
-    final result = await apiGateway?.getConfiguration(
-      element: 'dns/queryLogging',
-    );
+    final result = await _bundle!.config.fetchDnsQueryLogging();
     if (!mounted) return;
 
     setState(() {
-      if (result?.result == APiResponseType.success) {
-        isLoggingEnabled = result?.data?.dns?.queryLogging;
-      } else {
-        isLoggingEnabled = null;
-        logger.i('Failed to fetch query logging status');
-      }
+      result.fold(
+        (config) {
+          isLoggingEnabled = config.dns?.queryLogging;
+        },
+        (_) {
+          isLoggingEnabled = null;
+          logger.i('Failed to fetch query logging status');
+        },
+      );
       isLoading = false;
     });
   }
@@ -92,12 +87,11 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
   @override
   Widget build(BuildContext context) {
     final appConfigProvider = context.watch<AppConfigProvider>();
-    final apiGateway = context.select<ServersProvider, ApiGateway?>(
-      (provider) => provider.selectedApiGateway,
-    );
+    final serversProvider = context.watch<ServersProvider>();
+    final bundle = context.watch<RepositoryBundle?>();
     final theme = Theme.of(context).extension<AppColors>()!;
 
-    if (apiGateway == null) {
+    if (bundle == null) {
       return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.advancedSetup),
@@ -106,7 +100,7 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
       );
     }
 
-    if (apiGateway.server.apiVersion == 'v5') {
+    if (serversProvider.selectedServer?.apiVersion == 'v5') {
       return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.advancedSetup),
@@ -127,9 +121,9 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
             : AppLocalizations.of(context)!.enableQueryLogging,
       );
 
-      final result = isLoggingEnabled == true
-          ? await apiGateway.patchDnsQueryLoggingConfig(false)
-          : await apiGateway.patchDnsQueryLoggingConfig(true);
+      final result = await bundle.config.setDnsQueryLogging(
+        isLoggingEnabled != true,
+      );
       if (!context.mounted) return;
 
       process.close();
@@ -137,36 +131,37 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
       await Navigator.maybePop(context);
       if (!context.mounted) return;
 
-      if (result.result == APiResponseType.success) {
-        showSuccessSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: isLoggingEnabled == true
-              ? AppLocalizations.of(context)!.disableQueryLogSuccess
-              : AppLocalizations.of(context)!.enableQueryLogSuccess,
-        );
+      result.fold(
+        (config) {
+          showSuccessSnackBar(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            label: isCurrentlyEnabled == true
+                ? AppLocalizations.of(context)!.disableQueryLogSuccess
+                : AppLocalizations.of(context)!.enableQueryLogSuccess,
+          );
 
-        setState(() {
-          isLoggingEnabled = isCurrentlyEnabled == null
-              ? null
-              : !isCurrentlyEnabled;
-        });
-      } else {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: isLoggingEnabled == true
-              ? AppLocalizations.of(context)!.disableQueryLogFailure
-              : AppLocalizations.of(context)!.enableQueryLogFailure,
-        );
-      }
+          setState(() {
+            isLoggingEnabled = config.dns?.queryLogging;
+          });
+        },
+        (_) {
+          showErrorSnackBar(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            label: isLoggingEnabled == true
+                ? AppLocalizations.of(context)!.disableQueryLogFailure
+                : AppLocalizations.of(context)!.enableQueryLogFailure,
+          );
+        },
+      );
     }
 
     Future<void> onRestartDns() async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.restartingDnsResolver);
 
-      final result = await apiGateway.restartDns();
+      final result = await bundle.actions.restartDns();
       if (!context.mounted) return;
 
       process.close();
@@ -174,31 +169,29 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
       await Navigator.maybePop(context);
       if (!context.mounted) return;
 
-      if (result.result == APiResponseType.success) {
-        showSuccessSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.dnsRestartSuccess,
-        );
-      } else {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.dnsRestartFailure,
-        );
-      }
+      result.fold(
+        (_) {
+          showSuccessSnackBar(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.dnsRestartSuccess,
+          );
+        },
+        (_) {
+          showErrorSnackBar(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.dnsRestartFailure,
+          );
+        },
+      );
     }
 
     Future<void> onFlushArp() async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.flushingNetworkTable);
 
-      // Fallback to deprecated method for Pi-hole < v6.3
-      var result = await apiGateway.flushNetwork();
-      if (result.result == APiResponseType.notFound) {
-        logger.w('flushNetwork not found, falling back to flushArp');
-        result = await apiGateway.flushArp();
-      }
+      final result = await bundle.actions.flushArp();
       if (!context.mounted) return;
 
       process.close();
@@ -206,26 +199,29 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
       await Navigator.maybePop(context);
       if (!context.mounted) return;
 
-      if (result.result == APiResponseType.success) {
-        showSuccessSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.flushedNetworkTableSuccess,
-        );
-      } else {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.flushedNetworkTableFailure,
-        );
-      }
+      result.fold(
+        (_) {
+          showSuccessSnackBar(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.flushedNetworkTableSuccess,
+          );
+        },
+        (_) {
+          showErrorSnackBar(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.flushedNetworkTableFailure,
+          );
+        },
+      );
     }
 
     Future<void> onFlushLogs() async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.flushingLogs);
 
-      final result = await apiGateway.flushLogs();
+      final result = await bundle.actions.flushLogs();
       if (!context.mounted) return;
 
       process.close();
@@ -233,19 +229,22 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
       await Navigator.maybePop(context);
       if (!context.mounted) return;
 
-      if (result.result == APiResponseType.success) {
-        showSuccessSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.flushLogsSuccess,
-        );
-      } else {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.flushLogsFailure,
-        );
-      }
+      result.fold(
+        (_) {
+          showSuccessSnackBar(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.flushLogsSuccess,
+          );
+        },
+        (_) {
+          showErrorSnackBar(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.flushLogsFailure,
+          );
+        },
+      );
     }
 
     return Scaffold(

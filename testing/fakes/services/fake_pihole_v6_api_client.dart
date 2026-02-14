@@ -460,6 +460,14 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   }
 
   @override
+  Future<Result<Action>> postActionFlushNetwork(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced postActionFlushNetwork failure'));
+    }
+    return const Success(kSrvPostActionFlushArp);
+  }
+
+  @override
   Future<Result<Action>> postActionFlushLogs(String sid) async {
     if (shouldFail) {
       return Failure(Exception('Forced postActionFlushLogs failure'));

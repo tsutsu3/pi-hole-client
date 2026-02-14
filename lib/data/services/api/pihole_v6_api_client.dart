@@ -800,11 +800,30 @@ class PiholeV6ApiClient {
   // ==========================================================================
   // Actions
   // ==========================================================================
+  @Deprecated(
+    'Deprecated in Pi-hole FTL v6.3+. Use [postActionFlushNetwork] instead.',
+  )
   Future<Result<Action>> postActionFlushArp(String sid) async {
     return safeApiCall<Action>(() async {
       final resp = await _sendRequest(
         method: HttpMethod.post,
         path: '/api/action/flush/arp',
+        sid: sid,
+      );
+
+      if (resp.statusCode == 200) {
+        return Action.fromJson(jsonDecode(resp.body));
+      }
+
+      throw HttpStatusCodeException(resp.statusCode, resp.body);
+    });
+  }
+
+  Future<Result<Action>> postActionFlushNetwork(String sid) async {
+    return safeApiCall<Action>(() async {
+      final resp = await _sendRequest(
+        method: HttpMethod.post,
+        path: '/api/action/flush/network',
         sid: sid,
       );
 

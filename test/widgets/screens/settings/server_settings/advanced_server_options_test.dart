@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/data/model/v6/config/config.dart';
-import 'package:pi_hole_client/domain/models_old/config.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import '../../../helpers.dart';
 
@@ -167,23 +163,7 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockApiGatewayV6.getConfiguration(
-          element: anyNamed('element'),
-        ),
-      ).thenAnswer(
-        (_) async => ConfigurationResponse(
-          result: APiResponseType.success,
-          data: ConfigInfo.fromV6(
-            Config.fromJson({
-              'config': {
-                'dns': {'queryLogging': false},
-              },
-              'took': 0.003,
-            }),
-          ),
-        ),
-      );
+      testSetup.fakeConfigRepository.queryLoggingValue = false;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -213,13 +193,7 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockApiGatewayV6.getConfiguration(
-          element: anyNamed('element'),
-        ),
-      ).thenAnswer(
-        (_) async => ConfigurationResponse(result: APiResponseType.error),
-      );
+      testSetup.fakeConfigRepository.shouldFailFetch = true;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -242,11 +216,7 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockApiGatewayV6.patchDnsQueryLoggingConfig(any),
-      ).thenAnswer(
-        (_) async => ConfigurationResponse(result: APiResponseType.error),
-      );
+      testSetup.fakeConfigRepository.shouldFailSet = true;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -276,29 +246,8 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockApiGatewayV6.patchDnsQueryLoggingConfig(any),
-      ).thenAnswer(
-        (_) async => ConfigurationResponse(result: APiResponseType.error),
-      );
-
-      when(
-        testSetup.mockApiGatewayV6.getConfiguration(
-          element: anyNamed('element'),
-        ),
-      ).thenAnswer(
-        (_) async => ConfigurationResponse(
-          result: APiResponseType.success,
-          data: ConfigInfo.fromV6(
-            Config.fromJson({
-              'config': {
-                'dns': {'queryLogging': false},
-              },
-              'took': 0.003,
-            }),
-          ),
-        ),
-      );
+      testSetup.fakeConfigRepository.queryLoggingValue = false;
+      testSetup.fakeConfigRepository.shouldFailSet = true;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -356,9 +305,7 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockApiGatewayV6.restartDns(),
-      ).thenAnswer((_) async => ActionResponse(result: APiResponseType.error));
+      testSetup.fakeActionsRepository.shouldFail = true;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -410,47 +357,13 @@ void main() async {
       expect(find.text('Network table cleared.'), findsOneWidget);
     });
 
-    testWidgets('should success Flush network table on FTL < v6.3', (
-      WidgetTester tester,
-    ) async {
-      tester.view.physicalSize = const Size(1080, 2400);
-      tester.view.devicePixelRatio = 2.0;
-
-      when(testSetup.mockApiGatewayV6.flushNetwork()).thenAnswer(
-        (_) async => ActionResponse(result: APiResponseType.notFound),
-      );
-
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
-
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
-      );
-
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
-      await tester.pump();
-
-      await tester.tap(find.text('Flush network table'));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('Flush'));
-      await tester.pumpAndSettle();
-
-      expect(find.byType(SnackBar), findsOneWidget);
-      expect(find.text('Network table cleared.'), findsOneWidget);
-    });
-
     testWidgets('should failed Flush network table', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockApiGatewayV6.flushNetwork(),
-      ).thenAnswer((_) async => ActionResponse(result: APiResponseType.error));
+      testSetup.fakeActionsRepository.shouldFail = true;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -500,13 +413,11 @@ void main() async {
       expect(find.text('Logs flushed successfully.'), findsOneWidget);
     });
 
-    testWidgets('should success Flush logs', (WidgetTester tester) async {
+    testWidgets('should failed to Flush logs', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockApiGatewayV6.flushLogs(),
-      ).thenAnswer((_) async => ActionResponse(result: APiResponseType.error));
+      testSetup.fakeActionsRepository.shouldFail = true;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
