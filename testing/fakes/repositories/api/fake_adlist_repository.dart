@@ -1,6 +1,7 @@
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/adlist_repository.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
+import 'package:pi_hole_client/domain/model/list/list_search_result.dart';
 import 'package:result_dart/result_dart.dart';
 
 class FakeAdlistRepository implements AdListRepository {
@@ -129,5 +130,47 @@ class FakeAdlistRepository implements AdListRepository {
       return Failure(Exception('Force deleteAdlist failure'));
     }
     return const Success(unit);
+  }
+
+  @override
+  Future<Result<ListSearchResult>> searchLists({
+    required String domain,
+    bool? partial,
+    int? limit,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Force searchLists failure'));
+    }
+    return Success(
+      ListSearchResult(
+        domains: [],
+        gravityMatches: [
+          GravityMatch(
+            adlist: Adlist(
+              address: 'https://blocklist.example.com/hosts',
+              type: ListType.block,
+              groups: [0],
+              enabled: true,
+              id: 1,
+              dateAdded: _now,
+              dateModified: _now,
+              dateUpdated: _now,
+              number: 1000,
+              invalidDomains: 0,
+              abpEntries: 0,
+              status: ListsStatus.downloaded,
+            ),
+            matchedDomain: domain,
+          ),
+        ],
+        meta: const ListSearchMeta(
+          domainsExact: 0,
+          domainsRegex: 0,
+          gravityAllow: 0,
+          gravityBlock: 1,
+          total: 1,
+        ),
+      ),
+    );
   }
 }

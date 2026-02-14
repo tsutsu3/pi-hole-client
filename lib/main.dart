@@ -30,6 +30,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
@@ -161,6 +162,7 @@ void main() async {
   final filtersProvider = FiltersProvider(serversProvider: serversProvider);
   final domainsViewModel = DomainsViewModel();
   final adlistsViewModel = AdlistsViewModel();
+  final findDomainsInListsViewModel = FindDomainsInListsViewModel();
   final clientsListProvider = ClientsListProvider(
     serversProvider: serversProvider,
   );
@@ -321,6 +323,15 @@ void main() async {
           create: (context) => adlistsViewModel,
           update: (context, bundle, previous) =>
               previous!..update(bundle?.adlist),
+        ),
+        ChangeNotifierProxyProvider<RepositoryBundle?,
+            FindDomainsInListsViewModel>(
+          create: (context) => findDomainsInListsViewModel,
+          update: (context, bundle, previous) => previous!
+            ..update(
+              adListRepository: bundle?.adlist,
+              domainRepository: bundle?.domain,
+            ),
         ),
         ChangeNotifierProxyProvider<ServersProvider, ClientsListProvider>(
           create: (context) => clientsListProvider,

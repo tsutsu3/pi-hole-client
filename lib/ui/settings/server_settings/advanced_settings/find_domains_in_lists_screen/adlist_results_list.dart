@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/model/v6/lists/search.dart' as v6_search;
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -15,7 +15,7 @@ class AdlistResultsList extends StatelessWidget {
     super.key,
   });
 
-  final List<AdlistSearchResult> results;
+  final List<AdlistSearchGroup> results;
   final ValueChanged<Adlist> onTap;
 
   @override
@@ -26,12 +26,10 @@ class AdlistResultsList extends StatelessWidget {
       itemCount: results.length,
       separatorBuilder: (_, _) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
-        final entry = results[index];
-        final adlist = mapGravityEntry(entry.entry);
+        final group = results[index];
         return AdlistResultCard(
-          entry: entry,
-          adlist: adlist,
-          onTap: () => onTap(adlist),
+          group: group,
+          onTap: () => onTap(group.adlist),
         );
       },
     );
@@ -40,26 +38,25 @@ class AdlistResultsList extends StatelessWidget {
 
 class AdlistResultCard extends StatelessWidget {
   const AdlistResultCard({
-    required this.entry,
-    required this.adlist,
+    required this.group,
     required this.onTap,
     super.key,
   });
 
-  final AdlistSearchResult entry;
-  final Adlist adlist;
+  final AdlistSearchGroup group;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final listType = entry.entry.type == v6_search.GravityType.allow
+    final adlist = group.adlist;
+    final listType = adlist.type == ListType.allow
         ? AppLocalizations.of(context)!.allowList
         : AppLocalizations.of(context)!.blockList;
     final enabledLabel = adlist.enabled
         ? AppLocalizations.of(context)!.enabled
         : AppLocalizations.of(context)!.disabled;
     final appColors = Theme.of(context).extension<AppColors>()!;
-    final listBadgeColor = entry.entry.type == v6_search.GravityType.allow
+    final listBadgeColor = adlist.type == ListType.allow
         ? appColors.commonGreen
         : appColors.commonRed;
     final enabledBadgeColor = adlist.enabled
@@ -136,7 +133,7 @@ class AdlistResultCard extends StatelessWidget {
                 childrenPadding: const EdgeInsets.only(left: 8, right: 8),
                 children: [
                   MatchingList(
-                    matches: entry.matchingDomains,
+                    matches: group.matchingDomains,
                     storageKey: PageStorageKey<String>(
                       'matching-${adlist.id}',
                     ),

@@ -24,6 +24,7 @@ import 'package:pi_hole_client/data/model/v6/ftl/system.dart' show InfoSystem;
 import 'package:pi_hole_client/data/model/v6/ftl/version.dart' show InfoVersion;
 import 'package:pi_hole_client/data/model/v6/groups/groups.dart' show Groups;
 import 'package:pi_hole_client/data/model/v6/lists/lists.dart' show Lists;
+import 'package:pi_hole_client/data/model/v6/lists/search.dart' show Search;
 import 'package:pi_hole_client/data/model/v6/metrics/history.dart'
     show History, HistoryClients;
 import 'package:pi_hole_client/data/model/v6/metrics/query.dart' show Queries;
@@ -563,6 +564,34 @@ class PiholeV6ApiClient {
 
       if (resp.statusCode == 204) {
         return unit;
+      }
+
+      throw HttpStatusCodeException(resp.statusCode, resp.body);
+    });
+  }
+
+  Future<Result<Search>> getSearch(
+    String sid, {
+    required String domain,
+    bool? partial,
+    int? limit,
+  }) async {
+    final queryString = _buildQueryString({
+      if (partial != null) 'partial': partial.toString(),
+      if (limit != null) 'N': limit.toString(),
+    });
+    final path = '/api/search/${Uri.encodeComponent(domain)}';
+    final fullPath = queryString.isEmpty ? path : '$path?$queryString';
+
+    return safeApiCall<Search>(() async {
+      final resp = await _sendRequest(
+        method: HttpMethod.get,
+        path: fullPath,
+        sid: sid,
+      );
+
+      if (resp.statusCode == 200) {
+        return Search.fromJson(jsonDecode(resp.body));
       }
 
       throw HttpStatusCodeException(resp.statusCode, resp.body);

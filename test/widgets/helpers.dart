@@ -32,8 +32,8 @@ import 'package:pi_hole_client/data/model/v6/metrics/query.dart';
 import 'package:pi_hole_client/data/model/v6/network/devices.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
-import 'package:pi_hole_client/domain/model/domain/domain.dart'
-    as domain_model;
+import 'package:pi_hole_client/domain/model/domain/domain.dart' as domain_model;
+import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart'
     show DeviceOption;
@@ -55,7 +55,6 @@ import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
 import 'package:pi_hole_client/domain/models_old/sensors.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/domain/models_old/sessions.dart';
-import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
 import 'package:pi_hole_client/domain/models_old/system.dart';
 import 'package:pi_hole_client/domain/models_old/version.dart';
@@ -70,11 +69,13 @@ import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 import '../../testing/fakes/repositories/api/fake_actions_repository.dart';
+import '../../testing/fakes/repositories/api/fake_adlist_repository.dart';
 import '../../testing/fakes/repositories/api/fake_auth_repository.dart';
 import '../../testing/fakes/repositories/api/fake_config_repository.dart';
 import '../../testing/fakes/repositories/api/fake_dhcp_repository.dart';
@@ -82,7 +83,6 @@ import '../../testing/fakes/repositories/api/fake_dns_repository.dart';
 import '../../testing/fakes/repositories/api/fake_domain_repository.dart';
 import '../../testing/fakes/repositories/api/fake_ftl_repository.dart';
 import '../../testing/fakes/repositories/api/fake_local_dns_repository.dart';
-import '../../testing/fakes/repositories/api/fake_adlist_repository.dart';
 import '../../testing/fakes/repositories/api/fake_network_repository.dart';
 import './helpers.mocks.dart';
 
@@ -1483,13 +1483,11 @@ class TestSetupHelper {
     mockServersProvider = customServersProvider ?? MockServersProvider();
     mockFiltersProvider = customFiltersProvider ?? MockFiltersProvider();
     mockStatusProvider = customStatusProvider ?? MockStatusProvider();
-    mockDomainsViewModel =
-        customDomainsViewModel ?? MockDomainsViewModel();
+    mockDomainsViewModel = customDomainsViewModel ?? MockDomainsViewModel();
     mockClientsListProvider =
         customClientsListProvider ?? MockClientsListProvider();
     mockGroupsProvider = customGroupsProvider ?? MockGroupsProvider();
-    mockAdlistsViewModel =
-        customAdlistsViewModel ?? MockAdlistsViewModel();
+    mockAdlistsViewModel = customAdlistsViewModel ?? MockAdlistsViewModel();
     mockGravityUpdateProvider =
         customGravityUpdateProvider ?? MockGravityUpdateProvider();
     mockLocalDnsProvider = customLocalDnsProvider ?? MockLocalDnsProvider();
@@ -1501,8 +1499,10 @@ class TestSetupHelper {
         customStatusUpdateService ?? MockStatusUpdateService();
 
     fakeActionsRepository = FakeActionsRepository();
+    fakeAdlistRepository = FakeAdlistRepository();
     fakeConfigRepository = FakeConfigRepository();
     fakeDomainRepository = FakeDomainRepository();
+    findDomainsInListsViewModel = FindDomainsInListsViewModel();
   }
 
   late MockAppConfigProvider mockConfigProvider;
@@ -1522,8 +1522,10 @@ class TestSetupHelper {
   late MockStatusUpdateService mockStatusUpdateService;
 
   late FakeActionsRepository fakeActionsRepository;
+  late FakeAdlistRepository fakeAdlistRepository;
   late FakeConfigRepository fakeConfigRepository;
   late FakeDomainRepository fakeDomainRepository;
+  late FindDomainsInListsViewModel findDomainsInListsViewModel;
 
   void initializeMock({String useApiGatewayVersion = 'v5'}) {
     _initConfiProviderMock(useApiGatewayVersion);
@@ -1539,6 +1541,11 @@ class TestSetupHelper {
     _initApiGatewayV5Mock();
     _initApiGatewayV6Mock();
     _initStatusUpdateServiceMock();
+
+    findDomainsInListsViewModel.update(
+      adListRepository: fakeAdlistRepository,
+      domainRepository: fakeDomainRepository,
+    );
   }
 
   /// Build the test widget with the given setup helper.
@@ -1590,13 +1597,13 @@ class TestSetupHelper {
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
             ),
-            ChangeNotifierProxyProvider<
-              RepositoryBundle?,
-              AdlistsViewModel
-            >(
+            ChangeNotifierProxyProvider<RepositoryBundle?, AdlistsViewModel>(
               create: (context) => mockAdlistsViewModel,
               update: (context, bundle, previous) =>
                   previous!..update(bundle?.adlist),
+            ),
+            ChangeNotifierProvider<FindDomainsInListsViewModel>.value(
+              value: findDomainsInListsViewModel,
             ),
             ChangeNotifierProxyProvider<ServersProvider, GroupsProvider>(
               create: (context) => mockGroupsProvider,
@@ -1620,7 +1627,7 @@ class TestSetupHelper {
             Provider<RepositoryBundle?>(
               create: (_) => RepositoryBundle(
                 actions: fakeActionsRepository,
-                adlist: FakeAdlistRepository(),
+                adlist: fakeAdlistRepository,
                 auth: FakeAuthRepository(),
                 config: fakeConfigRepository,
                 dhcp: FakeDhcpRepository(),
@@ -1697,6 +1704,9 @@ class TestSetupHelper {
           update: (context, bundle, previous) =>
               previous!..update(bundle?.adlist),
         ),
+        ChangeNotifierProvider<FindDomainsInListsViewModel>.value(
+          value: findDomainsInListsViewModel,
+        ),
         ChangeNotifierProxyProvider<ServersProvider, GroupsProvider>(
           create: (context) => mockGroupsProvider,
           update: (context, serverConfig, servers) =>
@@ -1719,7 +1729,7 @@ class TestSetupHelper {
         Provider<RepositoryBundle?>(
           create: (_) => RepositoryBundle(
             actions: fakeActionsRepository,
-            adlist: FakeAdlistRepository(),
+            adlist: fakeAdlistRepository,
             auth: FakeAuthRepository(),
             config: fakeConfigRepository,
             dhcp: FakeDhcpRepository(),
@@ -1997,9 +2007,7 @@ class TestSetupHelper {
 
     when(mockAdlistsViewModel.filteredWhitelistAdlists).thenReturn([]);
 
-    when(
-      mockAdlistsViewModel.filteredBlacklistAdlists,
-    ).thenReturn(testAdlists);
+    when(mockAdlistsViewModel.filteredBlacklistAdlists).thenReturn(testAdlists);
 
     when(mockAdlistsViewModel.selectedTab).thenReturn(0);
 
@@ -2023,9 +2031,9 @@ class TestSetupHelper {
       Command.createAsyncNoParam<void>(() async {}, initialValue: null),
     );
 
-    when(mockAdlistsViewModel.deleteAdlist).thenReturn(
-      Command.createAsyncNoResult<Adlist>((_) async {}),
-    );
+    when(
+      mockAdlistsViewModel.deleteAdlist,
+    ).thenReturn(Command.createAsyncNoResult<Adlist>((_) async {}));
 
     when(mockAdlistsViewModel.addAdlist).thenReturn(
       Command.createAsyncNoResult<
@@ -2039,9 +2047,9 @@ class TestSetupHelper {
       >((_) async {}),
     );
 
-    when(mockAdlistsViewModel.updateAdlist).thenReturn(
-      Command.createAsyncNoResult<Adlist>((_) async {}),
-    );
+    when(
+      mockAdlistsViewModel.updateAdlist,
+    ).thenReturn(Command.createAsyncNoResult<Adlist>((_) async {}));
   }
 
   void _initGravityUpdateProviderMock(String useApiGatewayVersion) {
