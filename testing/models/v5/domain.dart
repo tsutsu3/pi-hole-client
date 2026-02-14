@@ -54,6 +54,7 @@ const kSrvGetDomainsBlackRegex = srv.Domains(
 final kRepoGetDomainsWhite = repo.Domain(
   id: 14,
   name: 'example.com',
+  punyCode: 'example.com',
   type: DomainType.allow,
   kind: DomainKind.exact,
   comment: '',
@@ -68,6 +69,7 @@ final kRepoGetDomainsWhite = repo.Domain(
 final kRepoGetDomainsBlack = repo.Domain(
   id: 2,
   name: 'test.com',
+  punyCode: 'test.com',
   type: DomainType.deny,
   kind: DomainKind.exact,
   comment: '',
@@ -80,6 +82,7 @@ final kRepoGetDomainsBlack = repo.Domain(
 final kRepoGetDomainsBlackRegex = repo.Domain(
   id: 3,
   name: r'test\.com$',
+  punyCode: r'test\.com$',
   type: DomainType.deny,
   kind: DomainKind.regex,
   comment: 'test',
@@ -99,6 +102,7 @@ final kRepoGetDomains = repo.DomainLists(
 final kRepoAddDomain = repo.Domain(
   id: -1,
   name: 'example.com',
+  punyCode: 'example.com',
   type: DomainType.allow,
   kind: DomainKind.exact,
   comment: 'test comment',

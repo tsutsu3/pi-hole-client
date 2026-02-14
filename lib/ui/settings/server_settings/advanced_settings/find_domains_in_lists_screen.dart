@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/model/v6/lists/search.dart' as v6_search;
-import 'package:pi_hole_client/domain/models_old/domain.dart';
+import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
+import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/search.dart';
 import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
@@ -243,20 +245,17 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
   }
 
   Domain _mapDomainEntry(v6_search.DomainEntry entry) {
-    final typeLabel =
-        '${entry.type == v6_search.DomainType.allow ? 'allow' : 'deny'}_${entry.kind == v6_search.DomainKind.exact ? 'exact' : 'regex'}';
-    final typeMap = {
-      'allow_exact': 0,
-      'deny_exact': 1,
-      'allow_regex': 2,
-      'deny_regex': 3,
-    };
-
     return Domain(
       id: entry.id,
-      type: typeMap[typeLabel] ?? 0,
-      domain: entry.domain,
-      enabled: entry.enabled ? 1 : 0,
+      type: entry.type == v6_search.DomainType.allow
+          ? DomainType.allow
+          : DomainType.deny,
+      kind: entry.kind == v6_search.DomainKind.exact
+          ? DomainKind.exact
+          : DomainKind.regex,
+      name: entry.domain,
+      punyCode: entry.domain,
+      enabled: entry.enabled,
       dateAdded: DateTime.fromMillisecondsSinceEpoch(entry.dateAdded * 1000),
       dateModified: DateTime.fromMillisecondsSinceEpoch(
         entry.dateModified * 1000,
@@ -361,41 +360,44 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     required ApiGateway apiGateway,
     required AppConfigProvider appConfigProvider,
   }) async {
+    final bundle = context.read<RepositoryBundle?>();
+    if (bundle == null) return;
+
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.deleting);
 
-    final result = await apiGateway.removeDomainFromList(domain);
+    final result = await bundle.domain.deleteDomain(
+      domain.type,
+      domain.kind,
+      domain.punyCode,
+    );
 
     process.close();
     if (!mounted) return;
 
-    if (result.result == APiResponseType.success) {
-      await Navigator.maybePop(context);
-      if (!mounted) return;
-      setState(() {
-        _domainResults = _domainResults
-            .where((item) => item.id != domain.id)
-            .toList();
-      });
-      showSuccessSnackBar(
-        context: context,
-        appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.domainRemoved,
-      );
-    } else if (result.result == APiResponseType.error &&
-        result.message == 'not_exists') {
-      showErrorSnackBar(
-        context: context,
-        appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.domainNotExists,
-      );
-    } else {
-      showErrorSnackBar(
-        context: context,
-        appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.errorRemovingDomain,
-      );
-    }
+    await result.fold(
+      (_) async {
+        await Navigator.maybePop(context);
+        if (!mounted) return;
+        setState(() {
+          _domainResults = _domainResults
+              .where((item) => item.id != domain.id)
+              .toList();
+        });
+        showSuccessSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.domainRemoved,
+        );
+      },
+      (_) {
+        showErrorSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.errorRemovingDomain,
+        );
+      },
+    );
   }
 
   Future<void> _removeSubscription(

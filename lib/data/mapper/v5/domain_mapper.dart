@@ -28,6 +28,7 @@ extension DomainMapper on s.Domain {
     return d.Domain(
       id: id,
       name: domain,
+      punyCode: domain,
       type: safeType.toDomainType(),
       kind: safeType.toDomainKind(),
       comment: comment,

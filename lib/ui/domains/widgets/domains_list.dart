@@ -1,16 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/domain/models_old/domain.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/add_domain_modal.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_tile.dart';
@@ -69,44 +71,34 @@ class _DomainsListState extends State<DomainsList> {
   @override
   Widget build(BuildContext context) {
     final serversProvider = Provider.of<ServersProvider>(context);
-    final domainsListProvider = Provider.of<DomainsListProvider>(context);
+    final viewModel = Provider.of<DomainsViewModel>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final apiGateway = serversProvider.selectedApiGateway;
     final groups = context.watch<GroupsProvider>().groupItems;
 
     final domainsList = widget.type == 'blacklist'
-        ? domainsListProvider.filteredBlacklistDomains
-        : domainsListProvider.filteredWhitelistDomains;
+        ? viewModel.filteredBlacklistDomains
+        : viewModel.filteredWhitelistDomains;
 
     Future<void> removeDomain(Domain domain) async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.deleting);
 
-      final result = await apiGateway?.removeDomainFromList(domain);
-
-      process.close();
-
-      if (!context.mounted) return;
-
-      if (result?.result == APiResponseType.success) {
-        domainsListProvider.removeDomainFromList(domain);
-        await Navigator.maybePop(context);
+      try {
+        await viewModel.deleteDomain.runAsync(domain);
         if (!context.mounted) return;
+        process.close();
+
+        unawaited(Navigator.maybePop(context));
 
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.domainRemoved,
         );
-      } else if (result?.result == APiResponseType.error &&
-          result!.message != null &&
-          result.message == 'not_exists') {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.domainNotExists,
-        );
-      } else {
+      } catch (_) {
+        if (!context.mounted) return;
+        process.close();
+
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -115,32 +107,30 @@ class _DomainsListState extends State<DomainsList> {
       }
     }
 
-    Future<void> onAddDomain(Map<String, dynamic> value) async {
+    Future<void> onAddDomain(
+      DomainType type,
+      DomainKind kind,
+      String domain,
+    ) async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.domainAdding);
 
-      final result = await apiGateway?.addDomainToList(value);
-
-      process.close();
-
-      if (!context.mounted) return;
-
-      if (result?.result == APiResponseType.success) {
-        await domainsListProvider.fetchDomainsList();
+      try {
+        await viewModel.addDomain.runAsync(
+          (type: type, kind: kind, domain: domain),
+        );
         if (!context.mounted) return;
+        process.close();
 
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.domainAdded,
         );
-      } else if (result?.result == APiResponseType.alreadyAdded) {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.domainAlreadyAdded,
-        );
-      } else {
+      } catch (_) {
+        if (!context.mounted) return;
+        process.close();
+
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -270,8 +260,8 @@ class _DomainsListState extends State<DomainsList> {
               ],
             ),
           ),
-          loadStatus: domainsListProvider.loadingStatus,
-          onRefresh: () async => domainsListProvider.fetchDomainsList(),
+          loadStatus: viewModel.loadingStatus,
+          onRefresh: () async => viewModel.loadDomains.runAsync(),
         ),
         SafeArea(
           child: Stack(

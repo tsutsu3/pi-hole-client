@@ -9,10 +9,10 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
+import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/add_group_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/group_tile.dart';
 import 'package:provider/provider.dart';
@@ -70,7 +70,7 @@ class _GroupsListState extends State<GroupsList> {
     final serversProvider = Provider.of<ServersProvider>(context);
     final groupsProvider = Provider.of<GroupsProvider>(context);
     final clientsListProvider = Provider.of<ClientsListProvider>(context);
-    final domainsListProvider = Provider.of<DomainsListProvider>(context);
+    final domainsViewModel = Provider.of<DomainsViewModel>(context);
     final subscriptionsListProvider =
         Provider.of<SubscriptionsListProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
@@ -78,8 +78,8 @@ class _GroupsListState extends State<GroupsList> {
 
     final clients = clientsListProvider.clients;
     final allDomains = [
-      ...domainsListProvider.whitelistDomains,
-      ...domainsListProvider.blacklistDomains,
+      ...domainsViewModel.whitelistDomains,
+      ...domainsViewModel.blacklistDomains,
     ];
     final allSubscriptions = [
       ...subscriptionsListProvider.whitelistSubscriptions,

@@ -305,7 +305,7 @@ as List<Domain>,
 /// @nodoc
 mixin _$Domain {
 
- int get id; String get name; DomainType get type; DomainKind get kind; String? get comment; List<int> get groups; bool get enabled; DateTime get dateAdded; DateTime get dateModified;
+ int get id; String get name; String get punyCode; DomainType get type; DomainKind get kind; String? get comment; List<int> get groups; bool get enabled; DateTime get dateAdded; DateTime get dateModified;
 /// Create a copy of Domain
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -318,16 +318,16 @@ $DomainCopyWith<Domain> get copyWith => _$DomainCopyWithImpl<Domain>(this as Dom
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Domain&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.comment, comment) || other.comment == comment)&&const DeepCollectionEquality().equals(other.groups, groups)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Domain&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.punyCode, punyCode) || other.punyCode == punyCode)&&(identical(other.type, type) || other.type == type)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.comment, comment) || other.comment == comment)&&const DeepCollectionEquality().equals(other.groups, groups)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,type,kind,comment,const DeepCollectionEquality().hash(groups),enabled,dateAdded,dateModified);
+int get hashCode => Object.hash(runtimeType,id,name,punyCode,type,kind,comment,const DeepCollectionEquality().hash(groups),enabled,dateAdded,dateModified);
 
 @override
 String toString() {
-  return 'Domain(id: $id, name: $name, type: $type, kind: $kind, comment: $comment, groups: $groups, enabled: $enabled, dateAdded: $dateAdded, dateModified: $dateModified)';
+  return 'Domain(id: $id, name: $name, punyCode: $punyCode, type: $type, kind: $kind, comment: $comment, groups: $groups, enabled: $enabled, dateAdded: $dateAdded, dateModified: $dateModified)';
 }
 
 
@@ -338,7 +338,7 @@ abstract mixin class $DomainCopyWith<$Res>  {
   factory $DomainCopyWith(Domain value, $Res Function(Domain) _then) = _$DomainCopyWithImpl;
 @useResult
 $Res call({
- int id, String name, DomainType type, DomainKind kind, String? comment, List<int> groups, bool enabled, DateTime dateAdded, DateTime dateModified
+ int id, String name, String punyCode, DomainType type, DomainKind kind, String? comment, List<int> groups, bool enabled, DateTime dateAdded, DateTime dateModified
 });
 
 
@@ -355,10 +355,11 @@ class _$DomainCopyWithImpl<$Res>
 
 /// Create a copy of Domain
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? type = null,Object? kind = null,Object? comment = freezed,Object? groups = null,Object? enabled = null,Object? dateAdded = null,Object? dateModified = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? punyCode = null,Object? type = null,Object? kind = null,Object? comment = freezed,Object? groups = null,Object? enabled = null,Object? dateAdded = null,Object? dateModified = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,punyCode: null == punyCode ? _self.punyCode : punyCode // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as DomainType,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
 as DomainKind,comment: freezed == comment ? _self.comment : comment // ignore: cast_nullable_to_non_nullable
@@ -448,10 +449,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  DomainType type,  DomainKind kind,  String? comment,  List<int> groups,  bool enabled,  DateTime dateAdded,  DateTime dateModified)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String name,  String punyCode,  DomainType type,  DomainKind kind,  String? comment,  List<int> groups,  bool enabled,  DateTime dateAdded,  DateTime dateModified)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Domain() when $default != null:
-return $default(_that.id,_that.name,_that.type,_that.kind,_that.comment,_that.groups,_that.enabled,_that.dateAdded,_that.dateModified);case _:
+return $default(_that.id,_that.name,_that.punyCode,_that.type,_that.kind,_that.comment,_that.groups,_that.enabled,_that.dateAdded,_that.dateModified);case _:
   return orElse();
 
 }
@@ -469,10 +470,10 @@ return $default(_that.id,_that.name,_that.type,_that.kind,_that.comment,_that.gr
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  DomainType type,  DomainKind kind,  String? comment,  List<int> groups,  bool enabled,  DateTime dateAdded,  DateTime dateModified)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String name,  String punyCode,  DomainType type,  DomainKind kind,  String? comment,  List<int> groups,  bool enabled,  DateTime dateAdded,  DateTime dateModified)  $default,) {final _that = this;
 switch (_that) {
 case _Domain():
-return $default(_that.id,_that.name,_that.type,_that.kind,_that.comment,_that.groups,_that.enabled,_that.dateAdded,_that.dateModified);}
+return $default(_that.id,_that.name,_that.punyCode,_that.type,_that.kind,_that.comment,_that.groups,_that.enabled,_that.dateAdded,_that.dateModified);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -486,10 +487,10 @@ return $default(_that.id,_that.name,_that.type,_that.kind,_that.comment,_that.gr
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  DomainType type,  DomainKind kind,  String? comment,  List<int> groups,  bool enabled,  DateTime dateAdded,  DateTime dateModified)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String name,  String punyCode,  DomainType type,  DomainKind kind,  String? comment,  List<int> groups,  bool enabled,  DateTime dateAdded,  DateTime dateModified)?  $default,) {final _that = this;
 switch (_that) {
 case _Domain() when $default != null:
-return $default(_that.id,_that.name,_that.type,_that.kind,_that.comment,_that.groups,_that.enabled,_that.dateAdded,_that.dateModified);case _:
+return $default(_that.id,_that.name,_that.punyCode,_that.type,_that.kind,_that.comment,_that.groups,_that.enabled,_that.dateAdded,_that.dateModified);case _:
   return null;
 
 }
@@ -501,11 +502,12 @@ return $default(_that.id,_that.name,_that.type,_that.kind,_that.comment,_that.gr
 @JsonSerializable()
 
 class _Domain implements Domain {
-  const _Domain({required this.id, required this.name, required this.type, required this.kind, required this.comment, required final  List<int> groups, required this.enabled, required this.dateAdded, required this.dateModified}): _groups = groups;
+  const _Domain({required this.id, required this.name, required this.punyCode, required this.type, required this.kind, required this.comment, required final  List<int> groups, required this.enabled, required this.dateAdded, required this.dateModified}): _groups = groups;
   factory _Domain.fromJson(Map<String, dynamic> json) => _$DomainFromJson(json);
 
 @override final  int id;
 @override final  String name;
+@override final  String punyCode;
 @override final  DomainType type;
 @override final  DomainKind kind;
 @override final  String? comment;
@@ -533,16 +535,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Domain&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.comment, comment) || other.comment == comment)&&const DeepCollectionEquality().equals(other._groups, _groups)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Domain&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.punyCode, punyCode) || other.punyCode == punyCode)&&(identical(other.type, type) || other.type == type)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.comment, comment) || other.comment == comment)&&const DeepCollectionEquality().equals(other._groups, _groups)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,type,kind,comment,const DeepCollectionEquality().hash(_groups),enabled,dateAdded,dateModified);
+int get hashCode => Object.hash(runtimeType,id,name,punyCode,type,kind,comment,const DeepCollectionEquality().hash(_groups),enabled,dateAdded,dateModified);
 
 @override
 String toString() {
-  return 'Domain(id: $id, name: $name, type: $type, kind: $kind, comment: $comment, groups: $groups, enabled: $enabled, dateAdded: $dateAdded, dateModified: $dateModified)';
+  return 'Domain(id: $id, name: $name, punyCode: $punyCode, type: $type, kind: $kind, comment: $comment, groups: $groups, enabled: $enabled, dateAdded: $dateAdded, dateModified: $dateModified)';
 }
 
 
@@ -553,7 +555,7 @@ abstract mixin class _$DomainCopyWith<$Res> implements $DomainCopyWith<$Res> {
   factory _$DomainCopyWith(_Domain value, $Res Function(_Domain) _then) = __$DomainCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String name, DomainType type, DomainKind kind, String? comment, List<int> groups, bool enabled, DateTime dateAdded, DateTime dateModified
+ int id, String name, String punyCode, DomainType type, DomainKind kind, String? comment, List<int> groups, bool enabled, DateTime dateAdded, DateTime dateModified
 });
 
 
@@ -570,10 +572,11 @@ class __$DomainCopyWithImpl<$Res>
 
 /// Create a copy of Domain
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? type = null,Object? kind = null,Object? comment = freezed,Object? groups = null,Object? enabled = null,Object? dateAdded = null,Object? dateModified = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? punyCode = null,Object? type = null,Object? kind = null,Object? comment = freezed,Object? groups = null,Object? enabled = null,Object? dateAdded = null,Object? dateModified = null,}) {
   return _then(_Domain(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,punyCode: null == punyCode ? _self.punyCode : punyCode // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as DomainType,kind: null == kind ? _self.kind : kind // ignore: cast_nullable_to_non_nullable
 as DomainKind,comment: freezed == comment ? _self.comment : comment // ignore: cast_nullable_to_non_nullable

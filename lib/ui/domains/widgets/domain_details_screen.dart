@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/api_versions.dart';
 import 'package:pi_hole_client/config/formats.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
-import 'package:pi_hole_client/domain/models_old/domain.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
@@ -13,8 +11,8 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/edit_domain_modal.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:pi_hole_client/utils/format.dart';
@@ -43,15 +41,14 @@ class DomainDetailsScreen extends StatefulWidget {
 class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
   late Domain _domain;
   late ServersProvider serversProvider;
-  late ApiGateway? apiGateway;
-  late DomainsListProvider domainsListProvider;
+  late DomainsViewModel viewModel;
   late AppConfigProvider appConfigProvider;
   late bool isV5;
 
   @override
   void initState() {
     super.initState();
-    _domain = widget.domain.copyWith();
+    _domain = widget.domain;
   }
 
   @override
@@ -60,7 +57,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
 
     if (oldWidget.domain != widget.domain) {
       setState(() {
-        _domain = widget.domain.copyWith();
+        _domain = widget.domain;
       });
     }
   }
@@ -70,8 +67,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
     super.didChangeDependencies();
     appConfigProvider = context.watch<AppConfigProvider>();
     serversProvider = context.watch<ServersProvider>();
-    domainsListProvider = context.watch<DomainsListProvider>();
-    apiGateway = serversProvider.selectedApiGateway;
+    viewModel = context.watch<DomainsViewModel>();
     isV5 =
         serversProvider.selectedServer?.apiVersion == SupportedApiVersions.v5;
   }
@@ -107,39 +103,42 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
             CustomListTile(
               leadingIcon: Icons.domain,
               label: AppLocalizations.of(context)!.domain,
-              description: widget.domain.domain,
+              description: widget.domain.name,
             ),
             CustomListTile(
               leadingIcon: Icons.category_rounded,
               label: AppLocalizations.of(context)!.type,
-              description: getDomainType(widget.domain.type),
+              description: getDomainTypeLabel(
+                widget.domain.type,
+                widget.domain.kind,
+              ),
               color: widget.colors != null
-                  ? convertColorFromNumber(widget.colors!, widget.domain.type)
+                  ? domainTypeColor(
+                      widget.colors!,
+                      widget.domain.type,
+                      widget.domain.kind,
+                    )
                   : null,
             ),
             CustomListTile(
               leadingIcon: Icons.check,
               label: AppLocalizations.of(context)!.status,
-              description: widget.domain.enabled == 1
+              description: widget.domain.enabled
                   ? AppLocalizations.of(context)!.enabled
                   : AppLocalizations.of(context)!.disabled,
               trailing: isV5
                   ? null
                   : Switch(
-                      value: _domain.enabled == 1,
+                      value: _domain.enabled,
                       onChanged: (value) {
-                        onEditDomain(
-                          _domain.copyWith(enabled: value ? 1 : 0).toJson(),
-                        );
+                        onEditDomain(_domain.copyWith(enabled: value));
                       },
                     ),
               onTap: isV5
                   ? null
                   : () {
                       onEditDomain(
-                        _domain
-                            .copyWith(enabled: _domain.enabled == 1 ? 0 : 1)
-                            .toJson(),
+                        _domain.copyWith(enabled: !_domain.enabled),
                       );
                     },
             ),
@@ -200,33 +199,28 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
     return groupNames;
   }
 
-  Future<void> onEditDomain(Map<String, dynamic> value) async {
-    final body = DomainRequest.fromJson(value);
-
+  Future<void> onEditDomain(Domain updated) async {
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.updating);
 
-    final result = await apiGateway?.updateDomain(body: body);
-
-    process.close();
-
-    if (result?.result == APiResponseType.success) {
-      await domainsListProvider.fetchDomainsList();
+    try {
+      await viewModel.updateDomain.runAsync(updated);
+      if (!mounted) return;
+      process.close();
 
       setState(() {
-        _domain = result!.data!.copyWith();
+        _domain = updated;
       });
       widget.onUpdated?.call(_domain);
-
-      if (!mounted) return;
 
       showSuccessSnackBar(
         context: context,
         appConfigProvider: appConfigProvider,
         label: AppLocalizations.of(context)!.domainUpdated,
       );
-    } else {
+    } catch (_) {
       if (!mounted) return;
+      process.close();
 
       showErrorSnackBar(
         context: context,

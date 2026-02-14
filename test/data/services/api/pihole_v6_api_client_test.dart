@@ -1069,7 +1069,7 @@ void main() {
   group('deleteDomains', () {
     final url = Uri.parse('$baseUrl/api/domains');
 
-    test('deletes an existing domain successfully', () async {
+    test('deletes an existing domain successfully (204)', () async {
       const domain = 'example.com';
       final fullUrl = Uri.parse(
         '$url/${DomainType.allow.name}/${DomainKind.exact.name}/${Uri.encodeComponent(domain)}',

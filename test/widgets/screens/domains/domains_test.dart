@@ -1,14 +1,60 @@
+import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/model/domain/domain.dart'
+    as domain_model;
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 import 'package:pi_hole_client/ui/domains/domains.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/edit_domain_modal.dart';
 
 import '../../helpers.dart';
+
+final _now = DateTime(2025, 1, 1);
+
+final _whiteDomains = [
+  domain_model.Domain(
+    id: 1,
+    name: 'white01.example.com',
+    punyCode: 'white01.example.com',
+    type: DomainType.allow,
+    kind: DomainKind.exact,
+    enabled: true,
+    dateAdded: _now,
+    dateModified: _now,
+    comment: null,
+    groups: [0],
+  ),
+  domain_model.Domain(
+    id: 2,
+    name: 'white02.example.com',
+    punyCode: 'white02.example.com',
+    type: DomainType.allow,
+    kind: DomainKind.exact,
+    enabled: true,
+    dateAdded: _now,
+    dateModified: _now,
+    comment: null,
+    groups: [0],
+  ),
+];
+
+final _blackDomains = [
+  domain_model.Domain(
+    id: 3,
+    name: 'black01.example.com',
+    punyCode: 'black01.example.com',
+    type: DomainType.deny,
+    kind: DomainKind.exact,
+    enabled: true,
+    dateAdded: _now,
+    dateModified: _now,
+    comment: null,
+    groups: [0],
+  ),
+];
 
 void main() async {
   await initializeApp();
@@ -28,15 +74,15 @@ void main() async {
         tester.view.devicePixelRatio = 1.6;
 
         when(
-          testSetup.mockDomainsListProvider.filteredWhitelistDomains,
-        ).thenReturn(whiteDomains);
+          testSetup.mockDomainsViewModel.filteredWhitelistDomains,
+        ).thenReturn(_whiteDomains);
         when(
-          testSetup.mockDomainsListProvider.filteredBlacklistDomains,
+          testSetup.mockDomainsViewModel.filteredBlacklistDomains,
         ).thenReturn([]);
         when(
-          testSetup.mockDomainsListProvider.whitelistDomains,
-        ).thenReturn(whiteDomains);
-        when(testSetup.mockDomainsListProvider.blacklistDomains).thenReturn([]);
+          testSetup.mockDomainsViewModel.whitelistDomains,
+        ).thenReturn(_whiteDomains);
+        when(testSetup.mockDomainsViewModel.blacklistDomains).thenReturn([]);
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -72,9 +118,7 @@ void main() async {
 
         // Tap confirm button
         await tester.tap(find.text('Delete'));
-        // await tester.pump(const Duration(milliseconds: 1000));
         await tester.pumpAndSettle();
-        // expect(find.text('Domain removed successfully'), findsWidgets);
 
         // Show whiltelist domains screen
         expect(find.byType(DomainLists), findsOneWidget);
@@ -88,15 +132,15 @@ void main() async {
       tester.view.devicePixelRatio = 2.0;
 
       when(
-        testSetup.mockDomainsListProvider.filteredWhitelistDomains,
-      ).thenReturn(whiteDomains);
+        testSetup.mockDomainsViewModel.filteredWhitelistDomains,
+      ).thenReturn(_whiteDomains);
       when(
-        testSetup.mockDomainsListProvider.filteredBlacklistDomains,
+        testSetup.mockDomainsViewModel.filteredBlacklistDomains,
       ).thenReturn([]);
       when(
-        testSetup.mockDomainsListProvider.whitelistDomains,
-      ).thenReturn(whiteDomains);
-      when(testSetup.mockDomainsListProvider.blacklistDomains).thenReturn([]);
+        testSetup.mockDomainsViewModel.whitelistDomains,
+      ).thenReturn(_whiteDomains);
+      when(testSetup.mockDomainsViewModel.blacklistDomains).thenReturn([]);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -142,31 +186,20 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(testSetup.mockApiGatewayV6.getDomainLists()).thenAnswer(
-        (_) async => GetDomainLists(
-          result: APiResponseType.success,
-          data: DomainListResult(
-            whitelist: whiteDomains,
-            whitelistRegex: [],
-            blacklist: blackDomains,
-            blacklistRegex: [],
-          ),
-        ),
-      );
       when(
-        testSetup.mockDomainsListProvider.whitelistDomains,
-      ).thenReturn(whiteDomains);
+        testSetup.mockDomainsViewModel.whitelistDomains,
+      ).thenReturn(_whiteDomains);
       when(
-        testSetup.mockDomainsListProvider.filteredWhitelistDomains,
-      ).thenReturn(whiteDomains);
+        testSetup.mockDomainsViewModel.filteredWhitelistDomains,
+      ).thenReturn(_whiteDomains);
       when(
-        testSetup.mockDomainsListProvider.blacklistDomains,
-      ).thenReturn(blackDomains);
+        testSetup.mockDomainsViewModel.blacklistDomains,
+      ).thenReturn(_blackDomains);
       when(
-        testSetup.mockDomainsListProvider.filteredBlacklistDomains,
-      ).thenReturn(blackDomains);
-      when(testSetup.mockDomainsListProvider.searchMode).thenReturn(true);
-      when(testSetup.mockDomainsListProvider.searchTerm).thenReturn('white01');
+        testSetup.mockDomainsViewModel.filteredBlacklistDomains,
+      ).thenReturn(_blackDomains);
+      when(testSetup.mockDomainsViewModel.searchMode).thenReturn(true);
+      when(testSetup.mockDomainsViewModel.searchTerm).thenReturn('white01');
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -179,6 +212,8 @@ void main() async {
       await tester.pump();
 
       expect(find.byIcon(Icons.close_rounded), findsOneWidget);
+
+      await tester.pumpAndSettle();
     });
 
     testWidgets('should add a domain to whitelist', (
@@ -290,7 +325,7 @@ void main() async {
       tester.view.devicePixelRatio = 2.0;
 
       when(
-        testSetup.mockDomainsListProvider.loadingStatus,
+        testSetup.mockDomainsViewModel.loadingStatus,
       ).thenReturn(LoadStatus.error);
 
       addTearDown(() {
@@ -302,6 +337,8 @@ void main() async {
 
       expect(find.byType(DomainLists), findsOneWidget);
       expect(find.text("Domains list couldn't be loaded"), findsOneWidget);
+
+      await tester.pumpAndSettle();
     });
 
     testWidgets('should show loading messge', (WidgetTester tester) async {
@@ -309,7 +346,7 @@ void main() async {
       tester.view.devicePixelRatio = 2.0;
 
       when(
-        testSetup.mockDomainsListProvider.loadingStatus,
+        testSetup.mockDomainsViewModel.loadingStatus,
       ).thenReturn(LoadStatus.loading);
 
       addTearDown(() {
@@ -321,6 +358,10 @@ void main() async {
 
       expect(find.byType(DomainLists), findsOneWidget);
       expect(find.text('Loading domains...'), findsOneWidget);
+
+      // Flush pending timers from MockCommand (needs positive duration
+      // because pump() alone doesn't call fakeAsync.elapse)
+      await tester.pump(const Duration(milliseconds: 1));
     });
 
     testWidgets('should edit a domain status', (WidgetTester tester) async {
@@ -423,14 +464,16 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockApiGatewayV6.updateDomain(body: anyNamed('body')),
-      ).thenAnswer(
-        (_) async =>
-            DomainResponse(result: APiResponseType.error, message: 'Error'),
+      Command.globalExceptionHandler = (_, _) {};
+
+      when(testSetup.mockDomainsViewModel.updateDomain).thenReturn(
+        Command.createAsyncNoResult<domain_model.Domain>(
+          (_) async => throw Exception('error'),
+        ),
       );
 
       addTearDown(() {
+        Command.globalExceptionHandler = null;
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
