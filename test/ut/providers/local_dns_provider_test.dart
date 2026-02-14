@@ -12,7 +12,7 @@ import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 
-import './gravity_provider_test.mocks.dart';
+import './local_dns_provider_test.mocks.dart';
 
 @GenerateMocks([ServersProvider, ApiGatewayV6])
 void main() async {

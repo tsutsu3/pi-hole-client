@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
+import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 
-/// A widget that displays a subscription item with its status, address,
+/// A widget that displays an adlist item with its status, address,
 /// and domain validation statistics.
 ///
 /// This tile is responsive and adapts its layout based on the screen width:
@@ -13,44 +13,44 @@ import 'package:pi_hole_client/ui/core/themes/theme.dart';
 ///
 /// The tile shows the following information:
 /// - A status icon (e.g. ok, error, etc.)
-/// - The subscription address
+/// - The adlist address
 /// - Number of valid and invalid domains
-/// - Whether the subscription is enabled (as a label)
+/// - Whether the adlist is enabled (as a label)
 ///
-/// Tapping the tile triggers a callback to show the subscription details.
+/// Tapping the tile triggers a callback to show the adlist details.
 ///
 /// The appearance of the tile (selected state, color theme) can be controlled via parameters.
-class SubscriptionTile extends StatelessWidget {
-  /// Creates a [SubscriptionTile].
+class AdlistTile extends StatelessWidget {
+  /// Creates a [AdlistTile].
   ///
-  /// The [subscription], [showSubscriptionDetails], and [colors] parameters must not be null.
-  /// The optional [isSubscriptionSelected] controls the visual highlight for selection.
-  const SubscriptionTile({
-    required this.subscription,
-    required this.showSubscriptionDetails,
+  /// The [adlist], [showAdlistDetails], and [colors] parameters must not be null.
+  /// The optional [isAdlistSelected] controls the visual highlight for selection.
+  const AdlistTile({
+    required this.adlist,
+    required this.showAdlistDetails,
     required this.colors,
-    this.isSubscriptionSelected,
+    this.isAdlistSelected,
     super.key,
   });
 
-  /// The subscription data to display.
-  final Subscription subscription;
+  /// The adlist data to display.
+  final Adlist adlist;
 
   /// A callback to be triggered when the tile is tapped.
-  final void Function(Subscription) showSubscriptionDetails;
+  final void Function(Adlist) showAdlistDetails;
 
   /// Custom color palette for themed elements.
   final AppColors colors;
 
   /// Whether this tile is currently selected.
-  final bool? isSubscriptionSelected;
+  final bool? isAdlistSelected;
 
   @override
   Widget build(BuildContext context) {
     final isWide =
         MediaQuery.of(context).size.width > ResponsiveConstants.large;
 
-    Widget subscriptionStatusIcon(int type) {
+    Widget adlistStatusIcon(int type) {
       final appColors = Theme.of(context).extension<AppColors>()!;
 
       switch (type) {
@@ -69,18 +69,18 @@ class SubscriptionTile extends StatelessWidget {
       }
     }
 
-    /// The content of the tile, including the subscription address, domain statistics, and status.
+    /// The content of the tile, including the adlist address, domain statistics, and status.
     final Widget content = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        subscriptionStatusIcon(subscription.status.index),
+        adlistStatusIcon(adlist.status.index),
         const SizedBox(width: 16),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                subscription.address,
+                adlist.address,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontWeight: FontWeight.w400,
@@ -89,7 +89,7 @@ class SubscriptionTile extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                '${AppLocalizations.of(context)!.domains}: ${subscription.number}',
+                '${AppLocalizations.of(context)!.domains}: ${adlist.number}',
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: Theme.of(context).listTileTheme.textColor,
@@ -104,20 +104,20 @@ class SubscriptionTile extends StatelessWidget {
         const SizedBox(width: 24),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-          decoration: subscription.enabled
+          decoration: adlist.enabled
               ? BoxDecoration(
                   color: Theme.of(context).colorScheme.primaryContainer,
                   borderRadius: BorderRadius.circular(12),
                 )
               : null,
           child: Text(
-            subscription.enabled
+            adlist.enabled
                 ? AppLocalizations.of(context)!.enabled
                 : AppLocalizations.of(context)!.disabled,
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: subscription.enabled
+              color: adlist.enabled
                   ? Theme.of(context).colorScheme.primary
                   : colors.queryGrey,
             ),
@@ -135,7 +135,7 @@ class SubscriptionTile extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           borderRadius: isWide ? BorderRadius.circular(28) : null,
-          onTap: () => showSubscriptionDetails(subscription),
+          onTap: () => showAdlistDetails(adlist),
           child: AnimatedContainer(
             curve: Curves.ease,
             duration: const Duration(milliseconds: 200),
@@ -144,7 +144,7 @@ class SubscriptionTile extends StatelessWidget {
               horizontal: 16,
               vertical: isWide ? 12 : 16,
             ),
-            decoration: isWide && isSubscriptionSelected == true
+            decoration: isWide && isAdlistSelected == true
                 ? BoxDecoration(
                     borderRadius: BorderRadius.circular(28),
                     color: Theme.of(context).colorScheme.primaryContainer,

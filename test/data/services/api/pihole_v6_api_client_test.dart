@@ -1204,7 +1204,7 @@ void main() {
   });
 
   group('postLists', () {
-    final url = Uri.parse('$baseUrl/api/lists');
+    final url = Uri.parse('$baseUrl/api/lists?type=allow');
 
     test('adds a new allow list successfully', () async {
       final data = {

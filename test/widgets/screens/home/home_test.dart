@@ -7,7 +7,7 @@ import 'package:pi_hole_client/ui/home/home.dart';
 import 'package:pi_hole_client/ui/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar/switch_server_modal.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/subscriptions.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../helpers.dart';
@@ -403,7 +403,7 @@ void main() async {
 
         await tester.tap(find.text('Domains on Adlists'));
         await tester.pumpAndSettle();
-        expect(find.byType(SubscriptionLists), findsOneWidget);
+        expect(find.byType(AdlistScreen), findsOneWidget);
       },
     );
   });

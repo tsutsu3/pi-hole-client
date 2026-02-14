@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
+import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
@@ -10,31 +10,31 @@ import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/add_subscription_modal.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/subscription_details_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/subscription_tile.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/add_adlist_modal.dart' hide ListType;
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_details_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_tile.dart';
 import 'package:provider/provider.dart';
 
-class SubscriptionsList extends StatefulWidget {
-  const SubscriptionsList({
+class AdlistsList extends StatefulWidget {
+  const AdlistsList({
     required this.type,
     required this.scrollController,
-    required this.onSubscriptionSelected,
-    required this.selectedSubscription,
+    required this.onAdlistSelected,
+    required this.selectedAdlist,
     super.key,
   });
 
   final String type;
   final ScrollController scrollController;
-  final void Function(Subscription) onSubscriptionSelected;
-  final Subscription? selectedSubscription;
+  final void Function(Adlist) onAdlistSelected;
+  final Adlist? selectedAdlist;
 
   @override
-  State<SubscriptionsList> createState() => _SubscriptionsListState();
+  State<AdlistsList> createState() => _AdlistsListState();
 }
 
-class _SubscriptionsListState extends State<SubscriptionsList> {
+class _AdlistsListState extends State<AdlistsList> {
   late bool isVisible;
 
   @override
@@ -69,32 +69,24 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
   @override
   Widget build(BuildContext context) {
     final serversProvider = Provider.of<ServersProvider>(context);
-    final subscriptionsListProvider = Provider.of<SubscriptionsListProvider>(
-      context,
-    );
+    final viewModel = Provider.of<AdlistsViewModel>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final apiGateway = serversProvider.selectedApiGateway;
     final groups = context.watch<GroupsProvider>().groupItems;
 
-    final subscriptionsList = widget.type == 'blacklist'
-        ? subscriptionsListProvider.filteredBlacklistSubscriptions
-        : subscriptionsListProvider.filteredWhitelistSubscriptions;
+    final adlistsList = widget.type == 'blacklist'
+        ? viewModel.filteredBlacklistAdlists
+        : viewModel.filteredWhitelistAdlists;
 
-    Future<void> removeSubscription(Subscription subscription) async {
+    Future<void> removeAdlist(Adlist adlist) async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.deleting);
 
-      final result = await apiGateway?.removeSubscription(
-        url: subscription.address,
-        stype: subscription.type,
-      );
+      try {
+        await viewModel.deleteAdlist.runAsync(adlist);
 
-      if (!context.mounted) return;
+        if (!context.mounted) return;
+        process.close();
 
-      process.close();
-
-      if (result?.result == APiResponseType.success) {
-        subscriptionsListProvider.removeSubscriptionFromList(subscription);
         await Navigator.maybePop(context);
 
         if (!context.mounted) return;
@@ -103,13 +95,10 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.adlistRemoved,
         );
-      } else if (result?.result == APiResponseType.notFound) {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.adlistNotExists,
-        );
-      } else {
+      } catch (_) {
+        if (!context.mounted) return;
+        process.close();
+
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -118,33 +107,33 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
       }
     }
 
-    Future<void> onAddSubscription(Map<String, dynamic> value) async {
-      final data = SubscriptionRequest.fromJson(value);
-
+    Future<void> onAddAdlist(Map<String, dynamic> value) async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.adlistAdding);
 
-      final result = await apiGateway?.createSubscription(body: data);
+      try {
+        final type =
+            value['type'] == 'allow' ? ListType.allow : ListType.block;
+        await viewModel.addAdlist.runAsync((
+          address: value['address'] as String,
+          type: type,
+          groups: (value['groups'] as List<dynamic>?)?.cast<int>(),
+          comment: value['comment'] as String?,
+          enabled: value['enabled'] as bool?,
+        ));
 
-      if (!context.mounted) return;
-
-      process.close();
-
-      if (result?.result == APiResponseType.success) {
-        await subscriptionsListProvider.fetchSubscriptionsList();
         if (!context.mounted) return;
+        process.close();
+
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.adlistAdded,
         );
-      } else if (result?.result == APiResponseType.alreadyAdded) {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.adlistAlreadyAdded,
-        );
-      } else {
+      } catch (_) {
+        if (!context.mounted) return;
+        process.close();
+
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -153,7 +142,7 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
       }
     }
 
-    void openModalAddSubscriptionToList() {
+    void openModalAddAdlistToList() {
       final mediaQuery = MediaQuery.of(context);
       final isSmallLandscape =
           mediaQuery.size.width > mediaQuery.size.height &&
@@ -165,9 +154,9 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
           useSafeArea: !isSmallLandscape,
           useRootNavigator:
               false, // Prevents unexpected app exit on mobile when pressing back
-          builder: (ctx) => AddSubscriptionModal(
+          builder: (ctx) => AddAdlistModal(
             selectedlist: widget.type,
-            addSubscription: onAddSubscription,
+            onAddAdlist: onAddAdlist,
             window: true,
             groups: groups,
           ),
@@ -175,9 +164,9 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
       } else {
         showModalBottomSheet(
           context: context,
-          builder: (ctx) => AddSubscriptionModal(
+          builder: (ctx) => AddAdlistModal(
             selectedlist: widget.type,
-            addSubscription: onAddSubscription,
+            onAddAdlist: onAddAdlist,
             window: false,
             groups: groups,
           ),
@@ -209,9 +198,9 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
               ],
             ),
           ),
-          itemsCount: subscriptionsList.length,
+          itemsCount: adlistsList.length,
           contentWidget: (index) {
-            final thisSubscription = subscriptionsList[index];
+            final thisAdlist = adlistsList[index];
             return Padding(
               padding:
                   index == 0 &&
@@ -219,20 +208,20 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
                           ResponsiveConstants.large
                   ? const EdgeInsets.only(top: 16)
                   : EdgeInsets.zero,
-              child: SubscriptionTile(
-                subscription: thisSubscription,
-                isSubscriptionSelected:
-                    widget.selectedSubscription == thisSubscription,
-                showSubscriptionDetails: (d) {
-                  widget.onSubscriptionSelected(d);
+              child: AdlistTile(
+                adlist: thisAdlist,
+                isAdlistSelected:
+                    widget.selectedAdlist == thisAdlist,
+                showAdlistDetails: (d) {
+                  widget.onAdlistSelected(d);
                   if (MediaQuery.of(context).size.width <=
                       ResponsiveConstants.large) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SubscriptionDetailsScreen(
-                          subscription: d,
-                          remove: removeSubscription,
+                        builder: (context) => AdlistDetailsScreen(
+                          adlist: d,
+                          remove: removeAdlist,
                           colors: serversProvider.colors,
                           groups: groups,
                         ),
@@ -277,9 +266,8 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
               ],
             ),
           ),
-          loadStatus: subscriptionsListProvider.loadingStatus,
-          onRefresh: () async =>
-              subscriptionsListProvider.fetchSubscriptionsList(),
+          loadStatus: viewModel.loadingStatus,
+          onRefresh: () async => viewModel.loadAdlists.run(),
           bottomSpaceHeight: 80,
         ),
         SafeArea(
@@ -295,7 +283,7 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
                     : -70,
                 right: 20,
                 child: FloatingActionButton(
-                  onPressed: openModalAddSubscriptionToList,
+                  onPressed: openModalAddAdlistToList,
                   child: const Icon(Icons.add),
                 ),
               ),

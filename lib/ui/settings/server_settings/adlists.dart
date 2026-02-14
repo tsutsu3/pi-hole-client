@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
-import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
+import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
@@ -14,22 +11,18 @@ import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/gravity_update.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/subscription_details_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/subscriptions_list.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_details_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlists_list.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/gravity_update.dart';
 import 'package:provider/provider.dart';
 
-class SubscriptionLists extends StatelessWidget {
-  const SubscriptionLists({super.key});
+class AdlistScreen extends StatelessWidget {
+  const AdlistScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final serversProvider = Provider.of<ServersProvider>(context);
-    final subscriptionsListProvider = Provider.of<SubscriptionsListProvider>(
-      context,
-      listen: false,
-    );
 
     final selectedServer = serversProvider.selectedServer;
 
@@ -49,44 +42,35 @@ class SubscriptionLists extends StatelessWidget {
       );
     }
 
-    return SubscriptionListsWidget(
-      server: selectedServer,
-      subscriptionsListProvider: subscriptionsListProvider,
-    );
+    return const AdlistScreenWidget();
   }
 }
 
-class SubscriptionListsWidget extends StatefulWidget {
-  const SubscriptionListsWidget({
-    required this.server,
-    required this.subscriptionsListProvider,
-    super.key,
-  });
-
-  final Server server;
-  final SubscriptionsListProvider subscriptionsListProvider;
+class AdlistScreenWidget extends StatefulWidget {
+  const AdlistScreenWidget({super.key});
 
   @override
-  State<SubscriptionListsWidget> createState() =>
-      _SubscriptionListsWidgetState();
+  State<AdlistScreenWidget> createState() =>
+      _AdlistScreenWidgetState();
 }
 
-class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
+class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
     with TickerProviderStateMixin {
   late TabController tabController;
   final ScrollController scrollController = ScrollController();
 
   final TextEditingController searchController = TextEditingController();
 
-  Subscription? selectedSubscription;
+  Adlist? selectedAdlist;
 
   @override
   void initState() {
     super.initState();
 
+    final viewModel = context.read<AdlistsViewModel>();
+
     Future.microtask(() async {
-      widget.subscriptionsListProvider.setLoadingStatus(LoadStatus.loading);
-      await widget.subscriptionsListProvider.fetchSubscriptionsList();
+      viewModel.loadAdlists.run();
 
       if (!mounted) return;
       final groupsProvider = context.read<GroupsProvider>();
@@ -97,7 +81,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
       await gravityUpdateProvider.load();
     });
 
-    widget.subscriptionsListProvider.setSelectedTab(0);
+    viewModel.setSelectedTab(0);
     tabController = TabController(length: 3, vsync: this);
   }
 
@@ -111,29 +95,21 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
 
   @override
   Widget build(BuildContext context) {
-    final subscriptionsListProvider = Provider.of<SubscriptionsListProvider>(
-      context,
-    );
+    final viewModel = Provider.of<AdlistsViewModel>(context);
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final apiGateway = serversProvider.selectedApiGateway;
     final groups = context.watch<GroupsProvider>().groupItems;
 
-    Future<void> removeSubscription(Subscription subscription) async {
+    Future<void> removeAdlist(Adlist adlist) async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.deleting);
 
-      final result = await apiGateway?.removeSubscription(
-        url: subscription.address,
-        stype: subscription.type,
-      );
+      try {
+        await viewModel.deleteAdlist.runAsync(adlist);
 
-      if (!context.mounted) return;
+        if (!context.mounted) return;
+        process.close();
 
-      process.close();
-
-      if (result?.result == APiResponseType.success) {
-        subscriptionsListProvider.removeSubscriptionFromList(subscription);
         await Navigator.maybePop(context);
 
         if (!context.mounted) return;
@@ -142,13 +118,10 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.adlistRemoved,
         );
-      } else if (result?.result == APiResponseType.notFound) {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.adlistNotExists,
-        );
-      } else {
+      } catch (_) {
+        if (!context.mounted) return;
+        process.close();
+
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -165,15 +138,15 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
       );
     }
 
-    Widget scaffold({void Function(Subscription)? onTap}) {
+    Widget scaffold({void Function(Adlist)? onTap}) {
       return DefaultTabController(
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-            title: subscriptionsListProvider.searchMode
+            title: viewModel.searchMode
                 ? TextFormField(
-                    initialValue: subscriptionsListProvider.searchTerm,
-                    onChanged: subscriptionsListProvider.onSearch,
+                    initialValue: viewModel.searchTerm,
+                    onChanged: viewModel.onSearch,
                     decoration: InputDecoration(
                       hintText: AppLocalizations.of(context)!.adlistsSearch,
                       hintStyle: const TextStyle(fontWeight: FontWeight.w400),
@@ -186,28 +159,27 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                   )
                 : Text(AppLocalizations.of(context)!.adlists),
             actions: [
-              if (!subscriptionsListProvider.searchMode)
+              if (!viewModel.searchMode)
                 IconButton(
-                  onPressed: () =>
-                      subscriptionsListProvider.setSearchMode(true),
+                  onPressed: () => viewModel.setSearchMode(true),
                   icon: const Icon(Icons.search_rounded),
                 ),
-              if (subscriptionsListProvider.searchMode)
+              if (viewModel.searchMode)
                 IconButton(
                   onPressed: () => setState(() {
-                    subscriptionsListProvider.setSearchMode(false);
+                    viewModel.setSearchMode(false);
                     searchController.text = '';
-                    subscriptionsListProvider.onSearch('');
+                    viewModel.onSearch('');
                   }),
                   icon: const Icon(Icons.close_rounded),
                 ),
-              if (!subscriptionsListProvider.searchMode)
+              if (!viewModel.searchMode)
                 IconButton(
                   onPressed: () => showGroupFilterModal(
                     context: context,
                     groups: groups,
-                    selectedGroupId: subscriptionsListProvider.groupFilter,
-                    onApply: subscriptionsListProvider.setGroupFilter,
+                    selectedGroupId: viewModel.groupFilter,
+                    onApply: viewModel.setGroupFilter,
                   ),
                   icon: const Icon(Icons.filter_list_rounded),
                 ),
@@ -215,11 +187,11 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
             ],
             bottom: PreferredSize(
               preferredSize: Size.fromHeight(
-                subscriptionsListProvider.groupFilter != null ? 96 : 46,
+                viewModel.groupFilter != null ? 96 : 46,
               ),
               child: Column(
                 children: [
-                  if (subscriptionsListProvider.groupFilter != null)
+                  if (viewModel.groupFilter != null)
                     Container(
                       width: double.maxFinite,
                       height: 50,
@@ -230,11 +202,10 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                           const SizedBox(width: 16),
                           Chip(
                             label: Text(
-                              '${AppLocalizations.of(context)!.groups}: ${groups[subscriptionsListProvider.groupFilter] ?? ''}',
+                              '${AppLocalizations.of(context)!.groups}: ${groups[viewModel.groupFilter] ?? ''}',
                             ),
                             deleteIcon: const Icon(Icons.close, size: 18),
-                            onDeleted:
-                                subscriptionsListProvider.clearGroupFilter,
+                            onDeleted: viewModel.clearGroupFilter,
                           ),
                           const SizedBox(width: 16),
                         ],
@@ -244,7 +215,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                     tabAlignment: TabAlignment.start,
                     isScrollable: true,
                     controller: tabController,
-                    onTap: subscriptionsListProvider.setSelectedTab,
+                    onTap: viewModel.setSelectedTab,
                     tabs: [
                       buildIconTab(
                         Icons.check_circle_rounded,
@@ -267,29 +238,29 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
           body: TabBarView(
             controller: tabController,
             children: [
-              SubscriptionsList(
+              AdlistsList(
                 type: 'whitelist',
                 scrollController: scrollController,
-                onSubscriptionSelected: (d) {
+                onAdlistSelected: (d) {
                   if (onTap != null) {
                     onTap(d);
                   } else {
-                    setState(() => selectedSubscription = d);
+                    setState(() => selectedAdlist = d);
                   }
                 },
-                selectedSubscription: selectedSubscription,
+                selectedAdlist: selectedAdlist,
               ),
-              SubscriptionsList(
+              AdlistsList(
                 type: 'blacklist',
                 scrollController: scrollController,
-                onSubscriptionSelected: (d) {
+                onAdlistSelected: (d) {
                   if (onTap != null) {
                     onTap(d);
                   } else {
-                    setState(() => selectedSubscription = d);
+                    setState(() => selectedAdlist = d);
                   }
                 },
-                selectedSubscription: selectedSubscription,
+                selectedAdlist: selectedAdlist,
               ),
               const GravityUpdate(),
             ],
@@ -304,12 +275,12 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
         children: [
           Expanded(child: scaffold()),
           Expanded(
-            child: selectedSubscription != null
-                ? SubscriptionDetailsScreen(
-                    subscription: selectedSubscription!,
-                    remove: (subscription) {
-                      setState(() => selectedSubscription = null);
-                      removeSubscription(subscription);
+            child: selectedAdlist != null
+                ? AdlistDetailsScreen(
+                    adlist: selectedAdlist!,
+                    remove: (adlist) {
+                      setState(() => selectedAdlist = null);
+                      removeAdlist(adlist);
                     },
                     groups: groups,
                     colors: serversProvider.colors,
@@ -339,15 +310,15 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
     } else if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
       // 2 columns layout
       return scaffold(
-        onTap: (subscription) {
+        onTap: (adlist) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SubscriptionDetailsScreen(
-                subscription: subscription,
+              builder: (context) => AdlistDetailsScreen(
+                adlist: adlist,
                 remove: (s) {
-                  setState(() => selectedSubscription = null);
-                  removeSubscription(s);
+                  setState(() => selectedAdlist = null);
+                  removeAdlist(s);
                 },
                 groups: groups,
                 colors: serversProvider.colors,

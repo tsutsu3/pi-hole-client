@@ -3,6 +3,7 @@ import 'package:result_dart/result_dart.dart';
 
 class FakeActionsRepository implements ActionsRepository {
   bool shouldFail = false;
+  Stream<Result<List<String>>> Function()? customGravityStream;
 
   @override
   Future<Result<Unit>> flushArp() async {
@@ -18,6 +19,10 @@ class FakeActionsRepository implements ActionsRepository {
 
   @override
   Stream<Result<List<String>>> updateGravity() async* {
+    if (customGravityStream != null) {
+      yield* customGravityStream!();
+      return;
+    }
     if (shouldFail) {
       yield Failure(Exception('Force updateGravity failure'));
       return;

@@ -3,29 +3,29 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 
-class AddSubscriptionModal extends StatefulWidget {
-  const AddSubscriptionModal({
+class AddAdlistModal extends StatefulWidget {
+  const AddAdlistModal({
     required this.selectedlist,
-    required this.addSubscription,
+    required this.onAddAdlist,
     required this.window,
     required this.groups,
     super.key,
   });
 
   final String selectedlist;
-  final void Function(Map<String, dynamic>) addSubscription;
+  final void Function(Map<String, dynamic>) onAddAdlist;
   final bool window;
   final Map<int, String> groups;
 
   @override
-  State<AddSubscriptionModal> createState() => _AddSubscriptionModalState();
+  State<AddAdlistModal> createState() => _AddAdlistModalState();
 }
 
 enum ListType { whitelist, blacklist }
 
-class _AddSubscriptionModalState extends State<AddSubscriptionModal> {
-  final TextEditingController subscriptionController = TextEditingController();
-  String? subscriptionError;
+class _AddAdlistModalState extends State<AddAdlistModal> {
+  final TextEditingController addressController = TextEditingController();
+  String? addressError;
   ListType selectedType = ListType.whitelist;
   bool status = true;
   bool allDataValid = false;
@@ -65,24 +65,24 @@ class _AddSubscriptionModalState extends State<AddSubscriptionModal> {
 
       if (subrouteRegexp.hasMatch(value) == true) {
         setState(() {
-          subscriptionError = null;
+          addressError = null;
         });
       } else {
         setState(() {
-          subscriptionError = AppLocalizations.of(context)!.adlistInvalid;
+          addressError = AppLocalizations.of(context)!.adlistInvalid;
         });
       }
     } else {
       setState(() {
-        subscriptionError = null;
+        addressError = null;
       });
     }
     validateAllData();
   }
 
   void validateAllData() {
-    if (subscriptionController.text != '' &&
-        subscriptionError == null &&
+    if (addressController.text != '' &&
+        addressError == null &&
         (selectedType == ListType.blacklist ||
             selectedType == ListType.whitelist)) {
       setState(() {
@@ -148,7 +148,7 @@ class _AddSubscriptionModalState extends State<AddSubscriptionModal> {
                     width: double.maxFinite,
                     padding: const EdgeInsets.only(top: 20),
                     child: TextField(
-                      controller: subscriptionController,
+                      controller: addressController,
                       onChanged: validateAddress,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.public_rounded),
@@ -156,7 +156,7 @@ class _AddSubscriptionModalState extends State<AddSubscriptionModal> {
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         labelText: AppLocalizations.of(context)!.adlist,
-                        errorText: subscriptionError,
+                        errorText: addressError,
                       ),
                     ),
                   ),
@@ -216,8 +216,8 @@ class _AddSubscriptionModalState extends State<AddSubscriptionModal> {
                 TextButton(
                   onPressed: allDataValid == true
                       ? () {
-                          widget.addSubscription({
-                            'address': subscriptionController.text,
+                          widget.onAddAdlist({
+                            'address': addressController.text,
                             'type': getSelectedList(),
                             'enabled': status,
                             'comment': commentController.text,

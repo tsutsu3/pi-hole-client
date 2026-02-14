@@ -23,11 +23,11 @@ import 'package:pi_hole_client/ui/settings/about/privacy_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/subscriptions.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:provider/provider.dart';
 
@@ -89,7 +89,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         if (splitView != null) {
           switch (screenToShow) {
             case 5:
-              splitView.setSecondary(const SubscriptionLists());
+              splitView.setSecondary(const AdlistScreen());
             case 11:
               splitView.setSecondary(const GroupClientScreen());
             case 6:
@@ -256,7 +256,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             icon: Icons.security_rounded,
             title: AppLocalizations.of(context)!.adlists,
             subtitle: AppLocalizations.of(context)!.adlistDescription,
-            screenToNavigate: const SubscriptionLists(),
+            screenToNavigate: const AdlistScreen(),
             thisItem: 5,
           ),
           settingsTile(

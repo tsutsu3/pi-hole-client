@@ -19,6 +19,16 @@ import 'package:pi_hole_client/data/model/v6/ftl/system.dart' show InfoSystem;
 import 'package:pi_hole_client/data/model/v6/ftl/version.dart' show InfoVersion;
 import 'package:pi_hole_client/data/model/v6/groups/groups.dart' show Groups;
 import 'package:pi_hole_client/data/model/v6/lists/lists.dart' show Lists;
+import 'package:pi_hole_client/data/model/v6/lists/search.dart'
+    show
+        DomainMatchCount,
+        GravityEntry,
+        GravityMatchCount,
+        GravityType,
+        Search,
+        SearchData,
+        SearchParameters,
+        SearchResults;
 import 'package:pi_hole_client/data/model/v6/metrics/history.dart'
     show History, HistoryClients;
 import 'package:pi_hole_client/data/model/v6/metrics/query.dart' show Queries;
@@ -323,6 +333,54 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
       return Failure(Exception('Forced deleteLists failure'));
     }
     return const Success(unit);
+  }
+
+  @override
+  Future<Result<Search>> getSearch(
+    String sid, {
+    required String domain,
+    bool? partial,
+    int? limit,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getSearch failure'));
+    }
+    return Success(
+      Search(
+        search: SearchData(
+          domains: const [],
+          gravity: [
+            GravityEntry(
+              domain: domain,
+              address: 'https://blocklist.example.com/hosts',
+              enabled: true,
+              id: 1,
+              type: GravityType.block,
+              dateAdded: 1704067200,
+              dateModified: 1704067200,
+              dateUpdated: 1704067200,
+              number: 1000,
+              invalidDomains: 0,
+              abpEntries: 0,
+              status: 2,
+              groups: const [0],
+            ),
+          ],
+          parameters: SearchParameters(
+            partial: partial ?? false,
+            N: limit ?? 20,
+            domain: domain,
+            debug: false,
+          ),
+          results: const SearchResults(
+            domains: DomainMatchCount(exact: 0, regex: 0),
+            gravity: GravityMatchCount(allow: 0, block: 1),
+            total: 1,
+          ),
+        ),
+        took: 0.01,
+      ),
+    );
   }
 
   // ==========================================================================

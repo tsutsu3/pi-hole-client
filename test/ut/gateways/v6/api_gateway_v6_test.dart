@@ -7,7 +7,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/api_versions.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/subscription_types.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart';
 import 'package:pi_hole_client/data/model/v6/action/action.dart';
 import 'package:pi_hole_client/data/model/v6/auth/sessions.dart';
@@ -3131,7 +3130,7 @@ void main() async {
 
         final response = await apiGateway.getSubscriptions(
           url: address,
-          stype: SubscriptionTypes.block,
+          stype: 'block',
         );
 
         expect(response.result, APiResponseType.success);
@@ -3158,7 +3157,7 @@ void main() async {
 
         final response = await apiGateway.getSubscriptions(
           url: address,
-          stype: SubscriptionTypes.allow,
+          stype: 'allow',
         );
 
         expect(response.result, APiResponseType.success);
@@ -3252,7 +3251,7 @@ void main() async {
 
         final response = await apiGateway.removeSubscription(
           url: address,
-          stype: SubscriptionTypes.block,
+          stype: 'block',
         );
 
         expect(response.result, APiResponseType.success);
@@ -3277,7 +3276,7 @@ void main() async {
 
         final response = await apiGateway.removeSubscription(
           url: address,
-          stype: SubscriptionTypes.block,
+          stype: 'block',
         );
 
         expect(response.result, APiResponseType.success);
@@ -3298,7 +3297,7 @@ void main() async {
 
       final response = await apiGateway.removeSubscription(
         url: address,
-        stype: SubscriptionTypes.block,
+        stype: 'block',
       );
 
       expect(response.result, APiResponseType.notFound);
@@ -3342,7 +3341,7 @@ void main() async {
 
         final response = await apiGateway.removeSubscription(
           url: address,
-          stype: SubscriptionTypes.block,
+          stype: 'block',
         );
 
         expect(response.result, APiResponseType.error);

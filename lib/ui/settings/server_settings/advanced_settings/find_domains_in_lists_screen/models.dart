@@ -1,8 +1,8 @@
-import 'package:pi_hole_client/data/model/v6/lists/search.dart' as v6_search;
+import 'package:pi_hole_client/domain/model/list/adlist.dart';
 
-class AdlistSearchResult {
-  AdlistSearchResult({required this.entry, required this.matchingDomains});
+class AdlistSearchGroup {
+  AdlistSearchGroup({required this.adlist, required this.matchingDomains});
 
-  final v6_search.GravityEntry entry;
+  final Adlist adlist;
   final List<String> matchingDomains;
 }

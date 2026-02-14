@@ -18,9 +18,17 @@ import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart' as _i18;
 import 'package:pi_hole_client/data/gateway/api_gateway_v5.dart' as _i34;
 import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart' as _i39;
 import 'package:pi_hole_client/data/model/v6/config/config.dart' as _i38;
+import 'package:pi_hole_client/data/repositories/api/interfaces/actions_respository.dart'
+    as _i47;
+import 'package:pi_hole_client/data/repositories/api/interfaces/adlist_repository.dart'
+    as _i44;
 import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart'
     as _i27;
+import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart'
+    as _i48;
 import 'package:pi_hole_client/domain/model/domain/domain.dart' as _i26;
+import 'package:pi_hole_client/domain/model/ftl/message.dart' as _i46;
+import 'package:pi_hole_client/domain/model/list/adlist.dart' as _i43;
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart' as _i31;
 import 'package:pi_hole_client/domain/model/network/network.dart' as _i32;
 import 'package:pi_hole_client/domain/models_old/app_log.dart' as _i10;
@@ -30,7 +38,6 @@ import 'package:pi_hole_client/domain/models_old/devices.dart' as _i33;
 import 'package:pi_hole_client/domain/models_old/domain.dart' as _i35;
 import 'package:pi_hole_client/domain/models_old/gateways.dart' as _i6;
 import 'package:pi_hole_client/domain/models_old/groups.dart' as _i37;
-import 'package:pi_hole_client/domain/models_old/messages.dart' as _i44;
 import 'package:pi_hole_client/domain/models_old/metrics.dart' as _i24;
 import 'package:pi_hole_client/domain/models_old/overtime_data.dart' as _i23;
 import 'package:pi_hole_client/domain/models_old/query_status.dart' as _i17;
@@ -45,16 +52,16 @@ import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart'
 import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart'
     as _i28;
 import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart' as _i19;
-import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart' as _i43;
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart' as _i45;
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart' as _i41;
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart'
     as _i30;
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart' as _i16;
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart' as _i21;
-import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart'
-    as _i42;
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart'
     as _i25;
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart'
+    as _i42;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -3862,54 +3869,115 @@ class MockGroupsProvider extends _i1.Mock implements _i41.GroupsProvider {
   );
 }
 
-/// A class which mocks [SubscriptionsListProvider].
+/// A class which mocks [AdlistsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSubscriptionsListProvider extends _i1.Mock
-    implements _i42.SubscriptionsListProvider {
-  MockSubscriptionsListProvider() {
+class MockAdlistsViewModel extends _i1.Mock implements _i42.AdlistsViewModel {
+  MockAdlistsViewModel() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i20.LoadStatus get loadingStatus =>
+  _i3.Command<void, void> get loadAdlists =>
       (super.noSuchMethod(
-            Invocation.getter(#loadingStatus),
-            returnValue: _i20.LoadStatus.loading,
+            Invocation.getter(#loadAdlists),
+            returnValue: _FakeCommand_1<void, void>(
+              this,
+              Invocation.getter(#loadAdlists),
+            ),
           )
-          as _i20.LoadStatus);
+          as _i3.Command<void, void>);
 
   @override
-  List<_i36.Subscription> get whitelistSubscriptions =>
+  _i3.Command<_i43.Adlist, void> get deleteAdlist =>
       (super.noSuchMethod(
-            Invocation.getter(#whitelistSubscriptions),
-            returnValue: <_i36.Subscription>[],
+            Invocation.getter(#deleteAdlist),
+            returnValue: _FakeCommand_1<_i43.Adlist, void>(
+              this,
+              Invocation.getter(#deleteAdlist),
+            ),
           )
-          as List<_i36.Subscription>);
+          as _i3.Command<_i43.Adlist, void>);
 
   @override
-  List<_i36.Subscription> get blacklistSubscriptions =>
+  _i3.Command<
+    ({
+      String address,
+      String? comment,
+      bool? enabled,
+      List<int>? groups,
+      _i20.ListType type,
+    }),
+    void
+  >
+  get addAdlist =>
       (super.noSuchMethod(
-            Invocation.getter(#blacklistSubscriptions),
-            returnValue: <_i36.Subscription>[],
+            Invocation.getter(#addAdlist),
+            returnValue:
+                _FakeCommand_1<
+                  ({
+                    String address,
+                    String? comment,
+                    bool? enabled,
+                    List<int>? groups,
+                    _i20.ListType type,
+                  }),
+                  void
+                >(this, Invocation.getter(#addAdlist)),
           )
-          as List<_i36.Subscription>);
+          as _i3.Command<
+            ({
+              String address,
+              String? comment,
+              bool? enabled,
+              List<int>? groups,
+              _i20.ListType type,
+            }),
+            void
+          >);
 
   @override
-  List<_i36.Subscription> get filteredWhitelistSubscriptions =>
+  _i3.Command<_i43.Adlist, void> get updateAdlist =>
       (super.noSuchMethod(
-            Invocation.getter(#filteredWhitelistSubscriptions),
-            returnValue: <_i36.Subscription>[],
+            Invocation.getter(#updateAdlist),
+            returnValue: _FakeCommand_1<_i43.Adlist, void>(
+              this,
+              Invocation.getter(#updateAdlist),
+            ),
           )
-          as List<_i36.Subscription>);
+          as _i3.Command<_i43.Adlist, void>);
 
   @override
-  List<_i36.Subscription> get filteredBlacklistSubscriptions =>
+  List<_i43.Adlist> get whitelistAdlists =>
       (super.noSuchMethod(
-            Invocation.getter(#filteredBlacklistSubscriptions),
-            returnValue: <_i36.Subscription>[],
+            Invocation.getter(#whitelistAdlists),
+            returnValue: <_i43.Adlist>[],
           )
-          as List<_i36.Subscription>);
+          as List<_i43.Adlist>);
+
+  @override
+  List<_i43.Adlist> get blacklistAdlists =>
+      (super.noSuchMethod(
+            Invocation.getter(#blacklistAdlists),
+            returnValue: <_i43.Adlist>[],
+          )
+          as List<_i43.Adlist>);
+
+  @override
+  List<_i43.Adlist> get filteredWhitelistAdlists =>
+      (super.noSuchMethod(
+            Invocation.getter(#filteredWhitelistAdlists),
+            returnValue: <_i43.Adlist>[],
+          )
+          as List<_i43.Adlist>);
+
+  @override
+  List<_i43.Adlist> get filteredBlacklistAdlists =>
+      (super.noSuchMethod(
+            Invocation.getter(#filteredBlacklistAdlists),
+            returnValue: <_i43.Adlist>[],
+          )
+          as List<_i43.Adlist>);
 
   @override
   String get searchTerm =>
@@ -3928,10 +3996,12 @@ class MockSubscriptionsListProvider extends _i1.Mock
           as bool);
 
   @override
-  set serversProvider(_i16.ServersProvider? value) => super.noSuchMethod(
-    Invocation.setter(#serversProvider, value),
-    returnValueForMissingStub: null,
-  );
+  _i20.LoadStatus get loadingStatus =>
+      (super.noSuchMethod(
+            Invocation.getter(#loadingStatus),
+            returnValue: _i20.LoadStatus.loading,
+          )
+          as _i20.LoadStatus);
 
   @override
   bool get hasListeners =>
@@ -3939,30 +4009,10 @@ class MockSubscriptionsListProvider extends _i1.Mock
           as bool);
 
   @override
-  void update(_i16.ServersProvider? provider) => super.noSuchMethod(
-    Invocation.method(#update, [provider]),
+  void update(_i44.AdListRepository? repository) => super.noSuchMethod(
+    Invocation.method(#update, [repository]),
     returnValueForMissingStub: null,
   );
-
-  @override
-  void setLoadingStatus(_i20.LoadStatus? status) => super.noSuchMethod(
-    Invocation.method(#setLoadingStatus, [status]),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  void setWhitelistSubscriptions(List<_i36.Subscription>? subscriptions) =>
-      super.noSuchMethod(
-        Invocation.method(#setWhitelistSubscriptions, [subscriptions]),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void setBlacklistSubscriptions(List<_i36.Subscription>? subscriptions) =>
-      super.noSuchMethod(
-        Invocation.method(#setBlacklistSubscriptions, [subscriptions]),
-        returnValueForMissingStub: null,
-      );
 
   @override
   void setSelectedTab(int? tab) => super.noSuchMethod(
@@ -3995,19 +4045,10 @@ class MockSubscriptionsListProvider extends _i1.Mock
   );
 
   @override
-  _i13.Future<dynamic> fetchSubscriptionsList() =>
-      (super.noSuchMethod(
-            Invocation.method(#fetchSubscriptionsList, []),
-            returnValue: _i13.Future<dynamic>.value(),
-          )
-          as _i13.Future<dynamic>);
-
-  @override
-  void removeSubscriptionFromList(_i36.Subscription? subscription) =>
-      super.noSuchMethod(
-        Invocation.method(#removeSubscriptionFromList, [subscription]),
-        returnValueForMissingStub: null,
-      );
+  void dispose() => super.noSuchMethod(
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
@@ -4022,12 +4063,6 @@ class MockSubscriptionsListProvider extends _i1.Mock
   );
 
   @override
-  void dispose() => super.noSuchMethod(
-    Invocation.method(#dispose, []),
-    returnValueForMissingStub: null,
-  );
-
-  @override
   void notifyListeners() => super.noSuchMethod(
     Invocation.method(#notifyListeners, []),
     returnValueForMissingStub: null,
@@ -4038,7 +4073,7 @@ class MockSubscriptionsListProvider extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGravityUpdateProvider extends _i1.Mock
-    implements _i43.GravityUpdateProvider {
+    implements _i45.GravityUpdateProvider {
   MockGravityUpdateProvider() {
     _i1.throwOnMissingStub(this);
   }
@@ -4062,12 +4097,12 @@ class MockGravityUpdateProvider extends _i1.Mock
           as bool);
 
   @override
-  List<_i44.Message> get messages =>
+  List<_i46.FtlMessage> get messages =>
       (super.noSuchMethod(
             Invocation.getter(#messages),
-            returnValue: <_i44.Message>[],
+            returnValue: <_i46.FtlMessage>[],
           )
-          as List<_i44.Message>);
+          as List<_i46.FtlMessage>);
 
   @override
   bool get hasListeners =>
@@ -4105,20 +4140,22 @@ class MockGravityUpdateProvider extends _i1.Mock
   );
 
   @override
-  void setMessages(_i44.MessagesInfo? messagesInfo) => super.noSuchMethod(
-    Invocation.method(#setMessages, [messagesInfo]),
-    returnValueForMissingStub: null,
-  );
-
-  @override
   void appendLogs(List<String>? entries) => super.noSuchMethod(
     Invocation.method(#appendLogs, [entries]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void update(_i16.ServersProvider? provider) => super.noSuchMethod(
-    Invocation.method(#update, [provider]),
+  void update({
+    _i47.ActionsRepository? actionsRepository,
+    _i48.FtlRepository? ftlRepository,
+    String? serverAddress,
+  }) => super.noSuchMethod(
+    Invocation.method(#update, [], {
+      #actionsRepository: actionsRepository,
+      #ftlRepository: ftlRepository,
+      #serverAddress: serverAddress,
+    }),
     returnValueForMissingStub: null,
   );
 

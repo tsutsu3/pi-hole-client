@@ -1,5 +1,6 @@
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
+import 'package:pi_hole_client/domain/model/list/list_search_result.dart';
 import 'package:result_dart/result_dart.dart';
 
 abstract interface class AdListRepository {
@@ -26,4 +27,11 @@ abstract interface class AdListRepository {
 
   /// Deletes an Adlist by address and optional type.
   Future<Result<Unit>> deleteAdlist(String address, ListType type);
+
+  /// Searches domains in Pi-hole's subscription lists.
+  Future<Result<ListSearchResult>> searchLists({
+    required String domain,
+    bool? partial,
+    int? limit,
+  });
 }

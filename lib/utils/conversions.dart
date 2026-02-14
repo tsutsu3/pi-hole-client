@@ -21,7 +21,7 @@ String getDomainType(int type) {
   }
 }
 
-String getSubscriptionStatusType(int type) {
+String getAdlistStatusType(int type) {
   switch (type) {
     case 0:
       return 'List was not downloaded so far';

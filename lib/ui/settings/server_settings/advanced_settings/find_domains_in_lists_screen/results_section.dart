@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
-import 'package:pi_hole_client/domain/models_old/search.dart';
-import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
+import 'package:pi_hole_client/domain/model/list/adlist.dart';
+import 'package:pi_hole_client/domain/model/list/list_search_result.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
@@ -14,7 +14,7 @@ class ResultsSection extends StatelessWidget {
   const ResultsSection({
     required this.errorMessage,
     required this.hasSearched,
-    required this.searchInfo,
+    required this.meta,
     required this.domainResults,
     required this.adlistResults,
     required this.colors,
@@ -25,12 +25,12 @@ class ResultsSection extends StatelessWidget {
 
   final String? errorMessage;
   final bool hasSearched;
-  final SearchInfo? searchInfo;
+  final ListSearchMeta? meta;
   final List<Domain> domainResults;
-  final List<AdlistSearchResult> adlistResults;
+  final List<AdlistSearchGroup> adlistResults;
   final AppColors? colors;
   final ValueChanged<Domain> onDomainTap;
-  final ValueChanged<Subscription> onAdlistTap;
+  final ValueChanged<Adlist> onAdlistTap;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class ResultsSection extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    if (searchInfo == null ||
+    if (meta == null ||
         (domainResults.isEmpty && adlistResults.isEmpty)) {
       return Center(
         child: Padding(
@@ -58,7 +58,7 @@ class ResultsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SummarySection(results: searchInfo!.results),
+        SummarySection(meta: meta!),
         const SizedBox(height: 16),
         if (domainResults.isNotEmpty) ...[
           SectionLabel(label: AppLocalizations.of(context)!.domainLevelLists),

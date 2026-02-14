@@ -28,8 +28,9 @@ import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
@@ -160,16 +161,14 @@ void main() async {
   final statusProvider = StatusProvider();
   final filtersProvider = FiltersProvider(serversProvider: serversProvider);
   final domainsViewModel = DomainsViewModel();
-  final subscriptionsListProvider = SubscriptionsListProvider(
-    serversProvider: serversProvider,
-  );
+  final adlistsViewModel = AdlistsViewModel();
+  final findDomainsInListsViewModel = FindDomainsInListsViewModel();
   final clientsListProvider = ClientsListProvider(
     serversProvider: serversProvider,
   );
   final groupsProvider = GroupsProvider(serversProvider: serversProvider);
   final gravityUpdateProvider = GravityUpdateProvider(
     repository: gravityRepository,
-    serversProvider: serversProvider,
   );
   final localDnsProvider = LocalDnsProvider(serversProvider: serversProvider);
 
@@ -319,10 +318,19 @@ void main() async {
           update: (context, bundle, previous) =>
               previous!..update(bundle?.domain),
         ),
-        ChangeNotifierProxyProvider<ServersProvider, SubscriptionsListProvider>(
-          create: (context) => subscriptionsListProvider,
-          update: (context, serverConfig, servers) =>
-              servers!..update(serverConfig),
+        ChangeNotifierProxyProvider<RepositoryBundle?, AdlistsViewModel>(
+          create: (context) => adlistsViewModel,
+          update: (context, bundle, previous) =>
+              previous!..update(bundle?.adlist),
+        ),
+        ChangeNotifierProxyProvider<RepositoryBundle?,
+            FindDomainsInListsViewModel>(
+          create: (context) => findDomainsInListsViewModel,
+          update: (context, bundle, previous) => previous!
+            ..update(
+              adListRepository: bundle?.adlist,
+              domainRepository: bundle?.domain,
+            ),
         ),
         ChangeNotifierProxyProvider<ServersProvider, ClientsListProvider>(
           create: (context) => clientsListProvider,
@@ -334,10 +342,15 @@ void main() async {
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
         ),
-        ChangeNotifierProxyProvider<ServersProvider, GravityUpdateProvider>(
+        ChangeNotifierProxyProvider2<RepositoryBundle?, ServersProvider,
+            GravityUpdateProvider>(
           create: (context) => gravityUpdateProvider,
-          update: (context, serverConfig, servers) =>
-              servers!..update(serverConfig),
+          update: (context, bundle, serversProvider, previous) =>
+              previous!..update(
+                actionsRepository: bundle?.actions,
+                ftlRepository: bundle?.ftl,
+                serverAddress: serversProvider.selectedServer?.address,
+              ),
         ),
         ChangeNotifierProxyProvider<ServersProvider, LocalDnsProvider>(
           create: (context) => localDnsProvider,

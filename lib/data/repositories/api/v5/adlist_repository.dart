@@ -5,6 +5,7 @@ import 'package:pi_hole_client/data/repositories/utils/constants.dart';
 import 'package:pi_hole_client/data/repositories/utils/exceptions.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
+import 'package:pi_hole_client/domain/model/list/list_search_result.dart';
 import 'package:result_dart/result_dart.dart';
 
 class AdlistRepositoryV5 extends BaseV5TokenRepository
@@ -56,6 +57,17 @@ class AdlistRepositoryV5 extends BaseV5TokenRepository
 
   @override
   Future<Result<Unit>> deleteAdlist(String address, ListType type) async {
+    return Future.value(
+      Failure(NotSupportedException(kNotSupportedInV5Message)),
+    );
+  }
+
+  @override
+  Future<Result<ListSearchResult>> searchLists({
+    required String domain,
+    bool? partial,
+    int? limit,
+  }) async {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );

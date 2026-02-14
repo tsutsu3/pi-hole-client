@@ -15,7 +15,7 @@ import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/subscriptions.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
 import 'package:pi_hole_client/ui/settings/settings.dart';
 
 import '../../helpers.dart';
@@ -300,7 +300,7 @@ void main() async {
 
       await tester.tap(find.text('Adlists'));
       await tester.pumpAndSettle();
-      expect(find.byType(SubscriptionLists), findsOneWidget);
+      expect(find.byType(AdlistScreen), findsOneWidget);
       expect(find.text('There are no adlists to show here.'), findsOneWidget);
     });
 

@@ -8,7 +8,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/api_versions.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/subscription_types.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_v5.dart';
 import 'package:pi_hole_client/data/model/v6/config/config.dart'
     show ConfigData, Dns;
@@ -2074,7 +2073,7 @@ void main() async {
       final apiGateway = ApiGatewayV5(server, client: mockClient);
       final response = await apiGateway.removeSubscription(
         url: 'http://not.exist.example.com',
-        stype: SubscriptionTypes.block,
+        stype: 'block',
       );
 
       expect(response.result, APiResponseType.notSupported);

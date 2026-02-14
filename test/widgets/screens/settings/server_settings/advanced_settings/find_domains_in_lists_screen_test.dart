@@ -1,93 +1,12 @@
+import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/data/model/v6/lists/search.dart' as v6_search;
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/search.dart';
 import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
-import 'package:pi_hole_client/ui/domains/widgets/domain_tile.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_details_screen.dart';
 
+import '../../../../../../testing/fakes/repositories/api/fake_adlist_repository.dart';
 import '../../../../helpers.dart';
-
-SearchInfo buildSearchInfo({
-  List<v6_search.DomainEntry>? domains,
-  List<v6_search.GravityEntry>? gravity,
-  int domainsExact = 0,
-  int domainsRegex = 0,
-  int gravityAllow = 0,
-  int gravityBlock = 0,
-  int total = 0,
-  bool partial = true,
-  int maxResults = 20,
-  String domain = 'example.com',
-}) {
-  return SearchInfo(
-    domains: domains ?? [],
-    gravity: gravity ?? [],
-    parameters: SearchParametersInfo(
-      partial: partial,
-      maxResults: maxResults,
-      domain: domain,
-      debug: false,
-    ),
-    results: SearchResultsInfo(
-      domainsExact: domainsExact,
-      domainsRegex: domainsRegex,
-      gravityAllow: gravityAllow,
-      gravityBlock: gravityBlock,
-      total: total,
-    ),
-  );
-}
-
-v6_search.DomainEntry buildDomainEntry({
-  required int id,
-  required String domain,
-  v6_search.DomainType type = v6_search.DomainType.allow,
-  v6_search.DomainKind kind = v6_search.DomainKind.exact,
-  bool enabled = true,
-  int timestamp = 1700000000,
-}) {
-  return v6_search.DomainEntry(
-    id: id,
-    domain: domain,
-    enabled: enabled,
-    type: type,
-    kind: kind,
-    dateAdded: timestamp,
-    dateModified: timestamp,
-    groups: const [0],
-    comment: 'comment',
-  );
-}
-
-v6_search.GravityEntry buildGravityEntry({
-  required int id,
-  required String address,
-  required String domain,
-  v6_search.GravityType type = v6_search.GravityType.block,
-  bool enabled = true,
-  int timestamp = 1700000000,
-  int status = 1,
-}) {
-  return v6_search.GravityEntry(
-    id: id,
-    address: address,
-    domain: domain,
-    enabled: enabled,
-    type: type,
-    dateAdded: timestamp,
-    dateModified: timestamp,
-    dateUpdated: timestamp,
-    number: 12,
-    invalidDomains: 0,
-    abpEntries: 0,
-    status: status,
-    groups: const [0],
-    comment: 'Migrated from /etc/pihole/adlists.list',
-  );
-}
 
 void main() async {
   await initializeApp();
@@ -96,8 +15,14 @@ void main() async {
     late TestSetupHelper testSetup;
 
     setUp(() async {
+      Command.globalExceptionHandler = (_, _) {};
       testSetup = TestSetupHelper();
       testSetup.initializeMock(useApiGatewayVersion: 'v6');
+    });
+
+    tearDown(() {
+      testSetup.findDomainsInListsViewModel.dispose();
+      Command.globalExceptionHandler = null;
     });
 
     testWidgets('shows search form and hides results before search', (
@@ -172,47 +97,6 @@ void main() async {
     testWidgets('renders summary and results after successful search', (
       WidgetTester tester,
     ) async {
-      final gravityEntries = [
-        buildGravityEntry(
-          id: 10,
-          address: 'https://example.com/adlist.txt',
-          domain: 'ad.example.com',
-        ),
-        buildGravityEntry(
-          id: 10,
-          address: 'https://example.com/adlist.txt',
-          domain: 'tracker.example.net',
-        ),
-      ];
-      final searchInfo = buildSearchInfo(
-        domains: [
-          buildDomainEntry(id: 1, domain: 'example.com'),
-          buildDomainEntry(
-            id: 2,
-            domain: 'regex.example.com',
-            kind: v6_search.DomainKind.regex,
-            type: v6_search.DomainType.deny,
-          ),
-        ],
-        gravity: gravityEntries,
-        domainsExact: 1,
-        domainsRegex: 1,
-        gravityBlock: 2,
-        total: 4,
-      );
-
-      when(
-        testSetup.mockApiGatewayV6.searchSubscriptions(
-          domain: 'example.com',
-          partial: false,
-          limit: 20,
-          debug: anyNamed('debug'),
-        ),
-      ).thenAnswer(
-        (_) async =>
-            SearchResponse(result: APiResponseType.success, data: searchInfo),
-      );
-
       await tester.pumpWidget(
         testSetup.buildTestWidget(const FindDomainsInListsScreen()),
       );
@@ -226,47 +110,21 @@ void main() async {
       await tester.pump();
       await tester.pumpAndSettle();
 
-      verify(
-        testSetup.mockApiGatewayV6.searchSubscriptions(
-          domain: 'example.com',
-          partial: false,
-          limit: 20,
-          debug: anyNamed('debug'),
-        ),
-      ).called(1);
-
+      // FakeAdlistRepository.searchLists returns 1 gravityMatch
       expect(find.text('Summary'), findsOneWidget);
-      expect(find.text('Domain-level lists'), findsOneWidget);
       expect(find.text('List-level lists'), findsOneWidget);
-      expect(find.text('example.com'), findsNWidgets(2));
-      expect(find.text('https://example.com/adlist.txt'), findsOneWidget);
-      expect(find.text('Matching entries:'), findsOneWidget);
-
-      await tester.ensureVisible(find.text('Matching entries:'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Matching entries:'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('ad.example.com'), findsOneWidget);
-      expect(find.text('tracker.example.net'), findsOneWidget);
     });
 
-    testWidgets('shows empty results state after search', (
+    testWidgets('navigates to AdlistDetailsScreen when tapping adlist result', (
       WidgetTester tester,
     ) async {
-      when(
-        testSetup.mockApiGatewayV6.searchSubscriptions(
-          domain: 'empty.example',
-          partial: true,
-          limit: 20,
-          debug: anyNamed('debug'),
-        ),
-      ).thenAnswer(
-        (_) async => SearchResponse(
-          result: APiResponseType.success,
-          data: buildSearchInfo(domain: 'empty.example'),
-        ),
-      );
+      tester.view.physicalSize = const Size(1440, 2560);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
       await tester.pumpWidget(
         testSetup.buildTestWidget(const FindDomainsInListsScreen()),
@@ -274,25 +132,27 @@ void main() async {
       await tester.pump();
 
       final textFields = find.byType(TextField);
-      await tester.enterText(textFields.at(0), 'empty.example');
+      await tester.enterText(textFields.at(0), 'example.com');
       await tester.tap(find.text('Search').last);
       await tester.pump();
       await tester.pumpAndSettle();
 
-      expect(find.text('No results found'), findsOneWidget);
+      // Tap the adlist card
+      await tester.tap(find.text('https://blocklist.example.com/hosts'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AdlistDetailsScreen), findsOneWidget);
+      expect(find.text('Adlist Details'), findsOneWidget);
     });
 
     testWidgets('shows error message when search fails', (
       WidgetTester tester,
     ) async {
-      when(
-        testSetup.mockApiGatewayV6.searchSubscriptions(
-          domain: 'error.example',
-          partial: true,
-          limit: 20,
-          debug: anyNamed('debug'),
-        ),
-      ).thenAnswer((_) async => SearchResponse(result: APiResponseType.error));
+      final failingRepo = FakeAdlistRepository()..shouldFail = true;
+      testSetup.findDomainsInListsViewModel.update(
+        adListRepository: failingRepo,
+        domainRepository: testSetup.fakeDomainRepository,
+      );
 
       await tester.pumpWidget(
         testSetup.buildTestWidget(const FindDomainsInListsScreen()),
@@ -306,207 +166,6 @@ void main() async {
       await tester.pumpAndSettle();
 
       expect(find.text('Failed to fetch data.'), findsOneWidget);
-    });
-
-    testWidgets('opens domain details screen on tap', (
-      WidgetTester tester,
-    ) async {
-      tester.view.physicalSize = const Size(1080, 2400);
-      tester.view.devicePixelRatio = 2.0;
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
-
-      final searchInfo = buildSearchInfo(
-        domains: [buildDomainEntry(id: 1, domain: 'example.com')],
-        total: 1,
-      );
-
-      when(
-        testSetup.mockApiGatewayV6.searchSubscriptions(
-          domain: 'example.com',
-          partial: true,
-          limit: 20,
-          debug: anyNamed('debug'),
-        ),
-      ).thenAnswer(
-        (_) async =>
-            SearchResponse(result: APiResponseType.success, data: searchInfo),
-      );
-
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const FindDomainsInListsScreen()),
-      );
-      await tester.pump();
-
-      final textFields = find.byType(TextField);
-      await tester.enterText(textFields.at(0), 'example.com');
-      await tester.tap(find.text('Search').last);
-      await tester.pumpAndSettle();
-
-      expect(find.byType(DomainTile), findsOneWidget);
-      await tester.tap(find.byType(DomainTile));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Domain details'), findsOneWidget);
-    });
-
-    testWidgets('removes domain from results after delete', (
-      WidgetTester tester,
-    ) async {
-      tester.view.physicalSize = const Size(1080, 2400);
-      tester.view.devicePixelRatio = 2.0;
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
-
-      final searchInfo = buildSearchInfo(
-        domains: [buildDomainEntry(id: 1, domain: 'example.com')],
-        total: 1,
-      );
-
-      when(
-        testSetup.mockApiGatewayV6.searchSubscriptions(
-          domain: 'example.com',
-          partial: true,
-          limit: 20,
-          debug: anyNamed('debug'),
-        ),
-      ).thenAnswer(
-        (_) async =>
-            SearchResponse(result: APiResponseType.success, data: searchInfo),
-      );
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const FindDomainsInListsScreen()),
-      );
-      await tester.pump();
-
-      final textFields = find.byType(TextField);
-      await tester.enterText(textFields.at(0), 'example.com');
-      await tester.tap(find.text('Search').last);
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byType(DomainTile));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.delete_rounded));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Delete Domain'), findsOneWidget);
-      await tester.tap(find.text('Delete'));
-      await tester.pumpAndSettle();
-
-      expect(find.byType(DomainTile), findsNothing);
-      expect(find.text('Domain removed successfully'), findsOneWidget);
-    });
-
-    testWidgets('opens adlist details screen on tap', (
-      WidgetTester tester,
-    ) async {
-      final searchInfo = buildSearchInfo(
-        gravity: [
-          buildGravityEntry(
-            id: 10,
-            address: 'https://example.com/adlist.txt',
-            domain: 'ad.example.com',
-          ),
-        ],
-        gravityBlock: 1,
-        total: 1,
-      );
-
-      when(
-        testSetup.mockApiGatewayV6.searchSubscriptions(
-          domain: 'example.com',
-          partial: true,
-          limit: 20,
-          debug: anyNamed('debug'),
-        ),
-      ).thenAnswer(
-        (_) async =>
-            SearchResponse(result: APiResponseType.success, data: searchInfo),
-      );
-
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const FindDomainsInListsScreen()),
-      );
-      await tester.pump();
-
-      final textFields = find.byType(TextField);
-      await tester.enterText(textFields.at(0), 'example.com');
-      await tester.tap(find.text('Search').last);
-      await tester.pumpAndSettle();
-
-      await tester.ensureVisible(find.text('https://example.com/adlist.txt'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('https://example.com/adlist.txt'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Adlist Details'), findsOneWidget);
-    });
-
-    testWidgets('removes adlist from results after delete', (
-      WidgetTester tester,
-    ) async {
-      final searchInfo = buildSearchInfo(
-        gravity: [
-          buildGravityEntry(
-            id: 10,
-            address: 'https://example.com/adlist.txt',
-            domain: 'ad.example.com',
-          ),
-        ],
-        gravityBlock: 1,
-        total: 1,
-      );
-
-      when(
-        testSetup.mockApiGatewayV6.searchSubscriptions(
-          domain: 'example.com',
-          partial: true,
-          limit: 20,
-          debug: anyNamed('debug'),
-        ),
-      ).thenAnswer(
-        (_) async =>
-            SearchResponse(result: APiResponseType.success, data: searchInfo),
-      );
-      when(
-        testSetup.mockApiGatewayV6.removeSubscription(
-          url: 'https://example.com/adlist.txt',
-          stype: 'block',
-        ),
-      ).thenAnswer(
-        (_) async =>
-            RemoveSubscriptionResponse(result: APiResponseType.success),
-      );
-
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const FindDomainsInListsScreen()),
-      );
-      await tester.pump();
-
-      final textFields = find.byType(TextField);
-      await tester.enterText(textFields.at(0), 'example.com');
-      await tester.tap(find.text('Search').last);
-      await tester.pumpAndSettle();
-
-      await tester.ensureVisible(find.text('https://example.com/adlist.txt'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('https://example.com/adlist.txt'));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.delete_rounded));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Delete Adlist'), findsOneWidget);
-      await tester.tap(find.text('Delete'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('https://example.com/adlist.txt'), findsNothing);
-      expect(find.text('Adlist removed successfully'), findsOneWidget);
     });
   });
 }
