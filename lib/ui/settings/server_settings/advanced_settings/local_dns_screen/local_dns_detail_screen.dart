@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
-import 'package:pi_hole_client/domain/models_old/devices.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
@@ -14,13 +13,11 @@ class LocalDnsDetailScreen extends StatefulWidget {
     required this.localDns,
     required this.onDelete,
     required this.onUpdate,
-    this.device,
     this.devices,
     super.key,
   });
 
   final LocalDns localDns;
-  final DeviceInfo? device;
   final List<DeviceOption>? devices;
   final Future<bool> Function(LocalDns) onDelete;
   final Future<bool> Function(LocalDns updated, String oldIp) onUpdate;

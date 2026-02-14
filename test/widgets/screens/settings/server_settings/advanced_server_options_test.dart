@@ -5,7 +5,6 @@ import 'package:pi_hole_client/data/model/v6/config/config.dart';
 import 'package:pi_hole_client/domain/models_old/config.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen.dart';
 import '../../../helpers.dart';
 
 void main() async {
@@ -65,7 +64,9 @@ void main() async {
       expect(find.text('DHCP'), findsOneWidget);
     });
 
-    testWidgets('should show local dns screen with tap', (
+    // Local DNS navigation now uses go_router (context.pushNamed).
+    // Full navigation is tested in local_dns_screen_test.dart.
+    testWidgets('should show local dns tile', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -83,11 +84,7 @@ void main() async {
       expect(find.byType(AdvancedServerOptions), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Local DNS'));
-      await tester.pumpAndSettle();
-      expect(find.byType(LocalDnsScreen), findsOneWidget);
-
-      expect(find.text('192.168.1.2'), findsOneWidget);
+      expect(find.text('Local DNS'), findsOneWidget);
     });
 
     // Interface navigation now uses go_router (context.pushNamed).

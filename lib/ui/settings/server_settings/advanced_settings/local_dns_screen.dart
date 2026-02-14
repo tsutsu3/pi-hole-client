@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
@@ -9,11 +8,10 @@ import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/add_local_dns_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/local_dns_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/local_dns_list_view.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/viewmodel/local_dns_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -25,234 +23,244 @@ const _fakeLocalDnsInfo = [
 ];
 
 class LocalDnsScreen extends StatefulWidget {
-  const LocalDnsScreen({super.key});
+  const LocalDnsScreen({required this.viewModel, super.key});
+
+  final LocalDnsViewModel viewModel;
 
   @override
   State<LocalDnsScreen> createState() => _LocalDnsScreenState();
 }
 
 class _LocalDnsScreenState extends State<LocalDnsScreen> {
-  late AppConfigProvider appConfigProvider;
-  ServersProvider? _lastServersProvider;
+  Future<bool> _onAddLocalDns(Map<String, dynamic> value) async {
+    final locale = AppLocalizations.of(context)!;
+    final appConfigProvider = context.read<AppConfigProvider>();
+    final process = ProcessModal(context: context)
+      ..open(locale.localDnsAdding);
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    appConfigProvider = context.watch<AppConfigProvider>();
+    try {
+      await widget.viewModel.addRecord.runAsync(
+        LocalDns(ip: value['ip'], name: value['name']),
+      );
+      if (!mounted) return false;
+      process.close();
+      showSuccessSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: locale.localDnsAddSuccess,
+      );
+      return true;
+    } catch (_) {
+      if (!mounted) return false;
+      process.close();
+      showErrorSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: locale.localDnsAddFailed,
+      );
+      return false;
+    }
+  }
 
-    final servers = context.watch<ServersProvider>();
-    if (!identical(_lastServersProvider, servers)) {
-      _lastServersProvider = servers;
-      final store = context.read<LocalDnsProvider>();
-      store.update(servers);
+  Future<bool> _onUpdateLocalDns(LocalDns updated, String oldIp) async {
+    final locale = AppLocalizations.of(context)!;
+    final appConfigProvider = context.read<AppConfigProvider>();
+    final process = ProcessModal(context: context)..open(locale.updating);
 
-      Future.microtask(store.load);
+    try {
+      await widget.viewModel.updateRecord.runAsync(
+        (record: updated, oldIp: oldIp),
+      );
+      if (!mounted) return false;
+      process.close();
+      showSuccessSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: locale.localDnsUpdateSuccess,
+      );
+      return true;
+    } catch (_) {
+      if (!mounted) return false;
+      process.close();
+      showErrorSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: locale.localDnsUpdateFailed,
+      );
+      return false;
+    }
+  }
+
+  Future<bool> _onRemoveLocalDns(LocalDns item) async {
+    final locale = AppLocalizations.of(context)!;
+    final appConfigProvider = context.read<AppConfigProvider>();
+    final process = ProcessModal(context: context)..open(locale.deleting);
+
+    try {
+      await widget.viewModel.deleteRecord.runAsync(item);
+      if (!mounted) return false;
+      process.close();
+      await Navigator.maybePop(context);
+      if (!mounted) return true;
+      showSuccessSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: locale.localDnsDeleteSuccess,
+      );
+      return true;
+    } catch (_) {
+      if (!mounted) return false;
+      process.close();
+      showErrorSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: locale.localDnsDeleteFailed,
+      );
+      return false;
+    }
+  }
+
+  void _openAddModal() {
+    final mediaQuery = MediaQuery.of(context);
+    final isSmallLandscape =
+        mediaQuery.size.width > mediaQuery.size.height &&
+        mediaQuery.size.height < ResponsiveConstants.medium;
+    final devices = widget.viewModel.loadRecords.value.deviceOptions;
+
+    if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
+      showDialog(
+        context: context,
+        useSafeArea: !isSmallLandscape,
+        useRootNavigator: false,
+        builder: (ctx) => AddLocalDnsModal(
+          addLocalDns: _onAddLocalDns,
+          window: true,
+          devices: devices,
+        ),
+      );
+    } else {
+      showModalBottomSheet(
+        context: context,
+        builder: (ctx) => AddLocalDnsModal(
+          addLocalDns: _onAddLocalDns,
+          window: false,
+          devices: devices,
+        ),
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!;
-    final servers = context.watch<ServersProvider>();
-    final store = context.watch<LocalDnsProvider>();
 
-    if (servers.selectedApiGateway == null) {
-      return Scaffold(
-        appBar: AppBar(title: Text(locale.localDns)),
-        body: const SafeArea(child: EmptyDataScreen()),
-      );
-    }
+    return ListenableBuilder(
+      listenable: widget.viewModel,
+      builder: (context, _) {
+        final viewModel = widget.viewModel;
+        final isLoading = viewModel.loadRecords.isRunning.value;
+        final hasError = viewModel.loadRecords.errors.value != null;
+        final data = viewModel.loadRecords.value;
 
-    Future<bool> onAddLocalDns(Map<String, dynamic> value) async {
-      final process = ProcessModal(context: context)
-        ..open(locale.localDnsAdding);
-      final ok = await context.read<LocalDnsProvider>().addLocalDns(
-        LocalDns(ip: value['ip'], name: value['name']),
-      );
-      process.close();
-      if (!context.mounted) return false;
-      if (ok) {
-        showSuccessSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: locale.localDnsAddSuccess,
-        );
-        return true;
-      } else {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: locale.localDnsAddFailed,
-        );
-        return false;
-      }
-    }
-
-    Future<bool> onUpdateLocalDns(LocalDns updated, String oldIp) async {
-      final process = ProcessModal(context: context);
-      process.open(locale.updating);
-      final ok = await context.read<LocalDnsProvider>().updateLocalDns(
-        oldIp: oldIp,
-        item: updated,
-      );
-      process.close();
-      if (!context.mounted) return ok;
-      if (ok) {
-        showSuccessSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: locale.localDnsUpdateSuccess,
-        );
-      } else {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: locale.localDnsUpdateFailed,
-        );
-      }
-      return ok;
-    }
-
-    Future<bool> onRemoveLocalDns(LocalDns item) async {
-      final process = ProcessModal(context: context)..open(locale.deleting);
-      final ok = await context.read<LocalDnsProvider>().removeLocalDns(item);
-      process.close();
-      if (!context.mounted) return ok;
-      if (ok) {
-        showSuccessSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: locale.localDnsDeleteSuccess,
-        );
-        await Navigator.maybePop(context);
-      } else {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: locale.localDnsDeleteFailed,
-        );
-      }
-      return ok;
-    }
-
-    void openAddModal() {
-      final mediaQuery = MediaQuery.of(context);
-      final isSmallLandscape =
-          mediaQuery.size.width > mediaQuery.size.height &&
-          mediaQuery.size.height < ResponsiveConstants.medium;
-
-      if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
-        showDialog(
-          context: context,
-          useSafeArea: !isSmallLandscape,
-          useRootNavigator: false,
-          builder: (ctx) => AddLocalDnsModal(
-            addLocalDns: onAddLocalDns,
-            window: true,
-            devices: store.deviceOptions,
-          ),
-        );
-      } else {
-        showModalBottomSheet(
-          context: context,
-          builder: (ctx) => AddLocalDnsModal(
-            addLocalDns: onAddLocalDns,
-            window: false,
-            devices: store.deviceOptions,
-          ),
-          backgroundColor: Colors.transparent,
-          isScrollControlled: true,
-        );
-      }
-    }
-
-    return ScrollConfiguration(
-      behavior: CustomScrollBehavior(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(locale.localDns),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: IconButton(
-                icon: const Icon(Icons.refresh_rounded),
-                onPressed: store.load,
-                tooltip: AppLocalizations.of(context)!.refresh,
-              ),
+        return ScrollConfiguration(
+          behavior: CustomScrollBehavior(),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(locale.localDns),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: IconButton(
+                    icon: const Icon(Icons.refresh_rounded),
+                    onPressed: () => viewModel.loadRecords.run(),
+                    tooltip: locale.refresh,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        body: SafeArea(
-          child: RefreshIndicator(
-            onRefresh: store.load,
-            child: Stack(
-              children: [
-                Builder(
-                  builder: (context) {
-                    switch (store.loadingStatus) {
-                      case LoadStatus.loading:
-                        return Skeletonizer(
-                          effect: ShimmerEffect(
-                            baseColor: Theme.of(
-                              context,
-                            ).colorScheme.secondaryContainer,
-                            highlightColor: Theme.of(
-                              context,
-                            ).colorScheme.surface,
-                          ),
-                          child: LocalDnsListView(
-                            localDnsInfo: _fakeLocalDnsInfo,
-                            onDeviceTap: (_) {},
-                          ),
-                        );
-                      case LoadStatus.error:
-                        return ErrorMessage(message: locale.dataFetchFailed);
-                      case LoadStatus.loaded:
-                        if (store.localDns.isEmpty) {
+            body: SafeArea(
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  try {
+                    await viewModel.loadRecords.runAsync();
+                  } catch (_) {
+                    // Error handled by command.errors
+                  }
+                },
+                child: Stack(
+                  children: [
+                    Builder(
+                      builder: (context) {
+                        if (isLoading) {
+                          return Skeletonizer(
+                            effect: ShimmerEffect(
+                              baseColor: Theme.of(
+                                context,
+                              ).colorScheme.secondaryContainer,
+                              highlightColor:
+                                  Theme.of(context).colorScheme.surface,
+                            ),
+                            child: LocalDnsListView(
+                              localDnsInfo: _fakeLocalDnsInfo,
+                              onDeviceTap: (_) {},
+                            ),
+                          );
+                        }
+
+                        if (hasError) {
+                          return ErrorMessage(message: locale.dataFetchFailed);
+                        }
+
+                        if (data.records.isEmpty) {
                           return EmptyDataScreen(
                             message: locale.localDnsEmptyDescription,
                           );
                         }
+
                         return LocalDnsListView(
-                          localDnsInfo: store.localDns,
+                          localDnsInfo: data.records,
                           onDeviceTap: (localDns) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (_) => LocalDnsDetailScreen(
                                   localDns: localDns,
-                                  devices: store.deviceOptions,
-                                  onDelete: (ld) async => onRemoveLocalDns(ld),
-                                  onUpdate: onUpdateLocalDns,
+                                  devices: data.deviceOptions,
+                                  onDelete: (ld) async =>
+                                      _onRemoveLocalDns(ld),
+                                  onUpdate: _onUpdateLocalDns,
                                 ),
                               ),
                             );
                           },
                         );
-                    }
-                  },
-                ),
+                      },
+                    ),
 
-                Selector<AppConfigProvider, bool>(
-                  selector: (_, a) => a.showingSnackbar,
-                  builder: (_, showingSnackbar, _) {
-                    return AnimatedPositioned(
-                      duration: const Duration(milliseconds: 100),
-                      curve: Curves.easeInOut,
-                      bottom: showingSnackbar ? 70 : 20,
-                      right: 20,
-                      child: FloatingActionButton(
-                        onPressed: openAddModal,
-                        child: const Icon(Icons.add),
-                      ),
-                    );
-                  },
+                    Selector<AppConfigProvider, bool>(
+                      selector: (_, a) => a.showingSnackbar,
+                      builder: (_, showingSnackbar, _) {
+                        return AnimatedPositioned(
+                          duration: const Duration(milliseconds: 100),
+                          curve: Curves.easeInOut,
+                          bottom: showingSnackbar ? 70 : 20,
+                          right: 20,
+                          child: FloatingActionButton(
+                            onPressed: _openAddModal,
+                            child: const Icon(Icons.add),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

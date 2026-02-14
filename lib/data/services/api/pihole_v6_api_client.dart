@@ -930,19 +930,60 @@ class PiholeV6ApiClient {
   Future<Result<Config>> patchConfig(
     String sid, {
     required ConfigData body,
+    bool isRestart = true,
   }) async {
     return safeApiCall<Config>(() async {
       final resp = await _sendRequest(
         method: HttpMethod.patch,
-        path: '/api/config',
+        path: '/api/config?restart=$isRestart',
         sid: sid,
-        body: body.toJson(),
+        body: {'config': body.toJson()},
       );
 
       if (resp.statusCode == 200) {
         return Config.fromJson(jsonDecode(resp.body));
       }
 
+      throw HttpStatusCodeException(resp.statusCode, resp.body);
+    });
+  }
+
+  Future<Result<Unit>> putConfigElement(
+    String sid, {
+    required String element,
+    required String value,
+    bool isRestart = true,
+  }) async {
+    return safeApiCall<Unit>(() async {
+      final encodedElement = Uri.encodeComponent(element);
+      final encodedValue = Uri.encodeComponent(value);
+      final resp = await _sendRequest(
+        method: HttpMethod.put,
+        path: '/api/config/$encodedElement/$encodedValue?restart=$isRestart',
+        sid: sid,
+      );
+
+      if (resp.statusCode == 201) return unit;
+      throw HttpStatusCodeException(resp.statusCode, resp.body);
+    });
+  }
+
+  Future<Result<Unit>> deleteConfigElement(
+    String sid, {
+    required String element,
+    required String value,
+    bool isRestart = true,
+  }) async {
+    return safeApiCall<Unit>(() async {
+      final encodedElement = Uri.encodeComponent(element);
+      final encodedValue = Uri.encodeComponent(value);
+      final resp = await _sendRequest(
+        method: HttpMethod.delete,
+        path: '/api/config/$encodedElement/$encodedValue?restart=$isRestart',
+        sid: sid,
+      );
+
+      if (resp.statusCode == 204) return unit;
       throw HttpStatusCodeException(resp.statusCode, resp.body);
     });
   }

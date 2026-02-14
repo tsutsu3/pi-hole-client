@@ -7,6 +7,8 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhc
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/viewmodel/dhcp_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/viewmodel/interface_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/viewmodel/local_dns_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen.dart';
@@ -90,6 +92,19 @@ GoRouter createAppRouter({
               dhcpRepository: bundle!.dhcp,
               ftlRepository: bundle.ftl,
             )..loadLeases.run(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/settings/server/advanced/local-dns',
+        name: Routes.settingsServerAdvancedLocalDns,
+        builder: (context, state) {
+          final bundle = context.read<RepositoryBundle?>();
+          return LocalDnsScreen(
+            viewModel: LocalDnsViewModel(
+              localDnsRepository: bundle!.localDns,
+              networkRepository: bundle.network,
+            )..loadRecords.run(),
           );
         },
       ),
