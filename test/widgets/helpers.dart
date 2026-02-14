@@ -33,6 +33,7 @@ import 'package:pi_hole_client/data/model/v6/network/devices.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart' as domain_model;
+import 'package:pi_hole_client/domain/model/ftl/message.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart'
@@ -48,7 +49,6 @@ import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/groups.dart';
 import 'package:pi_hole_client/domain/models_old/host.dart';
 import 'package:pi_hole_client/domain/models_old/log.dart';
-import 'package:pi_hole_client/domain/models_old/messages.dart';
 import 'package:pi_hole_client/domain/models_old/metrics.dart';
 import 'package:pi_hole_client/domain/models_old/overtime_data.dart';
 import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
@@ -1610,10 +1610,18 @@ class TestSetupHelper {
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
             ),
-            ChangeNotifierProxyProvider<ServersProvider, GravityUpdateProvider>(
+            ChangeNotifierProxyProvider2<
+              RepositoryBundle?,
+              ServersProvider,
+              GravityUpdateProvider
+            >(
               create: (context) => mockGravityUpdateProvider,
-              update: (context, serverConfig, servers) =>
-                  servers!..update(serverConfig),
+              update: (context, bundle, serversProvider, previous) =>
+                  previous!..update(
+                    actionsRepository: bundle?.actions,
+                    ftlRepository: bundle?.ftl,
+                    serverAddress: serversProvider.selectedServer?.address,
+                  ),
             ),
             ChangeNotifierProxyProvider<ServersProvider, LocalDnsProvider>(
               create: (context) => mockLocalDnsProvider,
@@ -1712,10 +1720,18 @@ class TestSetupHelper {
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
         ),
-        ChangeNotifierProxyProvider<ServersProvider, GravityUpdateProvider>(
+        ChangeNotifierProxyProvider2<
+          RepositoryBundle?,
+          ServersProvider,
+          GravityUpdateProvider
+        >(
           create: (context) => mockGravityUpdateProvider,
-          update: (context, serverConfig, servers) =>
-              servers!..update(serverConfig),
+          update: (context, bundle, serversProvider, previous) =>
+              previous!..update(
+                actionsRepository: bundle?.actions,
+                ftlRepository: bundle?.ftl,
+                serverAddress: serversProvider.selectedServer?.address,
+              ),
         ),
         ChangeNotifierProxyProvider<ServersProvider, LocalDnsProvider>(
           create: (context) => mockLocalDnsProvider,
@@ -2057,9 +2073,14 @@ class TestSetupHelper {
 
     when(mockGravityUpdateProvider.logs).thenReturn(['log1', 'log2']);
 
-    when(
-      mockGravityUpdateProvider.messages,
-    ).thenReturn(MessagesInfo.fromV6(messages).messages);
+    when(mockGravityUpdateProvider.messages).thenReturn(<FtlMessage>[
+      FtlMessage(
+        id: 5,
+        timestamp: DateTime.fromMillisecondsSinceEpoch(1743936482 * 1000),
+        message: 'List with ID 10 was inaccessible during last gravity run',
+        url: 'http://localhost:8989/test.txt',
+      ),
+    ]);
 
     when(mockGravityUpdateProvider.startedAtTime).thenReturn(
       DateTime.fromMillisecondsSinceEpoch(1733465700 * 1000),

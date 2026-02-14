@@ -18,11 +18,16 @@ import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart' as _i18;
 import 'package:pi_hole_client/data/gateway/api_gateway_v5.dart' as _i34;
 import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart' as _i39;
 import 'package:pi_hole_client/data/model/v6/config/config.dart' as _i38;
+import 'package:pi_hole_client/data/repositories/api/interfaces/actions_respository.dart'
+    as _i47;
 import 'package:pi_hole_client/data/repositories/api/interfaces/adlist_repository.dart'
     as _i44;
 import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart'
     as _i27;
+import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart'
+    as _i48;
 import 'package:pi_hole_client/domain/model/domain/domain.dart' as _i26;
+import 'package:pi_hole_client/domain/model/ftl/message.dart' as _i46;
 import 'package:pi_hole_client/domain/model/list/adlist.dart' as _i43;
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart' as _i31;
 import 'package:pi_hole_client/domain/model/network/network.dart' as _i32;
@@ -33,7 +38,6 @@ import 'package:pi_hole_client/domain/models_old/devices.dart' as _i33;
 import 'package:pi_hole_client/domain/models_old/domain.dart' as _i35;
 import 'package:pi_hole_client/domain/models_old/gateways.dart' as _i6;
 import 'package:pi_hole_client/domain/models_old/groups.dart' as _i37;
-import 'package:pi_hole_client/domain/models_old/messages.dart' as _i46;
 import 'package:pi_hole_client/domain/models_old/metrics.dart' as _i24;
 import 'package:pi_hole_client/domain/models_old/overtime_data.dart' as _i23;
 import 'package:pi_hole_client/domain/models_old/query_status.dart' as _i17;
@@ -4093,12 +4097,12 @@ class MockGravityUpdateProvider extends _i1.Mock
           as bool);
 
   @override
-  List<_i46.Message> get messages =>
+  List<_i46.FtlMessage> get messages =>
       (super.noSuchMethod(
             Invocation.getter(#messages),
-            returnValue: <_i46.Message>[],
+            returnValue: <_i46.FtlMessage>[],
           )
-          as List<_i46.Message>);
+          as List<_i46.FtlMessage>);
 
   @override
   bool get hasListeners =>
@@ -4136,20 +4140,22 @@ class MockGravityUpdateProvider extends _i1.Mock
   );
 
   @override
-  void setMessages(_i46.MessagesInfo? messagesInfo) => super.noSuchMethod(
-    Invocation.method(#setMessages, [messagesInfo]),
-    returnValueForMissingStub: null,
-  );
-
-  @override
   void appendLogs(List<String>? entries) => super.noSuchMethod(
     Invocation.method(#appendLogs, [entries]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void update(_i16.ServersProvider? provider) => super.noSuchMethod(
-    Invocation.method(#update, [provider]),
+  void update({
+    _i47.ActionsRepository? actionsRepository,
+    _i48.FtlRepository? ftlRepository,
+    String? serverAddress,
+  }) => super.noSuchMethod(
+    Invocation.method(#update, [], {
+      #actionsRepository: actionsRepository,
+      #ftlRepository: ftlRepository,
+      #serverAddress: serverAddress,
+    }),
     returnValueForMissingStub: null,
   );
 

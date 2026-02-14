@@ -169,7 +169,6 @@ void main() async {
   final groupsProvider = GroupsProvider(serversProvider: serversProvider);
   final gravityUpdateProvider = GravityUpdateProvider(
     repository: gravityRepository,
-    serversProvider: serversProvider,
   );
   final localDnsProvider = LocalDnsProvider(serversProvider: serversProvider);
 
@@ -343,10 +342,15 @@ void main() async {
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
         ),
-        ChangeNotifierProxyProvider<ServersProvider, GravityUpdateProvider>(
+        ChangeNotifierProxyProvider2<RepositoryBundle?, ServersProvider,
+            GravityUpdateProvider>(
           create: (context) => gravityUpdateProvider,
-          update: (context, serverConfig, servers) =>
-              servers!..update(serverConfig),
+          update: (context, bundle, serversProvider, previous) =>
+              previous!..update(
+                actionsRepository: bundle?.actions,
+                ftlRepository: bundle?.ftl,
+                serverAddress: serversProvider.selectedServer?.address,
+              ),
         ),
         ChangeNotifierProxyProvider<ServersProvider, LocalDnsProvider>(
           create: (context) => localDnsProvider,
