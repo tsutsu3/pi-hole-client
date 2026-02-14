@@ -120,9 +120,10 @@ class DomainsViewModel extends ChangeNotifier {
   }
 
   void _applyFilters() {
+    final term = _searchTerm.toLowerCase();
     _filteredWhitelistDomains = _whitelistDomains.where((domain) {
       final matchesSearch =
-          _searchTerm.isEmpty || domain.name.contains(_searchTerm);
+          term.isEmpty || domain.name.toLowerCase().contains(term);
       final matchesGroup =
           _groupFilter == null || domain.groups.contains(_groupFilter);
       return matchesSearch && matchesGroup;
@@ -130,7 +131,7 @@ class DomainsViewModel extends ChangeNotifier {
 
     _filteredBlacklistDomains = _blacklistDomains.where((domain) {
       final matchesSearch =
-          _searchTerm.isEmpty || domain.name.contains(_searchTerm);
+          term.isEmpty || domain.name.toLowerCase().contains(term);
       final matchesGroup =
           _groupFilter == null || domain.groups.contains(_groupFilter);
       return matchesSearch && matchesGroup;
