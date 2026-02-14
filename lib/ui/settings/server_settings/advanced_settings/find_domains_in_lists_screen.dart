@@ -7,6 +7,7 @@ import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/search.dart';
 import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
+import 'package:pi_hole_client/utils/punycode.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
@@ -253,7 +254,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       kind: entry.kind == v6_search.DomainKind.exact
           ? DomainKind.exact
           : DomainKind.regex,
-      name: entry.domain,
+      name: decodePunycode(entry.domain),
       punyCode: entry.domain,
       enabled: entry.enabled,
       dateAdded: DateTime.fromMillisecondsSinceEpoch(entry.dateAdded * 1000),

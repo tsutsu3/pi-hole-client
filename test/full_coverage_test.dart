@@ -765,6 +765,7 @@ import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/math.dart';
 import 'package:pi_hole_client/utils/misc.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
+import 'package:pi_hole_client/utils/punycode.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 
