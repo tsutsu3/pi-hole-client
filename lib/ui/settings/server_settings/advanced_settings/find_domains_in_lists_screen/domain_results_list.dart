@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/domain/models_old/domain.dart';
+import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_tile.dart';
@@ -29,8 +29,8 @@ class DomainResultsList extends StatelessWidget {
         if (colors == null) {
           return CustomListTile(
             leadingIcon: Icons.domain_rounded,
-            label: domain.domain,
-            description: getDomainType(domain.type),
+            label: domain.name,
+            description: getDomainTypeLabel(domain.type, domain.kind),
             onTap: () => onTap(domain),
           );
         }

@@ -378,11 +378,6 @@ void main() async {
         (_) async =>
             SearchResponse(result: APiResponseType.success, data: searchInfo),
       );
-      when(testSetup.mockApiGatewayV6.removeDomainFromList(any)).thenAnswer(
-        (_) async =>
-            RemoveDomainFromListResponse(result: APiResponseType.success),
-      );
-
       await tester.pumpWidget(
         testSetup.buildTestWidget(const FindDomainsInListsScreen()),
       );

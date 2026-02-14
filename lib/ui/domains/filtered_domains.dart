@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/domain/models_old/domain.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domains_list.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +33,7 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
   late TabController tabController;
   final ScrollController scrollController = ScrollController();
   final TextEditingController searchController = TextEditingController();
-  late DomainsListProvider _domainsListProvider;
+  late DomainsViewModel _viewModel;
 
   Domain? selectedDomain;
 
@@ -49,16 +47,15 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
       initialIndex: widget.initialTab,
     );
 
-    _domainsListProvider = context.read<DomainsListProvider>();
+    _viewModel = context.read<DomainsViewModel>();
 
     Future.microtask(() async {
       if (!mounted) return;
 
-      _domainsListProvider.setLoadingStatus(LoadStatus.loading);
-      _domainsListProvider.setGroupFilter(widget.groupId);
-      _domainsListProvider.setSelectedTab(widget.initialTab);
+      _viewModel.setGroupFilter(widget.groupId);
+      _viewModel.setSelectedTab(widget.initialTab);
 
-      await _domainsListProvider.fetchDomainsList();
+      _viewModel.loadDomains.run();
 
       if (!mounted) return;
       final groupsProvider = context.read<GroupsProvider>();
@@ -68,7 +65,7 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
 
   @override
   void dispose() {
-    _domainsListProvider.clearGroupFilter();
+    _viewModel.clearGroupFilter();
     tabController.dispose();
     scrollController.dispose();
     searchController.dispose();
@@ -77,39 +74,29 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
 
   @override
   Widget build(BuildContext context) {
-    final domainsListProvider = Provider.of<DomainsListProvider>(context);
+    final viewModel = Provider.of<DomainsViewModel>(context);
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final apiGateway = serversProvider.selectedApiGateway;
     final groups = context.watch<GroupsProvider>().groupItems;
 
     Future<void> removeDomain(Domain domain) async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.deleting);
 
-      final result = await apiGateway?.removeDomainFromList(domain);
-
-      process.close();
-
-      if (!context.mounted) return;
-
-      if (result?.result == APiResponseType.success) {
-        domainsListProvider.removeDomainFromList(domain);
+      try {
+        await viewModel.deleteDomain.runAsync(domain);
+        if (!context.mounted) return;
+        process.close();
 
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.domainRemoved,
         );
-      } else if (result!.result == APiResponseType.error &&
-          result.message != null &&
-          result.message == 'not_exists') {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.domainNotExists,
-        );
-      } else {
+      } catch (_) {
+        if (!context.mounted) return;
+        process.close();
+
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -123,10 +110,10 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: domainsListProvider.searchMode
+            title: viewModel.searchMode
                 ? TextFormField(
-                    initialValue: domainsListProvider.searchTerm,
-                    onChanged: domainsListProvider.onSearch,
+                    initialValue: viewModel.searchTerm,
+                    onChanged: viewModel.onSearch,
                     decoration: InputDecoration(
                       hintText: AppLocalizations.of(context)!.domainsSearch,
                       hintStyle: const TextStyle(fontWeight: FontWeight.w400),
@@ -139,17 +126,17 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
                   )
                 : Text(AppLocalizations.of(context)!.domains),
             actions: [
-              if (!domainsListProvider.searchMode)
+              if (!viewModel.searchMode)
                 IconButton(
-                  onPressed: () => domainsListProvider.setSearchMode(true),
+                  onPressed: () => viewModel.setSearchMode(true),
                   icon: const Icon(Icons.search_rounded),
                 ),
-              if (domainsListProvider.searchMode)
+              if (viewModel.searchMode)
                 IconButton(
                   onPressed: () => setState(() {
-                    domainsListProvider.setSearchMode(false);
+                    viewModel.setSearchMode(false);
                     searchController.text = '';
-                    domainsListProvider.onSearch('');
+                    viewModel.onSearch('');
                   }),
                   icon: const Icon(Icons.close_rounded),
                 ),
@@ -182,7 +169,7 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
                   ),
                   TabBar(
                     controller: tabController,
-                    onTap: domainsListProvider.setSelectedTab,
+                    onTap: viewModel.setSelectedTab,
                     tabs: const [
                       Tab(
                         child: Row(

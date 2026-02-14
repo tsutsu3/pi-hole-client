@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/domain/models_old/domain.dart';
+import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 
@@ -19,7 +19,7 @@ class EditDomainModal extends StatefulWidget {
   final String keyItem;
   final String title;
   final IconData icon;
-  final void Function(Map<String, dynamic>) onConfirm;
+  final void Function(Domain) onConfirm;
   final bool window;
   final Map<int, String> groups;
 
@@ -158,16 +158,16 @@ class _EditDomainModalState extends State<EditDomainModal> {
                         ? () {
                             if (widget.keyItem == 'comment') {
                               widget.onConfirm(
-                                widget.domain
-                                    .copyWith(comment: commentController.text)
-                                    .toJson(),
+                                widget.domain.copyWith(
+                                  comment: commentController.text,
+                                ),
                               );
                             }
                             if (widget.keyItem == 'groups') {
                               widget.onConfirm(
-                                widget.domain
-                                    .copyWith(groups: selectedGroups)
-                                    .toJson(),
+                                widget.domain.copyWith(
+                                  groups: selectedGroups,
+                                ),
                               );
                             }
                             Navigator.maybePop(context);

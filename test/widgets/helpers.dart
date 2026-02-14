@@ -1,3 +1,4 @@
+import 'package:command_it/command_it.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -31,6 +32,8 @@ import 'package:pi_hole_client/data/model/v6/metrics/query.dart';
 import 'package:pi_hole_client/data/model/v6/network/devices.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
+import 'package:pi_hole_client/domain/model/domain/domain.dart'
+    as domain_model;
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart'
     show DeviceOption;
@@ -60,7 +63,6 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
@@ -68,6 +70,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
+import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 import '../../testing/fakes/repositories/api/fake_actions_repository.dart';
@@ -75,6 +78,7 @@ import '../../testing/fakes/repositories/api/fake_auth_repository.dart';
 import '../../testing/fakes/repositories/api/fake_config_repository.dart';
 import '../../testing/fakes/repositories/api/fake_dhcp_repository.dart';
 import '../../testing/fakes/repositories/api/fake_dns_repository.dart';
+import '../../testing/fakes/repositories/api/fake_domain_repository.dart';
 import '../../testing/fakes/repositories/api/fake_ftl_repository.dart';
 import '../../testing/fakes/repositories/api/fake_local_dns_repository.dart';
 import '../../testing/fakes/repositories/api/fake_network_repository.dart';
@@ -146,6 +150,21 @@ final whiteDomains = [
     dateModified: DateTime.now(),
     comment: null,
     groups: [0],
+  ),
+];
+
+final newModelDomains = [
+  domain_model.Domain(
+    id: 1,
+    name: 'example.com',
+    punyCode: 'example.com',
+    type: DomainType.allow,
+    kind: DomainKind.exact,
+    comment: null,
+    groups: [0],
+    enabled: true,
+    dateAdded: DateTime(2025, 1, 1),
+    dateModified: DateTime(2025, 1, 1),
   ),
 ];
 
@@ -1432,7 +1451,7 @@ Future<void> initializeApp() async {
   ServersProvider,
   FiltersProvider,
   StatusProvider,
-  DomainsListProvider,
+  DomainsViewModel,
   ClientsListProvider,
   LocalDnsProvider,
   ApiGatewayV5,
@@ -1448,7 +1467,7 @@ class TestSetupHelper {
     MockServersProvider? customServersProvider,
     MockFiltersProvider? customFiltersProvider,
     MockStatusProvider? customStatusProvider,
-    MockDomainsListProvider? customDomainsListProvider,
+    MockDomainsViewModel? customDomainsViewModel,
     MockClientsListProvider? customClientsListProvider,
     MockGroupsProvider? customGroupsProvider,
     MockSubscriptionsListProvider? customSubscriptionsListProvider,
@@ -1462,8 +1481,8 @@ class TestSetupHelper {
     mockServersProvider = customServersProvider ?? MockServersProvider();
     mockFiltersProvider = customFiltersProvider ?? MockFiltersProvider();
     mockStatusProvider = customStatusProvider ?? MockStatusProvider();
-    mockDomainsListProvider =
-        customDomainsListProvider ?? MockDomainsListProvider();
+    mockDomainsViewModel =
+        customDomainsViewModel ?? MockDomainsViewModel();
     mockClientsListProvider =
         customClientsListProvider ?? MockClientsListProvider();
     mockGroupsProvider = customGroupsProvider ?? MockGroupsProvider();
@@ -1481,13 +1500,14 @@ class TestSetupHelper {
 
     fakeActionsRepository = FakeActionsRepository();
     fakeConfigRepository = FakeConfigRepository();
+    fakeDomainRepository = FakeDomainRepository();
   }
 
   late MockAppConfigProvider mockConfigProvider;
   late MockServersProvider mockServersProvider;
   late MockFiltersProvider mockFiltersProvider;
   late MockStatusProvider mockStatusProvider;
-  late MockDomainsListProvider mockDomainsListProvider;
+  late MockDomainsViewModel mockDomainsViewModel;
   late MockClientsListProvider mockClientsListProvider;
   late MockGroupsProvider mockGroupsProvider;
   late MockSubscriptionsListProvider mockSubscriptionsListProvider;
@@ -1501,13 +1521,14 @@ class TestSetupHelper {
 
   late FakeActionsRepository fakeActionsRepository;
   late FakeConfigRepository fakeConfigRepository;
+  late FakeDomainRepository fakeDomainRepository;
 
   void initializeMock({String useApiGatewayVersion = 'v5'}) {
     _initConfiProviderMock(useApiGatewayVersion);
     _initServerProviderMock(useApiGatewayVersion);
     _initFiltersProviderMock(useApiGatewayVersion);
     _initStatusProviderMock(useApiGatewayVersion);
-    _initDomainListProviderMock(useApiGatewayVersion);
+    _initDomainsViewModelMock(useApiGatewayVersion);
     _initClientsListProviderMock(useApiGatewayVersion);
     _initGroupsPtoviderMock(useApiGatewayVersion);
     _initSubscriptionsListProviderMock(useApiGatewayVersion);
@@ -1552,10 +1573,10 @@ class TestSetupHelper {
               update: (context, appConfig, servers) =>
                   servers!..update(appConfig),
             ),
-            ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
-              create: (context) => mockDomainsListProvider,
-              update: (context, serverConfig, servers) =>
-                  servers!..update(serverConfig),
+            ChangeNotifierProxyProvider<RepositoryBundle?, DomainsViewModel>(
+              create: (context) => mockDomainsViewModel,
+              update: (context, bundle, previous) =>
+                  previous!..update(bundle?.domain),
             ),
             ChangeNotifierProxyProvider<ServersProvider, ClientsListProvider>(
               create: (context) => mockClientsListProvider,
@@ -1601,6 +1622,7 @@ class TestSetupHelper {
                 config: fakeConfigRepository,
                 dhcp: FakeDhcpRepository(),
                 dns: FakeDnsRepository(),
+                domain: fakeDomainRepository,
                 ftl: FakeFtlRepository(),
                 localDns: FakeLocalDnsRepository(),
                 network: FakeNetworkRepository(),
@@ -1652,10 +1674,10 @@ class TestSetupHelper {
           create: (context) => mockServersProvider,
           update: (context, appConfig, servers) => servers!..update(appConfig),
         ),
-        ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
-          create: (context) => mockDomainsListProvider,
-          update: (context, serverConfig, servers) =>
-              servers!..update(serverConfig),
+        ChangeNotifierProxyProvider<RepositoryBundle?, DomainsViewModel>(
+          create: (context) => mockDomainsViewModel,
+          update: (context, bundle, previous) =>
+              previous!..update(bundle?.domain),
         ),
         ChangeNotifierProxyProvider<ServersProvider, ClientsListProvider>(
           create: (context) => mockClientsListProvider,
@@ -1698,6 +1720,7 @@ class TestSetupHelper {
             config: fakeConfigRepository,
             dhcp: FakeDhcpRepository(),
             dns: FakeDnsRepository(),
+            domain: fakeDomainRepository,
             ftl: FakeFtlRepository(),
             localDns: FakeLocalDnsRepository(),
             network: FakeNetworkRepository(),
@@ -1883,23 +1906,32 @@ class TestSetupHelper {
     ).thenReturn(MetricsInfo.fromV6(metrics).dnsReplies);
   }
 
-  void _initDomainListProviderMock(String useApiGatewayVersion) {
-    when(mockDomainsListProvider.fetchDomainsList()).thenAnswer((_) async {});
-    when(mockDomainsListProvider.searchMode).thenReturn(false);
-    when(mockDomainsListProvider.searchTerm).thenReturn('');
-    when(mockDomainsListProvider.groupFilter).thenReturn(null);
-    when(mockDomainsListProvider.filteredWhitelistDomains).thenReturn(domains);
-    when(mockDomainsListProvider.filteredBlacklistDomains).thenReturn([]);
-    when(mockDomainsListProvider.loadingStatus).thenReturn(LoadStatus.loaded);
-    when(mockDomainsListProvider.whitelistDomains).thenReturn(domains);
-    when(mockDomainsListProvider.blacklistDomains).thenReturn([]);
-    when(mockDomainsListProvider.setLoadingStatus(any)).thenReturn(null);
-    when(mockDomainsListProvider.setWhitelistDomains(any)).thenReturn(null);
-    when(mockDomainsListProvider.setBlacklistDomains(any)).thenReturn(null);
-    when(mockDomainsListProvider.onSearch(any)).thenReturn(null);
+  void _initDomainsViewModelMock(String useApiGatewayVersion) {
+    when(mockDomainsViewModel.searchMode).thenReturn(false);
+    when(mockDomainsViewModel.searchTerm).thenReturn('');
+    when(mockDomainsViewModel.groupFilter).thenReturn(null);
     when(
-      mockDomainsListProvider.removeDomainFromList(any),
-    ).thenAnswer((_) async => true);
+      mockDomainsViewModel.filteredWhitelistDomains,
+    ).thenReturn(newModelDomains);
+    when(mockDomainsViewModel.filteredBlacklistDomains).thenReturn([]);
+    when(mockDomainsViewModel.loadingStatus).thenReturn(LoadStatus.loaded);
+    when(mockDomainsViewModel.whitelistDomains).thenReturn(newModelDomains);
+    when(mockDomainsViewModel.blacklistDomains).thenReturn([]);
+    when(mockDomainsViewModel.onSearch(any)).thenReturn(null);
+    when(mockDomainsViewModel.loadDomains).thenReturn(
+      Command.createAsyncNoParam<void>(() async {}, initialValue: null),
+    );
+    when(mockDomainsViewModel.deleteDomain).thenReturn(
+      Command.createAsyncNoResult<domain_model.Domain>((_) async {}),
+    );
+    when(mockDomainsViewModel.addDomain).thenReturn(
+      Command.createAsyncNoResult<
+        ({DomainType type, DomainKind kind, String domain})
+      >((_) async {}),
+    );
+    when(mockDomainsViewModel.updateDomain).thenReturn(
+      Command.createAsyncNoResult<domain_model.Domain>((_) async {}),
+    );
   }
 
   void _initClientsListProviderMock(String useApiGatewayVersion) {

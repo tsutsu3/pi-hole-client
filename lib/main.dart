@@ -22,7 +22,6 @@ import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
@@ -30,6 +29,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
+import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
@@ -159,9 +159,7 @@ void main() async {
   final configProvider = AppConfigProvider(appConfigRepository);
   final statusProvider = StatusProvider();
   final filtersProvider = FiltersProvider(serversProvider: serversProvider);
-  final domainsListProvider = DomainsListProvider(
-    serversProvider: serversProvider,
-  );
+  final domainsViewModel = DomainsViewModel();
   final subscriptionsListProvider = SubscriptionsListProvider(
     serversProvider: serversProvider,
   );
@@ -316,10 +314,10 @@ void main() async {
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
         ),
-        ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
-          create: (context) => domainsListProvider,
-          update: (context, serverConfig, servers) =>
-              servers!..update(serverConfig),
+        ChangeNotifierProxyProvider<RepositoryBundle?, DomainsViewModel>(
+          create: (context) => domainsViewModel,
+          update: (context, bundle, previous) =>
+              previous!..update(bundle?.domain),
         ),
         ChangeNotifierProxyProvider<ServersProvider, SubscriptionsListProvider>(
           create: (context) => subscriptionsListProvider,

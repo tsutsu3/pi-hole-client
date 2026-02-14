@@ -23,6 +23,7 @@ void main() {
 
       expect(domain.id, 1);
       expect(domain.name, 'example.com');
+      expect(domain.punyCode, 'example.com');
       expect(domain.type, DomainType.allow);
       expect(domain.kind, DomainKind.exact);
       expect(domain.comment, 'test comment');
@@ -38,7 +39,7 @@ void main() {
       );
     });
 
-    test('uses unicode field as name over domain field', () {
+    test('uses unicode field as name and domain field as punyCode', () {
       final inner = GetDomainsInner(
         domain: 'xn--example.com',
         unicode: 'unicode-example.com',
@@ -47,6 +48,7 @@ void main() {
       final domain = inner.toDomain();
 
       expect(domain.name, 'unicode-example.com');
+      expect(domain.punyCode, 'xn--example.com');
     });
 
     test('falls back to domain field when unicode is null', () {
@@ -55,6 +57,7 @@ void main() {
       final domain = inner.toDomain();
 
       expect(domain.name, 'example.com');
+      expect(domain.punyCode, 'example.com');
     });
 
     test('maps deny type correctly', () {
@@ -76,6 +79,7 @@ void main() {
 
       expect(domain.id, 0);
       expect(domain.name, '');
+      expect(domain.punyCode, '');
       expect(domain.type, DomainType.allow);
       expect(domain.kind, DomainKind.exact);
       expect(domain.groups, [0]);

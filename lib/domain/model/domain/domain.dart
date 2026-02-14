@@ -23,6 +23,7 @@ sealed class Domain with _$Domain {
   const factory Domain({
     required int id,
     required String name,
+    required String punyCode,
     required DomainType type,
     required DomainKind kind,
     required String? comment,

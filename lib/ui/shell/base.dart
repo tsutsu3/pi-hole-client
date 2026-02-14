@@ -9,9 +9,9 @@ import 'package:pi_hole_client/ui/core/ui/layout/bottom_nav_bar.dart';
 import 'package:pi_hole_client/ui/core/ui/layout/navigation_rail.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/start_warning_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/domains/domains.dart';
+import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/home.dart';
 import 'package:pi_hole_client/ui/logs/logs.dart';
 import 'package:pi_hole_client/ui/servers/servers.dart';
@@ -159,7 +159,7 @@ class _BaseState extends State<Base>
 
   void _handleTabChange(
     int selected,
-    DomainsListProvider domainsListProvider,
+    DomainsViewModel domainsListProvider,
     AppConfigProvider appConfigProvider,
   ) {
     if (selected != 3) {
@@ -177,7 +177,7 @@ class _BaseState extends State<Base>
     final selectedTab = context.select<AppConfigProvider, int>(
       (acp) => acp.selectedTab,
     );
-    final domainsListProvider = context.read<DomainsListProvider>();
+    final domainsListProvider = context.read<DomainsViewModel>();
 
     // Determine the current tab index, mimicking _currentTabIndex logic
     final currentTab = (!hasSelectedServer && selectedTab > 1)

@@ -80,6 +80,7 @@ final kRepoFetchAllDomains = repo.DomainLists(
     repo.Domain(
       id: 1,
       name: 'example.com',
+      punyCode: 'example.com',
       type: DomainType.allow,
       kind: DomainKind.exact,
       comment: null,
@@ -95,6 +96,7 @@ final kRepoFetchAllDomains = repo.DomainLists(
     repo.Domain(
       id: 2,
       name: r'てすと\.com$',
+      punyCode: r'xn--88jzah\.com$',
       type: DomainType.deny,
       kind: DomainKind.regex,
       comment: null,
@@ -109,6 +111,7 @@ final kRepoFetchAllDomains = repo.DomainLists(
 final kRepoAddDomain = repo.Domain(
   id: 1,
   name: 'example.com',
+  punyCode: 'example.com',
   type: DomainType.allow,
   kind: DomainKind.exact,
   comment: null,
@@ -121,6 +124,7 @@ final kRepoAddDomain = repo.Domain(
 final kRepoUpdateDomain = repo.Domain(
   id: 1,
   name: 'example.com',
+  punyCode: 'example.com',
   type: DomainType.allow,
   kind: DomainKind.exact,
   comment: 'test',

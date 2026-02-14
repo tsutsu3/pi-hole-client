@@ -56,6 +56,7 @@ extension DomainDataMapper on s.DomainData {
     return d.Domain(
       id: id,
       name: unicode,
+      punyCode: domain,
       type: type.toDomainType(),
       kind: kind.toDomainKind(),
       comment: comment,

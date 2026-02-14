@@ -78,6 +78,7 @@ class DomainRepositoryV5 extends BaseV5TokenRepository
           Domain(
             id: -1,
             name: domain,
+            punyCode: domain,
             type: type,
             kind: kind,
             comment: comment,

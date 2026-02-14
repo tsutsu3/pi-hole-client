@@ -12,11 +12,11 @@ import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/ui/domains/filtered_domains.dart';
+import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/edit_group_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/filtered_subscriptions.dart';
 import 'package:pi_hole_client/utils/format.dart';
@@ -43,7 +43,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   late GroupsProvider groupsProvider;
   late AppConfigProvider appConfigProvider;
   late ClientsListProvider clientsListProvider;
-  late DomainsListProvider domainsListProvider;
+  late DomainsViewModel domainsViewModel;
   late SubscriptionsListProvider subscriptionsListProvider;
 
   @override
@@ -69,7 +69,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     serversProvider = context.watch<ServersProvider>();
     groupsProvider = context.watch<GroupsProvider>();
     clientsListProvider = context.watch<ClientsListProvider>();
-    domainsListProvider = context.watch<DomainsListProvider>();
+    domainsViewModel = context.watch<DomainsViewModel>();
     subscriptionsListProvider = context.watch<SubscriptionsListProvider>();
     apiGateway = serversProvider.selectedApiGateway;
   }
@@ -172,7 +172,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             _buildMemberCountTile(
               icon: Icons.check_circle_outline_rounded,
               label: AppLocalizations.of(context)!.domainsWhitelist,
-              count: domainsListProvider.whitelistDomains
+              count: domainsViewModel.whitelistDomains
                   .where((d) => d.groups.contains(_group.id))
                   .length,
               onTap: () => _navigateToFilteredDomains(initialTab: 0),
@@ -180,7 +180,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             _buildMemberCountTile(
               icon: Icons.block_rounded,
               label: AppLocalizations.of(context)!.domainsBlacklist,
-              count: domainsListProvider.blacklistDomains
+              count: domainsViewModel.blacklistDomains
                   .where((d) => d.groups.contains(_group.id))
                   .length,
               onTap: () => _navigateToFilteredDomains(initialTab: 1),

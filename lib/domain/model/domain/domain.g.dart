@@ -32,6 +32,7 @@ Map<String, dynamic> _$DomainListsToJson(_DomainLists instance) =>
 _Domain _$DomainFromJson(Map<String, dynamic> json) => _Domain(
   id: (json['id'] as num).toInt(),
   name: json['name'] as String,
+  punyCode: json['punyCode'] as String,
   type: $enumDecode(_$DomainTypeEnumMap, json['type']),
   kind: $enumDecode(_$DomainKindEnumMap, json['kind']),
   comment: json['comment'] as String?,
@@ -46,6 +47,7 @@ _Domain _$DomainFromJson(Map<String, dynamic> json) => _Domain(
 Map<String, dynamic> _$DomainToJson(_Domain instance) => <String, dynamic>{
   'id': instance.id,
   'name': instance.name,
+  'punyCode': instance.punyCode,
   'type': _$DomainTypeEnumMap[instance.type]!,
   'kind': _$DomainKindEnumMap[instance.kind]!,
   'comment': instance.comment,

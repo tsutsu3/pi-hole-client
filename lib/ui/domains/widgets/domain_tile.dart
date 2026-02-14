@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/formats.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/domain/models_old/domain.dart';
+import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/color_helpers.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
@@ -46,14 +47,14 @@ class DomainTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget domainType(int type) {
+    Widget domainType(DomainType type, DomainKind kind) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
         child: Text(
-          getDomainType(type),
+          getDomainTypeLabel(type, kind),
           style: TextStyle(
-            color: convertColorFromNumber(colors, type),
+            color: domainTypeColor(colors, type, kind),
             fontSize: 13,
             fontWeight: FontWeight.w400,
             overflow: TextOverflow.ellipsis,
@@ -62,21 +63,16 @@ class DomainTile extends StatelessWidget {
       );
     }
 
-    Widget domainStatusIcon(int enabled) {
+    Widget domainStatusIcon(bool enabled) {
       final appColors = Theme.of(context).extension<AppColors>()!;
 
-      switch (enabled) {
-        case 0:
-          // Disabled
-          return Icon(Icons.remove_circle_rounded, color: appColors.queryGrey);
-        case 1:
-          // Enabled
-          return Icon(
-            Icons.check_circle_outline_rounded,
-            color: Theme.of(context).colorScheme.secondary,
-          );
-        default:
-          return Icon(Icons.help_rounded, color: appColors.queryGrey);
+      if (enabled) {
+        return Icon(
+          Icons.check_circle_outline_rounded,
+          color: Theme.of(context).colorScheme.secondary,
+        );
+      } else {
+        return Icon(Icons.remove_circle_rounded, color: appColors.queryGrey);
       }
     }
 
@@ -92,7 +88,7 @@ class DomainTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                domain.domain,
+                domain.name,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontWeight: FontWeight.w400,
@@ -114,7 +110,7 @@ class DomainTile extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 16),
-        domainType(domain.type),
+        domainType(domain.type, domain.kind),
       ],
     );
 

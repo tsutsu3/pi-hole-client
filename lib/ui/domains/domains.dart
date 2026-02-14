@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/domain/models_old/domain.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/group_filter_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domains_list.dart';
 import 'package:provider/provider.dart';
@@ -21,28 +18,22 @@ class DomainLists extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final domainsListProvider = Provider.of<DomainsListProvider>(
+    final viewModel = Provider.of<DomainsViewModel>(
       context,
       listen: false,
     );
 
-    return DomainListsWidget(
-      server: serversProvider.selectedServer!,
-      domainsListProvider: domainsListProvider,
-    );
+    return DomainListsWidget(viewModel: viewModel);
   }
 }
 
 class DomainListsWidget extends StatefulWidget {
   const DomainListsWidget({
-    required this.server,
-    required this.domainsListProvider,
+    required this.viewModel,
     super.key,
   });
 
-  final Server server;
-  final DomainsListProvider domainsListProvider;
+  final DomainsViewModel viewModel;
 
   @override
   State<DomainListsWidget> createState() => _DomainListsWidgetState();
@@ -62,16 +53,14 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
     super.initState();
 
     Future.microtask(() async {
-      widget.domainsListProvider.setLoadingStatus(LoadStatus.loading);
-
-      await widget.domainsListProvider.fetchDomainsList();
+      widget.viewModel.loadDomains.run();
 
       if (!mounted) return;
       final groupsProvider = context.read<GroupsProvider>();
       await groupsProvider.loadGroups();
     });
 
-    widget.domainsListProvider.setSelectedTab(0);
+    widget.viewModel.setSelectedTab(0);
     tabController = TabController(length: 2, vsync: this);
   }
 
@@ -85,39 +74,29 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
 
   @override
   Widget build(BuildContext context) {
-    final domainsListProvider = Provider.of<DomainsListProvider>(context);
+    final viewModel = Provider.of<DomainsViewModel>(context);
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final apiGateway = serversProvider.selectedApiGateway;
     final groups = context.watch<GroupsProvider>().groupItems;
 
     Future<void> removeDomain(Domain domain) async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.deleting);
 
-      final result = await apiGateway?.removeDomainFromList(domain);
-
-      process.close();
-
-      if (!context.mounted) return;
-
-      if (result?.result == APiResponseType.success) {
-        domainsListProvider.removeDomainFromList(domain);
+      try {
+        await viewModel.deleteDomain.runAsync(domain);
+        if (!context.mounted) return;
+        process.close();
 
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.domainRemoved,
         );
-      } else if (result!.result == APiResponseType.error &&
-          result.message != null &&
-          result.message == 'not_exists') {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.domainNotExists,
-        );
-      } else {
+      } catch (_) {
+        if (!context.mounted) return;
+        process.close();
+
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -131,10 +110,10 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
         length: 2,
         child: Scaffold(
           appBar: AppBar(
-            title: domainsListProvider.searchMode
+            title: viewModel.searchMode
                 ? TextFormField(
-                    initialValue: domainsListProvider.searchTerm,
-                    onChanged: domainsListProvider.onSearch,
+                    initialValue: viewModel.searchTerm,
+                    onChanged: viewModel.onSearch,
                     decoration: InputDecoration(
                       hintText: AppLocalizations.of(context)!.domainsSearch,
                       hintStyle: const TextStyle(fontWeight: FontWeight.w400),
@@ -147,27 +126,27 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                   )
                 : Text(AppLocalizations.of(context)!.domains),
             actions: [
-              if (!domainsListProvider.searchMode)
+              if (!viewModel.searchMode)
                 IconButton(
-                  onPressed: () => domainsListProvider.setSearchMode(true),
+                  onPressed: () => viewModel.setSearchMode(true),
                   icon: const Icon(Icons.search_rounded),
                 ),
-              if (domainsListProvider.searchMode)
+              if (viewModel.searchMode)
                 IconButton(
                   onPressed: () => setState(() {
-                    domainsListProvider.setSearchMode(false);
+                    viewModel.setSearchMode(false);
                     searchController.text = '';
-                    domainsListProvider.onSearch('');
+                    viewModel.onSearch('');
                   }),
                   icon: const Icon(Icons.close_rounded),
                 ),
-              if (!domainsListProvider.searchMode)
+              if (!viewModel.searchMode)
                 IconButton(
                   onPressed: () => showGroupFilterModal(
                     context: context,
                     groups: groups,
-                    selectedGroupId: domainsListProvider.groupFilter,
-                    onApply: domainsListProvider.setGroupFilter,
+                    selectedGroupId: viewModel.groupFilter,
+                    onApply: viewModel.setGroupFilter,
                   ),
                   icon: const Icon(Icons.filter_list_rounded),
                 ),
@@ -175,11 +154,11 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
             ],
             bottom: PreferredSize(
               preferredSize: Size.fromHeight(
-                domainsListProvider.groupFilter != null ? 96 : 46,
+                viewModel.groupFilter != null ? 96 : 46,
               ),
               child: Column(
                 children: [
-                  if (domainsListProvider.groupFilter != null)
+                  if (viewModel.groupFilter != null)
                     Container(
                       width: double.maxFinite,
                       height: 50,
@@ -190,10 +169,10 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                           const SizedBox(width: 16),
                           Chip(
                             label: Text(
-                              '${AppLocalizations.of(context)!.groups}: ${groups[domainsListProvider.groupFilter] ?? ''}',
+                              '${AppLocalizations.of(context)!.groups}: ${groups[viewModel.groupFilter] ?? ''}',
                             ),
                             deleteIcon: const Icon(Icons.close, size: 18),
-                            onDeleted: domainsListProvider.clearGroupFilter,
+                            onDeleted: viewModel.clearGroupFilter,
                           ),
                           const SizedBox(width: 16),
                         ],
@@ -201,7 +180,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                     ),
                   TabBar(
                     controller: tabController,
-                    onTap: domainsListProvider.setSelectedTab,
+                    onTap: viewModel.setSelectedTab,
                     tabs: const [
                       Tab(
                         child: Row(

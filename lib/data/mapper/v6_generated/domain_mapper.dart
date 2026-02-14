@@ -8,6 +8,7 @@ extension GetDomainsInnerMapper on GetDomainsInner {
     return Domain(
       id: id ?? 0,
       name: unicode ?? domain ?? '',
+      punyCode: domain ?? '',
       type: type.toDomainType(),
       kind: kind.toDomainKind(),
       comment: comment,
