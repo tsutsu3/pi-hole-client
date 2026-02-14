@@ -30,6 +30,7 @@ import 'package:pi_hole_client/data/model/v6/lists/lists.dart' show Lists;
 import 'package:pi_hole_client/data/model/v6/metrics/query.dart';
 import 'package:pi_hole_client/data/model/v6/network/devices.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
+import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart'
     show DeviceOption;
@@ -69,6 +70,12 @@ import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../testing/fakes/repositories/api/fake_auth_repository.dart';
+import '../../testing/fakes/repositories/api/fake_dhcp_repository.dart';
+import '../../testing/fakes/repositories/api/fake_dns_repository.dart';
+import '../../testing/fakes/repositories/api/fake_ftl_repository.dart';
+import '../../testing/fakes/repositories/api/fake_local_dns_repository.dart';
+import '../../testing/fakes/repositories/api/fake_network_repository.dart';
 import './helpers.mocks.dart';
 
 final serverV5 = Server(
@@ -1579,6 +1586,17 @@ class TestSetupHelper {
               create: (_) => mockStatusUpdateService,
               dispose: (_, service) => service.stopAutoRefresh(),
             ),
+            Provider<RepositoryBundle?>(
+              create: (_) => RepositoryBundle(
+                auth: FakeAuthRepository(),
+                dhcp: FakeDhcpRepository(),
+                dns: FakeDnsRepository(),
+                ftl: FakeFtlRepository(),
+                localDns: FakeLocalDnsRepository(),
+                network: FakeNetworkRepository(),
+                serverAddress: 'http://localhost:8081',
+              ),
+            ),
           ],
           child: Phoenix(
             child: MaterialApp(
@@ -1662,6 +1680,17 @@ class TestSetupHelper {
         Provider<StatusUpdateService>(
           create: (_) => mockStatusUpdateService,
           dispose: (_, service) => service.stopAutoRefresh(),
+        ),
+        Provider<RepositoryBundle?>(
+          create: (_) => RepositoryBundle(
+            auth: FakeAuthRepository(),
+            dhcp: FakeDhcpRepository(),
+            dns: FakeDnsRepository(),
+            ftl: FakeFtlRepository(),
+            localDns: FakeLocalDnsRepository(),
+            network: FakeNetworkRepository(),
+            serverAddress: 'http://localhost:8081',
+          ),
         ),
       ],
       child: child,
