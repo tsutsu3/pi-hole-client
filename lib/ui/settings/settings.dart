@@ -3,7 +3,7 @@ import 'package:flutter_split_view/flutter_split_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/languages.dart';
+import 'package:pi_hole_client/ui/core/l10n/languages.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';

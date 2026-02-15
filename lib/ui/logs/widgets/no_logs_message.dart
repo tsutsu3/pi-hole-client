@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/formats.dart';
+import 'package:pi_hole_client/ui/core/formats.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/no_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';

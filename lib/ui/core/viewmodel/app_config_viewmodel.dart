@@ -2,7 +2,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:pi_hole_client/config/languages.dart';
+import 'package:pi_hole_client/ui/core/l10n/languages.dart';
 import 'package:pi_hole_client/data/repositories/local/app_config_repository.dart';
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
 import 'package:pi_hole_client/domain/models_old/database.dart';
