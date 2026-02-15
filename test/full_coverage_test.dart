@@ -512,7 +512,7 @@ import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
 import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart';
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
-import 'package:pi_hole_client/domain/models_old/app_screen.dart';
+import 'package:pi_hole_client/ui/core/model/app_screen.dart';
 import 'package:pi_hole_client/domain/models_old/client.dart';
 import 'package:pi_hole_client/domain/models_old/clients.dart';
 import 'package:pi_hole_client/domain/models_old/config.dart';
