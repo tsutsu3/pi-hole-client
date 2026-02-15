@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/group_filter_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';

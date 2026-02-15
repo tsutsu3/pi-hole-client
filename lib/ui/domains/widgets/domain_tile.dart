@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/ui/core/formats.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
-import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/color_helpers.dart';
 import 'package:pi_hole_client/utils/conversions.dart';

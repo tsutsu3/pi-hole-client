@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/animations/shake_animation.dart';
 import 'package:pi_hole_client/ui/core/ui/components/numeric_pad.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
