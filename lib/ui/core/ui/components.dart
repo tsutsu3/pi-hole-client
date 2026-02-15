@@ -1,4 +1,5 @@
 export 'components/adaptive_trailing_text.dart';
+export 'components/auto_complate_field.dart';
 export 'components/custom_button_list_tile.dart';
 export 'components/custom_list_tile.dart';
 export 'components/custom_radio.dart';
