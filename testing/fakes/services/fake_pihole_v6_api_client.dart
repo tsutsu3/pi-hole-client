@@ -3,6 +3,7 @@ import 'package:pi_hole_client/data/model/v6/action/action.dart' show Action;
 import 'package:pi_hole_client/data/model/v6/auth/auth.dart' show Session;
 import 'package:pi_hole_client/data/model/v6/auth/sessions.dart'
     show AuthSessions;
+import 'package:pi_hole_client/data/model/v6/clients/clients.dart' show Clients;
 import 'package:pi_hole_client/data/model/v6/config/config.dart'
     show Config, ConfigData;
 import 'package:pi_hole_client/data/model/v6/dhcp/dhcp.dart' show Dhcp;
@@ -43,6 +44,7 @@ import 'package:result_dart/result_dart.dart';
 import '../../models/v6/actions.dart';
 import '../../models/v6/adlist.dart';
 import '../../models/v6/auth.dart';
+import '../../models/v6/client.dart';
 import '../../models/v6/config.dart';
 import '../../models/v6/dhcp.dart';
 import '../../models/v6/dns.dart';
@@ -215,6 +217,91 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
       return Failure(Exception('Forced getGroups failure'));
     }
     return const Success(kSrvGetGroups);
+  }
+
+  @override
+  Future<Result<Groups>> postGroups(
+    String sid, {
+    required String name,
+    String? comment,
+    bool? enabled = true,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced postGroups failure'));
+    }
+    return const Success(kSrvPostGroups);
+  }
+
+  @override
+  Future<Result<Groups>> putGroups(
+    String sid, {
+    required String name,
+    String? comment,
+    bool? enabled = true,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced putGroups failure'));
+    }
+    return const Success(kSrvPutGroups);
+  }
+
+  @override
+  Future<Result<Unit>> deleteGroups(
+    String sid, {
+    required String name,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced deleteGroups failure'));
+    }
+    return const Success(unit);
+  }
+
+  // ==========================================================================
+  // Client management
+  // ==========================================================================
+  @override
+  Future<Result<Clients>> getClients(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getClients failure'));
+    }
+    return const Success(kSrvGetClients);
+  }
+
+  @override
+  Future<Result<Clients>> postClients(
+    String sid, {
+    required String client,
+    String? comment,
+    List<int>? groups = const [0],
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced postClients failure'));
+    }
+    return const Success(kSrvPostClients);
+  }
+
+  @override
+  Future<Result<Clients>> putClients(
+    String sid, {
+    required String client,
+    String? comment,
+    List<int>? groups = const [0],
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced putClients failure'));
+    }
+    return const Success(kSrvPutClients);
+  }
+
+  @override
+  Future<Result<Unit>> deleteClients(
+    String sid, {
+    required String client,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced deleteClients failure'));
+    }
+    return const Success(unit);
   }
 
   // ==========================================================================

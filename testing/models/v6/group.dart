@@ -22,6 +22,33 @@ const kSrvGetGroups = srv.Groups(
   took: 0.003,
 );
 
+const kSrvPostGroups = srv.Groups(
+  groups: [
+    srv.Group(
+      id: 10,
+      name: 'NewGroup',
+      enabled: true,
+      dateAdded: 1604871899,
+      dateModified: 1604871899,
+    ),
+  ],
+  took: 0.003,
+);
+
+const kSrvPutGroups = srv.Groups(
+  groups: [
+    srv.Group(
+      id: 5,
+      name: 'test',
+      comment: 'updated',
+      enabled: false,
+      dateAdded: 1604871899,
+      dateModified: 1604871899,
+    ),
+  ],
+  took: 0.003,
+);
+
 final kRepoFetchGroups = [
   Group(
     id: 0,

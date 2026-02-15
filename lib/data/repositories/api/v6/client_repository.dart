@@ -1,13 +1,14 @@
-import 'package:pi_hole_client/data/mapper/v6/group_mapper.dart';
-import 'package:pi_hole_client/data/repositories/api/interfaces/group_repository.dart';
+import 'package:pi_hole_client/data/mapper/v6/client_mapper.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/client_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/base_v6_sid_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
-import 'package:pi_hole_client/domain/model/group/group.dart';
+import 'package:pi_hole_client/domain/model/client/pihole_client.dart';
 import 'package:result_dart/result_dart.dart';
 
-class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
-  GroupRepositoryV6({
+class ClientRepositoryV6 extends BaseV6SidRepository
+    implements ClientRepository {
+  ClientRepositoryV6({
     required PiholeV6ApiClient client,
     required super.creds,
     super.sid,
@@ -16,11 +17,11 @@ class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
   final PiholeV6ApiClient _client;
 
   @override
-  Future<Result<List<Group>>> fetchGroups() async {
-    return runWithResultRetry<List<Group>>(
+  Future<Result<List<PiholeClient>>> fetchClients() async {
+    return runWithResultRetry<List<PiholeClient>>(
       action: () async {
         final sid = await getSid();
-        final result = await _client.getGroups(sid);
+        final result = await _client.getClients(sid);
         return result.map((e) => e.toDomain());
       },
       onRetry: (_) => clearSid(),
@@ -28,19 +29,19 @@ class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
   }
 
   @override
-  Future<Result<Group>> addGroup(
-    String name, {
+  Future<Result<PiholeClient>> addClient(
+    String client, {
     String? comment,
-    bool? enabled = true,
+    List<int>? groups = const [0],
   }) async {
-    return runWithResultRetry<Group>(
+    return runWithResultRetry<PiholeClient>(
       action: () async {
         final sid = await getSid();
-        final result = await _client.postGroups(
+        final result = await _client.postClients(
           sid,
-          name: name,
+          client: client,
           comment: comment,
-          enabled: enabled,
+          groups: groups,
         );
         return result.map((e) => e.toSingleDomain());
       },
@@ -49,19 +50,19 @@ class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
   }
 
   @override
-  Future<Result<Group>> updateGroup(
-    String name, {
+  Future<Result<PiholeClient>> updateClient(
+    String client, {
     String? comment,
-    bool? enabled = true,
+    List<int>? groups = const [0],
   }) async {
-    return runWithResultRetry<Group>(
+    return runWithResultRetry<PiholeClient>(
       action: () async {
         final sid = await getSid();
-        final result = await _client.putGroups(
+        final result = await _client.putClients(
           sid,
-          name: name,
+          client: client,
           comment: comment,
-          enabled: enabled,
+          groups: groups,
         );
         return result.map((e) => e.toSingleDomain());
       },
@@ -70,11 +71,11 @@ class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
   }
 
   @override
-  Future<Result<Unit>> deleteGroup(String name) async {
+  Future<Result<Unit>> deleteClient(String client) async {
     return runWithResultRetry<Unit>(
       action: () async {
         final sid = await getSid();
-        return _client.deleteGroups(sid, name: name);
+        return _client.deleteClients(sid, client: client);
       },
       onRetry: (_) => clearSid(),
     );

@@ -16,4 +16,13 @@ extension GroupsMapper on s.Groups {
       );
     }).toList();
   }
+
+  d.Group toSingleDomain() {
+    if (groups.length != 1) {
+      throw Exception(
+        'Expected exactly one group, but got ${groups.length}',
+      );
+    }
+    return toDomain().first;
+  }
 }
