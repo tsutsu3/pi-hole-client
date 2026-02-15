@@ -10,7 +10,6 @@ import 'package:pi_hole_client/config/languages.dart';
 import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/config/query_types.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/config/search_domain_base_url.dart';
 import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_factory.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
