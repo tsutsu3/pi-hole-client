@@ -13,6 +13,7 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/servers/servers.dart';
@@ -95,9 +96,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               if (adlistBundle != null) {
                 splitView.setSecondary(
                   ChangeNotifierProvider(
-                    create: (_) => AdlistsViewModel(
-                      adListRepository: adlistBundle.adlist,
-                    )..loadAdlists.run(),
+                    create: (_) =>
+                        AdlistsViewModel(adListRepository: adlistBundle.adlist)
+                          ..loadAdlists.run(),
                     child: const AdlistScreen(),
                   ),
                 );
@@ -105,11 +106,20 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             case 11:
               final clientBundle = context.read<RepositoryBundle?>();
               if (clientBundle != null) {
+                final serversProvider = context.read<ServersProvider>();
                 splitView.setSecondary(
-                  ChangeNotifierProvider(
-                    create: (_) => ClientsViewModel(
-                      clientRepository: clientBundle.client,
-                    )..loadClients.run(),
+                  MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider(
+                        create: (_) => ClientsViewModel(
+                          clientRepository: clientBundle.client,
+                        )..loadClients.run(),
+                      ),
+                      ChangeNotifierProvider(
+                        create: (_) =>
+                            LocalDnsProvider(serversProvider: serversProvider),
+                      ),
+                    ],
                     child: const GroupClientScreen(),
                   ),
                 );
@@ -317,9 +327,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               if (bundle == null) return;
               SplitView.of(context).setSecondary(
                 ChangeNotifierProvider(
-                  create: (_) => AdlistsViewModel(
-                    adListRepository: bundle.adlist,
-                  )..loadAdlists.run(),
+                  create: (_) =>
+                      AdlistsViewModel(adListRepository: bundle.adlist)
+                        ..loadAdlists.run(),
                   child: const AdlistScreen(),
                 ),
               );
@@ -336,11 +346,20 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             splitViewChild: () {
               final bundle = context.read<RepositoryBundle?>();
               if (bundle == null) return;
+              final serversProvider = context.read<ServersProvider>();
               SplitView.of(context).setSecondary(
-                ChangeNotifierProvider(
-                  create: (_) => ClientsViewModel(
-                    clientRepository: bundle.client,
-                  )..loadClients.run(),
+                MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider(
+                      create: (_) =>
+                          ClientsViewModel(clientRepository: bundle.client)
+                            ..loadClients.run(),
+                    ),
+                    ChangeNotifierProvider(
+                      create: (_) =>
+                          LocalDnsProvider(serversProvider: serversProvider),
+                    ),
+                  ],
                   child: const GroupClientScreen(),
                 ),
               );

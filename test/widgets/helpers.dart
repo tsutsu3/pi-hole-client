@@ -1546,7 +1546,6 @@ class TestSetupHelper {
     _initApiGatewayV5Mock();
     _initApiGatewayV6Mock();
     _initStatusUpdateServiceMock();
-
   }
 
   /// Build the test widget with the given setup helper.
@@ -1620,10 +1619,8 @@ class TestSetupHelper {
                     serverAddress: serversProvider.selectedServer?.address,
                   ),
             ),
-            ChangeNotifierProxyProvider<ServersProvider, LocalDnsProvider>(
-              create: (context) => mockLocalDnsProvider,
-              update: (context, serverConfig, groups) =>
-                  groups!..update(serverConfig),
+            ChangeNotifierProvider<LocalDnsProvider>.value(
+              value: mockLocalDnsProvider,
             ),
             Provider<StatusUpdateService>(
               create: (_) => mockStatusUpdateService,
@@ -1728,10 +1725,8 @@ class TestSetupHelper {
                 serverAddress: serversProvider.selectedServer?.address,
               ),
         ),
-        ChangeNotifierProxyProvider<ServersProvider, LocalDnsProvider>(
-          create: (context) => mockLocalDnsProvider,
-          update: (context, serverConfig, groups) =>
-              groups!..update(serverConfig),
+        ChangeNotifierProvider<LocalDnsProvider>.value(
+          value: mockLocalDnsProvider,
         ),
         Provider<StatusUpdateService>(
           create: (_) => mockStatusUpdateService,

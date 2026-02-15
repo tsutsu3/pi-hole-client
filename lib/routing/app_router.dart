@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/routing/routes.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/viewmodel/dhcp_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/viewmodel/dhcp_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/viewmodel/interface_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen.dart';
@@ -19,8 +18,10 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/net
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/viewmodel/sessions_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info/viewmodel/server_info_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
 import 'package:pi_hole_client/ui/shell/base.dart';
 import 'package:provider/provider.dart';
 
@@ -120,9 +121,8 @@ GoRouter createAppRouter({
         builder: (context, state) {
           final bundle = context.read<RepositoryBundle?>();
           return InterfaceScreen(
-            viewModel: InterfaceViewModel(
-              networkRepository: bundle!.network,
-            )..loadInterfaces.run(),
+            viewModel: InterfaceViewModel(networkRepository: bundle!.network)
+              ..loadInterfaces.run(),
           );
         },
       ),
@@ -145,9 +145,9 @@ GoRouter createAppRouter({
         builder: (context, state) {
           final bundle = context.read<RepositoryBundle?>();
           return ChangeNotifierProvider(
-            create: (_) => AdlistsViewModel(
-              adListRepository: bundle!.adlist,
-            )..loadAdlists.run(),
+            create: (_) =>
+                AdlistsViewModel(adListRepository: bundle!.adlist)
+                  ..loadAdlists.run(),
             child: const AdlistScreen(),
           );
         },
@@ -171,10 +171,19 @@ GoRouter createAppRouter({
         name: Routes.settingsServerGroupClient,
         builder: (context, state) {
           final bundle = context.read<RepositoryBundle?>();
-          return ChangeNotifierProvider(
-            create: (_) => ClientsViewModel(
-              clientRepository: bundle!.client,
-            )..loadClients.run(),
+          final serversProvider = context.read<ServersProvider>();
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (_) =>
+                    ClientsViewModel(clientRepository: bundle!.client)
+                      ..loadClients.run(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) =>
+                    LocalDnsProvider(serversProvider: serversProvider),
+              ),
+            ],
             child: const GroupClientScreen(),
           );
         },

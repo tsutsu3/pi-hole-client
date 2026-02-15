@@ -117,16 +117,6 @@ void main() async {
       expect(listenerCalled, false);
     });
 
-    test('update() updates serversProvider and resets state', () {
-      final newServersProvider = MockServersProvider();
-      when(newServersProvider.selectedApiGateway).thenReturn(mockApiGatewayV6);
-      localDnsProvider.update(newServersProvider);
-
-      expect(localDnsProvider.localDns, []);
-      expect(localDnsProvider.deviceOptions, []);
-      expect(localDnsProvider.loadingStatus, LoadStatus.loading);
-    });
-
     test(
       'setLoadingStatus() updates loading status and notifies listeners',
       () {

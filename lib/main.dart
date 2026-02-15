@@ -23,7 +23,6 @@ import 'package:pi_hole_client/pi_hole_client.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
@@ -163,8 +162,6 @@ void main() async {
   final gravityUpdateProvider = GravityUpdateProvider(
     repository: gravityRepository,
   );
-  final localDnsProvider = LocalDnsProvider(serversProvider: serversProvider);
-
   final statusUpdateService = StatusUpdateService(
     serversProvider: serversProvider,
     statusProvider: statusProvider,
@@ -327,12 +324,6 @@ void main() async {
                 serverAddress: serversProvider.selectedServer?.address,
               ),
         ),
-        ChangeNotifierProxyProvider<ServersProvider, LocalDnsProvider>(
-          create: (context) => localDnsProvider,
-          update: (context, serverConfig, servers) =>
-              servers!..update(serverConfig),
-        ),
-
         // ===================================================
         // Layer 4: Use Cases / Services (cross-cutting)
         // ===================================================

@@ -10,9 +10,10 @@ import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
 class LocalDnsProvider with ChangeNotifier {
-  LocalDnsProvider({required this.serversProvider});
+  LocalDnsProvider({required ServersProvider serversProvider})
+    : _serversProvider = serversProvider;
 
-  ServersProvider? serversProvider;
+  final ServersProvider _serversProvider;
 
   List<LocalDns> _localDns = [];
 
@@ -34,23 +35,13 @@ class LocalDnsProvider with ChangeNotifier {
     return _loadingStatus;
   }
 
-  void update(ServersProvider? provider) {
-    serversProvider = provider;
-    _localDns = [];
-    _deviceOptions = [];
-    _ipToHostname = {};
-    _ipToMac = {};
-    _macToIp = {};
-    _loadingStatus = LoadStatus.loading;
-  }
-
   void setLoadingStatus(LoadStatus status) {
     _loadingStatus = status;
     notifyListeners();
   }
 
   Future<void> load() async {
-    final apiGateway = serversProvider?.selectedApiGateway;
+    final apiGateway = _serversProvider.selectedApiGateway;
 
     if (apiGateway == null) {
       _localDns = [];
@@ -99,7 +90,7 @@ class LocalDnsProvider with ChangeNotifier {
   Future<bool> addLocalDns(LocalDns item) async {
     _localDns.add(item);
 
-    final apiGateway = serversProvider?.selectedApiGateway;
+    final apiGateway = _serversProvider.selectedApiGateway;
 
     if (apiGateway == null) {
       _localDns = [];
@@ -130,7 +121,7 @@ class LocalDnsProvider with ChangeNotifier {
     final before = _localDns[idx];
     _localDns[idx] = item;
 
-    final apiGateway = serversProvider?.selectedApiGateway;
+    final apiGateway = _serversProvider.selectedApiGateway;
 
     if (apiGateway == null) {
       _localDns = [];
@@ -161,7 +152,7 @@ class LocalDnsProvider with ChangeNotifier {
 
     final removed = _localDns.removeAt(idx);
 
-    final apiGateway = serversProvider?.selectedApiGateway;
+    final apiGateway = _serversProvider.selectedApiGateway;
 
     if (apiGateway == null) {
       _localDns = [];
