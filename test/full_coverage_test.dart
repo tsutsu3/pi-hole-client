@@ -567,8 +567,8 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations_en.dart'
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations_es.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations_ja.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations_pl.dart';
-import 'package:pi_hole_client/ui/core/logic/refresh_server_status.dart';
-import 'package:pi_hole_client/ui/core/logic/server_management.dart';
+import 'package:pi_hole_client/ui/core/actions/refresh_server_status.dart';
+import 'package:pi_hole_client/ui/core/actions/server_management.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/animations.dart';
 import 'package:pi_hole_client/ui/core/ui/animations/shake_animation.dart';
