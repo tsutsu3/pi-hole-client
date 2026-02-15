@@ -5,7 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/routing/app_router.dart';
-import 'package:pi_hole_client/ui/common/unlock.dart';
+import 'package:pi_hole_client/ui/core/ui/components/unlock.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
