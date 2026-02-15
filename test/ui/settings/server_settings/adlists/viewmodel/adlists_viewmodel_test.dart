@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 
-import '../../../testing/fakes/repositories/api/fake_adlist_repository.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_adlist_repository.dart';
 
 void main() {
   group('AdlistsViewModel', () {

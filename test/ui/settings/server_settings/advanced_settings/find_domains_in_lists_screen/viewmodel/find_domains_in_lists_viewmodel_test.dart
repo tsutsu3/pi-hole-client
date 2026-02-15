@@ -5,8 +5,8 @@ import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
 
-import '../../../testing/fakes/repositories/api/fake_adlist_repository.dart';
-import '../../../testing/fakes/repositories/api/fake_domain_repository.dart';
+import '../../../../../../../testing/fakes/repositories/api/fake_adlist_repository.dart';
+import '../../../../../../../testing/fakes/repositories/api/fake_domain_repository.dart';
 
 void main() {
   group('FindDomainsInListsViewModel', () {

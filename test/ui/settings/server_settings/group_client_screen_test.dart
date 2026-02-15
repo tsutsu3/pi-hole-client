@@ -17,7 +17,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/group_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/groups_list.dart';
 
-import '../../../helpers.dart';
+import '../../../widgets/helpers.dart';
 
 void main() async {
   await initializeApp();

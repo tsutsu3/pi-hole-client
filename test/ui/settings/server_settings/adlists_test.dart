@@ -12,7 +12,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/edit_
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_details_screen.dart';
 import 'package:pi_hole_client/utils/format.dart';
 
-import '../../../helpers.dart';
+import '../../../widgets/helpers.dart';
 
 void main() async {
   await initializeApp();
