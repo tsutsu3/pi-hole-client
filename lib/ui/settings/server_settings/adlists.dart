@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/responsive.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';

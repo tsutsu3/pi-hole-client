@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/responsive.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection_service.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';

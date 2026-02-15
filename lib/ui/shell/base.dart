@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/app_screens.dart';
-import 'package:pi_hole_client/config/responsive.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/ui/layout/bottom_nav_bar.dart';
 import 'package:pi_hole_client/ui/core/ui/layout/navigation_rail.dart';

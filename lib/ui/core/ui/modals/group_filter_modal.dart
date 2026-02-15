@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/responsive.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 
 class GroupFilterModal extends StatefulWidget {

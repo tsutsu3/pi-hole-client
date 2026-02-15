@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/responsive.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/animations/shake_animation.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
