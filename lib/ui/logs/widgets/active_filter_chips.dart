@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/models_old/log.dart';
 import 'package:pi_hole_client/domain/use_cases/logs_screen_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 
 /// A widget that displays active filter chips for the logs screen.
 ///
@@ -13,16 +13,16 @@ import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 /// which triggers the appropriate reset actions and callbacks.
 ///
 /// Required parameters:
-/// - [filtersProvider]: Provides the current filter states.
-/// - [serversProvider]: Provides server-related information, such as the number of servers shown.
+/// - [filtersViewModel]: Provides the current filter states.
+/// - [serversViewModel]: Provides server-related information, such as the number of servers shown.
 /// - [logsSvc]: Service for handling log-related actions, such as scrolling.
 /// - [logsListDisplay]: The current list of logs being displayed.
 /// - [onResetFilters]: Callback invoked when general filters are reset.
 /// - [onResetTimeFilters]: Callback invoked specifically when time filters are reset.
 class ActiveFilterChips extends StatelessWidget {
   const ActiveFilterChips({
-    required this.filtersProvider,
-    required this.serversProvider,
+    required this.filtersViewModel,
+    required this.serversViewModel,
     required this.logsSvc,
     required this.logsListDisplay,
     required this.onResetFilters,
@@ -30,8 +30,8 @@ class ActiveFilterChips extends StatelessWidget {
     super.key,
   });
 
-  final FiltersProvider filtersProvider;
-  final ServersProvider serversProvider;
+  final FiltersViewModel filtersViewModel;
+  final ServersViewModel serversViewModel;
   final LogsScreenService logsSvc;
   final List<Log> logsListDisplay;
   final VoidCallback onResetFilters;
@@ -42,59 +42,59 @@ class ActiveFilterChips extends StatelessWidget {
     final loc = AppLocalizations.of(context)!;
     final chips = <Widget>[];
 
-    if (filtersProvider.startTime != null || filtersProvider.endTime != null) {
+    if (filtersViewModel.startTime != null || filtersViewModel.endTime != null) {
       chips.add(
         _buildChip(
           context,
           loc.time,
           const Icon(Icons.access_time_rounded),
           () {
-            filtersProvider.resetTime();
+            filtersViewModel.resetTime();
             onResetTimeFilters();
           },
         ),
       );
     }
 
-    if (filtersProvider.statusSelected.length < serversProvider.numShown - 1) {
-      final label = filtersProvider.statusSelected.length == 1
-          ? filtersProvider.statusSelectedString
-          : '${filtersProvider.statusSelected.length} ${loc.statusSelected}';
+    if (filtersViewModel.statusSelected.length < serversViewModel.numShown - 1) {
+      final label = filtersViewModel.statusSelected.length == 1
+          ? filtersViewModel.statusSelectedString
+          : '${filtersViewModel.statusSelected.length} ${loc.statusSelected}';
 
       chips.add(
         _buildChip(context, label, const Icon(Icons.shield), () {
           logsSvc.scrollToTop(logsListDisplay);
-          filtersProvider.resetStatus();
+          filtersViewModel.resetStatus();
           onResetFilters();
         }),
       );
     }
 
-    if (filtersProvider.selectedClients.isNotEmpty &&
-        filtersProvider.selectedClients.length <
-            filtersProvider.totalClients.length) {
-      final label = filtersProvider.selectedClients.length == 1
-          ? filtersProvider.selectedClients[0]
-          : '${filtersProvider.selectedClients.length} ${loc.clientsSelected}';
+    if (filtersViewModel.selectedClients.isNotEmpty &&
+        filtersViewModel.selectedClients.length <
+            filtersViewModel.totalClients.length) {
+      final label = filtersViewModel.selectedClients.length == 1
+          ? filtersViewModel.selectedClients[0]
+          : '${filtersViewModel.selectedClients.length} ${loc.clientsSelected}';
 
       chips.add(
         _buildChip(context, label, const Icon(Icons.devices), () {
           logsSvc.scrollToTop(logsListDisplay);
-          filtersProvider.resetClients();
+          filtersViewModel.resetClients();
           onResetFilters();
         }),
       );
     }
 
-    if (filtersProvider.selectedDomain != null) {
+    if (filtersViewModel.selectedDomain != null) {
       chips.add(
         _buildChip(
           context,
-          filtersProvider.selectedDomain!,
+          filtersViewModel.selectedDomain!,
           const Icon(Icons.http_rounded),
           () {
             logsSvc.scrollToTop(logsListDisplay);
-            filtersProvider.setSelectedDomain(null);
+            filtersViewModel.setSelectedDomain(null);
             onResetFilters();
           },
         ),

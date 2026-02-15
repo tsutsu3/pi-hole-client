@@ -4,9 +4,9 @@ import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlists_list.dart';
@@ -63,8 +63,8 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
       await groupsViewModel.loadGroups.runAsync();
 
       if (!mounted) return;
-      final gravityUpdateProvider = context.read<GravityUpdateProvider>();
-      await gravityUpdateProvider.load();
+      final gravityUpdateViewModel = context.read<GravityUpdateViewModel>();
+      await gravityUpdateViewModel.load();
     });
   }
 
@@ -80,8 +80,8 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<AdlistsViewModel>(context);
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final serversViewModel = Provider.of<ServersViewModel>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
     final groups = context.watch<GroupsViewModel>().groupItems;
 
     Future<void> removeAdlist(Adlist adlist) async {
@@ -99,7 +99,7 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
         if (!context.mounted) return;
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.adlistRemoved,
         );
       } catch (_) {
@@ -108,7 +108,7 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
 
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.adlistDeleteError,
         );
       }
@@ -250,7 +250,7 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
                       removeAdlist(adlist);
                     },
                     groups: groups,
-                    colors: serversProvider.colors,
+                    colors: serversViewModel.colors,
                   )
                 : ColoredBox(
                     color: Theme.of(context).scaffoldBackgroundColor,
@@ -287,7 +287,7 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
                   removeAdlist(s);
                 },
                 groups: groups,
-                colors: serversProvider.colors,
+                colors: serversViewModel.colors,
               ),
             ),
           );

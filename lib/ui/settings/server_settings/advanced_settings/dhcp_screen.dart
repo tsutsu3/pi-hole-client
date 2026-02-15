@@ -6,7 +6,7 @@ import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/dhcp_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/dhcp_list_view.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/viewmodel/dhcp_viewmodel.dart';
@@ -39,7 +39,7 @@ class DhcpScreen extends StatefulWidget {
 class _DhcpScreenState extends State<DhcpScreen> {
   Future<void> _removeLease(DhcpLease lease) async {
     final locale = AppLocalizations.of(context)!;
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context);
     process.open(locale.deleting);
 
@@ -53,7 +53,7 @@ class _DhcpScreenState extends State<DhcpScreen> {
       if (!mounted) return;
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: locale.dhcpRemoved,
       );
     } catch (_) {
@@ -61,7 +61,7 @@ class _DhcpScreenState extends State<DhcpScreen> {
       process.close();
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: locale.deviceDeleteFailed,
       );
     }

@@ -6,8 +6,8 @@ import 'package:pi_hole_client/config/formats.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/widgets/clients_filters_modal.dart';
 import 'package:pi_hole_client/ui/logs/widgets/status_filters_modal.dart';
 import 'package:pi_hole_client/utils/format.dart';
@@ -36,8 +36,8 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
 
   @override
   Widget build(BuildContext context) {
-    final filtersProvider = Provider.of<FiltersProvider>(context);
-    final serverProvider = Provider.of<ServersProvider>(context);
+    final filtersViewModel = Provider.of<FiltersViewModel>(context);
+    final serverProvider = Provider.of<ServersViewModel>(context);
 
     final width = MediaQuery.of(context).size.width;
 
@@ -50,7 +50,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
           builder: (context) => StatusFiltersModal(
             statusBarHeight: widget.statusBarHeight,
             bottomNavBarHeight: widget.bottomNavBarHeight,
-            statusSelected: filtersProvider.statusSelected,
+            statusSelected: filtersViewModel.statusSelected,
             window: true,
           ),
         );
@@ -60,7 +60,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
           builder: (context) => StatusFiltersModal(
             statusBarHeight: widget.statusBarHeight,
             bottomNavBarHeight: widget.bottomNavBarHeight,
-            statusSelected: filtersProvider.statusSelected,
+            statusSelected: filtersViewModel.statusSelected,
             window: false,
           ),
           backgroundColor: Colors.transparent,
@@ -71,7 +71,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
 
     void openClientsModal() {
       // TODO: Call client only
-      if (filtersProvider.totalClients.isEmpty) {
+      if (filtersViewModel.totalClients.isEmpty) {
         context.read<StatusUpdateService>().refreshOnce();
       }
       if (width > ResponsiveConstants.medium) {
@@ -82,7 +82,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
           builder: (context) => ClientsFiltersModal(
             statusBarHeight: widget.statusBarHeight,
             bottomNavBarHeight: widget.bottomNavBarHeight,
-            selectedClients: filtersProvider.selectedClients,
+            selectedClients: filtersViewModel.selectedClients,
             window: true,
           ),
         );
@@ -92,7 +92,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
           builder: (context) => ClientsFiltersModal(
             statusBarHeight: widget.statusBarHeight,
             bottomNavBarHeight: widget.bottomNavBarHeight,
-            selectedClients: filtersProvider.selectedClients,
+            selectedClients: filtersViewModel.selectedClients,
             window: false,
           ),
           backgroundColor: Colors.transparent,
@@ -143,29 +143,29 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
             dateValue.second,
           );
           if (time == 'from') {
-            if (filtersProvider.endTime != null &&
-                value.isAfter(filtersProvider.endTime!)) {
+            if (filtersViewModel.endTime != null &&
+                value.isAfter(filtersViewModel.endTime!)) {
               setState(() {
                 timeError = AppLocalizations.of(
                   context,
                 )!.startTimeNotBeforeEndTime;
               });
             } else {
-              filtersProvider.setStartTime(value);
+              filtersViewModel.setStartTime(value);
               setState(() {
                 timeError = null;
               });
             }
           } else {
-            if (filtersProvider.startTime != null &&
-                value.isBefore(filtersProvider.startTime!)) {
+            if (filtersViewModel.startTime != null &&
+                value.isBefore(filtersViewModel.startTime!)) {
               setState(() {
                 timeError = AppLocalizations.of(
                   context,
                 )!.endTimeNotAfterStartTime;
               });
             } else {
-              filtersProvider.setEndTime(value);
+              filtersViewModel.setEndTime(value);
               setState(() {
                 timeError = null;
               });
@@ -176,7 +176,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
     }
 
     bool isFilteringValid() {
-      if (timeError == null && filtersProvider.statusSelected.isNotEmpty) {
+      if (timeError == null && filtersViewModel.statusSelected.isNotEmpty) {
         return true;
       } else {
         return false;
@@ -184,7 +184,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
     }
 
     void resetFilters() {
-      filtersProvider.resetFilters();
+      filtersViewModel.resetFilters();
     }
 
     Widget content() {
@@ -282,10 +282,10 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                                 ),
                                                 const SizedBox(height: 5),
                                                 Text(
-                                                  filtersProvider.startTime !=
+                                                  filtersViewModel.startTime !=
                                                           null
                                                       ? formatTimestamp(
-                                                          filtersProvider
+                                                          filtersViewModel
                                                               .startTime!,
                                                           kUnifiedDateTimeFormat,
                                                         )
@@ -364,10 +364,10 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                                 ),
                                                 const SizedBox(height: 5),
                                                 Text(
-                                                  filtersProvider.endTime !=
+                                                  filtersViewModel.endTime !=
                                                           null
                                                       ? formatTimestamp(
-                                                          filtersProvider
+                                                          filtersViewModel
                                                               .endTime!,
                                                           kUnifiedDateTimeFormat,
                                                         )
@@ -445,10 +445,10 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                             ),
                           ],
                           selected: <RequestStatus>{
-                            filtersProvider.requestStatus,
+                            filtersViewModel.requestStatus,
                           },
                           onSelectionChanged: (value) => setState(
-                            () => filtersProvider.setRequestStatus(value.first),
+                            () => filtersViewModel.setRequestStatus(value.first),
                           ),
                         ),
                       ),
@@ -482,7 +482,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                       const SizedBox(height: 5),
                                       Text(
                                         statusText(
-                                          filtersProvider.statusSelected.length,
+                                          filtersViewModel.statusSelected.length,
                                           serverProvider.numShown,
                                         ),
                                         style: TextStyle(
@@ -527,10 +527,10 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                       const SizedBox(height: 5),
                                       Text(
                                         statusText(
-                                          filtersProvider
+                                          filtersViewModel
                                               .selectedClients
                                               .length,
-                                          filtersProvider.totalClients.length,
+                                          filtersViewModel.totalClients.length,
                                         ),
                                         style: TextStyle(
                                           color: Theme.of(

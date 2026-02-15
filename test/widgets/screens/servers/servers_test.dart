@@ -44,7 +44,7 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(testSetup.mockServersProvider.getServersList).thenReturn([]);
+      when(testSetup.mockServersViewModel.getServersList).thenReturn([]);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -63,9 +63,9 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
+      when(testSetup.mockServersViewModel.selectedServer).thenReturn(null);
       when(
-        testSetup.mockServersProvider.resetSelectedServer(),
+        testSetup.mockServersViewModel.resetSelectedServer(),
       ).thenAnswer((_) async => true);
 
       addTearDown(() {
@@ -101,7 +101,7 @@ void main() async {
 
       expect(find.text('Set as default connection'), findsOneWidget);
       when(
-        testSetup.mockServersProvider.setDefaultServer(any),
+        testSetup.mockServersViewModel.setDefaultServer(any),
       ).thenAnswer((_) async => true);
       await tester.tap(find.text('Set as default connection'));
       await tester.pumpAndSettle(const Duration(seconds: 1));
@@ -193,9 +193,9 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
+      when(testSetup.mockServersViewModel.selectedServer).thenReturn(null);
       when(
-        testSetup.mockServersProvider.resetSelectedServer(),
+        testSetup.mockServersViewModel.resetSelectedServer(),
       ).thenAnswer((_) async => true);
       when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
         (_) async => LoginQueryResponse(result: APiResponseType.error),
@@ -235,7 +235,7 @@ void main() async {
       );
 
       when(
-        testSetup.mockServersProvider.serversWithUnverifiedCertificates,
+        testSetup.mockServersViewModel.serversWithUnverifiedCertificates,
       ).thenReturn([unverifiedServer]);
 
       addTearDown(() {
@@ -268,7 +268,7 @@ void main() async {
         );
 
         when(
-          testSetup.mockServersProvider.serversWithUnverifiedCertificates,
+          testSetup.mockServersViewModel.serversWithUnverifiedCertificates,
         ).thenReturn([unverifiedServer]);
 
         addTearDown(() {
@@ -286,7 +286,7 @@ void main() async {
 
         // Verify that setUnverifiedBannerDismissed was called with true
         verify(
-          testSetup.mockServersProvider.setUnverifiedBannerDismissed(true),
+          testSetup.mockServersViewModel.setUnverifiedBannerDismissed(true),
         ).called(1);
       },
     );

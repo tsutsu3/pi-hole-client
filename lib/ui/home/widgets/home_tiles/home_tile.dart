@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -39,12 +39,12 @@ class HomeTileItem extends StatelessWidget {
   final double width;
   final VoidCallback? onTap;
 
-  /// Realtime value selector (ex: select value from StatusProvider)
+  /// Realtime value selector (ex: select value from StatusViewModel)
   final String Function(BuildContext context) valueSelector;
 
   @override
   Widget build(BuildContext context) {
-    final loadStatus = context.select<StatusProvider, LoadStatus>(
+    final loadStatus = context.select<StatusViewModel, LoadStatus>(
       (provider) => provider.getStatusLoading,
     );
 

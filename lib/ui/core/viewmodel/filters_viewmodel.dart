@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider/filters_interface.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider/filters_v5.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider/filters_v6.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel/filters_interface.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel/filters_v5.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel/filters_v6.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 
-class FiltersProvider with ChangeNotifier implements Filters {
-  FiltersProvider({ServersProvider? serversProvider}) {
-    // Default filtersProvider is FiltersProviderV5.
-    // Update filtersPorviders version when update ServersProvider.
-    final version = serversProvider?.selectedServer?.apiVersion ?? 'v5';
+class FiltersViewModel with ChangeNotifier implements Filters {
+  FiltersViewModel({ServersViewModel? serversViewModel}) {
+    // Default filtersViewModel is FiltersViewModelV5.
+    // Update filtersPorviders version when update ServersViewModel.
+    final version = serversViewModel?.selectedServer?.apiVersion ?? 'v5';
     _updateFiltersVersion(version);
   }
 
@@ -65,7 +65,7 @@ class FiltersProvider with ChangeNotifier implements Filters {
     return _filters!.requestStatus;
   }
 
-  void update(ServersProvider? provider) {
+  void update(ServersViewModel? provider) {
     final version = provider?.selectedServer?.apiVersion ?? 'v5';
     _updateFiltersVersion(version);
   }

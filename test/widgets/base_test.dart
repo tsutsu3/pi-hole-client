@@ -32,7 +32,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
+      when(testSetup.mockServersViewModel.selectedServer).thenReturn(null);
       when(testSetup.mockConfigProvider.importantInfoReaden).thenReturn(false);
 
       await tester.pumpWidget(testSetup.buildTestWidget(const Base()));
@@ -55,7 +55,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
+      when(testSetup.mockServersViewModel.selectedServer).thenReturn(null);
 
       await tester.pumpWidget(testSetup.buildTestWidget(const Base()));
 
@@ -77,7 +77,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
+      when(testSetup.mockServersViewModel.selectedServer).thenReturn(null);
 
       await tester.pumpWidget(testSetup.buildTestWidget(const Base()));
 

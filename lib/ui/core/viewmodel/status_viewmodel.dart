@@ -4,7 +4,7 @@ import 'package:pi_hole_client/domain/models_old/metrics.dart';
 import 'package:pi_hole_client/domain/models_old/overtime_data.dart';
 import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
 
-class StatusProvider with ChangeNotifier {
+class StatusViewModel with ChangeNotifier {
   LoadStatus _serverStatus = LoadStatus.loading;
 
   LoadStatus _statusLoading = LoadStatus.loading;

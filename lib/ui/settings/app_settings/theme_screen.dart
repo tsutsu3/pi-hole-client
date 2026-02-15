@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_radio.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -13,13 +13,13 @@ class ThemeScreen extends StatelessWidget {
     required IconData icon,
     required String text,
     required int value,
-    required AppConfigProvider appConfigProvider,
+    required AppConfigViewModel appConfigViewModel,
   }) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          appConfigProvider.setSelectedTheme(value);
+          appConfigViewModel.setSelectedTheme(value);
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -34,7 +34,7 @@ class ThemeScreen extends StatelessWidget {
             ),
             trailing: CustomRadio(
               value: value,
-              groupValue: appConfigProvider.selectedThemeNumber,
+              groupValue: appConfigViewModel.selectedThemeNumber,
               backgroundColor: Theme.of(context).dialogTheme.backgroundColor!,
             ),
           ),
@@ -45,7 +45,7 @@ class ThemeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     return WillPopScope(
       // Ensures the system back gesture (or physical back button) navigates back to the Settings screen.
@@ -64,21 +64,21 @@ class ThemeScreen extends StatelessWidget {
                 icon: Icons.phone_android_rounded,
                 text: AppLocalizations.of(context)!.systemTheme,
                 value: 0,
-                appConfigProvider: appConfigProvider,
+                appConfigViewModel: appConfigViewModel,
               ),
               _buildThemeRow(
                 context,
                 icon: Icons.light_mode_rounded,
                 text: AppLocalizations.of(context)!.light,
                 value: 1,
-                appConfigProvider: appConfigProvider,
+                appConfigViewModel: appConfigViewModel,
               ),
               _buildThemeRow(
                 context,
                 icon: Icons.dark_mode_rounded,
                 text: AppLocalizations.of(context)!.dark,
                 value: 2,
-                appConfigProvider: appConfigProvider,
+                appConfigViewModel: appConfigViewModel,
               ),
             ],
           ),

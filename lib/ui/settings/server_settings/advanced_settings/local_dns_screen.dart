@@ -7,7 +7,7 @@ import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/add_local_dns_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/local_dns_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/local_dns_list_view.dart';
@@ -34,7 +34,7 @@ class LocalDnsScreen extends StatefulWidget {
 class _LocalDnsScreenState extends State<LocalDnsScreen> {
   Future<bool> _onAddLocalDns(Map<String, dynamic> value) async {
     final locale = AppLocalizations.of(context)!;
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context)
       ..open(locale.localDnsAdding);
 
@@ -46,7 +46,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
       process.close();
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: locale.localDnsAddSuccess,
       );
       return true;
@@ -55,7 +55,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
       process.close();
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: locale.localDnsAddFailed,
       );
       return false;
@@ -64,7 +64,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
 
   Future<bool> _onUpdateLocalDns(LocalDns updated, String oldIp) async {
     final locale = AppLocalizations.of(context)!;
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context)..open(locale.updating);
 
     try {
@@ -75,7 +75,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
       process.close();
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: locale.localDnsUpdateSuccess,
       );
       return true;
@@ -84,7 +84,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
       process.close();
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: locale.localDnsUpdateFailed,
       );
       return false;
@@ -93,7 +93,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
 
   Future<bool> _onRemoveLocalDns(LocalDns item) async {
     final locale = AppLocalizations.of(context)!;
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context)..open(locale.deleting);
 
     try {
@@ -104,7 +104,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
       if (!mounted) return true;
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: locale.localDnsDeleteSuccess,
       );
       return true;
@@ -113,7 +113,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
       process.close();
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: locale.localDnsDeleteFailed,
       );
       return false;
@@ -239,7 +239,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
                       },
                     ),
 
-                    Selector<AppConfigProvider, bool>(
+                    Selector<AppConfigViewModel, bool>(
                       selector: (_, a) => a.showingSnackbar,
                       builder: (_, showingSnackbar, _) {
                         return AnimatedPositioned(

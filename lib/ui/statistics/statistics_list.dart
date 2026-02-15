@@ -4,9 +4,9 @@ import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/statistics/animated_percent_indicator.dart';
 import 'package:pi_hole_client/ui/statistics/custom_pie_chart.dart';
 import 'package:pi_hole_client/ui/statistics/no_data_chart.dart';
@@ -30,7 +30,7 @@ class StatisticsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loadStatus = context.select<StatusProvider, LoadStatus>(
+    final loadStatus = context.select<StatusViewModel, LoadStatus>(
       (provider) => provider.getStatusLoading,
     );
 
@@ -99,15 +99,15 @@ class StatisticsListContent extends StatelessWidget {
   Widget build(BuildContext context) {
     const topk = 10;
 
-    final realtimeStatus = context.select<StatusProvider, RealtimeStatus?>(
+    final realtimeStatus = context.select<StatusViewModel, RealtimeStatus?>(
       (p) => p.getRealtimeStatus,
     );
 
-    final totalClients = context.select<FiltersProvider, List<String>>(
+    final totalClients = context.select<FiltersViewModel, List<String>>(
       (p) => p.totalClients,
     );
 
-    final visualizationMode = context.select<AppConfigProvider, int>(
+    final visualizationMode = context.select<AppConfigViewModel, int>(
       (p) => p.statisticsVisualizationMode,
     );
 
@@ -115,21 +115,21 @@ class StatisticsListContent extends StatelessWidget {
     final loc = AppLocalizations.of(context)!;
 
     void navigateFilter(String value) {
-      final filtersProvider = context.read<FiltersProvider>();
-      final appConfigProvider = context.read<AppConfigProvider>();
+      final filtersViewModel = context.read<FiltersViewModel>();
+      final appConfigViewModel = context.read<AppConfigViewModel>();
 
       if (type == 'clients') {
         final isContained = totalClients
             .where((client) => value.contains(client))
             .toList();
         if (isContained.isNotEmpty) {
-          filtersProvider.setSelectedClients([isContained[0]]);
-          appConfigProvider.setSelectedTab(2);
+          filtersViewModel.setSelectedClients([isContained[0]]);
+          appConfigViewModel.setSelectedTab(2);
         }
       }
       if (type == 'domains') {
-        filtersProvider.setSelectedDomain(value);
-        appConfigProvider.setSelectedTab(2);
+        filtersViewModel.setSelectedDomain(value);
+        appConfigViewModel.setSelectedTab(2);
       }
     }
 

@@ -3,9 +3,9 @@ import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/servers.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
@@ -29,22 +29,22 @@ import 'package:provider/provider.dart';
 /// ```
 ///
 /// See also:
-/// - [ServersProvider] for managing server selection.
-/// - [StatusProvider] for server connection status.
-/// - [AppConfigProvider] for app configuration and error handling.
+/// - [ServersViewModel] for managing server selection.
+/// - [StatusViewModel] for server connection status.
+/// - [AppConfigViewModel] for app configuration and error handling.
 class ServerActionsMenu extends StatelessWidget {
   const ServerActionsMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = context.watch<ServersProvider>();
-    final statusProvider = context.read<StatusProvider>();
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final serversViewModel = context.watch<ServersViewModel>();
+    final statusViewModel = context.read<StatusViewModel>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
 
-    final isConnected = context.select<StatusProvider, bool>(
+    final isConnected = context.select<StatusViewModel, bool>(
       (p) => !p.isServerLoading,
     );
-    final isServerSelected = context.select<ServersProvider, bool>(
+    final isServerSelected = context.select<ServersViewModel, bool>(
       (p) => p.selectedServer != null,
     );
 
@@ -52,9 +52,9 @@ class ServerActionsMenu extends StatelessWidget {
       splashRadius: 20,
       itemBuilder: (context) => _buildPopupMenuItems(
         context,
-        appConfigProvider,
-        statusProvider,
-        serversProvider,
+        appConfigViewModel,
+        statusViewModel,
+        serversViewModel,
         isConnected,
         isServerSelected,
       ),
@@ -75,17 +75,17 @@ class ServerActionsMenu extends StatelessWidget {
   ///
   /// Parameters:
   /// - [context]: The build context used for localization and navigation.
-  /// - [appConfigProvider]: The app configuration provider used for error handling.
-  /// - [statusProvider]: The status provider to read the current server connection status.
-  /// - [serversProvider]: The servers provider to access the selected server.
+  /// - [appConfigViewModel]: The app configuration provider used for error handling.
+  /// - [statusViewModel]: The status provider to read the current server connection status.
+  /// - [serversViewModel]: The servers provider to access the selected server.
   ///
   /// Returns:
   /// A list of [PopupMenuEntry] widgets to be shown in the popup menu.
   List<PopupMenuEntry<void>> _buildPopupMenuItems(
     BuildContext context,
-    AppConfigProvider appConfigProvider,
-    StatusProvider statusProvider,
-    ServersProvider serversProvider,
+    AppConfigViewModel appConfigViewModel,
+    StatusViewModel statusViewModel,
+    ServersViewModel serversViewModel,
     bool isConnected,
     bool isServerSelected,
   ) {
@@ -106,9 +106,9 @@ class ServerActionsMenu extends StatelessWidget {
         PopupMenuItem(
           onTap: () => _refresh(
             context,
-            appConfigProvider,
-            statusProvider,
-            serversProvider,
+            appConfigViewModel,
+            statusViewModel,
+            serversViewModel,
           ),
           child: _menuItem(
             Icons.refresh,
@@ -117,7 +117,7 @@ class ServerActionsMenu extends StatelessWidget {
         ),
         PopupMenuItem(
           onTap: () =>
-              openUrl('${serversProvider.selectedServer!.address}/admin/'),
+              openUrl('${serversViewModel.selectedServer!.address}/admin/'),
           child: _menuItem(
             Icons.web,
             AppLocalizations.of(context)!.openWebPanel,
@@ -137,9 +137,9 @@ class ServerActionsMenu extends StatelessWidget {
       PopupMenuItem(
         onTap: () => _refresh(
           context,
-          appConfigProvider,
-          statusProvider,
-          serversProvider,
+          appConfigViewModel,
+          statusViewModel,
+          serversViewModel,
         ),
         child: _menuItem(
           Icons.refresh_rounded,
@@ -181,40 +181,40 @@ class ServerActionsMenu extends StatelessWidget {
   ///
   /// Parameters:
   /// - [context]: The build context used to show error messages and update the UI.
-  /// - [appConfigProvider]: The application configuration provider used to access app settings.
-  /// - [statusProvider]: The status provider used to manage the current status of the server
-  /// - [serversProvider]: The servers provider used to access the currently selected server and its API gateway.
+  /// - [appConfigViewModel]: The application configuration provider used to access app settings.
+  /// - [statusViewModel]: The status provider used to manage the current status of the server
+  /// - [serversViewModel]: The servers provider used to access the currently selected server and its API gateway.
   ///
   /// Returns:
   /// A [Future] that completes when the refresh operation is done.
   Future<void> _refresh(
     BuildContext context,
-    AppConfigProvider appConfigProvider,
-    StatusProvider statusProvider,
-    ServersProvider serversProvider,
+    AppConfigViewModel appConfigViewModel,
+    StatusViewModel statusViewModel,
+    ServersViewModel serversViewModel,
   ) async {
-    statusProvider.setStatusLoading(LoadStatus.loading);
+    statusViewModel.setStatusLoading(LoadStatus.loading);
 
-    final result = await serversProvider.selectedApiGateway?.realtimeStatus(
+    final result = await serversViewModel.selectedApiGateway?.realtimeStatus(
       clientCount: 0,
     );
     if (!context.mounted) return;
 
     if (result?.result == APiResponseType.success) {
-      serversProvider.updateselectedServerStatus(
+      serversViewModel.updateselectedServerStatus(
         result!.data!.status == 'enabled' ? true : false,
       );
-      statusProvider.setServerStatus(LoadStatus.loaded);
-      statusProvider.setRealtimeStatus(result.data!);
+      statusViewModel.setServerStatus(LoadStatus.loaded);
+      statusViewModel.setRealtimeStatus(result.data!);
     } else {
       logger.w('Error while fetching server status: ${result?.result.name}');
-      statusProvider.setServerStatus(LoadStatus.error);
-      if (statusProvider.getStatusLoading == LoadStatus.loading) {
-        statusProvider.setStatusLoading(LoadStatus.error);
+      statusViewModel.setServerStatus(LoadStatus.error);
+      if (statusViewModel.getStatusLoading == LoadStatus.loading) {
+        statusViewModel.setStatusLoading(LoadStatus.error);
       }
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.couldNotConnectServer,
       );
     }

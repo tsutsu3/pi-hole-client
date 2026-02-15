@@ -4,7 +4,7 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_radio_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class LogOption {
@@ -34,11 +34,11 @@ class LogsQuantityLoadScreen extends StatelessWidget {
   final String apiVersion;
 
   Future<void> _onChange(BuildContext context, int option) async {
-    final appConfigProvider = Provider.of<AppConfigProvider>(
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(
       context,
       listen: false,
     );
-    final result = await appConfigProvider.setLogsPerQuery(
+    final result = await appConfigViewModel.setLogsPerQuery(
       LogOption.timeFromIndex(option),
     );
 
@@ -47,13 +47,13 @@ class LogsQuantityLoadScreen extends StatelessWidget {
     if (result) {
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.logsPerQueryUpdated,
       );
     } else {
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.cantUpdateLogsPerQuery,
       );
     }
@@ -96,7 +96,7 @@ class LogsQuantityLoadScreen extends StatelessWidget {
             ? PiHoleV6NotSupportedScreen(
                 message: loc.featureNotSupportedMessageLogOption,
               )
-            : Selector<AppConfigProvider, double>(
+            : Selector<AppConfigViewModel, double>(
                 selector: (_, provider) => provider.logsPerQuery,
                 builder: (context, logsPerQuery, child) {
                   final selectedOption = LogOption.indexFromTime(logsPerQuery);

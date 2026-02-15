@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class RemovePasscodeModal extends StatelessWidget {
@@ -9,10 +9,10 @@ class RemovePasscodeModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     Future<void> removePasscode() async {
-      final deleted = await appConfigProvider.setPassCode(null);
+      final deleted = await appConfigViewModel.setPassCode(null);
       if (!context.mounted) return;
 
       if (deleted == true) {
@@ -20,7 +20,7 @@ class RemovePasscodeModal extends StatelessWidget {
       } else {
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.connectionCannotBeRemoved,
         );
       }

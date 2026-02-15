@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../../../testing/fakes/repositories/api/fake_actions_repository.dart';
@@ -14,8 +14,8 @@ void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
 
-  group('GravityUpdateProvider', () {
-    late GravityUpdateProvider gravityUpdateProvider;
+  group('GravityUpdateViewModel', () {
+    late GravityUpdateViewModel gravityUpdateViewModel;
     late FakeGravityRepository repository;
     late FakeActionsRepository fakeActionsRepository;
     late FakeFtlRepository fakeFtlRepository;
@@ -34,121 +34,121 @@ void main() async {
       fakeActionsRepository = FakeActionsRepository();
       fakeFtlRepository = FakeFtlRepository();
 
-      gravityUpdateProvider = GravityUpdateProvider(
+      gravityUpdateViewModel = GravityUpdateViewModel(
         repository: repository,
       );
-      gravityUpdateProvider.update(
+      gravityUpdateViewModel.update(
         actionsRepository: fakeActionsRepository,
         ftlRepository: fakeFtlRepository,
         serverAddress: testAddress,
       );
       listenerCalled = false;
-      gravityUpdateProvider.addListener(() {
+      gravityUpdateViewModel.addListener(() {
         listenerCalled = true;
       });
     });
 
     test('Initial values are set correctly', () {
-      expect(gravityUpdateProvider.status, GravityStatus.idle);
-      expect(gravityUpdateProvider.logs, []);
-      expect(gravityUpdateProvider.messages, []);
-      expect(gravityUpdateProvider.startedAtTime, null);
-      expect(gravityUpdateProvider.completedAtTime, null);
-      expect(gravityUpdateProvider.isLoaded, false);
+      expect(gravityUpdateViewModel.status, GravityStatus.idle);
+      expect(gravityUpdateViewModel.logs, []);
+      expect(gravityUpdateViewModel.messages, []);
+      expect(gravityUpdateViewModel.startedAtTime, null);
+      expect(gravityUpdateViewModel.completedAtTime, null);
+      expect(gravityUpdateViewModel.isLoaded, false);
       expect(listenerCalled, false);
     });
 
     test('update() resets state and notifies listeners', () {
-      gravityUpdateProvider.update(
+      gravityUpdateViewModel.update(
         actionsRepository: fakeActionsRepository,
         ftlRepository: fakeFtlRepository,
         serverAddress: testAddress,
       );
 
-      expect(gravityUpdateProvider.status, GravityStatus.idle);
-      expect(gravityUpdateProvider.logs, []);
-      expect(gravityUpdateProvider.messages, []);
-      expect(gravityUpdateProvider.startedAtTime, null);
-      expect(gravityUpdateProvider.completedAtTime, null);
-      expect(gravityUpdateProvider.isLoaded, false);
+      expect(gravityUpdateViewModel.status, GravityStatus.idle);
+      expect(gravityUpdateViewModel.logs, []);
+      expect(gravityUpdateViewModel.messages, []);
+      expect(gravityUpdateViewModel.startedAtTime, null);
+      expect(gravityUpdateViewModel.completedAtTime, null);
+      expect(gravityUpdateViewModel.isLoaded, false);
       expect(listenerCalled, true);
     });
 
     test('clearMessages() clears messages and notifies listeners', () async {
-      await gravityUpdateProvider.load();
+      await gravityUpdateViewModel.load();
       listenerCalled = false;
 
-      gravityUpdateProvider.clearMessages();
+      gravityUpdateViewModel.clearMessages();
 
-      expect(gravityUpdateProvider.messages, []);
+      expect(gravityUpdateViewModel.messages, []);
       expect(listenerCalled, true);
     });
 
     test('clearLogs() clears logs and notifies listeners', () {
-      gravityUpdateProvider.appendLogs(['Log 1', 'Log 2']);
+      gravityUpdateViewModel.appendLogs(['Log 1', 'Log 2']);
 
-      gravityUpdateProvider.clearLogs();
+      gravityUpdateViewModel.clearLogs();
 
-      expect(gravityUpdateProvider.logs, []);
+      expect(gravityUpdateViewModel.logs, []);
       expect(listenerCalled, true);
     });
 
     test('setStatus() updates status and notifies listeners', () {
-      gravityUpdateProvider.setStatus(GravityStatus.running);
+      gravityUpdateViewModel.setStatus(GravityStatus.running);
 
-      expect(gravityUpdateProvider.status, GravityStatus.running);
+      expect(gravityUpdateViewModel.status, GravityStatus.running);
       expect(listenerCalled, true);
     });
 
     test('setStartedAt() updates startedAt and notifies listeners', () {
       final now = DateTime.now();
-      gravityUpdateProvider.setStartedAt(now);
+      gravityUpdateViewModel.setStartedAt(now);
 
-      expect(gravityUpdateProvider.startedAtTime, now);
+      expect(gravityUpdateViewModel.startedAtTime, now);
       expect(listenerCalled, true);
     });
 
     test('setCompletedAt() updates completedAt and notifies listeners', () {
       final now = DateTime.now();
-      gravityUpdateProvider.setCompletedAt(now);
+      gravityUpdateViewModel.setCompletedAt(now);
 
-      expect(gravityUpdateProvider.completedAtTime, now);
+      expect(gravityUpdateViewModel.completedAtTime, now);
       expect(listenerCalled, true);
     });
 
     test('appendLogs() adds logs and notifies listeners', () {
-      gravityUpdateProvider.appendLogs(['Log 1', 'Log 2']);
+      gravityUpdateViewModel.appendLogs(['Log 1', 'Log 2']);
 
-      expect(gravityUpdateProvider.logs, ['Log 1', 'Log 2']);
+      expect(gravityUpdateViewModel.logs, ['Log 1', 'Log 2']);
       expect(listenerCalled, true);
     });
 
     test('reset() clears all data and resets state', () async {
-      await gravityUpdateProvider.load();
+      await gravityUpdateViewModel.load();
       listenerCalled = false;
 
-      gravityUpdateProvider.reset();
+      gravityUpdateViewModel.reset();
 
-      expect(gravityUpdateProvider.logs, []);
-      expect(gravityUpdateProvider.messages, []);
-      expect(gravityUpdateProvider.status, GravityStatus.idle);
-      expect(gravityUpdateProvider.startedAtTime, null);
-      expect(gravityUpdateProvider.completedAtTime, null);
-      expect(gravityUpdateProvider.isLoaded, false);
+      expect(gravityUpdateViewModel.logs, []);
+      expect(gravityUpdateViewModel.messages, []);
+      expect(gravityUpdateViewModel.status, GravityStatus.idle);
+      expect(gravityUpdateViewModel.startedAtTime, null);
+      expect(gravityUpdateViewModel.completedAtTime, null);
+      expect(gravityUpdateViewModel.isLoaded, false);
       expect(listenerCalled, true);
     });
 
     test('load() loads gravity data and notifies listeners', () async {
-      await gravityUpdateProvider.load();
+      await gravityUpdateViewModel.load();
 
-      expect(gravityUpdateProvider.status, GravityStatus.success);
-      expect(gravityUpdateProvider.logs.length, 1);
-      expect(gravityUpdateProvider.logs[0], log);
-      expect(gravityUpdateProvider.messages.length, 1);
-      expect(gravityUpdateProvider.messages[0].message, message);
-      expect(gravityUpdateProvider.startedAtTime, startTime);
-      expect(gravityUpdateProvider.completedAtTime, endTime);
-      expect(gravityUpdateProvider.isLoaded, true);
+      expect(gravityUpdateViewModel.status, GravityStatus.success);
+      expect(gravityUpdateViewModel.logs.length, 1);
+      expect(gravityUpdateViewModel.logs[0], log);
+      expect(gravityUpdateViewModel.messages.length, 1);
+      expect(gravityUpdateViewModel.messages[0].message, message);
+      expect(gravityUpdateViewModel.startedAtTime, startTime);
+      expect(gravityUpdateViewModel.completedAtTime, endTime);
+      expect(gravityUpdateViewModel.isLoaded, true);
       expect(listenerCalled, true);
     });
 
@@ -156,34 +156,34 @@ void main() async {
       'load() resumes with running status from previous session and handles as error',
       () async {
         repository.status = GravityStatus.running;
-        await gravityUpdateProvider.load();
+        await gravityUpdateViewModel.load();
 
-        expect(gravityUpdateProvider.status, GravityStatus.error);
-        expect(gravityUpdateProvider.logs.length, 1);
-        expect(gravityUpdateProvider.logs[0], log);
-        expect(gravityUpdateProvider.messages.length, 1);
-        expect(gravityUpdateProvider.messages[0].message, message);
-        expect(gravityUpdateProvider.startedAtTime, startTime);
-        expect(gravityUpdateProvider.completedAtTime, endTime);
-        expect(gravityUpdateProvider.isLoaded, true);
+        expect(gravityUpdateViewModel.status, GravityStatus.error);
+        expect(gravityUpdateViewModel.logs.length, 1);
+        expect(gravityUpdateViewModel.logs[0], log);
+        expect(gravityUpdateViewModel.messages.length, 1);
+        expect(gravityUpdateViewModel.messages[0].message, message);
+        expect(gravityUpdateViewModel.startedAtTime, startTime);
+        expect(gravityUpdateViewModel.completedAtTime, endTime);
+        expect(gravityUpdateViewModel.isLoaded, true);
         expect(listenerCalled, true);
       },
     );
 
     test('load() does not reload if already loaded', () async {
-      await gravityUpdateProvider.load();
+      await gravityUpdateViewModel.load();
       expect(listenerCalled, true);
       listenerCalled = false;
-      await gravityUpdateProvider.load();
+      await gravityUpdateViewModel.load();
 
-      expect(gravityUpdateProvider.status, GravityStatus.success);
-      expect(gravityUpdateProvider.logs.length, 1);
-      expect(gravityUpdateProvider.logs[0], log);
-      expect(gravityUpdateProvider.messages.length, 1);
-      expect(gravityUpdateProvider.messages[0].message, message);
-      expect(gravityUpdateProvider.startedAtTime, startTime);
-      expect(gravityUpdateProvider.completedAtTime, endTime);
-      expect(gravityUpdateProvider.isLoaded, true);
+      expect(gravityUpdateViewModel.status, GravityStatus.success);
+      expect(gravityUpdateViewModel.logs.length, 1);
+      expect(gravityUpdateViewModel.logs[0], log);
+      expect(gravityUpdateViewModel.messages.length, 1);
+      expect(gravityUpdateViewModel.messages[0].message, message);
+      expect(gravityUpdateViewModel.startedAtTime, startTime);
+      expect(gravityUpdateViewModel.completedAtTime, endTime);
+      expect(gravityUpdateViewModel.isLoaded, true);
       expect(listenerCalled, false);
     });
 
@@ -191,21 +191,21 @@ void main() async {
       final controller = StreamController<Result<List<String>>>();
 
       fakeActionsRepository.customGravityStream = () => controller.stream;
-      gravityUpdateProvider.update(
+      gravityUpdateViewModel.update(
         actionsRepository: fakeActionsRepository,
         ftlRepository: fakeFtlRepository,
         serverAddress: testAddress,
       );
 
-      await gravityUpdateProvider.start();
+      await gravityUpdateViewModel.start();
       controller.add(const Success([log]));
       await controller.close();
       await Future.delayed(const Duration(seconds: 1));
 
-      expect(gravityUpdateProvider.status, GravityStatus.success);
-      expect(gravityUpdateProvider.logs.length, 1);
-      expect(gravityUpdateProvider.logs[0], log);
-      expect(gravityUpdateProvider.messages.length, 1);
+      expect(gravityUpdateViewModel.status, GravityStatus.success);
+      expect(gravityUpdateViewModel.logs.length, 1);
+      expect(gravityUpdateViewModel.logs[0], log);
+      expect(gravityUpdateViewModel.messages.length, 1);
       expect(listenerCalled, true);
     });
 
@@ -213,13 +213,13 @@ void main() async {
       final controller = StreamController<Result<List<String>>>();
 
       fakeActionsRepository.customGravityStream = () => controller.stream;
-      gravityUpdateProvider.update(
+      gravityUpdateViewModel.update(
         actionsRepository: fakeActionsRepository,
         ftlRepository: fakeFtlRepository,
         serverAddress: testAddress,
       );
 
-      await gravityUpdateProvider.start();
+      await gravityUpdateViewModel.start();
 
       controller.addError(Exception('Test error'));
 
@@ -227,8 +227,8 @@ void main() async {
 
       await Future.delayed(const Duration(seconds: 1));
 
-      expect(gravityUpdateProvider.status, GravityStatus.error);
-      expect(gravityUpdateProvider.completedAtTime, isNotNull);
+      expect(gravityUpdateViewModel.status, GravityStatus.error);
+      expect(gravityUpdateViewModel.completedAtTime, isNotNull);
       expect(listenerCalled, true);
     });
 
@@ -238,44 +238,44 @@ void main() async {
         final controller = StreamController<Result<List<String>>>();
 
         fakeActionsRepository.customGravityStream = () => controller.stream;
-        gravityUpdateProvider.update(
+        gravityUpdateViewModel.update(
           actionsRepository: fakeActionsRepository,
           ftlRepository: fakeFtlRepository,
           serverAddress: testAddress,
         );
 
-        await gravityUpdateProvider.start();
+        await gravityUpdateViewModel.start();
         controller.add(Failure(Exception('Gravity update error')));
         await controller.close();
 
         await Future.delayed(const Duration(seconds: 1));
 
-        expect(gravityUpdateProvider.status, GravityStatus.error);
-        expect(gravityUpdateProvider.logs.length, 0);
+        expect(gravityUpdateViewModel.status, GravityStatus.error);
+        expect(gravityUpdateViewModel.logs.length, 0);
         expect(listenerCalled, true);
       },
     );
 
     test('removeMessage() removes a message and notifies listeners', () async {
-      await gravityUpdateProvider.load();
+      await gravityUpdateViewModel.load();
       listenerCalled = false;
 
-      final result = await gravityUpdateProvider.removeMessage(id);
+      final result = await gravityUpdateViewModel.removeMessage(id);
 
       expect(result, true);
-      expect(gravityUpdateProvider.messages, []);
+      expect(gravityUpdateViewModel.messages, []);
       expect(listenerCalled, true);
     });
 
     test('removeMessage() returns false when API fails', () async {
-      await gravityUpdateProvider.load();
+      await gravityUpdateViewModel.load();
 
       fakeFtlRepository.shouldFail = true;
 
-      final result = await gravityUpdateProvider.removeMessage(id);
+      final result = await gravityUpdateViewModel.removeMessage(id);
 
       expect(result, false);
-      expect(gravityUpdateProvider.messages.length, 1);
+      expect(gravityUpdateViewModel.messages.length, 1);
     });
   });
 }

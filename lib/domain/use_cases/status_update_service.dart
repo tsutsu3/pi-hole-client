@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
 /// Data Auto Refresh Service
@@ -13,19 +13,19 @@ import 'package:pi_hole_client/utils/logger.dart';
 /// A service that periodically updates the server status data.
 class StatusUpdateService {
   StatusUpdateService({
-    required ServersProvider serversProvider,
-    required StatusProvider statusProvider,
-    required AppConfigProvider appConfigProvider,
-    required FiltersProvider filtersProvider,
-  }) : _serversProvider = serversProvider,
-       _statusProvider = statusProvider,
-       _appConfigProvider = appConfigProvider,
-       _filtersProvider = filtersProvider;
+    required ServersViewModel serversViewModel,
+    required StatusViewModel statusViewModel,
+    required AppConfigViewModel appConfigViewModel,
+    required FiltersViewModel filtersViewModel,
+  }) : _serversViewModel = serversViewModel,
+       _statusViewModel = statusViewModel,
+       _appConfigViewModel = appConfigViewModel,
+       _filtersViewModel = filtersViewModel;
 
-  final ServersProvider _serversProvider;
-  final StatusProvider _statusProvider;
-  final AppConfigProvider _appConfigProvider;
-  final FiltersProvider _filtersProvider;
+  final ServersViewModel _serversViewModel;
+  final StatusViewModel _statusViewModel;
+  final AppConfigViewModel _appConfigViewModel;
+  final FiltersViewModel _filtersViewModel;
 
   Timer? _statusDataTimer;
   Timer? _overTimeDataTimer;
@@ -48,7 +48,7 @@ class StatusUpdateService {
     final clients = statusResult.data!.topSources.keys
         .map((client) => client.split('|').first)
         .toList();
-    _filtersProvider.setClients(List<String>.from(clients));
+    _filtersViewModel.setClients(List<String>.from(clients));
   }
 
   /// Start timer for auto refresh
@@ -64,7 +64,7 @@ class StatusUpdateService {
   }) {
     if (!_isAutoRefreshRunning) {
       logger.d(
-        'Starting Auto Refresh: (${_serversProvider.selectedServer?.alias}) ${_serversProvider.selectedServer?.address}',
+        'Starting Auto Refresh: (${_serversViewModel.selectedServer?.alias}) ${_serversViewModel.selectedServer?.address}',
       );
       _startAutoRefresh(
         runImmediately: runImmediately,
@@ -83,7 +83,7 @@ class StatusUpdateService {
   void stopAutoRefresh({bool showLoadingIndicator = true}) {
     if (_isAutoRefreshRunning) {
       logger.d(
-        'Stop Status Update Service. (${_serversProvider.selectedServer?.alias}) ${_serversProvider.selectedServer?.address}',
+        'Stop Status Update Service. (${_serversViewModel.selectedServer?.alias}) ${_serversViewModel.selectedServer?.address}',
       );
       _stopAutoRefresh(showLoadingIndicator: showLoadingIndicator);
     }
@@ -99,13 +99,13 @@ class StatusUpdateService {
     _isAutoRefreshRunning = true;
 
     if (showLoadingIndicator) {
-      _statusProvider.setStatusLoading(LoadStatus.loading);
-      _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
+      _statusViewModel.setStatusLoading(LoadStatus.loading);
+      _statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.loading);
     } else {
       // Skip loading UI on resume, but still notify listeners to trigger data reload
-      _statusProvider.setStatusLoading(_statusProvider.getStatusLoading);
-      _statusProvider.setOvertimeDataLoadingStatus(
-        _statusProvider.getOvertimeDataLoadStatus,
+      _statusViewModel.setStatusLoading(_statusViewModel.getStatusLoading);
+      _statusViewModel.setOvertimeDataLoadingStatus(
+        _statusViewModel.getOvertimeDataLoadStatus,
       );
     }
 
@@ -117,8 +117,8 @@ class StatusUpdateService {
   /// Stop timer for auto refresh
   void _stopAutoRefresh({bool showLoadingIndicator = true}) {
     if (showLoadingIndicator) {
-      _statusProvider.setStatusLoading(LoadStatus.loading);
-      _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
+      _statusViewModel.setStatusLoading(LoadStatus.loading);
+      _statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.loading);
     }
 
     _isAutoRefreshRunning = false;
@@ -144,60 +144,60 @@ class StatusUpdateService {
         const Duration(milliseconds: 100),
       ).then((_) => _fetchMetricsData()),
     ])).every((result) => result)) {
-      _statusProvider.setServerStatus(LoadStatus.loaded);
+      _statusViewModel.setServerStatus(LoadStatus.loaded);
     } else {
       logger.w('Failed to fetch all status data. ');
-      _statusProvider.setServerStatus(LoadStatus.error);
+      _statusViewModel.setServerStatus(LoadStatus.error);
     }
   }
 
   Future<bool> _fetchStatusData() async {
-    if (_serversProvider.selectedServer == null) return false;
+    if (_serversViewModel.selectedServer == null) return false;
 
-    final apiGateway = _serversProvider.selectedApiGateway;
+    final apiGateway = _serversViewModel.selectedApiGateway;
     final statusResult = await apiGateway?.realtimeStatus(clientCount: 0);
 
     if (statusResult?.result == APiResponseType.success) {
-      _statusProvider.setRealtimeStatus(statusResult!.data!);
+      _statusViewModel.setRealtimeStatus(statusResult!.data!);
 
       setClientsFromTopSources(statusResult);
 
-      _serversProvider.updateselectedServerStatus(
+      _serversViewModel.updateselectedServerStatus(
         statusResult.data!.status == 'enabled',
       );
       return true;
     } else {
-      _statusProvider.setStatusLoading(LoadStatus.error);
+      _statusViewModel.setStatusLoading(LoadStatus.error);
       return false;
     }
   }
 
   Future<bool> _fetchOverTimeData() async {
-    if (_serversProvider.selectedServer == null) return false;
+    if (_serversViewModel.selectedServer == null) return false;
 
-    final apiGateway = _serversProvider.selectedApiGateway;
+    final apiGateway = _serversViewModel.selectedApiGateway;
     final statusResult = await apiGateway?.fetchOverTimeData();
 
     if (statusResult?.result == APiResponseType.success) {
-      _statusProvider.setOvertimeData(statusResult!.data!);
-      _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
-      _statusProvider.setStatusLoading(LoadStatus.loaded);
+      _statusViewModel.setOvertimeData(statusResult!.data!);
+      _statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.loaded);
+      _statusViewModel.setStatusLoading(LoadStatus.loaded);
 
       return true;
     } else {
-      _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.error);
+      _statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.error);
       return false;
     }
   }
 
   Future<bool> _fetchMetricsData() async {
-    if (_serversProvider.selectedServer == null) return false;
+    if (_serversViewModel.selectedServer == null) return false;
 
-    final apiGateway = _serversProvider.selectedApiGateway;
+    final apiGateway = _serversViewModel.selectedApiGateway;
     final metricsResult = await apiGateway?.getMetrics();
 
     if (metricsResult?.result == APiResponseType.success) {
-      _statusProvider.setMetricsInfo(metricsResult!.data!);
+      _statusViewModel.setMetricsInfo(metricsResult!.data!);
       return true;
     } else if (metricsResult?.result == APiResponseType.notSupported) {
       // pihole v5
@@ -211,64 +211,64 @@ class StatusUpdateService {
   // Callbacks for StatusData
   // ----------------------------------------
   void _setupStatusDataTimer({bool runImmediately = true}) {
-    _previousRefreshTime ??= _appConfigProvider.getAutoRefreshTime;
+    _previousRefreshTime ??= _appConfigViewModel.getAutoRefreshTime;
 
     Future<void> timerFn({Timer? timer}) async {
-      if (_appConfigProvider.getAutoRefreshTime != _previousRefreshTime) {
+      if (_appConfigViewModel.getAutoRefreshTime != _previousRefreshTime) {
         logger.d('Auto Refresh Time Changed. Restarting Timer');
         timer?.cancel();
-        _previousRefreshTime = _appConfigProvider.getAutoRefreshTime;
+        _previousRefreshTime = _appConfigViewModel.getAutoRefreshTime;
         _setupStatusDataTimer();
         return;
       }
 
-      final currentServer = _serversProvider.selectedServer;
+      final currentServer = _serversViewModel.selectedServer;
       if (currentServer == null) {
         timer?.cancel();
         return;
       }
       final selectedUrlBefore = currentServer.address;
 
-      if (_serversProvider.connectingServer != null) {
+      if (_serversViewModel.connectingServer != null) {
         logger.d(
-          'Skipping status data fetch due to ongoing connection attempt: ${_serversProvider.connectingServer?.address}',
+          'Skipping status data fetch due to ongoing connection attempt: ${_serversViewModel.connectingServer?.address}',
         );
         return;
       }
 
-      final apiGateway = _serversProvider.selectedApiGateway;
+      final apiGateway = _serversViewModel.selectedApiGateway;
       final statusResult = await apiGateway?.realtimeStatus(clientCount: 0);
 
-      if (_serversProvider.selectedServer?.address != selectedUrlBefore) {
+      if (_serversViewModel.selectedServer?.address != selectedUrlBefore) {
         logger.d(
           'Skipping stale status update: server was changed during fetch. '
-          'Previous: $selectedUrlBefore, Selected: ${_serversProvider.selectedServer?.address}',
+          'Previous: $selectedUrlBefore, Selected: ${_serversViewModel.selectedServer?.address}',
         );
         return;
       }
 
       if (statusResult?.result == APiResponseType.success) {
-        _serversProvider.updateselectedServerStatus(
+        _serversViewModel.updateselectedServerStatus(
           statusResult!.data!.status == 'enabled',
         );
-        _statusProvider.setRealtimeStatus(statusResult.data!);
-        _statusProvider.setStatusLoading(LoadStatus.loaded);
+        _statusViewModel.setRealtimeStatus(statusResult.data!);
+        _statusViewModel.setStatusLoading(LoadStatus.loaded);
 
         setClientsFromTopSources(statusResult);
 
-        if (_statusProvider.getServerStatus != LoadStatus.loaded) {
-          _statusProvider.setServerStatus(LoadStatus.loaded);
+        if (_statusViewModel.getServerStatus != LoadStatus.loaded) {
+          _statusViewModel.setServerStatus(LoadStatus.loaded);
         }
       } else {
         if (selectedUrlBefore == currentServer.address) {
-          if (_statusProvider.getServerStatus == LoadStatus.loaded) {
+          if (_statusViewModel.getServerStatus == LoadStatus.loaded) {
             logger.w(
               'Server disconnected: ${statusResult?.result.name}. ${currentServer.alias} (${currentServer.address})',
             );
-            _statusProvider.setServerStatus(LoadStatus.error);
+            _statusViewModel.setServerStatus(LoadStatus.error);
           }
-          if (_statusProvider.getStatusLoading == LoadStatus.loading) {
-            _statusProvider.setStatusLoading(LoadStatus.error);
+          if (_statusViewModel.getStatusLoading == LoadStatus.loading) {
+            _statusViewModel.setStatusLoading(LoadStatus.error);
           }
         }
       }
@@ -285,7 +285,7 @@ class StatusUpdateService {
       // Adding instead (+300ms) causes the socket to expire just before reuse,
       // resulting in every request creating a new TCP handshake and closing the socket immediately.
       Duration(
-        milliseconds: _appConfigProvider.getAutoRefreshTime! * 1000 - 300,
+        milliseconds: _appConfigViewModel.getAutoRefreshTime! * 1000 - 300,
       ),
       (timer) => timerFn(timer: timer),
     );
@@ -299,48 +299,48 @@ class StatusUpdateService {
     bool isDelay = false,
   }) {
     Future<void> timerFn({Timer? timer}) async {
-      final currentServer = _serversProvider.selectedServer;
+      final currentServer = _serversViewModel.selectedServer;
       if (currentServer == null) {
         timer?.cancel();
         return;
       }
       final selectedUrlBefore = currentServer.address;
 
-      if (_serversProvider.connectingServer != null) {
+      if (_serversViewModel.connectingServer != null) {
         logger.d(
-          'Skipping overtime data fetch due to ongoing connection attempt: ${_serversProvider.connectingServer?.address}',
+          'Skipping overtime data fetch due to ongoing connection attempt: ${_serversViewModel.connectingServer?.address}',
         );
         return;
       }
 
-      final apiGateway = _serversProvider.selectedApiGateway;
+      final apiGateway = _serversViewModel.selectedApiGateway;
       final statusResult = await apiGateway?.fetchOverTimeData();
 
-      if (_serversProvider.selectedServer?.address != selectedUrlBefore) {
+      if (_serversViewModel.selectedServer?.address != selectedUrlBefore) {
         logger.d(
           'Skipping stale overtime data update: server was changed during fetch. '
-          'Previous: $selectedUrlBefore, Selected: ${_serversProvider.selectedServer?.address}',
+          'Previous: $selectedUrlBefore, Selected: ${_serversViewModel.selectedServer?.address}',
         );
         return;
       }
 
       if (statusResult?.result == APiResponseType.success) {
-        _statusProvider.setOvertimeData(statusResult!.data!);
-        _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
+        _statusViewModel.setOvertimeData(statusResult!.data!);
+        _statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.loaded);
 
-        if (_statusProvider.getServerStatus != LoadStatus.loaded) {
-          _statusProvider.setServerStatus(LoadStatus.loaded);
+        if (_statusViewModel.getServerStatus != LoadStatus.loaded) {
+          _statusViewModel.setServerStatus(LoadStatus.loaded);
         }
       } else {
         if (selectedUrlBefore == currentServer.address) {
-          if (_statusProvider.getServerStatus == LoadStatus.loaded) {
+          if (_statusViewModel.getServerStatus == LoadStatus.loaded) {
             logger.w(
               'Server disconnected: ${statusResult?.result.name}. ${currentServer.alias} (${currentServer.address})',
             );
-            _statusProvider.setServerStatus(LoadStatus.error);
+            _statusViewModel.setServerStatus(LoadStatus.error);
           }
-          if (_statusProvider.getOvertimeDataLoadStatus == LoadStatus.loading) {
-            _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.error);
+          if (_statusViewModel.getOvertimeDataLoadStatus == LoadStatus.loading) {
+            _statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.error);
           }
         }
       }
@@ -372,32 +372,32 @@ class StatusUpdateService {
     bool isDelay = false,
   }) {
     Future<void> timerFn({Timer? timer}) async {
-      final currentServer = _serversProvider.selectedServer;
+      final currentServer = _serversViewModel.selectedServer;
       if (currentServer == null) {
         timer?.cancel();
         return;
       }
       final selectedUrlBefore = currentServer.address;
 
-      if (_serversProvider.connectingServer != null) {
+      if (_serversViewModel.connectingServer != null) {
         logger.d(
-          'Skipping metrics data fetch due to ongoing connection attempt: ${_serversProvider.connectingServer?.address}',
+          'Skipping metrics data fetch due to ongoing connection attempt: ${_serversViewModel.connectingServer?.address}',
         );
         return;
       }
-      final apiGateway = _serversProvider.selectedApiGateway;
+      final apiGateway = _serversViewModel.selectedApiGateway;
       final metricsResult = await apiGateway?.getMetrics();
 
-      if (_serversProvider.selectedServer?.address != selectedUrlBefore) {
+      if (_serversViewModel.selectedServer?.address != selectedUrlBefore) {
         logger.d(
           'Skipping stale metrics update: server was changed during fetch. '
-          'Previous: $selectedUrlBefore, Selected: ${_serversProvider.selectedServer?.address}',
+          'Previous: $selectedUrlBefore, Selected: ${_serversViewModel.selectedServer?.address}',
         );
         return;
       }
 
       if (metricsResult?.result == APiResponseType.success) {
-        _statusProvider.setMetricsInfo(metricsResult!.data!);
+        _statusViewModel.setMetricsInfo(metricsResult!.data!);
       }
     }
 
@@ -407,7 +407,7 @@ class StatusUpdateService {
       }
 
       _metricsDataTimer = Timer.periodic(
-        Duration(seconds: _appConfigProvider.getAutoRefreshTime!),
+        Duration(seconds: _appConfigViewModel.getAutoRefreshTime!),
         (timer) => timerFn(timer: timer),
       );
     }

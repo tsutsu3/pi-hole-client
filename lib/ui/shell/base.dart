@@ -8,8 +8,8 @@ import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/ui/layout/bottom_nav_bar.dart';
 import 'package:pi_hole_client/ui/core/ui/layout/navigation_rail.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/start_warning_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/domains_page.dart';
 import 'package:pi_hole_client/ui/home/home.dart';
 import 'package:pi_hole_client/ui/logs/logs.dart';
@@ -54,11 +54,11 @@ class _BaseState extends State<Base>
         windowManager.addListener(this);
       }
 
-      final serversProvider = context.read<ServersProvider>();
+      final serversViewModel = context.read<ServersViewModel>();
 
-      final appConfigProvider = context.read<AppConfigProvider>();
+      final appConfigViewModel = context.read<AppConfigViewModel>();
 
-      if (appConfigProvider.importantInfoReaden == false) {
+      if (appConfigViewModel.importantInfoReaden == false) {
         await showDialog<String>(
           context: context,
           builder: (BuildContext context) => const StartInfoModal(),
@@ -66,9 +66,9 @@ class _BaseState extends State<Base>
         if (!mounted) return;
       }
 
-      if (serversProvider.selectedServer != null) {
-        final result = await serversProvider.selectedApiGateway?.loginQuery();
-        serversProvider.updateselectedServerStatus(result?.status == 'enabled');
+      if (serversViewModel.selectedServer != null) {
+        final result = await serversViewModel.selectedApiGateway?.loginQuery();
+        serversViewModel.updateselectedServerStatus(result?.status == 'enabled');
 
         if (!mounted) return;
         context.read<StatusUpdateService>().startAutoRefresh();
@@ -121,11 +121,11 @@ class _BaseState extends State<Base>
   /// ## Desktop
   /// - When the window is restored from being minimized
   Future<void> onResumed() async {
-    final serversProvider = context.read<ServersProvider>();
+    final serversViewModel = context.read<ServersViewModel>();
     final statusUpdateService = context.read<StatusUpdateService>();
 
-    if (serversProvider.selectedServer != null) {
-      await serversProvider.selectedApiGateway?.loginQuery();
+    if (serversViewModel.selectedServer != null) {
+      await serversViewModel.selectedApiGateway?.loginQuery();
       statusUpdateService.startAutoRefresh(showLoadingIndicator: false);
     }
   }
@@ -156,17 +156,17 @@ class _BaseState extends State<Base>
     );
   }
 
-  void _handleTabChange(int selected, AppConfigProvider appConfigProvider) {
-    appConfigProvider.setSelectedTab(selected);
+  void _handleTabChange(int selected, AppConfigViewModel appConfigViewModel) {
+    appConfigViewModel.setSelectedTab(selected);
   }
 
   @override
   Widget build(BuildContext context) {
     // Listen only to necessary properties
-    final hasSelectedServer = context.select<ServersProvider, bool>(
+    final hasSelectedServer = context.select<ServersViewModel, bool>(
       (sp) => sp.selectedServer != null,
     );
-    final selectedTab = context.select<AppConfigProvider, int>(
+    final selectedTab = context.select<AppConfigViewModel, int>(
       (acp) => acp.selectedTab,
     );
     // Determine the current tab index, mimicking _currentTabIndex logic
@@ -190,7 +190,7 @@ class _BaseState extends State<Base>
                   onChange: (selected) {
                     _handleTabChange(
                       selected,
-                      context.read<AppConfigProvider>(),
+                      context.read<AppConfigViewModel>(),
                     );
                   },
                 ),
@@ -205,7 +205,7 @@ class _BaseState extends State<Base>
               onChange: (selected) {
                 _handleTabChange(
                   selected,
-                  context.read<AppConfigProvider>(),
+                  context.read<AppConfigViewModel>(),
                 );
               },
             )

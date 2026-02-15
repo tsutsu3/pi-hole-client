@@ -6,7 +6,7 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/animations/shake_animation.dart';
 import 'package:pi_hole_client/ui/core/ui/components/numeric_pad.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class Unlock extends StatefulWidget {
@@ -26,14 +26,14 @@ class _UnlockState extends State<Unlock> {
       GlobalKey<ShakeAnimationState>();
 
   Future<void> checkBiometrics() async {
-    final appConfigProvider = Provider.of<AppConfigProvider>(
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(
       context,
       listen: false,
     );
 
     final auth = LocalAuthentication();
     final biometrics = await auth.getAvailableBiometrics();
-    if (appConfigProvider.useBiometrics == true && biometrics.isNotEmpty) {
+    if (appConfigViewModel.useBiometrics == true && biometrics.isNotEmpty) {
       await auth.stopAuthentication();
       if (!mounted) return;
       try {
@@ -50,7 +50,7 @@ class _UnlockState extends State<Unlock> {
         if (e.toString().contains('LockedOut')) {
           showErrorSnackBar(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(
               context,
             )!.fingerprintAuthUnavailableAttempts,
@@ -58,7 +58,7 @@ class _UnlockState extends State<Unlock> {
         } else {
           showErrorSnackBar(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(context)!.fingerprintAuthUnavailable,
           );
         }
@@ -80,13 +80,13 @@ class _UnlockState extends State<Unlock> {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
 
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     void updateCode(String value) {
       setState(() => _code = value);
-      if (_code.length == 4 && _code == appConfigProvider.passCode) {
+      if (_code.length == 4 && _code == appConfigViewModel.passCode) {
         AppLock.of(context)!.didUnlock();
-      } else if (_code.length == 4 && _code != appConfigProvider.passCode) {
+      } else if (_code.length == 4 && _code != appConfigViewModel.passCode) {
         _shakeKey.currentState!.shake();
         setState(() {
           _code = '';

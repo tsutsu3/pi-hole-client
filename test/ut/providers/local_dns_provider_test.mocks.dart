@@ -21,9 +21,9 @@ import 'package:pi_hole_client/domain/models_old/query_status.dart' as _i7;
 import 'package:pi_hole_client/domain/models_old/server.dart' as _i3;
 import 'package:pi_hole_client/domain/models_old/subscriptions.dart' as _i16;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart'
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart'
     as _i8;
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart' as _i6;
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -312,11 +312,11 @@ class _FakeDeleteDhcpResponse_45 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
-/// A class which mocks [ServersProvider].
+/// A class which mocks [ServersViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockServersProvider extends _i1.Mock implements _i6.ServersProvider {
-  MockServersProvider() {
+class MockServersViewModel extends _i1.Mock implements _i6.ServersViewModel {
+  MockServersViewModel() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -370,7 +370,7 @@ class MockServersProvider extends _i1.Mock implements _i6.ServersProvider {
           as bool);
 
   @override
-  void update(_i8.AppConfigProvider? provider) => super.noSuchMethod(
+  void update(_i8.AppConfigViewModel? provider) => super.noSuchMethod(
     Invocation.method(#update, [provider]),
     returnValueForMissingStub: null,
   );

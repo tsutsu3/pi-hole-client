@@ -14,7 +14,7 @@ import 'package:package_info_plus/package_info_plus.dart' as _i7;
 import 'package:pi_hole_client/domain/models_old/app_log.dart' as _i6;
 import 'package:pi_hole_client/domain/models_old/database.dart' as _i10;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart'
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart'
     as _i3;
 
 // ignore_for_file: type=lint
@@ -37,11 +37,12 @@ class _FakeAppColors_0 extends _i1.SmartFake implements _i2.AppColors {
     : super(parent, parentInvocation);
 }
 
-/// A class which mocks [AppConfigProvider].
+/// A class which mocks [AppConfigViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppConfigProvider extends _i1.Mock implements _i3.AppConfigProvider {
-  MockAppConfigProvider() {
+class MockAppConfigViewModel extends _i1.Mock
+    implements _i3.AppConfigViewModel {
+  MockAppConfigViewModel() {
     _i1.throwOnMissingStub(this);
   }
 

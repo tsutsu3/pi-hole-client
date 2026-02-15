@@ -11,7 +11,7 @@ import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/edit_client_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
 import 'package:pi_hole_client/utils/format.dart';
@@ -44,7 +44,7 @@ class ClientDetailsScreen extends StatefulWidget {
 class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
   late ManagedClient _client;
   late ClientsViewModel clientsViewModel;
-  late AppConfigProvider appConfigProvider;
+  late AppConfigViewModel appConfigViewModel;
 
   @override
   void initState() {
@@ -65,7 +65,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    appConfigProvider = context.watch<AppConfigProvider>();
+    appConfigViewModel = context.watch<AppConfigViewModel>();
     clientsViewModel = context.watch<ClientsViewModel>();
   }
 
@@ -249,7 +249,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
       if (!mounted) return;
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.clientRemoved,
       );
     } catch (_) {
@@ -258,7 +258,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
 
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.clientRemoveFailed,
       );
     }
@@ -293,7 +293,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
       if (!mounted) return;
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.clientUpdated,
       );
     } catch (_) {
@@ -302,7 +302,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
 
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.clientUpdateFailed,
       );
     }

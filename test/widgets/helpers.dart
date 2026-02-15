@@ -62,12 +62,12 @@ import 'package:pi_hole_client/domain/models_old/version.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
@@ -1452,10 +1452,10 @@ Future<void> initializeApp() async {
 /// });
 /// });
 @GenerateMocks([
-  AppConfigProvider,
-  ServersProvider,
-  FiltersProvider,
-  StatusProvider,
+  AppConfigViewModel,
+  ServersViewModel,
+  FiltersViewModel,
+  StatusViewModel,
   DomainsViewModel,
   ClientsViewModel,
   LocalDnsProvider,
@@ -1464,34 +1464,34 @@ Future<void> initializeApp() async {
   StatusUpdateService,
   GroupsViewModel,
   AdlistsViewModel,
-  GravityUpdateProvider,
+  GravityUpdateViewModel,
 ])
 class TestSetupHelper {
   TestSetupHelper({
-    MockAppConfigProvider? customConfigProvider,
-    MockServersProvider? customServersProvider,
-    MockFiltersProvider? customFiltersProvider,
-    MockStatusProvider? customStatusProvider,
+    MockAppConfigViewModel? customConfigProvider,
+    MockServersViewModel? customServersViewModel,
+    MockFiltersViewModel? customFiltersViewModel,
+    MockStatusViewModel? customStatusViewModel,
     MockDomainsViewModel? customDomainsViewModel,
     MockClientsViewModel? customClientsViewModel,
     MockGroupsViewModel? customGroupsViewModel,
     MockAdlistsViewModel? customAdlistsViewModel,
-    MockGravityUpdateProvider? customGravityUpdateProvider,
+    MockGravityUpdateViewModel? customGravityUpdateViewModel,
     MockLocalDnsProvider? customLocalDnsProvider,
     MockApiGatewayV5? customApiGatewayV5,
     MockApiGatewayV6? customApiGatewayV6,
     MockStatusUpdateService? customStatusUpdateService,
   }) {
-    mockConfigProvider = customConfigProvider ?? MockAppConfigProvider();
-    mockServersProvider = customServersProvider ?? MockServersProvider();
-    mockFiltersProvider = customFiltersProvider ?? MockFiltersProvider();
-    mockStatusProvider = customStatusProvider ?? MockStatusProvider();
+    mockConfigProvider = customConfigProvider ?? MockAppConfigViewModel();
+    mockServersViewModel = customServersViewModel ?? MockServersViewModel();
+    mockFiltersViewModel = customFiltersViewModel ?? MockFiltersViewModel();
+    mockStatusViewModel = customStatusViewModel ?? MockStatusViewModel();
     mockDomainsViewModel = customDomainsViewModel ?? MockDomainsViewModel();
     mockClientsViewModel = customClientsViewModel ?? MockClientsViewModel();
     mockGroupsViewModel = customGroupsViewModel ?? MockGroupsViewModel();
     mockAdlistsViewModel = customAdlistsViewModel ?? MockAdlistsViewModel();
-    mockGravityUpdateProvider =
-        customGravityUpdateProvider ?? MockGravityUpdateProvider();
+    mockGravityUpdateViewModel =
+        customGravityUpdateViewModel ?? MockGravityUpdateViewModel();
     mockLocalDnsProvider = customLocalDnsProvider ?? MockLocalDnsProvider();
 
     mockApiGatewayV5 = customApiGatewayV5 ?? MockApiGatewayV5();
@@ -1510,15 +1510,15 @@ class TestSetupHelper {
     );
   }
 
-  late MockAppConfigProvider mockConfigProvider;
-  late MockServersProvider mockServersProvider;
-  late MockFiltersProvider mockFiltersProvider;
-  late MockStatusProvider mockStatusProvider;
+  late MockAppConfigViewModel mockConfigProvider;
+  late MockServersViewModel mockServersViewModel;
+  late MockFiltersViewModel mockFiltersViewModel;
+  late MockStatusViewModel mockStatusViewModel;
   late MockDomainsViewModel mockDomainsViewModel;
   late MockClientsViewModel mockClientsViewModel;
   late MockGroupsViewModel mockGroupsViewModel;
   late MockAdlistsViewModel mockAdlistsViewModel;
-  late MockGravityUpdateProvider mockGravityUpdateProvider;
+  late MockGravityUpdateViewModel mockGravityUpdateViewModel;
   late MockLocalDnsProvider mockLocalDnsProvider;
 
   late MockApiGatewayV5 mockApiGatewayV5;
@@ -1535,14 +1535,14 @@ class TestSetupHelper {
   void initializeMock({String useApiGatewayVersion = 'v5'}) {
     _initConfiProviderMock(useApiGatewayVersion);
     _initServerProviderMock(useApiGatewayVersion);
-    _initFiltersProviderMock(useApiGatewayVersion);
-    _initStatusProviderMock(useApiGatewayVersion);
+    _initFiltersViewModelMock(useApiGatewayVersion);
+    _initStatusViewModelMock(useApiGatewayVersion);
     _initDomainsViewModelMock(useApiGatewayVersion);
     _initClientsViewModelMock(useApiGatewayVersion);
     _initGroupsViewModelMock(useApiGatewayVersion);
     _initAdlistsViewModelMock(useApiGatewayVersion);
     _initLocalDnsProviderMock(useApiGatewayVersion);
-    _initGravityUpdateProviderMock(useApiGatewayVersion);
+    _initGravityUpdateViewModelMock(useApiGatewayVersion);
     _initApiGatewayV5Mock();
     _initApiGatewayV6Mock();
     _initStatusUpdateServiceMock();
@@ -1568,17 +1568,17 @@ class TestSetupHelper {
       builder: (lightDynamic, darkDynamic) {
         return MultiProvider(
           providers: [
-            ChangeNotifierProvider<AppConfigProvider>(
+            ChangeNotifierProvider<AppConfigViewModel>(
               create: (context) => mockConfigProvider,
             ),
-            ChangeNotifierProvider<ServersProvider>(
-              create: (context) => mockServersProvider,
+            ChangeNotifierProvider<ServersViewModel>(
+              create: (context) => mockServersViewModel,
             ),
-            ChangeNotifierProvider<StatusProvider>(
-              create: (context) => mockStatusProvider,
+            ChangeNotifierProvider<StatusViewModel>(
+              create: (context) => mockStatusViewModel,
             ),
-            ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
-              create: (context) => mockServersProvider,
+            ChangeNotifierProxyProvider<AppConfigViewModel, ServersViewModel>(
+              create: (context) => mockServersViewModel,
               update: (context, appConfig, servers) =>
                   servers!..update(appConfig),
             ),
@@ -1588,8 +1588,8 @@ class TestSetupHelper {
             ChangeNotifierProvider<ClientsViewModel>.value(
               value: mockClientsViewModel,
             ),
-            ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
-              create: (context) => mockFiltersProvider,
+            ChangeNotifierProxyProvider<ServersViewModel, FiltersViewModel>(
+              create: (context) => mockFiltersViewModel,
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
             ),
@@ -1604,15 +1604,15 @@ class TestSetupHelper {
             ),
             ChangeNotifierProxyProvider2<
               RepositoryBundle?,
-              ServersProvider,
-              GravityUpdateProvider
+              ServersViewModel,
+              GravityUpdateViewModel
             >(
-              create: (context) => mockGravityUpdateProvider,
-              update: (context, bundle, serversProvider, previous) =>
+              create: (context) => mockGravityUpdateViewModel,
+              update: (context, bundle, serversViewModel, previous) =>
                   previous!..update(
                     actionsRepository: bundle?.actions,
                     ftlRepository: bundle?.ftl,
-                    serverAddress: serversProvider.selectedServer?.address,
+                    serverAddress: serversViewModel.selectedServer?.address,
                   ),
             ),
             ChangeNotifierProvider<LocalDnsProvider>.value(
@@ -1671,17 +1671,17 @@ class TestSetupHelper {
   Widget buildMainTestWidget(Widget child) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AppConfigProvider>(
+        ChangeNotifierProvider<AppConfigViewModel>(
           create: (context) => mockConfigProvider,
         ),
-        ChangeNotifierProvider<ServersProvider>(
-          create: (context) => mockServersProvider,
+        ChangeNotifierProvider<ServersViewModel>(
+          create: (context) => mockServersViewModel,
         ),
-        ChangeNotifierProvider<StatusProvider>(
-          create: (context) => mockStatusProvider,
+        ChangeNotifierProvider<StatusViewModel>(
+          create: (context) => mockStatusViewModel,
         ),
-        ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
-          create: (context) => mockServersProvider,
+        ChangeNotifierProxyProvider<AppConfigViewModel, ServersViewModel>(
+          create: (context) => mockServersViewModel,
           update: (context, appConfig, servers) => servers!..update(appConfig),
         ),
         ChangeNotifierProvider<DomainsViewModel>.value(
@@ -1690,8 +1690,8 @@ class TestSetupHelper {
         ChangeNotifierProvider<ClientsViewModel>.value(
           value: mockClientsViewModel,
         ),
-        ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
-          create: (context) => mockFiltersProvider,
+        ChangeNotifierProxyProvider<ServersViewModel, FiltersViewModel>(
+          create: (context) => mockFiltersViewModel,
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
         ),
@@ -1706,15 +1706,15 @@ class TestSetupHelper {
         ),
         ChangeNotifierProxyProvider2<
           RepositoryBundle?,
-          ServersProvider,
-          GravityUpdateProvider
+          ServersViewModel,
+          GravityUpdateViewModel
         >(
-          create: (context) => mockGravityUpdateProvider,
-          update: (context, bundle, serversProvider, previous) =>
+          create: (context) => mockGravityUpdateViewModel,
+          update: (context, bundle, serversViewModel, previous) =>
               previous!..update(
                 actionsRepository: bundle?.actions,
                 ftlRepository: bundle?.ftl,
-                serverAddress: serversProvider.selectedServer?.address,
+                serverAddress: serversViewModel.selectedServer?.address,
               ),
         ),
         ChangeNotifierProvider<LocalDnsProvider>.value(
@@ -1821,102 +1821,102 @@ class TestSetupHelper {
   }
 
   void _initServerProviderMock(String useApiGatewayVersion) {
-    when(mockServersProvider.selectedApiGateway).thenReturn(
+    when(mockServersViewModel.selectedApiGateway).thenReturn(
       useApiGatewayVersion == 'v5'
           ? mockApiGatewayV5 as ApiGateway
           : mockApiGatewayV6 as ApiGateway,
     );
     when(
-      mockServersProvider.selectedServer,
+      mockServersViewModel.selectedServer,
     ).thenReturn(useApiGatewayVersion == 'v5' ? serverV5 : serverV6);
-    when(mockServersProvider.colors).thenReturn(lightAppColors);
+    when(mockServersViewModel.colors).thenReturn(lightAppColors);
     when(
-      mockServersProvider.numShown,
+      mockServersViewModel.numShown,
     ).thenReturn(useApiGatewayVersion == 'v5' ? 12 : 14);
-    when(mockServersProvider.getQueryStatus(any)).thenReturn(
+    when(mockServersViewModel.getQueryStatus(any)).thenReturn(
       // forwarded
       useApiGatewayVersion == 'v5' ? queryStatusesV5[1] : queryStatusesV6[2],
     );
     when(
-      mockServersProvider.checkUrlExists(any),
+      mockServersViewModel.checkUrlExists(any),
     ).thenAnswer((_) async => {'result': 'success', 'exists': false});
-    when(mockServersProvider.addServer(any)).thenAnswer((_) async => true);
-    when(mockServersProvider.editServer(any)).thenAnswer((_) async => true);
-    when(mockServersProvider.loadApiGateway(any)).thenReturn(
+    when(mockServersViewModel.addServer(any)).thenAnswer((_) async => true);
+    when(mockServersViewModel.editServer(any)).thenAnswer((_) async => true);
+    when(mockServersViewModel.loadApiGateway(any)).thenReturn(
       useApiGatewayVersion == 'v5'
           ? mockApiGatewayV5 as ApiGateway
           : mockApiGatewayV6 as ApiGateway,
     );
-    when(mockServersProvider.createApiGateway(any)).thenReturn(
+    when(mockServersViewModel.createApiGateway(any)).thenReturn(
       useApiGatewayVersion == 'v5'
           ? mockApiGatewayV5 as ApiGateway
           : mockApiGatewayV6 as ApiGateway,
     );
     when(
-      mockServersProvider.getServersList,
+      mockServersViewModel.getServersList,
     ).thenReturn(useApiGatewayVersion == 'v5' ? [serverV5] : [serverV6]);
-    when(mockServersProvider.colors).thenReturn(lightAppColors);
-    when(mockServersProvider.queryStatuses).thenReturn(
+    when(mockServersViewModel.colors).thenReturn(lightAppColors);
+    when(mockServersViewModel.queryStatuses).thenReturn(
       useApiGatewayVersion == 'v5' ? queryStatusesV5 : queryStatusesV6,
     );
-    when(mockServersProvider.removeServer(any)).thenAnswer((_) async => true);
-    when(mockServersProvider.deleteDbData()).thenAnswer((_) async => true);
-    when(mockServersProvider.connectingServer).thenReturn(serverV6);
-    when(mockServersProvider.serversWithUnverifiedCertificates).thenReturn([]);
-    when(mockServersProvider.unverifiedBannerDismissed).thenReturn(false);
+    when(mockServersViewModel.removeServer(any)).thenAnswer((_) async => true);
+    when(mockServersViewModel.deleteDbData()).thenAnswer((_) async => true);
+    when(mockServersViewModel.connectingServer).thenReturn(serverV6);
+    when(mockServersViewModel.serversWithUnverifiedCertificates).thenReturn([]);
+    when(mockServersViewModel.unverifiedBannerDismissed).thenReturn(false);
   }
 
-  void _initFiltersProviderMock(String useApiGatewayVersion) {
-    when(mockFiltersProvider.statusSelected).thenReturn(
+  void _initFiltersViewModelMock(String useApiGatewayVersion) {
+    when(mockFiltersViewModel.statusSelected).thenReturn(
       useApiGatewayVersion == 'v5'
           ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14]
           : [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
     );
-    when(mockFiltersProvider.selectedClients).thenReturn(['192.168.100.2']);
-    when(mockFiltersProvider.selectedDomain).thenReturn('white.example.com');
-    when(mockFiltersProvider.startTime).thenReturn(DateTime.now());
+    when(mockFiltersViewModel.selectedClients).thenReturn(['192.168.100.2']);
+    when(mockFiltersViewModel.selectedDomain).thenReturn('white.example.com');
+    when(mockFiltersViewModel.startTime).thenReturn(DateTime.now());
     when(
-      mockFiltersProvider.endTime,
+      mockFiltersViewModel.endTime,
     ).thenReturn(DateTime.now().add(const Duration(hours: 2)));
-    when(mockFiltersProvider.resetFilters()).thenReturn(null);
+    when(mockFiltersViewModel.resetFilters()).thenReturn(null);
     when(
-      mockFiltersProvider.totalClients,
+      mockFiltersViewModel.totalClients,
     ).thenReturn(['localhost', '192.168.100.2']);
-    when(mockFiltersProvider.resetTime()).thenReturn(null);
-    when(mockFiltersProvider.resetStatus()).thenReturn(null);
-    when(mockFiltersProvider.resetClients()).thenReturn(null);
-    when(mockFiltersProvider.setSelectedDomain(null)).thenReturn(null);
-    when(mockFiltersProvider.statusAllowedAndRetried).thenReturn(
+    when(mockFiltersViewModel.resetTime()).thenReturn(null);
+    when(mockFiltersViewModel.resetStatus()).thenReturn(null);
+    when(mockFiltersViewModel.resetClients()).thenReturn(null);
+    when(mockFiltersViewModel.setSelectedDomain(null)).thenReturn(null);
+    when(mockFiltersViewModel.statusAllowedAndRetried).thenReturn(
       useApiGatewayVersion == 'v5' ? [2, 3, 12, 13, 14] : [3, 4, 13, 14, 15],
     );
-    when(mockFiltersProvider.requestStatus).thenReturn(RequestStatus.all);
-    when(mockFiltersProvider.defaultSelected).thenReturn(
+    when(mockFiltersViewModel.requestStatus).thenReturn(RequestStatus.all);
+    when(mockFiltersViewModel.defaultSelected).thenReturn(
       useApiGatewayVersion == 'v5'
           ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14]
           : [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
     );
   }
 
-  void _initStatusProviderMock(String useApiGatewayVersion) {
-    when(mockStatusProvider.getStatusLoading).thenReturn(LoadStatus.loaded);
-    when(mockStatusProvider.getServerStatus).thenReturn(LoadStatus.loaded);
-    when(mockStatusProvider.isServerLoading).thenReturn(false);
-    when(mockStatusProvider.getOvertimeData).thenReturn(overtimeData);
+  void _initStatusViewModelMock(String useApiGatewayVersion) {
+    when(mockStatusViewModel.getStatusLoading).thenReturn(LoadStatus.loaded);
+    when(mockStatusViewModel.getServerStatus).thenReturn(LoadStatus.loaded);
+    when(mockStatusViewModel.isServerLoading).thenReturn(false);
+    when(mockStatusViewModel.getOvertimeData).thenReturn(overtimeData);
     when(
-      mockStatusProvider.getOvertimeDataLoadStatus,
+      mockStatusViewModel.getOvertimeDataLoadStatus,
     ).thenReturn(LoadStatus.loaded);
     when(
-      mockStatusProvider.getOvertimeDataJson,
+      mockStatusViewModel.getOvertimeDataJson,
     ).thenReturn(overtimeData.toJson());
-    when(mockStatusProvider.getRealtimeStatus).thenReturn(realtimeStatus);
+    when(mockStatusViewModel.getRealtimeStatus).thenReturn(realtimeStatus);
     when(
-      mockStatusProvider.getMetricsInfo,
+      mockStatusViewModel.getMetricsInfo,
     ).thenReturn(MetricsInfo.fromV6(metrics));
     when(
-      mockStatusProvider.getDnsCacheInfo,
+      mockStatusViewModel.getDnsCacheInfo,
     ).thenReturn(MetricsInfo.fromV6(metrics).dnsCache);
     when(
-      mockStatusProvider.getDnsRepliesInfo,
+      mockStatusViewModel.getDnsRepliesInfo,
     ).thenReturn(MetricsInfo.fromV6(metrics).dnsReplies);
   }
 
@@ -2095,12 +2095,12 @@ class TestSetupHelper {
     ).thenReturn(Command.createAsyncNoResult<Adlist>((_) async {}));
   }
 
-  void _initGravityUpdateProviderMock(String useApiGatewayVersion) {
-    when(mockGravityUpdateProvider.status).thenReturn(GravityStatus.idle);
+  void _initGravityUpdateViewModelMock(String useApiGatewayVersion) {
+    when(mockGravityUpdateViewModel.status).thenReturn(GravityStatus.idle);
 
-    when(mockGravityUpdateProvider.logs).thenReturn(['log1', 'log2']);
+    when(mockGravityUpdateViewModel.logs).thenReturn(['log1', 'log2']);
 
-    when(mockGravityUpdateProvider.messages).thenReturn(<FtlMessage>[
+    when(mockGravityUpdateViewModel.messages).thenReturn(<FtlMessage>[
       FtlMessage(
         id: 5,
         timestamp: DateTime.fromMillisecondsSinceEpoch(1743936482 * 1000),
@@ -2109,19 +2109,19 @@ class TestSetupHelper {
       ),
     ]);
 
-    when(mockGravityUpdateProvider.startedAtTime).thenReturn(
+    when(mockGravityUpdateViewModel.startedAtTime).thenReturn(
       DateTime.fromMillisecondsSinceEpoch(1733465700 * 1000),
     ); // Convert to milliseconds since epoch
 
     when(
-      mockGravityUpdateProvider.completedAtTime,
+      mockGravityUpdateViewModel.completedAtTime,
     ).thenReturn(DateTime.fromMillisecondsSinceEpoch(1733465700 * 1000));
 
-    when(mockGravityUpdateProvider.isLoaded).thenReturn(false);
+    when(mockGravityUpdateViewModel.isLoaded).thenReturn(false);
 
-    when(mockGravityUpdateProvider.load()).thenAnswer((_) async => ());
-    when(mockGravityUpdateProvider.start()).thenAnswer((_) async => ());
-    when(mockGravityUpdateProvider.reset()).thenReturn(null);
+    when(mockGravityUpdateViewModel.load()).thenAnswer((_) async => ());
+    when(mockGravityUpdateViewModel.start()).thenAnswer((_) async => ());
+    when(mockGravityUpdateViewModel.reset()).thenReturn(null);
   }
 
   void _initLocalDnsProviderMock(String useApiGatewayVersion) {

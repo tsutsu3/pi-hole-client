@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_radio_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class RefreshOption {
@@ -50,7 +50,7 @@ class _LogRefreshIntervalScreenState extends State<LogRefreshIntervalScreen> {
   final FocusNode customFocusNode = FocusNode();
   bool showCustomInput = false;
   bool customValid = false;
-  late final AppConfigProvider configProvider;
+  late final AppConfigViewModel configProvider;
 
   bool get isCustomSelected => selectedIndex == RefreshOption.all.length - 1;
 
@@ -62,7 +62,7 @@ class _LogRefreshIntervalScreenState extends State<LogRefreshIntervalScreen> {
         _save();
       }
     });
-    configProvider = context.read<AppConfigProvider>();
+    configProvider = context.read<AppConfigViewModel>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final saved = configProvider.logAutoRefreshTime;
       setState(() {
@@ -123,13 +123,13 @@ class _LogRefreshIntervalScreenState extends State<LogRefreshIntervalScreen> {
     if (result) {
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: configProvider,
+        appConfigViewModel: configProvider,
         label: loc.updateTimeChanged,
       );
     } else {
       showErrorSnackBar(
         context: context,
-        appConfigProvider: configProvider,
+        appConfigViewModel: configProvider,
         label: loc.cannotChangeUpdateTime,
       );
     }

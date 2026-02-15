@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/languages.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_radio.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +11,7 @@ class LanguageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     // Create a sorted copy of languageOptions.
     final sortedLanguageOptions = List.from(languageOptions)
@@ -33,7 +33,7 @@ class LanguageScreen extends StatelessWidget {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () {
-                    appConfigProvider.setSelectedLanguage(languageOption.key);
+                    appConfigViewModel.setSelectedLanguage(languageOption.key);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -47,7 +47,7 @@ class LanguageScreen extends StatelessWidget {
                       ),
                       trailing: CustomRadio(
                         value: languageOption.index,
-                        groupValue: appConfigProvider.selectedLanguageNumber,
+                        groupValue: appConfigViewModel.selectedLanguageNumber,
                         backgroundColor: Theme.of(
                           context,
                         ).dialogTheme.backgroundColor!,

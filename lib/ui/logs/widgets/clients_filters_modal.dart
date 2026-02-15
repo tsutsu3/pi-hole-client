@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class ClientsFiltersModal extends StatefulWidget {
@@ -48,10 +48,10 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
 
   @override
   Widget build(BuildContext context) {
-    final filtersProvider = Provider.of<FiltersProvider>(context);
+    final filtersViewModel = Provider.of<FiltersViewModel>(context);
 
     void updateList() {
-      filtersProvider.setSelectedClients(_selectedClients);
+      filtersViewModel.setSelectedClients(_selectedClients);
     }
 
     Widget listItem({required String label, required String value}) {
@@ -77,9 +77,9 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
     }
 
     void checkUncheckAll() {
-      if (_selectedClients.length < filtersProvider.totalClients.length) {
+      if (_selectedClients.length < filtersViewModel.totalClients.length) {
         setState(() {
-          _selectedClients = filtersProvider.totalClients;
+          _selectedClients = filtersViewModel.totalClients;
         });
       } else {
         setState(() {
@@ -116,7 +116,7 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                       style: const TextStyle(fontSize: 24),
                     ),
                   ),
-                  ...filtersProvider.totalClients.map(
+                  ...filtersViewModel.totalClients.map(
                     (e) => listItem(label: e, value: e),
                   ),
                 ],
@@ -131,7 +131,7 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                     onPressed: checkUncheckAll,
                     child: Text(
                       _selectedClients.length ==
-                              filtersProvider.totalClients.length
+                              filtersViewModel.totalClients.length
                           ? AppLocalizations.of(context)!.uncheckAll
                           : AppLocalizations.of(context)!.checkAll,
                     ),

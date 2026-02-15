@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 /// A widget that displays the header section of a server tile, including:
@@ -23,11 +23,11 @@ class ServerTileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedServer = context.select<ServersProvider, Server?>(
+    final selectedServer = context.select<ServersViewModel, Server?>(
       (p) => p.selectedServer,
     );
 
-    final isConnected = context.select<StatusProvider, bool>(
+    final isConnected = context.select<StatusViewModel, bool>(
       (p) => p.getServerStatus == LoadStatus.loaded,
     );
 

@@ -12,10 +12,10 @@ import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/servers.dart';
 import 'package:pi_hole_client/ui/settings/about/app_detail_screen.dart';
@@ -84,10 +84,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
     final width = MediaQuery.of(context).size.width;
 
-    final screenToShow = appConfigProvider.selectedSettingsScreen;
+    final screenToShow = appConfigViewModel.selectedSettingsScreen;
     if (screenToShow != null && width > ResponsiveConstants.large) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         final splitView = context.findAncestorStateOfType<SplitViewState>();
@@ -117,7 +117,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             case 11:
               final clientBundle = context.read<RepositoryBundle?>();
               if (clientBundle != null) {
-                final serversProvider = context.read<ServersProvider>();
+                final serversViewModel = context.read<ServersViewModel>();
                 splitView.setSecondary(
                   MultiProvider(
                     providers: [
@@ -143,7 +143,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                       ),
                       ChangeNotifierProvider(
                         create: (_) =>
-                            LocalDnsProvider(serversProvider: serversProvider),
+                            LocalDnsProvider(serversViewModel: serversViewModel),
                       ),
                     ],
                     child: const GroupClientScreen(),
@@ -153,7 +153,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             case 6:
               splitView.setSecondary(const AdvancedServerOptions());
               final apiVersion = context
-                  .read<ServersProvider>()
+                  .read<ServersViewModel>()
                   .selectedServer
                   ?.apiVersion;
               if (apiVersion == 'v6') {
@@ -170,7 +170,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 }
               }
           }
-          appConfigProvider.setSelectedSettingsScreen(screen: null);
+          appConfigViewModel.setSelectedSettingsScreen(screen: null);
         }
       });
     }
@@ -178,19 +178,19 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedServer = context.select<ServersProvider, Server?>(
+    final selectedServer = context.select<ServersViewModel, Server?>(
       (p) => p.selectedServer,
     );
-    final serverStatus = context.select<StatusProvider, LoadStatus>(
+    final serverStatus = context.select<StatusViewModel, LoadStatus>(
       (p) => p.getServerStatus,
     );
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     final width = MediaQuery.of(context).size.width;
 
     if (width <= ResponsiveConstants.large &&
-        appConfigProvider.selectedSettingsScreen != null) {
-      appConfigProvider.setSelectedSettingsScreen(screen: null);
+        appConfigViewModel.selectedSettingsScreen != null) {
+      appConfigViewModel.setSelectedSettingsScreen(screen: null);
     }
 
     Widget settingsTile({
@@ -258,7 +258,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     }
 
     String getThemeString() {
-      switch (appConfigProvider.selectedThemeNumber) {
+      switch (appConfigViewModel.selectedThemeNumber) {
         case 0:
           return AppLocalizations.of(context)!.systemTheme;
 
@@ -275,7 +275,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 
     String getLanguageString() {
       final selectedLanguageOption = languageOptions.firstWhere(
-        (option) => option.key == appConfigProvider.selectedLanguage,
+        (option) => option.key == appConfigViewModel.selectedLanguage,
         orElse: () =>
             languageOptions.firstWhere((option) => option.key == 'en'),
       );
@@ -372,7 +372,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             splitViewChild: () {
               final bundle = context.read<RepositoryBundle?>();
               if (bundle == null) return;
-              final serversProvider = context.read<ServersProvider>();
+              final serversViewModel = context.read<ServersViewModel>();
               SplitView.of(context).setSecondary(
                 MultiProvider(
                   providers: [
@@ -383,7 +383,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     ),
                     ChangeNotifierProvider(
                       create: (_) =>
-                          LocalDnsProvider(serversProvider: serversProvider),
+                          LocalDnsProvider(serversViewModel: serversViewModel),
                     ),
                   ],
                   child: const GroupClientScreen(),
@@ -414,7 +414,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             title: AppLocalizations.of(context)!.applicationDetail,
             subtitle: AppLocalizations.of(context)!.aboutThisApp,
             screenToNavigate: AppDetailScreen(
-              appVersion: appConfigProvider.getAppInfo?.version,
+              appVersion: appConfigViewModel.getAppInfo?.version,
             ),
             thisItem: 7,
           ),

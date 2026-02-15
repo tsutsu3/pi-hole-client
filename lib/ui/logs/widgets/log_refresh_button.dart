@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class LogRefreshButton extends StatelessWidget {
@@ -11,11 +11,11 @@ class LogRefreshButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final liveLog = context.select<AppConfigProvider, bool>((p) => p.liveLog);
-    final liveLogResume = context.select<AppConfigProvider, bool>(
+    final liveLog = context.select<AppConfigViewModel, bool>((p) => p.liveLog);
+    final liveLogResume = context.select<AppConfigViewModel, bool>(
       (p) => p.isLivelogPaused,
     );
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
     final loc = AppLocalizations.of(context)!;
 
     if (!liveLog) {
@@ -33,7 +33,7 @@ class LogRefreshButton extends StatelessWidget {
         tooltip: loc.pause,
         icon: const Icon(Icons.pause_rounded),
         onPressed: () {
-          appConfigProvider.setLivelogPaused(true);
+          appConfigViewModel.setLivelogPaused(true);
         },
       );
     }
@@ -42,7 +42,7 @@ class LogRefreshButton extends StatelessWidget {
       tooltip: loc.resume,
       icon: const Icon(Icons.auto_mode_rounded),
       onPressed: () {
-        appConfigProvider.setLivelogPaused(false);
+        appConfigViewModel.setLivelogPaused(false);
       },
     );
   }

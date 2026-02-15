@@ -7,7 +7,7 @@ import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/client_details_screen.dart';
@@ -23,10 +23,10 @@ class GroupClientScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final apiVersion = serversProvider.selectedServer?.apiVersion;
+    final serversViewModel = Provider.of<ServersViewModel>(context);
+    final apiVersion = serversViewModel.selectedServer?.apiVersion;
 
-    if (serversProvider.selectedServer == null) {
+    if (serversViewModel.selectedServer == null) {
       return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.groupsAndClients),
@@ -110,7 +110,7 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
   @override
   Widget build(BuildContext context) {
     final clientsViewModel = Provider.of<ClientsViewModel>(context);
-    final serversProvider = Provider.of<ServersProvider>(context);
+    final serversViewModel = Provider.of<ServersViewModel>(context);
     final localDnsProvider = Provider.of<LocalDnsProvider>(context);
     final groups = context.watch<GroupsViewModel>().groupItems;
     final ipToMac = localDnsProvider.ipToMac;
@@ -287,7 +287,7 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
                       selectedClient = null;
                     }),
                     groups: groups,
-                    colors: serversProvider.colors,
+                    colors: serversViewModel.colors,
                     ipToMac: ipToMac,
                     ipToHostname: ipToHostname,
                     macToIp: macToIp,
@@ -322,7 +322,7 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
           context,
           client: client,
           groups: groups,
-          colors: serversProvider.colors,
+          colors: serversViewModel.colors,
           ipToMac: ipToMac,
           ipToHostname: ipToHostname,
           macToIp: macToIp,
@@ -335,7 +335,7 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
           context,
           client: client,
           groups: groups,
-          colors: serversProvider.colors,
+          colors: serversViewModel.colors,
           ipToMac: ipToMac,
           ipToHostname: ipToHostname,
           macToIp: macToIp,

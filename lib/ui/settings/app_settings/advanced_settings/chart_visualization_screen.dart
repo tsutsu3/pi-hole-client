@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class ChartVisualizationScreen extends StatelessWidget {
@@ -10,19 +10,19 @@ class ChartVisualizationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     int getGraphValue(GraphSection section) {
       return section == GraphSection.statsView
-          ? appConfigProvider.statisticsVisualizationMode
-          : appConfigProvider.homeVisualizationMode;
+          ? appConfigViewModel.statisticsVisualizationMode
+          : appConfigViewModel.homeVisualizationMode;
     }
 
     Future<bool> setGraphValue(GraphSection section, int value) async {
       if (section == GraphSection.statsView) {
-        return appConfigProvider.setStatisticsVisualizationMode(value);
+        return appConfigViewModel.setStatisticsVisualizationMode(value);
       } else {
-        return appConfigProvider.setHomeVisualizationMode(value);
+        return appConfigViewModel.setHomeVisualizationMode(value);
       }
     }
 

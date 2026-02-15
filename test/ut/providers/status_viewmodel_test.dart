@@ -4,43 +4,43 @@ import 'package:pi_hole_client/data/model/v6/ftl/metrics.dart';
 import 'package:pi_hole_client/domain/models_old/metrics.dart';
 import 'package:pi_hole_client/domain/models_old/overtime_data.dart';
 import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 
 void main() {
-  group('StatusProvider Tests', () {
-    late StatusProvider statusProvider;
+  group('StatusViewModel Tests', () {
+    late StatusViewModel statusViewModel;
     late bool listenerCalled;
 
     setUp(() {
-      statusProvider = StatusProvider();
+      statusViewModel = StatusViewModel();
       listenerCalled = false;
-      statusProvider.addListener(() {
+      statusViewModel.addListener(() {
         listenerCalled = true;
       });
     });
 
     test('Initial values are correct', () {
-      expect(statusProvider.getServerStatus, LoadStatus.loading);
-      expect(statusProvider.getRealtimeStatus, null);
-      expect(statusProvider.getStatusLoading, LoadStatus.loading);
-      expect(statusProvider.getOvertimeData, null);
-      expect(statusProvider.getOvertimeDataJson, null);
-      expect(statusProvider.getMetricsInfo, null);
-      expect(statusProvider.getDnsCacheInfo, null);
-      expect(statusProvider.getDnsRepliesInfo, null);
-      expect(statusProvider.getOvertimeDataLoadStatus, LoadStatus.loading);
-      expect(statusProvider.isServerLoading, true);
+      expect(statusViewModel.getServerStatus, LoadStatus.loading);
+      expect(statusViewModel.getRealtimeStatus, null);
+      expect(statusViewModel.getStatusLoading, LoadStatus.loading);
+      expect(statusViewModel.getOvertimeData, null);
+      expect(statusViewModel.getOvertimeDataJson, null);
+      expect(statusViewModel.getMetricsInfo, null);
+      expect(statusViewModel.getDnsCacheInfo, null);
+      expect(statusViewModel.getDnsRepliesInfo, null);
+      expect(statusViewModel.getOvertimeDataLoadStatus, LoadStatus.loading);
+      expect(statusViewModel.isServerLoading, true);
     });
 
     test('setServerStatus updates value and notifies listeners', () {
-      statusProvider.setServerStatus(LoadStatus.loaded);
-      expect(statusProvider.getServerStatus, LoadStatus.loaded);
+      statusViewModel.setServerStatus(LoadStatus.loaded);
+      expect(statusViewModel.getServerStatus, LoadStatus.loaded);
       expect(listenerCalled, true);
     });
 
     test('setStatusLoading updates value and notifies listeners', () {
-      statusProvider.setStatusLoading(LoadStatus.loaded);
-      expect(statusProvider.getStatusLoading, LoadStatus.loaded);
+      statusViewModel.setStatusLoading(LoadStatus.loaded);
+      expect(statusViewModel.getStatusLoading, LoadStatus.loaded);
       expect(listenerCalled, true);
     });
 
@@ -120,17 +120,17 @@ void main() {
       };
 
       final realtimeStatus = RealtimeStatus.fromJson(data);
-      statusProvider.setRealtimeStatus(realtimeStatus);
-      expect(statusProvider.getRealtimeStatus, realtimeStatus);
-      expect(statusProvider.getStatusLoading, LoadStatus.loaded);
+      statusViewModel.setRealtimeStatus(realtimeStatus);
+      expect(statusViewModel.getRealtimeStatus, realtimeStatus);
+      expect(statusViewModel.getStatusLoading, LoadStatus.loaded);
       expect(listenerCalled, true);
     });
 
     test(
       'setOvertimeDataLoadingStatus updates value and notifies listeners',
       () {
-        statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
-        expect(statusProvider.getOvertimeDataLoadStatus, LoadStatus.loaded);
+        statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.loaded);
+        expect(statusViewModel.getOvertimeDataLoadStatus, LoadStatus.loaded);
         expect(listenerCalled, true);
       },
     );
@@ -582,9 +582,9 @@ void main() {
       };
 
       final overtimeData = OverTimeData.fromJson(data);
-      statusProvider.setOvertimeData(overtimeData);
-      expect(statusProvider.getOvertimeData, overtimeData);
-      expect(statusProvider.getOvertimeDataJson, overtimeData.toJson());
+      statusViewModel.setOvertimeData(overtimeData);
+      expect(statusViewModel.getOvertimeData, overtimeData);
+      expect(statusViewModel.getOvertimeDataJson, overtimeData.toJson());
       expect(listenerCalled, true);
     });
 
@@ -665,10 +665,10 @@ void main() {
 
       final metricsInfo = MetricsInfo.fromV6(metrics);
 
-      statusProvider.setMetricsInfo(metricsInfo);
-      expect(statusProvider.getMetricsInfo, metricsInfo);
-      expect(statusProvider.getDnsCacheInfo, metricsInfo.dnsCache);
-      expect(statusProvider.getDnsRepliesInfo, metricsInfo.dnsReplies);
+      statusViewModel.setMetricsInfo(metricsInfo);
+      expect(statusViewModel.getMetricsInfo, metricsInfo);
+      expect(statusViewModel.getDnsCacheInfo, metricsInfo.dnsCache);
+      expect(statusViewModel.getDnsRepliesInfo, metricsInfo.dnsReplies);
       expect(listenerCalled, true);
     });
   });

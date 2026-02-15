@@ -7,7 +7,7 @@ import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/session_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/session_list_view.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/viewmodel/sessions_viewmodel.dart';
@@ -46,7 +46,7 @@ class SessionsScreen extends StatefulWidget {
 class _SessionsScreenState extends State<SessionsScreen> {
   Future<void> _removeSession(AuthSession session) async {
     final locale = AppLocalizations.of(context)!;
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context);
     process.open(locale.deleting);
 
@@ -60,7 +60,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
       if (!mounted) return;
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: locale.sessionDeleteSuccess,
       );
     } catch (_) {
@@ -68,7 +68,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
       process.close();
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: locale.sessionDeleteFailed,
       );
     }

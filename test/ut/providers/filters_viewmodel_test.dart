@@ -3,23 +3,23 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider/filters_v5.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider/filters_v6.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel/filters_v5.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel/filters_v6.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 
-import './filters_provider_test.mocks.dart';
+import './filters_viewmodel_test.mocks.dart';
 
-@GenerateMocks([ServersProvider])
+@GenerateMocks([ServersViewModel])
 void main() {
-  group('FiltersProvider', () {
-    late FiltersProvider filtersProvider;
-    late MockServersProvider mockServersProvider;
+  group('FiltersViewModel', () {
+    late FiltersViewModel filtersViewModel;
+    late MockServersViewModel mockServersViewModel;
     late bool listenerCalled;
 
     setUp(() {
-      mockServersProvider = MockServersProvider();
-      when(mockServersProvider.selectedServer).thenReturn(
+      mockServersViewModel = MockServersViewModel();
+      when(mockServersViewModel.selectedServer).thenReturn(
         Server(
           address: 'http://localhost:8080',
           alias: 'test v5',
@@ -30,20 +30,20 @@ void main() {
         ),
       );
 
-      filtersProvider = FiltersProvider(serversProvider: mockServersProvider);
+      filtersViewModel = FiltersViewModel(serversViewModel: mockServersViewModel);
 
       listenerCalled = false;
-      filtersProvider.addListener(() {
+      filtersViewModel.addListener(() {
         listenerCalled = true;
       });
     });
 
     test('initializes with FiltersV5 by default', () {
       expect(
-        filtersProvider.statusAllowedAndRetried,
+        filtersViewModel.statusAllowedAndRetried,
         FiltersV5().statusAllowedAndRetried,
       );
-      expect(filtersProvider.defaultSelected, [
+      expect(filtersViewModel.defaultSelected, [
         1,
         2,
         3,
@@ -59,12 +59,12 @@ void main() {
         13,
         14,
       ]);
-      expect(filtersProvider.statusSelectedString, 'Blocked (gravity)');
+      expect(filtersViewModel.statusSelectedString, 'Blocked (gravity)');
       expect(listenerCalled, false);
     });
 
     test('updates to FiltersV6 when server version is v6', () {
-      when(mockServersProvider.selectedServer).thenReturn(
+      when(mockServersViewModel.selectedServer).thenReturn(
         Server(
           address: 'http://localhost:8081',
           alias: 'test v6',
@@ -74,40 +74,40 @@ void main() {
           ignoreCertificateErrors: false,
         ),
       );
-      filtersProvider.update(mockServersProvider);
+      filtersViewModel.update(mockServersViewModel);
       expect(
-        filtersProvider.statusAllowedAndRetried,
+        filtersViewModel.statusAllowedAndRetried,
         FiltersV6().statusAllowedAndRetried,
       );
       expect(listenerCalled, false);
     });
 
     test('setStatusSelected updates statusSelected and notifies listeners', () {
-      filtersProvider.setStatusSelected([1, 2, 3]);
-      expect(filtersProvider.statusSelected, [1, 2, 3]);
+      filtersViewModel.setStatusSelected([1, 2, 3]);
+      expect(filtersViewModel.statusSelected, [1, 2, 3]);
       expect(listenerCalled, true);
     });
 
     test('setStartTime updates startTime and notifies listeners', () {
       final dateTime = DateTime.now();
-      filtersProvider.setStartTime(dateTime);
-      expect(filtersProvider.startTime, dateTime);
+      filtersViewModel.setStartTime(dateTime);
+      expect(filtersViewModel.startTime, dateTime);
       expect(listenerCalled, true);
     });
 
     test('setEndTime updates endTime and notifies listeners', () {
       final dateTime = DateTime.now();
-      filtersProvider.setEndTime(dateTime);
-      expect(filtersProvider.endTime, dateTime);
+      filtersViewModel.setEndTime(dateTime);
+      expect(filtersViewModel.endTime, dateTime);
     });
 
     test(
       'resetFilters calls resetFilters on _filters and notifies listeners',
       () {
-        filtersProvider.setStatusSelected([1, 2, 3]);
+        filtersViewModel.setStatusSelected([1, 2, 3]);
 
-        filtersProvider.resetFilters();
-        expect(filtersProvider.statusSelected, [
+        filtersViewModel.resetFilters();
+        expect(filtersViewModel.statusSelected, [
           1,
           2,
           3,
@@ -130,12 +130,12 @@ void main() {
 
     test('resetTime calls resetTime on _filters and notifies listeners', () {
       final dateTime = DateTime.now();
-      filtersProvider.setStartTime(dateTime);
-      filtersProvider.setEndTime(dateTime);
+      filtersViewModel.setStartTime(dateTime);
+      filtersViewModel.setEndTime(dateTime);
 
-      filtersProvider.resetTime();
-      expect(filtersProvider.startTime, null);
-      expect(filtersProvider.endTime, null);
+      filtersViewModel.resetTime();
+      expect(filtersViewModel.startTime, null);
+      expect(filtersViewModel.endTime, null);
 
       expect(listenerCalled, true);
     });
@@ -143,10 +143,10 @@ void main() {
     test(
       'resetStatus calls resetStatus on _filters and notifies listeners',
       () {
-        filtersProvider.setStatusSelected([1, 2, 3]);
+        filtersViewModel.setStatusSelected([1, 2, 3]);
 
-        filtersProvider.resetStatus();
-        expect(filtersProvider.statusSelected, [
+        filtersViewModel.resetStatus();
+        expect(filtersViewModel.statusSelected, [
           1,
           2,
           3,
@@ -169,8 +169,8 @@ void main() {
 
     test('setClients updates clients and notifies listeners', () {
       final clients = ['client1', 'client2'];
-      filtersProvider.setClients(clients);
-      expect(filtersProvider.totalClients, clients);
+      filtersViewModel.setClients(clients);
+      expect(filtersViewModel.totalClients, clients);
 
       expect(listenerCalled, true);
     });
@@ -179,8 +179,8 @@ void main() {
       'setSelectedClients updates selectedClients and notifies listeners',
       () {
         final selectedClients = ['client1'];
-        filtersProvider.setSelectedClients(selectedClients);
-        expect(filtersProvider.selectedClients, selectedClients);
+        filtersViewModel.setSelectedClients(selectedClients);
+        expect(filtersViewModel.selectedClients, selectedClients);
 
         expect(listenerCalled, true);
       },
@@ -188,8 +188,8 @@ void main() {
 
     test('setSelectedDomain updates selectedDomain and notifies listeners', () {
       const domain = 'example.com';
-      filtersProvider.setSelectedDomain(domain);
-      expect(filtersProvider.selectedDomain, domain);
+      filtersViewModel.setSelectedDomain(domain);
+      expect(filtersViewModel.selectedDomain, domain);
 
       expect(listenerCalled, true);
     });
@@ -198,10 +198,10 @@ void main() {
       'resetClients calls resetClients on _filters and notifies listeners',
       () {
         final selectedClients = ['client1'];
-        filtersProvider.setSelectedClients(selectedClients);
+        filtersViewModel.setSelectedClients(selectedClients);
 
-        filtersProvider.resetClients();
-        expect(filtersProvider.totalClients, []);
+        filtersViewModel.resetClients();
+        expect(filtersViewModel.totalClients, []);
 
         expect(listenerCalled, true);
       },
@@ -209,22 +209,22 @@ void main() {
 
     test('setRequestStatus updates requestStatus and notifies listeners', () {
       const status = RequestStatus.allowed;
-      filtersProvider.setRequestStatus(status);
+      filtersViewModel.setRequestStatus(status);
 
-      expect(filtersProvider.requestStatus, status);
+      expect(filtersViewModel.requestStatus, status);
 
       expect(listenerCalled, true);
     });
   });
 
-  group('FiltersProvider v6', () {
-    late FiltersProvider filtersProvider;
-    late MockServersProvider mockServersProvider;
+  group('FiltersViewModel v6', () {
+    late FiltersViewModel filtersViewModel;
+    late MockServersViewModel mockServersViewModel;
     late bool listenerCalled;
 
     setUp(() {
-      mockServersProvider = MockServersProvider();
-      when(mockServersProvider.selectedServer).thenReturn(
+      mockServersViewModel = MockServersViewModel();
+      when(mockServersViewModel.selectedServer).thenReturn(
         Server(
           address: 'http://localhost:8081',
           alias: 'test v6',
@@ -235,19 +235,19 @@ void main() {
         ),
       );
 
-      filtersProvider = FiltersProvider(serversProvider: mockServersProvider);
+      filtersViewModel = FiltersViewModel(serversViewModel: mockServersViewModel);
       listenerCalled = false;
-      filtersProvider.addListener(() {
+      filtersViewModel.addListener(() {
         listenerCalled = true;
       });
     });
 
     test('initializes with FiltersV6 by default', () {
       expect(
-        filtersProvider.statusAllowedAndRetried,
+        filtersViewModel.statusAllowedAndRetried,
         FiltersV6().statusAllowedAndRetried,
       );
-      expect(filtersProvider.defaultSelected, [
+      expect(filtersViewModel.defaultSelected, [
         2,
         3,
         4,
@@ -263,28 +263,28 @@ void main() {
         14,
         15,
       ]);
-      expect(filtersProvider.statusSelectedString, 'Blocked (gravity)');
+      expect(filtersViewModel.statusSelectedString, 'Blocked (gravity)');
     });
 
     test('setStatusSelected updates statusSelected and notifies listeners', () {
-      filtersProvider.setStatusSelected([1, 2, 3]);
-      expect(filtersProvider.statusSelected, [1, 2, 3]);
+      filtersViewModel.setStatusSelected([1, 2, 3]);
+      expect(filtersViewModel.statusSelected, [1, 2, 3]);
 
       expect(listenerCalled, true);
     });
 
     test('setStartTime updates startTime and notifies listeners', () {
       final dateTime = DateTime.now();
-      filtersProvider.setStartTime(dateTime);
-      expect(filtersProvider.startTime, dateTime);
+      filtersViewModel.setStartTime(dateTime);
+      expect(filtersViewModel.startTime, dateTime);
 
       expect(listenerCalled, true);
     });
 
     test('setEndTime updates endTime and notifies listeners', () {
       final dateTime = DateTime.now();
-      filtersProvider.setEndTime(dateTime);
-      expect(filtersProvider.endTime, dateTime);
+      filtersViewModel.setEndTime(dateTime);
+      expect(filtersViewModel.endTime, dateTime);
 
       expect(listenerCalled, true);
     });
@@ -292,10 +292,10 @@ void main() {
     test(
       'resetFilters calls resetFilters on _filters and notifies listeners',
       () {
-        filtersProvider.setStatusSelected([1, 2, 3]);
+        filtersViewModel.setStatusSelected([1, 2, 3]);
 
-        filtersProvider.resetFilters();
-        expect(filtersProvider.statusSelected, [
+        filtersViewModel.resetFilters();
+        expect(filtersViewModel.statusSelected, [
           2,
           3,
           4,
@@ -318,12 +318,12 @@ void main() {
 
     test('resetTime calls resetTime on _filters and notifies listeners', () {
       final dateTime = DateTime.now();
-      filtersProvider.setStartTime(dateTime);
-      filtersProvider.setEndTime(dateTime);
+      filtersViewModel.setStartTime(dateTime);
+      filtersViewModel.setEndTime(dateTime);
 
-      filtersProvider.resetTime();
-      expect(filtersProvider.startTime, null);
-      expect(filtersProvider.endTime, null);
+      filtersViewModel.resetTime();
+      expect(filtersViewModel.startTime, null);
+      expect(filtersViewModel.endTime, null);
 
       expect(listenerCalled, true);
     });
@@ -331,10 +331,10 @@ void main() {
     test(
       'resetStatus calls resetStatus on _filters and notifies listeners',
       () {
-        filtersProvider.setStatusSelected([1, 2, 3]);
+        filtersViewModel.setStatusSelected([1, 2, 3]);
 
-        filtersProvider.resetStatus();
-        expect(filtersProvider.statusSelected, [
+        filtersViewModel.resetStatus();
+        expect(filtersViewModel.statusSelected, [
           2,
           3,
           4,
@@ -357,8 +357,8 @@ void main() {
 
     test('setClients updates clients and notifies listeners', () {
       final clients = ['client1', 'client2'];
-      filtersProvider.setClients(clients);
-      expect(filtersProvider.totalClients, clients);
+      filtersViewModel.setClients(clients);
+      expect(filtersViewModel.totalClients, clients);
 
       expect(listenerCalled, true);
     });
@@ -367,8 +367,8 @@ void main() {
       'setSelectedClients updates selectedClients and notifies listeners',
       () {
         final selectedClients = ['client1'];
-        filtersProvider.setSelectedClients(selectedClients);
-        expect(filtersProvider.selectedClients, selectedClients);
+        filtersViewModel.setSelectedClients(selectedClients);
+        expect(filtersViewModel.selectedClients, selectedClients);
 
         expect(listenerCalled, true);
       },
@@ -376,8 +376,8 @@ void main() {
 
     test('setSelectedDomain updates selectedDomain and notifies listeners', () {
       const domain = 'example.com';
-      filtersProvider.setSelectedDomain(domain);
-      expect(filtersProvider.selectedDomain, domain);
+      filtersViewModel.setSelectedDomain(domain);
+      expect(filtersViewModel.selectedDomain, domain);
 
       expect(listenerCalled, true);
     });
@@ -386,10 +386,10 @@ void main() {
       'resetClients calls resetClients on _filters and notifies listeners',
       () {
         final selectedClients = ['client1'];
-        filtersProvider.setSelectedClients(selectedClients);
+        filtersViewModel.setSelectedClients(selectedClients);
 
-        filtersProvider.resetClients();
-        expect(filtersProvider.totalClients, []);
+        filtersViewModel.resetClients();
+        expect(filtersViewModel.totalClients, []);
 
         expect(listenerCalled, true);
       },
@@ -397,9 +397,9 @@ void main() {
 
     test('setRequestStatus updates requestStatus and notifies listeners', () {
       const status = RequestStatus.allowed;
-      filtersProvider.setRequestStatus(status);
+      filtersViewModel.setRequestStatus(status);
 
-      expect(filtersProvider.requestStatus, status);
+      expect(filtersViewModel.requestStatus, status);
 
       expect(listenerCalled, true);
     });

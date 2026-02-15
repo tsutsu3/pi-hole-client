@@ -8,9 +8,9 @@ import 'package:pi_hole_client/domain/use_cases/live_logs_service.dart';
 import 'package:pi_hole_client/domain/use_cases/logs_pagination_service.dart';
 import 'package:pi_hole_client/domain/use_cases/logs_screen_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/etc/logs_actions_service.dart';
 import 'package:pi_hole_client/ui/logs/widgets/active_filter_chips.dart';
 import 'package:pi_hole_client/ui/logs/widgets/log_details_screen.dart';
@@ -57,7 +57,7 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
   int? _liveLogIntervalSeconds;
   bool _isLiveTickInProgress = false;
   bool _isFiltering = false;
-  late final AppConfigProvider _appConfigProvider;
+  late final AppConfigViewModel _appConfigViewModel;
   late final LogsPaginationService _livePaginationService;
   LiveLogsService? _liveLogsService;
   final Set<String> _loadedLogKeys = <String>{};
@@ -69,12 +69,12 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
 
     scrollController = ScrollController()..addListener(scrollListener);
 
-    _appConfigProvider = Provider.of<AppConfigProvider>(context, listen: false);
-    _appConfigProvider.addListener(_onAppConfigChanged);
+    _appConfigViewModel = Provider.of<AppConfigViewModel>(context, listen: false);
+    _appConfigViewModel.addListener(_onAppConfigChanged);
 
-    logsPerQuery = _appConfigProvider.logsPerQuery;
+    logsPerQuery = _appConfigViewModel.logsPerQuery;
 
-    final apiGateway = Provider.of<ServersProvider>(
+    final apiGateway = Provider.of<ServersViewModel>(
       context,
       listen: false,
     ).selectedApiGateway;
@@ -93,7 +93,7 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
     logActSvc = LogActionsService(
       apiGateway: apiGateway,
       context: context,
-      appConfigProvider: _appConfigProvider,
+      appConfigViewModel: _appConfigViewModel,
     );
 
     initializeLoad();
@@ -112,7 +112,7 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _stopLiveTimer();
-    _appConfigProvider.removeListener(_onAppConfigChanged);
+    _appConfigViewModel.removeListener(_onAppConfigChanged);
     scrollController.dispose();
     debounce?.cancel();
     super.dispose();
@@ -336,9 +336,9 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
   bool _shouldRunLiveLog() {
     if (!mounted) return false;
     if (_liveLogsService == null) return false;
-    if (!_appConfigProvider.liveLog) return false;
-    if (_appConfigProvider.isLivelogPaused) return false;
-    if (_appConfigProvider.selectedTab != _logsTabIndex) return false;
+    if (!_appConfigViewModel.liveLog) return false;
+    if (_appConfigViewModel.isLivelogPaused) return false;
+    if (_appConfigViewModel.selectedTab != _logsTabIndex) return false;
     if (loadStatus != LoadStatus.loaded) return false;
     return true;
   }
@@ -349,7 +349,7 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
       return;
     }
 
-    final interval = _appConfigProvider.logAutoRefreshTime;
+    final interval = _appConfigViewModel.logAutoRefreshTime;
     if (interval <= 0) {
       _stopLiveTimer();
       return;
@@ -409,8 +409,8 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final filtersProvider = Provider.of<FiltersProvider>(context);
+    final serversViewModel = Provider.of<ServersViewModel>(context);
+    final filtersViewModel = Provider.of<FiltersViewModel>(context);
 
     final width = MediaQuery.of(context).size.width;
     final statusBarHeight = MediaQuery.of(context).viewPadding.top;
@@ -418,9 +418,9 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
 
     logsListDisplay = logsSvc.filterLogs(
       logs: logsList,
-      statusSelected: filtersProvider.statusSelected,
-      devicesSelected: filtersProvider.selectedClients,
-      selectedDomain: filtersProvider.selectedDomain,
+      statusSelected: filtersViewModel.statusSelected,
+      devicesSelected: filtersViewModel.selectedClients,
+      selectedDomain: filtersViewModel.selectedDomain,
       sortStatus: sortStatus,
     );
 
@@ -450,14 +450,14 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
             bottomNavBarHeight: bottomNavBarHeight,
             filterLogs: () {
               setState(() {
-                masterStartTime = filtersProvider.startTime;
-                masterEndTime = filtersProvider.endTime;
+                masterStartTime = filtersViewModel.startTime;
+                masterEndTime = filtersViewModel.endTime;
                 loadStatus = LoadStatus.loading;
                 _isFiltering = true;
               });
               applyFilterAndLoad(
-                inStartTime: filtersProvider.startTime,
-                inEndTime: filtersProvider.endTime,
+                inStartTime: filtersViewModel.startTime,
+                inEndTime: filtersViewModel.endTime,
               );
             },
             window: true,
@@ -471,14 +471,14 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
             bottomNavBarHeight: bottomNavBarHeight,
             filterLogs: () {
               setState(() {
-                masterStartTime = filtersProvider.startTime;
-                masterEndTime = filtersProvider.endTime;
+                masterStartTime = filtersViewModel.startTime;
+                masterEndTime = filtersViewModel.endTime;
                 loadStatus = LoadStatus.loading;
                 _isFiltering = true;
               });
               applyFilterAndLoad(
-                inStartTime: filtersProvider.startTime,
-                inEndTime: filtersProvider.endTime,
+                inStartTime: filtersViewModel.startTime,
+                inEndTime: filtersViewModel.endTime,
               );
             },
             window: false,
@@ -494,22 +494,22 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
       setState(() {
         logsListDisplay = searched;
       });
-      filtersProvider.resetFilters();
+      filtersViewModel.resetFilters();
     }
 
     bool hasActiveChips() {
       final hasTimeFilter =
-          filtersProvider.startTime != null || filtersProvider.endTime != null;
+          filtersViewModel.startTime != null || filtersViewModel.endTime != null;
 
       final hasStatusFilter =
-          filtersProvider.statusSelected.length < serversProvider.numShown - 1;
+          filtersViewModel.statusSelected.length < serversViewModel.numShown - 1;
 
       final hasClientFilter =
-          filtersProvider.selectedClients.isNotEmpty &&
-          filtersProvider.selectedClients.length <
-              filtersProvider.totalClients.length;
+          filtersViewModel.selectedClients.isNotEmpty &&
+          filtersViewModel.selectedClients.length <
+              filtersViewModel.totalClients.length;
 
-      final hasDomainFilter = filtersProvider.selectedDomain != null;
+      final hasDomainFilter = filtersViewModel.selectedDomain != null;
 
       final hasActiveChips =
           hasTimeFilter ||
@@ -552,8 +552,8 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
           onRefresh: initializeLoad,
           sortStatus: sortStatus,
           filterChips: ActiveFilterChips(
-            filtersProvider: filtersProvider,
-            serversProvider: serversProvider,
+            filtersViewModel: filtersViewModel,
+            serversViewModel: serversViewModel,
             logsSvc: logsSvc,
             logsListDisplay: logsListDisplay,
             onResetFilters: resetLogs,

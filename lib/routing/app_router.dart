@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
@@ -70,7 +70,7 @@ GoRouter createAppRouter({
         path: '/settings/server/info',
         name: Routes.settingsServerInfo,
         builder: (context, state) {
-          final server = context.read<ServersProvider>().selectedServer!;
+          final server = context.read<ServersViewModel>().selectedServer!;
           final bundle = context.read<RepositoryBundle?>();
           return ServerInfoScreen(
             viewModel: ServerInfoViewModel(ftlRepository: bundle!.ftl)
@@ -191,7 +191,7 @@ GoRouter createAppRouter({
         name: Routes.settingsServerGroupClient,
         builder: (context, state) {
           final bundle = context.read<RepositoryBundle?>();
-          final serversProvider = context.read<ServersProvider>();
+          final serversViewModel = context.read<ServersViewModel>();
           return MultiProvider(
             providers: [
               ChangeNotifierProvider(
@@ -216,7 +216,7 @@ GoRouter createAppRouter({
               ),
               ChangeNotifierProvider(
                 create: (_) =>
-                    LocalDnsProvider(serversProvider: serversProvider),
+                    LocalDnsProvider(serversViewModel: serversViewModel),
               ),
             ],
             child: const GroupClientScreen(),

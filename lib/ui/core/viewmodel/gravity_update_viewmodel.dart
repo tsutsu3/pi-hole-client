@@ -13,8 +13,8 @@ import 'package:pi_hole_client/utils/logger.dart';
 /// the UI. Delegates business logic to [GravityUpdateService]. Registered as
 /// a global-scope provider in `main.dart` because gravity updates persist
 /// across navigation.
-class GravityUpdateProvider with ChangeNotifier {
-  GravityUpdateProvider({required GravityRepository repository})
+class GravityUpdateViewModel with ChangeNotifier {
+  GravityUpdateViewModel({required GravityRepository repository})
       : _repository = repository;
 
   final GravityRepository _repository;
@@ -69,7 +69,7 @@ class GravityUpdateProvider with ChangeNotifier {
   /// Re-initializes the service when the active server changes.
   ///
   /// Called by `ChangeNotifierProxyProvider2` whenever `RepositoryBundle` or
-  /// `ServersProvider` updates. Creates a new [GravityUpdateService] with the
+  /// `ServersViewModel` updates. Creates a new [GravityUpdateService] with the
   /// provided repositories, or sets it to `null` if repositories are absent.
   void update({
     ActionsRepository? actionsRepository,

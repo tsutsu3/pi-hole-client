@@ -12,8 +12,8 @@ import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/confirmation_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
@@ -86,8 +86,8 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = context.watch<AppConfigProvider>();
-    final serversProvider = context.watch<ServersProvider>();
+    final appConfigViewModel = context.watch<AppConfigViewModel>();
+    final serversViewModel = context.watch<ServersViewModel>();
     final bundle = context.watch<RepositoryBundle?>();
     final theme = Theme.of(context).extension<AppColors>()!;
 
@@ -100,7 +100,7 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
       );
     }
 
-    if (serversProvider.selectedServer?.apiVersion == 'v5') {
+    if (serversViewModel.selectedServer?.apiVersion == 'v5') {
       return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.advancedSetup),
@@ -135,7 +135,7 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
         (config) {
           showSuccessSnackBar(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             label: isCurrentlyEnabled == true
                 ? AppLocalizations.of(context)!.disableQueryLogSuccess
                 : AppLocalizations.of(context)!.enableQueryLogSuccess,
@@ -148,7 +148,7 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
         (_) {
           showErrorSnackBar(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             label: isLoggingEnabled == true
                 ? AppLocalizations.of(context)!.disableQueryLogFailure
                 : AppLocalizations.of(context)!.enableQueryLogFailure,
@@ -173,14 +173,14 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
         (_) {
           showSuccessSnackBar(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(context)!.dnsRestartSuccess,
           );
         },
         (_) {
           showErrorSnackBar(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(context)!.dnsRestartFailure,
           );
         },
@@ -203,14 +203,14 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
         (_) {
           showSuccessSnackBar(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(context)!.flushedNetworkTableSuccess,
           );
         },
         (_) {
           showErrorSnackBar(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(context)!.flushedNetworkTableFailure,
           );
         },
@@ -233,14 +233,14 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
         (_) {
           showSuccessSnackBar(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(context)!.flushLogsSuccess,
           );
         },
         (_) {
           showErrorSnackBar(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(context)!.flushLogsFailure,
           );
         },

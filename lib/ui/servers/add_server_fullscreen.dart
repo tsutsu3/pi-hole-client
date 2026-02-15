@@ -11,8 +11,8 @@ import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/scan_token_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
@@ -221,8 +221,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final serversViewModel = Provider.of<ServersViewModel>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
     final statusUpdateService = context.read<StatusUpdateService>();
     final appColors = Theme.of(context).extension<AppColors>()!;
 
@@ -231,7 +231,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     /// Shows a snackbar with an error message
     void handleApiErrorResult({
       required BuildContext context,
-      required AppConfigProvider appConfigProvider,
+      required AppConfigViewModel appConfigViewModel,
       required LoginQueryResponse? result,
       required String version,
     }) {
@@ -255,12 +255,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: label,
       );
 
       if (result?.log != null) {
-        appConfigProvider.addLog(result!.log!);
+        appConfigViewModel.addLog(result!.log!);
       }
     }
 
@@ -383,7 +383,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           if (!context.mounted) return null;
           showErrorSnackBar(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(context)!.sslErrorLong,
           );
           return null;
@@ -406,7 +406,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       final url =
           '${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}';
-      final exists = await serversProvider.checkUrlExists(url);
+      final exists = await serversViewModel.checkUrlExists(url);
 
       if (!context.mounted) return;
 
@@ -422,7 +422,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         });
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
         );
       } else {
@@ -452,7 +452,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             ) ??
             serverObj;
 
-        final result = await serversProvider
+        final result = await serversViewModel
             .loadApiGateway(serverObj)
             ?.loginQuery();
         if (!context.mounted) return;
@@ -461,10 +461,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           if (!context.mounted) return;
           showSuccessSnackBar(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(context)!.connectedSuccessfully,
           );
-          await serversProvider.addServer(
+          await serversViewModel.addServer(
             Server(
               address: serverObj.address,
               alias: serverObj.alias,
@@ -490,7 +490,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
             handleApiErrorResult(
               context: context,
-              appConfigProvider: appConfigProvider,
+              appConfigViewModel: appConfigViewModel,
               result: result,
               version: piHoleVersion,
             );
@@ -523,7 +523,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       );
       await serverObj.sm.savePassword(passwordFieldController.text);
       await serverObj.sm.saveToken(tokenFieldController.text);
-      if (serversProvider.selectedServer != null) {
+      if (serversViewModel.selectedServer != null) {
         statusUpdateService.stopAutoRefresh();
       }
 
@@ -534,7 +534,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           setState(() {
             isConnecting = false;
           });
-          if (serversProvider.selectedServer != null) {
+          if (serversViewModel.selectedServer != null) {
             statusUpdateService.startAutoRefresh();
           }
         },
@@ -546,13 +546,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       serverObj = updatedServer;
 
-      final result = await serversProvider
+      final result = await serversViewModel
           .createApiGateway(serverObj)
           ?.loginQuery(refresh: true);
 
       if (result?.result == APiResponseType.success) {
         final server = serverObj.copyWith(defaultServer: defaultCheckbox);
-        final result = await serversProvider.editServer(server);
+        final result = await serversViewModel.editServer(server);
         if (context.mounted) {
           if (result == true) {
             await Navigator.maybePop(context);
@@ -560,7 +560,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
             showSuccessSnackBar(
               context: context,
-              appConfigProvider: appConfigProvider,
+              appConfigViewModel: appConfigViewModel,
               label: AppLocalizations.of(context)!.editServerSuccessfully,
             );
           } else {
@@ -569,7 +569,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             });
             showErrorSnackBar(
               context: context,
-              appConfigProvider: appConfigProvider,
+              appConfigViewModel: appConfigViewModel,
               label: AppLocalizations.of(context)!.cantSaveConnectionData,
             );
           }
@@ -583,7 +583,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
           handleApiErrorResult(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             result: result,
             version: piHoleVersion,
           );
@@ -592,7 +592,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         }
       }
 
-      if (serversProvider.selectedServer != null) {
+      if (serversViewModel.selectedServer != null) {
         statusUpdateService.startAutoRefresh();
       }
     }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/animations/shake_animation.dart';
 import 'package:pi_hole_client/ui/core/ui/components/numeric_pad.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class EnterPasscodeModal extends StatefulWidget {
@@ -27,12 +27,12 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     final height = MediaQuery.of(context).size.height;
 
     Future<void> finish() async {
-      if (appConfigProvider.passCode == _code) {
+      if (appConfigViewModel.passCode == _code) {
         if (Navigator.canPop(context)) {
           Navigator.pop(context);
         }

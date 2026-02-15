@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 
 void showSuccessSnackBar({
   required BuildContext context,
-  required AppConfigProvider appConfigProvider,
+  required AppConfigViewModel appConfigViewModel,
   required String label,
   int? duration = 3,
 }) {
   showSnackBar(
     context: context,
-    appConfigProvider: appConfigProvider,
+    appConfigViewModel: appConfigViewModel,
     label: label,
     colorSelector: (theme) => theme.snackBarSuccess!,
     labelColorSelector: (theme) => theme.snackBarSuccessText!,
@@ -21,13 +21,13 @@ void showSuccessSnackBar({
 
 void showCautionSnackBar({
   required BuildContext context,
-  required AppConfigProvider appConfigProvider,
+  required AppConfigViewModel appConfigViewModel,
   required String label,
   int? duration = 3,
 }) {
   showSnackBar(
     context: context,
-    appConfigProvider: appConfigProvider,
+    appConfigViewModel: appConfigViewModel,
     label: label,
     colorSelector: (theme) => theme.snackBarCaution!,
     labelColorSelector: (theme) => theme.snackBarCautionText!,
@@ -37,13 +37,13 @@ void showCautionSnackBar({
 
 void showErrorSnackBar({
   required BuildContext context,
-  required AppConfigProvider appConfigProvider,
+  required AppConfigViewModel appConfigViewModel,
   required String label,
   int? duration = 3,
 }) {
   showSnackBar(
     context: context,
-    appConfigProvider: appConfigProvider,
+    appConfigViewModel: appConfigViewModel,
     label: label,
     colorSelector: (theme) => theme.snackBarError!,
     labelColorSelector: (theme) => theme.snackBarErrorText!,
@@ -53,13 +53,13 @@ void showErrorSnackBar({
 
 void showNeutralSnackBar({
   required BuildContext context,
-  required AppConfigProvider appConfigProvider,
+  required AppConfigViewModel appConfigViewModel,
   required String label,
   int? duration = 3,
 }) {
   showSnackBar(
     context: context,
-    appConfigProvider: appConfigProvider,
+    appConfigViewModel: appConfigViewModel,
     label: label,
     colorSelector: (theme) => theme.snackBarNeutral!,
     labelColorSelector: (theme) => theme.snackBarNeutralText!,
@@ -69,17 +69,17 @@ void showNeutralSnackBar({
 
 Future<void> showSnackBar({
   required BuildContext context,
-  required AppConfigProvider appConfigProvider,
+  required AppConfigViewModel appConfigViewModel,
   required String label,
   required Color Function(AppColors) colorSelector,
   required int duration,
   Color Function(AppColors)? labelColorSelector,
 }) async {
-  if (appConfigProvider.showingSnackbar) {
+  if (appConfigViewModel.showingSnackbar) {
     scaffoldMessengerKey.currentState?.clearSnackBars();
     await Future.delayed(const Duration(milliseconds: 500));
   }
-  appConfigProvider.setShowingSnackbar(true);
+  appConfigViewModel.setShowingSnackbar(true);
 
   if (!context.mounted) return;
 
@@ -96,5 +96,5 @@ Future<void> showSnackBar({
   await scaffoldMessengerKey.currentState
       ?.showSnackBar(snackBar)
       .closed
-      .then((_) => appConfigProvider.setShowingSnackbar(false));
+      .then((_) => appConfigViewModel.setShowingSnackbar(false));
 }

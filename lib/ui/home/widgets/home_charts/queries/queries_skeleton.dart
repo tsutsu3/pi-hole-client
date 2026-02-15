@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/queries/queries_legend_dot.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/skeleton/bar_chart_skeleton.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/skeleton/line_chart_skeleton.dart';
@@ -13,13 +13,13 @@ import 'package:skeletonizer/skeletonizer.dart';
 /// based on the current visualization mode), and a legend for blocked and not blocked queries.
 ///
 /// This widget uses the [Skeletonizer] to provide skeleton loading effects while data is being fetched.
-/// The chart type and appearance are determined by the [AppConfigProvider].
+/// The chart type and appearance are determined by the [AppConfigViewModel].
 class QueriesSkeleton extends StatelessWidget {
   const QueriesSkeleton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
 
     return Skeletonizer(
       effect: ShimmerEffect(
@@ -38,14 +38,14 @@ class QueriesSkeleton extends StatelessWidget {
             width: double.maxFinite,
             height: 350,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: appConfigProvider.homeVisualizationMode == 0
+            child: appConfigViewModel.homeVisualizationMode == 0
                 ? LineChartSkeleton(
-                    selectedTheme: appConfigProvider.selectedTheme,
-                    showAnimation: appConfigProvider.loadingAnimation,
+                    selectedTheme: appConfigViewModel.selectedTheme,
+                    showAnimation: appConfigViewModel.loadingAnimation,
                   )
                 : BarChartSkeleton(
-                    selectedTheme: appConfigProvider.selectedTheme,
-                    showAnimation: appConfigProvider.loadingAnimation,
+                    selectedTheme: appConfigViewModel.selectedTheme,
+                    showAnimation: appConfigViewModel.loadingAnimation,
                   ),
           ),
           Skeleton.keep(

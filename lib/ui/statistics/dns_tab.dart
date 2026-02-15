@@ -5,7 +5,7 @@ import 'package:pi_hole_client/domain/models_old/metrics.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/statistics/custom_pie_chart.dart';
 import 'package:pi_hole_client/ui/statistics/no_data_chart.dart';
 import 'package:pi_hole_client/ui/statistics/pie_chart_legend.dart';
@@ -19,7 +19,7 @@ class DnsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusLoading = context.select<StatusProvider, LoadStatus>(
+    final statusLoading = context.select<StatusViewModel, LoadStatus>(
       (p) => p.getStatusLoading,
     );
 
@@ -75,11 +75,11 @@ class DnsTabContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dnsCacheInfo = context.select<StatusProvider, DnsCacheInfo?>(
+    final dnsCacheInfo = context.select<StatusViewModel, DnsCacheInfo?>(
       (p) => p.getDnsCacheInfo,
     );
 
-    final dnsRepliesInfo = context.select<StatusProvider, DnsRepliesInfo?>(
+    final dnsRepliesInfo = context.select<StatusViewModel, DnsRepliesInfo?>(
       (p) => p.getDnsRepliesInfo,
     );
 

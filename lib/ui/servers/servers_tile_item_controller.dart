@@ -7,9 +7,9 @@ import 'package:pi_hole_client/domain/use_cases/server_connection_service.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/add_server_fullscreen.dart';
 import 'package:pi_hole_client/ui/servers/delete_server_modal.dart';
 import 'package:provider/provider.dart';
@@ -82,23 +82,23 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
   ///
   /// [server] - The [Server] instance to be set as the default server.
   Future<void> setDefaultServer(Server server) async {
-    final serversProvider = context.read<ServersProvider>();
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final serversViewModel = context.read<ServersViewModel>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
 
-    final result = await serversProvider.setDefaultServer(server);
+    final result = await serversViewModel.setDefaultServer(server);
 
     if (!mounted) return;
 
     if (result == true) {
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.connectionDefaultSuccessfully,
       );
     } else {
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.connectionDefaultFailed,
       );
     }
@@ -127,16 +127,16 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
   /// Throws no exceptions directly, but relies on provider and service methods
   /// for error handling.
   Future<void> connectToServer(Server server) async {
-    final serversProvider = context.read<ServersProvider>();
-    final statusProvider = context.read<StatusProvider>();
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final serversViewModel = context.read<ServersViewModel>();
+    final statusViewModel = context.read<StatusViewModel>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
     final statusUpdateService = context.read<StatusUpdateService>();
 
     final service = ServerConnectionService(
       context: context,
-      appConfigProvider: appConfigProvider,
-      statusProvider: statusProvider,
-      serversProvider: serversProvider,
+      appConfigViewModel: appConfigViewModel,
+      statusViewModel: statusViewModel,
+      serversViewModel: serversViewModel,
       statusUpdateService: statusUpdateService,
       server: server,
       showModal: true,

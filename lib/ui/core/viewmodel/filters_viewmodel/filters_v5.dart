@@ -1,18 +1,18 @@
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/query_types.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider/filters_interface.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel/filters_interface.dart';
 
-class FiltersV6 implements Filters {
-  FiltersV6() : _statusSelected = [] {
+class FiltersV5 implements Filters {
+  FiltersV5() : _statusSelected = [] {
     _statusSelected = _statusAll;
   }
 
-  final List<int> _statusAll = queryStatusesV6
+  final List<int> _statusAll = queryStatusesV5
       .where((e) => e.isShown)
       .map((e) => e.index)
       .toList();
-  final List<int> _statusAllowed = [3, 4];
-  final List<int> _statusBlocked = [2, 5, 6, 7, 8, 9, 10, 11, 12];
+  final List<int> _statusAllowed = [2, 3];
+  final List<int> _statusBlocked = [1, 4, 5, 6, 7, 8, 9, 10, 11];
   List<int> _statusSelected;
   DateTime? _startTime;
   DateTime? _endTime;
@@ -23,7 +23,7 @@ class FiltersV6 implements Filters {
 
   @override
   List<int> get statusAllowedAndRetried {
-    return [3, 4, 13, 14, 15];
+    return [2, 3, 12, 13, 14];
   }
 
   @override
@@ -38,7 +38,7 @@ class FiltersV6 implements Filters {
 
   @override
   String get statusSelectedString {
-    return queryStatusesV6
+    return queryStatusesV5
         .firstWhere((e) => e.index == _statusSelected[0])
         .text;
   }

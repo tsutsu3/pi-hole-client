@@ -3,7 +3,7 @@ import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class SwitchServerModal extends StatelessWidget {
@@ -12,10 +12,10 @@ class SwitchServerModal extends StatelessWidget {
   final void Function(Server) onServerSelect;
 
   Widget? _buildCertStatusIcon(BuildContext context, Server server) {
-    final serversProvider = Provider.of<ServersProvider>(context);
+    final serversViewModel = Provider.of<ServersViewModel>(context);
     final colorScheme = Theme.of(context).extension<AppColors>()!;
 
-    if (serversProvider.serversWithUnverifiedCertificates.any(
+    if (serversViewModel.serversWithUnverifiedCertificates.any(
       (s) => s.address == server.address,
     )) {
       return Icon(
@@ -29,7 +29,7 @@ class SwitchServerModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
+    final serversViewModel = Provider.of<ServersViewModel>(context);
 
     return AlertDialog(
       scrollable: true,
@@ -46,24 +46,24 @@ class SwitchServerModal extends StatelessWidget {
       ),
       content: SizedBox(
         width: double.maxFinite,
-        height: serversProvider.getServersList.length * 72,
+        height: serversViewModel.getServersList.length * 72,
         child: ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: serversProvider.getServersList.length,
+          itemCount: serversViewModel.getServersList.length,
           itemBuilder: (context, index) => Material(
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
                 Navigator.maybePop(context);
-                onServerSelect(serversProvider.getServersList[index]);
+                onServerSelect(serversViewModel.getServersList[index]);
               },
               child: CustomListTile(
-                label: serversProvider.getServersList[index].alias,
-                description: serversProvider.getServersList[index].address,
+                label: serversViewModel.getServersList[index].alias,
+                description: serversViewModel.getServersList[index].address,
                 trailing: _buildCertStatusIcon(
                   context,
-                  serversProvider.getServersList[index],
+                  serversViewModel.getServersList[index],
                 ),
               ),
             ),

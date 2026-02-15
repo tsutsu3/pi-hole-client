@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/animations/shake_animation.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
 
@@ -19,7 +19,7 @@ class NumericPad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
@@ -69,7 +69,7 @@ class NumericPad extends StatelessWidget {
             child: ElevatedButton(
               onPressed: code.length < 4
                   ? () {
-                      if (appConfigProvider.validVibrator) {
+                      if (appConfigViewModel.validVibrator) {
                         Vibration.vibrate(duration: 15, amplitude: 128);
                       }
                       final newCode = '$code$number';

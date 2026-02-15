@@ -2,23 +2,23 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:provider/provider.dart';
 
 class StartInfoModal extends StatelessWidget {
   const StartInfoModal({super.key});
 
-  Future<bool> getSendCrashReports(AppConfigProvider appConfigProvider) async {
-    return appConfigProvider.sendCrashReports;
+  Future<bool> getSendCrashReports(AppConfigViewModel appConfigViewModel) async {
+    return appConfigViewModel.sendCrashReports;
   }
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     return FutureBuilder<bool>(
-      future: getSendCrashReports(appConfigProvider),
+      future: getSendCrashReports(appConfigViewModel),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Dialog(
@@ -131,7 +131,7 @@ class StartInfoModal extends StatelessWidget {
                             Switch(
                               value: sendCrashReportStatus,
                               onChanged: (value) async {
-                                await appConfigProvider.setSendCrashReports(
+                                await appConfigViewModel.setSendCrashReports(
                                   value,
                                 );
                               },
@@ -177,7 +177,7 @@ class StartInfoModal extends StatelessWidget {
                 actions: [
                   TextButton(
                     onPressed: () async {
-                      await appConfigProvider.setImportantInfoReaden(true);
+                      await appConfigViewModel.setImportantInfoReaden(true);
                       if (!context.mounted) return;
                       await Navigator.maybePop(context);
                     },

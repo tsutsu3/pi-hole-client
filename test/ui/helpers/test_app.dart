@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
@@ -14,9 +14,9 @@ Future<void> initTestApp() async {
   await dotenv.load();
 }
 
-Widget buildTestApp(Widget child, {AppConfigProvider? appConfigProvider}) {
-  return ChangeNotifierProvider<AppConfigProvider>.value(
-    value: appConfigProvider ?? AppConfigProvider(FakeAppConfigRepository()),
+Widget buildTestApp(Widget child, {AppConfigViewModel? appConfigViewModel}) {
+  return ChangeNotifierProvider<AppConfigViewModel>.value(
+    value: appConfigViewModel ?? AppConfigViewModel(FakeAppConfigRepository()),
     child: MaterialApp(
       theme: lightTheme(null),
       home: child,

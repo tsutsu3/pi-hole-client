@@ -82,8 +82,8 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
-      when(testSetup.mockServersProvider.selectedApiGateway).thenReturn(null);
+      when(testSetup.mockServersViewModel.selectedServer).thenReturn(null);
+      when(testSetup.mockServersViewModel.selectedApiGateway).thenReturn(null);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -489,8 +489,8 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(testSetup.mockGravityUpdateProvider.logs).thenReturn([]);
-      when(testSetup.mockGravityUpdateProvider.messages).thenReturn([]);
+      when(testSetup.mockGravityUpdateViewModel.logs).thenReturn([]);
+      when(testSetup.mockGravityUpdateViewModel.messages).thenReturn([]);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -523,14 +523,14 @@ void main() async {
       tester.view.devicePixelRatio = 2.0;
 
       when(
-        testSetup.mockGravityUpdateProvider.status,
+        testSetup.mockGravityUpdateViewModel.status,
       ).thenReturn(GravityStatus.running);
 
       when(
-        testSetup.mockGravityUpdateProvider.logs,
+        testSetup.mockGravityUpdateViewModel.logs,
       ).thenReturn(['Log1', 'Log2']);
 
-      when(testSetup.mockGravityUpdateProvider.isLoaded).thenReturn(true);
+      when(testSetup.mockGravityUpdateViewModel.isLoaded).thenReturn(true);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -571,14 +571,14 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockGravityUpdateProvider.messages).thenReturn([]);
+        when(testSetup.mockGravityUpdateViewModel.messages).thenReturn([]);
 
         when(
-          testSetup.mockGravityUpdateProvider.logs,
+          testSetup.mockGravityUpdateViewModel.logs,
         ).thenReturn(['Log1', 'Log2']);
 
         when(
-          testSetup.mockGravityUpdateProvider.status,
+          testSetup.mockGravityUpdateViewModel.status,
         ).thenReturn(GravityStatus.error);
 
         addTearDown(() {
@@ -603,8 +603,8 @@ void main() async {
         expect(
           find.text(
             formatWithDuration(
-              testSetup.mockGravityUpdateProvider.startedAtTime,
-              testSetup.mockGravityUpdateProvider.completedAtTime,
+              testSetup.mockGravityUpdateViewModel.startedAtTime,
+              testSetup.mockGravityUpdateViewModel.completedAtTime,
             ),
           ),
           findsOneWidget,
@@ -624,17 +624,17 @@ void main() async {
       tester.view.devicePixelRatio = 2.0;
 
       when(
-        testSetup.mockGravityUpdateProvider.logs,
+        testSetup.mockGravityUpdateViewModel.logs,
       ).thenReturn(['Log1', 'Log2', 'Done']);
 
       when(
-        testSetup.mockGravityUpdateProvider.status,
+        testSetup.mockGravityUpdateViewModel.status,
       ).thenReturn(GravityStatus.success);
 
-      when(testSetup.mockGravityUpdateProvider.isLoaded).thenReturn(true);
+      when(testSetup.mockGravityUpdateViewModel.isLoaded).thenReturn(true);
 
       when(
-        testSetup.mockGravityUpdateProvider.completedAtTime,
+        testSetup.mockGravityUpdateViewModel.completedAtTime,
       ).thenReturn(DateTime.fromMillisecondsSinceEpoch(1733465701 * 1000));
 
       addTearDown(() {
@@ -659,8 +659,8 @@ void main() async {
       expect(
         find.text(
           formatWithDuration(
-            testSetup.mockGravityUpdateProvider.startedAtTime,
-            testSetup.mockGravityUpdateProvider.completedAtTime,
+            testSetup.mockGravityUpdateViewModel.startedAtTime,
+            testSetup.mockGravityUpdateViewModel.completedAtTime,
           ),
         ),
         findsOneWidget,
@@ -682,14 +682,14 @@ void main() async {
       tester.view.devicePixelRatio = 2.0;
 
       when(
-        testSetup.mockGravityUpdateProvider.logs,
+        testSetup.mockGravityUpdateViewModel.logs,
       ).thenReturn(['Log1', 'Log2', 'Done']);
 
       when(
-        testSetup.mockGravityUpdateProvider.status,
+        testSetup.mockGravityUpdateViewModel.status,
       ).thenReturn(GravityStatus.success);
 
-      when(testSetup.mockGravityUpdateProvider.isLoaded).thenReturn(true);
+      when(testSetup.mockGravityUpdateViewModel.isLoaded).thenReturn(true);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -725,12 +725,12 @@ void main() async {
       tester.view.devicePixelRatio = 2.0;
 
       when(
-        testSetup.mockGravityUpdateProvider.status,
+        testSetup.mockGravityUpdateViewModel.status,
       ).thenReturn(GravityStatus.idle);
 
-      when(testSetup.mockGravityUpdateProvider.logs).thenReturn([]);
-      when(testSetup.mockGravityUpdateProvider.messages).thenReturn([]);
-      when(testSetup.mockGravityUpdateProvider.isLoaded).thenReturn(true);
+      when(testSetup.mockGravityUpdateViewModel.logs).thenReturn([]);
+      when(testSetup.mockGravityUpdateViewModel.messages).thenReturn([]);
+      when(testSetup.mockGravityUpdateViewModel.isLoaded).thenReturn(true);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -751,7 +751,7 @@ void main() async {
       await tester.tap(find.byIcon(Icons.rocket_launch_rounded).first);
       await tester.pumpAndSettle();
 
-      verify(testSetup.mockGravityUpdateProvider.start()).called(1);
+      verify(testSetup.mockGravityUpdateViewModel.start()).called(1);
     });
 
     testWidgets('should delete message when swiped', (
@@ -761,21 +761,21 @@ void main() async {
       tester.view.devicePixelRatio = 2.0;
 
       when(
-        testSetup.mockGravityUpdateProvider.logs,
+        testSetup.mockGravityUpdateViewModel.logs,
       ).thenReturn(['Log1', 'Log2', 'Done']);
 
       when(
-        testSetup.mockGravityUpdateProvider.status,
+        testSetup.mockGravityUpdateViewModel.status,
       ).thenReturn(GravityStatus.success);
 
-      when(testSetup.mockGravityUpdateProvider.isLoaded).thenReturn(true);
+      when(testSetup.mockGravityUpdateViewModel.isLoaded).thenReturn(true);
 
       when(
-        testSetup.mockGravityUpdateProvider.completedAtTime,
+        testSetup.mockGravityUpdateViewModel.completedAtTime,
       ).thenReturn(DateTime.fromMillisecondsSinceEpoch(1733465701 * 1000));
 
       when(
-        testSetup.mockGravityUpdateProvider.removeMessage(any),
+        testSetup.mockGravityUpdateViewModel.removeMessage(any),
       ).thenAnswer((_) async => true);
 
       addTearDown(() {

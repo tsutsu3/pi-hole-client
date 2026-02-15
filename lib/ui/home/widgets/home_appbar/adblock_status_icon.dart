@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/color_helpers.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 /// A widget that displays an icon representing the current ad-block server status.
@@ -13,20 +13,20 @@ import 'package:provider/provider.dart';
 /// - If the server is connected but not enabled, a red "bad" icon is shown.
 /// - If the server is not connected, a grey shield icon is shown.
 ///
-/// This widget uses [StatusProvider] to determine the server connection status,
-/// and [ServersProvider] to access the selected server's enabled state and color theme.
+/// This widget uses [StatusViewModel] to determine the server connection status,
+/// and [ServersViewModel] to access the selected server's enabled state and color theme.
 class AdBlockStatusIcon extends StatelessWidget {
   const AdBlockStatusIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final serverStatus = context.select<StatusProvider, LoadStatus>(
+    final serverStatus = context.select<StatusViewModel, LoadStatus>(
       (p) => p.getServerStatus,
     );
 
-    final colors = context.select<ServersProvider, AppColors>((p) => p.colors);
+    final colors = context.select<ServersViewModel, AppColors>((p) => p.colors);
 
-    final enableSelectedServer = context.select<ServersProvider, bool>(
+    final enableSelectedServer = context.select<ServersViewModel, bool>(
       (p) => p.selectedServer?.enabled ?? false,
     );
 

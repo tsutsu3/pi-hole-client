@@ -10,8 +10,8 @@ import 'package:pi_hole_client/ui/core/ui/helpers/color_helpers.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/edit_domain_modal.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
@@ -40,9 +40,9 @@ class DomainDetailsScreen extends StatefulWidget {
 
 class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
   late Domain _domain;
-  late ServersProvider serversProvider;
+  late ServersViewModel serversViewModel;
   late DomainsViewModel viewModel;
-  late AppConfigProvider appConfigProvider;
+  late AppConfigViewModel appConfigViewModel;
   late bool isV5;
 
   @override
@@ -65,11 +65,11 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    appConfigProvider = context.watch<AppConfigProvider>();
-    serversProvider = context.watch<ServersProvider>();
+    appConfigViewModel = context.watch<AppConfigViewModel>();
+    serversViewModel = context.watch<ServersViewModel>();
     viewModel = context.watch<DomainsViewModel>();
     isV5 =
-        serversProvider.selectedServer?.apiVersion == SupportedApiVersions.v5;
+        serversViewModel.selectedServer?.apiVersion == SupportedApiVersions.v5;
   }
 
   @override
@@ -215,7 +215,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
 
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.domainUpdated,
       );
     } catch (_) {
@@ -224,7 +224,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
 
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.domainUpdateFailed,
       );
     }

@@ -6,14 +6,14 @@ import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/domain/models_old/devices.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
 class LocalDnsProvider with ChangeNotifier {
-  LocalDnsProvider({required ServersProvider serversProvider})
-    : _serversProvider = serversProvider;
+  LocalDnsProvider({required ServersViewModel serversViewModel})
+    : _serversViewModel = serversViewModel;
 
-  final ServersProvider _serversProvider;
+  final ServersViewModel _serversViewModel;
 
   List<LocalDns> _localDns = [];
 
@@ -41,7 +41,7 @@ class LocalDnsProvider with ChangeNotifier {
   }
 
   Future<void> load() async {
-    final apiGateway = _serversProvider.selectedApiGateway;
+    final apiGateway = _serversViewModel.selectedApiGateway;
 
     if (apiGateway == null) {
       _localDns = [];
@@ -90,7 +90,7 @@ class LocalDnsProvider with ChangeNotifier {
   Future<bool> addLocalDns(LocalDns item) async {
     _localDns.add(item);
 
-    final apiGateway = _serversProvider.selectedApiGateway;
+    final apiGateway = _serversViewModel.selectedApiGateway;
 
     if (apiGateway == null) {
       _localDns = [];
@@ -121,7 +121,7 @@ class LocalDnsProvider with ChangeNotifier {
     final before = _localDns[idx];
     _localDns[idx] = item;
 
-    final apiGateway = _serversProvider.selectedApiGateway;
+    final apiGateway = _serversViewModel.selectedApiGateway;
 
     if (apiGateway == null) {
       _localDns = [];
@@ -152,7 +152,7 @@ class LocalDnsProvider with ChangeNotifier {
 
     final removed = _localDns.removeAt(idx);
 
-    final apiGateway = _serversProvider.selectedApiGateway;
+    final apiGateway = _serversViewModel.selectedApiGateway;
 
     if (apiGateway == null) {
       _localDns = [];

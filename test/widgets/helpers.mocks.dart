@@ -45,14 +45,17 @@ import 'package:pi_hole_client/domain/models_old/subscriptions.dart' as _i35;
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart'
     as _i40;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart'
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart'
     as _i7;
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart' as _i19;
-import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart' as _i45;
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart'
+    as _i19;
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart'
+    as _i45;
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart'
     as _i29;
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart' as _i16;
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart' as _i21;
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart'
+    as _i16;
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart' as _i21;
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart'
     as _i25;
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart'
@@ -355,11 +358,12 @@ class _FakeStreamedResponse_46 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
-/// A class which mocks [AppConfigProvider].
+/// A class which mocks [AppConfigViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppConfigProvider extends _i1.Mock implements _i7.AppConfigProvider {
-  MockAppConfigProvider() {
+class MockAppConfigViewModel extends _i1.Mock
+    implements _i7.AppConfigViewModel {
+  MockAppConfigViewModel() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -768,11 +772,11 @@ class MockAppConfigProvider extends _i1.Mock implements _i7.AppConfigProvider {
   );
 }
 
-/// A class which mocks [ServersProvider].
+/// A class which mocks [ServersViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockServersProvider extends _i1.Mock implements _i16.ServersProvider {
-  MockServersProvider() {
+class MockServersViewModel extends _i1.Mock implements _i16.ServersViewModel {
+  MockServersViewModel() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -826,7 +830,7 @@ class MockServersProvider extends _i1.Mock implements _i16.ServersProvider {
           as bool);
 
   @override
-  void update(_i7.AppConfigProvider? provider) => super.noSuchMethod(
+  void update(_i7.AppConfigViewModel? provider) => super.noSuchMethod(
     Invocation.method(#update, [provider]),
     returnValueForMissingStub: null,
   );
@@ -976,11 +980,11 @@ class MockServersProvider extends _i1.Mock implements _i16.ServersProvider {
   );
 }
 
-/// A class which mocks [FiltersProvider].
+/// A class which mocks [FiltersViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFiltersProvider extends _i1.Mock implements _i19.FiltersProvider {
-  MockFiltersProvider() {
+class MockFiltersViewModel extends _i1.Mock implements _i19.FiltersViewModel {
+  MockFiltersViewModel() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -1049,7 +1053,7 @@ class MockFiltersProvider extends _i1.Mock implements _i19.FiltersProvider {
           as bool);
 
   @override
-  void update(_i16.ServersProvider? provider) => super.noSuchMethod(
+  void update(_i16.ServersViewModel? provider) => super.noSuchMethod(
     Invocation.method(#update, [provider]),
     returnValueForMissingStub: null,
   );
@@ -1145,11 +1149,11 @@ class MockFiltersProvider extends _i1.Mock implements _i19.FiltersProvider {
   );
 }
 
-/// A class which mocks [StatusProvider].
+/// A class which mocks [StatusViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockStatusProvider extends _i1.Mock implements _i21.StatusProvider {
-  MockStatusProvider() {
+class MockStatusViewModel extends _i1.Mock implements _i21.StatusViewModel {
+  MockStatusViewModel() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -4127,12 +4131,12 @@ class MockAdlistsViewModel extends _i1.Mock implements _i43.AdlistsViewModel {
   );
 }
 
-/// A class which mocks [GravityUpdateProvider].
+/// A class which mocks [GravityUpdateViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGravityUpdateProvider extends _i1.Mock
-    implements _i45.GravityUpdateProvider {
-  MockGravityUpdateProvider() {
+class MockGravityUpdateViewModel extends _i1.Mock
+    implements _i45.GravityUpdateViewModel {
+  MockGravityUpdateViewModel() {
     _i1.throwOnMissingStub(this);
   }
 

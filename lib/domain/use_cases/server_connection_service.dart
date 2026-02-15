@@ -11,9 +11,9 @@ import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/add_server_fullscreen.dart';
 import 'package:pi_hole_client/ui/servers/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/logger.dart';
@@ -22,9 +22,9 @@ import 'package:pi_hole_client/utils/tls_certificate.dart';
 class ServerConnectionService {
   ServerConnectionService({
     required this.context,
-    required this.appConfigProvider,
-    required this.statusProvider,
-    required this.serversProvider,
+    required this.appConfigViewModel,
+    required this.statusViewModel,
+    required this.serversViewModel,
     required this.statusUpdateService,
     required this.server,
     this.useRootContextOnFailure = false,
@@ -32,16 +32,16 @@ class ServerConnectionService {
   });
 
   final BuildContext context;
-  final AppConfigProvider appConfigProvider;
-  final StatusProvider statusProvider;
-  final ServersProvider serversProvider;
+  final AppConfigViewModel appConfigViewModel;
+  final StatusViewModel statusViewModel;
+  final ServersViewModel serversViewModel;
   final StatusUpdateService statusUpdateService;
   final Server server;
   final bool useRootContextOnFailure;
   final bool showModal;
 
   Future<void> connect() async {
-    final previouslySelectedServer = serversProvider.selectedServer;
+    final previouslySelectedServer = serversViewModel.selectedServer;
 
     _startConnection();
 
@@ -51,7 +51,7 @@ class ServerConnectionService {
       return;
     }
 
-    if (serversProvider.connectingServer != server) {
+    if (serversViewModel.connectingServer != server) {
       return;
     }
 
@@ -59,17 +59,17 @@ class ServerConnectionService {
 
     // If another server (other than B) is selected while switching from server A to B, abort the process.
     // Without this check, it may appear as if the app is connected to B, even though a different server was actually selected.
-    if (serversProvider.connectingServer != server) {
+    if (serversViewModel.connectingServer != server) {
       logger.w(
         'Server switch interrupted: '
         '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
         '-> ${server.address}(${server.alias}) '
-        '-> ${serversProvider.selectedServer?.address}(${serversProvider.selectedServer?.alias})',
+        '-> ${serversViewModel.selectedServer?.address}(${serversViewModel.selectedServer?.alias})',
       );
       return;
     }
 
-    serversProvider.clearConnectingServer();
+    serversViewModel.clearConnectingServer();
 
     if (result?.result == APiResponseType.success) {
       logger.d(
@@ -89,23 +89,23 @@ class ServerConnectionService {
   }
 
   void _startConnection() {
-    serversProvider.setConnectingServer(server);
+    serversViewModel.setConnectingServer(server);
     statusUpdateService.stopAutoRefresh();
-    statusProvider.setServerStatus(LoadStatus.loading);
+    statusViewModel.setServerStatus(LoadStatus.loading);
   }
 
   void _abortConnection(Server? fallback) {
-    if (serversProvider.connectingServer != server) {
+    if (serversViewModel.connectingServer != server) {
       return;
     }
-    serversProvider.clearConnectingServer();
+    serversViewModel.clearConnectingServer();
 
     if (fallback != null) {
-      serversProvider.setselectedServer(server: fallback);
-      statusProvider.setServerStatus(LoadStatus.loaded);
+      serversViewModel.setselectedServer(server: fallback);
+      statusViewModel.setServerStatus(LoadStatus.loaded);
       statusUpdateService.startAutoRefresh();
     } else {
-      statusProvider.setServerStatus(LoadStatus.error);
+      statusViewModel.setServerStatus(LoadStatus.error);
     }
   }
 
@@ -116,7 +116,7 @@ class ServerConnectionService {
       process.open(AppLocalizations.of(context)!.connecting);
     }
 
-    final result = await serversProvider
+    final result = await serversViewModel
         .loadApiGateway(serverForLogin)
         ?.loginQuery();
     process?.close();
@@ -124,16 +124,16 @@ class ServerConnectionService {
   }
 
   void _onSuccess(LoginQueryResponse result, Server connectedServer) {
-    if (serversProvider.selectedServer == null &&
-        appConfigProvider.selectedTab == 1) {
-      appConfigProvider.setSelectedTab(4);
+    if (serversViewModel.selectedServer == null &&
+        appConfigViewModel.selectedTab == 1) {
+      appConfigViewModel.setSelectedTab(4);
     }
 
-    serversProvider.setselectedServer(
+    serversViewModel.setselectedServer(
       server: connectedServer.copyWith(enabled: result.status == 'enabled'),
     );
 
-    statusProvider.setServerStatus(LoadStatus.loaded);
+    statusViewModel.setServerStatus(LoadStatus.loaded);
     statusUpdateService.startAutoRefresh();
   }
 
@@ -179,11 +179,11 @@ class ServerConnectionService {
 
   Future<void> _onFailure(Server? fallback, LoginQueryResponse? result) async {
     if (fallback != null) {
-      serversProvider.setselectedServer(server: fallback);
-      statusProvider.setServerStatus(LoadStatus.loading);
+      serversViewModel.setselectedServer(server: fallback);
+      statusViewModel.setServerStatus(LoadStatus.loading);
       statusUpdateService.startAutoRefresh();
     } else {
-      statusProvider.setServerStatus(LoadStatus.error);
+      statusViewModel.setServerStatus(LoadStatus.error);
     }
 
     // If the system back button is pressed and the user returns to the Home
@@ -193,7 +193,7 @@ class ServerConnectionService {
         final fallbackContext = globalNavigatorKey.currentContext!;
         showErrorSnackBar(
           context: fallbackContext,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(
             fallbackContext,
           )!.couldNotConnectServerFallback,
@@ -233,7 +233,7 @@ class ServerConnectionService {
     if (targetContext != null && label != null) {
       showErrorSnackBar(
         context: targetContext,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: label,
         duration: duration,
       );
@@ -250,7 +250,7 @@ class ServerConnectionService {
 
     showCautionSnackBar(
       context: targetContext,
-      appConfigProvider: appConfigProvider,
+      appConfigViewModel: appConfigViewModel,
       label: isPinMismatch
           ? loc.serverCertificatePinMismatchDetected
           : loc.serverCertificateIssueDetected,
@@ -290,9 +290,9 @@ class ServerConnectionService {
         if (updated != null && targetContext.mounted) {
           await ServerConnectionService(
             context: targetContext,
-            appConfigProvider: appConfigProvider,
-            statusProvider: statusProvider,
-            serversProvider: serversProvider,
+            appConfigViewModel: appConfigViewModel,
+            statusViewModel: statusViewModel,
+            serversViewModel: serversViewModel,
             statusUpdateService: statusUpdateService,
             server: updated,
             useRootContextOnFailure: useRootContextOnFailure,
@@ -334,7 +334,7 @@ class ServerConnectionService {
     if (certificateInfo == null) {
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: loc.serverCertificateFetchFailed,
       );
       return null;
@@ -363,21 +363,21 @@ class ServerConnectionService {
     if (confirmed != true || !context.mounted) return null;
 
     final updated = server.copyWith(pinnedCertificateSha256: info.sha256);
-    final result = await serversProvider.editServer(updated);
+    final result = await serversViewModel.editServer(updated);
 
     if (!context.mounted) return null;
 
     if (result == true) {
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: loc.editServerSuccessfully,
       );
       return updated;
     } else {
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: loc.cantSaveConnectionData,
       );
       return null;

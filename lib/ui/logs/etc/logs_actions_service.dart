@@ -5,14 +5,14 @@ import 'package:pi_hole_client/domain/models_old/log.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 
 /// A UI-coupled service that handles API actions related to log entries,
 /// specifically adding URLs to the whitelist or blacklist.
 ///
 /// This service encapsulates logic for executing API requests with appropriate
 /// UI feedback mechanisms such as loading modals and snackbars. It is intended
-/// to be used in contexts where [BuildContext] and [AppConfigProvider] are available,
+/// to be used in contexts where [BuildContext] and [AppConfigViewModel] are available,
 /// such as within a screen widget.
 ///
 /// Key responsibilities:
@@ -28,7 +28,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 /// final service = LogActionsService(
 ///   apiGateway: apiGateway,
 ///   context: context,
-///   appConfigProvider: appConfigProvider,
+///   appConfigViewModel: appConfigViewModel,
 /// );
 /// await service.whiteBlackList('white', log);
 /// ```
@@ -36,12 +36,12 @@ class LogActionsService {
   LogActionsService({
     required this.apiGateway,
     required this.context,
-    required this.appConfigProvider,
+    required this.appConfigViewModel,
   });
 
   final ApiGateway apiGateway;
   final BuildContext context;
-  final AppConfigProvider appConfigProvider;
+  final AppConfigViewModel appConfigViewModel;
 
   /// Adds the URL from the given [log] to either the whitelist or blacklist, depending on the [list] type.
   ///
@@ -71,7 +71,7 @@ class LogActionsService {
       if (result.data!.message.contains('Added')) {
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: list == 'white'
               ? loc.domainWhitelistAdded
               : loc.domainBlacklistAdded,
@@ -79,7 +79,7 @@ class LogActionsService {
       } else {
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: list == 'white'
               ? loc.domainWhitelistAlready
               : loc.domainBlacklistAlready,
@@ -88,7 +88,7 @@ class LogActionsService {
     } else {
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: list == 'white'
             ? loc.domainWhitelistAddFailed
             : loc.domainBlacklistAddFailed,

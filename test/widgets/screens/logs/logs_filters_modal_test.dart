@@ -49,8 +49,8 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(testSetup.mockFiltersProvider.startTime).thenReturn(null);
-      when(testSetup.mockFiltersProvider.endTime).thenReturn(null);
+      when(testSetup.mockFiltersViewModel.startTime).thenReturn(null);
+      when(testSetup.mockFiltersViewModel.endTime).thenReturn(null);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -84,7 +84,7 @@ void main() async {
       expect(find.text('Select start time'), findsOneWidget);
       expect(find.text('OK'), findsOneWidget);
       await tester.tap(find.text('OK'));
-      when(testSetup.mockFiltersProvider.startTime).thenReturn(DateTime.now());
+      when(testSetup.mockFiltersViewModel.startTime).thenReturn(DateTime.now());
       await tester.pumpAndSettle();
 
       expect(find.text('Not selected'), findsOneWidget);

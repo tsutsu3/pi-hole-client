@@ -6,7 +6,7 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/add_group_modal.dart';
@@ -69,7 +69,7 @@ class _GroupsListState extends State<GroupsList> {
     final clientsViewModel = Provider.of<ClientsViewModel>(context);
     final domainsViewModel = Provider.of<DomainsViewModel>(context);
     final adlistsViewModel = Provider.of<AdlistsViewModel>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     final clients = clientsViewModel.clients;
     final allDomains = [
@@ -105,7 +105,7 @@ class _GroupsListState extends State<GroupsList> {
 
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.groupAdded,
         );
       } catch (_) {
@@ -114,7 +114,7 @@ class _GroupsListState extends State<GroupsList> {
 
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.groupAddFailed,
         );
       }
@@ -136,7 +136,7 @@ class _GroupsListState extends State<GroupsList> {
 
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.groupUpdated,
         );
       } catch (_) {
@@ -145,7 +145,7 @@ class _GroupsListState extends State<GroupsList> {
 
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.groupUpdateFailed,
         );
       }
@@ -267,7 +267,7 @@ class _GroupsListState extends State<GroupsList> {
                 duration: const Duration(milliseconds: 100),
                 curve: Curves.easeInOut,
                 bottom: isVisible
-                    ? appConfigProvider.showingSnackbar
+                    ? appConfigViewModel.showingSnackbar
                           ? 70
                           : 20
                     : -70,

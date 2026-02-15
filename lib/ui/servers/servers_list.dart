@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/add_server_fullscreen.dart';
 import 'package:pi_hole_client/ui/servers/servers_tile_item.dart';
 import 'package:pi_hole_client/ui/servers/unverified_certificates_banner.dart';
@@ -62,13 +62,13 @@ class _ServersListState extends State<ServersList> {
 
   @override
   Widget build(BuildContext context) {
-    final serversList = context.select<ServersProvider, List<Server>>(
+    final serversList = context.select<ServersViewModel, List<Server>>(
       (p) => p.getServersList,
     );
-    final unverifiedServers = context.select<ServersProvider, List<Server>>(
+    final unverifiedServers = context.select<ServersViewModel, List<Server>>(
       (p) => p.serversWithUnverifiedCertificates,
     );
-    final bannerDismissed = context.select<ServersProvider, bool>(
+    final bannerDismissed = context.select<ServersViewModel, bool>(
       (p) => p.unverifiedBannerDismissed,
     );
 
@@ -91,7 +91,7 @@ class _ServersListState extends State<ServersList> {
               servers: unverifiedServers,
               onServerTap: _openEditServer,
               onDismiss: () => context
-                  .read<ServersProvider>()
+                  .read<ServersViewModel>()
                   .setUnverifiedBannerDismissed(true),
             ),
           Wrap(

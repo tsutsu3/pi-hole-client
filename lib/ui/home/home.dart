@@ -4,9 +4,9 @@ import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/ui/core/logic/refresh_server_status.dart';
 import 'package:pi_hole_client/ui/core/logic/server_management.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts.dart';
@@ -56,17 +56,17 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = context.watch<ServersProvider>();
+    final serversViewModel = context.watch<ServersViewModel>();
 
-    final showingSnackbar = context.select<AppConfigProvider, bool>(
+    final showingSnackbar = context.select<AppConfigViewModel, bool>(
       (p) => p.showingSnackbar,
     );
 
-    final statusLoading = context.select<StatusProvider, LoadStatus>(
+    final statusLoading = context.select<StatusViewModel, LoadStatus>(
       (provider) => provider.getStatusLoading,
     );
 
-    final isConnectionAttemptFinished = context.select<StatusProvider, bool>(
+    final isConnectionAttemptFinished = context.select<StatusViewModel, bool>(
       (p) => !p.isServerLoading,
     );
 
@@ -74,8 +74,8 @@ class _HomeState extends State<Home> {
 
     Future<void> enableDisableServer() async {
       if (isConnectionAttemptFinished == true &&
-          serversProvider.selectedServer != null) {
-        if (serversProvider.selectedServer?.enabled == true) {
+          serversViewModel.selectedServer != null) {
+        if (serversViewModel.selectedServer?.enabled == true) {
           if (width > ResponsiveConstants.medium) {
             await showDialog(
               context: context,
@@ -116,7 +116,7 @@ class _HomeState extends State<Home> {
       return -70.0;
     }
 
-    return serversProvider.selectedServer != null
+    return serversViewModel.selectedServer != null
         ? Stack(
             children: [
               Scaffold(

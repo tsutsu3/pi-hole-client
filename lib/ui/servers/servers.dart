@@ -6,8 +6,8 @@ import 'package:flutter/rendering.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/add_server_fullscreen.dart';
 import 'package:pi_hole_client/ui/servers/servers_list.dart';
 import 'package:provider/provider.dart';
@@ -68,10 +68,10 @@ class _ServersPageState extends State<ServersPage> {
 
   @override
   Widget build(BuildContext context) {
-    final serversList = context.select<ServersProvider, List<Server>>(
+    final serversList = context.select<ServersViewModel, List<Server>>(
       (p) => p.getServersList,
     );
-    final showingSnackbar = context.select<AppConfigProvider, bool>(
+    final showingSnackbar = context.select<AppConfigViewModel, bool>(
       (p) => p.showingSnackbar,
     );
 

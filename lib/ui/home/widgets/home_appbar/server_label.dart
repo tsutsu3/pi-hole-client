@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection_service.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar/switch_server_modal.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -25,22 +25,22 @@ class ServerLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isServerLoading = context.select<StatusProvider, bool>(
+    final isServerLoading = context.select<StatusViewModel, bool>(
       (p) => p.isServerLoading,
     );
 
-    final serversProvider = context.watch<ServersProvider>();
-    final statusProvider = context.read<StatusProvider>();
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final serversViewModel = context.watch<ServersViewModel>();
+    final statusViewModel = context.read<StatusViewModel>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
     final statusUpdateService = context.read<StatusUpdateService>();
 
     return InkWell(
       onTap: () {
         _openSwitchServerModal(
           context,
-          appConfigProvider,
-          statusProvider,
-          serversProvider,
+          appConfigViewModel,
+          statusViewModel,
+          serversViewModel,
           statusUpdateService,
         );
       },
@@ -80,15 +80,15 @@ class ServerLabel extends StatelessWidget {
   ///
   /// Parameters:
   /// - [context]: The build context to display the dialog.
-  /// - [appConfigProvider]: The provider for application configuration.
-  /// - [statusProvider]: The provider for server status.
-  /// - [serversProvider]: The provider for the list of servers.
+  /// - [appConfigViewModel]: The provider for application configuration.
+  /// - [statusViewModel]: The provider for server status.
+  /// - [serversViewModel]: The provider for the list of servers.
   /// - [statusUpdateService]: The service responsible for updating server status.
   void _openSwitchServerModal(
     BuildContext context,
-    AppConfigProvider appConfigProvider,
-    StatusProvider statusProvider,
-    ServersProvider serversProvider,
+    AppConfigViewModel appConfigViewModel,
+    StatusViewModel statusViewModel,
+    ServersViewModel serversViewModel,
     StatusUpdateService statusUpdateService,
   ) {
     showDialog(
@@ -100,9 +100,9 @@ class ServerLabel extends StatelessWidget {
 
           final service = ServerConnectionService(
             context: context,
-            appConfigProvider: appConfigProvider,
-            statusProvider: statusProvider,
-            serversProvider: serversProvider,
+            appConfigViewModel: appConfigViewModel,
+            statusViewModel: statusViewModel,
+            serversViewModel: serversViewModel,
             statusUpdateService: statusUpdateService,
             server: server,
           );
@@ -119,17 +119,17 @@ class _ServerLabelText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final alias = context.select<ServersProvider, String>(
+    final alias = context.select<ServersViewModel, String>(
       (p) => p.selectedServer?.alias ?? '',
     );
-    final address = context.select<ServersProvider, String>(
+    final address = context.select<ServersViewModel, String>(
       (p) => p.selectedServer?.address ?? '',
     );
-    final serversProvider = context.watch<ServersProvider>();
-    final selectedServer = serversProvider.selectedServer;
+    final serversViewModel = context.watch<ServersViewModel>();
+    final selectedServer = serversViewModel.selectedServer;
     final hasUnverifiedCert =
         selectedServer != null &&
-        serversProvider.serversWithUnverifiedCertificates.any(
+        serversViewModel.serversWithUnverifiedCertificates.any(
           (s) => s.address == selectedServer.address,
         );
 

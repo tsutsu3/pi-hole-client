@@ -4,13 +4,13 @@ import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 Future<void> enableServer(BuildContext context) async {
-  final serversProvider = Provider.of<ServersProvider>(context, listen: false);
-  final appConfigProvider = Provider.of<AppConfigProvider>(
+  final serversViewModel = Provider.of<ServersViewModel>(context, listen: false);
+  final appConfigViewModel = Provider.of<AppConfigViewModel>(
     context,
     listen: false,
   );
@@ -26,19 +26,19 @@ Future<void> enableServer(BuildContext context) async {
 
   result.fold(
     (blocking) {
-      serversProvider.updateselectedServerStatus(
+      serversViewModel.updateselectedServerStatus(
         blocking.status == DnsBlockingStatus.enabled,
       );
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.serverEnabled,
       );
     },
     (error) {
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.couldntEnableServer,
       );
     },
@@ -46,8 +46,8 @@ Future<void> enableServer(BuildContext context) async {
 }
 
 Future<void> disableServer(int time, BuildContext context) async {
-  final serversProvider = Provider.of<ServersProvider>(context, listen: false);
-  final appConfigProvider = Provider.of<AppConfigProvider>(
+  final serversViewModel = Provider.of<ServersViewModel>(context, listen: false);
+  final appConfigViewModel = Provider.of<AppConfigViewModel>(
     context,
     listen: false,
   );
@@ -63,17 +63,17 @@ Future<void> disableServer(int time, BuildContext context) async {
 
   result.fold(
     (blocking) {
-      serversProvider.updateselectedServerStatus(false);
+      serversViewModel.updateselectedServerStatus(false);
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.serverDisabled,
       );
     },
     (error) {
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.couldntDisableServer,
       );
     },

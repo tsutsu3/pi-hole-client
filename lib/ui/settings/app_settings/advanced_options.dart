@@ -8,8 +8,8 @@ import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/color_helpers.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/chart_visualization_screen.dart';
@@ -24,91 +24,91 @@ class AdvancedOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final serversViewModel = Provider.of<ServersViewModel>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     final topBarHeight = MediaQuery.of(context).viewPadding.top;
     final width = MediaQuery.of(context).size.width;
 
     final isV6 =
-        serversProvider.selectedServer?.apiVersion.startsWith('v6') ?? false;
+        serversViewModel.selectedServer?.apiVersion.startsWith('v6') ?? false;
 
     final logDescription = isV6
         ? AppLocalizations.of(context)!.logsSettingNotApplicable
-        : '${appConfigProvider.logsPerQuery == 0.5 ? '30' : appConfigProvider.logsPerQuery.toInt()} '
-              '${appConfigProvider.logsPerQuery == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}';
+        : '${appConfigViewModel.logsPerQuery == 0.5 ? '30' : appConfigViewModel.logsPerQuery.toInt()} '
+              '${appConfigViewModel.logsPerQuery == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}';
 
     Future<void> updateUseReducedData(bool newStatus) async {
-      final result = await appConfigProvider.setReducedDataCharts(newStatus);
+      final result = await appConfigViewModel.setReducedDataCharts(newStatus);
       if (!context.mounted) return;
 
       if (result == true) {
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
         );
       } else {
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.cannotUpdateSettings,
         );
       }
     }
 
     Future<void> updateHideZeroValues(bool newStatus) async {
-      final result = await appConfigProvider.setHideZeroValues(newStatus);
+      final result = await appConfigViewModel.setHideZeroValues(newStatus);
       if (!context.mounted) return;
 
       if (result == true) {
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
         );
       } else {
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.cannotUpdateSettings,
         );
       }
     }
 
     Future<void> updateShowLoadingAnimation(bool newStatus) async {
-      final result = await appConfigProvider.setShowLoadingAnimation(newStatus);
+      final result = await appConfigViewModel.setShowLoadingAnimation(newStatus);
       if (!context.mounted) return;
 
       if (result == true) {
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
         );
       } else {
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.cannotUpdateSettings,
         );
       }
     }
 
     Future<void> updateLiveLog(bool newStatus) async {
-      final result = await appConfigProvider.setLiveLog(newStatus);
+      final result = await appConfigViewModel.setLiveLog(newStatus);
       if (!context.mounted) return;
 
       if (result == true) {
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
         );
       } else {
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.cannotUpdateSettings,
         );
       }
@@ -118,15 +118,15 @@ class AdvancedOptions extends StatelessWidget {
       Future<void> reset() async {
         final process = ProcessModal(context: context);
         process.open(AppLocalizations.of(context)!.deleting);
-        await serversProvider.deleteDbData();
-        await appConfigProvider.restoreAppConfig();
+        await serversViewModel.deleteDbData();
+        await appConfigViewModel.restoreAppConfig();
         if (!context.mounted) return;
-        appConfigProvider.setSelectedTab(0);
+        appConfigViewModel.setSelectedTab(0);
         process.close();
         Phoenix.rebirth(context);
       }
 
-      if (appConfigProvider.passCode != null) {
+      if (appConfigViewModel.passCode != null) {
         await Navigator.push(
           context,
           MaterialPageRoute(
@@ -151,7 +151,7 @@ class AdvancedOptions extends StatelessWidget {
                 false, // Prevents unexpected app exit on mobile when pressing back
             builder: (context) => AppUnlockSetupModal(
               topBarHeight: topBarHeight,
-              useBiometrics: appConfigProvider.useBiometrics,
+              useBiometrics: appConfigViewModel.useBiometrics,
               window: true,
             ),
           );
@@ -160,7 +160,7 @@ class AdvancedOptions extends StatelessWidget {
             context: context,
             builder: (context) => AppUnlockSetupModal(
               topBarHeight: topBarHeight,
-              useBiometrics: appConfigProvider.useBiometrics,
+              useBiometrics: appConfigViewModel.useBiometrics,
               window: false,
             ),
             isScrollControlled: true,
@@ -169,7 +169,7 @@ class AdvancedOptions extends StatelessWidget {
         }
       }
 
-      if (appConfigProvider.passCode != null) {
+      if (appConfigViewModel.passCode != null) {
         if (width > ResponsiveConstants.medium) {
           showDialog(
             context: context,
@@ -219,7 +219,7 @@ class AdvancedOptions extends StatelessWidget {
                 context,
               )!.reducedDataChartsDescription,
               onTap: () =>
-                  updateUseReducedData(!appConfigProvider.reducedDataCharts),
+                  updateUseReducedData(!appConfigViewModel.reducedDataCharts),
               padding: const EdgeInsets.only(
                 top: 10,
                 bottom: 10,
@@ -227,7 +227,7 @@ class AdvancedOptions extends StatelessWidget {
                 right: 10,
               ),
               trailing: Switch(
-                value: appConfigProvider.reducedDataCharts,
+                value: appConfigViewModel.reducedDataCharts,
                 onChanged: updateUseReducedData,
               ),
             ),
@@ -238,7 +238,7 @@ class AdvancedOptions extends StatelessWidget {
                 context,
               )!.hideZeroValuesDescription,
               onTap: () =>
-                  updateHideZeroValues(!appConfigProvider.hideZeroValues),
+                  updateHideZeroValues(!appConfigViewModel.hideZeroValues),
               padding: const EdgeInsets.only(
                 top: 10,
                 bottom: 10,
@@ -246,7 +246,7 @@ class AdvancedOptions extends StatelessWidget {
                 right: 10,
               ),
               trailing: Switch(
-                value: appConfigProvider.hideZeroValues,
+                value: appConfigViewModel.hideZeroValues,
                 onChanged: updateHideZeroValues,
               ),
             ),
@@ -257,7 +257,7 @@ class AdvancedOptions extends StatelessWidget {
                 context,
               )!.showLoadingAnimationDescription,
               onTap: () => updateShowLoadingAnimation(
-                !appConfigProvider.loadingAnimation,
+                !appConfigViewModel.loadingAnimation,
               ),
               padding: const EdgeInsets.only(
                 top: 10,
@@ -266,7 +266,7 @@ class AdvancedOptions extends StatelessWidget {
                 right: 10,
               ),
               trailing: Switch(
-                value: appConfigProvider.loadingAnimation,
+                value: appConfigViewModel.loadingAnimation,
                 onChanged: updateShowLoadingAnimation,
               ),
             ),
@@ -294,7 +294,7 @@ class AdvancedOptions extends StatelessWidget {
               leadingIcon: Icons.update,
               label: AppLocalizations.of(context)!.autoRefreshTime,
               description:
-                  '${appConfigProvider.getAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
+                  '${appConfigViewModel.getAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -312,7 +312,7 @@ class AdvancedOptions extends StatelessWidget {
               leadingIcon: Icons.timer_outlined,
               label: AppLocalizations.of(context)!.liveLog,
               description: AppLocalizations.of(context)!.liveLogDescription,
-              onTap: () => updateLiveLog(!appConfigProvider.liveLog),
+              onTap: () => updateLiveLog(!appConfigViewModel.liveLog),
               padding: const EdgeInsets.only(
                 top: 10,
                 bottom: 10,
@@ -320,7 +320,7 @@ class AdvancedOptions extends StatelessWidget {
                 right: 10,
               ),
               trailing: Switch(
-                value: appConfigProvider.liveLog,
+                value: appConfigViewModel.liveLog,
                 onChanged: updateLiveLog,
               ),
             ),
@@ -328,7 +328,7 @@ class AdvancedOptions extends StatelessWidget {
               leadingIcon: Icons.update,
               label: AppLocalizations.of(context)!.logAutoRefreshTime,
               description:
-                  '${appConfigProvider.logAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
+                  '${appConfigViewModel.logAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -351,7 +351,7 @@ class AdvancedOptions extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => LogsQuantityLoadScreen(
                     apiVersion:
-                        serversProvider.selectedServer?.apiVersion ?? '',
+                        serversViewModel.selectedServer?.apiVersion ?? '',
                   ),
                 ),
               ),
@@ -384,7 +384,7 @@ class AdvancedOptions extends StatelessWidget {
               leadingIcon: Icons.delete,
               label: AppLocalizations.of(context)!.resetApplication,
               description: AppLocalizations.of(context)!.erasesAppData,
-              color: convertColor(serversProvider.colors, Colors.red),
+              color: convertColor(serversViewModel.colors, Colors.red),
               onTap: () => {
                 Navigator.push(
                   context,

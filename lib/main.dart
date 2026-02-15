@@ -20,11 +20,11 @@ import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +53,7 @@ Future<void> initializeDesktop() async {
 }
 
 Future<void> initializeBiometrics(
-  AppConfigProvider configProvider,
+  AppConfigViewModel configProvider,
   AppConfigRepository repository,
 ) async {
   try {
@@ -101,7 +101,7 @@ Future<void> initializeBiometrics(
   }
 }
 
-Future<void> initializeVibration(AppConfigProvider configProvider) async {
+Future<void> initializeVibration(AppConfigViewModel configProvider) async {
   try {
     if (Platform.isAndroid || Platform.isIOS) {
       final supported = await Vibration.hasCustomVibrationsSupport();
@@ -113,7 +113,7 @@ Future<void> initializeVibration(AppConfigProvider configProvider) async {
   }
 }
 
-Future<void> initializeDeviceInfo(AppConfigProvider configProvider) async {
+Future<void> initializeDeviceInfo(AppConfigViewModel configProvider) async {
   try {
     final info = DeviceInfoPlugin();
     if (Platform.isAndroid) {
@@ -150,18 +150,18 @@ void main() async {
   final gravityRepository = GravityRepository(dbService);
   final serverRepository = ServerRepository(dbService, secureStorageService);
 
-  final serversProvider = ServersProvider(serverRepository);
-  final configProvider = AppConfigProvider(appConfigRepository);
-  final statusProvider = StatusProvider();
-  final filtersProvider = FiltersProvider(serversProvider: serversProvider);
-  final gravityUpdateProvider = GravityUpdateProvider(
+  final serversViewModel = ServersViewModel(serverRepository);
+  final configProvider = AppConfigViewModel(appConfigRepository);
+  final statusViewModel = StatusViewModel();
+  final filtersViewModel = FiltersViewModel(serversViewModel: serversViewModel);
+  final gravityUpdateViewModel = GravityUpdateViewModel(
     repository: gravityRepository,
   );
   final statusUpdateService = StatusUpdateService(
-    serversProvider: serversProvider,
-    statusProvider: statusProvider,
-    appConfigProvider: configProvider,
-    filtersProvider: filtersProvider,
+    serversViewModel: serversViewModel,
+    statusViewModel: statusViewModel,
+    appConfigViewModel: configProvider,
+    filtersViewModel: filtersViewModel,
   );
 
   const widgetChannel = MethodChannel('pihole/widget');
@@ -169,8 +169,8 @@ void main() async {
   final appdata = await appConfigRepository.fetchAppConfig();
   final servers = await serverRepository.fetchServers();
   configProvider.saveFromDb(appdata.getOrThrow());
-  await serversProvider.saveFromDb(servers.getOrThrow());
-  await WidgetChannel.sendServersUpdated(serversProvider.getServersList);
+  await serversViewModel.saveFromDb(servers.getOrThrow());
+  await WidgetChannel.sendServersUpdated(serversViewModel.getServersList);
 
   widgetChannel.setMethodCallHandler((call) async {
     if (call.method != 'openServer') return;
@@ -180,7 +180,7 @@ void main() async {
     if (serverId is! String || serverId.isEmpty) return;
 
     Server? target;
-    for (final server in serversProvider.getServersList) {
+    for (final server in serversViewModel.getServersList) {
       if (server.address == serverId) {
         target = server;
         break;
@@ -188,9 +188,9 @@ void main() async {
     }
     if (target == null) return;
 
-    serversProvider.setselectedServer(server: target, toHomeTab: true);
-    final result = await serversProvider.selectedApiGateway?.loginQuery();
-    serversProvider.updateselectedServerStatus(result?.status == 'enabled');
+    serversViewModel.setselectedServer(server: target, toHomeTab: true);
+    final result = await serversViewModel.selectedApiGateway?.loginQuery();
+    serversViewModel.updateselectedServerStatus(result?.status == 'enabled');
     statusUpdateService.startAutoRefresh(showLoadingIndicator: false);
   });
 
@@ -264,10 +264,10 @@ void main() async {
         // Existing providers below are kept until migration.
         // ===================================================
         ChangeNotifierProvider(create: (context) => configProvider),
-        ChangeNotifierProvider(create: (context) => serversProvider),
-        ChangeNotifierProvider(create: (context) => statusProvider),
-        ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
-          create: (context) => serversProvider,
+        ChangeNotifierProvider(create: (context) => serversViewModel),
+        ChangeNotifierProvider(create: (context) => statusViewModel),
+        ChangeNotifierProxyProvider<AppConfigViewModel, ServersViewModel>(
+          create: (context) => serversViewModel,
           update: (context, appConfig, servers) => servers!..update(appConfig),
         ),
         // ===================================================
@@ -278,7 +278,7 @@ void main() async {
         // Recreated only when the selected server changes.
         // ===================================================
         ProxyProvider2<
-          ServersProvider,
+          ServersViewModel,
           SecureStorageService,
           RepositoryBundle?
         >(
@@ -293,19 +293,19 @@ void main() async {
           },
         ),
 
-        ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
-          create: (context) => filtersProvider,
+        ChangeNotifierProxyProvider<ServersViewModel, FiltersViewModel>(
+          create: (context) => filtersViewModel,
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
         ),
-        ChangeNotifierProxyProvider2<RepositoryBundle?, ServersProvider,
-            GravityUpdateProvider>(
-          create: (context) => gravityUpdateProvider,
-          update: (context, bundle, serversProvider, previous) =>
+        ChangeNotifierProxyProvider2<RepositoryBundle?, ServersViewModel,
+            GravityUpdateViewModel>(
+          create: (context) => gravityUpdateViewModel,
+          update: (context, bundle, serversViewModel, previous) =>
               previous!..update(
                 actionsRepository: bundle?.actions,
                 ftlRepository: bundle?.ftl,
-                serverAddress: serversProvider.selectedServer?.address,
+                serverAddress: serversViewModel.selectedServer?.address,
               ),
         ),
         // ===================================================

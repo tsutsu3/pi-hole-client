@@ -10,18 +10,18 @@ import 'package:pi_hole_client/domain/models_old/devices.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 
 import './local_dns_provider_test.mocks.dart';
 
-@GenerateMocks([ServersProvider, ApiGatewayV6])
+@GenerateMocks([ServersViewModel, ApiGatewayV6])
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
 
   group('LocalDnsProvider', () {
     late LocalDnsProvider localDnsProvider;
-    late MockServersProvider mockServersProvider;
+    late MockServersViewModel mockServersViewModel;
     late MockApiGatewayV6 mockApiGatewayV6;
     late bool listenerCalled;
 
@@ -97,13 +97,13 @@ void main() async {
     ];
 
     setUp(() {
-      mockServersProvider = MockServersProvider();
+      mockServersViewModel = MockServersViewModel();
       mockApiGatewayV6 = MockApiGatewayV6();
 
-      when(mockServersProvider.selectedServer).thenReturn(server);
-      when(mockServersProvider.selectedApiGateway).thenReturn(mockApiGatewayV6);
+      when(mockServersViewModel.selectedServer).thenReturn(server);
+      when(mockServersViewModel.selectedApiGateway).thenReturn(mockApiGatewayV6);
 
-      localDnsProvider = LocalDnsProvider(serversProvider: mockServersProvider);
+      localDnsProvider = LocalDnsProvider(serversViewModel: mockServersViewModel);
       listenerCalled = false;
       localDnsProvider.addListener(() {
         listenerCalled = true;

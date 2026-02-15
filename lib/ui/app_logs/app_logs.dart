@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:pi_hole_client/ui/app_logs/app_log_details_modal.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class AppLogs extends StatelessWidget {
@@ -13,10 +13,10 @@ class AppLogs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     Future<void> copyLogsClipboard() async {
-      final logsString = appConfigProvider.logs
+      final logsString = appConfigViewModel.logs
           .map((log) => log.toMap())
           .toList();
       await Clipboard.setData(ClipboardData(text: jsonEncode(logsString)));
@@ -46,7 +46,7 @@ class AppLogs extends StatelessWidget {
         title: Text(AppLocalizations.of(context)!.logs),
         actions: [
           IconButton(
-            onPressed: appConfigProvider.logs.isNotEmpty
+            onPressed: appConfigViewModel.logs.isNotEmpty
                 ? copyLogsClipboard
                 : null,
             icon: const Icon(Icons.share),
@@ -56,13 +56,13 @@ class AppLogs extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: appConfigProvider.logs.isNotEmpty
+        child: appConfigViewModel.logs.isNotEmpty
             ? ListView.builder(
                 padding: EdgeInsets.zero,
-                itemCount: appConfigProvider.logs.length,
+                itemCount: appConfigViewModel.logs.length,
                 itemBuilder: (context, index) => ListTile(
                   title: Text(
-                    appConfigProvider.logs[index].message,
+                    appConfigViewModel.logs[index].message,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.normal,
@@ -70,21 +70,21 @@ class AppLogs extends StatelessWidget {
                     ),
                   ),
                   subtitle: Text(
-                    appConfigProvider.logs[index].dateTime.toString(),
+                    appConfigViewModel.logs[index].dateTime.toString(),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.normal,
                       color: Theme.of(context).listTileTheme.textColor,
                     ),
                   ),
-                  trailing: Text(appConfigProvider.logs[index].type),
+                  trailing: Text(appConfigViewModel.logs[index].type),
                   onTap: () => {
                     showDialog(
                       context: context,
                       useRootNavigator:
                           false, // Prevents unexpected app exit on mobile when pressing back
                       builder: (context) => AppLogDetailsModal(
-                        log: appConfigProvider.logs[index],
+                        log: appConfigViewModel.logs[index],
                       ),
                     ),
                   },

@@ -10,15 +10,15 @@ import 'package:pi_hole_client/domain/models_old/database.dart';
 import 'package:pi_hole_client/domain/models_old/query_status.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 
-class ServersProvider with ChangeNotifier {
-  ServersProvider(this._repository);
+class ServersViewModel with ChangeNotifier {
+  ServersViewModel(this._repository);
 
-  AppConfigProvider? _appConfigProvider;
+  AppConfigViewModel? _appConfigViewModel;
   final ServerRepository _repository;
   final List<QueryStatus> _queryStatusesV5 = queryStatusesV5;
   final List<QueryStatus> _queryStatusesV6 = queryStatusesV6;
@@ -32,11 +32,11 @@ class ServersProvider with ChangeNotifier {
 
   final Map<String, ApiGateway> _serverGateways = {};
 
-  AppColors get colors => _appConfigProvider!.selectedTheme == ThemeMode.light
+  AppColors get colors => _appConfigViewModel!.selectedTheme == ThemeMode.light
       ? lightAppColors
       : darkAppColors;
 
-  AppConfigProvider? get appConfigProvider => _appConfigProvider;
+  AppConfigViewModel? get appConfigViewModel => _appConfigViewModel;
 
   List<Server> get getServersList {
     return _serversList;
@@ -94,8 +94,8 @@ class ServersProvider with ChangeNotifier {
     }
   }
 
-  void update(AppConfigProvider? provider) {
-    _appConfigProvider = provider;
+  void update(AppConfigViewModel? provider) {
+    _appConfigViewModel = provider;
   }
 
   void setConnectingServer(Server server) {
@@ -318,7 +318,7 @@ class ServersProvider with ChangeNotifier {
 
   void setselectedServer({required Server? server, bool? toHomeTab}) {
     _selectedServer = server;
-    if (toHomeTab == true) _appConfigProvider!.setSelectedTab(0);
+    if (toHomeTab == true) _appConfigViewModel!.setSelectedTab(0);
     notifyListeners();
   }
 
