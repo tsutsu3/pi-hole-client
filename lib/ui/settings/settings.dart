@@ -16,6 +16,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/servers.dart';
 import 'package:pi_hole_client/ui/settings/about/app_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';
@@ -31,6 +32,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/net
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:provider/provider.dart';
 
@@ -95,10 +97,19 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               final adlistBundle = context.read<RepositoryBundle?>();
               if (adlistBundle != null) {
                 splitView.setSecondary(
-                  ChangeNotifierProvider(
-                    create: (_) =>
-                        AdlistsViewModel(adListRepository: adlistBundle.adlist)
-                          ..loadAdlists.run(),
+                  MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider(
+                        create: (_) => AdlistsViewModel(
+                          adListRepository: adlistBundle.adlist,
+                        )..loadAdlists.run(),
+                      ),
+                      ChangeNotifierProvider(
+                        create: (_) =>
+                            GroupsViewModel(groupRepository: adlistBundle.group)
+                              ..loadGroups.run(),
+                      ),
+                    ],
                     child: const AdlistScreen(),
                   ),
                 );
@@ -114,6 +125,21 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                         create: (_) => ClientsViewModel(
                           clientRepository: clientBundle.client,
                         )..loadClients.run(),
+                      ),
+                      ChangeNotifierProvider(
+                        create: (_) =>
+                            GroupsViewModel(groupRepository: clientBundle.group)
+                              ..loadGroups.run(),
+                      ),
+                      ChangeNotifierProvider(
+                        create: (_) => DomainsViewModel(
+                          domainRepository: clientBundle.domain,
+                        )..loadDomains.run(),
+                      ),
+                      ChangeNotifierProvider(
+                        create: (_) => AdlistsViewModel(
+                          adListRepository: clientBundle.adlist,
+                        )..loadAdlists.run(),
                       ),
                       ChangeNotifierProvider(
                         create: (_) =>

@@ -14,8 +14,7 @@ void main() {
     setUp(() {
       Command.globalExceptionHandler = (_, _) {};
       fakeDomainRepository = FakeDomainRepository();
-      viewModel = DomainsViewModel();
-      viewModel.update(fakeDomainRepository);
+      viewModel = DomainsViewModel(domainRepository: fakeDomainRepository);
       listenerCalled = false;
       viewModel.addListener(() {
         listenerCalled = true;

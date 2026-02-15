@@ -5,6 +5,7 @@ import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
@@ -316,72 +317,85 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
     } else if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
       // 2 columns layout for large and xLarge screens
       return scaffold(
-        onGroupTap: (group) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => GroupDetailsScreen(
-                group: group,
-                remove: (g) {
-                  setState(() => selectedGroup = null);
-                },
-              ),
-            ),
-          );
-        },
-        onClientTap: (client) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ClientDetailsScreen(
-                client: client,
-                remove: (c) {
-                  setState(() => selectedClient = null);
-                },
-                groups: groups,
-                colors: serversProvider.colors,
-                ipToMac: ipToMac,
-                ipToHostname: ipToHostname,
-                macToIp: macToIp,
-              ),
-            ),
-          );
-        },
+        onGroupTap: (group) => _pushGroupDetails(context, group),
+        onClientTap: (client) => _pushClientDetails(
+          context,
+          client: client,
+          groups: groups,
+          colors: serversProvider.colors,
+          ipToMac: ipToMac,
+          ipToHostname: ipToHostname,
+          macToIp: macToIp,
+        ),
       );
     } else {
       return scaffold(
-        onGroupTap: (group) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => GroupDetailsScreen(
-                group: group,
-                remove: (g) {
-                  setState(() => selectedGroup = null);
-                },
-              ),
-            ),
-          );
-        },
-        onClientTap: (client) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ClientDetailsScreen(
-                client: client,
-                remove: (c) {
-                  setState(() => selectedClient = null);
-                },
-                groups: groups,
-                colors: serversProvider.colors,
-                ipToMac: ipToMac,
-                ipToHostname: ipToHostname,
-                macToIp: macToIp,
-              ),
-            ),
-          );
-        },
+        onGroupTap: (group) => _pushGroupDetails(context, group),
+        onClientTap: (client) => _pushClientDetails(
+          context,
+          client: client,
+          groups: groups,
+          colors: serversProvider.colors,
+          ipToMac: ipToMac,
+          ipToHostname: ipToHostname,
+          macToIp: macToIp,
+        ),
       );
     }
+  }
+
+  void _pushGroupDetails(BuildContext context, Group group) {
+    final groupsVM = context.read<GroupsViewModel>();
+    final clientsVM = context.read<ClientsViewModel>();
+    final domainsVM = context.read<DomainsViewModel>();
+    final adlistsVM = context.read<AdlistsViewModel>();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => MultiProvider(
+          providers: [
+            ChangeNotifierProvider.value(value: groupsVM),
+            ChangeNotifierProvider.value(value: clientsVM),
+            ChangeNotifierProvider.value(value: domainsVM),
+            ChangeNotifierProvider.value(value: adlistsVM),
+          ],
+          child: GroupDetailsScreen(
+            group: group,
+            remove: (g) => setState(() => selectedGroup = null),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _pushClientDetails(
+    BuildContext context, {
+    required ManagedClient client,
+    required Map<int, String> groups,
+    required AppColors? colors,
+    required Map<String, String> ipToMac,
+    required Map<String, String> ipToHostname,
+    required Map<String, String> macToIp,
+  }) {
+    final clientsVM = context.read<ClientsViewModel>();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ChangeNotifierProvider.value(
+          value: clientsVM,
+          child: ClientDetailsScreen(
+            client: client,
+            remove: (c) => setState(() => selectedClient = null),
+            groups: groups,
+            colors: colors,
+            ipToMac: ipToMac,
+            ipToHostname: ipToHostname,
+            macToIp: macToIp,
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -10,8 +10,7 @@ import 'package:pi_hole_client/ui/core/ui/layout/navigation_rail.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/start_warning_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/domains/domains.dart';
-import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
+import 'package:pi_hole_client/ui/domains/domains_page.dart';
 import 'package:pi_hole_client/ui/home/home.dart';
 import 'package:pi_hole_client/ui/logs/logs.dart';
 import 'package:pi_hole_client/ui/servers/servers.dart';
@@ -34,7 +33,7 @@ class _BaseState extends State<Base>
     const Home(),
     const Statistics(),
     const Logs(),
-    const DomainLists(),
+    const DomainsPage(),
     const Settings(),
   ];
 
@@ -157,14 +156,7 @@ class _BaseState extends State<Base>
     );
   }
 
-  void _handleTabChange(
-    int selected,
-    DomainsViewModel domainsListProvider,
-    AppConfigProvider appConfigProvider,
-  ) {
-    if (selected != 3) {
-      domainsListProvider.setSelectedTab(null);
-    }
+  void _handleTabChange(int selected, AppConfigProvider appConfigProvider) {
     appConfigProvider.setSelectedTab(selected);
   }
 
@@ -177,8 +169,6 @@ class _BaseState extends State<Base>
     final selectedTab = context.select<AppConfigProvider, int>(
       (acp) => acp.selectedTab,
     );
-    final domainsListProvider = context.read<DomainsViewModel>();
-
     // Determine the current tab index, mimicking _currentTabIndex logic
     final currentTab = (!hasSelectedServer && selectedTab > 1)
         ? 0
@@ -200,7 +190,6 @@ class _BaseState extends State<Base>
                   onChange: (selected) {
                     _handleTabChange(
                       selected,
-                      domainsListProvider,
                       context.read<AppConfigProvider>(),
                     );
                   },
@@ -216,7 +205,6 @@ class _BaseState extends State<Base>
               onChange: (selected) {
                 _handleTabChange(
                   selected,
-                  domainsListProvider,
                   context.read<AppConfigProvider>(),
                 );
               },

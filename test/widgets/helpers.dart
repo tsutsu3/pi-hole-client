@@ -1582,10 +1582,8 @@ class TestSetupHelper {
               update: (context, appConfig, servers) =>
                   servers!..update(appConfig),
             ),
-            ChangeNotifierProxyProvider<RepositoryBundle?, DomainsViewModel>(
-              create: (context) => mockDomainsViewModel,
-              update: (context, bundle, previous) =>
-                  previous!..update(bundle?.domain),
+            ChangeNotifierProvider<DomainsViewModel>.value(
+              value: mockDomainsViewModel,
             ),
             ChangeNotifierProvider<ClientsViewModel>.value(
               value: mockClientsViewModel,
@@ -1601,10 +1599,8 @@ class TestSetupHelper {
             ChangeNotifierProvider<FindDomainsInListsViewModel>.value(
               value: findDomainsInListsViewModel,
             ),
-            ChangeNotifierProxyProvider<RepositoryBundle?, GroupsViewModel>(
-              create: (context) => mockGroupsViewModel,
-              update: (context, bundle, previous) =>
-                  previous!..update(bundle?.group),
+            ChangeNotifierProvider<GroupsViewModel>.value(
+              value: mockGroupsViewModel,
             ),
             ChangeNotifierProxyProvider2<
               RepositoryBundle?,
@@ -1688,10 +1684,8 @@ class TestSetupHelper {
           create: (context) => mockServersProvider,
           update: (context, appConfig, servers) => servers!..update(appConfig),
         ),
-        ChangeNotifierProxyProvider<RepositoryBundle?, DomainsViewModel>(
-          create: (context) => mockDomainsViewModel,
-          update: (context, bundle, previous) =>
-              previous!..update(bundle?.domain),
+        ChangeNotifierProvider<DomainsViewModel>.value(
+          value: mockDomainsViewModel,
         ),
         ChangeNotifierProvider<ClientsViewModel>.value(
           value: mockClientsViewModel,
@@ -1707,10 +1701,8 @@ class TestSetupHelper {
         ChangeNotifierProvider<FindDomainsInListsViewModel>.value(
           value: findDomainsInListsViewModel,
         ),
-        ChangeNotifierProxyProvider<RepositoryBundle?, GroupsViewModel>(
-          create: (context) => mockGroupsViewModel,
-          update: (context, bundle, previous) =>
-              previous!..update(bundle?.group),
+        ChangeNotifierProvider<GroupsViewModel>.value(
+          value: mockGroupsViewModel,
         ),
         ChangeNotifierProxyProvider2<
           RepositoryBundle?,

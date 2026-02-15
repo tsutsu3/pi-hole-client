@@ -339,10 +339,16 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FilteredDomainLists(
-          groupId: _group.id,
-          groupName: _group.name,
-          initialTab: initialTab,
+        builder: (_) => MultiProvider(
+          providers: [
+            ChangeNotifierProvider.value(value: domainsViewModel),
+            ChangeNotifierProvider.value(value: groupsViewModel),
+          ],
+          child: FilteredDomainLists(
+            groupId: _group.id,
+            groupName: _group.name,
+            initialTab: initialTab,
+          ),
         ),
       ),
     );
@@ -352,10 +358,16 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FilteredAdlists(
-          groupId: _group.id,
-          groupName: _group.name,
-          initialTab: initialTab,
+        builder: (_) => MultiProvider(
+          providers: [
+            ChangeNotifierProvider.value(value: adlistsViewModel),
+            ChangeNotifierProvider.value(value: groupsViewModel),
+          ],
+          child: FilteredAdlists(
+            groupId: _group.id,
+            groupName: _group.name,
+            initialTab: initialTab,
+          ),
         ),
       ),
     );

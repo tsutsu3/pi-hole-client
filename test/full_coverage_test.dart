@@ -618,6 +618,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/domains/domains.dart';
+import 'package:pi_hole_client/ui/domains/domains_page.dart';
 import 'package:pi_hole_client/ui/domains/filtered_domains.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/add_domain_modal.dart';

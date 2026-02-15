@@ -25,9 +25,6 @@ import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
-import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
-
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
@@ -157,8 +154,6 @@ void main() async {
   final configProvider = AppConfigProvider(appConfigRepository);
   final statusProvider = StatusProvider();
   final filtersProvider = FiltersProvider(serversProvider: serversProvider);
-  final domainsViewModel = DomainsViewModel();
-  final groupsViewModel = GroupsViewModel();
   final gravityUpdateProvider = GravityUpdateProvider(
     repository: gravityRepository,
   );
@@ -302,17 +297,6 @@ void main() async {
           create: (context) => filtersProvider,
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
-        ),
-        ChangeNotifierProxyProvider<RepositoryBundle?, DomainsViewModel>(
-          create: (context) => domainsViewModel,
-          update: (context, bundle, previous) =>
-              previous!..update(bundle?.domain),
-        ),
-
-        ChangeNotifierProxyProvider<RepositoryBundle?, GroupsViewModel>(
-          create: (context) => groupsViewModel,
-          update: (context, bundle, previous) =>
-              previous!..update(bundle?.group),
         ),
         ChangeNotifierProxyProvider2<RepositoryBundle?, ServersProvider,
             GravityUpdateProvider>(

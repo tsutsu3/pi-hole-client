@@ -215,11 +215,14 @@ class _DomainsListState extends State<DomainsList> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DomainDetailsScreen(
-                          domain: d,
-                          remove: removeDomain,
-                          groups: groups,
-                          colors: serversProvider.colors,
+                        builder: (_) => ChangeNotifierProvider.value(
+                          value: viewModel,
+                          child: DomainDetailsScreen(
+                            domain: d,
+                            remove: removeDomain,
+                            groups: groups,
+                            colors: serversProvider.colors,
+                          ),
                         ),
                       ),
                     );

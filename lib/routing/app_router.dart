@@ -4,6 +4,7 @@ import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen.dart';
@@ -22,6 +23,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.d
 import 'package:pi_hole_client/ui/settings/server_settings/server_info.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info/viewmodel/server_info_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:pi_hole_client/ui/shell/base.dart';
 import 'package:provider/provider.dart';
 
@@ -144,10 +146,19 @@ GoRouter createAppRouter({
         name: Routes.settingsServerAdlists,
         builder: (context, state) {
           final bundle = context.read<RepositoryBundle?>();
-          return ChangeNotifierProvider(
-            create: (_) =>
-                AdlistsViewModel(adListRepository: bundle!.adlist)
-                  ..loadAdlists.run(),
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (_) =>
+                    AdlistsViewModel(adListRepository: bundle!.adlist)
+                      ..loadAdlists.run(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) =>
+                    GroupsViewModel(groupRepository: bundle!.group)
+                      ..loadGroups.run(),
+              ),
+            ],
             child: const AdlistScreen(),
           );
         },
@@ -157,11 +168,20 @@ GoRouter createAppRouter({
         name: Routes.settingsServerAdvancedFindDomainsInLists,
         builder: (context, state) {
           final bundle = context.read<RepositoryBundle?>();
-          return ChangeNotifierProvider(
-            create: (_) => FindDomainsInListsViewModel(
-              adListRepository: bundle!.adlist,
-              domainRepository: bundle.domain,
-            ),
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (_) => FindDomainsInListsViewModel(
+                  adListRepository: bundle!.adlist,
+                  domainRepository: bundle.domain,
+                ),
+              ),
+              ChangeNotifierProvider(
+                create: (_) =>
+                    GroupsViewModel(groupRepository: bundle!.group)
+                      ..loadGroups.run(),
+              ),
+            ],
             child: const FindDomainsInListsScreen(),
           );
         },
@@ -178,6 +198,21 @@ GoRouter createAppRouter({
                 create: (_) =>
                     ClientsViewModel(clientRepository: bundle!.client)
                       ..loadClients.run(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) =>
+                    GroupsViewModel(groupRepository: bundle!.group)
+                      ..loadGroups.run(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) =>
+                    DomainsViewModel(domainRepository: bundle!.domain)
+                      ..loadDomains.run(),
+              ),
+              ChangeNotifierProvider(
+                create: (_) =>
+                    AdlistsViewModel(adListRepository: bundle!.adlist)
+                      ..loadAdlists.run(),
               ),
               ChangeNotifierProvider(
                 create: (_) =>
