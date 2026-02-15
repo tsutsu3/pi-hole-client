@@ -3,9 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/formats.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
-import 'package:pi_hole_client/domain/models_old/clients.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
@@ -14,9 +12,8 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/edit_client_modal.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
 import 'package:pi_hole_client/utils/format.dart';
 import 'package:provider/provider.dart';
 
@@ -32,8 +29,8 @@ class ClientDetailsScreen extends StatefulWidget {
     super.key,
   });
 
-  final ClientItem client;
-  final void Function(ClientItem) remove;
+  final ManagedClient client;
+  final void Function(ManagedClient) remove;
   final Map<int, String> groups;
   final Map<String, String> ipToMac;
   final Map<String, String> ipToHostname;
@@ -45,10 +42,8 @@ class ClientDetailsScreen extends StatefulWidget {
 }
 
 class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
-  late ClientItem _client;
-  late ServersProvider serversProvider;
-  late ApiGateway? apiGateway;
-  late ClientsListProvider clientsListProvider;
+  late ManagedClient _client;
+  late ClientsViewModel clientsViewModel;
   late AppConfigProvider appConfigProvider;
 
   @override
@@ -71,9 +66,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     appConfigProvider = context.watch<AppConfigProvider>();
-    serversProvider = context.watch<ServersProvider>();
-    clientsListProvider = context.watch<ClientsListProvider>();
-    apiGateway = serversProvider.selectedApiGateway;
+    clientsViewModel = context.watch<ClientsViewModel>();
   }
 
   @override
@@ -237,18 +230,16 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
     return macRegex.hasMatch(value);
   }
 
-  Future<void> removeClient(ClientItem client) async {
+  Future<void> removeClient(ManagedClient client) async {
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.deleting);
 
-    final result = await apiGateway?.removeClient(client: client.client);
+    try {
+      await clientsViewModel.deleteClient.runAsync(client);
 
-    process.close();
+      if (!mounted) return;
+      process.close();
 
-    if (!mounted) return;
-
-    if (result?.result == APiResponseType.success) {
-      clientsListProvider.removeClientFromList(client);
       widget.remove(client);
       if (!mounted) return;
       if (MediaQuery.of(context).size.width <= ResponsiveConstants.large) {
@@ -261,13 +252,10 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
         appConfigProvider: appConfigProvider,
         label: AppLocalizations.of(context)!.clientRemoved,
       );
-    } else if (result?.result == APiResponseType.notFound) {
-      showErrorSnackBar(
-        context: context,
-        appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.clientNotExists,
-      );
-    } else {
+    } catch (_) {
+      if (!mounted) return;
+      process.close();
+
       showErrorSnackBar(
         context: context,
         appConfigProvider: appConfigProvider,
@@ -276,28 +264,30 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
     }
   }
 
-  Future<void> onEditClient(ClientRequest value) async {
+  Future<void> onEditClient(
+    ({String? comment, List<int> groups}) value,
+  ) async {
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.clientUpdating);
 
-    final result = await apiGateway?.updateClient(
-      client: _client.client,
-      body: value,
-    );
+    try {
+      await clientsViewModel.updateClient.runAsync((
+        client: _client.client,
+        comment: value.comment,
+        groups: value.groups,
+      ));
 
-    process.close();
+      if (!mounted) return;
+      process.close();
 
-    if (result?.result == APiResponseType.success) {
-      await clientsListProvider.fetchClients();
-
-      final updatedClient = result?.data?.clients.firstWhere(
+      final updatedClient = clientsViewModel.clients.firstWhere(
         (c) => c.client == _client.client,
         orElse: () =>
             _client.copyWith(comment: value.comment, groups: value.groups),
       );
 
       setState(() {
-        _client = updatedClient ?? _client;
+        _client = updatedClient;
       });
 
       if (!mounted) return;
@@ -306,8 +296,10 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
         appConfigProvider: appConfigProvider,
         label: AppLocalizations.of(context)!.clientUpdated,
       );
-    } else {
+    } catch (_) {
       if (!mounted) return;
+      process.close();
+
       showErrorSnackBar(
         context: context,
         appConfigProvider: appConfigProvider,

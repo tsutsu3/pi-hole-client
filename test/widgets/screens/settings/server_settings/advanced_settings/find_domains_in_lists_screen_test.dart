@@ -31,7 +31,7 @@ void main() async {
       await tester.pumpWidget(
         testSetup.buildTestWidget(const FindDomainsInListsScreen()),
       );
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(find.text('Search domain'), findsOneWidget);
       expect(
@@ -48,7 +48,7 @@ void main() async {
       await tester.pumpWidget(
         testSetup.buildTestWidget(const FindDomainsInListsScreen()),
       );
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       await tester.tap(find.text('Search').last);
       await tester.pump();
@@ -89,7 +89,7 @@ void main() async {
       await tester.pumpWidget(
         v5Setup.buildTestWidget(const FindDomainsInListsScreen()),
       );
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(find.byType(PiHoleV5NotSupportedScreen), findsOneWidget);
     });

@@ -9,7 +9,6 @@ import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/models.dart';
@@ -17,6 +16,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/fin
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/search_form.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_details_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class FindDomainsInListsScreen extends StatefulWidget {
@@ -43,7 +43,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     super.initState();
     Future.microtask(() async {
       if (!mounted) return;
-      await context.read<GroupsProvider>().loadGroups();
+      await context.read<GroupsViewModel>().loadGroups.runAsync();
     });
   }
 
@@ -59,7 +59,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     final viewModel = context.watch<FindDomainsInListsViewModel>();
     final serversProvider = context.watch<ServersProvider>();
     final appConfigProvider = context.read<AppConfigProvider>();
-    final groups = context.watch<GroupsProvider>().groupItems;
+    final groups = context.watch<GroupsViewModel>().groupItems;
     final colors = serversProvider.colors;
     final apiVersion = serversProvider.selectedServer?.apiVersion;
 
@@ -96,8 +96,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
             maxResultsController: _maxResultsController,
             partialMatch: _partialMatch,
             isLoading: viewModel.isSearching,
-            onPartialChanged: (value) =>
-                setState(() => _partialMatch = value),
+            onPartialChanged: (value) => setState(() => _partialMatch = value),
             onSearchSubmitted: () => _performSearch(
               viewModel: viewModel,
               appConfigProvider: appConfigProvider,
@@ -154,9 +153,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     );
   }
 
-  List<AdlistSearchGroup> _groupGravityByAdlist(
-    List<GravityMatch> matches,
-  ) {
+  List<AdlistSearchGroup> _groupGravityByAdlist(List<GravityMatch> matches) {
     final grouped = <int, List<GravityMatch>>{};
     for (final match in matches) {
       grouped.putIfAbsent(match.adlist.id, () => []).add(match);
@@ -196,14 +193,14 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     }
 
     try {
-      await viewModel.searchLists.runAsync(
-        (domain: query.toLowerCase(), partial: _partialMatch, limit: limit),
-      );
+      await viewModel.searchLists.runAsync((
+        domain: query.toLowerCase(),
+        partial: _partialMatch,
+        limit: limit,
+      ));
     } catch (_) {
       if (!mounted) return;
-      viewModel.setSearchError(
-        AppLocalizations.of(context)!.dataFetchFailed,
-      );
+      viewModel.setSearchError(AppLocalizations.of(context)!.dataFetchFailed);
     }
   }
 

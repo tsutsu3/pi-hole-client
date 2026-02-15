@@ -6,11 +6,11 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/group_filter_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domains_list.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class DomainLists extends StatelessWidget {
@@ -18,20 +18,14 @@ class DomainLists extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<DomainsViewModel>(
-      context,
-      listen: false,
-    );
+    final viewModel = Provider.of<DomainsViewModel>(context, listen: false);
 
     return DomainListsWidget(viewModel: viewModel);
   }
 }
 
 class DomainListsWidget extends StatefulWidget {
-  const DomainListsWidget({
-    required this.viewModel,
-    super.key,
-  });
+  const DomainListsWidget({required this.viewModel, super.key});
 
   final DomainsViewModel viewModel;
 
@@ -56,8 +50,8 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
       widget.viewModel.loadDomains.run();
 
       if (!mounted) return;
-      final groupsProvider = context.read<GroupsProvider>();
-      await groupsProvider.loadGroups();
+      final groupsViewModel = context.read<GroupsViewModel>();
+      await groupsViewModel.loadGroups.runAsync();
     });
 
     widget.viewModel.setSelectedTab(0);
@@ -77,7 +71,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
     final viewModel = Provider.of<DomainsViewModel>(context);
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final groups = context.watch<GroupsProvider>().groupItems;
+    final groups = context.watch<GroupsViewModel>().groupItems;
 
     Future<void> removeDomain(Domain domain) async {
       final process = ProcessModal(context: context);

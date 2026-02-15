@@ -5,11 +5,11 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domains_list.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class FilteredDomainLists extends StatefulWidget {
@@ -58,8 +58,8 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
       _viewModel.loadDomains.run();
 
       if (!mounted) return;
-      final groupsProvider = context.read<GroupsProvider>();
-      await groupsProvider.loadGroups();
+      final groupsViewModel = context.read<GroupsViewModel>();
+      await groupsViewModel.loadGroups.runAsync();
     });
   }
 
@@ -77,7 +77,7 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
     final viewModel = Provider.of<DomainsViewModel>(context);
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final groups = context.watch<GroupsProvider>().groupItems;
+    final groups = context.watch<GroupsViewModel>().groupItems;
 
     Future<void> removeDomain(Domain domain) async {
       final process = ProcessModal(context: context);
@@ -235,8 +235,8 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
             Expanded(
               flex:
                   MediaQuery.of(context).size.width > ResponsiveConstants.xLarge
-                      ? 2
-                      : 3,
+                  ? 2
+                  : 3,
               child: scaffold(),
             ),
             Expanded(
@@ -258,8 +258,9 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 24,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ),

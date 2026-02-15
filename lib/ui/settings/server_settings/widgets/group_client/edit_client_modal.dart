@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/domain/models_old/clients.dart';
+import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 
@@ -15,11 +15,11 @@ class EditClientModal extends StatefulWidget {
     super.key,
   });
 
-  final ClientItem client;
+  final ManagedClient client;
   final String keyItem;
   final String title;
   final IconData icon;
-  final void Function(ClientRequest) onConfirm;
+  final void Function(({String? comment, List<int> groups})) onConfirm;
   final bool window;
   final Map<int, String> groups;
 
@@ -122,20 +122,16 @@ class _EditClientModalState extends State<EditClientModal> {
                     ? () {
                         if (widget.keyItem == 'comment') {
                           final comment = commentController.text.trim();
-                          widget.onConfirm(
-                            ClientRequest(
-                              comment: comment.isEmpty ? null : comment,
-                              groups: widget.client.groups,
-                            ),
-                          );
+                          widget.onConfirm((
+                            comment: comment.isEmpty ? null : comment,
+                            groups: widget.client.groups,
+                          ));
                         }
                         if (widget.keyItem == 'groups') {
-                          widget.onConfirm(
-                            ClientRequest(
-                              comment: widget.client.comment,
-                              groups: selectedGroups,
-                            ),
-                          );
+                          widget.onConfirm((
+                            comment: widget.client.comment,
+                            groups: selectedGroups,
+                          ));
                         }
                         Navigator.maybePop(context);
                       }

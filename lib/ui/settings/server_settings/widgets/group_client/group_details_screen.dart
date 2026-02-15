@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/formats.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/groups.dart';
+import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
@@ -11,14 +9,13 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/domains/filtered_domains.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/filtered_adlists.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/edit_group_modal.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:pi_hole_client/utils/format.dart';
 import 'package:provider/provider.dart';
 
@@ -38,11 +35,9 @@ class GroupDetailsScreen extends StatefulWidget {
 
 class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   late Group _group;
-  late ServersProvider serversProvider;
-  late ApiGateway? apiGateway;
-  late GroupsProvider groupsProvider;
+  late GroupsViewModel groupsViewModel;
   late AppConfigProvider appConfigProvider;
-  late ClientsListProvider clientsListProvider;
+  late ClientsViewModel clientsViewModel;
   late DomainsViewModel domainsViewModel;
   late AdlistsViewModel adlistsViewModel;
 
@@ -66,12 +61,10 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     appConfigProvider = context.watch<AppConfigProvider>();
-    serversProvider = context.watch<ServersProvider>();
-    groupsProvider = context.watch<GroupsProvider>();
-    clientsListProvider = context.watch<ClientsListProvider>();
+    groupsViewModel = context.watch<GroupsViewModel>();
+    clientsViewModel = context.watch<ClientsViewModel>();
     domainsViewModel = context.watch<DomainsViewModel>();
     adlistsViewModel = context.watch<AdlistsViewModel>();
-    apiGateway = serversProvider.selectedApiGateway;
   }
 
   @override
@@ -109,12 +102,18 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
               description: _group.enabled
                   ? AppLocalizations.of(context)!.enabled
                   : AppLocalizations.of(context)!.disabled,
-              onTap: () =>
-                  onEditGroup(_group.copyWith(enabled: !_group.enabled)),
+              onTap: () => onEditGroup((
+                name: _group.name,
+                comment: _group.comment,
+                enabled: !_group.enabled,
+              )),
               trailing: Switch(
                 value: _group.enabled,
-                onChanged: (value) =>
-                    onEditGroup(_group.copyWith(enabled: value)),
+                onChanged: (value) => onEditGroup((
+                  name: _group.name,
+                  comment: _group.comment,
+                  enabled: value,
+                )),
               ),
             ),
             CustomListTile(
@@ -165,7 +164,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             _buildMemberCountTile(
               icon: Icons.devices_rounded,
               label: AppLocalizations.of(context)!.clients,
-              count: clientsListProvider.clients
+              count: clientsViewModel.clients
                   .where((c) => c.groups.contains(_group.id))
                   .length,
             ),
@@ -211,14 +210,12 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.deleting);
 
-    final result = await apiGateway?.removeGroup(name: group.name);
+    try {
+      await groupsViewModel.deleteGroup.runAsync(group);
 
-    process.close();
+      if (!mounted) return;
+      process.close();
 
-    if (!mounted) return;
-
-    if (result?.result == APiResponseType.success) {
-      await groupsProvider.loadGroups();
       widget.remove(group);
       if (!mounted) return;
       if (MediaQuery.of(context).size.width <= ResponsiveConstants.large) {
@@ -231,13 +228,10 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         appConfigProvider: appConfigProvider,
         label: AppLocalizations.of(context)!.groupRemoved,
       );
-    } else if (result?.result == APiResponseType.notFound) {
-      showErrorSnackBar(
-        context: context,
-        appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.groupNotExists,
-      );
-    } else {
+    } catch (_) {
+      if (!mounted) return;
+      process.close();
+
       showErrorSnackBar(
         context: context,
         appConfigProvider: appConfigProvider,
@@ -246,30 +240,28 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     }
   }
 
-  Future<void> onEditGroup(Group group) async {
-    final body = GroupRequest(
-      name: group.name,
-      comment: group.comment,
-      enabled: group.enabled,
-    );
-
+  Future<void> onEditGroup(
+    ({String name, String? comment, bool? enabled}) params,
+  ) async {
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.groupUpdating);
 
-    final result = await apiGateway?.updateGroup(name: _group.name, body: body);
+    try {
+      await groupsViewModel.updateGroup.runAsync(params);
 
-    process.close();
+      if (!mounted) return;
+      process.close();
 
-    if (result?.result == APiResponseType.success) {
-      await groupsProvider.loadGroups();
-
-      final updatedGroup = result?.data?.groups.firstWhere(
-        (g) => g.name == group.name,
-        orElse: () => group,
+      final updatedGroup = groupsViewModel.groups.firstWhere(
+        (g) => g.name == params.name,
+        orElse: () => _group.copyWith(
+          comment: params.comment,
+          enabled: params.enabled ?? _group.enabled,
+        ),
       );
 
       setState(() {
-        _group = updatedGroup ?? group;
+        _group = updatedGroup;
       });
 
       if (!mounted) return;
@@ -278,8 +270,10 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         appConfigProvider: appConfigProvider,
         label: AppLocalizations.of(context)!.groupUpdated,
       );
-    } else {
+    } catch (_) {
       if (!mounted) return;
+      process.close();
+
       showErrorSnackBar(
         context: context,
         appConfigProvider: appConfigProvider,
@@ -295,13 +289,11 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         useRootNavigator: false,
         builder: (ctx) => EditGroupModal(
           group: _group,
-          onConfirm: (request) => onEditGroup(
-            _group.copyWith(
-              name: request.name,
-              comment: request.comment,
-              enabled: request.enabled,
-            ),
-          ),
+          onConfirm: (request) => onEditGroup((
+            name: _group.name,
+            comment: request.comment,
+            enabled: request.enabled,
+          )),
           window: true,
         ),
       );
@@ -310,13 +302,11 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         context: context,
         builder: (ctx) => EditGroupModal(
           group: _group,
-          onConfirm: (request) => onEditGroup(
-            _group.copyWith(
-              name: request.name,
-              comment: request.comment,
-              enabled: request.enabled,
-            ),
-          ),
+          onConfirm: (request) => onEditGroup((
+            name: _group.name,
+            comment: request.comment,
+            enabled: request.enabled,
+          )),
           window: false,
         ),
         backgroundColor: Colors.transparent,

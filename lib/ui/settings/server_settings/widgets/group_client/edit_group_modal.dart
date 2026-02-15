@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/domain/models_old/groups.dart';
+import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 
 class EditGroupModal extends StatefulWidget {
@@ -11,7 +11,7 @@ class EditGroupModal extends StatefulWidget {
   });
 
   final Group group;
-  final void Function(GroupRequest) onConfirm;
+  final void Function(({String name, String? comment, bool? enabled})) onConfirm;
   final bool window;
 
   @override
@@ -106,13 +106,11 @@ class _EditGroupModalState extends State<EditGroupModal> {
                     ? () {
                         final name = nameController.text.trim();
                         final comment = commentController.text.trim();
-                        widget.onConfirm(
-                          GroupRequest(
-                            name: name,
-                            comment: comment.isEmpty ? null : comment,
-                            enabled: widget.group.enabled,
-                          ),
-                        );
+                        widget.onConfirm((
+                          name: name,
+                          comment: comment.isEmpty ? null : comment,
+                          enabled: widget.group.enabled,
+                        ));
                         Navigator.maybePop(context);
                       }
                     : null,

@@ -9,12 +9,12 @@ import 'package:pi_hole_client/ui/core/ui/modals/group_filter_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlists_list.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/gravity_update.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class AdlistScreen extends StatelessWidget {
@@ -50,8 +50,7 @@ class AdlistScreenWidget extends StatefulWidget {
   const AdlistScreenWidget({super.key});
 
   @override
-  State<AdlistScreenWidget> createState() =>
-      _AdlistScreenWidgetState();
+  State<AdlistScreenWidget> createState() => _AdlistScreenWidgetState();
 }
 
 class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
@@ -73,8 +72,8 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
       viewModel.loadAdlists.run();
 
       if (!mounted) return;
-      final groupsProvider = context.read<GroupsProvider>();
-      await groupsProvider.loadGroups();
+      final groupsViewModel = context.read<GroupsViewModel>();
+      await groupsViewModel.loadGroups.runAsync();
 
       if (!mounted) return;
       final gravityUpdateProvider = context.read<GravityUpdateProvider>();
@@ -98,7 +97,7 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
     final viewModel = Provider.of<AdlistsViewModel>(context);
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final groups = context.watch<GroupsProvider>().groupItems;
+    final groups = context.watch<GroupsViewModel>().groupItems;
 
     Future<void> removeAdlist(Adlist adlist) async {
       final process = ProcessModal(context: context);

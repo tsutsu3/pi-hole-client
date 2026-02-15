@@ -8,6 +8,7 @@ import 'package:pi_hole_client/data/model/v6/action/action.dart' show Action;
 import 'package:pi_hole_client/data/model/v6/auth/auth.dart' show Session;
 import 'package:pi_hole_client/data/model/v6/auth/sessions.dart'
     show AuthSessions;
+import 'package:pi_hole_client/data/model/v6/clients/clients.dart' show Clients;
 import 'package:pi_hole_client/data/model/v6/config/config.dart'
     show Config, ConfigData;
 import 'package:pi_hole_client/data/model/v6/dhcp/dhcp.dart' show Dhcp;
@@ -315,6 +316,165 @@ class PiholeV6ApiClient {
 
       if (resp.statusCode == 200) {
         return Groups.fromJson(jsonDecode(resp.body));
+      }
+
+      throw HttpStatusCodeException(resp.statusCode, resp.body);
+    });
+  }
+
+  Future<Result<Groups>> postGroups(
+    String sid, {
+    required String name,
+    String? comment,
+    bool? enabled = true,
+  }) async {
+    return safeApiCall<Groups>(() async {
+      final resp = await _sendRequest(
+        method: HttpMethod.post,
+        path: '/api/groups',
+        sid: sid,
+        body: {
+          'name': name,
+          'comment': comment,
+          'enabled': enabled,
+        },
+      );
+
+      if (resp.statusCode == 201) {
+        return Groups.fromJson(jsonDecode(resp.body));
+      }
+
+      throw HttpStatusCodeException(resp.statusCode, resp.body);
+    });
+  }
+
+  Future<Result<Groups>> putGroups(
+    String sid, {
+    required String name,
+    String? comment,
+    bool? enabled = true,
+  }) async {
+    return safeApiCall<Groups>(() async {
+      final resp = await _sendRequest(
+        method: HttpMethod.put,
+        path: '/api/groups/${Uri.encodeComponent(name)}',
+        sid: sid,
+        body: {
+          'comment': comment,
+          'enabled': enabled,
+        },
+      );
+
+      if (resp.statusCode == 200) {
+        return Groups.fromJson(jsonDecode(resp.body));
+      }
+
+      throw HttpStatusCodeException(resp.statusCode, resp.body);
+    });
+  }
+
+  Future<Result<Unit>> deleteGroups(
+    String sid, {
+    required String name,
+  }) async {
+    return safeApiCall<Unit>(() async {
+      final resp = await _sendRequest(
+        method: HttpMethod.delete,
+        path: '/api/groups/${Uri.encodeComponent(name)}',
+        sid: sid,
+      );
+
+      if (resp.statusCode == 204) {
+        return unit;
+      }
+
+      throw HttpStatusCodeException(resp.statusCode, resp.body);
+    });
+  }
+
+  // ==========================================================================
+  // Client management
+  // ==========================================================================
+  Future<Result<Clients>> getClients(String sid) async {
+    return safeApiCall<Clients>(() async {
+      final resp = await _sendRequest(
+        method: HttpMethod.get,
+        path: '/api/clients',
+        sid: sid,
+      );
+
+      if (resp.statusCode == 200) {
+        return Clients.fromJson(jsonDecode(resp.body));
+      }
+
+      throw HttpStatusCodeException(resp.statusCode, resp.body);
+    });
+  }
+
+  Future<Result<Clients>> postClients(
+    String sid, {
+    required String client,
+    String? comment,
+    List<int>? groups = const [0],
+  }) async {
+    return safeApiCall<Clients>(() async {
+      final resp = await _sendRequest(
+        method: HttpMethod.post,
+        path: '/api/clients',
+        sid: sid,
+        body: {
+          'client': client,
+          'comment': comment,
+          'groups': groups,
+        },
+      );
+
+      if (resp.statusCode == 201) {
+        return Clients.fromJson(jsonDecode(resp.body));
+      }
+
+      throw HttpStatusCodeException(resp.statusCode, resp.body);
+    });
+  }
+
+  Future<Result<Clients>> putClients(
+    String sid, {
+    required String client,
+    String? comment,
+    List<int>? groups = const [0],
+  }) async {
+    return safeApiCall<Clients>(() async {
+      final resp = await _sendRequest(
+        method: HttpMethod.put,
+        path: '/api/clients/${Uri.encodeComponent(client)}',
+        sid: sid,
+        body: {
+          'comment': comment,
+          'groups': groups,
+        },
+      );
+
+      if (resp.statusCode == 200) {
+        return Clients.fromJson(jsonDecode(resp.body));
+      }
+
+      throw HttpStatusCodeException(resp.statusCode, resp.body);
+    });
+  }
+
+  Future<Result<Unit>> deleteClients(
+    String sid, {
+    required String client,
+  }) async {
+    return safeApiCall<Unit>(() async {
+      final resp = await _sendRequest(
+        method: HttpMethod.delete,
+        path: '/api/clients/${Uri.encodeComponent(client)}',
+        sid: sid,
+      );
+
+      if (resp.statusCode == 204) {
+        return unit;
       }
 
       throw HttpStatusCodeException(resp.statusCode, resp.body);

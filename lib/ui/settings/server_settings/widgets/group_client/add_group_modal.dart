@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/domain/models_old/groups.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 
@@ -10,7 +9,8 @@ class AddGroupModal extends StatefulWidget {
     super.key,
   });
 
-  final void Function(GroupRequest) onConfirm;
+  final void Function(({String name, String? comment, bool? enabled}))
+  onConfirm;
   final bool window;
 
   @override
@@ -99,13 +99,11 @@ class _AddGroupModalState extends State<AddGroupModal> {
                 onPressed: allDataValid
                     ? () {
                         final comment = commentController.text.trim();
-                        widget.onConfirm(
-                          GroupRequest(
-                            name: nameController.text.trim(),
-                            comment: comment.isEmpty ? null : comment,
-                            enabled: enabled,
-                          ),
-                        );
+                        widget.onConfirm((
+                          name: nameController.text.trim(),
+                          comment: comment.isEmpty ? null : comment,
+                          enabled: enabled,
+                        ));
                         Navigator.maybePop(context);
                       }
                     : null,

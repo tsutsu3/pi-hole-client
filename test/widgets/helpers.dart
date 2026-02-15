@@ -32,8 +32,10 @@ import 'package:pi_hole_client/data/model/v6/metrics/query.dart';
 import 'package:pi_hole_client/data/model/v6/network/devices.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
+import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart' as domain_model;
 import 'package:pi_hole_client/domain/model/ftl/message.dart';
+import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart'
@@ -46,7 +48,6 @@ import 'package:pi_hole_client/domain/models_old/dhcp.dart';
 import 'package:pi_hole_client/domain/models_old/domain.dart';
 import 'package:pi_hole_client/domain/models_old/gateway.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/groups.dart';
 import 'package:pi_hole_client/domain/models_old/host.dart';
 import 'package:pi_hole_client/domain/models_old/log.dart';
 import 'package:pi_hole_client/domain/models_old/metrics.dart';
@@ -62,26 +63,28 @@ import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 import '../../testing/fakes/repositories/api/fake_actions_repository.dart';
 import '../../testing/fakes/repositories/api/fake_adlist_repository.dart';
 import '../../testing/fakes/repositories/api/fake_auth_repository.dart';
+import '../../testing/fakes/repositories/api/fake_client_repository.dart';
 import '../../testing/fakes/repositories/api/fake_config_repository.dart';
 import '../../testing/fakes/repositories/api/fake_dhcp_repository.dart';
 import '../../testing/fakes/repositories/api/fake_dns_repository.dart';
 import '../../testing/fakes/repositories/api/fake_domain_repository.dart';
 import '../../testing/fakes/repositories/api/fake_ftl_repository.dart';
+import '../../testing/fakes/repositories/api/fake_group_repository.dart';
 import '../../testing/fakes/repositories/api/fake_local_dns_repository.dart';
 import '../../testing/fakes/repositories/api/fake_network_repository.dart';
 import './helpers.mocks.dart';
@@ -1454,12 +1457,12 @@ Future<void> initializeApp() async {
   FiltersProvider,
   StatusProvider,
   DomainsViewModel,
-  ClientsListProvider,
+  ClientsViewModel,
   LocalDnsProvider,
   ApiGatewayV5,
   ApiGatewayV6,
   StatusUpdateService,
-  GroupsProvider,
+  GroupsViewModel,
   AdlistsViewModel,
   GravityUpdateProvider,
 ])
@@ -1470,8 +1473,8 @@ class TestSetupHelper {
     MockFiltersProvider? customFiltersProvider,
     MockStatusProvider? customStatusProvider,
     MockDomainsViewModel? customDomainsViewModel,
-    MockClientsListProvider? customClientsListProvider,
-    MockGroupsProvider? customGroupsProvider,
+    MockClientsViewModel? customClientsViewModel,
+    MockGroupsViewModel? customGroupsViewModel,
     MockAdlistsViewModel? customAdlistsViewModel,
     MockGravityUpdateProvider? customGravityUpdateProvider,
     MockLocalDnsProvider? customLocalDnsProvider,
@@ -1484,9 +1487,8 @@ class TestSetupHelper {
     mockFiltersProvider = customFiltersProvider ?? MockFiltersProvider();
     mockStatusProvider = customStatusProvider ?? MockStatusProvider();
     mockDomainsViewModel = customDomainsViewModel ?? MockDomainsViewModel();
-    mockClientsListProvider =
-        customClientsListProvider ?? MockClientsListProvider();
-    mockGroupsProvider = customGroupsProvider ?? MockGroupsProvider();
+    mockClientsViewModel = customClientsViewModel ?? MockClientsViewModel();
+    mockGroupsViewModel = customGroupsViewModel ?? MockGroupsViewModel();
     mockAdlistsViewModel = customAdlistsViewModel ?? MockAdlistsViewModel();
     mockGravityUpdateProvider =
         customGravityUpdateProvider ?? MockGravityUpdateProvider();
@@ -1510,8 +1512,8 @@ class TestSetupHelper {
   late MockFiltersProvider mockFiltersProvider;
   late MockStatusProvider mockStatusProvider;
   late MockDomainsViewModel mockDomainsViewModel;
-  late MockClientsListProvider mockClientsListProvider;
-  late MockGroupsProvider mockGroupsProvider;
+  late MockClientsViewModel mockClientsViewModel;
+  late MockGroupsViewModel mockGroupsViewModel;
   late MockAdlistsViewModel mockAdlistsViewModel;
   late MockGravityUpdateProvider mockGravityUpdateProvider;
   late MockLocalDnsProvider mockLocalDnsProvider;
@@ -1533,8 +1535,8 @@ class TestSetupHelper {
     _initFiltersProviderMock(useApiGatewayVersion);
     _initStatusProviderMock(useApiGatewayVersion);
     _initDomainsViewModelMock(useApiGatewayVersion);
-    _initClientsListProviderMock(useApiGatewayVersion);
-    _initGroupsPtoviderMock(useApiGatewayVersion);
+    _initClientsViewModelMock(useApiGatewayVersion);
+    _initGroupsViewModelMock(useApiGatewayVersion);
     _initAdlistsViewModelMock(useApiGatewayVersion);
     _initLocalDnsProviderMock(useApiGatewayVersion);
     _initGravityUpdateProviderMock(useApiGatewayVersion);
@@ -1587,10 +1589,10 @@ class TestSetupHelper {
               update: (context, bundle, previous) =>
                   previous!..update(bundle?.domain),
             ),
-            ChangeNotifierProxyProvider<ServersProvider, ClientsListProvider>(
-              create: (context) => mockClientsListProvider,
-              update: (context, serverConfig, servers) =>
-                  servers!..update(serverConfig),
+            ChangeNotifierProxyProvider<RepositoryBundle?, ClientsViewModel>(
+              create: (context) => mockClientsViewModel,
+              update: (context, bundle, previous) =>
+                  previous!..update(bundle?.client),
             ),
             ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
               create: (context) => mockFiltersProvider,
@@ -1605,10 +1607,10 @@ class TestSetupHelper {
             ChangeNotifierProvider<FindDomainsInListsViewModel>.value(
               value: findDomainsInListsViewModel,
             ),
-            ChangeNotifierProxyProvider<ServersProvider, GroupsProvider>(
-              create: (context) => mockGroupsProvider,
-              update: (context, serverConfig, servers) =>
-                  servers!..update(serverConfig),
+            ChangeNotifierProxyProvider<RepositoryBundle?, GroupsViewModel>(
+              create: (context) => mockGroupsViewModel,
+              update: (context, bundle, previous) =>
+                  previous!..update(bundle?.group),
             ),
             ChangeNotifierProxyProvider2<
               RepositoryBundle?,
@@ -1644,6 +1646,8 @@ class TestSetupHelper {
                 ftl: FakeFtlRepository(),
                 localDns: FakeLocalDnsRepository(),
                 network: FakeNetworkRepository(),
+                client: FakeClientRepository(),
+                group: FakeGroupRepository(),
                 serverAddress: 'http://localhost:8081',
               ),
             ),
@@ -1697,10 +1701,10 @@ class TestSetupHelper {
           update: (context, bundle, previous) =>
               previous!..update(bundle?.domain),
         ),
-        ChangeNotifierProxyProvider<ServersProvider, ClientsListProvider>(
-          create: (context) => mockClientsListProvider,
-          update: (context, serverConfig, servers) =>
-              servers!..update(serverConfig),
+        ChangeNotifierProxyProvider<RepositoryBundle?, ClientsViewModel>(
+          create: (context) => mockClientsViewModel,
+          update: (context, bundle, previous) =>
+              previous!..update(bundle?.client),
         ),
         ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
           create: (context) => mockFiltersProvider,
@@ -1715,10 +1719,10 @@ class TestSetupHelper {
         ChangeNotifierProvider<FindDomainsInListsViewModel>.value(
           value: findDomainsInListsViewModel,
         ),
-        ChangeNotifierProxyProvider<ServersProvider, GroupsProvider>(
-          create: (context) => mockGroupsProvider,
-          update: (context, serverConfig, servers) =>
-              servers!..update(serverConfig),
+        ChangeNotifierProxyProvider<RepositoryBundle?, GroupsViewModel>(
+          create: (context) => mockGroupsViewModel,
+          update: (context, bundle, previous) =>
+              previous!..update(bundle?.group),
         ),
         ChangeNotifierProxyProvider2<
           RepositoryBundle?,
@@ -1754,6 +1758,8 @@ class TestSetupHelper {
             ftl: FakeFtlRepository(),
             localDns: FakeLocalDnsRepository(),
             network: FakeNetworkRepository(),
+            client: FakeClientRepository(),
+            group: FakeGroupRepository(),
             serverAddress: 'http://localhost:8081',
           ),
         ),
@@ -1964,36 +1970,79 @@ class TestSetupHelper {
     );
   }
 
-  void _initClientsListProviderMock(String useApiGatewayVersion) {
-    when(mockClientsListProvider.fetchClients()).thenAnswer((_) async {});
-    when(mockClientsListProvider.searchMode).thenReturn(false);
-    when(mockClientsListProvider.searchTerm).thenReturn('');
-    when(mockClientsListProvider.filteredClients).thenReturn([]);
-    when(mockClientsListProvider.clients).thenReturn([]);
-    when(mockClientsListProvider.loadingStatus).thenReturn(LoadStatus.loaded);
-    when(mockClientsListProvider.setLoadingStatus(any)).thenReturn(null);
-    when(mockClientsListProvider.onSearch(any)).thenReturn(null);
-    when(mockClientsListProvider.setSearchMode(any)).thenReturn(null);
-    when(mockClientsListProvider.removeClientFromList(any)).thenReturn(null);
-    when(mockClientsListProvider.updateMacLookup(any)).thenReturn(null);
-    when(mockClientsListProvider.updateGroupLookup(any)).thenReturn(null);
+  void _initClientsViewModelMock(String useApiGatewayVersion) {
+    when(mockClientsViewModel.searchMode).thenReturn(false);
+    when(mockClientsViewModel.searchTerm).thenReturn('');
+    when(mockClientsViewModel.filteredClients).thenReturn([]);
+    when(mockClientsViewModel.clients).thenReturn([]);
+    when(mockClientsViewModel.loadingStatus).thenReturn(LoadStatus.loaded);
+    when(mockClientsViewModel.onSearch(any)).thenReturn(null);
+    when(mockClientsViewModel.setSearchMode(any)).thenReturn(null);
+    when(mockClientsViewModel.updateMacLookup(any)).thenReturn(null);
+    when(mockClientsViewModel.updateGroupLookup(any)).thenReturn(null);
+    when(mockClientsViewModel.loadClients).thenReturn(
+      Command.createAsyncNoParam<void>(() async {}, initialValue: null),
+    );
+    when(mockClientsViewModel.addClient).thenReturn(
+      Command.createAsyncNoResult<
+        ({String client, String? comment, List<int>? groups})
+      >((_) async {}),
+    );
+    when(mockClientsViewModel.updateClient).thenReturn(
+      Command.createAsyncNoResult<
+        ({String client, String? comment, List<int>? groups})
+      >((_) async {}),
+    );
+    when(
+      mockClientsViewModel.deleteClient,
+    ).thenReturn(Command.createAsyncNoResult<ManagedClient>((_) async {}));
   }
 
-  void _initGroupsPtoviderMock(String useApiGatewayVersion) {
+  void _initGroupsViewModelMock(String useApiGatewayVersion) {
+    final testGroups = [
+      Group(
+        id: 0,
+        name: 'Default',
+        comment: 'The default group',
+        enabled: true,
+        dateAdded: DateTime.fromMillisecondsSinceEpoch(1594670974 * 1000),
+        dateModified: DateTime.fromMillisecondsSinceEpoch(1611157897 * 1000),
+      ),
+      Group(
+        id: 5,
+        name: 'group1',
+        enabled: true,
+        dateAdded: DateTime.fromMillisecondsSinceEpoch(1604871899 * 1000),
+        dateModified: DateTime.fromMillisecondsSinceEpoch(1604871899 * 1000),
+      ),
+    ];
+
+    when(mockGroupsViewModel.groups).thenReturn(testGroups);
+    when(mockGroupsViewModel.filteredGroups).thenReturn(testGroups);
     when(
-      mockGroupsProvider.groups,
-    ).thenReturn(GroupsInfo.fromV6(groups).groups);
-
-    when(mockGroupsProvider.groupItems).thenReturn({
-      for (final group in GroupsInfo.fromV6(groups).groups)
-        group.id: group.name,
-    });
-
-    when(mockGroupsProvider.loadingStatus).thenReturn(LoadStatus.loaded);
-
-    when(mockGroupsProvider.setLoadingStatus(any)).thenReturn(null);
-
-    when(mockGroupsProvider.loadGroups()).thenAnswer((_) async => ());
+      mockGroupsViewModel.groupItems,
+    ).thenReturn({for (final g in testGroups) g.id: g.name});
+    when(mockGroupsViewModel.loadingStatus).thenReturn(LoadStatus.loaded);
+    when(mockGroupsViewModel.searchMode).thenReturn(false);
+    when(mockGroupsViewModel.searchTerm).thenReturn('');
+    when(mockGroupsViewModel.onSearch(any)).thenReturn(null);
+    when(mockGroupsViewModel.setSearchMode(any)).thenReturn(null);
+    when(mockGroupsViewModel.loadGroups).thenReturn(
+      Command.createAsyncNoParam<void>(() async {}, initialValue: null),
+    );
+    when(mockGroupsViewModel.addGroup).thenReturn(
+      Command.createAsyncNoResult<
+        ({String name, String? comment, bool? enabled})
+      >((_) async {}),
+    );
+    when(mockGroupsViewModel.updateGroup).thenReturn(
+      Command.createAsyncNoResult<
+        ({String name, String? comment, bool? enabled})
+      >((_) async {}),
+    );
+    when(
+      mockGroupsViewModel.deleteGroup,
+    ).thenReturn(Command.createAsyncNoResult<Group>((_) async {}));
   }
 
   void _initAdlistsViewModelMock(String useApiGatewayVersion) {

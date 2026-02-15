@@ -10,12 +10,12 @@ import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/add_domain_modal.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_tile.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class DomainsList extends StatefulWidget {
@@ -73,7 +73,7 @@ class _DomainsListState extends State<DomainsList> {
     final serversProvider = Provider.of<ServersProvider>(context);
     final viewModel = Provider.of<DomainsViewModel>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final groups = context.watch<GroupsProvider>().groupItems;
+    final groups = context.watch<GroupsViewModel>().groupItems;
 
     final domainsList = widget.type == 'blacklist'
         ? viewModel.filteredBlacklistDomains
@@ -116,9 +116,11 @@ class _DomainsListState extends State<DomainsList> {
       process.open(AppLocalizations.of(context)!.domainAdding);
 
       try {
-        await viewModel.addDomain.runAsync(
-          (type: type, kind: kind, domain: domain),
-        );
+        await viewModel.addDomain.runAsync((
+          type: type,
+          kind: kind,
+          domain: domain,
+        ));
         if (!context.mounted) return;
         process.close();
 

@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/domain/models_old/clients.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/add_client_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/client_tile.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class ClientsList extends StatefulWidget {
@@ -25,8 +23,8 @@ class ClientsList extends StatefulWidget {
   });
 
   final ScrollController scrollController;
-  final void Function(ClientItem) onClientSelected;
-  final ClientItem? selectedClient;
+  final void Function(ManagedClient) onClientSelected;
+  final ManagedClient? selectedClient;
   final Map<int, String> groups;
 
   @override
@@ -65,42 +63,36 @@ class _ClientsListState extends State<ClientsList> {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final clientsListProvider = Provider.of<ClientsListProvider>(context);
+    final clientsViewModel = Provider.of<ClientsViewModel>(context);
     final localDnsProvider = Provider.of<LocalDnsProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final apiGateway = serversProvider.selectedApiGateway;
 
-    final clients = clientsListProvider.filteredClients;
+    final clients = clientsViewModel.filteredClients;
     final ipToMac = localDnsProvider.ipToMac;
     final ipToHostname = localDnsProvider.ipToHostname;
     final macToIp = localDnsProvider.macToIp;
 
-    Future<void> onAddClient(ClientRequest request) async {
+    Future<void> onAddClient(
+      ({String client, String? comment, List<int>? groups}) request,
+    ) async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.clientAdding);
 
-      final result = await apiGateway?.createClient(body: request);
+      try {
+        await clientsViewModel.addClient.runAsync(request);
 
-      process.close();
-
-      if (!context.mounted) return;
-
-      if (result?.result == APiResponseType.success) {
-        await clientsListProvider.fetchClients();
         if (!context.mounted) return;
+        process.close();
+
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.clientAdded,
         );
-      } else if (result?.result == APiResponseType.alreadyAdded) {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.clientAlreadyAdded,
-        );
-      } else {
+      } catch (_) {
+        if (!context.mounted) return;
+        process.close();
+
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -225,8 +217,8 @@ class _ClientsListState extends State<ClientsList> {
               ],
             ),
           ),
-          loadStatus: clientsListProvider.loadingStatus,
-          onRefresh: () async => clientsListProvider.fetchClients(),
+          loadStatus: clientsViewModel.loadingStatus,
+          onRefresh: () async => clientsViewModel.loadClients.runAsync(),
           bottomSpaceHeight: 80,
         ),
         SafeArea(
