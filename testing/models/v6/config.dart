@@ -198,8 +198,10 @@ const kSrvGetConfigElement = srv.Config(
 
 final kSrvPatchConfig = srv.Config.fromJson(kSrvJsonConfigData);
 
-final kRepoFetchDnsQueryLogging = repo.Config(
+const kRepoFetchDnsQueryLogging = repo.Config(
   dns: repo.DnsConfig(queryLogging: true),
 );
 
-final kRepoSetDnsQueryLogging = repo.Config(dns: repo.DnsConfig(queryLogging: false));
+const kRepoSetDnsQueryLogging = repo.Config(
+  dns: repo.DnsConfig(queryLogging: false),
+);

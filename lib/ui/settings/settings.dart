@@ -142,8 +142,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                         )..loadAdlists.run(),
                       ),
                       ChangeNotifierProvider(
-                        create: (_) =>
-                            LocalDnsProvider(serversViewModel: serversViewModel),
+                        create: (_) => LocalDnsProvider(
+                          serversViewModel: serversViewModel,
+                        ),
                       ),
                     ],
                     child: const GroupClientScreen(),
@@ -227,7 +228,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       }
     }
 
-    Widget _routedSettingsTile({
+    Widget routedSettingsTile({
       required BuildContext context,
       required double width,
       required String title,
@@ -340,7 +341,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             ),
             onTap: () => context.pushNamed(Routes.settingsServerInfo),
           ),
-          _routedSettingsTile(
+          routedSettingsTile(
             context: context,
             width: width,
             icon: Icons.security_rounded,
@@ -361,7 +362,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               );
             },
           ),
-          _routedSettingsTile(
+          routedSettingsTile(
             context: context,
             width: width,
             icon: Icons.group_rounded,

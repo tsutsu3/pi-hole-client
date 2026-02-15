@@ -1979,8 +1979,6 @@ class ApiGatewayV6 implements ApiGateway {
     bool isRestart = true,
     String? oldIp,
   }) async {
-    // TODO: 1. Get, 2: Delete oldIP, 3: Add new IP
-
     // 1. Get current local DNS entries
     final currentResp = await getLocalDns();
 

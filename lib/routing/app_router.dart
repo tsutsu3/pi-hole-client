@@ -47,7 +47,7 @@ import 'package:provider/provider.dart';
 /// ViewModels receive repositories via constructor.
 ///
 /// The [navigatorKey] parameter allows external observers like
-/// [SentryNavigatorObserver] to track navigation events.
+/// `SentryNavigatorObserver` to track navigation events.
 GoRouter createAppRouter({
   required GlobalKey<NavigatorState> navigatorKey,
   List<NavigatorObserver>? observers,

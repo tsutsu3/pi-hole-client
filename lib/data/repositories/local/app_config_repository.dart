@@ -142,8 +142,8 @@ class AppConfigRepository {
   /// Updates the visualization mode for statistics.
   ///
   /// The [mode] parameter controls how statistics are displayed:
-  /// - `0`: List view ([StatisticsVisualizationMode.list])
-  /// - `1`: Pie chart view ([StatisticsVisualizationMode.pieChart])
+  /// - `0`: List view
+  /// - `1`: Pie chart view
   Future<Result<void>> updateStatisticsVisualizationMode(int mode) async {
     return _updateConfigValue(
       column: 'statisticsVisualizationMode',
@@ -154,8 +154,8 @@ class AppConfigRepository {
   /// Updates the visualization mode for the home screen chart.
   ///
   /// The [mode] parameter defines the chart type:
-  /// - `0`: Line + Area chart ([HomeVisualizationMode.lineArea])
-  /// - `1`: Bar chart ([HomeVisualizationMode.bar])
+  /// - `0`: Line + Area chart
+  /// - `1`: Bar chart
   Future<Result<void>> updateHomeVisualizationMode(int mode) async {
     return _updateConfigValue(column: 'homeVisualizationMode', value: mode);
   }

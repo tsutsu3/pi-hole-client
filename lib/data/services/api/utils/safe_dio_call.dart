@@ -9,7 +9,7 @@ import 'package:result_dart/result_dart.dart';
 /// Executes a Dio-based API call safely, catching and converting
 /// exceptions into [Failure<ApiException>].
 ///
-/// This is the Dio counterpart of [safeApiCall] (which handles the
+/// This is the Dio counterpart of `safeApiCall` (which handles the
 /// http-package based legacy client). It wraps calls to the OpenAPI-generated
 /// v6 API client.
 ///

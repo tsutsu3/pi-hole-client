@@ -43,7 +43,7 @@ class GravityRepository {
           address: '',
           startTime: DateTime.fromMillisecondsSinceEpoch(0),
           endTime: DateTime.fromMillisecondsSinceEpoch(0),
-          status: GravityStatus.idle.index, // TODO: enum
+          status: GravityStatus.idle.index,
         ),
       );
     } catch (e, st) {
