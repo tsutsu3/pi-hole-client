@@ -6,9 +6,10 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/client_repositor
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 
 class ClientsViewModel extends ChangeNotifier {
-  ClientsViewModel();
+  ClientsViewModel({required ClientRepository clientRepository})
+      : _clientRepository = clientRepository;
 
-  ClientRepository? _clientRepository;
+  final ClientRepository _clientRepository;
 
   static const MapEquality<String, String> _stringMapEquality =
       MapEquality<String, String>();
@@ -45,11 +46,6 @@ class ClientsViewModel extends ChangeNotifier {
     return LoadStatus.loaded;
   }
 
-  // --- ProxyProvider update ---
-  void update(ClientRepository? repository) {
-    _clientRepository = repository;
-  }
-
   // --- Lookup updates ---
   void updateMacLookup(Map<String, String> ipToMac) {
     if (_stringMapEquality.equals(_ipToMac, ipToMac)) return;
@@ -71,7 +67,7 @@ class ClientsViewModel extends ChangeNotifier {
 
   // --- Command implementations ---
   Future<void> _loadClients() async {
-    final clients = (await _clientRepository!.fetchClients()).getOrThrow();
+    final clients = (await _clientRepository.fetchClients()).getOrThrow();
     _clients = clients;
     _applyFilters();
     notifyListeners();
@@ -80,7 +76,7 @@ class ClientsViewModel extends ChangeNotifier {
   Future<void> _addClient(
     ({String client, String? comment, List<int>? groups}) params,
   ) async {
-    final result = await _clientRepository!.addClient(
+    final result = await _clientRepository.addClient(
       params.client,
       comment: params.comment,
       groups: params.groups ?? [0],
@@ -92,7 +88,7 @@ class ClientsViewModel extends ChangeNotifier {
   Future<void> _updateClient(
     ({String client, String? comment, List<int>? groups}) params,
   ) async {
-    final result = await _clientRepository!.updateClient(
+    final result = await _clientRepository.updateClient(
       params.client,
       comment: params.comment,
       groups: params.groups ?? [0],
@@ -102,7 +98,7 @@ class ClientsViewModel extends ChangeNotifier {
   }
 
   Future<void> _deleteClient(ManagedClient client) async {
-    final result = await _clientRepository!.deleteClient(client.client);
+    final result = await _clientRepository.deleteClient(client.client);
     result.getOrThrow();
     _clients = _clients.where((c) => c.id != client.id).toList();
     _applyFilters();

@@ -3,7 +3,13 @@ import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/viewmodel/dhcp_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/viewmodel/interface_viewmodel.dart';
@@ -130,6 +136,46 @@ GoRouter createAppRouter({
               networkRepository: bundle!.network,
               ftlRepository: bundle.ftl,
             )..loadDevices.run(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/settings/server/adlists',
+        name: Routes.settingsServerAdlists,
+        builder: (context, state) {
+          final bundle = context.read<RepositoryBundle?>();
+          return ChangeNotifierProvider(
+            create: (_) => AdlistsViewModel(
+              adListRepository: bundle!.adlist,
+            )..loadAdlists.run(),
+            child: const AdlistScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/settings/server/advanced/find-domains-in-lists',
+        name: Routes.settingsServerAdvancedFindDomainsInLists,
+        builder: (context, state) {
+          final bundle = context.read<RepositoryBundle?>();
+          return ChangeNotifierProvider(
+            create: (_) => FindDomainsInListsViewModel(
+              adListRepository: bundle!.adlist,
+              domainRepository: bundle.domain,
+            ),
+            child: const FindDomainsInListsScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: '/settings/server/group-client',
+        name: Routes.settingsServerGroupClient,
+        builder: (context, state) {
+          final bundle = context.read<RepositoryBundle?>();
+          return ChangeNotifierProvider(
+            create: (_) => ClientsViewModel(
+              clientRepository: bundle!.client,
+            )..loadClients.run(),
+            child: const GroupClientScreen(),
           );
         },
       ),

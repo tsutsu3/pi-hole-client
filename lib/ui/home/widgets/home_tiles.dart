@@ -12,7 +12,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_tiles/home_tile.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
+
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:provider/provider.dart';
@@ -164,12 +164,7 @@ class HomeTiles extends StatelessWidget {
                 if (width > ResponsiveConstants.large) {
                   appConfigProvider.setSelectedSettingsScreen(screen: 5);
                 } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AdlistScreen(),
-                    ),
-                  );
+                  context.pushNamed(Routes.settingsServerAdlists);
                 }
               },
             ),

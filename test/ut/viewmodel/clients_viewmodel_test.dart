@@ -14,8 +14,7 @@ void main() {
     setUp(() {
       Command.globalExceptionHandler = (_, _) {};
       fakeClientRepository = FakeClientRepository();
-      viewModel = ClientsViewModel();
-      viewModel.update(fakeClientRepository);
+      viewModel = ClientsViewModel(clientRepository: fakeClientRepository);
       listenerCalled = false;
       viewModel.addListener(() {
         listenerCalled = true;

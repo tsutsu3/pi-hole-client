@@ -21,8 +21,7 @@ void main() {
       Command.globalExceptionHandler = (_, _) {};
       fakeAdlistRepository = FakeAdlistRepository();
       fakeDomainRepository = FakeDomainRepository();
-      viewModel = FindDomainsInListsViewModel();
-      viewModel.update(
+      viewModel = FindDomainsInListsViewModel(
         adListRepository: fakeAdlistRepository,
         domainRepository: fakeDomainRepository,
       );

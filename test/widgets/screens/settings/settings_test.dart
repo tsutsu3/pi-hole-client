@@ -14,8 +14,7 @@ import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
+
 import 'package:pi_hole_client/ui/settings/settings.dart';
 
 import '../../helpers.dart';
@@ -282,9 +281,7 @@ void main() async {
       expect(find.byIcon(Icons.connected_tv_rounded), findsOneWidget);
     });
 
-    testWidgets('should show adlists screen with tap', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('should show adlists tile', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -298,13 +295,12 @@ void main() async {
       expect(find.byType(Settings), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Adlists'));
-      await tester.pumpAndSettle();
-      expect(find.byType(AdlistScreen), findsOneWidget);
-      expect(find.text('There are no adlists to show here.'), findsOneWidget);
+      expect(find.text('Adlists'), findsOneWidget);
+      expect(find.text('Manage and update Adlists'), findsOneWidget);
+      expect(find.byIcon(Icons.security_rounded), findsOneWidget);
     });
 
-    testWidgets('should show groups and clients screen with tap', (
+    testWidgets('should show groups and clients tile', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -323,9 +319,12 @@ void main() async {
       await tester.ensureVisible(find.text('Groups & Clients'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Groups & Clients'));
-      await tester.pumpAndSettle();
-      expect(find.byType(GroupClientScreen), findsOneWidget);
+      expect(find.text('Groups & Clients'), findsOneWidget);
+      expect(
+        find.text('Manage groups and client assignments'),
+        findsOneWidget,
+      );
+      expect(find.byIcon(Icons.group_rounded), findsOneWidget);
     });
 
     testWidgets('should show advanced server settings screen with tap', (

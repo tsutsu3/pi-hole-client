@@ -5,9 +5,10 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/adlist_repositor
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 
 class AdlistsViewModel extends ChangeNotifier {
-  AdlistsViewModel();
+  AdlistsViewModel({required AdListRepository adListRepository})
+      : _adListRepository = adListRepository;
 
-  AdListRepository? _adListRepository;
+  final AdListRepository _adListRepository;
 
   // --- Commands ---
   late final Command<void, void> loadAdlists =
@@ -52,14 +53,9 @@ class AdlistsViewModel extends ChangeNotifier {
     return LoadStatus.loaded;
   }
 
-  // --- ProxyProvider update ---
-  void update(AdListRepository? repository) {
-    _adListRepository = repository;
-  }
-
   // --- Command implementations ---
   Future<void> _loadAdlists() async {
-    final adlists = (await _adListRepository!.fetchAdlists()).getOrThrow();
+    final adlists = (await _adListRepository.fetchAdlists()).getOrThrow();
     _whitelistAdlists =
         adlists.where((a) => a.type == ListType.allow).toList();
     _blacklistAdlists =
@@ -69,7 +65,7 @@ class AdlistsViewModel extends ChangeNotifier {
   }
 
   Future<void> _deleteAdlist(Adlist adlist) async {
-    final result = await _adListRepository!.deleteAdlist(
+    final result = await _adListRepository.deleteAdlist(
       adlist.address,
       adlist.type,
     );
@@ -86,7 +82,7 @@ class AdlistsViewModel extends ChangeNotifier {
       bool? enabled,
     }) params,
   ) async {
-    final result = await _adListRepository!.addAdlist(
+    final result = await _adListRepository.addAdlist(
       params.address,
       params.type,
       groups: params.groups ?? [0],
@@ -98,7 +94,7 @@ class AdlistsViewModel extends ChangeNotifier {
   }
 
   Future<void> _updateAdlist(Adlist adlist) async {
-    final result = await _adListRepository!.updateAdlist(
+    final result = await _adListRepository.updateAdlist(
       adlist.address,
       adlist.type,
       groups: adlist.groups,

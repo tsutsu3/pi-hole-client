@@ -14,8 +14,7 @@ void main() {
     setUp(() {
       Command.globalExceptionHandler = (_, _) {};
       fakeAdlistRepository = FakeAdlistRepository();
-      viewModel = AdlistsViewModel();
-      viewModel.update(fakeAdlistRepository);
+      viewModel = AdlistsViewModel(adListRepository: fakeAdlistRepository);
       listenerCalled = false;
       viewModel.addListener(() {
         listenerCalled = true;

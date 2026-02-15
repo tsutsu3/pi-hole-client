@@ -7,10 +7,14 @@ import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/list/list_search_result.dart';
 
 class FindDomainsInListsViewModel extends ChangeNotifier {
-  FindDomainsInListsViewModel();
+  FindDomainsInListsViewModel({
+    required AdListRepository adListRepository,
+    required DomainRepository domainRepository,
+  })  : _adListRepository = adListRepository,
+        _domainRepository = domainRepository;
 
-  AdListRepository? _adListRepository;
-  DomainRepository? _domainRepository;
+  final AdListRepository _adListRepository;
+  final DomainRepository _domainRepository;
 
   // --- Commands ---
   late final Command<
@@ -38,15 +42,6 @@ class FindDomainsInListsViewModel extends ChangeNotifier {
 
   bool get isSearching => searchLists.isRunning.value;
 
-  // --- ProxyProvider update ---
-  void update({
-    AdListRepository? adListRepository,
-    DomainRepository? domainRepository,
-  }) {
-    _adListRepository = adListRepository;
-    _domainRepository = domainRepository;
-  }
-
   // --- Command implementations ---
   Future<void> _searchLists(
     ({String domain, bool partial, int limit}) params,
@@ -55,7 +50,7 @@ class FindDomainsInListsViewModel extends ChangeNotifier {
     _hasSearched = true;
     notifyListeners();
 
-    final result = await _adListRepository!.searchLists(
+    final result = await _adListRepository.searchLists(
       domain: params.domain,
       partial: params.partial,
       limit: params.limit,
@@ -76,7 +71,7 @@ class FindDomainsInListsViewModel extends ChangeNotifier {
   }
 
   Future<void> _deleteDomain(Domain domain) async {
-    (await _domainRepository!.deleteDomain(
+    (await _domainRepository.deleteDomain(
       domain.type,
       domain.kind,
       domain.punyCode,
@@ -87,7 +82,7 @@ class FindDomainsInListsViewModel extends ChangeNotifier {
   }
 
   Future<void> _deleteAdlist(Adlist adlist) async {
-    (await _adListRepository!.deleteAdlist(adlist.address, adlist.type))
+    (await _adListRepository.deleteAdlist(adlist.address, adlist.type))
         .getOrThrow();
     _gravityMatches =
         _gravityMatches.where((m) => m.adlist.id != adlist.id).toList();

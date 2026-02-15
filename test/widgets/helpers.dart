@@ -1504,7 +1504,10 @@ class TestSetupHelper {
     fakeAdlistRepository = FakeAdlistRepository();
     fakeConfigRepository = FakeConfigRepository();
     fakeDomainRepository = FakeDomainRepository();
-    findDomainsInListsViewModel = FindDomainsInListsViewModel();
+    findDomainsInListsViewModel = FindDomainsInListsViewModel(
+      adListRepository: fakeAdlistRepository,
+      domainRepository: fakeDomainRepository,
+    );
   }
 
   late MockAppConfigProvider mockConfigProvider;
@@ -1544,10 +1547,6 @@ class TestSetupHelper {
     _initApiGatewayV6Mock();
     _initStatusUpdateServiceMock();
 
-    findDomainsInListsViewModel.update(
-      adListRepository: fakeAdlistRepository,
-      domainRepository: fakeDomainRepository,
-    );
   }
 
   /// Build the test widget with the given setup helper.
@@ -1589,20 +1588,16 @@ class TestSetupHelper {
               update: (context, bundle, previous) =>
                   previous!..update(bundle?.domain),
             ),
-            ChangeNotifierProxyProvider<RepositoryBundle?, ClientsViewModel>(
-              create: (context) => mockClientsViewModel,
-              update: (context, bundle, previous) =>
-                  previous!..update(bundle?.client),
+            ChangeNotifierProvider<ClientsViewModel>.value(
+              value: mockClientsViewModel,
             ),
             ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
               create: (context) => mockFiltersProvider,
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
             ),
-            ChangeNotifierProxyProvider<RepositoryBundle?, AdlistsViewModel>(
-              create: (context) => mockAdlistsViewModel,
-              update: (context, bundle, previous) =>
-                  previous!..update(bundle?.adlist),
+            ChangeNotifierProvider<AdlistsViewModel>.value(
+              value: mockAdlistsViewModel,
             ),
             ChangeNotifierProvider<FindDomainsInListsViewModel>.value(
               value: findDomainsInListsViewModel,
@@ -1701,20 +1696,16 @@ class TestSetupHelper {
           update: (context, bundle, previous) =>
               previous!..update(bundle?.domain),
         ),
-        ChangeNotifierProxyProvider<RepositoryBundle?, ClientsViewModel>(
-          create: (context) => mockClientsViewModel,
-          update: (context, bundle, previous) =>
-              previous!..update(bundle?.client),
+        ChangeNotifierProvider<ClientsViewModel>.value(
+          value: mockClientsViewModel,
         ),
         ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
           create: (context) => mockFiltersProvider,
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
         ),
-        ChangeNotifierProxyProvider<RepositoryBundle?, AdlistsViewModel>(
-          create: (context) => mockAdlistsViewModel,
-          update: (context, bundle, previous) =>
-              previous!..update(bundle?.adlist),
+        ChangeNotifierProvider<AdlistsViewModel>.value(
+          value: mockAdlistsViewModel,
         ),
         ChangeNotifierProvider<FindDomainsInListsViewModel>.value(
           value: findDomainsInListsViewModel,

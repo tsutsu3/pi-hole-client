@@ -24,10 +24,12 @@ import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:provider/provider.dart';
 
@@ -89,9 +91,29 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         if (splitView != null) {
           switch (screenToShow) {
             case 5:
-              splitView.setSecondary(const AdlistScreen());
+              final adlistBundle = context.read<RepositoryBundle?>();
+              if (adlistBundle != null) {
+                splitView.setSecondary(
+                  ChangeNotifierProvider(
+                    create: (_) => AdlistsViewModel(
+                      adListRepository: adlistBundle.adlist,
+                    )..loadAdlists.run(),
+                    child: const AdlistScreen(),
+                  ),
+                );
+              }
             case 11:
-              splitView.setSecondary(const GroupClientScreen());
+              final clientBundle = context.read<RepositoryBundle?>();
+              if (clientBundle != null) {
+                splitView.setSecondary(
+                  ChangeNotifierProvider(
+                    create: (_) => ClientsViewModel(
+                      clientRepository: clientBundle.client,
+                    )..loadClients.run(),
+                    child: const GroupClientScreen(),
+                  ),
+                );
+              }
             case 6:
               splitView.setSecondary(const AdvancedServerOptions());
               final apiVersion = context
@@ -165,6 +187,36 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               context,
             ).push(MaterialPageRoute(builder: (context) => screenToNavigate));
           },
+        );
+      }
+    }
+
+    Widget _routedSettingsTile({
+      required BuildContext context,
+      required double width,
+      required String title,
+      required String subtitle,
+      required int thisItem,
+      required String routeName,
+      required VoidCallback splitViewChild,
+      IconData? icon,
+    }) {
+      if (width > ResponsiveConstants.large) {
+        return CustomListTile(
+          label: title,
+          description: subtitle,
+          leadingIcon: icon,
+          onTap: () {
+            setState(() => selectedScreen = thisItem);
+            splitViewChild();
+          },
+        );
+      } else {
+        return CustomListTile(
+          label: title,
+          description: subtitle,
+          leadingIcon: icon,
+          onTap: () => context.pushNamed(routeName),
         );
       }
     }
@@ -252,19 +304,47 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             ),
             onTap: () => context.pushNamed(Routes.settingsServerInfo),
           ),
-          settingsTile(
+          _routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.security_rounded,
             title: AppLocalizations.of(context)!.adlists,
             subtitle: AppLocalizations.of(context)!.adlistDescription,
-            screenToNavigate: const AdlistScreen(),
             thisItem: 5,
+            routeName: Routes.settingsServerAdlists,
+            splitViewChild: () {
+              final bundle = context.read<RepositoryBundle?>();
+              if (bundle == null) return;
+              SplitView.of(context).setSecondary(
+                ChangeNotifierProvider(
+                  create: (_) => AdlistsViewModel(
+                    adListRepository: bundle.adlist,
+                  )..loadAdlists.run(),
+                  child: const AdlistScreen(),
+                ),
+              );
+            },
           ),
-          settingsTile(
+          _routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.group_rounded,
             title: AppLocalizations.of(context)!.groupsAndClients,
             subtitle: AppLocalizations.of(context)!.groupsAndClientsDescription,
-            screenToNavigate: const GroupClientScreen(),
             thisItem: 11,
+            routeName: Routes.settingsServerGroupClient,
+            splitViewChild: () {
+              final bundle = context.read<RepositoryBundle?>();
+              if (bundle == null) return;
+              SplitView.of(context).setSecondary(
+                ChangeNotifierProvider(
+                  create: (_) => ClientsViewModel(
+                    clientRepository: bundle.client,
+                  )..loadClients.run(),
+                  child: const GroupClientScreen(),
+                ),
+              );
+            },
           ),
           settingsTile(
             icon: Icons.build_rounded,

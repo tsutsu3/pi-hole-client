@@ -27,9 +27,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
+
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
@@ -161,9 +159,6 @@ void main() async {
   final statusProvider = StatusProvider();
   final filtersProvider = FiltersProvider(serversProvider: serversProvider);
   final domainsViewModel = DomainsViewModel();
-  final adlistsViewModel = AdlistsViewModel();
-  final findDomainsInListsViewModel = FindDomainsInListsViewModel();
-  final clientsViewModel = ClientsViewModel();
   final groupsViewModel = GroupsViewModel();
   final gravityUpdateProvider = GravityUpdateProvider(
     repository: gravityRepository,
@@ -316,25 +311,7 @@ void main() async {
           update: (context, bundle, previous) =>
               previous!..update(bundle?.domain),
         ),
-        ChangeNotifierProxyProvider<RepositoryBundle?, AdlistsViewModel>(
-          create: (context) => adlistsViewModel,
-          update: (context, bundle, previous) =>
-              previous!..update(bundle?.adlist),
-        ),
-        ChangeNotifierProxyProvider<RepositoryBundle?,
-            FindDomainsInListsViewModel>(
-          create: (context) => findDomainsInListsViewModel,
-          update: (context, bundle, previous) => previous!
-            ..update(
-              adListRepository: bundle?.adlist,
-              domainRepository: bundle?.domain,
-            ),
-        ),
-        ChangeNotifierProxyProvider<RepositoryBundle?, ClientsViewModel>(
-          create: (context) => clientsViewModel,
-          update: (context, bundle, previous) =>
-              previous!..update(bundle?.client),
-        ),
+
         ChangeNotifierProxyProvider<RepositoryBundle?, GroupsViewModel>(
           create: (context) => groupsViewModel,
           update: (context, bundle, previous) =>
