@@ -3,28 +3,28 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i12;
-import 'dart:ui' as _i14;
+import 'dart:async' as _i13;
+import 'dart:ui' as _i15;
 
-import 'package:device_info_plus/device_info_plus.dart' as _i11;
+import 'package:device_info_plus/device_info_plus.dart' as _i12;
 import 'package:flutter/material.dart' as _i7;
 import 'package:http/http.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i8;
-import 'package:package_info_plus/package_info_plus.dart' as _i10;
-import 'package:pi_hole_client/config/enums.dart' as _i19;
-import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart' as _i17;
+import 'package:package_info_plus/package_info_plus.dart' as _i11;
+import 'package:pi_hole_client/config/enums.dart' as _i9;
+import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart' as _i18;
 import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart' as _i24;
 import 'package:pi_hole_client/data/model/v6/config/config.dart' as _i29;
-import 'package:pi_hole_client/domain/models_old/app_log.dart' as _i9;
+import 'package:pi_hole_client/domain/models_old/app_log.dart' as _i10;
 import 'package:pi_hole_client/domain/models_old/clients.dart' as _i28;
-import 'package:pi_hole_client/domain/models_old/database.dart' as _i13;
+import 'package:pi_hole_client/domain/models_old/database.dart' as _i14;
 import 'package:pi_hole_client/domain/models_old/domain.dart' as _i25;
 import 'package:pi_hole_client/domain/models_old/gateways.dart' as _i5;
 import 'package:pi_hole_client/domain/models_old/groups.dart' as _i27;
 import 'package:pi_hole_client/domain/models_old/metrics.dart' as _i22;
 import 'package:pi_hole_client/domain/models_old/overtime_data.dart' as _i21;
-import 'package:pi_hole_client/domain/models_old/query_status.dart' as _i16;
+import 'package:pi_hole_client/domain/models_old/query_status.dart' as _i17;
 import 'package:pi_hole_client/domain/models_old/realtime_status.dart' as _i20;
 import 'package:pi_hole_client/domain/models_old/server.dart' as _i3;
 import 'package:pi_hole_client/domain/models_old/subscriptions.dart' as _i26;
@@ -34,8 +34,8 @@ import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart'
 import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart'
     as _i23;
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart'
-    as _i15;
-import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart' as _i18;
+    as _i16;
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart' as _i19;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -450,20 +450,20 @@ class MockAppConfigViewModel extends _i1.Mock
           as bool);
 
   @override
-  int get statisticsVisualizationMode =>
+  _i9.StatisticsVisualizationMode get statisticsVisualizationMode =>
       (super.noSuchMethod(
             Invocation.getter(#statisticsVisualizationMode),
-            returnValue: 0,
+            returnValue: _i9.StatisticsVisualizationMode.list,
           )
-          as int);
+          as _i9.StatisticsVisualizationMode);
 
   @override
-  int get homeVisualizationMode =>
+  _i9.HomeVisualizationMode get homeVisualizationMode =>
       (super.noSuchMethod(
             Invocation.getter(#homeVisualizationMode),
-            returnValue: 0,
+            returnValue: _i9.HomeVisualizationMode.lineArea,
           )
-          as int);
+          as _i9.HomeVisualizationMode);
 
   @override
   bool get sendCrashReports =>
@@ -474,9 +474,12 @@ class MockAppConfigViewModel extends _i1.Mock
           as bool);
 
   @override
-  List<_i9.AppLog> get logs =>
-      (super.noSuchMethod(Invocation.getter(#logs), returnValue: <_i9.AppLog>[])
-          as List<_i9.AppLog>);
+  List<_i10.AppLog> get logs =>
+      (super.noSuchMethod(
+            Invocation.getter(#logs),
+            returnValue: <_i10.AppLog>[],
+          )
+          as List<_i10.AppLog>);
 
   @override
   int get logAutoRefreshTime =>
@@ -517,19 +520,19 @@ class MockAppConfigViewModel extends _i1.Mock
   );
 
   @override
-  void setAppInfo(_i10.PackageInfo? appInfo) => super.noSuchMethod(
+  void setAppInfo(_i11.PackageInfo? appInfo) => super.noSuchMethod(
     Invocation.method(#setAppInfo, [appInfo]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void setAndroidInfo(_i11.AndroidDeviceInfo? deviceInfo) => super.noSuchMethod(
+  void setAndroidInfo(_i12.AndroidDeviceInfo? deviceInfo) => super.noSuchMethod(
     Invocation.method(#setAndroidInfo, [deviceInfo]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void setIosInfo(_i11.IosDeviceInfo? deviceInfo) => super.noSuchMethod(
+  void setIosInfo(_i12.IosDeviceInfo? deviceInfo) => super.noSuchMethod(
     Invocation.method(#setIosInfo, [deviceInfo]),
     returnValueForMissingStub: null,
   );
@@ -553,7 +556,7 @@ class MockAppConfigViewModel extends _i1.Mock
   );
 
   @override
-  void addLog(_i9.AppLog? log) => super.noSuchMethod(
+  void addLog(_i10.AppLog? log) => super.noSuchMethod(
     Invocation.method(#addLog, [log]),
     returnValueForMissingStub: null,
   );
@@ -569,155 +572,159 @@ class MockAppConfigViewModel extends _i1.Mock
       );
 
   @override
-  _i12.Future<bool> setUseBiometrics(bool? biometrics) =>
+  _i13.Future<bool> setUseBiometrics(bool? biometrics) =>
       (super.noSuchMethod(
             Invocation.method(#setUseBiometrics, [biometrics]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> setImportantInfoReaden(bool? status) =>
+  _i13.Future<bool> setImportantInfoReaden(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setImportantInfoReaden, [status]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> setPassCode(String? code) =>
+  _i13.Future<bool> setPassCode(String? code) =>
       (super.noSuchMethod(
             Invocation.method(#setPassCode, [code]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> setAutoRefreshTime(int? seconds) =>
+  _i13.Future<bool> setAutoRefreshTime(int? seconds) =>
       (super.noSuchMethod(
             Invocation.method(#setAutoRefreshTime, [seconds]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> setLogsPerQuery(double? time) =>
+  _i13.Future<bool> setLogsPerQuery(double? time) =>
       (super.noSuchMethod(
             Invocation.method(#setLogsPerQuery, [time]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> setSendCrashReports(bool? status) =>
+  _i13.Future<bool> setSendCrashReports(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setSendCrashReports, [status]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> setLogAutoRefreshTime(int? seconds) =>
+  _i13.Future<bool> setLogAutoRefreshTime(int? seconds) =>
       (super.noSuchMethod(
             Invocation.method(#setLogAutoRefreshTime, [seconds]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> setLiveLog(bool? status) =>
+  _i13.Future<bool> setLiveLog(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setLiveLog, [status]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> setLivelogPaused(bool? status) =>
+  _i13.Future<bool> setLivelogPaused(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setLivelogPaused, [status]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  void saveFromDb(_i13.AppDbData? dbData) => super.noSuchMethod(
+  void saveFromDb(_i14.AppDbData? dbData) => super.noSuchMethod(
     Invocation.method(#saveFromDb, [dbData]),
     returnValueForMissingStub: null,
   );
 
   @override
-  _i12.Future<bool> setReducedDataCharts(bool? status) =>
+  _i13.Future<bool> setReducedDataCharts(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setReducedDataCharts, [status]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> setHideZeroValues(bool? status) =>
+  _i13.Future<bool> setHideZeroValues(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setHideZeroValues, [status]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> setShowLoadingAnimation(bool? status) =>
+  _i13.Future<bool> setShowLoadingAnimation(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setShowLoadingAnimation, [status]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> setSelectedTheme(int? value) =>
+  _i13.Future<bool> setSelectedTheme(int? value) =>
       (super.noSuchMethod(
             Invocation.method(#setSelectedTheme, [value]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> setSelectedLanguage(String? value) =>
+  _i13.Future<bool> setSelectedLanguage(String? value) =>
       (super.noSuchMethod(
             Invocation.method(#setSelectedLanguage, [value]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> setStatisticsVisualizationMode(int? value) =>
+  _i13.Future<bool> setStatisticsVisualizationMode(
+    _i9.StatisticsVisualizationMode? value,
+  ) =>
       (super.noSuchMethod(
             Invocation.method(#setStatisticsVisualizationMode, [value]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> setHomeVisualizationMode(int? value) =>
+  _i13.Future<bool> setHomeVisualizationMode(
+    _i9.HomeVisualizationMode? value,
+  ) =>
       (super.noSuchMethod(
             Invocation.method(#setHomeVisualizationMode, [value]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> restoreAppConfig() =>
+  _i13.Future<bool> restoreAppConfig() =>
       (super.noSuchMethod(
             Invocation.method(#restoreAppConfig, []),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );
@@ -738,7 +745,7 @@ class MockAppConfigViewModel extends _i1.Mock
 /// A class which mocks [ServersViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockServersViewModel extends _i1.Mock implements _i15.ServersViewModel {
+class MockServersViewModel extends _i1.Mock implements _i16.ServersViewModel {
   MockServersViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -780,12 +787,12 @@ class MockServersViewModel extends _i1.Mock implements _i15.ServersViewModel {
       (super.noSuchMethod(Invocation.getter(#numShown), returnValue: 0) as int);
 
   @override
-  List<_i16.QueryStatus> get queryStatuses =>
+  List<_i17.QueryStatus> get queryStatuses =>
       (super.noSuchMethod(
             Invocation.getter(#queryStatuses),
-            returnValue: <_i16.QueryStatus>[],
+            returnValue: <_i17.QueryStatus>[],
           )
-          as List<_i16.QueryStatus>);
+          as List<_i17.QueryStatus>);
 
   @override
   bool get hasListeners =>
@@ -817,74 +824,74 @@ class MockServersViewModel extends _i1.Mock implements _i15.ServersViewModel {
   );
 
   @override
-  _i17.ApiGateway? loadApiGateway(_i3.Server? server) =>
+  _i18.ApiGateway? loadApiGateway(_i3.Server? server) =>
       (super.noSuchMethod(Invocation.method(#loadApiGateway, [server]))
-          as _i17.ApiGateway?);
+          as _i18.ApiGateway?);
 
   @override
-  _i17.ApiGateway? createApiGateway(_i3.Server? server) =>
+  _i18.ApiGateway? createApiGateway(_i3.Server? server) =>
       (super.noSuchMethod(Invocation.method(#createApiGateway, [server]))
-          as _i17.ApiGateway?);
+          as _i18.ApiGateway?);
 
   @override
-  _i16.QueryStatus? getQueryStatus(String? key) =>
+  _i17.QueryStatus? getQueryStatus(String? key) =>
       (super.noSuchMethod(Invocation.method(#getQueryStatus, [key]))
-          as _i16.QueryStatus?);
+          as _i17.QueryStatus?);
 
   @override
-  _i16.QueryStatus? findQueryStatus(String? key) =>
+  _i17.QueryStatus? findQueryStatus(String? key) =>
       (super.noSuchMethod(Invocation.method(#findQueryStatus, [key]))
-          as _i16.QueryStatus?);
+          as _i17.QueryStatus?);
 
   @override
-  _i12.Future<bool> addServer(_i3.Server? server) =>
+  _i13.Future<bool> addServer(_i3.Server? server) =>
       (super.noSuchMethod(
             Invocation.method(#addServer, [server]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> editServer(_i3.Server? server) =>
+  _i13.Future<bool> editServer(_i3.Server? server) =>
       (super.noSuchMethod(
             Invocation.method(#editServer, [server]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> removeServer(String? serverAddress) =>
+  _i13.Future<bool> removeServer(String? serverAddress) =>
       (super.noSuchMethod(
             Invocation.method(#removeServer, [serverAddress]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> setDefaultServer(_i3.Server? server) =>
+  _i13.Future<bool> setDefaultServer(_i3.Server? server) =>
       (super.noSuchMethod(
             Invocation.method(#setDefaultServer, [server]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<dynamic> saveFromDb(List<_i13.ServerDbData>? servers) =>
+  _i13.Future<dynamic> saveFromDb(List<_i14.ServerDbData>? servers) =>
       (super.noSuchMethod(
             Invocation.method(#saveFromDb, [servers]),
-            returnValue: _i12.Future<dynamic>.value(),
+            returnValue: _i13.Future<dynamic>.value(),
           )
-          as _i12.Future<dynamic>);
+          as _i13.Future<dynamic>);
 
   @override
-  _i12.FutureOr<Map<String, dynamic>> checkUrlExists(String? url) =>
+  _i13.FutureOr<Map<String, dynamic>> checkUrlExists(String? url) =>
       (super.noSuchMethod(
             Invocation.method(#checkUrlExists, [url]),
-            returnValue: _i12.Future<Map<String, dynamic>>.value(
+            returnValue: _i13.Future<Map<String, dynamic>>.value(
               <String, dynamic>{},
             ),
           )
-          as _i12.FutureOr<Map<String, dynamic>>);
+          as _i13.FutureOr<Map<String, dynamic>>);
 
   @override
   void setselectedServer({required _i3.Server? server, bool? toHomeTab}) =>
@@ -903,29 +910,29 @@ class MockServersViewModel extends _i1.Mock implements _i15.ServersViewModel {
   );
 
   @override
-  _i12.Future<bool> deleteDbData() =>
+  _i13.Future<bool> deleteDbData() =>
       (super.noSuchMethod(
             Invocation.method(#deleteDbData, []),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  _i12.Future<bool> resetSelectedServer() =>
+  _i13.Future<bool> resetSelectedServer() =>
       (super.noSuchMethod(
             Invocation.method(#resetSelectedServer, []),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i13.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i13.Future<bool>);
 
   @override
-  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );
@@ -946,18 +953,18 @@ class MockServersViewModel extends _i1.Mock implements _i15.ServersViewModel {
 /// A class which mocks [StatusViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockStatusViewModel extends _i1.Mock implements _i18.StatusViewModel {
+class MockStatusViewModel extends _i1.Mock implements _i19.StatusViewModel {
   MockStatusViewModel() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i19.LoadStatus get getServerStatus =>
+  _i9.LoadStatus get getServerStatus =>
       (super.noSuchMethod(
             Invocation.getter(#getServerStatus),
-            returnValue: _i19.LoadStatus.loading,
+            returnValue: _i9.LoadStatus.loading,
           )
-          as _i19.LoadStatus);
+          as _i9.LoadStatus);
 
   @override
   bool get isServerLoading =>
@@ -968,20 +975,20 @@ class MockStatusViewModel extends _i1.Mock implements _i18.StatusViewModel {
           as bool);
 
   @override
-  _i19.LoadStatus get getStatusLoading =>
+  _i9.LoadStatus get getStatusLoading =>
       (super.noSuchMethod(
             Invocation.getter(#getStatusLoading),
-            returnValue: _i19.LoadStatus.loading,
+            returnValue: _i9.LoadStatus.loading,
           )
-          as _i19.LoadStatus);
+          as _i9.LoadStatus);
 
   @override
-  _i19.LoadStatus get getOvertimeDataLoadStatus =>
+  _i9.LoadStatus get getOvertimeDataLoadStatus =>
       (super.noSuchMethod(
             Invocation.getter(#getOvertimeDataLoadStatus),
-            returnValue: _i19.LoadStatus.loading,
+            returnValue: _i9.LoadStatus.loading,
           )
-          as _i19.LoadStatus);
+          as _i9.LoadStatus);
 
   @override
   bool get hasListeners =>
@@ -989,13 +996,13 @@ class MockStatusViewModel extends _i1.Mock implements _i18.StatusViewModel {
           as bool);
 
   @override
-  void setServerStatus(_i19.LoadStatus? status) => super.noSuchMethod(
+  void setServerStatus(_i9.LoadStatus? status) => super.noSuchMethod(
     Invocation.method(#setServerStatus, [status]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void setStatusLoading(_i19.LoadStatus? status) => super.noSuchMethod(
+  void setStatusLoading(_i9.LoadStatus? status) => super.noSuchMethod(
     Invocation.method(#setStatusLoading, [status]),
     returnValueForMissingStub: null,
   );
@@ -1008,7 +1015,7 @@ class MockStatusViewModel extends _i1.Mock implements _i18.StatusViewModel {
       );
 
   @override
-  void setOvertimeDataLoadingStatus(_i19.LoadStatus? status) =>
+  void setOvertimeDataLoadingStatus(_i9.LoadStatus? status) =>
       super.noSuchMethod(
         Invocation.method(#setOvertimeDataLoadingStatus, [status]),
         returnValueForMissingStub: null,
@@ -1027,13 +1034,13 @@ class MockStatusViewModel extends _i1.Mock implements _i18.StatusViewModel {
   );
 
   @override
-  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );
@@ -1111,12 +1118,12 @@ class MockFiltersViewModel extends _i1.Mock implements _i23.FiltersViewModel {
           as List<String>);
 
   @override
-  _i19.RequestStatus get requestStatus =>
+  _i9.RequestStatus get requestStatus =>
       (super.noSuchMethod(
             Invocation.getter(#requestStatus),
-            returnValue: _i19.RequestStatus.all,
+            returnValue: _i9.RequestStatus.all,
           )
-          as _i19.RequestStatus);
+          as _i9.RequestStatus);
 
   @override
   bool get hasListeners =>
@@ -1124,7 +1131,7 @@ class MockFiltersViewModel extends _i1.Mock implements _i23.FiltersViewModel {
           as bool);
 
   @override
-  void update(_i15.ServersViewModel? provider) => super.noSuchMethod(
+  void update(_i16.ServersViewModel? provider) => super.noSuchMethod(
     Invocation.method(#update, [provider]),
     returnValueForMissingStub: null,
   );
@@ -1190,19 +1197,19 @@ class MockFiltersViewModel extends _i1.Mock implements _i23.FiltersViewModel {
   );
 
   @override
-  void setRequestStatus(_i19.RequestStatus? status) => super.noSuchMethod(
+  void setRequestStatus(_i9.RequestStatus? status) => super.noSuchMethod(
     Invocation.method(#setRequestStatus, [status]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );
@@ -1303,7 +1310,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
           as _i3.Server);
 
   @override
-  _i12.Future<_i4.Response> httpClient({
+  _i13.Future<_i4.Response> httpClient({
     required String? method,
     required String? url,
     Map<String, String>? headers,
@@ -1320,7 +1327,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #timeout: timeout,
               #maxRetries: maxRetries,
             }),
-            returnValue: _i12.Future<_i4.Response>.value(
+            returnValue: _i13.Future<_i4.Response>.value(
               _FakeResponse_2(
                 this,
                 Invocation.method(#httpClient, [], {
@@ -1334,10 +1341,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i4.Response>);
+          as _i13.Future<_i4.Response>);
 
   @override
-  _i12.Future<_i4.StreamedResponse> httpClientStream({
+  _i13.Future<_i4.StreamedResponse> httpClientStream({
     required String? method,
     required String? url,
     Map<String, String>? headers,
@@ -1354,7 +1361,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #timeout: timeout,
               #maxRetries: maxRetries,
             }),
-            returnValue: _i12.Future<_i4.StreamedResponse>.value(
+            returnValue: _i13.Future<_i4.StreamedResponse>.value(
               _FakeStreamedResponse_3(
                 this,
                 Invocation.method(#httpClientStream, [], {
@@ -1368,7 +1375,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i4.StreamedResponse>);
+          as _i13.Future<_i4.StreamedResponse>);
 
   @override
   void close() => super.noSuchMethod(
@@ -1377,23 +1384,23 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
   );
 
   @override
-  _i12.Future<_i5.LoginQueryResponse> loginQuery({bool? refresh = false}) =>
+  _i13.Future<_i5.LoginQueryResponse> loginQuery({bool? refresh = false}) =>
       (super.noSuchMethod(
             Invocation.method(#loginQuery, [], {#refresh: refresh}),
-            returnValue: _i12.Future<_i5.LoginQueryResponse>.value(
+            returnValue: _i13.Future<_i5.LoginQueryResponse>.value(
               _FakeLoginQueryResponse_4(
                 this,
                 Invocation.method(#loginQuery, [], {#refresh: refresh}),
               ),
             ),
           )
-          as _i12.Future<_i5.LoginQueryResponse>);
+          as _i13.Future<_i5.LoginQueryResponse>);
 
   @override
-  _i12.Future<_i5.RealtimeStatusResponse> realtimeStatus({int? clientCount}) =>
+  _i13.Future<_i5.RealtimeStatusResponse> realtimeStatus({int? clientCount}) =>
       (super.noSuchMethod(
             Invocation.method(#realtimeStatus, [], {#clientCount: clientCount}),
-            returnValue: _i12.Future<_i5.RealtimeStatusResponse>.value(
+            returnValue: _i13.Future<_i5.RealtimeStatusResponse>.value(
               _FakeRealtimeStatusResponse_5(
                 this,
                 Invocation.method(#realtimeStatus, [], {
@@ -1402,43 +1409,43 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.RealtimeStatusResponse>);
+          as _i13.Future<_i5.RealtimeStatusResponse>);
 
   @override
-  _i12.Future<_i5.DisableServerResponse> disableServerRequest(int? time) =>
+  _i13.Future<_i5.DisableServerResponse> disableServerRequest(int? time) =>
       (super.noSuchMethod(
             Invocation.method(#disableServerRequest, [time]),
-            returnValue: _i12.Future<_i5.DisableServerResponse>.value(
+            returnValue: _i13.Future<_i5.DisableServerResponse>.value(
               _FakeDisableServerResponse_6(
                 this,
                 Invocation.method(#disableServerRequest, [time]),
               ),
             ),
           )
-          as _i12.Future<_i5.DisableServerResponse>);
+          as _i13.Future<_i5.DisableServerResponse>);
 
   @override
-  _i12.Future<_i5.EnableServerResponse> enableServerRequest() =>
+  _i13.Future<_i5.EnableServerResponse> enableServerRequest() =>
       (super.noSuchMethod(
             Invocation.method(#enableServerRequest, []),
-            returnValue: _i12.Future<_i5.EnableServerResponse>.value(
+            returnValue: _i13.Future<_i5.EnableServerResponse>.value(
               _FakeEnableServerResponse_7(
                 this,
                 Invocation.method(#enableServerRequest, []),
               ),
             ),
           )
-          as _i12.Future<_i5.EnableServerResponse>);
+          as _i13.Future<_i5.EnableServerResponse>);
 
   @override
-  _i12.Future<_i5.FetchOverTimeDataResponse> fetchOverTimeData({
+  _i13.Future<_i5.FetchOverTimeDataResponse> fetchOverTimeData({
     int? clientCount,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#fetchOverTimeData, [], {
               #clientCount: clientCount,
             }),
-            returnValue: _i12.Future<_i5.FetchOverTimeDataResponse>.value(
+            returnValue: _i13.Future<_i5.FetchOverTimeDataResponse>.value(
               _FakeFetchOverTimeDataResponse_8(
                 this,
                 Invocation.method(#fetchOverTimeData, [], {
@@ -1447,10 +1454,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.FetchOverTimeDataResponse>);
+          as _i13.Future<_i5.FetchOverTimeDataResponse>);
 
   @override
-  _i12.Future<_i5.FetchLogsResponse> fetchLogs(
+  _i13.Future<_i5.FetchLogsResponse> fetchLogs(
     DateTime? from,
     DateTime? until, {
     int? size,
@@ -1462,7 +1469,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               [from, until],
               {#size: size, #cursor: cursor},
             ),
-            returnValue: _i12.Future<_i5.FetchLogsResponse>.value(
+            returnValue: _i13.Future<_i5.FetchLogsResponse>.value(
               _FakeFetchLogsResponse_9(
                 this,
                 Invocation.method(
@@ -1473,146 +1480,146 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.FetchLogsResponse>);
+          as _i13.Future<_i5.FetchLogsResponse>);
 
   @override
-  _i12.Future<_i5.SetWhiteBlacklistResponse> setWhiteBlacklist(
+  _i13.Future<_i5.SetWhiteBlacklistResponse> setWhiteBlacklist(
     String? domain,
     String? list,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#setWhiteBlacklist, [domain, list]),
-            returnValue: _i12.Future<_i5.SetWhiteBlacklistResponse>.value(
+            returnValue: _i13.Future<_i5.SetWhiteBlacklistResponse>.value(
               _FakeSetWhiteBlacklistResponse_10(
                 this,
                 Invocation.method(#setWhiteBlacklist, [domain, list]),
               ),
             ),
           )
-          as _i12.Future<_i5.SetWhiteBlacklistResponse>);
+          as _i13.Future<_i5.SetWhiteBlacklistResponse>);
 
   @override
-  _i12.Future<_i5.GetDomainLists> getDomainLists() =>
+  _i13.Future<_i5.GetDomainLists> getDomainLists() =>
       (super.noSuchMethod(
             Invocation.method(#getDomainLists, []),
-            returnValue: _i12.Future<_i5.GetDomainLists>.value(
+            returnValue: _i13.Future<_i5.GetDomainLists>.value(
               _FakeGetDomainLists_11(
                 this,
                 Invocation.method(#getDomainLists, []),
               ),
             ),
           )
-          as _i12.Future<_i5.GetDomainLists>);
+          as _i13.Future<_i5.GetDomainLists>);
 
   @override
-  _i12.Future<_i5.RemoveDomainFromListResponse> removeDomainFromList(
+  _i13.Future<_i5.RemoveDomainFromListResponse> removeDomainFromList(
     _i25.Domain? domain,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#removeDomainFromList, [domain]),
-            returnValue: _i12.Future<_i5.RemoveDomainFromListResponse>.value(
+            returnValue: _i13.Future<_i5.RemoveDomainFromListResponse>.value(
               _FakeRemoveDomainFromListResponse_12(
                 this,
                 Invocation.method(#removeDomainFromList, [domain]),
               ),
             ),
           )
-          as _i12.Future<_i5.RemoveDomainFromListResponse>);
+          as _i13.Future<_i5.RemoveDomainFromListResponse>);
 
   @override
-  _i12.Future<_i5.AddDomainToListResponse> addDomainToList(
+  _i13.Future<_i5.AddDomainToListResponse> addDomainToList(
     Map<String, dynamic>? domainData,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#addDomainToList, [domainData]),
-            returnValue: _i12.Future<_i5.AddDomainToListResponse>.value(
+            returnValue: _i13.Future<_i5.AddDomainToListResponse>.value(
               _FakeAddDomainToListResponse_13(
                 this,
                 Invocation.method(#addDomainToList, [domainData]),
               ),
             ),
           )
-          as _i12.Future<_i5.AddDomainToListResponse>);
+          as _i13.Future<_i5.AddDomainToListResponse>);
 
   @override
-  _i12.Future<_i5.DomainResponse> updateDomain({
+  _i13.Future<_i5.DomainResponse> updateDomain({
     required _i25.DomainRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateDomain, [], {#body: body}),
-            returnValue: _i12.Future<_i5.DomainResponse>.value(
+            returnValue: _i13.Future<_i5.DomainResponse>.value(
               _FakeDomainResponse_14(
                 this,
                 Invocation.method(#updateDomain, [], {#body: body}),
               ),
             ),
           )
-          as _i12.Future<_i5.DomainResponse>);
+          as _i13.Future<_i5.DomainResponse>);
 
   @override
-  _i12.Future<_i5.HostResponse> fetchHostInfo() =>
+  _i13.Future<_i5.HostResponse> fetchHostInfo() =>
       (super.noSuchMethod(
             Invocation.method(#fetchHostInfo, []),
-            returnValue: _i12.Future<_i5.HostResponse>.value(
+            returnValue: _i13.Future<_i5.HostResponse>.value(
               _FakeHostResponse_15(this, Invocation.method(#fetchHostInfo, [])),
             ),
           )
-          as _i12.Future<_i5.HostResponse>);
+          as _i13.Future<_i5.HostResponse>);
 
   @override
-  _i12.Future<_i5.SensorsResponse> fetchSensorsInfo() =>
+  _i13.Future<_i5.SensorsResponse> fetchSensorsInfo() =>
       (super.noSuchMethod(
             Invocation.method(#fetchSensorsInfo, []),
-            returnValue: _i12.Future<_i5.SensorsResponse>.value(
+            returnValue: _i13.Future<_i5.SensorsResponse>.value(
               _FakeSensorsResponse_16(
                 this,
                 Invocation.method(#fetchSensorsInfo, []),
               ),
             ),
           )
-          as _i12.Future<_i5.SensorsResponse>);
+          as _i13.Future<_i5.SensorsResponse>);
 
   @override
-  _i12.Future<_i5.SystemResponse> fetchSystemInfo() =>
+  _i13.Future<_i5.SystemResponse> fetchSystemInfo() =>
       (super.noSuchMethod(
             Invocation.method(#fetchSystemInfo, []),
-            returnValue: _i12.Future<_i5.SystemResponse>.value(
+            returnValue: _i13.Future<_i5.SystemResponse>.value(
               _FakeSystemResponse_17(
                 this,
                 Invocation.method(#fetchSystemInfo, []),
               ),
             ),
           )
-          as _i12.Future<_i5.SystemResponse>);
+          as _i13.Future<_i5.SystemResponse>);
 
   @override
-  _i12.Future<_i5.VersionResponse> fetchVersionInfo() =>
+  _i13.Future<_i5.VersionResponse> fetchVersionInfo() =>
       (super.noSuchMethod(
             Invocation.method(#fetchVersionInfo, []),
-            returnValue: _i12.Future<_i5.VersionResponse>.value(
+            returnValue: _i13.Future<_i5.VersionResponse>.value(
               _FakeVersionResponse_18(
                 this,
                 Invocation.method(#fetchVersionInfo, []),
               ),
             ),
           )
-          as _i12.Future<_i5.VersionResponse>);
+          as _i13.Future<_i5.VersionResponse>);
 
   @override
-  _i12.Future<_i5.PiHoleServerInfoResponse> fetchAllServerInfo() =>
+  _i13.Future<_i5.PiHoleServerInfoResponse> fetchAllServerInfo() =>
       (super.noSuchMethod(
             Invocation.method(#fetchAllServerInfo, []),
-            returnValue: _i12.Future<_i5.PiHoleServerInfoResponse>.value(
+            returnValue: _i13.Future<_i5.PiHoleServerInfoResponse>.value(
               _FakePiHoleServerInfoResponse_19(
                 this,
                 Invocation.method(#fetchAllServerInfo, []),
               ),
             ),
           )
-          as _i12.Future<_i5.PiHoleServerInfoResponse>);
+          as _i13.Future<_i5.PiHoleServerInfoResponse>);
 
   @override
-  _i12.Future<_i5.SubscriptionsResponse> getSubscriptions({
+  _i13.Future<_i5.SubscriptionsResponse> getSubscriptions({
     String? url,
     String? stype,
   }) =>
@@ -1621,7 +1628,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #url: url,
               #stype: stype,
             }),
-            returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
+            returnValue: _i13.Future<_i5.SubscriptionsResponse>.value(
               _FakeSubscriptionsResponse_20(
                 this,
                 Invocation.method(#getSubscriptions, [], {
@@ -1631,10 +1638,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.SubscriptionsResponse>);
+          as _i13.Future<_i5.SubscriptionsResponse>);
 
   @override
-  _i12.Future<_i5.RemoveSubscriptionResponse> removeSubscription({
+  _i13.Future<_i5.RemoveSubscriptionResponse> removeSubscription({
     required String? url,
     required String? stype,
   }) =>
@@ -1643,7 +1650,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #url: url,
               #stype: stype,
             }),
-            returnValue: _i12.Future<_i5.RemoveSubscriptionResponse>.value(
+            returnValue: _i13.Future<_i5.RemoveSubscriptionResponse>.value(
               _FakeRemoveSubscriptionResponse_21(
                 this,
                 Invocation.method(#removeSubscription, [], {
@@ -1653,40 +1660,40 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.RemoveSubscriptionResponse>);
+          as _i13.Future<_i5.RemoveSubscriptionResponse>);
 
   @override
-  _i12.Future<_i5.SubscriptionsResponse> createSubscription({
+  _i13.Future<_i5.SubscriptionsResponse> createSubscription({
     required _i26.SubscriptionRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createSubscription, [], {#body: body}),
-            returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
+            returnValue: _i13.Future<_i5.SubscriptionsResponse>.value(
               _FakeSubscriptionsResponse_20(
                 this,
                 Invocation.method(#createSubscription, [], {#body: body}),
               ),
             ),
           )
-          as _i12.Future<_i5.SubscriptionsResponse>);
+          as _i13.Future<_i5.SubscriptionsResponse>);
 
   @override
-  _i12.Future<_i5.SubscriptionsResponse> updateSubscription({
+  _i13.Future<_i5.SubscriptionsResponse> updateSubscription({
     required _i26.SubscriptionRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateSubscription, [], {#body: body}),
-            returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
+            returnValue: _i13.Future<_i5.SubscriptionsResponse>.value(
               _FakeSubscriptionsResponse_20(
                 this,
                 Invocation.method(#updateSubscription, [], {#body: body}),
               ),
             ),
           )
-          as _i12.Future<_i5.SubscriptionsResponse>);
+          as _i13.Future<_i5.SubscriptionsResponse>);
 
   @override
-  _i12.Future<_i5.SearchResponse> searchSubscriptions({
+  _i13.Future<_i5.SearchResponse> searchSubscriptions({
     required String? domain,
     bool? partial,
     int? limit,
@@ -1699,7 +1706,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #limit: limit,
               #debug: debug,
             }),
-            returnValue: _i12.Future<_i5.SearchResponse>.value(
+            returnValue: _i13.Future<_i5.SearchResponse>.value(
               _FakeSearchResponse_22(
                 this,
                 Invocation.method(#searchSubscriptions, [], {
@@ -1711,110 +1718,110 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.SearchResponse>);
+          as _i13.Future<_i5.SearchResponse>);
 
   @override
-  _i12.Future<_i5.GroupsResponse> getGroups({String? name}) =>
+  _i13.Future<_i5.GroupsResponse> getGroups({String? name}) =>
       (super.noSuchMethod(
             Invocation.method(#getGroups, [], {#name: name}),
-            returnValue: _i12.Future<_i5.GroupsResponse>.value(
+            returnValue: _i13.Future<_i5.GroupsResponse>.value(
               _FakeGroupsResponse_23(
                 this,
                 Invocation.method(#getGroups, [], {#name: name}),
               ),
             ),
           )
-          as _i12.Future<_i5.GroupsResponse>);
+          as _i13.Future<_i5.GroupsResponse>);
 
   @override
-  _i12.Future<_i5.RemoveGroupResponse> removeGroup({required String? name}) =>
+  _i13.Future<_i5.RemoveGroupResponse> removeGroup({required String? name}) =>
       (super.noSuchMethod(
             Invocation.method(#removeGroup, [], {#name: name}),
-            returnValue: _i12.Future<_i5.RemoveGroupResponse>.value(
+            returnValue: _i13.Future<_i5.RemoveGroupResponse>.value(
               _FakeRemoveGroupResponse_24(
                 this,
                 Invocation.method(#removeGroup, [], {#name: name}),
               ),
             ),
           )
-          as _i12.Future<_i5.RemoveGroupResponse>);
+          as _i13.Future<_i5.RemoveGroupResponse>);
 
   @override
-  _i12.Future<_i5.GroupsResponse> createGroup({
+  _i13.Future<_i5.GroupsResponse> createGroup({
     required _i27.GroupRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createGroup, [], {#body: body}),
-            returnValue: _i12.Future<_i5.GroupsResponse>.value(
+            returnValue: _i13.Future<_i5.GroupsResponse>.value(
               _FakeGroupsResponse_23(
                 this,
                 Invocation.method(#createGroup, [], {#body: body}),
               ),
             ),
           )
-          as _i12.Future<_i5.GroupsResponse>);
+          as _i13.Future<_i5.GroupsResponse>);
 
   @override
-  _i12.Future<_i5.GroupsResponse> updateGroup({
+  _i13.Future<_i5.GroupsResponse> updateGroup({
     required String? name,
     required _i27.GroupRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateGroup, [], {#name: name, #body: body}),
-            returnValue: _i12.Future<_i5.GroupsResponse>.value(
+            returnValue: _i13.Future<_i5.GroupsResponse>.value(
               _FakeGroupsResponse_23(
                 this,
                 Invocation.method(#updateGroup, [], {#name: name, #body: body}),
               ),
             ),
           )
-          as _i12.Future<_i5.GroupsResponse>);
+          as _i13.Future<_i5.GroupsResponse>);
 
   @override
-  _i12.Future<_i5.ClientsResponse> getClients({String? client}) =>
+  _i13.Future<_i5.ClientsResponse> getClients({String? client}) =>
       (super.noSuchMethod(
             Invocation.method(#getClients, [], {#client: client}),
-            returnValue: _i12.Future<_i5.ClientsResponse>.value(
+            returnValue: _i13.Future<_i5.ClientsResponse>.value(
               _FakeClientsResponse_25(
                 this,
                 Invocation.method(#getClients, [], {#client: client}),
               ),
             ),
           )
-          as _i12.Future<_i5.ClientsResponse>);
+          as _i13.Future<_i5.ClientsResponse>);
 
   @override
-  _i12.Future<_i5.RemoveClientResponse> removeClient({
+  _i13.Future<_i5.RemoveClientResponse> removeClient({
     required String? client,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#removeClient, [], {#client: client}),
-            returnValue: _i12.Future<_i5.RemoveClientResponse>.value(
+            returnValue: _i13.Future<_i5.RemoveClientResponse>.value(
               _FakeRemoveClientResponse_26(
                 this,
                 Invocation.method(#removeClient, [], {#client: client}),
               ),
             ),
           )
-          as _i12.Future<_i5.RemoveClientResponse>);
+          as _i13.Future<_i5.RemoveClientResponse>);
 
   @override
-  _i12.Future<_i5.ClientsResponse> createClient({
+  _i13.Future<_i5.ClientsResponse> createClient({
     required _i28.ClientRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createClient, [], {#body: body}),
-            returnValue: _i12.Future<_i5.ClientsResponse>.value(
+            returnValue: _i13.Future<_i5.ClientsResponse>.value(
               _FakeClientsResponse_25(
                 this,
                 Invocation.method(#createClient, [], {#body: body}),
               ),
             ),
           )
-          as _i12.Future<_i5.ClientsResponse>);
+          as _i13.Future<_i5.ClientsResponse>);
 
   @override
-  _i12.Future<_i5.ClientsResponse> updateClient({
+  _i13.Future<_i5.ClientsResponse> updateClient({
     required String? client,
     required _i28.ClientRequest? body,
   }) =>
@@ -1823,7 +1830,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #client: client,
               #body: body,
             }),
-            returnValue: _i12.Future<_i5.ClientsResponse>.value(
+            returnValue: _i13.Future<_i5.ClientsResponse>.value(
               _FakeClientsResponse_25(
                 this,
                 Invocation.method(#updateClient, [], {
@@ -1833,80 +1840,80 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.ClientsResponse>);
+          as _i13.Future<_i5.ClientsResponse>);
 
   @override
-  _i12.Stream<_i5.GravityResponse> updateGravity() =>
+  _i13.Stream<_i5.GravityResponse> updateGravity() =>
       (super.noSuchMethod(
             Invocation.method(#updateGravity, []),
-            returnValue: _i12.Stream<_i5.GravityResponse>.empty(),
+            returnValue: _i13.Stream<_i5.GravityResponse>.empty(),
           )
-          as _i12.Stream<_i5.GravityResponse>);
+          as _i13.Stream<_i5.GravityResponse>);
 
   @override
-  _i12.Future<_i5.MessagesResponse> getMessages() =>
+  _i13.Future<_i5.MessagesResponse> getMessages() =>
       (super.noSuchMethod(
             Invocation.method(#getMessages, []),
-            returnValue: _i12.Future<_i5.MessagesResponse>.value(
+            returnValue: _i13.Future<_i5.MessagesResponse>.value(
               _FakeMessagesResponse_27(
                 this,
                 Invocation.method(#getMessages, []),
               ),
             ),
           )
-          as _i12.Future<_i5.MessagesResponse>);
+          as _i13.Future<_i5.MessagesResponse>);
 
   @override
-  _i12.Future<_i5.RemoveMessageResponse> removeMessage(int? id) =>
+  _i13.Future<_i5.RemoveMessageResponse> removeMessage(int? id) =>
       (super.noSuchMethod(
             Invocation.method(#removeMessage, [id]),
-            returnValue: _i12.Future<_i5.RemoveMessageResponse>.value(
+            returnValue: _i13.Future<_i5.RemoveMessageResponse>.value(
               _FakeRemoveMessageResponse_28(
                 this,
                 Invocation.method(#removeMessage, [id]),
               ),
             ),
           )
-          as _i12.Future<_i5.RemoveMessageResponse>);
+          as _i13.Future<_i5.RemoveMessageResponse>);
 
   @override
-  _i12.Future<_i5.MetricsResponse> getMetrics() =>
+  _i13.Future<_i5.MetricsResponse> getMetrics() =>
       (super.noSuchMethod(
             Invocation.method(#getMetrics, []),
-            returnValue: _i12.Future<_i5.MetricsResponse>.value(
+            returnValue: _i13.Future<_i5.MetricsResponse>.value(
               _FakeMetricsResponse_29(this, Invocation.method(#getMetrics, [])),
             ),
           )
-          as _i12.Future<_i5.MetricsResponse>);
+          as _i13.Future<_i5.MetricsResponse>);
 
   @override
-  _i12.Future<_i5.PaddResponse> getPadd({bool? full}) =>
+  _i13.Future<_i5.PaddResponse> getPadd({bool? full}) =>
       (super.noSuchMethod(
             Invocation.method(#getPadd, [], {#full: full}),
-            returnValue: _i12.Future<_i5.PaddResponse>.value(
+            returnValue: _i13.Future<_i5.PaddResponse>.value(
               _FakePaddResponse_30(
                 this,
                 Invocation.method(#getPadd, [], {#full: full}),
               ),
             ),
           )
-          as _i12.Future<_i5.PaddResponse>);
+          as _i13.Future<_i5.PaddResponse>);
 
   @override
-  _i12.Future<_i5.GatewayResponse> getGateway({bool? isDetailed}) =>
+  _i13.Future<_i5.GatewayResponse> getGateway({bool? isDetailed}) =>
       (super.noSuchMethod(
             Invocation.method(#getGateway, [], {#isDetailed: isDetailed}),
-            returnValue: _i12.Future<_i5.GatewayResponse>.value(
+            returnValue: _i13.Future<_i5.GatewayResponse>.value(
               _FakeGatewayResponse_31(
                 this,
                 Invocation.method(#getGateway, [], {#isDetailed: isDetailed}),
               ),
             ),
           )
-          as _i12.Future<_i5.GatewayResponse>);
+          as _i13.Future<_i5.GatewayResponse>);
 
   @override
-  _i12.Future<_i5.DevicesResponse> getDevices({
+  _i13.Future<_i5.DevicesResponse> getDevices({
     int? maxDevices,
     int? maxAddresses,
   }) =>
@@ -1915,7 +1922,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #maxDevices: maxDevices,
               #maxAddresses: maxAddresses,
             }),
-            returnValue: _i12.Future<_i5.DevicesResponse>.value(
+            returnValue: _i13.Future<_i5.DevicesResponse>.value(
               _FakeDevicesResponse_32(
                 this,
                 Invocation.method(#getDevices, [], {
@@ -1925,23 +1932,23 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.DevicesResponse>);
+          as _i13.Future<_i5.DevicesResponse>);
 
   @override
-  _i12.Future<_i5.DeleteDeviceResponse> deleteDevice(int? id) =>
+  _i13.Future<_i5.DeleteDeviceResponse> deleteDevice(int? id) =>
       (super.noSuchMethod(
             Invocation.method(#deleteDevice, [id]),
-            returnValue: _i12.Future<_i5.DeleteDeviceResponse>.value(
+            returnValue: _i13.Future<_i5.DeleteDeviceResponse>.value(
               _FakeDeleteDeviceResponse_33(
                 this,
                 Invocation.method(#deleteDevice, [id]),
               ),
             ),
           )
-          as _i12.Future<_i5.DeleteDeviceResponse>);
+          as _i13.Future<_i5.DeleteDeviceResponse>);
 
   @override
-  _i12.Future<_i5.ConfigurationResponse> getConfiguration({
+  _i13.Future<_i5.ConfigurationResponse> getConfiguration({
     String? element,
     bool? isDetailed,
   }) =>
@@ -1950,7 +1957,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #element: element,
               #isDetailed: isDetailed,
             }),
-            returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
+            returnValue: _i13.Future<_i5.ConfigurationResponse>.value(
               _FakeConfigurationResponse_34(
                 this,
                 Invocation.method(#getConfiguration, [], {
@@ -1960,10 +1967,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.ConfigurationResponse>);
+          as _i13.Future<_i5.ConfigurationResponse>);
 
   @override
-  _i12.Future<_i5.ConfigurationResponse> patchConfiguration(
+  _i13.Future<_i5.ConfigurationResponse> patchConfiguration(
     _i29.ConfigData? body, {
     bool? isRestart = true,
   }) =>
@@ -1973,7 +1980,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               [body],
               {#isRestart: isRestart},
             ),
-            returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
+            returnValue: _i13.Future<_i5.ConfigurationResponse>.value(
               _FakeConfigurationResponse_34(
                 this,
                 Invocation.method(
@@ -1984,10 +1991,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.ConfigurationResponse>);
+          as _i13.Future<_i5.ConfigurationResponse>);
 
   @override
-  _i12.Future<_i5.DeleteConfigResponse> deleteConfiguration({
+  _i13.Future<_i5.DeleteConfigResponse> deleteConfiguration({
     required String? element,
     required String? value,
     bool? isRestart = true,
@@ -1998,7 +2005,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #value: value,
               #isRestart: isRestart,
             }),
-            returnValue: _i12.Future<_i5.DeleteConfigResponse>.value(
+            returnValue: _i13.Future<_i5.DeleteConfigResponse>.value(
               _FakeDeleteConfigResponse_35(
                 this,
                 Invocation.method(#deleteConfiguration, [], {
@@ -2009,10 +2016,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.DeleteConfigResponse>);
+          as _i13.Future<_i5.DeleteConfigResponse>);
 
   @override
-  _i12.Future<_i5.PutConfigResponse> putConfiguration({
+  _i13.Future<_i5.PutConfigResponse> putConfiguration({
     required String? element,
     required String? value,
     bool? isRestart = true,
@@ -2023,7 +2030,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #value: value,
               #isRestart: isRestart,
             }),
-            returnValue: _i12.Future<_i5.PutConfigResponse>.value(
+            returnValue: _i13.Future<_i5.PutConfigResponse>.value(
               _FakePutConfigResponse_36(
                 this,
                 Invocation.method(#putConfiguration, [], {
@@ -2034,10 +2041,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.PutConfigResponse>);
+          as _i13.Future<_i5.PutConfigResponse>);
 
   @override
-  _i12.Future<_i5.ConfigurationResponse> patchDnsQueryLoggingConfig(
+  _i13.Future<_i5.ConfigurationResponse> patchDnsQueryLoggingConfig(
     bool? status, {
     bool? isRestart = true,
   }) =>
@@ -2047,7 +2054,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               [status],
               {#isRestart: isRestart},
             ),
-            returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
+            returnValue: _i13.Future<_i5.ConfigurationResponse>.value(
               _FakeConfigurationResponse_34(
                 this,
                 Invocation.method(
@@ -2058,23 +2065,23 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.ConfigurationResponse>);
+          as _i13.Future<_i5.ConfigurationResponse>);
 
   @override
-  _i12.Future<_i5.LocalDnsResponse> getLocalDns() =>
+  _i13.Future<_i5.LocalDnsResponse> getLocalDns() =>
       (super.noSuchMethod(
             Invocation.method(#getLocalDns, []),
-            returnValue: _i12.Future<_i5.LocalDnsResponse>.value(
+            returnValue: _i13.Future<_i5.LocalDnsResponse>.value(
               _FakeLocalDnsResponse_37(
                 this,
                 Invocation.method(#getLocalDns, []),
               ),
             ),
           )
-          as _i12.Future<_i5.LocalDnsResponse>);
+          as _i13.Future<_i5.LocalDnsResponse>);
 
   @override
-  _i12.Future<_i5.AddLocalDnsResponse> addLocalDns({
+  _i13.Future<_i5.AddLocalDnsResponse> addLocalDns({
     required String? ip,
     required String? name,
     bool? isRestart = true,
@@ -2085,7 +2092,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #name: name,
               #isRestart: isRestart,
             }),
-            returnValue: _i12.Future<_i5.AddLocalDnsResponse>.value(
+            returnValue: _i13.Future<_i5.AddLocalDnsResponse>.value(
               _FakeAddLocalDnsResponse_38(
                 this,
                 Invocation.method(#addLocalDns, [], {
@@ -2096,10 +2103,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.AddLocalDnsResponse>);
+          as _i13.Future<_i5.AddLocalDnsResponse>);
 
   @override
-  _i12.Future<_i5.LocalDnsResponse> updateLocalDns({
+  _i13.Future<_i5.LocalDnsResponse> updateLocalDns({
     required String? ip,
     required String? name,
     bool? isRestart = true,
@@ -2112,7 +2119,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #isRestart: isRestart,
               #oldIp: oldIp,
             }),
-            returnValue: _i12.Future<_i5.LocalDnsResponse>.value(
+            returnValue: _i13.Future<_i5.LocalDnsResponse>.value(
               _FakeLocalDnsResponse_37(
                 this,
                 Invocation.method(#updateLocalDns, [], {
@@ -2124,10 +2131,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.LocalDnsResponse>);
+          as _i13.Future<_i5.LocalDnsResponse>);
 
   @override
-  _i12.Future<_i5.DeleteLocalDnsResponse> deleteLocalDns({
+  _i13.Future<_i5.DeleteLocalDnsResponse> deleteLocalDns({
     required String? ip,
     required String? name,
     bool? isRestart = true,
@@ -2138,7 +2145,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #name: name,
               #isRestart: isRestart,
             }),
-            returnValue: _i12.Future<_i5.DeleteLocalDnsResponse>.value(
+            returnValue: _i13.Future<_i5.DeleteLocalDnsResponse>.value(
               _FakeDeleteLocalDnsResponse_39(
                 this,
                 Invocation.method(#deleteLocalDns, [], {
@@ -2149,107 +2156,107 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               ),
             ),
           )
-          as _i12.Future<_i5.DeleteLocalDnsResponse>);
+          as _i13.Future<_i5.DeleteLocalDnsResponse>);
 
   @override
-  _i12.Future<_i5.ActionResponse> flushArp() =>
+  _i13.Future<_i5.ActionResponse> flushArp() =>
       (super.noSuchMethod(
             Invocation.method(#flushArp, []),
-            returnValue: _i12.Future<_i5.ActionResponse>.value(
+            returnValue: _i13.Future<_i5.ActionResponse>.value(
               _FakeActionResponse_40(this, Invocation.method(#flushArp, [])),
             ),
           )
-          as _i12.Future<_i5.ActionResponse>);
+          as _i13.Future<_i5.ActionResponse>);
 
   @override
-  _i12.Future<_i5.ActionResponse> flushNetwork() =>
+  _i13.Future<_i5.ActionResponse> flushNetwork() =>
       (super.noSuchMethod(
             Invocation.method(#flushNetwork, []),
-            returnValue: _i12.Future<_i5.ActionResponse>.value(
+            returnValue: _i13.Future<_i5.ActionResponse>.value(
               _FakeActionResponse_40(
                 this,
                 Invocation.method(#flushNetwork, []),
               ),
             ),
           )
-          as _i12.Future<_i5.ActionResponse>);
+          as _i13.Future<_i5.ActionResponse>);
 
   @override
-  _i12.Future<_i5.ActionResponse> flushLogs() =>
+  _i13.Future<_i5.ActionResponse> flushLogs() =>
       (super.noSuchMethod(
             Invocation.method(#flushLogs, []),
-            returnValue: _i12.Future<_i5.ActionResponse>.value(
+            returnValue: _i13.Future<_i5.ActionResponse>.value(
               _FakeActionResponse_40(this, Invocation.method(#flushLogs, [])),
             ),
           )
-          as _i12.Future<_i5.ActionResponse>);
+          as _i13.Future<_i5.ActionResponse>);
 
   @override
-  _i12.Future<_i5.ActionResponse> restartDns() =>
+  _i13.Future<_i5.ActionResponse> restartDns() =>
       (super.noSuchMethod(
             Invocation.method(#restartDns, []),
-            returnValue: _i12.Future<_i5.ActionResponse>.value(
+            returnValue: _i13.Future<_i5.ActionResponse>.value(
               _FakeActionResponse_40(this, Invocation.method(#restartDns, [])),
             ),
           )
-          as _i12.Future<_i5.ActionResponse>);
+          as _i13.Future<_i5.ActionResponse>);
 
   @override
-  _i12.Future<_i5.SessionsResponse> getSessions() =>
+  _i13.Future<_i5.SessionsResponse> getSessions() =>
       (super.noSuchMethod(
             Invocation.method(#getSessions, []),
-            returnValue: _i12.Future<_i5.SessionsResponse>.value(
+            returnValue: _i13.Future<_i5.SessionsResponse>.value(
               _FakeSessionsResponse_41(
                 this,
                 Invocation.method(#getSessions, []),
               ),
             ),
           )
-          as _i12.Future<_i5.SessionsResponse>);
+          as _i13.Future<_i5.SessionsResponse>);
 
   @override
-  _i12.Future<_i5.DeleteSessionResponse> deleteSession(int? id) =>
+  _i13.Future<_i5.DeleteSessionResponse> deleteSession(int? id) =>
       (super.noSuchMethod(
             Invocation.method(#deleteSession, [id]),
-            returnValue: _i12.Future<_i5.DeleteSessionResponse>.value(
+            returnValue: _i13.Future<_i5.DeleteSessionResponse>.value(
               _FakeDeleteSessionResponse_42(
                 this,
                 Invocation.method(#deleteSession, [id]),
               ),
             ),
           )
-          as _i12.Future<_i5.DeleteSessionResponse>);
+          as _i13.Future<_i5.DeleteSessionResponse>);
 
   @override
-  _i12.Future<_i5.ClientResponse> getClient() =>
+  _i13.Future<_i5.ClientResponse> getClient() =>
       (super.noSuchMethod(
             Invocation.method(#getClient, []),
-            returnValue: _i12.Future<_i5.ClientResponse>.value(
+            returnValue: _i13.Future<_i5.ClientResponse>.value(
               _FakeClientResponse_43(this, Invocation.method(#getClient, [])),
             ),
           )
-          as _i12.Future<_i5.ClientResponse>);
+          as _i13.Future<_i5.ClientResponse>);
 
   @override
-  _i12.Future<_i5.DhcpResponse> getDhcps() =>
+  _i13.Future<_i5.DhcpResponse> getDhcps() =>
       (super.noSuchMethod(
             Invocation.method(#getDhcps, []),
-            returnValue: _i12.Future<_i5.DhcpResponse>.value(
+            returnValue: _i13.Future<_i5.DhcpResponse>.value(
               _FakeDhcpResponse_44(this, Invocation.method(#getDhcps, [])),
             ),
           )
-          as _i12.Future<_i5.DhcpResponse>);
+          as _i13.Future<_i5.DhcpResponse>);
 
   @override
-  _i12.Future<_i5.DeleteDhcpResponse> deleteDhcp(String? ip) =>
+  _i13.Future<_i5.DeleteDhcpResponse> deleteDhcp(String? ip) =>
       (super.noSuchMethod(
             Invocation.method(#deleteDhcp, [ip]),
-            returnValue: _i12.Future<_i5.DeleteDhcpResponse>.value(
+            returnValue: _i13.Future<_i5.DeleteDhcpResponse>.value(
               _FakeDeleteDhcpResponse_45(
                 this,
                 Invocation.method(#deleteDhcp, [ip]),
               ),
             ),
           )
-          as _i12.Future<_i5.DeleteDhcpResponse>);
+          as _i13.Future<_i5.DeleteDhcpResponse>);
 }

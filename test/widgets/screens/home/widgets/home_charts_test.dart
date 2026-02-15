@@ -55,7 +55,8 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 1.0;
 
-      when(testSetup.mockConfigProvider.homeVisualizationMode).thenReturn(1);
+      when(testSetup.mockConfigProvider.homeVisualizationMode)
+          .thenReturn(HomeVisualizationMode.bar);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -157,7 +158,8 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 1.0;
 
-        when(testSetup.mockConfigProvider.homeVisualizationMode).thenReturn(1);
+        when(testSetup.mockConfigProvider.homeVisualizationMode)
+          .thenReturn(HomeVisualizationMode.bar);
 
         addTearDown(() {
           tester.view.resetPhysicalSize();

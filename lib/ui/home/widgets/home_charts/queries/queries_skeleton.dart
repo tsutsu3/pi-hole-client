@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
@@ -38,7 +39,8 @@ class QueriesSkeleton extends StatelessWidget {
             width: double.maxFinite,
             height: 350,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: appConfigViewModel.homeVisualizationMode == 0
+            child: appConfigViewModel.homeVisualizationMode ==
+                    HomeVisualizationMode.lineArea
                 ? LineChartSkeleton(
                     selectedTheme: appConfigViewModel.selectedTheme,
                     showAnimation: appConfigViewModel.loadingAnimation,

@@ -99,6 +99,28 @@ enum DomainKind {
 
 enum GraphSection { homeView, statsView }
 
+/// Controls how statistics data is displayed on the Statistics screen.
+///
+/// Persisted in the local database as an integer index.
+enum StatisticsVisualizationMode {
+  /// Display statistics as a vertical list.
+  list, // index 0
+
+  /// Display statistics as a pie chart.
+  pieChart, // index 1
+}
+
+/// Controls how chart data is displayed on the Home screen.
+///
+/// Persisted in the local database as an integer index.
+enum HomeVisualizationMode {
+  /// Display queries/clients as a line + area chart.
+  lineArea, // index 0
+
+  /// Display queries/clients as a bar chart.
+  bar, // index 1
+}
+
 /// TLS Status
 enum TlsStatus {
   /// 0: Session is end-to-end encrypted

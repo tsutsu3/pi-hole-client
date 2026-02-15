@@ -1,6 +1,7 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/models_old/database.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 
@@ -43,8 +44,14 @@ void main() {
       expect(appConfigViewModel.loadingAnimation, true);
       expect(appConfigViewModel.importantInfoReaden, false);
       expect(appConfigViewModel.hideZeroValues, false);
-      expect(appConfigViewModel.statisticsVisualizationMode, 0);
-      expect(appConfigViewModel.homeVisualizationMode, 0);
+      expect(
+        appConfigViewModel.statisticsVisualizationMode,
+        StatisticsVisualizationMode.list,
+      );
+      expect(
+        appConfigViewModel.homeVisualizationMode,
+        HomeVisualizationMode.lineArea,
+      );
       expect(appConfigViewModel.sendCrashReports, false);
       expect(appConfigViewModel.logs, []);
       expect(appConfigViewModel.selectedSettingsScreen, null);
@@ -197,8 +204,14 @@ void main() {
         expect(appConfigViewModel.importantInfoReaden, true);
         expect(appConfigViewModel.hideZeroValues, true);
         expect(appConfigViewModel.loadingAnimation, false);
-        expect(appConfigViewModel.statisticsVisualizationMode, 1);
-        expect(appConfigViewModel.homeVisualizationMode, 1);
+        expect(
+          appConfigViewModel.statisticsVisualizationMode,
+          StatisticsVisualizationMode.pieChart,
+        );
+        expect(
+          appConfigViewModel.homeVisualizationMode,
+          HomeVisualizationMode.bar,
+        );
         expect(appConfigViewModel.sendCrashReports, true);
         expect(listenerCalled, true);
         expect(appDbData.toDict(), {
@@ -262,10 +275,13 @@ void main() {
       'setStatisticsVisualizationMode updates value and notifies listeners',
       () async {
         final result = await appConfigViewModel.setStatisticsVisualizationMode(
-          1,
+          StatisticsVisualizationMode.pieChart,
         );
         expect(result, true);
-        expect(appConfigViewModel.statisticsVisualizationMode, 1);
+        expect(
+          appConfigViewModel.statisticsVisualizationMode,
+          StatisticsVisualizationMode.pieChart,
+        );
         expect(listenerCalled, true);
       },
     );
@@ -273,9 +289,14 @@ void main() {
     test(
       'setHomeVisualizationMode updates value and notifies listeners',
       () async {
-        final result = await appConfigViewModel.setHomeVisualizationMode(1);
+        final result = await appConfigViewModel.setHomeVisualizationMode(
+          HomeVisualizationMode.bar,
+        );
         expect(result, true);
-        expect(appConfigViewModel.homeVisualizationMode, 1);
+        expect(
+          appConfigViewModel.homeVisualizationMode,
+          HomeVisualizationMode.bar,
+        );
         expect(listenerCalled, true);
       },
     );
@@ -301,8 +322,14 @@ void main() {
         expect(appConfigViewModel.importantInfoReaden, false);
         expect(appConfigViewModel.hideZeroValues, false);
         expect(appConfigViewModel.loadingAnimation, true);
-        expect(appConfigViewModel.statisticsVisualizationMode, 0);
-        expect(appConfigViewModel.homeVisualizationMode, 0);
+        expect(
+          appConfigViewModel.statisticsVisualizationMode,
+          StatisticsVisualizationMode.list,
+        );
+        expect(
+          appConfigViewModel.homeVisualizationMode,
+          HomeVisualizationMode.lineArea,
+        );
         expect(appConfigViewModel.sendCrashReports, false);
         expect(listenerCalled, true);
       },

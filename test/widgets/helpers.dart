@@ -1754,8 +1754,10 @@ class TestSetupHelper {
     when(mockConfigProvider.reducedDataCharts).thenReturn(false);
     when(mockConfigProvider.hideZeroValues).thenReturn(false);
     when(mockConfigProvider.selectedTheme).thenReturn(ThemeMode.light);
-    when(mockConfigProvider.statisticsVisualizationMode).thenReturn(0);
-    when(mockConfigProvider.homeVisualizationMode).thenReturn(0);
+    when(mockConfigProvider.statisticsVisualizationMode)
+        .thenReturn(StatisticsVisualizationMode.list);
+    when(mockConfigProvider.homeVisualizationMode)
+        .thenReturn(HomeVisualizationMode.lineArea);
     when(mockConfigProvider.setShowingSnackbar(any)).thenReturn(null);
     when(
       mockConfigProvider.setReducedDataCharts(any),

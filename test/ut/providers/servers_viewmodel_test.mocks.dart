@@ -3,16 +3,17 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i9;
-import 'dart:ui' as _i11;
+import 'dart:async' as _i10;
+import 'dart:ui' as _i12;
 
-import 'package:device_info_plus/device_info_plus.dart' as _i8;
+import 'package:device_info_plus/device_info_plus.dart' as _i9;
 import 'package:flutter/material.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i5;
-import 'package:package_info_plus/package_info_plus.dart' as _i7;
-import 'package:pi_hole_client/domain/models_old/app_log.dart' as _i6;
-import 'package:pi_hole_client/domain/models_old/database.dart' as _i10;
+import 'package:package_info_plus/package_info_plus.dart' as _i8;
+import 'package:pi_hole_client/config/enums.dart' as _i6;
+import 'package:pi_hole_client/domain/models_old/app_log.dart' as _i7;
+import 'package:pi_hole_client/domain/models_old/database.dart' as _i11;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart'
     as _i3;
@@ -163,20 +164,20 @@ class MockAppConfigViewModel extends _i1.Mock
           as bool);
 
   @override
-  int get statisticsVisualizationMode =>
+  _i6.StatisticsVisualizationMode get statisticsVisualizationMode =>
       (super.noSuchMethod(
             Invocation.getter(#statisticsVisualizationMode),
-            returnValue: 0,
+            returnValue: _i6.StatisticsVisualizationMode.list,
           )
-          as int);
+          as _i6.StatisticsVisualizationMode);
 
   @override
-  int get homeVisualizationMode =>
+  _i6.HomeVisualizationMode get homeVisualizationMode =>
       (super.noSuchMethod(
             Invocation.getter(#homeVisualizationMode),
-            returnValue: 0,
+            returnValue: _i6.HomeVisualizationMode.lineArea,
           )
-          as int);
+          as _i6.HomeVisualizationMode);
 
   @override
   bool get sendCrashReports =>
@@ -187,9 +188,9 @@ class MockAppConfigViewModel extends _i1.Mock
           as bool);
 
   @override
-  List<_i6.AppLog> get logs =>
-      (super.noSuchMethod(Invocation.getter(#logs), returnValue: <_i6.AppLog>[])
-          as List<_i6.AppLog>);
+  List<_i7.AppLog> get logs =>
+      (super.noSuchMethod(Invocation.getter(#logs), returnValue: <_i7.AppLog>[])
+          as List<_i7.AppLog>);
 
   @override
   int get logAutoRefreshTime =>
@@ -230,19 +231,19 @@ class MockAppConfigViewModel extends _i1.Mock
   );
 
   @override
-  void setAppInfo(_i7.PackageInfo? appInfo) => super.noSuchMethod(
+  void setAppInfo(_i8.PackageInfo? appInfo) => super.noSuchMethod(
     Invocation.method(#setAppInfo, [appInfo]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void setAndroidInfo(_i8.AndroidDeviceInfo? deviceInfo) => super.noSuchMethod(
+  void setAndroidInfo(_i9.AndroidDeviceInfo? deviceInfo) => super.noSuchMethod(
     Invocation.method(#setAndroidInfo, [deviceInfo]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void setIosInfo(_i8.IosDeviceInfo? deviceInfo) => super.noSuchMethod(
+  void setIosInfo(_i9.IosDeviceInfo? deviceInfo) => super.noSuchMethod(
     Invocation.method(#setIosInfo, [deviceInfo]),
     returnValueForMissingStub: null,
   );
@@ -266,7 +267,7 @@ class MockAppConfigViewModel extends _i1.Mock
   );
 
   @override
-  void addLog(_i6.AppLog? log) => super.noSuchMethod(
+  void addLog(_i7.AppLog? log) => super.noSuchMethod(
     Invocation.method(#addLog, [log]),
     returnValueForMissingStub: null,
   );
@@ -282,155 +283,159 @@ class MockAppConfigViewModel extends _i1.Mock
       );
 
   @override
-  _i9.Future<bool> setUseBiometrics(bool? biometrics) =>
+  _i10.Future<bool> setUseBiometrics(bool? biometrics) =>
       (super.noSuchMethod(
             Invocation.method(#setUseBiometrics, [biometrics]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  _i9.Future<bool> setImportantInfoReaden(bool? status) =>
+  _i10.Future<bool> setImportantInfoReaden(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setImportantInfoReaden, [status]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  _i9.Future<bool> setPassCode(String? code) =>
+  _i10.Future<bool> setPassCode(String? code) =>
       (super.noSuchMethod(
             Invocation.method(#setPassCode, [code]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  _i9.Future<bool> setAutoRefreshTime(int? seconds) =>
+  _i10.Future<bool> setAutoRefreshTime(int? seconds) =>
       (super.noSuchMethod(
             Invocation.method(#setAutoRefreshTime, [seconds]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  _i9.Future<bool> setLogsPerQuery(double? time) =>
+  _i10.Future<bool> setLogsPerQuery(double? time) =>
       (super.noSuchMethod(
             Invocation.method(#setLogsPerQuery, [time]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  _i9.Future<bool> setSendCrashReports(bool? status) =>
+  _i10.Future<bool> setSendCrashReports(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setSendCrashReports, [status]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  _i9.Future<bool> setLogAutoRefreshTime(int? seconds) =>
+  _i10.Future<bool> setLogAutoRefreshTime(int? seconds) =>
       (super.noSuchMethod(
             Invocation.method(#setLogAutoRefreshTime, [seconds]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  _i9.Future<bool> setLiveLog(bool? status) =>
+  _i10.Future<bool> setLiveLog(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setLiveLog, [status]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  _i9.Future<bool> setLivelogPaused(bool? status) =>
+  _i10.Future<bool> setLivelogPaused(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setLivelogPaused, [status]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  void saveFromDb(_i10.AppDbData? dbData) => super.noSuchMethod(
+  void saveFromDb(_i11.AppDbData? dbData) => super.noSuchMethod(
     Invocation.method(#saveFromDb, [dbData]),
     returnValueForMissingStub: null,
   );
 
   @override
-  _i9.Future<bool> setReducedDataCharts(bool? status) =>
+  _i10.Future<bool> setReducedDataCharts(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setReducedDataCharts, [status]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  _i9.Future<bool> setHideZeroValues(bool? status) =>
+  _i10.Future<bool> setHideZeroValues(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setHideZeroValues, [status]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  _i9.Future<bool> setShowLoadingAnimation(bool? status) =>
+  _i10.Future<bool> setShowLoadingAnimation(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setShowLoadingAnimation, [status]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  _i9.Future<bool> setSelectedTheme(int? value) =>
+  _i10.Future<bool> setSelectedTheme(int? value) =>
       (super.noSuchMethod(
             Invocation.method(#setSelectedTheme, [value]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  _i9.Future<bool> setSelectedLanguage(String? value) =>
+  _i10.Future<bool> setSelectedLanguage(String? value) =>
       (super.noSuchMethod(
             Invocation.method(#setSelectedLanguage, [value]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  _i9.Future<bool> setStatisticsVisualizationMode(int? value) =>
+  _i10.Future<bool> setStatisticsVisualizationMode(
+    _i6.StatisticsVisualizationMode? value,
+  ) =>
       (super.noSuchMethod(
             Invocation.method(#setStatisticsVisualizationMode, [value]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  _i9.Future<bool> setHomeVisualizationMode(int? value) =>
+  _i10.Future<bool> setHomeVisualizationMode(
+    _i6.HomeVisualizationMode? value,
+  ) =>
       (super.noSuchMethod(
             Invocation.method(#setHomeVisualizationMode, [value]),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  _i9.Future<bool> restoreAppConfig() =>
+  _i10.Future<bool> restoreAppConfig() =>
       (super.noSuchMethod(
             Invocation.method(#restoreAppConfig, []),
-            returnValue: _i9.Future<bool>.value(false),
+            returnValue: _i10.Future<bool>.value(false),
           )
-          as _i9.Future<bool>);
+          as _i10.Future<bool>);
 
   @override
-  void addListener(_i11.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i12.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i11.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i12.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );

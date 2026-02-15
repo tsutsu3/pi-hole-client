@@ -107,9 +107,10 @@ class StatisticsListContent extends StatelessWidget {
       (p) => p.totalClients,
     );
 
-    final visualizationMode = context.select<AppConfigViewModel, int>(
-      (p) => p.statisticsVisualizationMode,
-    );
+    final visualizationMode =
+        context.select<AppConfigViewModel, StatisticsVisualizationMode>(
+          (p) => p.statisticsVisualizationMode,
+        );
 
     final theme = Theme.of(context);
     final loc = AppLocalizations.of(context)!;
@@ -225,7 +226,7 @@ class StatisticsListContent extends StatelessWidget {
             label: label,
             padding: const EdgeInsets.only(top: 24, left: 16, bottom: 16),
           ),
-          if (visualizationMode == 0)
+          if (visualizationMode == StatisticsVisualizationMode.list)
             listViewMode(topQueriesList)
           else
             pieChertViewMode(topQueriesList),

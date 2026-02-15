@@ -2,10 +2,11 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:pi_hole_client/ui/core/l10n/languages.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/local/app_config_repository.dart';
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
 import 'package:pi_hole_client/domain/models_old/database.dart';
+import 'package:pi_hole_client/ui/core/l10n/languages.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
@@ -29,8 +30,9 @@ class AppConfigViewModel with ChangeNotifier {
   int _importantInfoReaden = 0;
   int _hideZeroValues = 0;
   int _loadingAnimation = 1;
-  int _statisticsVisualizationMode = 0;
-  int _homeVisualizationMode = 0;
+  StatisticsVisualizationMode _statisticsVisualizationMode =
+      StatisticsVisualizationMode.list;
+  HomeVisualizationMode _homeVisualizationMode = HomeVisualizationMode.lineArea;
   int _sendCrashReports = 0;
   int? _selectedSettingsScreen;
   String _selectedLanguage = 'en';
@@ -146,11 +148,11 @@ class AppConfigViewModel with ChangeNotifier {
     return _loadingAnimation == 1;
   }
 
-  int get statisticsVisualizationMode {
+  StatisticsVisualizationMode get statisticsVisualizationMode {
     return _statisticsVisualizationMode;
   }
 
-  int get homeVisualizationMode {
+  HomeVisualizationMode get homeVisualizationMode {
     return _homeVisualizationMode;
   }
 
@@ -363,8 +365,10 @@ class AppConfigViewModel with ChangeNotifier {
     _importantInfoReaden = dbData.importantInfoReaden;
     _hideZeroValues = dbData.hideZeroValues;
     _loadingAnimation = dbData.loadingAnimation;
-    _statisticsVisualizationMode = dbData.statisticsVisualizationMode;
-    _homeVisualizationMode = dbData.homeVisualizationMode;
+    _statisticsVisualizationMode =
+        StatisticsVisualizationMode.values[dbData.statisticsVisualizationMode];
+    _homeVisualizationMode =
+        HomeVisualizationMode.values[dbData.homeVisualizationMode];
     _sendCrashReports = dbData.sendCrashReports;
 
     if (dbData.passCode != null) {
@@ -429,8 +433,11 @@ class AppConfigViewModel with ChangeNotifier {
     }
   }
 
-  Future<bool> setStatisticsVisualizationMode(int value) async {
-    final updated = await _repository.updateStatisticsVisualizationMode(value);
+  Future<bool> setStatisticsVisualizationMode(
+    StatisticsVisualizationMode value,
+  ) async {
+    final updated =
+        await _repository.updateStatisticsVisualizationMode(value.index);
     if (updated.isSuccess()) {
       _statisticsVisualizationMode = value;
       notifyListeners();
@@ -440,8 +447,9 @@ class AppConfigViewModel with ChangeNotifier {
     }
   }
 
-  Future<bool> setHomeVisualizationMode(int value) async {
-    final updated = await _repository.updateHomeVisualizationMode(value);
+  Future<bool> setHomeVisualizationMode(HomeVisualizationMode value) async {
+    final updated =
+        await _repository.updateHomeVisualizationMode(value.index);
     if (updated.isSuccess()) {
       _homeVisualizationMode = value;
       notifyListeners();
@@ -467,8 +475,8 @@ class AppConfigViewModel with ChangeNotifier {
       _importantInfoReaden = 0;
       _hideZeroValues = 0;
       _loadingAnimation = 1;
-      _statisticsVisualizationMode = 0;
-      _homeVisualizationMode = 0;
+      _statisticsVisualizationMode = StatisticsVisualizationMode.list;
+      _homeVisualizationMode = HomeVisualizationMode.lineArea;
       _sendCrashReports = 0;
 
       notifyListeners();

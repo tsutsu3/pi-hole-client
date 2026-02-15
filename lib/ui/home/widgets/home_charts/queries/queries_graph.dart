@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/queries/queries_last_hours_bar.dart';
@@ -26,7 +27,8 @@ class QueriesGraph extends StatelessWidget {
           (provider) => provider.getOvertimeDataJson,
         );
 
-    if (appConfigViewModel.homeVisualizationMode == 0) {
+    if (appConfigViewModel.homeVisualizationMode ==
+        HomeVisualizationMode.lineArea) {
       return QueriesLastHoursLine(
         data: overtimeDataJson!,
         reducedData: appConfigViewModel.reducedDataCharts,
