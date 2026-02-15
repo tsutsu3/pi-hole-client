@@ -1,11 +1,10 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/graph.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/home/widgets/home_charts/chart_utils.dart';
 import 'package:pi_hole_client/utils/format.dart';
-import 'package:pi_hole_client/utils/graph.dart';
 import 'package:provider/provider.dart';
 
 class QueriesLastHoursBar extends StatelessWidget {

@@ -1,3 +1,6 @@
+// units of 10 minutes
+const averageIntervalCount = 6;
+
 /// Calculate a suitable interval for the graph
 ///
 /// [topPoint] represents the maximum value on the graph.
