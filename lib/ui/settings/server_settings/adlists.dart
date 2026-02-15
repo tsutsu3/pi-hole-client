@@ -33,9 +33,7 @@ class AdlistScreen extends StatelessWidget {
       );
     }
 
-    final apiGateway = serversProvider.selectedApiGateway;
-
-    if (apiGateway?.server.apiVersion == 'v5') {
+    if (selectedServer.apiVersion == 'v5') {
       return Scaffold(
         appBar: AppBar(title: Text(AppLocalizations.of(context)!.adlists)),
         body: const SafeArea(child: PiHoleV5NotSupportedScreen()),
