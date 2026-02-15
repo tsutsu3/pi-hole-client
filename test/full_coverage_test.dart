@@ -1,6 +1,6 @@
 // ignore_for_file: unused_import
 import 'package:pi_hole_client/build_info/git_commit.dart';
-import 'package:pi_hole_client/config/api_versions.dart';
+import 'package:pi_hole_client/domain/model/api_versions.dart';
 import 'package:pi_hole_client/config/app_screens.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/formats.dart';

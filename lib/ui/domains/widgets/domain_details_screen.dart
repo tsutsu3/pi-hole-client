@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/api_versions.dart';
+import 'package:pi_hole_client/domain/model/api_versions.dart';
 import 'package:pi_hole_client/config/formats.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
