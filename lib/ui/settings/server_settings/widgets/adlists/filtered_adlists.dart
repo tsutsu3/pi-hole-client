@@ -6,11 +6,11 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlists_list.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class FilteredAdlists extends StatefulWidget {
@@ -26,8 +26,7 @@ class FilteredAdlists extends StatefulWidget {
   final int initialTab;
 
   @override
-  State<FilteredAdlists> createState() =>
-      _FilteredAdlistsState();
+  State<FilteredAdlists> createState() => _FilteredAdlistsState();
 }
 
 class _FilteredAdlistsState extends State<FilteredAdlists>
@@ -60,8 +59,8 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
       _viewModel.loadAdlists.run();
 
       if (!mounted) return;
-      final groupsProvider = context.read<GroupsProvider>();
-      await groupsProvider.loadGroups();
+      final groupsViewModel = context.read<GroupsViewModel>();
+      await groupsViewModel.loadGroups.runAsync();
 
       if (!mounted) return;
       final gravityUpdateProvider = context.read<GravityUpdateProvider>();
@@ -83,7 +82,7 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
     final viewModel = Provider.of<AdlistsViewModel>(context);
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final groups = context.watch<GroupsProvider>().groupItems;
+    final groups = context.watch<GroupsViewModel>().groupItems;
 
     Future<void> removeAdlist(Adlist adlist) async {
       final process = ProcessModal(context: context);
@@ -264,8 +263,9 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
                             fontSize: 24,
                             fontWeight: FontWeight.normal,
                             decoration: TextDecoration.none,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ),

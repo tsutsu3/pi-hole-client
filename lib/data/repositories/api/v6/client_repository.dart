@@ -3,7 +3,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/client_repositor
 import 'package:pi_hole_client/data/repositories/api/v6/base_v6_sid_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
-import 'package:pi_hole_client/domain/model/client/pihole_client.dart';
+import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:result_dart/result_dart.dart';
 
 class ClientRepositoryV6 extends BaseV6SidRepository
@@ -17,8 +17,8 @@ class ClientRepositoryV6 extends BaseV6SidRepository
   final PiholeV6ApiClient _client;
 
   @override
-  Future<Result<List<PiholeClient>>> fetchClients() async {
-    return runWithResultRetry<List<PiholeClient>>(
+  Future<Result<List<ManagedClient>>> fetchClients() async {
+    return runWithResultRetry<List<ManagedClient>>(
       action: () async {
         final sid = await getSid();
         final result = await _client.getClients(sid);
@@ -29,12 +29,12 @@ class ClientRepositoryV6 extends BaseV6SidRepository
   }
 
   @override
-  Future<Result<PiholeClient>> addClient(
+  Future<Result<ManagedClient>> addClient(
     String client, {
     String? comment,
     List<int>? groups = const [0],
   }) async {
-    return runWithResultRetry<PiholeClient>(
+    return runWithResultRetry<ManagedClient>(
       action: () async {
         final sid = await getSid();
         final result = await _client.postClients(
@@ -50,12 +50,12 @@ class ClientRepositoryV6 extends BaseV6SidRepository
   }
 
   @override
-  Future<Result<PiholeClient>> updateClient(
+  Future<Result<ManagedClient>> updateClient(
     String client, {
     String? comment,
     List<int>? groups = const [0],
   }) async {
-    return runWithResultRetry<PiholeClient>(
+    return runWithResultRetry<ManagedClient>(
       action: () async {
         final sid = await getSid();
         final result = await _client.putClients(

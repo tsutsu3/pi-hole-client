@@ -1,5 +1,5 @@
 import 'package:pi_hole_client/data/model/v6/clients/clients.dart' as srv;
-import 'package:pi_hole_client/domain/model/client/pihole_client.dart';
+import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 
 const kSrvGetClients = srv.Clients(
   clients: [
@@ -52,7 +52,7 @@ const kSrvPutClients = srv.Clients(
 );
 
 final kRepoFetchClients = [
-  PiholeClient(
+  ManagedClient(
     id: 1,
     client: '192.168.1.100',
     name: 'desktop',
@@ -61,7 +61,7 @@ final kRepoFetchClients = [
     dateAdded: DateTime.fromMillisecondsSinceEpoch(1594670974 * 1000),
     dateModified: DateTime.fromMillisecondsSinceEpoch(1611157897 * 1000),
   ),
-  PiholeClient(
+  ManagedClient(
     id: 2,
     client: 'ab:cd:ef:01:23:45',
     name: 'laptop',

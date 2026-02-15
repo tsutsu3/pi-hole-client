@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pihole_client.dart';
+part of 'managed_client.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_PiholeClient _$PiholeClientFromJson(Map<String, dynamic> json) =>
-    _PiholeClient(
+_ManagedClient _$ManagedClientFromJson(Map<String, dynamic> json) =>
+    _ManagedClient(
       id: (json['id'] as num).toInt(),
       client: json['client'] as String,
       groups: (json['groups'] as List<dynamic>)
@@ -19,7 +19,7 @@ _PiholeClient _$PiholeClientFromJson(Map<String, dynamic> json) =>
       comment: json['comment'] as String?,
     );
 
-Map<String, dynamic> _$PiholeClientToJson(_PiholeClient instance) =>
+Map<String, dynamic> _$ManagedClientToJson(_ManagedClient instance) =>
     <String, dynamic>{
       'id': instance.id,
       'client': instance.client,

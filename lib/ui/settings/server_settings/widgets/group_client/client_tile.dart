@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/domain/models_old/clients.dart';
+import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 
 class ClientTile extends StatelessWidget {
@@ -17,8 +17,8 @@ class ClientTile extends StatelessWidget {
     super.key,
   });
 
-  final ClientItem client;
-  final void Function(ClientItem) showClientDetails;
+  final ManagedClient client;
+  final void Function(ManagedClient) showClientDetails;
   final Map<int, String> groups;
   final Map<String, String> ipToMac;
   final Map<String, String> ipToHostname;

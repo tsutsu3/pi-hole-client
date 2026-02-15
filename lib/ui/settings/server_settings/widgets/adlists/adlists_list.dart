@@ -8,12 +8,13 @@ import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/add_adlist_modal.dart' hide ListType;
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/add_adlist_modal.dart'
+    hide ListType;
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_tile.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class AdlistsList extends StatefulWidget {
@@ -71,7 +72,7 @@ class _AdlistsListState extends State<AdlistsList> {
     final serversProvider = Provider.of<ServersProvider>(context);
     final viewModel = Provider.of<AdlistsViewModel>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final groups = context.watch<GroupsProvider>().groupItems;
+    final groups = context.watch<GroupsViewModel>().groupItems;
 
     final adlistsList = widget.type == 'blacklist'
         ? viewModel.filteredBlacklistAdlists
@@ -112,8 +113,7 @@ class _AdlistsListState extends State<AdlistsList> {
       process.open(AppLocalizations.of(context)!.adlistAdding);
 
       try {
-        final type =
-            value['type'] == 'allow' ? ListType.allow : ListType.block;
+        final type = value['type'] == 'allow' ? ListType.allow : ListType.block;
         await viewModel.addAdlist.runAsync((
           address: value['address'] as String,
           type: type,
@@ -210,8 +210,7 @@ class _AdlistsListState extends State<AdlistsList> {
                   : EdgeInsets.zero,
               child: AdlistTile(
                 adlist: thisAdlist,
-                isAdlistSelected:
-                    widget.selectedAdlist == thisAdlist,
+                isAdlistSelected: widget.selectedAdlist == thisAdlist,
                 showAdlistDetails: (d) {
                   widget.onAdlistSelected(d);
                   if (MediaQuery.of(context).size.width <=

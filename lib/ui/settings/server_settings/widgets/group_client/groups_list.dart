@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/groups.dart';
+import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/add_group_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/group_tile.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class GroupsList extends StatefulWidget {
@@ -67,15 +65,13 @@ class _GroupsListState extends State<GroupsList> {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final groupsProvider = Provider.of<GroupsProvider>(context);
-    final clientsListProvider = Provider.of<ClientsListProvider>(context);
+    final groupsViewModel = Provider.of<GroupsViewModel>(context);
+    final clientsViewModel = Provider.of<ClientsViewModel>(context);
     final domainsViewModel = Provider.of<DomainsViewModel>(context);
     final adlistsViewModel = Provider.of<AdlistsViewModel>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final apiGateway = serversProvider.selectedApiGateway;
 
-    final clients = clientsListProvider.clients;
+    final clients = clientsViewModel.clients;
     final allDomains = [
       ...domainsViewModel.whitelistDomains,
       ...domainsViewModel.blacklistDomains,
@@ -86,40 +82,36 @@ class _GroupsListState extends State<GroupsList> {
     ];
 
     final groups = widget.searchTerm.isNotEmpty
-        ? groupsProvider.groups
+        ? groupsViewModel.groups
               .where(
                 (group) =>
                     group.name.contains(widget.searchTerm) ||
                     (group.comment ?? '').contains(widget.searchTerm),
               )
               .toList()
-        : groupsProvider.groups;
+        : groupsViewModel.groups;
 
-    Future<void> onAddGroup(GroupRequest value) async {
+    Future<void> onAddGroup(
+      ({String name, String? comment, bool? enabled}) value,
+    ) async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.groupAdding);
 
-      final result = await apiGateway?.createGroup(body: value);
+      try {
+        await groupsViewModel.addGroup.runAsync(value);
 
-      process.close();
-
-      if (!context.mounted) return;
-
-      if (result?.result == APiResponseType.success) {
-        await groupsProvider.loadGroups();
         if (!context.mounted) return;
+        process.close();
+
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.groupAdded,
         );
-      } else if (result?.result == APiResponseType.alreadyAdded) {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.groupAlreadyAdded,
-        );
-      } else {
+      } catch (_) {
+        if (!context.mounted) return;
+        process.close();
+
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -129,33 +121,28 @@ class _GroupsListState extends State<GroupsList> {
     }
 
     Future<void> onToggleGroupEnabled(Group group, bool enabled) async {
-      final body = GroupRequest(
-        name: group.name,
-        comment: group.comment,
-        enabled: enabled,
-      );
-
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.groupUpdating);
 
-      final result = await apiGateway?.updateGroup(
-        name: group.name,
-        body: body,
-      );
+      try {
+        await groupsViewModel.updateGroup.runAsync((
+          name: group.name,
+          comment: group.comment,
+          enabled: enabled,
+        ));
 
-      process.close();
-
-      if (!context.mounted) return;
-
-      if (result?.result == APiResponseType.success) {
-        await groupsProvider.loadGroups();
         if (!context.mounted) return;
+        process.close();
+
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.groupUpdated,
         );
-      } else {
+      } catch (_) {
+        if (!context.mounted) return;
+        process.close();
+
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -269,8 +256,8 @@ class _GroupsListState extends State<GroupsList> {
               ],
             ),
           ),
-          loadStatus: groupsProvider.loadingStatus,
-          onRefresh: () async => groupsProvider.loadGroups(),
+          loadStatus: groupsViewModel.loadingStatus,
+          onRefresh: () async => groupsViewModel.loadGroups.runAsync(),
           bottomSpaceHeight: 80,
         ),
         SafeArea(

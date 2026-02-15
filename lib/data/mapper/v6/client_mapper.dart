@@ -1,10 +1,10 @@
 import 'package:pi_hole_client/data/model/v6/clients/clients.dart' as s;
-import 'package:pi_hole_client/domain/model/client/pihole_client.dart' as d;
+import 'package:pi_hole_client/domain/model/client/managed_client.dart' as d;
 
 extension ClientsMapper on s.Clients {
-  List<d.PiholeClient> toDomain() {
+  List<d.ManagedClient> toDomain() {
     return clients.map((client) {
-      return d.PiholeClient(
+      return d.ManagedClient(
         id: client.id,
         client: client.client,
         name: client.name,
@@ -17,7 +17,7 @@ extension ClientsMapper on s.Clients {
     }).toList();
   }
 
-  d.PiholeClient toSingleDomain() {
+  d.ManagedClient toSingleDomain() {
     if (clients.length != 1) {
       throw Exception(
         'Expected exactly one client, but got ${clients.length}',

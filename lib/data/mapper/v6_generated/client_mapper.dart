@@ -1,11 +1,11 @@
-import 'package:pi_hole_client/domain/model/client/pihole_client.dart';
+import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pihole_v6_api/pihole_v6_api.dart';
 
-/// Maps [ClientsGetClientsInner] (OpenAPI-generated) to [PiholeClient]
+/// Maps [ClientsGetClientsInner] (OpenAPI-generated) to [ManagedClient]
 /// (domain model).
 extension ClientsGetClientsInnerMapper on ClientsGetClientsInner {
-  PiholeClient toDomain() {
-    return PiholeClient(
+  ManagedClient toDomain() {
+    return ManagedClient(
       id: id ?? 0,
       client: client ?? '',
       name: name,
@@ -20,7 +20,7 @@ extension ClientsGetClientsInnerMapper on ClientsGetClientsInner {
 
 /// Maps [GetClients200Response] (OpenAPI-generated) to domain model list.
 extension GetClients200ResponseMapper on GetClients200Response {
-  List<PiholeClient> toDomainList() {
+  List<ManagedClient> toDomainList() {
     return (clients ?? []).map((c) => c.toDomain()).toList();
   }
 }

@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/domain/models_old/clients.dart';
-import 'package:pi_hole_client/domain/models_old/groups.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/model/client/managed_client.dart';
+import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
@@ -17,6 +13,8 @@ import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/clients_list.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/group_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/groups_list.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class GroupClientScreen extends StatelessWidget {
@@ -25,14 +23,9 @@ class GroupClientScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final serversProvider = Provider.of<ServersProvider>(context);
-    final clientsListProvider = Provider.of<ClientsListProvider>(
-      context,
-      listen: false,
-    );
+    final apiVersion = serversProvider.selectedServer?.apiVersion;
 
-    final selectedServer = serversProvider.selectedServer;
-
-    if (selectedServer == null) {
+    if (serversProvider.selectedServer == null) {
       return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.groupsAndClients),
@@ -41,9 +34,7 @@ class GroupClientScreen extends StatelessWidget {
       );
     }
 
-    final apiGateway = serversProvider.selectedApiGateway;
-
-    if (apiGateway?.server.apiVersion == 'v5') {
+    if (apiVersion == 'v5') {
       return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.groupsAndClients),
@@ -52,22 +43,12 @@ class GroupClientScreen extends StatelessWidget {
       );
     }
 
-    return GroupClientScreenWidget(
-      server: selectedServer,
-      clientsListProvider: clientsListProvider,
-    );
+    return const GroupClientScreenWidget();
   }
 }
 
 class GroupClientScreenWidget extends StatefulWidget {
-  const GroupClientScreenWidget({
-    required this.server,
-    required this.clientsListProvider,
-    super.key,
-  });
-
-  final Server server;
-  final ClientsListProvider clientsListProvider;
+  const GroupClientScreenWidget({super.key});
 
   @override
   State<GroupClientScreenWidget> createState() =>
@@ -81,7 +62,7 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
   final TextEditingController searchController = TextEditingController();
 
   Group? selectedGroup;
-  ClientItem? selectedClient;
+  ManagedClient? selectedClient;
 
   int selectedTab = 0;
   bool searchMode = false;
@@ -92,17 +73,16 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
     super.initState();
 
     Future.microtask(() async {
-      widget.clientsListProvider.setLoadingStatus(LoadStatus.loading);
-
       if (!mounted) return;
-      final groupsProvider = context.read<GroupsProvider>();
+      final clientsViewModel = context.read<ClientsViewModel>();
+      final groupsViewModel = context.read<GroupsViewModel>();
       final localDnsProvider = context.read<LocalDnsProvider>();
       final domainsViewModel = context.read<DomainsViewModel>();
       final adlistsViewModel = context.read<AdlistsViewModel>();
 
       await Future.wait([
-        widget.clientsListProvider.fetchClients(),
-        groupsProvider.loadGroups(),
+        clientsViewModel.loadClients.runAsync(),
+        groupsViewModel.loadGroups.runAsync(),
         localDnsProvider.load(),
         domainsViewModel.loadDomains.runAsync(),
         adlistsViewModel.loadAdlists.runAsync(),
@@ -128,22 +108,22 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
 
   @override
   Widget build(BuildContext context) {
-    final clientsListProvider = Provider.of<ClientsListProvider>(context);
+    final clientsViewModel = Provider.of<ClientsViewModel>(context);
     final serversProvider = Provider.of<ServersProvider>(context);
     final localDnsProvider = Provider.of<LocalDnsProvider>(context);
-    final groups = context.watch<GroupsProvider>().groupItems;
+    final groups = context.watch<GroupsViewModel>().groupItems;
     final ipToMac = localDnsProvider.ipToMac;
     final ipToHostname = localDnsProvider.ipToHostname;
     final macToIp = localDnsProvider.macToIp;
-    clientsListProvider.updateMacLookup(ipToMac);
-    clientsListProvider.updateGroupLookup(groups);
+    clientsViewModel.updateMacLookup(ipToMac);
+    clientsViewModel.updateGroupLookup(groups);
 
     Widget buildSearchTitle() {
       return TextFormField(
         controller: searchController,
         onChanged: (value) {
           setState(() => searchTerm = value);
-          clientsListProvider.onSearch(value);
+          clientsViewModel.onSearch(value);
         },
         decoration: InputDecoration(
           hintText: AppLocalizations.of(context)!.groupClientSearch,
@@ -159,7 +139,7 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
 
     Widget scaffold({
       void Function(Group)? onGroupTap,
-      void Function(ClientItem)? onClientTap,
+      void Function(ManagedClient)? onClientTap,
     }) {
       return DefaultTabController(
         length: 2,
@@ -180,7 +160,7 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
                     searchMode = false;
                     searchController.text = '';
                     searchTerm = '';
-                    clientsListProvider.onSearch('');
+                    clientsViewModel.onSearch('');
                   }),
                   icon: const Icon(Icons.close_rounded),
                 ),

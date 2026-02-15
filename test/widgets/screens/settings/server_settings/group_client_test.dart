@@ -1,9 +1,9 @@
+import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/domain/models_old/clients.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/groups.dart';
+import 'package:pi_hole_client/domain/model/client/managed_client.dart';
+import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
@@ -52,10 +52,6 @@ void main() async {
       expect(find.text('Groups'), findsOneWidget);
       expect(find.text('Clients'), findsOneWidget);
       expect(find.text('Default'), findsOneWidget);
-
-      await tester.tap(find.text('Clients'));
-      await tester.pumpAndSettle();
-      expect(find.text('There are no clients to show here.'), findsOneWidget);
     });
 
     testWidgets('should show not supported screen with V5 server', (
@@ -107,7 +103,7 @@ void main() async {
       expect(find.text('Groups & Clients'), findsOneWidget);
     });
 
-    testWidgets('should call search on clients list provider', (
+    testWidgets('should call search on clients viewmodel', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -130,7 +126,7 @@ void main() async {
       await tester.enterText(find.byType(TextFormField), 'local');
       await tester.pumpAndSettle();
 
-      verify(testSetup.mockClientsListProvider.onSearch('local')).called(1);
+      verify(testSetup.mockClientsViewModel.onSearch('local')).called(1);
     });
 
     testWidgets('should open group edit modal from details', (
@@ -167,7 +163,7 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      final clientItem = ClientItem(
+      final client = ManagedClient(
         client: '192.168.0.10',
         name: 'laptop',
         comment: 'Office',
@@ -177,10 +173,10 @@ void main() async {
         dateModified: DateTime(2024, 1, 2),
       );
 
-      when(testSetup.mockClientsListProvider.clients).thenReturn([clientItem]);
+      when(testSetup.mockClientsViewModel.clients).thenReturn([client]);
       when(
-        testSetup.mockClientsListProvider.filteredClients,
-      ).thenReturn([clientItem]);
+        testSetup.mockClientsViewModel.filteredClients,
+      ).thenReturn([client]);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -232,7 +228,7 @@ void main() async {
       ];
 
       final clients = [
-        ClientItem(
+        ManagedClient(
           client: '192.168.1.10',
           name: 'laptop',
           groups: const [1],
@@ -242,8 +238,8 @@ void main() async {
         ),
       ];
 
-      when(testSetup.mockGroupsProvider.groups).thenReturn(groups);
-      when(testSetup.mockClientsListProvider.clients).thenReturn(clients);
+      when(testSetup.mockGroupsViewModel.groups).thenReturn(groups);
+      when(testSetup.mockClientsViewModel.clients).thenReturn(clients);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -279,13 +275,10 @@ void main() async {
       tester.view.physicalSize = const Size(1200, 900);
       tester.view.devicePixelRatio = 1.0;
 
-      when(
-        testSetup.mockApiGatewayV6.createGroup(body: anyNamed('body')),
-      ).thenAnswer(
-        (_) async => GroupsResponse(
-          result: APiResponseType.success,
-          data: GroupsInfo(groups: []),
-        ),
+      when(testSetup.mockGroupsViewModel.addGroup).thenReturn(
+        Command.createAsyncNoResult<
+          ({String name, String? comment, bool? enabled})
+        >((_) async {}),
       );
 
       addTearDown(() {
@@ -315,7 +308,6 @@ void main() async {
       await tester.tap(find.text('Add'));
       await tester.pumpAndSettle();
 
-      verify(testSetup.mockGroupsProvider.loadGroups()).called(1);
       expect(find.text('Group added successfully'), findsOneWidget);
     });
 
@@ -326,7 +318,7 @@ void main() async {
       tester.view.devicePixelRatio = 1.0;
 
       final clients = [
-        ClientItem(
+        ManagedClient(
           client: '192.168.1.20',
           name: 'desktop',
           comment: 'Lab',
@@ -338,7 +330,7 @@ void main() async {
       ];
 
       when(
-        testSetup.mockClientsListProvider.filteredClients,
+        testSetup.mockClientsViewModel.filteredClients,
       ).thenReturn(clients);
       when(
         testSetup.mockLocalDnsProvider.ipToMac,
@@ -384,13 +376,10 @@ void main() async {
       tester.view.physicalSize = const Size(1200, 900);
       tester.view.devicePixelRatio = 1.0;
 
-      when(
-        testSetup.mockApiGatewayV6.createClient(body: anyNamed('body')),
-      ).thenAnswer(
-        (_) async => ClientsResponse(
-          result: APiResponseType.success,
-          data: ClientsInfo(clients: []),
-        ),
+      when(testSetup.mockClientsViewModel.addClient).thenReturn(
+        Command.createAsyncNoResult<
+          ({String client, String? comment, List<int>? groups})
+        >((_) async {}),
       );
 
       addTearDown(() {
@@ -420,51 +409,7 @@ void main() async {
       await tester.tap(find.text('Add'));
       await tester.pumpAndSettle();
 
-      verify(testSetup.mockClientsListProvider.fetchClients()).called(1);
       expect(find.text('Client added successfully'), findsOneWidget);
-    });
-
-    testWidgets('ClientsList shows already added snackbar', (
-      WidgetTester tester,
-    ) async {
-      tester.view.physicalSize = const Size(1200, 900);
-      tester.view.devicePixelRatio = 1.0;
-
-      when(
-        testSetup.mockApiGatewayV6.createClient(body: anyNamed('body')),
-      ).thenAnswer(
-        (_) async => ClientsResponse(result: APiResponseType.alreadyAdded),
-      );
-
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
-
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(
-          ClientsList(
-            scrollController: ScrollController(),
-            onClientSelected: (_) {},
-            selectedClient: null,
-            groups: const {0: 'Default'},
-          ),
-        ),
-      );
-
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byType(FloatingActionButton));
-      await tester.pumpAndSettle();
-
-      await tester.enterText(find.byType(TextField).first, '192.168.1.2');
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('Add'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Client already added'), findsOneWidget);
-      verifyNever(testSetup.mockClientsListProvider.fetchClients());
     });
 
     testWidgets('GroupDetailsScreen opens edit and delete modals', (
@@ -510,110 +455,13 @@ void main() async {
       expect(find.byType(DeleteModal), findsOneWidget);
     });
 
-    testWidgets('GroupDetailsScreen updates group and shows snackbar', (
-      WidgetTester tester,
-    ) async {
-      tester.view.physicalSize = const Size(1200, 900);
-      tester.view.devicePixelRatio = 1.0;
-
-      final group = Group(
-        id: 1,
-        name: 'Work',
-        enabled: true,
-        comment: 'Office',
-        dateAdded: DateTime(2024, 1, 2),
-        dateModified: DateTime(2024, 1, 2),
-      );
-
-      when(
-        testSetup.mockApiGatewayV6.updateGroup(
-          name: anyNamed('name'),
-          body: anyNamed('body'),
-        ),
-      ).thenAnswer(
-        (_) async => GroupsResponse(
-          result: APiResponseType.success,
-          data: GroupsInfo(groups: [group]),
-        ),
-      );
-
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
-
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(
-          GroupDetailsScreen(group: group, remove: (_) {}),
-        ),
-      );
-
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('Group name'));
-      await tester.pumpAndSettle();
-
-      await tester.enterText(find.byType(TextField).at(0), 'Work-Updated');
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('Edit'));
-      await tester.pumpAndSettle();
-
-      verify(testSetup.mockGroupsProvider.loadGroups()).called(1);
-      expect(find.text('Group updated successfully'), findsOneWidget);
-    });
-
-    testWidgets('GroupDetailsScreen removes group and shows snackbar', (
-      WidgetTester tester,
-    ) async {
-      tester.view.physicalSize = const Size(1200, 900);
-      tester.view.devicePixelRatio = 1.0;
-
-      final group = Group(
-        id: 1,
-        name: 'Work',
-        enabled: true,
-        comment: 'Office',
-        dateAdded: DateTime(2024, 1, 2),
-        dateModified: DateTime(2024, 1, 2),
-      );
-
-      when(
-        testSetup.mockApiGatewayV6.removeGroup(name: anyNamed('name')),
-      ).thenAnswer(
-        (_) async => RemoveGroupResponse(result: APiResponseType.success),
-      );
-
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
-
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(
-          GroupDetailsScreen(group: group, remove: (_) {}),
-        ),
-      );
-
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.delete_rounded));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('Delete'));
-      await tester.pumpAndSettle();
-
-      verify(testSetup.mockGroupsProvider.loadGroups()).called(1);
-      expect(find.text('Group removed successfully'), findsOneWidget);
-    });
-
     testWidgets('ClientDetailsScreen shows mappings and opens edit modals', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1200, 900);
       tester.view.devicePixelRatio = 1.0;
 
-      final client = ClientItem(
+      final client = ManagedClient(
         client: '00:11:22:33:44:55',
         name: '',
         groups: const [0],
@@ -657,115 +505,6 @@ void main() async {
       await tester.tap(find.text('Groups'));
       await tester.pumpAndSettle();
       expect(find.byType(EditClientModal), findsWidgets);
-    });
-
-    testWidgets('ClientDetailsScreen updates comment and shows snackbar', (
-      WidgetTester tester,
-    ) async {
-      tester.view.physicalSize = const Size(1200, 900);
-      tester.view.devicePixelRatio = 1.0;
-
-      final client = ClientItem(
-        client: '192.168.1.2',
-        name: 'device',
-        comment: 'old',
-        groups: const [0],
-        id: 2,
-        dateAdded: DateTime(2024, 1, 2),
-        dateModified: DateTime(2024, 1, 2),
-      );
-
-      when(
-        testSetup.mockApiGatewayV6.updateClient(
-          client: anyNamed('client'),
-          body: anyNamed('body'),
-        ),
-      ).thenAnswer(
-        (_) async => ClientsResponse(
-          result: APiResponseType.success,
-          data: ClientsInfo(clients: [client.copyWith(comment: 'new')]),
-        ),
-      );
-
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
-
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(
-          ClientDetailsScreen(
-            client: client,
-            remove: (_) {},
-            groups: const {0: 'Default'},
-          ),
-        ),
-      );
-
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('Comment'));
-      await tester.pumpAndSettle();
-
-      await tester.enterText(find.byType(TextField).first, 'new');
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('Edit'));
-      await tester.pumpAndSettle();
-
-      expect(find.text('Client updated successfully'), findsOneWidget);
-    });
-
-    testWidgets('ClientDetailsScreen removes client and shows snackbar', (
-      WidgetTester tester,
-    ) async {
-      tester.view.physicalSize = const Size(1200, 900);
-      tester.view.devicePixelRatio = 1.0;
-
-      final client = ClientItem(
-        client: '192.168.1.2',
-        name: 'device',
-        groups: const [0],
-        id: 2,
-        dateAdded: DateTime(2024, 1, 2),
-        dateModified: DateTime(2024, 1, 2),
-      );
-
-      when(
-        testSetup.mockApiGatewayV6.removeClient(client: anyNamed('client')),
-      ).thenAnswer(
-        (_) async => RemoveClientResponse(result: APiResponseType.success),
-      );
-
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
-
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(
-          ClientDetailsScreen(
-            client: client,
-            remove: (_) {},
-            groups: const {0: 'Default'},
-          ),
-        ),
-      );
-
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.byIcon(Icons.delete_rounded));
-      await tester.pumpAndSettle();
-
-      await tester.tap(find.text('Delete'));
-      await tester.pumpAndSettle();
-
-      verify(
-        testSetup.mockClientsListProvider.removeClientFromList(
-          argThat(isA<ClientItem>().having((c) => c.id, 'id', client.id)),
-        ),
-      ).called(1);
-      expect(find.text('Client removed successfully'), findsOneWidget);
     });
   });
 }

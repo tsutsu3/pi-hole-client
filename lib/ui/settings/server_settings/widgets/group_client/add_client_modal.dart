@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
-import 'package:pi_hole_client/domain/models_old/clients.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/auto_complate_field.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
@@ -15,7 +14,8 @@ class AddClientModal extends StatefulWidget {
     super.key,
   });
 
-  final void Function(ClientRequest) onConfirm;
+  final void Function(({String client, String? comment, List<int>? groups}))
+  onConfirm;
   final bool window;
   final Map<int, String> groups;
   final List<DeviceOption>? devices;
@@ -128,13 +128,11 @@ class _AddClientModalState extends State<AddClientModal> {
                 onPressed: allDataValid
                     ? () {
                         final comment = commentController.text.trim();
-                        widget.onConfirm(
-                          ClientRequest(
-                            client: clientController.text.trim(),
-                            comment: comment.isEmpty ? null : comment,
-                            groups: selectedGroups,
-                          ),
-                        );
+                        widget.onConfirm((
+                          client: clientController.text.trim(),
+                          comment: comment.isEmpty ? null : comment,
+                          groups: selectedGroups,
+                        ));
                         Navigator.maybePop(context);
                       }
                     : null,

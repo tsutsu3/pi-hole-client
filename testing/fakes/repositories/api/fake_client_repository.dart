@@ -1,5 +1,5 @@
 import 'package:pi_hole_client/data/repositories/api/interfaces/client_repository.dart';
-import 'package:pi_hole_client/domain/model/client/pihole_client.dart';
+import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:result_dart/result_dart.dart';
 
 class FakeClientRepository implements ClientRepository {
@@ -8,12 +8,12 @@ class FakeClientRepository implements ClientRepository {
   final _now = DateTime(2025, 1, 1);
 
   @override
-  Future<Result<List<PiholeClient>>> fetchClients() async {
+  Future<Result<List<ManagedClient>>> fetchClients() async {
     if (shouldFail) {
       return Failure(Exception('Force fetchClients failure'));
     }
     return Success([
-      PiholeClient(
+      ManagedClient(
         id: 1,
         client: '192.168.1.100',
         name: 'desktop',
@@ -22,7 +22,7 @@ class FakeClientRepository implements ClientRepository {
         dateAdded: _now,
         dateModified: _now,
       ),
-      PiholeClient(
+      ManagedClient(
         id: 2,
         client: 'ab:cd:ef:01:23:45',
         name: 'laptop',
@@ -34,7 +34,7 @@ class FakeClientRepository implements ClientRepository {
   }
 
   @override
-  Future<Result<PiholeClient>> addClient(
+  Future<Result<ManagedClient>> addClient(
     String client, {
     String? comment,
     List<int>? groups = const [0],
@@ -43,7 +43,7 @@ class FakeClientRepository implements ClientRepository {
       return Failure(Exception('Force addClient failure'));
     }
     return Success(
-      PiholeClient(
+      ManagedClient(
         id: 10,
         client: client,
         comment: comment,
@@ -55,7 +55,7 @@ class FakeClientRepository implements ClientRepository {
   }
 
   @override
-  Future<Result<PiholeClient>> updateClient(
+  Future<Result<ManagedClient>> updateClient(
     String client, {
     String? comment,
     List<int>? groups = const [0],
@@ -64,7 +64,7 @@ class FakeClientRepository implements ClientRepository {
       return Failure(Exception('Force updateClient failure'));
     }
     return Success(
-      PiholeClient(
+      ManagedClient(
         id: 1,
         client: client,
         comment: comment,

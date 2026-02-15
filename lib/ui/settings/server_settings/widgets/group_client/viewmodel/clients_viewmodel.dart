@@ -3,7 +3,7 @@ import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/client_repository.dart';
-import 'package:pi_hole_client/domain/model/client/pihole_client.dart';
+import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 
 class ClientsViewModel extends ChangeNotifier {
   ClientsViewModel();
@@ -22,20 +22,20 @@ class ClientsViewModel extends ChangeNotifier {
       addClient = Command.createAsyncNoResult(_addClient);
   late final Command<({String client, String? comment, List<int>? groups}), void>
       updateClient = Command.createAsyncNoResult(_updateClient);
-  late final Command<PiholeClient, void> deleteClient =
-      Command.createAsyncNoResult<PiholeClient>(_deleteClient);
+  late final Command<ManagedClient, void> deleteClient =
+      Command.createAsyncNoResult<ManagedClient>(_deleteClient);
 
   // --- State ---
-  List<PiholeClient> _clients = [];
-  List<PiholeClient> _filteredClients = [];
+  List<ManagedClient> _clients = [];
+  List<ManagedClient> _filteredClients = [];
   Map<String, String> _ipToMac = {};
   Map<int, String> _groupNames = {};
   String _searchTerm = '';
   bool _searchMode = false;
 
   // --- Getters ---
-  List<PiholeClient> get clients => _clients;
-  List<PiholeClient> get filteredClients => _filteredClients;
+  List<ManagedClient> get clients => _clients;
+  List<ManagedClient> get filteredClients => _filteredClients;
   String get searchTerm => _searchTerm;
   bool get searchMode => _searchMode;
 
@@ -101,7 +101,7 @@ class ClientsViewModel extends ChangeNotifier {
     await loadClients.runAsync();
   }
 
-  Future<void> _deleteClient(PiholeClient client) async {
+  Future<void> _deleteClient(ManagedClient client) async {
     final result = await _clientRepository!.deleteClient(client.client);
     result.getOrThrow();
     _clients = _clients.where((c) => c.id != client.id).toList();
@@ -129,7 +129,7 @@ class ClientsViewModel extends ChangeNotifier {
     }).toList();
   }
 
-  bool _matchesSearch(PiholeClient client, String term) {
+  bool _matchesSearch(ManagedClient client, String term) {
     final name = (client.name ?? '').toLowerCase();
     final comment = (client.comment ?? '').toLowerCase();
     final clientId = client.client.toLowerCase();
