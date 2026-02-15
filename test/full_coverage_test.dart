@@ -761,7 +761,6 @@ import 'package:pi_hole_client/ui/statistics/statistics.dart';
 import 'package:pi_hole_client/ui/statistics/statistics_list.dart';
 import 'package:pi_hole_client/ui/statistics/statistics_queries_servers_tab.dart';
 import 'package:pi_hole_client/ui/statistics/statistics_triple_column.dart';
-import 'package:pi_hole_client/utils/charts_data_functions.dart';
 import 'package:pi_hole_client/utils/colors.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:pi_hole_client/utils/format.dart';
