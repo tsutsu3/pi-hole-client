@@ -1,6 +1,6 @@
-import 'package:pi_hole_client/domain/models_old/language_option.dart';
+import 'package:pi_hole_client/domain/model/language/language_option.dart';
 
-final List<LanguageOption> languageOptions = [
+const List<LanguageOption> languageOptions = [
   LanguageOption(key: 'en', index: 0, displayName: 'English'),
   LanguageOption(key: 'ja', index: 1, displayName: '日本語'),
   LanguageOption(key: 'de', index: 2, displayName: 'Deutsch'),

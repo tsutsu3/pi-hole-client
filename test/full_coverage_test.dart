@@ -525,7 +525,7 @@ import 'package:pi_hole_client/domain/models_old/gateway.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/groups.dart';
 import 'package:pi_hole_client/domain/models_old/host.dart';
-import 'package:pi_hole_client/domain/models_old/language_option.dart';
+import 'package:pi_hole_client/domain/model/language/language_option.dart';
 import 'package:pi_hole_client/domain/models_old/log.dart';
 import 'package:pi_hole_client/domain/models_old/messages.dart';
 import 'package:pi_hole_client/domain/models_old/metrics.dart';
