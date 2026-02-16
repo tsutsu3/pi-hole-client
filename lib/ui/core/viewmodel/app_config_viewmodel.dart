@@ -350,7 +350,9 @@ class AppConfigViewModel with ChangeNotifier {
 
   void saveFromDb(AppDbData dbData) {
     _autoRefreshTime = dbData.autoRefreshTime;
-    _selectedTheme = AppThemeMode.values[dbData.theme];
+    _selectedTheme = dbData.theme < AppThemeMode.values.length
+        ? AppThemeMode.values[dbData.theme]
+        : AppThemeMode.system;
     _selectedLanguage = dbData.language;
     _reducedDataCharts = dbData.reducedDataCharts;
     _logsPerQuery = dbData.logsPerQuery;
@@ -363,9 +365,13 @@ class AppConfigViewModel with ChangeNotifier {
     _hideZeroValues = dbData.hideZeroValues;
     _loadingAnimation = dbData.loadingAnimation;
     _statisticsVisualizationMode =
-        StatisticsVisualizationMode.values[dbData.statisticsVisualizationMode];
+        dbData.statisticsVisualizationMode < StatisticsVisualizationMode.values.length
+            ? StatisticsVisualizationMode.values[dbData.statisticsVisualizationMode]
+            : StatisticsVisualizationMode.list;
     _homeVisualizationMode =
-        HomeVisualizationMode.values[dbData.homeVisualizationMode];
+        dbData.homeVisualizationMode < HomeVisualizationMode.values.length
+            ? HomeVisualizationMode.values[dbData.homeVisualizationMode]
+            : HomeVisualizationMode.lineArea;
     _sendCrashReports = dbData.sendCrashReports;
 
     if (dbData.passCode != null) {

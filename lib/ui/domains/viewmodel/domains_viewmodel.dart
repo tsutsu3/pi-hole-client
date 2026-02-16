@@ -94,16 +94,19 @@ class DomainsViewModel extends ChangeNotifier {
       enabled: domain.enabled,
     );
     final updated = result.getOrThrow();
+    // Replace in-place and remove from the other list (handles type changes).
     if (updated.type == DomainType.allow) {
       _whitelistDomains = [
         for (final d in _whitelistDomains)
           if (d.id == updated.id) updated else d,
       ];
+      _blacklistDomains = _blacklistDomains.where((d) => d.id != updated.id).toList();
     } else {
       _blacklistDomains = [
         for (final d in _blacklistDomains)
           if (d.id == updated.id) updated else d,
       ];
+      _whitelistDomains = _whitelistDomains.where((d) => d.id != updated.id).toList();
     }
     _applyFilters();
     notifyListeners();

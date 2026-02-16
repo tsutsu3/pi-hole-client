@@ -108,16 +108,19 @@ class AdlistsViewModel extends ChangeNotifier {
       enabled: adlist.enabled,
     );
     final updated = result.getOrThrow();
+    // Replace in-place and remove from the other list (handles type changes).
     if (updated.type == ListType.allow) {
       _whitelistAdlists = [
         for (final a in _whitelistAdlists)
           if (a.id == updated.id) updated else a,
       ];
+      _blacklistAdlists = _blacklistAdlists.where((a) => a.id != updated.id).toList();
     } else {
       _blacklistAdlists = [
         for (final a in _blacklistAdlists)
           if (a.id == updated.id) updated else a,
       ];
+      _whitelistAdlists = _whitelistAdlists.where((a) => a.id != updated.id).toList();
     }
     _applyFilters();
     notifyListeners();
