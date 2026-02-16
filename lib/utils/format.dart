@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pi_hole_client/config/formats.dart';
+import 'package:pi_hole_client/ui/core/formats.dart';
 
 String formatUnixTime(int timestamp, String format) {
   final f = DateFormat(format);

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/formats.dart';
+import 'package:pi_hole_client/ui/core/formats.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/no_scroll_behavior.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
 import 'package:pi_hole_client/utils/format.dart';
 import 'package:provider/provider.dart';
 
 /// A widget that displays a message when no logs are available.
 ///
 /// The message changes depending on the current filter settings:
-/// - If a time range filter is active (via [FiltersProvider]), it shows the range with no logs found.
+/// - If a time range filter is active (via [FiltersViewModel]), it shows the range with no logs found.
 /// - If no filter is active, it shows a message based on the recent period defined by [logsPerQuery].
 ///
 /// Parameters:
@@ -22,10 +22,10 @@ class NoLogsMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final startTime = context.select<FiltersProvider, DateTime?>(
+    final startTime = context.select<FiltersViewModel, DateTime?>(
       (provider) => provider.startTime,
     );
-    final endTime = context.select<FiltersProvider, DateTime?>(
+    final endTime = context.select<FiltersViewModel, DateTime?>(
       (provider) => provider.endTime,
     );
 

@@ -62,7 +62,7 @@ void main() {
 
     test('returns Failure on unknown exception', () async {
       final result = await safeDioCall<String>(() async {
-        throw FormatException('bad data');
+        throw const FormatException('bad data');
       });
 
       expect(result.isError(), true);

@@ -5,9 +5,10 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repositor
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 
 class DomainsViewModel extends ChangeNotifier {
-  DomainsViewModel();
+  DomainsViewModel({required DomainRepository domainRepository})
+      : _domainRepository = domainRepository;
 
-  DomainRepository? _domainRepository;
+  final DomainRepository _domainRepository;
 
   // --- Commands ---
   late final Command<void, void> loadDomains =
@@ -45,14 +46,9 @@ class DomainsViewModel extends ChangeNotifier {
     return LoadStatus.loaded;
   }
 
-  // --- ProxyProvider update ---
-  void update(DomainRepository? repository) {
-    _domainRepository = repository;
-  }
-
   // --- Command implementations ---
   Future<void> _loadDomains() async {
-    final result = await _domainRepository!.fetchAllDomains();
+    final result = await _domainRepository.fetchAllDomains();
     final lists = result.getOrThrow();
     _whitelistDomains = [...lists.allowExact, ...lists.allowRegex];
     _blacklistDomains = [...lists.denyExact, ...lists.denyRegex];
@@ -61,7 +57,7 @@ class DomainsViewModel extends ChangeNotifier {
   }
 
   Future<void> _deleteDomain(Domain domain) async {
-    final result = await _domainRepository!.deleteDomain(
+    final result = await _domainRepository.deleteDomain(
       domain.type,
       domain.kind,
       domain.punyCode,
@@ -73,17 +69,23 @@ class DomainsViewModel extends ChangeNotifier {
   Future<void> _addDomain(
     ({DomainType type, DomainKind kind, String domain}) params,
   ) async {
-    final result = await _domainRepository!.addDomain(
+    final result = await _domainRepository.addDomain(
       params.type,
       params.kind,
       params.domain,
     );
-    result.getOrThrow();
-    await loadDomains.runAsync();
+    final domain = result.getOrThrow();
+    if (domain.type == DomainType.allow) {
+      _whitelistDomains = [..._whitelistDomains, domain];
+    } else {
+      _blacklistDomains = [..._blacklistDomains, domain];
+    }
+    _applyFilters();
+    notifyListeners();
   }
 
   Future<void> _updateDomain(Domain domain) async {
-    final result = await _domainRepository!.updateDomain(
+    final result = await _domainRepository.updateDomain(
       domain.type,
       domain.kind,
       domain.punyCode,
@@ -91,8 +93,23 @@ class DomainsViewModel extends ChangeNotifier {
       groups: domain.groups,
       enabled: domain.enabled,
     );
-    result.getOrThrow();
-    await loadDomains.runAsync();
+    final updated = result.getOrThrow();
+    // Replace in-place and remove from the other list (handles type changes).
+    if (updated.type == DomainType.allow) {
+      _whitelistDomains = [
+        for (final d in _whitelistDomains)
+          if (d.id == updated.id) updated else d,
+      ];
+      _blacklistDomains = _blacklistDomains.where((d) => d.id != updated.id).toList();
+    } else {
+      _blacklistDomains = [
+        for (final d in _blacklistDomains)
+          if (d.id == updated.id) updated else d,
+      ];
+      _whitelistDomains = _whitelistDomains.where((d) => d.id != updated.id).toList();
+    }
+    _applyFilters();
+    notifyListeners();
   }
 
   // --- Filter methods ---

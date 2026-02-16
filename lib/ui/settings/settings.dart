@@ -3,18 +3,20 @@ import 'package:flutter_split_view/flutter_split_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/languages.dart';
-import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/l10n/languages.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/servers.dart';
 import 'package:pi_hole_client/ui/settings/about/app_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';
@@ -24,10 +26,15 @@ import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/server_info.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/server_info/viewmodel/server_info_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:provider/provider.dart';
 
@@ -79,23 +86,77 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
     final width = MediaQuery.of(context).size.width;
 
-    final screenToShow = appConfigProvider.selectedSettingsScreen;
+    final screenToShow = appConfigViewModel.selectedSettingsScreen;
     if (screenToShow != null && width > ResponsiveConstants.large) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         final splitView = context.findAncestorStateOfType<SplitViewState>();
         if (splitView != null) {
           switch (screenToShow) {
             case 5:
-              splitView.setSecondary(const AdlistScreen());
+              final adlistBundle = context.read<RepositoryBundle?>();
+              if (adlistBundle != null) {
+                splitView.setSecondary(
+                  MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider(
+                        create: (_) => AdlistsViewModel(
+                          adListRepository: adlistBundle.adlist,
+                        )..loadAdlists.run(),
+                      ),
+                      ChangeNotifierProvider(
+                        create: (_) =>
+                            GroupsViewModel(groupRepository: adlistBundle.group)
+                              ..loadGroups.run(),
+                      ),
+                    ],
+                    child: const AdlistScreen(),
+                  ),
+                );
+              }
             case 11:
-              splitView.setSecondary(const GroupClientScreen());
+              final clientBundle = context.read<RepositoryBundle?>();
+              if (clientBundle != null) {
+                final serversViewModel = context.read<ServersViewModel>();
+                splitView.setSecondary(
+                  MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider(
+                        create: (_) => ClientsViewModel(
+                          clientRepository: clientBundle.client,
+                        )..loadClients.run(),
+                      ),
+                      ChangeNotifierProvider(
+                        create: (_) =>
+                            GroupsViewModel(groupRepository: clientBundle.group)
+                              ..loadGroups.run(),
+                      ),
+                      ChangeNotifierProvider(
+                        create: (_) => DomainsViewModel(
+                          domainRepository: clientBundle.domain,
+                        )..loadDomains.run(),
+                      ),
+                      ChangeNotifierProvider(
+                        create: (_) => AdlistsViewModel(
+                          adListRepository: clientBundle.adlist,
+                        )..loadAdlists.run(),
+                      ),
+                      ChangeNotifierProvider(
+                        create: (_) => LocalDnsProvider(
+                          serversViewModel: serversViewModel,
+                        ),
+                      ),
+                    ],
+                    child: const GroupClientScreen(),
+                  ),
+                );
+              }
             case 6:
               splitView.setSecondary(const AdvancedServerOptions());
               final apiVersion = context
-                  .read<ServersProvider>()
+                  .read<ServersViewModel>()
                   .selectedServer
                   ?.apiVersion;
               if (apiVersion == 'v6') {
@@ -112,7 +173,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 }
               }
           }
-          appConfigProvider.setSelectedSettingsScreen(screen: null);
+          appConfigViewModel.setSelectedSettingsScreen(screen: null);
         }
       });
     }
@@ -120,19 +181,19 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedServer = context.select<ServersProvider, Server?>(
+    final selectedServer = context.select<ServersViewModel, Server?>(
       (p) => p.selectedServer,
     );
-    final serverStatus = context.select<StatusProvider, LoadStatus>(
+    final serverStatus = context.select<StatusViewModel, LoadStatus>(
       (p) => p.getServerStatus,
     );
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     final width = MediaQuery.of(context).size.width;
 
     if (width <= ResponsiveConstants.large &&
-        appConfigProvider.selectedSettingsScreen != null) {
-      appConfigProvider.setSelectedSettingsScreen(screen: null);
+        appConfigViewModel.selectedSettingsScreen != null) {
+      appConfigViewModel.setSelectedSettingsScreen(screen: null);
     }
 
     Widget settingsTile({
@@ -169,25 +230,52 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       }
     }
 
+    Widget routedSettingsTile({
+      required BuildContext context,
+      required double width,
+      required String title,
+      required String subtitle,
+      required int thisItem,
+      required String routeName,
+      required VoidCallback splitViewChild,
+      IconData? icon,
+    }) {
+      if (width > ResponsiveConstants.large) {
+        return CustomListTile(
+          label: title,
+          description: subtitle,
+          leadingIcon: icon,
+          onTap: () {
+            setState(() => selectedScreen = thisItem);
+            splitViewChild();
+          },
+        );
+      } else {
+        return CustomListTile(
+          label: title,
+          description: subtitle,
+          leadingIcon: icon,
+          onTap: () => context.pushNamed(routeName),
+        );
+      }
+    }
+
     String getThemeString() {
-      switch (appConfigProvider.selectedThemeNumber) {
-        case 0:
+      switch (appConfigViewModel.appThemeMode) {
+        case AppThemeMode.system:
           return AppLocalizations.of(context)!.systemTheme;
 
-        case 1:
+        case AppThemeMode.light:
           return AppLocalizations.of(context)!.light;
 
-        case 2:
+        case AppThemeMode.dark:
           return AppLocalizations.of(context)!.dark;
-
-        default:
-          return '';
       }
     }
 
     String getLanguageString() {
       final selectedLanguageOption = languageOptions.firstWhere(
-        (option) => option.key == appConfigProvider.selectedLanguage,
+        (option) => option.key == appConfigViewModel.selectedLanguage,
         orElse: () =>
             languageOptions.firstWhere((option) => option.key == 'en'),
       );
@@ -199,19 +287,29 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionLabel(label: AppLocalizations.of(context)!.appSettings),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.light_mode_rounded,
             title: AppLocalizations.of(context)!.theme,
             subtitle: getThemeString(),
             thisItem: 0,
-            screenToNavigate: const ThemeScreen(),
+            routeName: Routes.settingsAppTheme,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(const ThemeScreen());
+            },
           ),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.language,
             title: AppLocalizations.of(context)!.language,
             subtitle: getLanguageString(),
             thisItem: 1,
-            screenToNavigate: const LanguageScreen(),
+            routeName: Routes.settingsAppLanguage,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(const LanguageScreen());
+            },
           ),
           settingsTile(
             icon: Icons.storage_rounded,
@@ -225,12 +323,17 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             screenToNavigate: const ServersPage(),
             thisItem: 2,
           ),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.settings_rounded,
             title: AppLocalizations.of(context)!.advancedSetup,
             subtitle: AppLocalizations.of(context)!.advancedAppSetupDescription,
-            screenToNavigate: const AdvancedOptions(),
             thisItem: 3,
+            routeName: Routes.settingsAppAdvanced,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(const AdvancedOptions());
+            },
           ),
         ],
       );
@@ -241,39 +344,124 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionLabel(label: AppLocalizations.of(context)!.serverSettings),
-          CustomListTile(
-            leadingIcon: Icons.connected_tv_rounded,
-            label: AppLocalizations.of(context)!.serverInfo,
-            description: _buildServerSubtitle(
+          routedSettingsTile(
+            context: context,
+            width: width,
+            icon: Icons.connected_tv_rounded,
+            title: AppLocalizations.of(context)!.serverInfo,
+            subtitle: _buildServerSubtitle(
               context: context,
               selectedServer: selectedServer,
               serverStatus: serverStatus,
               isAliasOnly: true,
             ),
-            onTap: () => context.pushNamed(Routes.settingsServerInfo),
+            thisItem: 4,
+            routeName: Routes.settingsServerInfo,
+            splitViewChild: () {
+              final bundle = context.read<RepositoryBundle?>();
+              if (bundle == null) return;
+              final server = context.read<ServersViewModel>().selectedServer;
+              if (server == null) return;
+              SplitView.of(context).setSecondary(
+                ServerInfoScreen(
+                  viewModel: ServerInfoViewModel(ftlRepository: bundle.ftl)
+                    ..loadServerInfo.run(),
+                  serverAlias: server.alias,
+                  serverAddress: server.address,
+                ),
+              );
+            },
           ),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.security_rounded,
             title: AppLocalizations.of(context)!.adlists,
             subtitle: AppLocalizations.of(context)!.adlistDescription,
-            screenToNavigate: const AdlistScreen(),
             thisItem: 5,
+            routeName: Routes.settingsServerAdlists,
+            splitViewChild: () {
+              final bundle = context.read<RepositoryBundle?>();
+              if (bundle == null) return;
+              SplitView.of(context).setSecondary(
+                MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider(
+                      create: (_) =>
+                          AdlistsViewModel(adListRepository: bundle.adlist)
+                            ..loadAdlists.run(),
+                    ),
+                    ChangeNotifierProvider(
+                      create: (_) =>
+                          GroupsViewModel(groupRepository: bundle.group)
+                            ..loadGroups.run(),
+                    ),
+                  ],
+                  child: const AdlistScreen(),
+                ),
+              );
+            },
           ),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.group_rounded,
             title: AppLocalizations.of(context)!.groupsAndClients,
             subtitle: AppLocalizations.of(context)!.groupsAndClientsDescription,
-            screenToNavigate: const GroupClientScreen(),
             thisItem: 11,
+            routeName: Routes.settingsServerGroupClient,
+            splitViewChild: () {
+              final bundle = context.read<RepositoryBundle?>();
+              if (bundle == null) return;
+              final serversViewModel = context.read<ServersViewModel>();
+              SplitView.of(context).setSecondary(
+                MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider(
+                      create: (_) =>
+                          ClientsViewModel(clientRepository: bundle.client)
+                            ..loadClients.run(),
+                    ),
+                    ChangeNotifierProvider(
+                      create: (_) =>
+                          GroupsViewModel(groupRepository: bundle.group)
+                            ..loadGroups.run(),
+                    ),
+                    ChangeNotifierProvider(
+                      create: (_) => DomainsViewModel(
+                        domainRepository: bundle.domain,
+                      )..loadDomains.run(),
+                    ),
+                    ChangeNotifierProvider(
+                      create: (_) =>
+                          AdlistsViewModel(adListRepository: bundle.adlist)
+                            ..loadAdlists.run(),
+                    ),
+                    ChangeNotifierProvider(
+                      create: (_) =>
+                          LocalDnsProvider(serversViewModel: serversViewModel),
+                    ),
+                  ],
+                  child: const GroupClientScreen(),
+                ),
+              );
+            },
           ),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.build_rounded,
             title: AppLocalizations.of(context)!.advancedSetup,
             subtitle: AppLocalizations.of(
               context,
             )!.advancedServerSetupDescription,
-            screenToNavigate: const AdvancedServerOptions(),
             thisItem: 6,
+            routeName: Routes.settingsServerAdvanced,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(
+                const AdvancedServerOptions(),
+              );
+            },
           ),
         ],
       );
@@ -289,30 +477,45 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             title: AppLocalizations.of(context)!.applicationDetail,
             subtitle: AppLocalizations.of(context)!.aboutThisApp,
             screenToNavigate: AppDetailScreen(
-              appVersion: appConfigProvider.getAppInfo?.version,
+              appVersion: appConfigViewModel.getAppInfo?.version,
             ),
             thisItem: 7,
           ),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.privacy_tip_rounded,
             title: AppLocalizations.of(context)!.privacy,
             subtitle: AppLocalizations.of(context)!.privacyInfo,
-            screenToNavigate: const PrivacyScreen(),
             thisItem: 8,
+            routeName: Routes.settingsAboutPrivacy,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(const PrivacyScreen());
+            },
           ),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.balance_rounded,
             title: AppLocalizations.of(context)!.legal,
             subtitle: AppLocalizations.of(context)!.legalInfo,
-            screenToNavigate: const LegalScreen(),
             thisItem: 9,
+            routeName: Routes.settingsAboutLegal,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(const LegalScreen());
+            },
           ),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.description_rounded,
             title: AppLocalizations.of(context)!.licenses,
             subtitle: AppLocalizations.of(context)!.licensesInfo,
-            screenToNavigate: const LicensesScreen(),
             thisItem: 10,
+            routeName: Routes.settingsAboutLicenses,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(const LicensesScreen());
+            },
           ),
           Padding(
             padding: const EdgeInsets.all(15),

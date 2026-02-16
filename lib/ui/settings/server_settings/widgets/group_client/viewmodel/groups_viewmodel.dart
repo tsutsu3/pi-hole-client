@@ -5,9 +5,10 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/group_repository
 import 'package:pi_hole_client/domain/model/group/group.dart';
 
 class GroupsViewModel extends ChangeNotifier {
-  GroupsViewModel();
+  GroupsViewModel({required GroupRepository groupRepository})
+      : _groupRepository = groupRepository;
 
-  GroupRepository? _groupRepository;
+  final GroupRepository _groupRepository;
 
   // --- Commands ---
   late final Command<void, void> loadGroups =
@@ -41,14 +42,9 @@ class GroupsViewModel extends ChangeNotifier {
     return LoadStatus.loaded;
   }
 
-  // --- ProxyProvider update ---
-  void update(GroupRepository? repository) {
-    _groupRepository = repository;
-  }
-
   // --- Command implementations ---
   Future<void> _loadGroups() async {
-    final groups = (await _groupRepository!.fetchGroups()).getOrThrow();
+    final groups = (await _groupRepository.fetchGroups()).getOrThrow();
     _groups = groups;
     _applyFilters();
     notifyListeners();
@@ -57,7 +53,7 @@ class GroupsViewModel extends ChangeNotifier {
   Future<void> _addGroup(
     ({String name, String? comment, bool? enabled}) params,
   ) async {
-    final result = await _groupRepository!.addGroup(
+    final result = await _groupRepository.addGroup(
       params.name,
       comment: params.comment,
       enabled: params.enabled,
@@ -69,7 +65,7 @@ class GroupsViewModel extends ChangeNotifier {
   Future<void> _updateGroup(
     ({String name, String? comment, bool? enabled}) params,
   ) async {
-    final result = await _groupRepository!.updateGroup(
+    final result = await _groupRepository.updateGroup(
       params.name,
       comment: params.comment,
       enabled: params.enabled,
@@ -79,7 +75,7 @@ class GroupsViewModel extends ChangeNotifier {
   }
 
   Future<void> _deleteGroup(Group group) async {
-    final result = await _groupRepository!.deleteGroup(group.name);
+    final result = await _groupRepository.deleteGroup(group.name);
     result.getOrThrow();
     _groups = _groups.where((g) => g.id != group.id).toList();
     _applyFilters();

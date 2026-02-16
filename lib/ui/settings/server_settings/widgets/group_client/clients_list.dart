@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/add_client_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/client_tile.dart';
@@ -65,7 +65,7 @@ class _ClientsListState extends State<ClientsList> {
   Widget build(BuildContext context) {
     final clientsViewModel = Provider.of<ClientsViewModel>(context);
     final localDnsProvider = Provider.of<LocalDnsProvider>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     final clients = clientsViewModel.filteredClients;
     final ipToMac = localDnsProvider.ipToMac;
@@ -86,7 +86,7 @@ class _ClientsListState extends State<ClientsList> {
 
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.clientAdded,
         );
       } catch (_) {
@@ -95,7 +95,7 @@ class _ClientsListState extends State<ClientsList> {
 
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.clientAddFailed,
         );
       }
@@ -228,7 +228,7 @@ class _ClientsListState extends State<ClientsList> {
                 duration: const Duration(milliseconds: 100),
                 curve: Curves.easeInOut,
                 bottom: isVisible
-                    ? appConfigProvider.showingSnackbar
+                    ? appConfigViewModel.showingSnackbar
                           ? 70
                           : 20
                     : -70,

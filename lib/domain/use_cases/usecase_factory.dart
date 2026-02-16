@@ -1,5 +1,5 @@
-import 'package:pi_hole_client/config/api_versions.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/realtime_status_repository.dart';
+import 'package:pi_hole_client/domain/model/api_versions.dart';
 // import 'package:pi_hole_client/data/repositories/api/v6/dns_repository.dart';
 // import 'package:pi_hole_client/data/repositories/api/v6/ftl_repository.dart';
 // import 'package:pi_hole_client/data/repositories/api/v6/metrics_repository.dart';

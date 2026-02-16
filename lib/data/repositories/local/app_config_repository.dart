@@ -78,7 +78,6 @@ class AppConfigRepository {
     return _updateConfigValue(column: 'autoRefreshTime', value: time);
   }
 
-  // TODO: Consider using an enum for themes
   /// Updates the application theme mode.
   ///
   /// The [theme] parameter is an integer representing the desired theme:
@@ -89,7 +88,6 @@ class AppConfigRepository {
     return _updateConfigValue(column: 'theme', value: theme);
   }
 
-  // TODO: Consider using an enum for languages
   Future<Result<void>> updateLanguage(String language) async {
     return _updateConfigValue(column: 'language', value: language);
   }
@@ -139,12 +137,11 @@ class AppConfigRepository {
     );
   }
 
-  // TODO: Consider using an enum for visualization modes
   /// Updates the visualization mode for statistics.
   ///
   /// The [mode] parameter controls how statistics are displayed:
   /// - `0`: List view
-  /// - `1`:  Pie chart view
+  /// - `1`: Pie chart view
   Future<Result<void>> updateStatisticsVisualizationMode(int mode) async {
     return _updateConfigValue(
       column: 'statisticsVisualizationMode',
@@ -152,7 +149,6 @@ class AppConfigRepository {
     );
   }
 
-  // TODO: Consider using an enum for home visualization modes
   /// Updates the visualization mode for the home screen chart.
   ///
   /// The [mode] parameter defines the chart type:

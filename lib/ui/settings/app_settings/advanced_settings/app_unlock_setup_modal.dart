@@ -3,7 +3,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/color_helpers.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_lock/create_pass_code_modal.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_lock/remove_passcode_modal.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +46,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     final mediaQuery = MediaQuery.of(context);
 
@@ -83,12 +83,12 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
               persistAcrossBackgrounding: true,
             );
             if (didAuthenticate == true) {
-              final result = await appConfigProvider.setUseBiometrics(true);
+              final result = await appConfigViewModel.setUseBiometrics(true);
               if (!context.mounted) return;
               if (result == false) {
                 showErrorSnackBar(
                   context: context,
-                  appConfigProvider: appConfigProvider,
+                  appConfigViewModel: appConfigViewModel,
                   label: AppLocalizations.of(
                     context,
                   )!.biometricUnlockNotActivated,
@@ -100,7 +100,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
             if (e.toString().contains('LockedOut')) {
               showErrorSnackBar(
                 context: context,
-                appConfigProvider: appConfigProvider,
+                appConfigViewModel: appConfigViewModel,
                 label: AppLocalizations.of(
                   context,
                 )!.fingerprintAuthUnavailableAttempts,
@@ -108,7 +108,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
             } else {
               showErrorSnackBar(
                 context: context,
-                appConfigProvider: appConfigProvider,
+                appConfigViewModel: appConfigViewModel,
                 label: AppLocalizations.of(context)!.fingerprintAuthUnavailable,
               );
             }
@@ -117,17 +117,17 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
           if (!context.mounted) return;
           showNeutralSnackBar(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(context)!.noAvailableBiometrics,
           );
         }
       } else {
-        final result = await appConfigProvider.setUseBiometrics(false);
+        final result = await appConfigViewModel.setUseBiometrics(false);
         if (!context.mounted) return;
         if (result == false) {
           showErrorSnackBar(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(context)!.biometricUnlockNotDisabled,
           );
         }
@@ -157,13 +157,13 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           decoration: BoxDecoration(
             border: Border.all(
-              color: appConfigProvider.passCode != null
-                  ? convertColor(appConfigProvider.colors, Colors.green)
-                  : convertColor(appConfigProvider.colors, Colors.red),
+              color: appConfigViewModel.passCode != null
+                  ? convertColor(appConfigViewModel.colors, Colors.green)
+                  : convertColor(appConfigViewModel.colors, Colors.red),
             ),
             borderRadius: BorderRadius.circular(30),
           ),
-          child: appConfigProvider.passCode != null
+          child: appConfigViewModel.passCode != null
               ? Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -171,7 +171,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                     Icon(
                       Icons.check,
                       color: convertColor(
-                        appConfigProvider.colors,
+                        appConfigViewModel.colors,
                         Colors.green,
                       ),
                       size: 20,
@@ -181,7 +181,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                       AppLocalizations.of(context)!.statusEnabled,
                       style: TextStyle(
                         color: convertColor(
-                          appConfigProvider.colors,
+                          appConfigViewModel.colors,
                           Colors.green,
                         ),
                         fontSize: 15,
@@ -196,7 +196,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                   children: [
                     Icon(
                       Icons.close,
-                      color: convertColor(appConfigProvider.colors, Colors.red),
+                      color: convertColor(appConfigViewModel.colors, Colors.red),
                       size: 20,
                     ),
                     const SizedBox(width: 20),
@@ -204,7 +204,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                       AppLocalizations.of(context)!.statusDisabled,
                       style: TextStyle(
                         color: convertColor(
-                          appConfigProvider.colors,
+                          appConfigViewModel.colors,
                           Colors.red,
                         ),
                         fontSize: 15,
@@ -214,7 +214,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                   ],
                 ),
         ),
-        if (appConfigProvider.passCode != null)
+        if (appConfigViewModel.passCode != null)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
             child: Column(
@@ -280,13 +280,13 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
               label: Text(AppLocalizations.of(context)!.setPassCode),
             ),
           ),
-        if (appConfigProvider.biometricsSupport == true)
+        if (appConfigViewModel.biometricsSupport == true)
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: appConfigProvider.passCode != null
+              onTap: appConfigViewModel.passCode != null
                   ? () => enableDisableBiometricsUnlock(
-                      !appConfigProvider.useBiometrics,
+                      !appConfigViewModel.useBiometrics,
                     )
                   : null,
               child: Padding(
@@ -303,10 +303,10 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                       children: [
                         Icon(
                           Icons.fingerprint,
-                          color: appConfigProvider.passCode != null
+                          color: appConfigViewModel.passCode != null
                               ? null
                               : convertColor(
-                                  appConfigProvider.colors,
+                                  appConfigViewModel.colors,
                                   Colors.grey,
                                 ),
                         ),
@@ -315,10 +315,10 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                           AppLocalizations.of(context)!.useFingerprint,
                           style: TextStyle(
                             fontSize: 16,
-                            color: appConfigProvider.passCode != null
+                            color: appConfigViewModel.passCode != null
                                 ? null
                                 : convertColor(
-                                    appConfigProvider.colors,
+                                    appConfigViewModel.colors,
                                     Colors.grey,
                                   ),
                           ),
@@ -326,8 +326,8 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                       ],
                     ),
                     Switch(
-                      value: appConfigProvider.useBiometrics,
-                      onChanged: appConfigProvider.passCode != null
+                      value: appConfigViewModel.useBiometrics,
+                      onChanged: appConfigViewModel.passCode != null
                           ? enableDisableBiometricsUnlock
                           : null,
                     ),

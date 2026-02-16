@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/formats.dart';
-import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
+import 'package:pi_hole_client/ui/core/formats.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/filtered_domains.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
@@ -36,7 +36,7 @@ class GroupDetailsScreen extends StatefulWidget {
 class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   late Group _group;
   late GroupsViewModel groupsViewModel;
-  late AppConfigProvider appConfigProvider;
+  late AppConfigViewModel appConfigViewModel;
   late ClientsViewModel clientsViewModel;
   late DomainsViewModel domainsViewModel;
   late AdlistsViewModel adlistsViewModel;
@@ -60,7 +60,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    appConfigProvider = context.watch<AppConfigProvider>();
+    appConfigViewModel = context.watch<AppConfigViewModel>();
     groupsViewModel = context.watch<GroupsViewModel>();
     clientsViewModel = context.watch<ClientsViewModel>();
     domainsViewModel = context.watch<DomainsViewModel>();
@@ -225,7 +225,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
       if (!mounted) return;
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.groupRemoved,
       );
     } catch (_) {
@@ -234,7 +234,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
 
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.groupRemoveFailed,
       );
     }
@@ -267,7 +267,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
       if (!mounted) return;
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.groupUpdated,
       );
     } catch (_) {
@@ -276,7 +276,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
 
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.groupUpdateFailed,
       );
     }
@@ -339,10 +339,16 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FilteredDomainLists(
-          groupId: _group.id,
-          groupName: _group.name,
-          initialTab: initialTab,
+        builder: (_) => MultiProvider(
+          providers: [
+            ChangeNotifierProvider.value(value: domainsViewModel),
+            ChangeNotifierProvider.value(value: groupsViewModel),
+          ],
+          child: FilteredDomainLists(
+            groupId: _group.id,
+            groupName: _group.name,
+            initialTab: initialTab,
+          ),
         ),
       ),
     );
@@ -352,10 +358,16 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FilteredAdlists(
-          groupId: _group.id,
-          groupName: _group.name,
-          initialTab: initialTab,
+        builder: (_) => MultiProvider(
+          providers: [
+            ChangeNotifierProvider.value(value: adlistsViewModel),
+            ChangeNotifierProvider.value(value: groupsViewModel),
+          ],
+          child: FilteredAdlists(
+            groupId: _group.id,
+            groupName: _group.name,
+            initialTab: initialTab,
+          ),
         ),
       ),
     );

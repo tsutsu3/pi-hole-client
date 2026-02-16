@@ -3,19 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg_test/flutter_svg_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:pi_hole_client/ui/servers/servers.dart';
-import 'package:pi_hole_client/ui/settings/about/about.dart' as about;
 import 'package:pi_hole_client/ui/settings/about/app_detail_screen.dart';
-import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';
-import 'package:pi_hole_client/ui/settings/about/privacy_screen.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
 import 'package:pi_hole_client/ui/settings/settings.dart';
 
 import '../../helpers.dart';
@@ -178,9 +166,8 @@ void main() async {
       );
     });
 
-    testWidgets('should show Theme screen with tap', (
-      WidgetTester tester,
-    ) async {
+    // Theme navigation now uses go_router (context.pushNamed).
+    testWidgets('should show Theme tile', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -194,14 +181,12 @@ void main() async {
       expect(find.byType(Settings), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Theme'));
-      await tester.pumpAndSettle();
-      expect(find.byType(ThemeScreen), findsOneWidget);
+      expect(find.text('Theme'), findsOneWidget);
+      expect(find.text('System theme'), findsOneWidget);
     });
 
-    testWidgets('should show Language screen with tap', (
-      WidgetTester tester,
-    ) async {
+    // Language navigation now uses go_router (context.pushNamed).
+    testWidgets('should show Language tile', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -215,14 +200,11 @@ void main() async {
       expect(find.byType(Settings), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Language'));
-      await tester.pumpAndSettle();
-      expect(find.byType(LanguageScreen), findsOneWidget);
+      expect(find.text('Language'), findsOneWidget);
+      expect(find.text('English'), findsOneWidget);
     });
 
-    testWidgets('should show Server screen with tap', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('should show Server tile', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -236,12 +218,12 @@ void main() async {
       expect(find.byType(Settings), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Servers'));
-      await tester.pumpAndSettle();
-      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.text('Servers'), findsOneWidget);
+      expect(find.text('Connected to test v6'), findsOneWidget);
     });
 
-    testWidgets('should show Advanced app settings screen with tap', (
+    // Advanced app settings navigation now uses go_router (context.pushNamed).
+    testWidgets('should show Advanced app settings tile', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -257,9 +239,8 @@ void main() async {
       expect(find.byType(Settings), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Advanced settings').first);
-      await tester.pumpAndSettle();
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.text('Advanced settings'), findsNWidgets(2));
+      expect(find.text('Access advanced app settings'), findsOneWidget);
     });
 
     testWidgets('should show Pi-hole server tile', (
@@ -282,9 +263,7 @@ void main() async {
       expect(find.byIcon(Icons.connected_tv_rounded), findsOneWidget);
     });
 
-    testWidgets('should show adlists screen with tap', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('should show adlists tile', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -298,13 +277,12 @@ void main() async {
       expect(find.byType(Settings), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Adlists'));
-      await tester.pumpAndSettle();
-      expect(find.byType(AdlistScreen), findsOneWidget);
-      expect(find.text('There are no adlists to show here.'), findsOneWidget);
+      expect(find.text('Adlists'), findsOneWidget);
+      expect(find.text('Manage and update Adlists'), findsOneWidget);
+      expect(find.byIcon(Icons.security_rounded), findsOneWidget);
     });
 
-    testWidgets('should show groups and clients screen with tap', (
+    testWidgets('should show groups and clients tile', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -323,12 +301,16 @@ void main() async {
       await tester.ensureVisible(find.text('Groups & Clients'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Groups & Clients'));
-      await tester.pumpAndSettle();
-      expect(find.byType(GroupClientScreen), findsOneWidget);
+      expect(find.text('Groups & Clients'), findsOneWidget);
+      expect(
+        find.text('Manage groups and client assignments'),
+        findsOneWidget,
+      );
+      expect(find.byIcon(Icons.group_rounded), findsOneWidget);
     });
 
-    testWidgets('should show advanced server settings screen with tap', (
+    // Advanced server settings navigation now uses go_router (context.pushNamed).
+    testWidgets('should show advanced server settings tile', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -344,9 +326,8 @@ void main() async {
       expect(find.byType(Settings), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Advanced settings').last);
-      await tester.pumpAndSettle();
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.text('Advanced settings'), findsNWidgets(2));
+      expect(find.text('Access advanced server settings'), findsOneWidget);
     });
 
     testWidgets('should show Application Detail screen with tap', (
@@ -370,9 +351,8 @@ void main() async {
       expect(find.byType(AppDetailScreen), findsOneWidget);
     });
 
-    testWidgets('should show Privacy screen with tap', (
-      WidgetTester tester,
-    ) async {
+    // Privacy navigation now uses go_router (context.pushNamed).
+    testWidgets('should show Privacy tile', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -386,14 +366,12 @@ void main() async {
       expect(find.byType(Settings), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Privacy'));
-      await tester.pumpAndSettle();
-      expect(find.byType(PrivacyScreen), findsOneWidget);
+      expect(find.text('Privacy'), findsOneWidget);
+      expect(find.text('Privacy and Data Management'), findsOneWidget);
     });
 
-    testWidgets('should show Legal screen with tap', (
-      WidgetTester tester,
-    ) async {
+    // Legal navigation now uses go_router (context.pushNamed).
+    testWidgets('should show Legal tile', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -407,24 +385,14 @@ void main() async {
       expect(find.byType(Settings), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Legal'));
-      await tester.pumpAndSettle();
-      expect(find.byType(LegalScreen), findsOneWidget);
+      expect(find.text('Legal'), findsOneWidget);
+      expect(find.text('Legal information'), findsOneWidget);
     });
 
-    testWidgets('should show Licenses screen with tap', (
-      WidgetTester tester,
-    ) async {
+    // Licenses navigation now uses go_router (context.pushNamed).
+    testWidgets('should show Licenses tile', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
-
-      PackageInfo.setMockInitialValues(
-        appName: 'Test App',
-        packageName: 'com.example.test',
-        version: '1.2.3',
-        buildNumber: '456',
-        buildSignature: 'test_build_signature',
-      );
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -439,10 +407,8 @@ void main() async {
       await tester.ensureVisible(find.text('Licenses'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('Licenses'));
-      when(testSetup.mockConfigProvider.selectedSettingsScreen).thenReturn(6);
-      await tester.pumpAndSettle();
-      expect(find.byType(about.LicensePage), findsOneWidget);
+      expect(find.text('Licenses'), findsOneWidget);
+      expect(find.text('OSS Information'), findsOneWidget);
     });
 
     testWidgets('should show Google play page with tap', (

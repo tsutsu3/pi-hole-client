@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/formats.dart';
-import 'package:pi_hole_client/config/search_domain_base_url.dart';
+import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/domain/models_old/log.dart';
+import 'package:pi_hole_client/ui/core/formats.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/widgets/log_status.dart';
 import 'package:pi_hole_client/utils/format.dart';
 import 'package:pi_hole_client/utils/math.dart';
@@ -23,7 +23,7 @@ class LogDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final filterProvider = Provider.of<FiltersProvider>(context);
+    final filterProvider = Provider.of<FiltersViewModel>(context);
 
     Widget item(IconData icon, String label, Widget value) {
       return Padding(
@@ -80,7 +80,7 @@ class LogDetailsScreen extends StatelessWidget {
         title: Text(AppLocalizations.of(context)!.logDetails),
         actions: [
           IconButton(
-            onPressed: () => openUrl('$searchDomainBaseUrlGoogle${log.url}'),
+            onPressed: () => openUrl('${Urls.googleSearch}${log.url}'),
             icon: const Icon(Icons.travel_explore_rounded),
             tooltip: AppLocalizations.of(context)!.domainSearchOnline,
           ),

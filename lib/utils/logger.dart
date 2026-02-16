@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
-import 'package:pi_hole_client/config/formats.dart';
+import 'package:pi_hole_client/ui/core/formats.dart';
 
 Level getLogLevel() {
   if (kReleaseMode) {

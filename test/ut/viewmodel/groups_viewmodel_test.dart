@@ -14,8 +14,7 @@ void main() {
     setUp(() {
       Command.globalExceptionHandler = (_, _) {};
       fakeGroupRepository = FakeGroupRepository();
-      viewModel = GroupsViewModel();
-      viewModel.update(fakeGroupRepository);
+      viewModel = GroupsViewModel(groupRepository: fakeGroupRepository);
       listenerCalled = false;
       viewModel.addListener(() {
         listenerCalled = true;

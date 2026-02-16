@@ -1,6 +1,6 @@
-import 'package:pi_hole_client/config/api_versions.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
+import 'package:pi_hole_client/domain/model/api_versions.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/log.dart';
 import 'package:pi_hole_client/utils/logger.dart';

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/models_old/overtime_data.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_data_chart.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/clients/clients_last_hours_bar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/clients/clients_last_hours_line.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/skeleton/bar_chart_skeleton.dart';
@@ -36,18 +36,18 @@ class ClientActivityChartSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
 
-    final overTimeDataLoadStatus = context.select<StatusProvider, LoadStatus>(
+    final overTimeDataLoadStatus = context.select<StatusViewModel, LoadStatus>(
       (provider) => provider.getOvertimeDataLoadStatus,
     );
 
     final overtimeDataJson = context
-        .select<StatusProvider, Map<String, dynamic>?>(
+        .select<StatusViewModel, Map<String, dynamic>?>(
           (provider) => provider.getOvertimeDataJson,
         );
 
-    final overtimeData = context.select<StatusProvider, OverTimeData?>(
+    final overtimeData = context.select<StatusViewModel, OverTimeData?>(
       (provider) => provider.getOvertimeData,
     );
 
@@ -64,7 +64,7 @@ class ClientActivityChartSection extends StatelessWidget {
       case LoadStatus.loading:
         child = _buildSkeleton(
           context,
-          appConfigProvider,
+          appConfigViewModel,
           overtimeData,
           clientsListIps,
         );
@@ -72,7 +72,7 @@ class ClientActivityChartSection extends StatelessWidget {
         child = _hasData(overtimeDataJson)
             ? _buildLoadedContent(
                 context,
-                appConfigProvider,
+                appConfigViewModel,
                 overtimeData,
                 overtimeDataJson,
                 clientsListIps,
@@ -105,14 +105,14 @@ class ClientActivityChartSection extends StatelessWidget {
   ///
   /// Parameters:
   /// - [context]: The build context.
-  /// - [appConfigProvider]: Provides app configuration and state, such as theme and visualization mode.
+  /// - [appConfigViewModel]: Provides app configuration and state, such as theme and visualization mode.
   /// - [overtimeData]: The data for client activity over time (can be null while loading).
   /// - [clientsListIps]: The list of client IP addresses.
   ///
   /// Returns a widget displaying the skeleton layout for the client activity chart section.
   Widget _buildSkeleton(
     BuildContext context,
-    AppConfigProvider appConfigProvider,
+    AppConfigViewModel appConfigViewModel,
     OverTimeData? overtimeData,
     List<String> clientsListIps,
   ) {
@@ -145,16 +145,16 @@ class ClientActivityChartSection extends StatelessWidget {
                 width: double.maxFinite,
                 height: 350,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: appConfigProvider.homeVisualizationMode == 0
+                child: appConfigViewModel.homeVisualizationMode == HomeVisualizationMode.lineArea
                     ? LineChartSkeleton(
-                        selectedTheme: appConfigProvider.selectedTheme,
+                        selectedTheme: appConfigViewModel.selectedTheme,
                         nums: 3,
-                        showAnimation: appConfigProvider.loadingAnimation,
+                        showAnimation: appConfigViewModel.loadingAnimation,
                       )
                     : BarChartSkeleton(
-                        selectedTheme: appConfigProvider.selectedTheme,
+                        selectedTheme: appConfigViewModel.selectedTheme,
                         nums: 3,
-                        showAnimation: appConfigProvider.loadingAnimation,
+                        showAnimation: appConfigViewModel.loadingAnimation,
                       ),
               ),
             ],
@@ -176,7 +176,7 @@ class ClientActivityChartSection extends StatelessWidget {
   /// and a legend section. It takes the following parameters:
   ///
   /// - [context]: The build context.
-  /// - [appConfigProvider]: The provider for app configuration.
+  /// - [appConfigViewModel]: The provider for app configuration.
   /// - [overtimeData]: The data representing client activity over time (optional).
   /// - [overtimeDataJson]: The raw JSON data for client activity over time (optional).
   /// - [clientsListIps]: The list of client IP addresses to display in the chart and legend.
@@ -184,7 +184,7 @@ class ClientActivityChartSection extends StatelessWidget {
   /// Returns a [Column] widget containing the chart and legend.
   Widget _buildLoadedContent(
     BuildContext context,
-    AppConfigProvider appConfigProvider,
+    AppConfigViewModel appConfigViewModel,
     OverTimeData? overtimeData,
     Map<String, dynamic>? overtimeDataJson,
     List<String> clientsListIps,
@@ -201,7 +201,7 @@ class ClientActivityChartSection extends StatelessWidget {
               height: 350,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: _buildClientsGraph(
-                appConfigProvider,
+                appConfigViewModel,
                 overtimeDataJson,
                 clientsListIps,
               ),
@@ -361,29 +361,29 @@ class ClientActivityChartSection extends StatelessWidget {
   ///
   /// Additional flags like `reducedDataCharts` and `hideZeroValues` influence chart rendering.
   ///
-  /// - [appConfigProvider]: Provides user config such as visualization mode and flags.
+  /// - [appConfigViewModel]: Provides user config such as visualization mode and flags.
   /// - [overtimeDataJson]: The JSON data containing client activity over time.
   /// - [clientsListIps]: Ordered list of known client IPs for color resolution.
   ///
   /// Returns a widget displaying the client activity chart.
   Widget _buildClientsGraph(
-    AppConfigProvider appConfigProvider,
+    AppConfigViewModel appConfigViewModel,
     Map<String, dynamic>? overtimeDataJson,
     List<String> clientsListIps,
   ) {
-    if (appConfigProvider.homeVisualizationMode == 0) {
+    if (appConfigViewModel.homeVisualizationMode == HomeVisualizationMode.lineArea) {
       return ClientsLastHoursLine(
         realtimeListIps: clientsListIps,
         data: overtimeDataJson!,
-        reducedData: appConfigProvider.reducedDataCharts,
-        hideZeroValues: appConfigProvider.hideZeroValues,
+        reducedData: appConfigViewModel.reducedDataCharts,
+        hideZeroValues: appConfigViewModel.hideZeroValues,
       );
     } else {
       return ClientsLastHoursBar(
         realtimeListIps: clientsListIps,
         data: overtimeDataJson!,
-        reducedData: appConfigProvider.reducedDataCharts,
-        hideZeroValues: appConfigProvider.hideZeroValues,
+        reducedData: appConfigViewModel.reducedDataCharts,
+        hideZeroValues: appConfigViewModel.hideZeroValues,
       );
     }
   }

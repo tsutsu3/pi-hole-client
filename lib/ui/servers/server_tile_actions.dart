@@ -4,9 +4,9 @@ import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/certificate_details_dialog.dart';
 import 'package:pi_hole_client/ui/servers/transport_security_indicator.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
@@ -40,10 +40,10 @@ class ServerTileActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isConnected = context.select<StatusProvider, bool>(
+    final isConnected = context.select<StatusViewModel, bool>(
       (p) => p.getServerStatus == LoadStatus.loaded,
     );
-    final selectedServer = context.select<ServersProvider, Server?>(
+    final selectedServer = context.select<ServersViewModel, Server?>(
       (p) => p.selectedServer,
     );
 
@@ -157,7 +157,7 @@ class ServerTileActions extends StatelessWidget {
     Uri uri,
   ) async {
     final loc = AppLocalizations.of(context)!;
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
 
     TlsCertificateInfo? certificateInfo;
     try {
@@ -174,7 +174,7 @@ class ServerTileActions extends StatelessWidget {
     if (certificateInfo == null) {
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: loc.serverCertificateFetchFailed,
       );
       return null;
@@ -219,8 +219,8 @@ class ServerTileActions extends StatelessWidget {
     if (uri == null) return;
 
     final loc = AppLocalizations.of(context)!;
-    final appConfigProvider = context.read<AppConfigProvider>();
-    final serversProvider = context.read<ServersProvider>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
+    final serversViewModel = context.read<ServersViewModel>();
 
     final certificateInfo = await _fetchAndValidateCertificate(context, uri);
     if (certificateInfo == null) return;
@@ -251,19 +251,19 @@ class ServerTileActions extends StatelessWidget {
     final updated = server.copyWith(
       pinnedCertificateSha256: certificateInfo.sha256,
     );
-    final result = await serversProvider.editServer(updated);
+    final result = await serversViewModel.editServer(updated);
     if (!context.mounted) return;
 
     if (result == true) {
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: loc.editServerSuccessfully,
       );
     } else {
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: loc.cantSaveConnectionData,
       );
     }

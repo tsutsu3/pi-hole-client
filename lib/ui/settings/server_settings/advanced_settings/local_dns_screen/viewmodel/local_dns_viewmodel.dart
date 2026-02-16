@@ -20,9 +20,9 @@ class LocalDnsViewModel extends ChangeNotifier {
     required NetworkRepository networkRepository,
   }) : _localDnsRepository = localDnsRepository,
        _networkRepository = networkRepository {
-    loadRecords = Command.createAsyncNoParam<LocalDnsData>(
+    loadRecords = Command.createAsyncNoParam<void>(
       _loadRecords,
-      initialValue: const LocalDnsData(records: [], deviceOptions: []),
+      initialValue: null,
     );
     addRecord = Command.createAsyncNoResult<LocalDns>(_addRecord);
     updateRecord =
@@ -40,20 +40,27 @@ class LocalDnsViewModel extends ChangeNotifier {
   final LocalDnsRepository _localDnsRepository;
   final NetworkRepository _networkRepository;
 
-  late final Command<void, LocalDnsData> loadRecords;
+  late final Command<void, void> loadRecords;
   late final Command<LocalDns, void> addRecord;
   late final Command<({LocalDns record, String oldIp}), void> updateRecord;
   late final Command<LocalDns, void> deleteRecord;
 
-  Future<LocalDnsData> _loadRecords() async {
+  // --- State ---
+  LocalDnsData _data = const LocalDnsData(records: [], deviceOptions: []);
+
+  // --- Getters ---
+  LocalDnsData get data => _data;
+
+  Future<void> _loadRecords() async {
     final (dnsResult, devicesResult) = await (
       _localDnsRepository.fetchRecords(),
       _networkRepository.fetchDevices(),
     ).wait;
-    return LocalDnsData(
+    _data = LocalDnsData(
       records: dnsResult.getOrThrow(),
       deviceOptions: _devicesToOptions(devicesResult.getOrThrow()),
     );
+    notifyListeners();
   }
 
   Future<void> _addRecord(LocalDns record) async {
@@ -62,7 +69,11 @@ class LocalDnsViewModel extends ChangeNotifier {
       name: record.name,
     );
     result.getOrThrow();
-    await loadRecords.runAsync();
+    _data = LocalDnsData(
+      records: [..._data.records, record],
+      deviceOptions: _data.deviceOptions,
+    );
+    notifyListeners();
   }
 
   Future<void> _updateRecord(({LocalDns record, String oldIp}) params) async {
@@ -71,7 +82,14 @@ class LocalDnsViewModel extends ChangeNotifier {
       oldIp: params.oldIp,
     );
     result.getOrThrow();
-    await loadRecords.runAsync();
+    _data = LocalDnsData(
+      records: [
+        for (final r in _data.records)
+          if (r.ip == params.oldIp) params.record else r,
+      ],
+      deviceOptions: _data.deviceOptions,
+    );
+    notifyListeners();
   }
 
   Future<void> _deleteRecord(LocalDns record) async {
@@ -80,7 +98,11 @@ class LocalDnsViewModel extends ChangeNotifier {
       name: record.name,
     );
     result.getOrThrow();
-    await loadRecords.runAsync();
+    _data = LocalDnsData(
+      records: _data.records.where((r) => r.ip != record.ip).toList(),
+      deviceOptions: _data.deviceOptions,
+    );
+    notifyListeners();
   }
 
   List<DeviceOption> _devicesToOptions(List<Device> devices) {

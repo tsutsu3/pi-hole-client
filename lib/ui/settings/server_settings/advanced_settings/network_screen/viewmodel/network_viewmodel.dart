@@ -17,9 +17,9 @@ class NetworkViewModel extends ChangeNotifier {
     required FtlRepository ftlRepository,
   }) : _networkRepository = networkRepository,
        _ftlRepository = ftlRepository {
-    loadDevices = Command.createAsyncNoParam<NetworkData>(
+    loadDevices = Command.createAsyncNoParam<void>(
       _loadDevices,
-      initialValue: const NetworkData(devices: [], currentClientIp: ''),
+      initialValue: null,
     );
     deleteDevice = Command.createAsyncNoResult<int>(_deleteDevice);
 
@@ -30,23 +30,34 @@ class NetworkViewModel extends ChangeNotifier {
   final NetworkRepository _networkRepository;
   final FtlRepository _ftlRepository;
 
-  late final Command<void, NetworkData> loadDevices;
+  late final Command<void, void> loadDevices;
   late final Command<int, void> deleteDevice;
 
-  Future<NetworkData> _loadDevices() async {
+  // --- State ---
+  NetworkData _data = const NetworkData(devices: [], currentClientIp: '');
+
+  // --- Getters ---
+  NetworkData get data => _data;
+
+  Future<void> _loadDevices() async {
     final (devicesResult, clientResult) = await (
       _networkRepository.fetchDevices(),
       _ftlRepository.fetchInfoClient(),
     ).wait;
     final devices = devicesResult.getOrThrow();
     final client = clientResult.getOrThrow();
-    return NetworkData(devices: devices, currentClientIp: client.addr);
+    _data = NetworkData(devices: devices, currentClientIp: client.addr);
+    notifyListeners();
   }
 
   Future<void> _deleteDevice(int deviceId) async {
     final result = await _networkRepository.deleteDevice(deviceId);
     result.getOrThrow();
-    await loadDevices.runAsync();
+    _data = NetworkData(
+      devices: _data.devices.where((d) => d.id != deviceId).toList(),
+      currentClientIp: _data.currentClientIp,
+    );
+    notifyListeners();
   }
 
   @override

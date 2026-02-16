@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/statistics/dns_tab.dart';
 import 'package:pi_hole_client/ui/statistics/statistics_list.dart';
 import 'package:pi_hole_client/ui/statistics/statistics_queries_servers_tab.dart';
@@ -15,9 +15,9 @@ class StatisticsTripleColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusProvider = Provider.of<StatusProvider>(context);
+    final statusViewModel = Provider.of<StatusViewModel>(context);
     final apiVersion =
-        context.select((ServersProvider p) => p.selectedServer?.apiVersion) ??
+        context.select((ServersViewModel p) => p.selectedServer?.apiVersion) ??
         'v5';
 
     final columns = <Widget>[
@@ -57,7 +57,7 @@ class StatisticsTripleColumn extends StatelessWidget {
     }
 
     Widget body;
-    switch (statusProvider.getStatusLoading) {
+    switch (statusViewModel.getStatusLoading) {
       case LoadStatus.loading:
         body = Center(
           child: Column(

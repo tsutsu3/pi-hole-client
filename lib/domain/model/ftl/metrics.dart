@@ -48,8 +48,6 @@ sealed class DnsTypePercentage with _$DnsTypePercentage {
 
 @freezed
 sealed class DnsReplies with _$DnsReplies {
-  const DnsReplies._();
-
   const factory DnsReplies({
     required int forwarded,
     required int unanswered,
@@ -58,6 +56,7 @@ sealed class DnsReplies with _$DnsReplies {
     required int auth,
     required int sum,
   }) = _DnsReplies;
+  const DnsReplies._();
 
   factory DnsReplies.fromJson(Map<String, dynamic> json) =>
       _$DnsRepliesFromJson(json);

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/numeric_pad.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class CreatePassCodeModal extends StatefulWidget {
@@ -19,13 +19,13 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     final height = MediaQuery.of(context).size.height;
 
     Future<void> finish() async {
       if (_code == _repeatedCode) {
-        final result = await appConfigProvider.setPassCode(_repeatedCode);
+        final result = await appConfigViewModel.setPassCode(_repeatedCode);
         if (!context.mounted) return;
 
         if (result == true) {
@@ -33,14 +33,14 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
         } else {
           showErrorSnackBar(
             context: context,
-            appConfigProvider: appConfigProvider,
+            appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(context)!.passCodeNotSaved,
           );
         }
       } else {
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.passcodesDontMatch,
         );
       }

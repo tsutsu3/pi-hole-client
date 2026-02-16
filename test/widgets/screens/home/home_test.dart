@@ -7,7 +7,7 @@ import 'package:pi_hole_client/ui/home/home.dart';
 import 'package:pi_hole_client/ui/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar/switch_server_modal.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
+
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../helpers.dart';
@@ -71,7 +71,7 @@ void main() async {
       });
 
       when(
-        testSetup.mockStatusProvider.getStatusLoading,
+        testSetup.mockStatusViewModel.getStatusLoading,
       ).thenReturn(LoadStatus.loading);
 
       await tester.pumpWidget(testSetup.buildTestWidget(const Home()));
@@ -99,7 +99,7 @@ void main() async {
       });
 
       when(
-        testSetup.mockStatusProvider.getStatusLoading,
+        testSetup.mockStatusViewModel.getStatusLoading,
       ).thenAnswer((_) => LoadStatus.error);
 
       await tester.pumpWidget(testSetup.buildTestWidget(const Home()));
@@ -157,7 +157,7 @@ void main() async {
         allowSelfSignedCert: true,
         ignoreCertificateErrors: false,
       );
-      when(testSetup.mockServersProvider.selectedServer).thenReturn(serverV6);
+      when(testSetup.mockServersViewModel.selectedServer).thenReturn(serverV6);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -234,9 +234,9 @@ void main() async {
         tester.view.devicePixelRatio = 2.0;
 
         when(
-          testSetup.mockStatusProvider.getServerStatus,
+          testSetup.mockStatusViewModel.getServerStatus,
         ).thenReturn(LoadStatus.loading);
-        when(testSetup.mockStatusProvider.isServerLoading).thenReturn(true);
+        when(testSetup.mockStatusViewModel.isServerLoading).thenReturn(true);
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -352,7 +352,7 @@ void main() async {
         // expect(find.byType(Logs), findsOneWidget);
         // expect(find.text('9 status selected'), findsOneWidget);
         verify(
-          testSetup.mockFiltersProvider.setRequestStatus(RequestStatus.blocked),
+          testSetup.mockFiltersViewModel.setRequestStatus(RequestStatus.blocked),
         ).called(1);
         verify(testSetup.mockConfigProvider.setSelectedTab(2)).called(1);
       },
@@ -379,14 +379,14 @@ void main() async {
         // expect(find.byType(Logs), findsOneWidget);
         // expect(find.text('9 status selected'), findsNothing);
         verify(
-          testSetup.mockFiltersProvider.setRequestStatus(RequestStatus.all),
+          testSetup.mockFiltersViewModel.setRequestStatus(RequestStatus.all),
         ).called(1);
         verify(testSetup.mockConfigProvider.setSelectedTab(2)).called(1);
       },
     );
 
     testWidgets(
-      'should show adlists page when tapping on "Domains on Adlists" tile',
+      'should show "Domains on Adlists" tile',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
@@ -401,9 +401,8 @@ void main() async {
         expect(find.byType(Home), findsOneWidget);
         await tester.pump();
 
-        await tester.tap(find.text('Domains on Adlists'));
-        await tester.pumpAndSettle();
-        expect(find.byType(AdlistScreen), findsOneWidget);
+        expect(find.text('Domains on Adlists'), findsOneWidget);
+        expect(find.byIcon(Icons.list), findsOneWidget);
       },
     );
   });

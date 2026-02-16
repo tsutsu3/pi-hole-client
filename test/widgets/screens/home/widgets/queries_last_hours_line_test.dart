@@ -5,27 +5,27 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/config/globals.dart';
+import 'package:pi_hole_client/ui/core/globals.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/queries/queries_last_hours_line.dart';
 import 'package:provider/provider.dart';
 
 import 'queries_last_hours_line_test.mocks.dart';
 
-@GenerateMocks([AppConfigProvider])
+@GenerateMocks([AppConfigViewModel])
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
 
   group('Queries Last Hours Line Widget Tests', () {
-    late MockAppConfigProvider mockAppConfigProvider;
+    late MockAppConfigViewModel mockAppConfigViewModel;
 
     setUp(() async {
-      mockAppConfigProvider = MockAppConfigProvider();
+      mockAppConfigViewModel = MockAppConfigViewModel();
 
-      when(mockAppConfigProvider.selectedTheme).thenReturn(ThemeMode.light);
+      when(mockAppConfigViewModel.selectedTheme).thenReturn(ThemeMode.light);
     });
 
     final data = {
@@ -932,8 +932,8 @@ void main() async {
           builder: (lightDynamic, darkDynamic) {
             return MultiProvider(
               providers: [
-                ChangeNotifierProvider<AppConfigProvider>(
-                  create: (context) => mockAppConfigProvider,
+                ChangeNotifierProvider<AppConfigViewModel>(
+                  create: (context) => mockAppConfigViewModel,
                 ),
               ],
               child: MaterialApp(
@@ -977,8 +977,8 @@ void main() async {
           builder: (lightDynamic, darkDynamic) {
             return MultiProvider(
               providers: [
-                ChangeNotifierProvider<AppConfigProvider>(
-                  create: (context) => mockAppConfigProvider,
+                ChangeNotifierProvider<AppConfigViewModel>(
+                  create: (context) => mockAppConfigViewModel,
                 ),
               ],
               child: MaterialApp(

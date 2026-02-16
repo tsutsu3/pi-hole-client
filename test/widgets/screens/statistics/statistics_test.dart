@@ -89,7 +89,7 @@ void main() async {
       tester.view.devicePixelRatio = 2.0;
 
       when(
-        testSetup.mockStatusProvider.getStatusLoading,
+        testSetup.mockStatusViewModel.getStatusLoading,
       ).thenReturn(LoadStatus.loading);
 
       addTearDown(() {
@@ -116,7 +116,7 @@ void main() async {
       tester.view.devicePixelRatio = 2.0;
 
       when(
-        testSetup.mockStatusProvider.getStatusLoading,
+        testSetup.mockStatusViewModel.getStatusLoading,
       ).thenReturn(LoadStatus.error);
 
       addTearDown(() {
@@ -186,12 +186,12 @@ void main() async {
       });
 
       when(
-        testSetup.mockStatusProvider.getRealtimeStatus,
+        testSetup.mockStatusViewModel.getRealtimeStatus,
       ).thenReturn(realtimeStatus);
 
-      when(testSetup.mockStatusProvider.getMetricsInfo).thenReturn(null);
-      when(testSetup.mockStatusProvider.getDnsCacheInfo).thenReturn(null);
-      when(testSetup.mockStatusProvider.getDnsRepliesInfo).thenReturn(null);
+      when(testSetup.mockStatusViewModel.getMetricsInfo).thenReturn(null);
+      when(testSetup.mockStatusViewModel.getDnsCacheInfo).thenReturn(null);
+      when(testSetup.mockStatusViewModel.getDnsRepliesInfo).thenReturn(null);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -287,7 +287,7 @@ void main() async {
       tester.view.devicePixelRatio = 1.5;
 
       when(
-        testSetup.mockStatusProvider.getStatusLoading,
+        testSetup.mockStatusViewModel.getStatusLoading,
       ).thenReturn(LoadStatus.error);
 
       addTearDown(() {
@@ -312,7 +312,7 @@ void main() async {
       tester.view.devicePixelRatio = 1.5;
 
       when(
-        testSetup.mockStatusProvider.getStatusLoading,
+        testSetup.mockStatusViewModel.getStatusLoading,
       ).thenReturn(LoadStatus.loading);
 
       addTearDown(() {

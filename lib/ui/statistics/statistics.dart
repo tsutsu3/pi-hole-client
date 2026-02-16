@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/responsive.dart';
+import 'package:pi_hole_client/ui/core/actions/refresh_server_status.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/logic/refresh_server_status.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/statistics/dns_tab.dart';
 import 'package:pi_hole_client/ui/statistics/statistics_list.dart';
 import 'package:pi_hole_client/ui/statistics/statistics_queries_servers_tab.dart';
@@ -43,7 +43,7 @@ class _StatisticsState extends State<Statistics> {
   @override
   Widget build(BuildContext context) {
     final apiVersion =
-        context.select((ServersProvider p) => p.selectedServer?.apiVersion) ??
+        context.select((ServersViewModel p) => p.selectedServer?.apiVersion) ??
         'v5';
 
     if (MediaQuery.of(context).size.width > ResponsiveConstants.xxLarge) {

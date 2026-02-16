@@ -3,8 +3,8 @@ import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class DeleteServerModal extends StatelessWidget {
@@ -14,11 +14,11 @@ class DeleteServerModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final serversViewModel = Provider.of<ServersViewModel>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     Future<void> removeServer() async {
-      final deleted = await serversProvider.removeServer(
+      final deleted = await serversViewModel.removeServer(
         serverToDelete.address,
       );
 
@@ -29,13 +29,13 @@ class DeleteServerModal extends StatelessWidget {
       if (deleted == true) {
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.connectionRemoved,
         );
       } else {
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.connectionCannotBeRemoved,
         );
       }

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/add_adlist_modal.dart'
     hide ListType;
@@ -69,9 +69,9 @@ class _AdlistsListState extends State<AdlistsList> {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
+    final serversViewModel = Provider.of<ServersViewModel>(context);
     final viewModel = Provider.of<AdlistsViewModel>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
     final groups = context.watch<GroupsViewModel>().groupItems;
 
     final adlistsList = widget.type == 'blacklist'
@@ -93,7 +93,7 @@ class _AdlistsListState extends State<AdlistsList> {
         if (!context.mounted) return;
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.adlistRemoved,
         );
       } catch (_) {
@@ -102,7 +102,7 @@ class _AdlistsListState extends State<AdlistsList> {
 
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.adlistDeleteError,
         );
       }
@@ -127,7 +127,7 @@ class _AdlistsListState extends State<AdlistsList> {
 
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.adlistAdded,
         );
       } catch (_) {
@@ -136,7 +136,7 @@ class _AdlistsListState extends State<AdlistsList> {
 
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.adlistAddFailed,
         );
       }
@@ -218,17 +218,20 @@ class _AdlistsListState extends State<AdlistsList> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AdlistDetailsScreen(
-                          adlist: d,
-                          remove: removeAdlist,
-                          colors: serversProvider.colors,
-                          groups: groups,
+                        builder: (_) => ChangeNotifierProvider.value(
+                          value: viewModel,
+                          child: AdlistDetailsScreen(
+                            adlist: d,
+                            remove: removeAdlist,
+                            colors: serversViewModel.colors,
+                            groups: groups,
+                          ),
                         ),
                       ),
                     );
                   }
                 },
-                colors: serversProvider.colors,
+                colors: serversViewModel.colors,
               ),
             );
           },
@@ -276,7 +279,7 @@ class _AdlistsListState extends State<AdlistsList> {
                 duration: const Duration(milliseconds: 100),
                 curve: Curves.easeInOut,
                 bottom: isVisible
-                    ? appConfigProvider.showingSnackbar
+                    ? appConfigViewModel.showingSnackbar
                           ? 70
                           : 20
                     : -70,

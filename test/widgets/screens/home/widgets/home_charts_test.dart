@@ -38,7 +38,7 @@ void main() async {
       });
 
       when(
-        testSetup.mockStatusProvider.getOvertimeDataLoadStatus,
+        testSetup.mockStatusViewModel.getOvertimeDataLoadStatus,
       ).thenReturn(LoadStatus.loading);
 
       await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
@@ -55,7 +55,8 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 1.0;
 
-      when(testSetup.mockConfigProvider.homeVisualizationMode).thenReturn(1);
+      when(testSetup.mockConfigProvider.homeVisualizationMode)
+          .thenReturn(HomeVisualizationMode.bar);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -63,7 +64,7 @@ void main() async {
       });
 
       when(
-        testSetup.mockStatusProvider.getOvertimeDataLoadStatus,
+        testSetup.mockStatusViewModel.getOvertimeDataLoadStatus,
       ).thenReturn(LoadStatus.loading);
 
       await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
@@ -88,7 +89,7 @@ void main() async {
       });
 
       when(
-        testSetup.mockStatusProvider.getOvertimeDataLoadStatus,
+        testSetup.mockStatusViewModel.getOvertimeDataLoadStatus,
       ).thenReturn(LoadStatus.loading);
 
       await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
@@ -112,7 +113,7 @@ void main() async {
       });
 
       when(
-        testSetup.mockStatusProvider.getOvertimeDataLoadStatus,
+        testSetup.mockStatusViewModel.getOvertimeDataLoadStatus,
       ).thenReturn(LoadStatus.error);
 
       await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
@@ -157,7 +158,8 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 1.0;
 
-        when(testSetup.mockConfigProvider.homeVisualizationMode).thenReturn(1);
+        when(testSetup.mockConfigProvider.homeVisualizationMode)
+          .thenReturn(HomeVisualizationMode.bar);
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -639,10 +641,10 @@ void main() async {
         });
 
         when(
-          testSetup.mockStatusProvider.getOvertimeData,
+          testSetup.mockStatusViewModel.getOvertimeData,
         ).thenReturn(overtimeData);
         when(
-          testSetup.mockStatusProvider.getOvertimeDataJson,
+          testSetup.mockStatusViewModel.getOvertimeDataJson,
         ).thenReturn(overtimeData.toJson());
 
         await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
@@ -1118,10 +1120,10 @@ void main() async {
         });
 
         when(
-          testSetup.mockStatusProvider.getOvertimeData,
+          testSetup.mockStatusViewModel.getOvertimeData,
         ).thenReturn(overtimeData);
         when(
-          testSetup.mockStatusProvider.getOvertimeDataJson,
+          testSetup.mockStatusViewModel.getOvertimeDataJson,
         ).thenReturn(overtimeData.toJson());
 
         await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
@@ -1594,10 +1596,10 @@ void main() async {
       });
 
       when(
-        testSetup.mockStatusProvider.getOvertimeData,
+        testSetup.mockStatusViewModel.getOvertimeData,
       ).thenReturn(overtimeData);
       when(
-        testSetup.mockStatusProvider.getOvertimeDataJson,
+        testSetup.mockStatusViewModel.getOvertimeDataJson,
       ).thenReturn(overtimeData.toJson());
 
       await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));

@@ -3,16 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_tiles/home_tile.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +28,7 @@ const _fakeDomains = 123456;
 ///
 /// The tiles are displayed in a responsive [Wrap] layout and use skeleton loading
 /// placeholders while data is being fetched. Each tile retrieves its value from the
-/// [StatusProvider] using context selectors for efficient rebuilds.
+/// [StatusViewModel] using context selectors for efficient rebuilds.
 ///
 /// Parameters:
 /// - [width]: The width to be used for each tile.
@@ -43,7 +42,7 @@ class HomeTiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusLoading = context.select<StatusProvider, LoadStatus>(
+    final statusLoading = context.select<StatusViewModel, LoadStatus>(
       (provider) => provider.getStatusLoading,
     );
     final isLoading = statusLoading == LoadStatus.loading;
@@ -69,7 +68,7 @@ class HomeTiles extends StatelessWidget {
               color: theme.blue!,
               label: loc.totalQueries,
               valueSelector: (context) {
-                return context.select<StatusProvider, String>(
+                return context.select<StatusViewModel, String>(
                   (provider) => intFormat(
                     provider.getRealtimeStatus?.dnsQueriesToday ?? _fakeTotal,
                     locale,
@@ -78,13 +77,13 @@ class HomeTiles extends StatelessWidget {
               },
               width: width,
               onTap: () {
-                final appConfigProvider = context.read<AppConfigProvider>();
-                final serverProvider = context.read<ServersProvider>();
+                final appConfigViewModel = context.read<AppConfigViewModel>();
+                final serverProvider = context.read<ServersViewModel>();
                 final width = MediaQuery.of(context).size.width;
-                appConfigProvider.setSelectedTab(4);
+                appConfigViewModel.setSelectedTab(4);
 
                 if (width > ResponsiveConstants.large) {
-                  appConfigProvider.setSelectedSettingsScreen(screen: 6);
+                  appConfigViewModel.setSelectedSettingsScreen(screen: 6);
                 } else {
                   final apiVersion = serverProvider.selectedServer?.apiVersion;
                   Navigator.push(
@@ -107,7 +106,7 @@ class HomeTiles extends StatelessWidget {
               color: theme.red!,
               label: loc.queriesBlocked,
               valueSelector: (context) {
-                return context.select<StatusProvider, String>(
+                return context.select<StatusViewModel, String>(
                   (provider) => intFormat(
                     provider.getRealtimeStatus?.adsBlockedToday ?? _fakeblocked,
                     locale,
@@ -116,10 +115,10 @@ class HomeTiles extends StatelessWidget {
               },
               width: width,
               onTap: () {
-                final filtersProvider = context.read<FiltersProvider>();
-                final appConfigProvider = context.read<AppConfigProvider>();
-                filtersProvider.setRequestStatus(RequestStatus.blocked);
-                appConfigProvider.setSelectedTab(2);
+                final filtersViewModel = context.read<FiltersViewModel>();
+                final appConfigViewModel = context.read<AppConfigViewModel>();
+                filtersViewModel.setRequestStatus(RequestStatus.blocked);
+                appConfigViewModel.setSelectedTab(2);
               },
             ),
             HomeTileItem(
@@ -128,17 +127,17 @@ class HomeTiles extends StatelessWidget {
               color: theme.orange!,
               label: loc.percentageBlocked,
               valueSelector: (context) {
-                return context.select<StatusProvider, String>(
+                return context.select<StatusViewModel, String>(
                   (provider) =>
                       '${formatPercentage(provider.getRealtimeStatus?.adsPercentageToday ?? _fakePercentage, locale)}%',
                 );
               },
               width: width,
               onTap: () {
-                final filtersProvider = context.read<FiltersProvider>();
-                final appConfigProvider = context.read<AppConfigProvider>();
-                filtersProvider.setRequestStatus(RequestStatus.all);
-                appConfigProvider.setSelectedTab(2);
+                final filtersViewModel = context.read<FiltersViewModel>();
+                final appConfigViewModel = context.read<AppConfigViewModel>();
+                filtersViewModel.setRequestStatus(RequestStatus.all);
+                appConfigViewModel.setSelectedTab(2);
               },
             ),
             HomeTileItem(
@@ -147,7 +146,7 @@ class HomeTiles extends StatelessWidget {
               color: theme.green!,
               label: loc.domainsAdlists,
               valueSelector: (context) {
-                return context.select<StatusProvider, String>(
+                return context.select<StatusViewModel, String>(
                   (provider) => intFormat(
                     provider.getRealtimeStatus?.domainsBeingBlocked ??
                         _fakeDomains,
@@ -157,19 +156,14 @@ class HomeTiles extends StatelessWidget {
               },
               width: width,
               onTap: () {
-                final appConfigProvider = context.read<AppConfigProvider>();
+                final appConfigViewModel = context.read<AppConfigViewModel>();
                 final width = MediaQuery.of(context).size.width;
-                appConfigProvider.setSelectedTab(4);
+                appConfigViewModel.setSelectedTab(4);
 
                 if (width > ResponsiveConstants.large) {
-                  appConfigProvider.setSelectedSettingsScreen(screen: 5);
+                  appConfigViewModel.setSelectedSettingsScreen(screen: 5);
                 } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AdlistScreen(),
-                    ),
-                  );
+                  context.pushNamed(Routes.settingsServerAdlists);
                 }
               },
             ),

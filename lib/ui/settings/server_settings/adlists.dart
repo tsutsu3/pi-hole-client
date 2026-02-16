@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
-import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
-import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
+import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
+import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/group_filter_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlists_list.dart';
@@ -22,9 +22,9 @@ class AdlistScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
+    final serversViewModel = Provider.of<ServersViewModel>(context);
 
-    final selectedServer = serversProvider.selectedServer;
+    final selectedServer = serversViewModel.selectedServer;
 
     if (selectedServer == null) {
       return Scaffold(
@@ -33,9 +33,7 @@ class AdlistScreen extends StatelessWidget {
       );
     }
 
-    final apiGateway = serversProvider.selectedApiGateway;
-
-    if (apiGateway?.server.apiVersion == 'v5') {
+    if (selectedServer.apiVersion == 'v5') {
       return Scaffold(
         appBar: AppBar(title: Text(AppLocalizations.of(context)!.adlists)),
         body: const SafeArea(child: PiHoleV5NotSupportedScreen()),
@@ -76,8 +74,8 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
       await groupsViewModel.loadGroups.runAsync();
 
       if (!mounted) return;
-      final gravityUpdateProvider = context.read<GravityUpdateProvider>();
-      await gravityUpdateProvider.load();
+      final gravityUpdateViewModel = context.read<GravityUpdateViewModel>();
+      await gravityUpdateViewModel.load();
     });
 
     viewModel.setSelectedTab(0);
@@ -95,8 +93,8 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<AdlistsViewModel>(context);
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final serversViewModel = Provider.of<ServersViewModel>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
     final groups = context.watch<GroupsViewModel>().groupItems;
 
     Future<void> removeAdlist(Adlist adlist) async {
@@ -114,7 +112,7 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
         if (!context.mounted) return;
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.adlistRemoved,
         );
       } catch (_) {
@@ -123,7 +121,7 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
 
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.adlistDeleteError,
         );
       }
@@ -282,7 +280,7 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
                       removeAdlist(adlist);
                     },
                     groups: groups,
-                    colors: serversProvider.colors,
+                    colors: serversViewModel.colors,
                   )
                 : ColoredBox(
                     color: Theme.of(context).scaffoldBackgroundColor,
@@ -313,14 +311,17 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AdlistDetailsScreen(
-                adlist: adlist,
-                remove: (s) {
-                  setState(() => selectedAdlist = null);
-                  removeAdlist(s);
-                },
-                groups: groups,
-                colors: serversProvider.colors,
+              builder: (_) => ChangeNotifierProvider.value(
+                value: viewModel,
+                child: AdlistDetailsScreen(
+                  adlist: adlist,
+                  remove: (s) {
+                    setState(() => selectedAdlist = null);
+                    removeAdlist(s);
+                  },
+                  groups: groups,
+                  colors: serversViewModel.colors,
+                ),
               ),
             ),
           );

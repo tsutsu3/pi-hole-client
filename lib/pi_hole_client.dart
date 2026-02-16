@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/routing/app_router.dart';
-import 'package:pi_hole_client/ui/common/unlock.dart';
+import 'package:pi_hole_client/ui/core/globals.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/ui/components/unlock.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
@@ -40,13 +40,13 @@ class _PiHoleClientState extends State<PiHoleClient> {
   @override
   Widget build(BuildContext context) {
     // Subscribe only to the necessary parts.
-    final selectedTheme = context.select<AppConfigProvider, ThemeMode>(
+    final selectedTheme = context.select<AppConfigViewModel, ThemeMode>(
       (provider) => provider.selectedTheme,
     );
-    final selectedLanguage = context.select<AppConfigProvider, String>(
+    final selectedLanguage = context.select<AppConfigViewModel, String>(
       (provider) => provider.selectedLanguage,
     );
-    final passCode = context.select<AppConfigProvider, String?>(
+    final passCode = context.select<AppConfigViewModel, String?>(
       (provider) => provider.passCode,
     );
 

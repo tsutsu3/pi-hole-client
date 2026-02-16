@@ -26,8 +26,8 @@ void main() {
     test('loadSessions success populates sessions list', () async {
       await viewModel.loadSessions.runAsync();
 
-      expect(viewModel.loadSessions.value, equals(kRepoGetAllSessions));
-      expect(viewModel.loadSessions.value.length, 3);
+      expect(viewModel.sessions, equals(kRepoGetAllSessions));
+      expect(viewModel.sessions.length, 3);
     });
 
     test('loadSessions failure sets error', () async {
@@ -43,15 +43,16 @@ void main() {
       expect(viewModel.loadSessions.errors.value, isNotNull);
     });
 
-    test('deleteSession success reloads sessions', () async {
+    test('deleteSession success removes session locally', () async {
       await viewModel.loadSessions.runAsync();
       expect(fakeAuthRepository.getAllSessionsCallCount, 1);
 
       await viewModel.deleteSession.runAsync(0);
 
-      // getAllSessions called again by _deleteSession's reload
-      expect(fakeAuthRepository.getAllSessionsCallCount, 2);
-      expect(viewModel.loadSessions.value, equals(kRepoGetAllSessions));
+      // No re-fetch — local state update only
+      expect(fakeAuthRepository.getAllSessionsCallCount, 1);
+      expect(viewModel.sessions.length, 2);
+      expect(viewModel.sessions.any((s) => s.id == 0), isFalse);
     });
 
     test('deleteSession failure sets error', () async {

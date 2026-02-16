@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/list/list_search_result.dart';
-import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
-import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
+import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
+import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/models.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/results_section.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/search_form.dart';
@@ -57,11 +60,11 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<FindDomainsInListsViewModel>();
-    final serversProvider = context.watch<ServersProvider>();
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final serversViewModel = context.watch<ServersViewModel>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
     final groups = context.watch<GroupsViewModel>().groupItems;
-    final colors = serversProvider.colors;
-    final apiVersion = serversProvider.selectedServer?.apiVersion;
+    final colors = serversViewModel.colors;
+    final apiVersion = serversViewModel.selectedServer?.apiVersion;
 
     if (apiVersion == null) {
       if (widget.showAppBar) {
@@ -99,11 +102,11 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
             onPartialChanged: (value) => setState(() => _partialMatch = value),
             onSearchSubmitted: () => _performSearch(
               viewModel: viewModel,
-              appConfigProvider: appConfigProvider,
+              appConfigViewModel: appConfigViewModel,
             ),
             onSearchPressed: () => _performSearch(
               viewModel: viewModel,
-              appConfigProvider: appConfigProvider,
+              appConfigViewModel: appConfigViewModel,
             ),
           ),
           const SizedBox(height: 24),
@@ -127,14 +130,14 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
                 groups: groups,
                 colors: colors,
                 viewModel: viewModel,
-                appConfigProvider: appConfigProvider,
+                appConfigViewModel: appConfigViewModel,
               ),
               onAdlistTap: (adlist) => _openAdlistDetails(
                 adlist: adlist,
                 groups: groups,
                 colors: colors,
                 viewModel: viewModel,
-                appConfigProvider: appConfigProvider,
+                appConfigViewModel: appConfigViewModel,
               ),
             ),
         ],
@@ -168,7 +171,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
 
   Future<void> _performSearch({
     required FindDomainsInListsViewModel viewModel,
-    required AppConfigProvider appConfigProvider,
+    required AppConfigViewModel appConfigViewModel,
   }) async {
     final query = _searchController.text.trim();
     final limitText = _maxResultsController.text.trim();
@@ -177,7 +180,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     if (query.isEmpty) {
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.searchTermRequired,
       );
       return;
@@ -186,7 +189,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     if (limit == null || limit <= 0) {
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.invalidMaxResults,
       );
       return;
@@ -209,22 +212,28 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     required Map<int, String> groups,
     required AppColors colors,
     required FindDomainsInListsViewModel viewModel,
-    required AppConfigProvider appConfigProvider,
+    required AppConfigViewModel appConfigViewModel,
   }) async {
+    final bundle = context.read<RepositoryBundle?>();
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => DomainDetailsScreen(
-          domain: domain,
-          groups: groups,
-          colors: colors,
-          onUpdated: (updated) {
-            _pendingDomainUpdate = updated;
-          },
-          remove: (selected) => _removeDomain(
-            selected,
-            viewModel: viewModel,
-            appConfigProvider: appConfigProvider,
+        builder: (_) => ChangeNotifierProvider(
+          create: (_) => DomainsViewModel(
+            domainRepository: bundle!.domain,
+          ),
+          child: DomainDetailsScreen(
+            domain: domain,
+            groups: groups,
+            colors: colors,
+            onUpdated: (updated) {
+              _pendingDomainUpdate = updated;
+            },
+            remove: (selected) => _removeDomain(
+              selected,
+              viewModel: viewModel,
+              appConfigViewModel: appConfigViewModel,
+            ),
           ),
         ),
       ),
@@ -242,22 +251,28 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     required Map<int, String> groups,
     required AppColors colors,
     required FindDomainsInListsViewModel viewModel,
-    required AppConfigProvider appConfigProvider,
+    required AppConfigViewModel appConfigViewModel,
   }) async {
+    final bundle = context.read<RepositoryBundle?>();
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AdlistDetailsScreen(
-          adlist: adlist,
-          groups: groups,
-          colors: colors,
-          onUpdated: (updated) {
-            _pendingAdlistUpdate = updated;
-          },
-          remove: (selected) => _removeAdlist(
-            selected,
-            viewModel: viewModel,
-            appConfigProvider: appConfigProvider,
+        builder: (_) => ChangeNotifierProvider(
+          create: (_) => AdlistsViewModel(
+            adListRepository: bundle!.adlist,
+          ),
+          child: AdlistDetailsScreen(
+            adlist: adlist,
+            groups: groups,
+            colors: colors,
+            onUpdated: (updated) {
+              _pendingAdlistUpdate = updated;
+            },
+            remove: (selected) => _removeAdlist(
+              selected,
+              viewModel: viewModel,
+              appConfigViewModel: appConfigViewModel,
+            ),
           ),
         ),
       ),
@@ -273,7 +288,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
   Future<void> _removeDomain(
     Domain domain, {
     required FindDomainsInListsViewModel viewModel,
-    required AppConfigProvider appConfigProvider,
+    required AppConfigViewModel appConfigViewModel,
   }) async {
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.deleting);
@@ -288,7 +303,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       if (!mounted) return;
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.domainRemoved,
       );
     } catch (_) {
@@ -297,7 +312,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
 
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.errorRemovingDomain,
       );
     }
@@ -306,7 +321,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
   Future<void> _removeAdlist(
     Adlist adlist, {
     required FindDomainsInListsViewModel viewModel,
-    required AppConfigProvider appConfigProvider,
+    required AppConfigViewModel appConfigViewModel,
   }) async {
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.deleting);
@@ -321,7 +336,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       if (!mounted) return;
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.adlistRemoved,
       );
     } catch (_) {
@@ -330,7 +345,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
 
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.adlistDeleteError,
       );
     }

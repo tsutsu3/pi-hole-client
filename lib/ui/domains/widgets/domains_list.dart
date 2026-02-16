@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/add_domain_modal.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
@@ -70,9 +70,9 @@ class _DomainsListState extends State<DomainsList> {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
+    final serversViewModel = Provider.of<ServersViewModel>(context);
     final viewModel = Provider.of<DomainsViewModel>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
     final groups = context.watch<GroupsViewModel>().groupItems;
 
     final domainsList = widget.type == 'blacklist'
@@ -92,7 +92,7 @@ class _DomainsListState extends State<DomainsList> {
 
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.domainRemoved,
         );
       } catch (_) {
@@ -101,7 +101,7 @@ class _DomainsListState extends State<DomainsList> {
 
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.errorRemovingDomain,
         );
       }
@@ -126,7 +126,7 @@ class _DomainsListState extends State<DomainsList> {
 
         showSuccessSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.domainAdded,
         );
       } catch (_) {
@@ -135,7 +135,7 @@ class _DomainsListState extends State<DomainsList> {
 
         showErrorSnackBar(
           context: context,
-          appConfigProvider: appConfigProvider,
+          appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.domainAddFailed,
         );
       }
@@ -215,17 +215,20 @@ class _DomainsListState extends State<DomainsList> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => DomainDetailsScreen(
-                          domain: d,
-                          remove: removeDomain,
-                          groups: groups,
-                          colors: serversProvider.colors,
+                        builder: (_) => ChangeNotifierProvider.value(
+                          value: viewModel,
+                          child: DomainDetailsScreen(
+                            domain: d,
+                            remove: removeDomain,
+                            groups: groups,
+                            colors: serversViewModel.colors,
+                          ),
                         ),
                       ),
                     );
                   }
                 },
-                colors: serversProvider.colors,
+                colors: serversViewModel.colors,
               ),
             );
           },
@@ -272,7 +275,7 @@ class _DomainsListState extends State<DomainsList> {
                 duration: const Duration(milliseconds: 100),
                 curve: Curves.easeInOut,
                 bottom: isVisible
-                    ? appConfigProvider.showingSnackbar
+                    ? appConfigViewModel.showingSnackbar
                           ? 70
                           : 20
                     : -70,

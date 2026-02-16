@@ -4,7 +4,7 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/list_tile_title.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:provider/provider.dart';
 
@@ -54,18 +54,18 @@ class PrivacyScreen extends StatelessWidget {
                 subtitle: Text(
                   AppLocalizations.of(context)!.enableCrashReportDetail,
                 ),
-                trailing: Consumer<AppConfigProvider>(
-                  builder: (context, appConfigProvider, child) {
+                trailing: Consumer<AppConfigViewModel>(
+                  builder: (context, appConfigViewModel, child) {
                     return Switch(
-                      value: appConfigProvider.sendCrashReports,
+                      value: appConfigViewModel.sendCrashReports,
                       onChanged: (bool value) async {
-                        final result = await appConfigProvider
+                        final result = await appConfigViewModel
                             .setSendCrashReports(value);
                         if (!context.mounted) return;
                         if (result == true) {
                           showCautionSnackBar(
                             context: context,
-                            appConfigProvider: appConfigProvider,
+                            appConfigViewModel: appConfigViewModel,
                             label: AppLocalizations.of(
                               context,
                             )!.restartAppTakeEffect,
@@ -74,7 +74,7 @@ class PrivacyScreen extends StatelessWidget {
                         } else {
                           showErrorSnackBar(
                             context: context,
-                            appConfigProvider: appConfigProvider,
+                            appConfigViewModel: appConfigViewModel,
                             label: AppLocalizations.of(
                               context,
                             )!.cannotUpdateSettings,

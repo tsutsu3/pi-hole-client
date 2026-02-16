@@ -1,11 +1,10 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/graph.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/home/widgets/home_charts/chart_utils.dart';
 import 'package:pi_hole_client/utils/format.dart';
-import 'package:pi_hole_client/utils/graph.dart';
 import 'package:provider/provider.dart';
 
 /// Displays a line chart showing query and ad-blocking activity over the past 24 hours.
@@ -28,7 +27,7 @@ class QueriesLastHoursLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     final formattedData = _formatData(data);
 
@@ -54,7 +53,7 @@ class QueriesLastHoursLine extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: LineChart(
-        _mainData(formattedData, appConfigProvider.selectedTheme, context),
+        _mainData(formattedData, appConfigViewModel.selectedTheme, context),
       ),
     );
   }

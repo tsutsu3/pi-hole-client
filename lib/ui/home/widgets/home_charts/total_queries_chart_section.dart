@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_data_chart.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/queries/queries_content.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/queries/queries_skeleton.dart';
 import 'package:pi_hole_client/ui/statistics/no_data_chart.dart';
@@ -29,12 +29,12 @@ class TotalQueriesChartSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final overTimeDataLoadStatus = context.select<StatusProvider, LoadStatus>(
+    final overTimeDataLoadStatus = context.select<StatusViewModel, LoadStatus>(
       (provider) => provider.getOvertimeDataLoadStatus,
     );
 
     final overtimeDataJson = context
-        .select<StatusProvider, Map<String, dynamic>?>(
+        .select<StatusViewModel, Map<String, dynamic>?>(
           (provider) => provider.getOvertimeDataJson,
         );
 

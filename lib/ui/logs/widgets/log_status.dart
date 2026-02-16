@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/color_helpers.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class LogStatus extends StatelessWidget {
@@ -12,7 +12,7 @@ class LogStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final serverProvider = Provider.of<ServersProvider>(context);
+    final serverProvider = Provider.of<ServersViewModel>(context);
 
     Widget logStatusWidget({
       required IconData icon,

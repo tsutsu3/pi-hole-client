@@ -20,4 +20,6 @@ class Urls {
 
   static const String certConfig =
       '${appWebSite}docs/guides/cert-config/#after-app-update-backward-compatibility';
+
+  static const String googleSearch = 'https://www.google.com/search?q=';
 }

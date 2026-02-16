@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
-import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
+import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/network_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/network_list_view.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
@@ -49,7 +49,7 @@ class NetworkScreen extends StatefulWidget {
 class _NetworkScreenState extends State<NetworkScreen> {
   Future<void> _removeDevice(Device device) async {
     final locale = AppLocalizations.of(context)!;
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context);
     process.open(locale.deleting);
 
@@ -63,7 +63,7 @@ class _NetworkScreenState extends State<NetworkScreen> {
       if (!mounted) return;
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: locale.deviceDeleteSuccess,
       );
     } catch (_) {
@@ -71,7 +71,7 @@ class _NetworkScreenState extends State<NetworkScreen> {
       process.close();
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: locale.deviceDeleteFailed,
       );
     }
@@ -87,7 +87,7 @@ class _NetworkScreenState extends State<NetworkScreen> {
         final viewModel = widget.viewModel;
         final isLoading = viewModel.loadDevices.isRunning.value;
         final hasError = viewModel.loadDevices.errors.value != null;
-        final networkData = viewModel.loadDevices.value;
+        final networkData = viewModel.data;
 
         return ScrollConfiguration(
           behavior: CustomScrollBehavior(),

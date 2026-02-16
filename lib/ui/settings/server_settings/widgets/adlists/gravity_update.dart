@@ -4,8 +4,8 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';
 import 'package:pi_hole_client/utils/format.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +23,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
 
   Future<void> runGravity() async {
     _previousLogs = [];
-    final gravityProvider = context.read<GravityUpdateProvider>();
+    final gravityProvider = context.read<GravityUpdateViewModel>();
     logger.i('Starting gravity update...');
     await gravityProvider.start();
   }
@@ -134,7 +134,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
 
   Widget buildMessageTilesFromProvider(
     BuildContext context,
-    GravityUpdateProvider provider,
+    GravityUpdateViewModel provider,
   ) {
     final l10n = AppLocalizations.of(context)!;
 
@@ -150,7 +150,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
               onDelete: () => handleDeleteMessage(
                 context: context,
                 provider: provider,
-                appConfigProvider: context.read<AppConfigProvider>(),
+                appConfigViewModel: context.read<AppConfigViewModel>(),
                 messageId: message.id,
               ),
             );
@@ -188,8 +188,8 @@ class _GravityUpdateState extends State<GravityUpdate> {
 
   Future<void> handleDeleteMessage({
     required BuildContext context,
-    required GravityUpdateProvider provider,
-    required AppConfigProvider appConfigProvider,
+    required GravityUpdateViewModel provider,
+    required AppConfigViewModel appConfigViewModel,
     required int messageId,
   }) async {
     final deleted = await provider.removeMessage(messageId);
@@ -197,14 +197,14 @@ class _GravityUpdateState extends State<GravityUpdate> {
       if (!context.mounted) return;
       showSuccessSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.messageDeleteSuccess,
       );
     } else {
       if (!context.mounted) return;
       showErrorSnackBar(
         context: context,
-        appConfigProvider: appConfigProvider,
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.messageDeleteFailed,
       );
     }
@@ -214,7 +214,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    final gravityLogs = context.watch<GravityUpdateProvider>().logs;
+    final gravityLogs = context.watch<GravityUpdateViewModel>().logs;
 
     if (gravityLogs.length > _previousLogs.length) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -239,8 +239,8 @@ class _GravityUpdateState extends State<GravityUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = context.watch<AppConfigProvider>();
-    final gravityProvider = context.watch<GravityUpdateProvider>();
+    final appConfigViewModel = context.watch<AppConfigViewModel>();
+    final gravityProvider = context.watch<GravityUpdateViewModel>();
 
     return SafeArea(
       child: Stack(
@@ -386,7 +386,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
             curve: Curves.easeInOut,
             bottom: gravityProvider.status == GravityStatus.running
                 ? -70 // running: hide
-                : appConfigProvider.showingSnackbar
+                : appConfigViewModel.showingSnackbar
                 ? 70 // show snackbar: up
                 : 20, // normal
             right: 20,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class StatusFiltersModal extends StatefulWidget {
@@ -49,11 +49,11 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
 
   @override
   Widget build(BuildContext context) {
-    final filtersProvider = Provider.of<FiltersProvider>(context);
-    final serversProvider = Provider.of<ServersProvider>(context);
+    final filtersViewModel = Provider.of<FiltersViewModel>(context);
+    final serversViewModel = Provider.of<ServersViewModel>(context);
 
     void updateList() {
-      filtersProvider.setStatusSelected(_statusSelected);
+      filtersViewModel.setStatusSelected(_statusSelected);
     }
 
     Widget listItem({
@@ -84,9 +84,9 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
     }
 
     void checkUncheckAll() {
-      if (_statusSelected.length < serversProvider.numShown) {
+      if (_statusSelected.length < serversViewModel.numShown) {
         setState(() {
-          _statusSelected = filtersProvider.defaultSelected;
+          _statusSelected = filtersViewModel.defaultSelected;
         });
       } else {
         setState(() {
@@ -96,7 +96,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
     }
 
     List<Widget> generateListItems() {
-      return serversProvider.queryStatuses.where((item) => item.isShown).map((
+      return serversViewModel.queryStatuses.where((item) => item.isShown).map((
         item,
       ) {
         return listItem(icon: item.icon, label: item.text, value: item.index);
@@ -147,7 +147,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
                   TextButton(
                     onPressed: checkUncheckAll,
                     child: Text(
-                      _statusSelected.length == serversProvider.numShown
+                      _statusSelected.length == serversViewModel.numShown
                           ? AppLocalizations.of(context)!.uncheckAll
                           : AppLocalizations.of(context)!.checkAll,
                     ),

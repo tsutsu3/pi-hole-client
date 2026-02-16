@@ -83,7 +83,7 @@ void main() async {
         tester.view.devicePixelRatio = 2.0;
 
         when(
-          testSetup.mockServersProvider.addServer(any),
+          testSetup.mockServersViewModel.addServer(any),
         ).thenAnswer((_) async => false);
         when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
           (_) async => LoginQueryResponse(
@@ -133,7 +133,7 @@ void main() async {
         tester.view.devicePixelRatio = 2.0;
 
         when(
-          testSetup.mockServersProvider.addServer(any),
+          testSetup.mockServersViewModel.addServer(any),
         ).thenAnswer((_) async => false);
         when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
           (_) async => LoginQueryResponse(
@@ -188,7 +188,7 @@ void main() async {
         tester.view.devicePixelRatio = 2.0;
 
         when(
-          testSetup.mockServersProvider.addServer(any),
+          testSetup.mockServersViewModel.addServer(any),
         ).thenAnswer((_) async => false);
         when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
           (_) async => LoginQueryResponse(
@@ -241,7 +241,7 @@ void main() async {
         tester.view.devicePixelRatio = 2.0;
 
         when(
-          testSetup.mockServersProvider.addServer(any),
+          testSetup.mockServersViewModel.addServer(any),
         ).thenAnswer((_) async => false);
         when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
           (_) async => LoginQueryResponse(
@@ -291,7 +291,7 @@ void main() async {
         tester.view.devicePixelRatio = 2.0;
 
         when(
-          testSetup.mockServersProvider.addServer(any),
+          testSetup.mockServersViewModel.addServer(any),
         ).thenAnswer((_) async => false);
         when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
           (_) async => LoginQueryResponse(
@@ -344,7 +344,7 @@ void main() async {
         tester.view.devicePixelRatio = 2.0;
 
         when(
-          testSetup.mockServersProvider.addServer(any),
+          testSetup.mockServersViewModel.addServer(any),
         ).thenAnswer((_) async => false);
         when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
           (_) async => LoginQueryResponse(

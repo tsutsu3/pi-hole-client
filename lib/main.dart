@@ -20,17 +20,11 @@ import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
-import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +53,7 @@ Future<void> initializeDesktop() async {
 }
 
 Future<void> initializeBiometrics(
-  AppConfigProvider configProvider,
+  AppConfigViewModel configProvider,
   AppConfigRepository repository,
 ) async {
   try {
@@ -107,7 +101,7 @@ Future<void> initializeBiometrics(
   }
 }
 
-Future<void> initializeVibration(AppConfigProvider configProvider) async {
+Future<void> initializeVibration(AppConfigViewModel configProvider) async {
   try {
     if (Platform.isAndroid || Platform.isIOS) {
       final supported = await Vibration.hasCustomVibrationsSupport();
@@ -119,7 +113,7 @@ Future<void> initializeVibration(AppConfigProvider configProvider) async {
   }
 }
 
-Future<void> initializeDeviceInfo(AppConfigProvider configProvider) async {
+Future<void> initializeDeviceInfo(AppConfigViewModel configProvider) async {
   try {
     final info = DeviceInfoPlugin();
     if (Platform.isAndroid) {
@@ -156,25 +150,18 @@ void main() async {
   final gravityRepository = GravityRepository(dbService);
   final serverRepository = ServerRepository(dbService, secureStorageService);
 
-  final serversProvider = ServersProvider(serverRepository);
-  final configProvider = AppConfigProvider(appConfigRepository);
-  final statusProvider = StatusProvider();
-  final filtersProvider = FiltersProvider(serversProvider: serversProvider);
-  final domainsViewModel = DomainsViewModel();
-  final adlistsViewModel = AdlistsViewModel();
-  final findDomainsInListsViewModel = FindDomainsInListsViewModel();
-  final clientsViewModel = ClientsViewModel();
-  final groupsViewModel = GroupsViewModel();
-  final gravityUpdateProvider = GravityUpdateProvider(
+  final serversViewModel = ServersViewModel(serverRepository);
+  final configProvider = AppConfigViewModel(appConfigRepository);
+  final statusViewModel = StatusViewModel();
+  final filtersViewModel = FiltersViewModel(serversViewModel: serversViewModel);
+  final gravityUpdateViewModel = GravityUpdateViewModel(
     repository: gravityRepository,
   );
-  final localDnsProvider = LocalDnsProvider(serversProvider: serversProvider);
-
   final statusUpdateService = StatusUpdateService(
-    serversProvider: serversProvider,
-    statusProvider: statusProvider,
-    appConfigProvider: configProvider,
-    filtersProvider: filtersProvider,
+    serversViewModel: serversViewModel,
+    statusViewModel: statusViewModel,
+    appConfigViewModel: configProvider,
+    filtersViewModel: filtersViewModel,
   );
 
   const widgetChannel = MethodChannel('pihole/widget');
@@ -182,8 +169,8 @@ void main() async {
   final appdata = await appConfigRepository.fetchAppConfig();
   final servers = await serverRepository.fetchServers();
   configProvider.saveFromDb(appdata.getOrThrow());
-  await serversProvider.saveFromDb(servers.getOrThrow());
-  await WidgetChannel.sendServersUpdated(serversProvider.getServersList);
+  await serversViewModel.saveFromDb(servers.getOrThrow());
+  await WidgetChannel.sendServersUpdated(serversViewModel.getServersList);
 
   widgetChannel.setMethodCallHandler((call) async {
     if (call.method != 'openServer') return;
@@ -193,7 +180,7 @@ void main() async {
     if (serverId is! String || serverId.isEmpty) return;
 
     Server? target;
-    for (final server in serversProvider.getServersList) {
+    for (final server in serversViewModel.getServersList) {
       if (server.address == serverId) {
         target = server;
         break;
@@ -201,9 +188,9 @@ void main() async {
     }
     if (target == null) return;
 
-    serversProvider.setselectedServer(server: target, toHomeTab: true);
-    final result = await serversProvider.selectedApiGateway?.loginQuery();
-    serversProvider.updateselectedServerStatus(result?.status == 'enabled');
+    serversViewModel.setselectedServer(server: target, toHomeTab: true);
+    final result = await serversViewModel.selectedApiGateway?.loginQuery();
+    serversViewModel.updateselectedServerStatus(result?.status == 'enabled');
     statusUpdateService.startAutoRefresh(showLoadingIndicator: false);
   });
 
@@ -277,10 +264,10 @@ void main() async {
         // Existing providers below are kept until migration.
         // ===================================================
         ChangeNotifierProvider(create: (context) => configProvider),
-        ChangeNotifierProvider(create: (context) => serversProvider),
-        ChangeNotifierProvider(create: (context) => statusProvider),
-        ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
-          create: (context) => serversProvider,
+        ChangeNotifierProvider(create: (context) => serversViewModel),
+        ChangeNotifierProvider(create: (context) => statusViewModel),
+        ChangeNotifierProxyProvider<AppConfigViewModel, ServersViewModel>(
+          create: (context) => serversViewModel,
           update: (context, appConfig, servers) => servers!..update(appConfig),
         ),
         // ===================================================
@@ -291,7 +278,7 @@ void main() async {
         // Recreated only when the selected server changes.
         // ===================================================
         ProxyProvider2<
-          ServersProvider,
+          ServersViewModel,
           SecureStorageService,
           RepositoryBundle?
         >(
@@ -306,56 +293,21 @@ void main() async {
           },
         ),
 
-        ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
-          create: (context) => filtersProvider,
+        ChangeNotifierProxyProvider<ServersViewModel, FiltersViewModel>(
+          create: (context) => filtersViewModel,
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
         ),
-        ChangeNotifierProxyProvider<RepositoryBundle?, DomainsViewModel>(
-          create: (context) => domainsViewModel,
-          update: (context, bundle, previous) =>
-              previous!..update(bundle?.domain),
-        ),
-        ChangeNotifierProxyProvider<RepositoryBundle?, AdlistsViewModel>(
-          create: (context) => adlistsViewModel,
-          update: (context, bundle, previous) =>
-              previous!..update(bundle?.adlist),
-        ),
-        ChangeNotifierProxyProvider<RepositoryBundle?,
-            FindDomainsInListsViewModel>(
-          create: (context) => findDomainsInListsViewModel,
-          update: (context, bundle, previous) => previous!
-            ..update(
-              adListRepository: bundle?.adlist,
-              domainRepository: bundle?.domain,
-            ),
-        ),
-        ChangeNotifierProxyProvider<RepositoryBundle?, ClientsViewModel>(
-          create: (context) => clientsViewModel,
-          update: (context, bundle, previous) =>
-              previous!..update(bundle?.client),
-        ),
-        ChangeNotifierProxyProvider<RepositoryBundle?, GroupsViewModel>(
-          create: (context) => groupsViewModel,
-          update: (context, bundle, previous) =>
-              previous!..update(bundle?.group),
-        ),
-        ChangeNotifierProxyProvider2<RepositoryBundle?, ServersProvider,
-            GravityUpdateProvider>(
-          create: (context) => gravityUpdateProvider,
-          update: (context, bundle, serversProvider, previous) =>
+        ChangeNotifierProxyProvider2<RepositoryBundle?, ServersViewModel,
+            GravityUpdateViewModel>(
+          create: (context) => gravityUpdateViewModel,
+          update: (context, bundle, serversViewModel, previous) =>
               previous!..update(
                 actionsRepository: bundle?.actions,
                 ftlRepository: bundle?.ftl,
-                serverAddress: serversProvider.selectedServer?.address,
+                serverAddress: serversViewModel.selectedServer?.address,
               ),
         ),
-        ChangeNotifierProxyProvider<ServersProvider, LocalDnsProvider>(
-          create: (context) => localDnsProvider,
-          update: (context, serverConfig, servers) =>
-              servers!..update(serverConfig),
-        ),
-
         // ===================================================
         // Layer 4: Use Cases / Services (cross-cutting)
         // ===================================================
