@@ -105,7 +105,7 @@ void main() {
       expect(listenerCalled, true);
     });
 
-    test('addAdlist reloads adlists after adding', () async {
+    test('addAdlist appends adlist locally', () async {
       await viewModel.loadAdlists.runAsync();
       final initialCount = viewModel.whitelistAdlists.length;
 
@@ -117,11 +117,13 @@ void main() {
         enabled: true,
       ));
 
-      // After add, loadAdlists is called internally so list is refreshed
-      expect(viewModel.whitelistAdlists.length, initialCount);
+      // Local state update — no re-fetch
+      expect(viewModel.whitelistAdlists.length, initialCount + 1);
+      expect(viewModel.whitelistAdlists.last.address,
+          'https://new.example.com/hosts');
     });
 
-    test('updateAdlist reloads adlists after updating', () async {
+    test('updateAdlist replaces adlist locally', () async {
       await viewModel.loadAdlists.runAsync();
       final adlist = viewModel.blacklistAdlists.first;
 
@@ -129,8 +131,8 @@ void main() {
         adlist.copyWith(comment: 'updated comment'),
       );
 
-      // After update, loadAdlists is called internally so list is refreshed
-      expect(viewModel.loadingStatus, LoadStatus.loaded);
+      // Local state update — no re-fetch
+      expect(viewModel.blacklistAdlists.first.comment, 'updated comment');
     });
 
     test('deleteAdlist sets error on failure', () async {

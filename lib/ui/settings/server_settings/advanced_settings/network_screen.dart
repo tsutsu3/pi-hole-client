@@ -87,7 +87,7 @@ class _NetworkScreenState extends State<NetworkScreen> {
         final viewModel = widget.viewModel;
         final isLoading = viewModel.loadDevices.isRunning.value;
         final hasError = viewModel.loadDevices.errors.value != null;
-        final networkData = viewModel.loadDevices.value;
+        final networkData = viewModel.data;
 
         return ScrollConfiguration(
           behavior: CustomScrollBehavior(),

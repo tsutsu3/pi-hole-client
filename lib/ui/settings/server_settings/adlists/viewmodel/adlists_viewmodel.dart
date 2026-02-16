@@ -89,8 +89,14 @@ class AdlistsViewModel extends ChangeNotifier {
       comment: params.comment,
       enabled: params.enabled,
     );
-    result.getOrThrow();
-    await loadAdlists.runAsync();
+    final adlist = result.getOrThrow();
+    if (adlist.type == ListType.allow) {
+      _whitelistAdlists = [..._whitelistAdlists, adlist];
+    } else {
+      _blacklistAdlists = [..._blacklistAdlists, adlist];
+    }
+    _applyFilters();
+    notifyListeners();
   }
 
   Future<void> _updateAdlist(Adlist adlist) async {
@@ -101,8 +107,20 @@ class AdlistsViewModel extends ChangeNotifier {
       comment: adlist.comment,
       enabled: adlist.enabled,
     );
-    result.getOrThrow();
-    await loadAdlists.runAsync();
+    final updated = result.getOrThrow();
+    if (updated.type == ListType.allow) {
+      _whitelistAdlists = [
+        for (final a in _whitelistAdlists)
+          if (a.id == updated.id) updated else a,
+      ];
+    } else {
+      _blacklistAdlists = [
+        for (final a in _blacklistAdlists)
+          if (a.id == updated.id) updated else a,
+      ];
+    }
+    _applyFilters();
+    notifyListeners();
   }
 
   // --- Filter methods ---

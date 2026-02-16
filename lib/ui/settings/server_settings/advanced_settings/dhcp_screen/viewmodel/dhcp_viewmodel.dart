@@ -17,9 +17,9 @@ class DhcpViewModel extends ChangeNotifier {
     required FtlRepository ftlRepository,
   }) : _dhcpRepository = dhcpRepository,
        _ftlRepository = ftlRepository {
-    loadLeases = Command.createAsyncNoParam<DhcpData>(
+    loadLeases = Command.createAsyncNoParam<void>(
       _loadLeases,
-      initialValue: const DhcpData(leases: [], currentClientIp: ''),
+      initialValue: null,
     );
     deleteLease = Command.createAsyncNoResult<String>(_deleteLease);
 
@@ -30,23 +30,34 @@ class DhcpViewModel extends ChangeNotifier {
   final DhcpRepository _dhcpRepository;
   final FtlRepository _ftlRepository;
 
-  late final Command<void, DhcpData> loadLeases;
+  late final Command<void, void> loadLeases;
   late final Command<String, void> deleteLease;
 
-  Future<DhcpData> _loadLeases() async {
+  // --- State ---
+  DhcpData _data = const DhcpData(leases: [], currentClientIp: '');
+
+  // --- Getters ---
+  DhcpData get data => _data;
+
+  Future<void> _loadLeases() async {
     final (leasesResult, clientResult) = await (
       _dhcpRepository.fetchDhcpLeases(),
       _ftlRepository.fetchInfoClient(),
     ).wait;
     final leases = leasesResult.getOrThrow();
     final client = clientResult.getOrThrow();
-    return DhcpData(leases: leases, currentClientIp: client.addr);
+    _data = DhcpData(leases: leases, currentClientIp: client.addr);
+    notifyListeners();
   }
 
   Future<void> _deleteLease(String ip) async {
     final result = await _dhcpRepository.deleteDhcpLeaseByIp(ip);
     result.getOrThrow();
-    await loadLeases.runAsync();
+    _data = DhcpData(
+      leases: _data.leases.where((l) => l.ip != ip).toList(),
+      currentClientIp: _data.currentClientIp,
+    );
+    notifyListeners();
   }
 
   @override

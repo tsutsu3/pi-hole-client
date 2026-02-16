@@ -33,12 +33,9 @@ void main() {
     test('loadRecords success populates records and deviceOptions', () async {
       await viewModel.loadRecords.runAsync();
 
-      expect(
-        viewModel.loadRecords.value.records,
-        equals(kRepoFetchLocalDnsRecords),
-      );
-      expect(viewModel.loadRecords.value.records.length, 3);
-      expect(viewModel.loadRecords.value.deviceOptions, isNotEmpty);
+      expect(viewModel.data.records, equals(kRepoFetchLocalDnsRecords));
+      expect(viewModel.data.records.length, 3);
+      expect(viewModel.data.deviceOptions, isNotEmpty);
     });
 
     test('loadRecords failure sets error', () async {
@@ -54,7 +51,7 @@ void main() {
       expect(viewModel.loadRecords.errors.value, isNotNull);
     });
 
-    test('addRecord success reloads data', () async {
+    test('addRecord success appends record locally', () async {
       await viewModel.loadRecords.runAsync();
 
       await viewModel.addRecord.runAsync(
@@ -62,8 +59,10 @@ void main() {
       );
 
       expect(fakeLocalDnsRepository.addRecordCallCount, 1);
-      // loadRecords called once initially + once after add
-      expect(fakeLocalDnsRepository.fetchRecordsCallCount, 2);
+      // No re-fetch — local state update only
+      expect(fakeLocalDnsRepository.fetchRecordsCallCount, 1);
+      expect(viewModel.data.records.length, 4);
+      expect(viewModel.data.records.last.ip, '192.168.1.200');
     });
 
     test('addRecord failure sets error', () async {
@@ -82,7 +81,7 @@ void main() {
       expect(viewModel.addRecord.errors.value, isNotNull);
     });
 
-    test('updateRecord success reloads data', () async {
+    test('updateRecord success replaces record locally', () async {
       await viewModel.loadRecords.runAsync();
 
       await viewModel.updateRecord.runAsync(
@@ -93,10 +92,14 @@ void main() {
       );
 
       expect(fakeLocalDnsRepository.updateRecordCallCount, 1);
-      expect(fakeLocalDnsRepository.fetchRecordsCallCount, 2);
+      // No re-fetch — local state update only
+      expect(fakeLocalDnsRepository.fetchRecordsCallCount, 1);
+      expect(viewModel.data.records.length, 3);
+      expect(viewModel.data.records.any((r) => r.ip == '192.168.1.100'), isFalse);
+      expect(viewModel.data.records.any((r) => r.ip == '192.168.1.200'), isTrue);
     });
 
-    test('deleteRecord success reloads data', () async {
+    test('deleteRecord success removes record locally', () async {
       await viewModel.loadRecords.runAsync();
 
       await viewModel.deleteRecord.runAsync(
@@ -104,7 +107,10 @@ void main() {
       );
 
       expect(fakeLocalDnsRepository.deleteRecordCallCount, 1);
-      expect(fakeLocalDnsRepository.fetchRecordsCallCount, 2);
+      // No re-fetch — local state update only
+      expect(fakeLocalDnsRepository.fetchRecordsCallCount, 1);
+      expect(viewModel.data.records.length, 2);
+      expect(viewModel.data.records.any((r) => r.ip == '192.168.1.100'), isFalse);
     });
 
     test('deleteRecord failure sets error', () async {
@@ -126,7 +132,7 @@ void main() {
     test('deviceOptions excludes loopback and sorts IPv4 first', () async {
       await viewModel.loadRecords.runAsync();
 
-      final options = viewModel.loadRecords.value.deviceOptions;
+      final options = viewModel.data.deviceOptions;
       for (final option in options) {
         expect(option.ip, isNot('127.0.0.1'));
         expect(option.ip, isNot('::'));

@@ -33,10 +33,10 @@ void main() {
     test('loadLeases success populates leases and client IP', () async {
       await viewModel.loadLeases.runAsync();
 
-      expect(viewModel.loadLeases.value.leases, equals(kRepoFetchDhcpLeases));
-      expect(viewModel.loadLeases.value.leases.length, 1);
+      expect(viewModel.data.leases, equals(kRepoFetchDhcpLeases));
+      expect(viewModel.data.leases.length, 1);
       expect(
-        viewModel.loadLeases.value.currentClientIp,
+        viewModel.data.currentClientIp,
         equals(kRepoFetchFtlClient.addr),
       );
     });
@@ -54,18 +54,16 @@ void main() {
       expect(viewModel.loadLeases.errors.value, isNotNull);
     });
 
-    test('deleteLease success reloads leases', () async {
+    test('deleteLease success removes lease locally', () async {
       await viewModel.loadLeases.runAsync();
       expect(fakeDhcpRepository.fetchDhcpLeasesCallCount, 1);
 
       await viewModel.deleteLease.runAsync('192.168.2.111');
 
-      // fetchDhcpLeases called again by _deleteLease's reload
-      expect(fakeDhcpRepository.fetchDhcpLeasesCallCount, 2);
-      expect(
-        viewModel.loadLeases.value.leases,
-        equals(kRepoFetchDhcpLeases),
-      );
+      // No re-fetch — local state update only
+      expect(fakeDhcpRepository.fetchDhcpLeasesCallCount, 1);
+      expect(viewModel.data.leases, isEmpty);
+      expect(viewModel.data.currentClientIp, equals(kRepoFetchFtlClient.addr));
     });
 
     test('deleteLease failure sets error', () async {

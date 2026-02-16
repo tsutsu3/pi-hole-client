@@ -84,7 +84,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
         final viewModel = widget.viewModel;
         final isLoading = viewModel.loadSessions.isRunning.value;
         final hasError = viewModel.loadSessions.errors.value != null;
-        final sessions = viewModel.loadSessions.value;
+        final sessions = viewModel.sessions;
 
         return ScrollConfiguration(
           behavior: CustomScrollBehavior(),

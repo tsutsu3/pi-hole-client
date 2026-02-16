@@ -6,9 +6,9 @@ import 'package:pi_hole_client/domain/model/auth/auth.dart';
 class SessionsViewModel extends ChangeNotifier {
   SessionsViewModel({required AuthRepository authRepository})
     : _authRepository = authRepository {
-    loadSessions = Command.createAsyncNoParam<List<AuthSession>>(
+    loadSessions = Command.createAsyncNoParam<void>(
       _loadSessions,
-      initialValue: [],
+      initialValue: null,
     );
     deleteSession = Command.createAsyncNoResult<int>(_deleteSession);
 
@@ -18,18 +18,26 @@ class SessionsViewModel extends ChangeNotifier {
 
   final AuthRepository _authRepository;
 
-  late final Command<void, List<AuthSession>> loadSessions;
+  late final Command<void, void> loadSessions;
   late final Command<int, void> deleteSession;
 
-  Future<List<AuthSession>> _loadSessions() async {
+  // --- State ---
+  List<AuthSession> _sessions = [];
+
+  // --- Getters ---
+  List<AuthSession> get sessions => _sessions;
+
+  Future<void> _loadSessions() async {
     final result = await _authRepository.getAllSessions();
-    return result.getOrThrow();
+    _sessions = result.getOrThrow();
+    notifyListeners();
   }
 
   Future<void> _deleteSession(int sessionId) async {
     final result = await _authRepository.deleteSessionById(sessionId);
     result.getOrThrow();
-    await loadSessions.runAsync();
+    _sessions = _sessions.where((s) => s.id != sessionId).toList();
+    notifyListeners();
   }
 
   @override

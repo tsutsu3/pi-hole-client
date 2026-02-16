@@ -77,7 +77,7 @@ class _DhcpScreenState extends State<DhcpScreen> {
         final viewModel = widget.viewModel;
         final isLoading = viewModel.loadLeases.isRunning.value;
         final hasError = viewModel.loadLeases.errors.value != null;
-        final dhcpData = viewModel.loadLeases.value;
+        final dhcpData = viewModel.data;
 
         return ScrollConfiguration(
           behavior: CustomScrollBehavior(),

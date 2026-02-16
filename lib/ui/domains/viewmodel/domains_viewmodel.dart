@@ -74,8 +74,14 @@ class DomainsViewModel extends ChangeNotifier {
       params.kind,
       params.domain,
     );
-    result.getOrThrow();
-    await loadDomains.runAsync();
+    final domain = result.getOrThrow();
+    if (domain.type == DomainType.allow) {
+      _whitelistDomains = [..._whitelistDomains, domain];
+    } else {
+      _blacklistDomains = [..._blacklistDomains, domain];
+    }
+    _applyFilters();
+    notifyListeners();
   }
 
   Future<void> _updateDomain(Domain domain) async {
@@ -87,8 +93,20 @@ class DomainsViewModel extends ChangeNotifier {
       groups: domain.groups,
       enabled: domain.enabled,
     );
-    result.getOrThrow();
-    await loadDomains.runAsync();
+    final updated = result.getOrThrow();
+    if (updated.type == DomainType.allow) {
+      _whitelistDomains = [
+        for (final d in _whitelistDomains)
+          if (d.id == updated.id) updated else d,
+      ];
+    } else {
+      _blacklistDomains = [
+        for (final d in _blacklistDomains)
+          if (d.id == updated.id) updated else d,
+      ];
+    }
+    _applyFilters();
+    notifyListeners();
   }
 
   // --- Filter methods ---

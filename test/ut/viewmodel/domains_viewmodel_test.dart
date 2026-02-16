@@ -91,7 +91,7 @@ void main() {
       expect(listenerCalled, true);
     });
 
-    test('addDomain reloads domains after adding', () async {
+    test('addDomain appends domain locally', () async {
       await viewModel.loadDomains.runAsync();
       final initialCount = viewModel.whitelistDomains.length;
 
@@ -101,11 +101,12 @@ void main() {
         domain: 'new.example.com',
       ));
 
-      // After add, loadDomains is called internally so list is refreshed
-      expect(viewModel.whitelistDomains.length, initialCount);
+      // Local state update — no re-fetch
+      expect(viewModel.whitelistDomains.length, initialCount + 1);
+      expect(viewModel.whitelistDomains.last.name, 'new.example.com');
     });
 
-    test('updateDomain reloads domains after updating', () async {
+    test('updateDomain replaces domain locally', () async {
       await viewModel.loadDomains.runAsync();
       final domain = viewModel.whitelistDomains.first;
 
@@ -113,8 +114,8 @@ void main() {
         domain.copyWith(comment: 'updated comment'),
       );
 
-      // After update, loadDomains is called internally so list is refreshed
-      expect(viewModel.loadingStatus, LoadStatus.loaded);
+      // Local state update — no re-fetch
+      expect(viewModel.whitelistDomains.first.comment, 'updated comment');
     });
 
     group('Group Filter', () {

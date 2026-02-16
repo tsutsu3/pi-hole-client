@@ -125,7 +125,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
     final isSmallLandscape =
         mediaQuery.size.width > mediaQuery.size.height &&
         mediaQuery.size.height < ResponsiveConstants.medium;
-    final devices = widget.viewModel.loadRecords.value.deviceOptions;
+    final devices = widget.viewModel.data.deviceOptions;
 
     if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
       showDialog(
@@ -162,7 +162,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         final viewModel = widget.viewModel;
         final isLoading = viewModel.loadRecords.isRunning.value;
         final hasError = viewModel.loadRecords.errors.value != null;
-        final data = viewModel.loadRecords.value;
+        final data = viewModel.data;
 
         return ScrollConfiguration(
           behavior: CustomScrollBehavior(),

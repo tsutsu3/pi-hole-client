@@ -33,10 +33,10 @@ void main() {
     test('loadDevices success populates devices and client IP', () async {
       await viewModel.loadDevices.runAsync();
 
-      expect(viewModel.loadDevices.value.devices, equals(kRepoFetchDevices));
-      expect(viewModel.loadDevices.value.devices.length, 2);
+      expect(viewModel.data.devices, equals(kRepoFetchDevices));
+      expect(viewModel.data.devices.length, 2);
       expect(
-        viewModel.loadDevices.value.currentClientIp,
+        viewModel.data.currentClientIp,
         equals(kRepoFetchFtlClient.addr),
       );
     });
@@ -54,15 +54,17 @@ void main() {
       expect(viewModel.loadDevices.errors.value, isNotNull);
     });
 
-    test('deleteDevice success reloads devices', () async {
+    test('deleteDevice success removes device locally', () async {
       await viewModel.loadDevices.runAsync();
       expect(fakeNetworkRepository.fetchDevicesCallCount, 1);
 
       await viewModel.deleteDevice.runAsync(1);
 
-      // fetchDevices called again by _deleteDevice's reload
-      expect(fakeNetworkRepository.fetchDevicesCallCount, 2);
-      expect(viewModel.loadDevices.value.devices, equals(kRepoFetchDevices));
+      // No re-fetch — local state update only
+      expect(fakeNetworkRepository.fetchDevicesCallCount, 1);
+      expect(viewModel.data.devices.length, 1);
+      expect(viewModel.data.devices.any((d) => d.id == 1), isFalse);
+      expect(viewModel.data.currentClientIp, equals(kRepoFetchFtlClient.addr));
     });
 
     test('deleteDevice failure sets error', () async {
