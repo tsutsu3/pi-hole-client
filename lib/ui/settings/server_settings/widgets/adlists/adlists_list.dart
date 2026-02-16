@@ -218,11 +218,14 @@ class _AdlistsListState extends State<AdlistsList> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AdlistDetailsScreen(
-                          adlist: d,
-                          remove: removeAdlist,
-                          colors: serversViewModel.colors,
-                          groups: groups,
+                        builder: (_) => ChangeNotifierProvider.value(
+                          value: viewModel,
+                          child: AdlistDetailsScreen(
+                            adlist: d,
+                            remove: removeAdlist,
+                            colors: serversViewModel.colors,
+                            groups: groups,
+                          ),
                         ),
                       ),
                     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/list/list_search_result.dart';
@@ -10,7 +11,9 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/models.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/results_section.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/search_form.dart';
@@ -211,20 +214,26 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     required FindDomainsInListsViewModel viewModel,
     required AppConfigViewModel appConfigViewModel,
   }) async {
+    final bundle = context.read<RepositoryBundle?>();
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => DomainDetailsScreen(
-          domain: domain,
-          groups: groups,
-          colors: colors,
-          onUpdated: (updated) {
-            _pendingDomainUpdate = updated;
-          },
-          remove: (selected) => _removeDomain(
-            selected,
-            viewModel: viewModel,
-            appConfigViewModel: appConfigViewModel,
+        builder: (_) => ChangeNotifierProvider(
+          create: (_) => DomainsViewModel(
+            domainRepository: bundle!.domain,
+          ),
+          child: DomainDetailsScreen(
+            domain: domain,
+            groups: groups,
+            colors: colors,
+            onUpdated: (updated) {
+              _pendingDomainUpdate = updated;
+            },
+            remove: (selected) => _removeDomain(
+              selected,
+              viewModel: viewModel,
+              appConfigViewModel: appConfigViewModel,
+            ),
           ),
         ),
       ),
@@ -244,20 +253,26 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     required FindDomainsInListsViewModel viewModel,
     required AppConfigViewModel appConfigViewModel,
   }) async {
+    final bundle = context.read<RepositoryBundle?>();
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AdlistDetailsScreen(
-          adlist: adlist,
-          groups: groups,
-          colors: colors,
-          onUpdated: (updated) {
-            _pendingAdlistUpdate = updated;
-          },
-          remove: (selected) => _removeAdlist(
-            selected,
-            viewModel: viewModel,
-            appConfigViewModel: appConfigViewModel,
+        builder: (_) => ChangeNotifierProvider(
+          create: (_) => AdlistsViewModel(
+            adListRepository: bundle!.adlist,
+          ),
+          child: AdlistDetailsScreen(
+            adlist: adlist,
+            groups: groups,
+            colors: colors,
+            onUpdated: (updated) {
+              _pendingAdlistUpdate = updated;
+            },
+            remove: (selected) => _removeAdlist(
+              selected,
+              viewModel: viewModel,
+              appConfigViewModel: appConfigViewModel,
+            ),
           ),
         ),
       ),

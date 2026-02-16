@@ -31,6 +31,8 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_optio
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/server_info.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/server_info/viewmodel/server_info_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
@@ -342,16 +344,33 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionLabel(label: AppLocalizations.of(context)!.serverSettings),
-          CustomListTile(
-            leadingIcon: Icons.connected_tv_rounded,
-            label: AppLocalizations.of(context)!.serverInfo,
-            description: _buildServerSubtitle(
+          routedSettingsTile(
+            context: context,
+            width: width,
+            icon: Icons.connected_tv_rounded,
+            title: AppLocalizations.of(context)!.serverInfo,
+            subtitle: _buildServerSubtitle(
               context: context,
               selectedServer: selectedServer,
               serverStatus: serverStatus,
               isAliasOnly: true,
             ),
-            onTap: () => context.pushNamed(Routes.settingsServerInfo),
+            thisItem: 4,
+            routeName: Routes.settingsServerInfo,
+            splitViewChild: () {
+              final bundle = context.read<RepositoryBundle?>();
+              if (bundle == null) return;
+              final server = context.read<ServersViewModel>().selectedServer;
+              if (server == null) return;
+              SplitView.of(context).setSecondary(
+                ServerInfoScreen(
+                  viewModel: ServerInfoViewModel(ftlRepository: bundle.ftl)
+                    ..loadServerInfo.run(),
+                  serverAlias: server.alias,
+                  serverAddress: server.address,
+                ),
+              );
+            },
           ),
           routedSettingsTile(
             context: context,
@@ -365,10 +384,19 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               final bundle = context.read<RepositoryBundle?>();
               if (bundle == null) return;
               SplitView.of(context).setSecondary(
-                ChangeNotifierProvider(
-                  create: (_) =>
-                      AdlistsViewModel(adListRepository: bundle.adlist)
-                        ..loadAdlists.run(),
+                MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider(
+                      create: (_) =>
+                          AdlistsViewModel(adListRepository: bundle.adlist)
+                            ..loadAdlists.run(),
+                    ),
+                    ChangeNotifierProvider(
+                      create: (_) =>
+                          GroupsViewModel(groupRepository: bundle.group)
+                            ..loadGroups.run(),
+                    ),
+                  ],
                   child: const AdlistScreen(),
                 ),
               );
@@ -393,6 +421,21 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                       create: (_) =>
                           ClientsViewModel(clientRepository: bundle.client)
                             ..loadClients.run(),
+                    ),
+                    ChangeNotifierProvider(
+                      create: (_) =>
+                          GroupsViewModel(groupRepository: bundle.group)
+                            ..loadGroups.run(),
+                    ),
+                    ChangeNotifierProvider(
+                      create: (_) => DomainsViewModel(
+                        domainRepository: bundle.domain,
+                      )..loadDomains.run(),
+                    ),
+                    ChangeNotifierProvider(
+                      create: (_) =>
+                          AdlistsViewModel(adListRepository: bundle.adlist)
+                            ..loadAdlists.run(),
                     ),
                     ChangeNotifierProvider(
                       create: (_) =>

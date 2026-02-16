@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
-import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_button_list_tile.dart';
@@ -14,6 +12,19 @@ import 'package:pi_hole_client/ui/core/ui/modals/confirmation_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/viewmodel/dhcp_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/viewmodel/interface_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/viewmodel/local_dns_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/viewmodel/sessions_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -370,24 +381,47 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                 leadingIcon: Icons.devices_rounded,
                 label: AppLocalizations.of(context)!.sessions,
                 description: AppLocalizations.of(context)!.sessionsDescription,
-                onTap: () => context.pushNamed(
-                  Routes.settingsServerAdvancedSessions,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => SessionsScreen(
+                      viewModel: SessionsViewModel(
+                        authRepository: bundle.auth,
+                      )..loadSessions.run(),
+                    ),
+                  ),
                 ),
               ),
               CustomListTile(
                 leadingIcon: Icons.settings_ethernet_rounded,
                 label: AppLocalizations.of(context)!.dhcp,
                 description: AppLocalizations.of(context)!.dhcpDescription,
-                onTap: () => context.pushNamed(
-                  Routes.settingsServerAdvancedDhcp,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => DhcpScreen(
+                      viewModel: DhcpViewModel(
+                        dhcpRepository: bundle.dhcp,
+                        ftlRepository: bundle.ftl,
+                      )..loadLeases.run(),
+                    ),
+                  ),
                 ),
               ),
               CustomListTile(
                 leadingIcon: Icons.dns_rounded,
                 label: AppLocalizations.of(context)!.localDns,
                 description: AppLocalizations.of(context)!.localDnsDescription,
-                onTap: () => context.pushNamed(
-                  Routes.settingsServerAdvancedLocalDns,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => LocalDnsScreen(
+                      viewModel: LocalDnsViewModel(
+                        localDnsRepository: bundle.localDns,
+                        networkRepository: bundle.network,
+                      )..loadRecords.run(),
+                    ),
+                  ),
                 ),
               ),
               SectionLabel(label: AppLocalizations.of(context)!.tools),
@@ -397,24 +431,57 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                 description: AppLocalizations.of(
                   context,
                 )!.findDomainsInListsDescription,
-                onTap: () => context.pushNamed(
-                  Routes.settingsServerAdvancedFindDomainsInLists,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => MultiProvider(
+                      providers: [
+                        ChangeNotifierProvider(
+                          create: (_) => FindDomainsInListsViewModel(
+                            adListRepository: bundle.adlist,
+                            domainRepository: bundle.domain,
+                          ),
+                        ),
+                        ChangeNotifierProvider(
+                          create: (_) =>
+                              GroupsViewModel(groupRepository: bundle.group)
+                                ..loadGroups.run(),
+                        ),
+                      ],
+                      child: const FindDomainsInListsScreen(),
+                    ),
+                  ),
                 ),
               ),
               CustomListTile(
                 leadingIcon: Icons.wifi_rounded,
                 label: AppLocalizations.of(context)!.interface,
                 description: AppLocalizations.of(context)!.interfaceDescription,
-                onTap: () => context.pushNamed(
-                  Routes.settingsServerAdvancedInterface,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => InterfaceScreen(
+                      viewModel: InterfaceViewModel(
+                        networkRepository: bundle.network,
+                      )..loadInterfaces.run(),
+                    ),
+                  ),
                 ),
               ),
               CustomListTile(
                 leadingIcon: Icons.lan_rounded,
                 label: AppLocalizations.of(context)!.network,
                 description: AppLocalizations.of(context)!.networkDescription,
-                onTap: () => context.pushNamed(
-                  Routes.settingsServerAdvancedNetwork,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => NetworkScreen(
+                      viewModel: NetworkViewModel(
+                        networkRepository: bundle.network,
+                        ftlRepository: bundle.ftl,
+                      )..loadDevices.run(),
+                    ),
+                  ),
                 ),
               ),
             ],

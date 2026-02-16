@@ -311,14 +311,17 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AdlistDetailsScreen(
-                adlist: adlist,
-                remove: (s) {
-                  setState(() => selectedAdlist = null);
-                  removeAdlist(s);
-                },
-                groups: groups,
-                colors: serversViewModel.colors,
+              builder: (_) => ChangeNotifierProvider.value(
+                value: viewModel,
+                child: AdlistDetailsScreen(
+                  adlist: adlist,
+                  remove: (s) {
+                    setState(() => selectedAdlist = null);
+                    removeAdlist(s);
+                  },
+                  groups: groups,
+                  colors: serversViewModel.colors,
+                ),
               ),
             ),
           );
