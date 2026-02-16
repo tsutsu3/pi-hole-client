@@ -78,7 +78,6 @@ class AppConfigRepository {
     return _updateConfigValue(column: 'autoRefreshTime', value: time);
   }
 
-  // TODO: Consider using an enum for themes
   /// Updates the application theme mode.
   ///
   /// The [theme] parameter is an integer representing the desired theme:
@@ -89,7 +88,6 @@ class AppConfigRepository {
     return _updateConfigValue(column: 'theme', value: theme);
   }
 
-  // TODO: Consider using an enum for languages
   Future<Result<void>> updateLanguage(String language) async {
     return _updateConfigValue(column: 'language', value: language);
   }

@@ -19,7 +19,7 @@ class AppConfigViewModel with ChangeNotifier {
   IosDeviceInfo? _iosDeviceInfo;
   PackageInfo? _appInfo;
   int? _autoRefreshTime = 2; // secounds
-  int _selectedTheme = 0;
+  AppThemeMode _selectedTheme = AppThemeMode.system;
   int _reducedDataCharts = 0;
   double _logsPerQuery = 2; //hours
   String? _passCode;
@@ -64,7 +64,7 @@ class AppConfigViewModel with ChangeNotifier {
 
   ThemeMode get selectedTheme {
     switch (_selectedTheme) {
-      case 0:
+      case AppThemeMode.system:
         return SchedulerBinding
                     .instance
                     .platformDispatcher
@@ -73,14 +73,11 @@ class AppConfigViewModel with ChangeNotifier {
             ? ThemeMode.light
             : ThemeMode.dark;
 
-      case 1:
+      case AppThemeMode.light:
         return ThemeMode.light;
 
-      case 2:
+      case AppThemeMode.dark:
         return ThemeMode.dark;
-
-      default:
-        return ThemeMode.light;
     }
   }
 
@@ -88,7 +85,7 @@ class AppConfigViewModel with ChangeNotifier {
     return _selectedLanguage;
   }
 
-  int get selectedThemeNumber {
+  AppThemeMode get appThemeMode {
     return _selectedTheme;
   }
 
@@ -353,7 +350,7 @@ class AppConfigViewModel with ChangeNotifier {
 
   void saveFromDb(AppDbData dbData) {
     _autoRefreshTime = dbData.autoRefreshTime;
-    _selectedTheme = dbData.theme;
+    _selectedTheme = AppThemeMode.values[dbData.theme];
     _selectedLanguage = dbData.language;
     _reducedDataCharts = dbData.reducedDataCharts;
     _logsPerQuery = dbData.logsPerQuery;
@@ -411,8 +408,8 @@ class AppConfigViewModel with ChangeNotifier {
     }
   }
 
-  Future<bool> setSelectedTheme(int value) async {
-    final updated = await _repository.updateTheme(value);
+  Future<bool> setSelectedTheme(AppThemeMode value) async {
+    final updated = await _repository.updateTheme(value.index);
     if (updated.isSuccess()) {
       _selectedTheme = value;
       notifyListeners();
@@ -463,7 +460,7 @@ class AppConfigViewModel with ChangeNotifier {
     final result = await _repository.resetAppConfig();
     if (result.isSuccess()) {
       _autoRefreshTime = 5;
-      _selectedTheme = 0;
+      _selectedTheme = AppThemeMode.system;
       _selectedLanguage = 'en';
       _reducedDataCharts = 0;
       _logsPerQuery = 2;

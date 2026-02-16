@@ -121,6 +121,20 @@ enum HomeVisualizationMode {
   bar, // index 1
 }
 
+/// Controls the application theme mode.
+///
+/// Persisted in the local database as an integer index.
+enum AppThemeMode {
+  /// Follow the system theme (resolved at runtime).
+  system, // index 0
+
+  /// Always use light mode.
+  light, // index 1
+
+  /// Always use dark mode.
+  dark, // index 2
+}
+
 /// TLS Status
 enum TlsStatus {
   /// 0: Session is end-to-end encrypted

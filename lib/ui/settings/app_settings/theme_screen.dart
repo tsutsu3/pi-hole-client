@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_radio.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
@@ -12,7 +13,7 @@ class ThemeScreen extends StatelessWidget {
     BuildContext context, {
     required IconData icon,
     required String text,
-    required int value,
+    required AppThemeMode value,
     required AppConfigViewModel appConfigViewModel,
   }) {
     return Material(
@@ -33,8 +34,8 @@ class ThemeScreen extends StatelessWidget {
               ),
             ),
             trailing: CustomRadio(
-              value: value,
-              groupValue: appConfigViewModel.selectedThemeNumber,
+              value: value.index,
+              groupValue: appConfigViewModel.appThemeMode.index,
               backgroundColor: Theme.of(context).dialogTheme.backgroundColor!,
             ),
           ),
@@ -63,21 +64,21 @@ class ThemeScreen extends StatelessWidget {
                 context,
                 icon: Icons.phone_android_rounded,
                 text: AppLocalizations.of(context)!.systemTheme,
-                value: 0,
+                value: AppThemeMode.system,
                 appConfigViewModel: appConfigViewModel,
               ),
               _buildThemeRow(
                 context,
                 icon: Icons.light_mode_rounded,
                 text: AppLocalizations.of(context)!.light,
-                value: 1,
+                value: AppThemeMode.light,
                 appConfigViewModel: appConfigViewModel,
               ),
               _buildThemeRow(
                 context,
                 icon: Icons.dark_mode_rounded,
                 text: AppLocalizations.of(context)!.dark,
-                value: 2,
+                value: AppThemeMode.dark,
                 appConfigViewModel: appConfigViewModel,
               ),
             ],

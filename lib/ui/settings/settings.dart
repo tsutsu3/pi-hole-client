@@ -259,18 +259,15 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     }
 
     String getThemeString() {
-      switch (appConfigViewModel.selectedThemeNumber) {
-        case 0:
+      switch (appConfigViewModel.appThemeMode) {
+        case AppThemeMode.system:
           return AppLocalizations.of(context)!.systemTheme;
 
-        case 1:
+        case AppThemeMode.light:
           return AppLocalizations.of(context)!.light;
 
-        case 2:
+        case AppThemeMode.dark:
           return AppLocalizations.of(context)!.dark;
-
-        default:
-          return '';
       }
     }
 

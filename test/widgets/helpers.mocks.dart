@@ -408,12 +408,12 @@ class MockAppConfigViewModel extends _i1.Mock
           as String);
 
   @override
-  int get selectedThemeNumber =>
+  _i10.AppThemeMode get appThemeMode =>
       (super.noSuchMethod(
-            Invocation.getter(#selectedThemeNumber),
-            returnValue: 0,
+            Invocation.getter(#appThemeMode),
+            returnValue: _i10.AppThemeMode.system,
           )
-          as int);
+          as _i10.AppThemeMode);
 
   @override
   int get selectedLanguageNumber =>
@@ -708,7 +708,7 @@ class MockAppConfigViewModel extends _i1.Mock
           as _i14.Future<bool>);
 
   @override
-  _i14.Future<bool> setSelectedTheme(int? value) =>
+  _i14.Future<bool> setSelectedTheme(_i10.AppThemeMode? value) =>
       (super.noSuchMethod(
             Invocation.method(#setSelectedTheme, [value]),
             returnValue: _i14.Future<bool>.value(false),

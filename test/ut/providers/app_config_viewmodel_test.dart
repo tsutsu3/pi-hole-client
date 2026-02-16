@@ -29,7 +29,7 @@ void main() {
       expect(appConfigViewModel.showingSnackbar, false);
       expect(appConfigViewModel.selectedTab, 0);
       expect(appConfigViewModel.getAutoRefreshTime, 2);
-      expect(appConfigViewModel.selectedThemeNumber, 0);
+      expect(appConfigViewModel.appThemeMode, AppThemeMode.system);
       expect(appConfigViewModel.selectedLanguage, 'en');
       expect(appConfigViewModel.reducedDataCharts, false);
       expect(appConfigViewModel.logsPerQuery, 2);
@@ -192,7 +192,7 @@ void main() {
 
         appConfigViewModel.saveFromDb(appDbData);
         expect(appConfigViewModel.getAutoRefreshTime, 5);
-        expect(appConfigViewModel.selectedThemeNumber, 1);
+        expect(appConfigViewModel.appThemeMode, AppThemeMode.light);
         expect(appConfigViewModel.selectedLanguage, 'ja');
         expect(appConfigViewModel.reducedDataCharts, true);
         expect(appConfigViewModel.logsPerQuery, 5);
@@ -257,9 +257,10 @@ void main() {
     });
 
     test('setSelectedTheme updates value and notifies listeners', () async {
-      final result = await appConfigViewModel.setSelectedTheme(1);
+      final result =
+          await appConfigViewModel.setSelectedTheme(AppThemeMode.light);
       expect(result, true);
-      expect(appConfigViewModel.selectedThemeNumber, 1);
+      expect(appConfigViewModel.appThemeMode, AppThemeMode.light);
       expect(listenerCalled, true);
     });
 
@@ -307,7 +308,7 @@ void main() {
         final result = await appConfigViewModel.restoreAppConfig();
         expect(result, true);
         expect(appConfigViewModel.getAutoRefreshTime, 5);
-        expect(appConfigViewModel.selectedThemeNumber, 0);
+        expect(appConfigViewModel.appThemeMode, AppThemeMode.system);
         expect(
           appConfigViewModel.selectedLanguage,
           SchedulerBinding.instance.platformDispatcher.locale.languageCode,
