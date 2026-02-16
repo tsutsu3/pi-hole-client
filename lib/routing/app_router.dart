@@ -5,8 +5,15 @@ import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';
+import 'package:pi_hole_client/ui/settings/about/licenses_screen.dart';
+import 'package:pi_hole_client/ui/settings/about/privacy_screen.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/viewmodel/dhcp_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen.dart';
@@ -185,6 +192,44 @@ GoRouter createAppRouter({
             child: const FindDomainsInListsScreen(),
           );
         },
+      ),
+      // ===== Settings > App =====
+      GoRoute(
+        path: '/settings/app/theme',
+        name: Routes.settingsAppTheme,
+        builder: (context, state) => const ThemeScreen(),
+      ),
+      GoRoute(
+        path: '/settings/app/language',
+        name: Routes.settingsAppLanguage,
+        builder: (context, state) => const LanguageScreen(),
+      ),
+      GoRoute(
+        path: '/settings/app/advanced',
+        name: Routes.settingsAppAdvanced,
+        builder: (context, state) => const AdvancedOptions(),
+      ),
+      // ===== Settings > Server =====
+      GoRoute(
+        path: '/settings/server/advanced',
+        name: Routes.settingsServerAdvanced,
+        builder: (context, state) => const AdvancedServerOptions(),
+      ),
+      // ===== Settings > About =====
+      GoRoute(
+        path: '/settings/about/privacy',
+        name: Routes.settingsAboutPrivacy,
+        builder: (context, state) => const PrivacyScreen(),
+      ),
+      GoRoute(
+        path: '/settings/about/legal',
+        name: Routes.settingsAboutLegal,
+        builder: (context, state) => const LegalScreen(),
+      ),
+      GoRoute(
+        path: '/settings/about/licenses',
+        name: Routes.settingsAboutLicenses,
+        builder: (context, state) => const LicensesScreen(),
       ),
       GoRoute(
         path: '/settings/server/group-client',

@@ -285,19 +285,29 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionLabel(label: AppLocalizations.of(context)!.appSettings),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.light_mode_rounded,
             title: AppLocalizations.of(context)!.theme,
             subtitle: getThemeString(),
             thisItem: 0,
-            screenToNavigate: const ThemeScreen(),
+            routeName: Routes.settingsAppTheme,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(const ThemeScreen());
+            },
           ),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.language,
             title: AppLocalizations.of(context)!.language,
             subtitle: getLanguageString(),
             thisItem: 1,
-            screenToNavigate: const LanguageScreen(),
+            routeName: Routes.settingsAppLanguage,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(const LanguageScreen());
+            },
           ),
           settingsTile(
             icon: Icons.storage_rounded,
@@ -311,12 +321,17 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             screenToNavigate: const ServersPage(),
             thisItem: 2,
           ),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.settings_rounded,
             title: AppLocalizations.of(context)!.advancedSetup,
             subtitle: AppLocalizations.of(context)!.advancedAppSetupDescription,
-            screenToNavigate: const AdvancedOptions(),
             thisItem: 3,
+            routeName: Routes.settingsAppAdvanced,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(const AdvancedOptions());
+            },
           ),
         ],
       );
@@ -389,14 +404,21 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               );
             },
           ),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.build_rounded,
             title: AppLocalizations.of(context)!.advancedSetup,
             subtitle: AppLocalizations.of(
               context,
             )!.advancedServerSetupDescription,
-            screenToNavigate: const AdvancedServerOptions(),
             thisItem: 6,
+            routeName: Routes.settingsServerAdvanced,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(
+                const AdvancedServerOptions(),
+              );
+            },
           ),
         ],
       );
@@ -416,26 +438,41 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             ),
             thisItem: 7,
           ),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.privacy_tip_rounded,
             title: AppLocalizations.of(context)!.privacy,
             subtitle: AppLocalizations.of(context)!.privacyInfo,
-            screenToNavigate: const PrivacyScreen(),
             thisItem: 8,
+            routeName: Routes.settingsAboutPrivacy,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(const PrivacyScreen());
+            },
           ),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.balance_rounded,
             title: AppLocalizations.of(context)!.legal,
             subtitle: AppLocalizations.of(context)!.legalInfo,
-            screenToNavigate: const LegalScreen(),
             thisItem: 9,
+            routeName: Routes.settingsAboutLegal,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(const LegalScreen());
+            },
           ),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.description_rounded,
             title: AppLocalizations.of(context)!.licenses,
             subtitle: AppLocalizations.of(context)!.licensesInfo,
-            screenToNavigate: const LicensesScreen(),
             thisItem: 10,
+            routeName: Routes.settingsAboutLicenses,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(const LicensesScreen());
+            },
           ),
           Padding(
             padding: const EdgeInsets.all(15),
