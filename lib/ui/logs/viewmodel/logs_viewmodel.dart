@@ -214,7 +214,9 @@ class LogsViewModel extends ChangeNotifier {
       final deviceMatch =
           selectedClients.isEmpty || selectedClients.contains(log.device);
       final domainMatch = selectedDomain == null || log.url == selectedDomain;
-      final searchMatch = _searchText.isEmpty || log.url.contains(_searchText);
+      final searchMatch =
+          _searchText.isEmpty ||
+          log.url.toLowerCase().contains(_searchText.toLowerCase());
       return statusMatch && deviceMatch && domainMatch && searchMatch;
     }).toList();
 
