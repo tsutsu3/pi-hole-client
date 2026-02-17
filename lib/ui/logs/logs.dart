@@ -66,9 +66,7 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
     if (state == AppLifecycleState.paused) {
       _logsViewModel.disposeScreen();
     } else if (state == AppLifecycleState.resumed) {
-      _logsViewModel.initScreen(
-        logsPerQuery: _appConfigViewModel.logsPerQuery,
-      );
+      _logsViewModel.resumeScreen();
       _syncLiveConfig();
     }
   }

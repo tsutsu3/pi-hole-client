@@ -304,6 +304,16 @@ class LogsViewModel extends ChangeNotifier {
     });
   }
 
+  /// Resumes the screen after an app pause without reloading data.
+  ///
+  /// Re-activates the screen and restarts the live-log timer based on the
+  /// last known baseline. Unlike [initScreen], this preserves the current
+  /// log list and scroll position.
+  void resumeScreen() {
+    _screenActive = true;
+    _configureLiveUpdates();
+  }
+
   /// Called when Logs screen closes. Stops timers.
   void disposeScreen() {
     _screenActive = false;
