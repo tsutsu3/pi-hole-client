@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
 /// Data Auto Refresh Service
@@ -16,16 +16,16 @@ class StatusUpdateService {
     required ServersViewModel serversViewModel,
     required StatusViewModel statusViewModel,
     required AppConfigViewModel appConfigViewModel,
-    required FiltersViewModel filtersViewModel,
+    required LogsViewModel logsViewModel,
   }) : _serversViewModel = serversViewModel,
        _statusViewModel = statusViewModel,
        _appConfigViewModel = appConfigViewModel,
-       _filtersViewModel = filtersViewModel;
+       _logsViewModel = logsViewModel;
 
   final ServersViewModel _serversViewModel;
   final StatusViewModel _statusViewModel;
   final AppConfigViewModel _appConfigViewModel;
-  final FiltersViewModel _filtersViewModel;
+  final LogsViewModel _logsViewModel;
 
   Timer? _statusDataTimer;
   Timer? _overTimeDataTimer;
@@ -48,7 +48,7 @@ class StatusUpdateService {
     final clients = statusResult.data!.topSources.keys
         .map((client) => client.split('|').first)
         .toList();
-    _filtersViewModel.setClients(List<String>.from(clients));
+    _logsViewModel.setClients(List<String>.from(clients));
   }
 
   /// Start timer for auto refresh

@@ -18,6 +18,7 @@ abstract interface class MetricsRepository {
     required DateTime until,
     int? length = 100,
     int? cursor,
+    int? start,
   });
 
   Future<Result<Summary>> fetchStatsSummary();

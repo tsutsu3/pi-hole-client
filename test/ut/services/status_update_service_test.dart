@@ -11,7 +11,7 @@ import 'package:pi_hole_client/domain/models_old/metrics.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 
@@ -22,7 +22,7 @@ import './status_update_service_test.mocks.dart' as ut;
   AppConfigViewModel,
   ServersViewModel,
   StatusViewModel,
-  FiltersViewModel,
+  LogsViewModel,
   ApiGatewayV6,
 ])
 void main() async {
@@ -36,7 +36,7 @@ void main() async {
     late ut.MockAppConfigViewModel mockAppConfigViewModel;
     late ut.MockServersViewModel mockServersViewModel;
     late ut.MockStatusViewModel mockStatusViewModel;
-    late ut.MockFiltersViewModel mockFiltersViewModel;
+    late ut.MockLogsViewModel mockLogsViewModel;
 
     late ut.MockApiGatewayV6 mockApiGatewayV6;
 
@@ -53,7 +53,7 @@ void main() async {
       mockAppConfigViewModel = ut.MockAppConfigViewModel();
       mockServersViewModel = ut.MockServersViewModel();
       mockStatusViewModel = ut.MockStatusViewModel();
-      mockFiltersViewModel = ut.MockFiltersViewModel();
+      mockLogsViewModel = ut.MockLogsViewModel();
       mockApiGatewayV6 = ut.MockApiGatewayV6();
 
       when(mockAppConfigViewModel.getAutoRefreshTime).thenReturn(5);
@@ -76,7 +76,7 @@ void main() async {
       when(mockStatusViewModel.isServerLoading).thenReturn(true);
       when(mockStatusViewModel.getServerStatus).thenReturn(LoadStatus.loading);
 
-      when(mockFiltersViewModel.setClients(any)).thenReturn(null);
+      when(mockLogsViewModel.setClients(any)).thenReturn(null);
 
       when(
         mockApiGatewayV6.realtimeStatus(clientCount: anyNamed('clientCount')),
@@ -105,7 +105,7 @@ void main() async {
         serversViewModel: mockServersViewModel,
         statusViewModel: mockStatusViewModel,
         appConfigViewModel: mockAppConfigViewModel,
-        filtersViewModel: mockFiltersViewModel,
+        logsViewModel: mockLogsViewModel,
       );
     });
 

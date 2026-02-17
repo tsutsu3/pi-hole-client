@@ -10,6 +10,7 @@ import 'package:pi_hole_client/data/repositories/api/v5/domain_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/group_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/local_dns_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/v5/metrics_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/network_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/actions_respository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/adlist_repository.dart';
@@ -22,6 +23,7 @@ import 'package:pi_hole_client/data/repositories/api/v6/domain_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/group_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/local_dns_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/metrics_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/network_repository.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
@@ -51,6 +53,7 @@ class RepositoryBundleFactory {
           ftl: FtlRepositoryV6(client: client, creds: creds),
           group: GroupRepositoryV6(client: client, creds: creds),
           localDns: LocalDnsRepositoryV6(client: client, creds: creds),
+          metrics: MetricsRepositoryV6(client: client, creds: creds),
           network: NetworkRepositoryV6(client: client, creds: creds),
           serverAddress: server.address,
         );
@@ -68,6 +71,7 @@ class RepositoryBundleFactory {
           ftl: FtlRepositoryV5(client: client, creds: creds),
           group: GroupRepositoryV5(client: client, creds: creds),
           localDns: LocalDnsRepositoryV5(client: client, creds: creds),
+          metrics: MetricsRepositoryV5(client: client, creds: creds),
           network: NetworkRepositoryV5(client: client, creds: creds),
           serverAddress: server.address,
         );

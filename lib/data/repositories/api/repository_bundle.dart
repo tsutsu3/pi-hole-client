@@ -9,6 +9,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repositor
 import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/group_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/local_dns_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
 
 class RepositoryBundle {
@@ -24,6 +25,7 @@ class RepositoryBundle {
     required this.ftl,
     required this.group,
     required this.localDns,
+    required this.metrics,
     required this.network,
     required this.serverAddress,
   });
@@ -39,6 +41,7 @@ class RepositoryBundle {
   final FtlRepository ftl;
   final GroupRepository group;
   final LocalDnsRepository localDns;
+  final MetricsRepository metrics;
   final NetworkRepository network;
   final String serverAddress;
 }

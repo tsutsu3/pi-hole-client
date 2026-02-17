@@ -5,8 +5,8 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/statistics/animated_percent_indicator.dart';
 import 'package:pi_hole_client/ui/statistics/custom_pie_chart.dart';
 import 'package:pi_hole_client/ui/statistics/no_data_chart.dart';
@@ -103,7 +103,7 @@ class StatisticsListContent extends StatelessWidget {
       (p) => p.getRealtimeStatus,
     );
 
-    final totalClients = context.select<FiltersViewModel, List<String>>(
+    final totalClients = context.select<LogsViewModel, List<String>>(
       (p) => p.totalClients,
     );
 
@@ -116,7 +116,7 @@ class StatisticsListContent extends StatelessWidget {
     final loc = AppLocalizations.of(context)!;
 
     void navigateFilter(String value) {
-      final filtersViewModel = context.read<FiltersViewModel>();
+      final logsViewModel = context.read<LogsViewModel>();
       final appConfigViewModel = context.read<AppConfigViewModel>();
 
       if (type == 'clients') {
@@ -124,12 +124,12 @@ class StatisticsListContent extends StatelessWidget {
             .where((client) => value.contains(client))
             .toList();
         if (isContained.isNotEmpty) {
-          filtersViewModel.setSelectedClients([isContained[0]]);
+          logsViewModel.setSelectedClients([isContained[0]]);
           appConfigViewModel.setSelectedTab(2);
         }
       }
       if (type == 'domains') {
-        filtersViewModel.setSelectedDomain(value);
+        logsViewModel.setSelectedDomain(value);
         appConfigViewModel.setSelectedTab(2);
       }
     }

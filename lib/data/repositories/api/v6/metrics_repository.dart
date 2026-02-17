@@ -53,6 +53,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
     required DateTime until,
     int? length = 100,
     int? cursor,
+    int? start,
   }) async {
     return runWithResultRetry(
       action: () async {
@@ -63,6 +64,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
           until: until,
           length: length,
           cursor: cursor,
+          start: start,
         );
 
         return result.map((e) => e.toDomain());

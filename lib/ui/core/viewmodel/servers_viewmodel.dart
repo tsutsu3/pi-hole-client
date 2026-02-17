@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/config/query_types.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_factory.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
@@ -140,6 +142,22 @@ class ServersViewModel with ChangeNotifier {
       default:
         return null;
     }
+  }
+
+  /// Returns the [QueryStatus] display info for a [QueryStatusType] enum value.
+  QueryStatus? getQueryStatusByType(QueryStatusType? type) {
+    if (type == null) return null;
+    final statuses =
+        _selectedServer?.apiVersion == 'v6'
+            ? _queryStatusesV6
+            : _queryStatusesV5;
+    return statuses.firstWhereOrNull((s) {
+      final mapped =
+          _selectedServer?.apiVersion == 'v6'
+              ? convertQueryStatusTypeV6(s.key)
+              : convertQueryStatusTypeV5(int.tryParse(s.key));
+      return mapped == type;
+    });
   }
 
   /// Returns the query status object for the given key.
