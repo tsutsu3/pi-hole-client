@@ -204,7 +204,10 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
             setState(() => showSearchBar = true);
           },
           onFilterTap: showFiltersModal,
-          onSortChanged: logsViewModel.updateSortStatus,
+          onSortChanged: (value) {
+            logsViewModel.updateSortStatus(value);
+            _scrollToTop();
+          },
           onRefresh: logsViewModel.initializeLoad,
           sortStatus: logsViewModel.sortStatus,
           filterChips: ActiveFilterChips(
