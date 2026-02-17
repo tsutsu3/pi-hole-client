@@ -119,7 +119,10 @@ class LogsViewModel extends ChangeNotifier {
     return _filters.statusSelected.map((index) {
       final status = statuses.firstWhere(
         (s) => s.index == index,
-        orElse: () => statuses.first,
+        orElse: () {
+          logger.w('Unknown status index: $index, falling back to first');
+          return statuses.first;
+        },
       );
       return _apiVersion == 'v6'
           ? convertQueryStatusTypeV6(status.key)
@@ -133,7 +136,10 @@ class LogsViewModel extends ChangeNotifier {
     return _filters.statusAllowedAndRetried.map((index) {
       final status = statuses.firstWhere(
         (s) => s.index == index,
-        orElse: () => statuses.first,
+        orElse: () {
+          logger.w('Unknown status index: $index, falling back to first');
+          return statuses.first;
+        },
       );
       return _apiVersion == 'v6'
           ? convertQueryStatusTypeV6(status.key)
