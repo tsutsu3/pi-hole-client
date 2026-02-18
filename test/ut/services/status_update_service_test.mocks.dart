@@ -14,23 +14,26 @@ import 'package:mockito/src/dummies.dart' as _i8;
 import 'package:package_info_plus/package_info_plus.dart' as _i11;
 import 'package:pi_hole_client/config/enums.dart' as _i9;
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart' as _i18;
-import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart' as _i26;
-import 'package:pi_hole_client/data/model/v6/config/config.dart' as _i31;
+import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart' as _i29;
+import 'package:pi_hole_client/data/model/v6/config/config.dart' as _i34;
+import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart'
+    as _i28;
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart'
-    as _i25;
+    as _i27;
+import 'package:pi_hole_client/domain/model/domain/domain.dart' as _i26;
 import 'package:pi_hole_client/domain/model/metrics/queries.dart' as _i24;
 import 'package:pi_hole_client/domain/models_old/app_log.dart' as _i10;
-import 'package:pi_hole_client/domain/models_old/clients.dart' as _i30;
+import 'package:pi_hole_client/domain/models_old/clients.dart' as _i33;
 import 'package:pi_hole_client/domain/models_old/database.dart' as _i14;
-import 'package:pi_hole_client/domain/models_old/domain.dart' as _i27;
+import 'package:pi_hole_client/domain/models_old/domain.dart' as _i30;
 import 'package:pi_hole_client/domain/models_old/gateways.dart' as _i5;
-import 'package:pi_hole_client/domain/models_old/groups.dart' as _i29;
+import 'package:pi_hole_client/domain/models_old/groups.dart' as _i32;
 import 'package:pi_hole_client/domain/models_old/metrics.dart' as _i22;
 import 'package:pi_hole_client/domain/models_old/overtime_data.dart' as _i21;
 import 'package:pi_hole_client/domain/models_old/query_status.dart' as _i17;
 import 'package:pi_hole_client/domain/models_old/realtime_status.dart' as _i20;
 import 'package:pi_hole_client/domain/models_old/server.dart' as _i3;
-import 'package:pi_hole_client/domain/models_old/subscriptions.dart' as _i28;
+import 'package:pi_hole_client/domain/models_old/subscriptions.dart' as _i31;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart'
     as _i6;
@@ -38,6 +41,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart'
     as _i16;
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart' as _i19;
 import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart' as _i23;
+import 'package:result_dart/result_dart.dart' as _i25;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -1242,6 +1246,29 @@ class MockLogsViewModel extends _i1.Mock implements _i23.LogsViewModel {
   );
 
   @override
+  _i13.Future<_i25.ResultDart<_i26.Domain, Exception>> addDomainToList({
+    required String? list,
+    required String? domain,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#addDomainToList, [], {
+              #list: list,
+              #domain: domain,
+            }),
+            returnValue:
+                _i13.Future<_i25.ResultDart<_i26.Domain, Exception>>.value(
+                  _i8.dummyValue<_i25.ResultDart<_i26.Domain, Exception>>(
+                    this,
+                    Invocation.method(#addDomainToList, [], {
+                      #list: list,
+                      #domain: domain,
+                    }),
+                  ),
+                ),
+          )
+          as _i13.Future<_i25.ResultDart<_i26.Domain, Exception>>);
+
+  @override
   void setStatusSelected(List<int>? values) => super.noSuchMethod(
     Invocation.method(#setStatusSelected, [values]),
     returnValueForMissingStub: null,
@@ -1317,12 +1344,14 @@ class MockLogsViewModel extends _i1.Mock implements _i23.LogsViewModel {
 
   @override
   void update({
-    _i25.MetricsRepository? metricsRepository,
+    _i27.MetricsRepository? metricsRepository,
+    _i28.DomainRepository? domainRepository,
     String? apiVersion,
     _i15.VoidCallback? onRefreshClients,
   }) => super.noSuchMethod(
     Invocation.method(#update, [], {
       #metricsRepository: metricsRepository,
+      #domainRepository: domainRepository,
       #apiVersion: apiVersion,
       #onRefreshClients: onRefreshClients,
     }),
@@ -1448,7 +1477,7 @@ class MockLogsViewModel extends _i1.Mock implements _i23.LogsViewModel {
 /// A class which mocks [ApiGatewayV6].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiGatewayV6 extends _i1.Mock implements _i26.ApiGatewayV6 {
+class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
   MockApiGatewayV6() {
     _i1.throwOnMissingStub(this);
   }
@@ -1731,7 +1760,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i26.ApiGatewayV6 {
 
   @override
   _i13.Future<_i5.RemoveDomainFromListResponse> removeDomainFromList(
-    _i27.Domain? domain,
+    _i30.Domain? domain,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#removeDomainFromList, [domain]),
@@ -1761,7 +1790,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i26.ApiGatewayV6 {
 
   @override
   _i13.Future<_i5.DomainResponse> updateDomain({
-    required _i27.DomainRequest? body,
+    required _i30.DomainRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateDomain, [], {#body: body}),
@@ -1882,7 +1911,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i26.ApiGatewayV6 {
 
   @override
   _i13.Future<_i5.SubscriptionsResponse> createSubscription({
-    required _i28.SubscriptionRequest? body,
+    required _i31.SubscriptionRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createSubscription, [], {#body: body}),
@@ -1897,7 +1926,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i26.ApiGatewayV6 {
 
   @override
   _i13.Future<_i5.SubscriptionsResponse> updateSubscription({
-    required _i28.SubscriptionRequest? body,
+    required _i31.SubscriptionRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateSubscription, [], {#body: body}),
@@ -1966,7 +1995,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i26.ApiGatewayV6 {
 
   @override
   _i13.Future<_i5.GroupsResponse> createGroup({
-    required _i29.GroupRequest? body,
+    required _i32.GroupRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createGroup, [], {#body: body}),
@@ -1982,7 +2011,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i26.ApiGatewayV6 {
   @override
   _i13.Future<_i5.GroupsResponse> updateGroup({
     required String? name,
-    required _i29.GroupRequest? body,
+    required _i32.GroupRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateGroup, [], {#name: name, #body: body}),
@@ -2025,7 +2054,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i26.ApiGatewayV6 {
 
   @override
   _i13.Future<_i5.ClientsResponse> createClient({
-    required _i30.ClientRequest? body,
+    required _i33.ClientRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createClient, [], {#body: body}),
@@ -2041,7 +2070,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i26.ApiGatewayV6 {
   @override
   _i13.Future<_i5.ClientsResponse> updateClient({
     required String? client,
-    required _i30.ClientRequest? body,
+    required _i33.ClientRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateClient, [], {
@@ -2189,7 +2218,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i26.ApiGatewayV6 {
 
   @override
   _i13.Future<_i5.ConfigurationResponse> patchConfiguration(
-    _i31.ConfigData? body, {
+    _i34.ConfigData? body, {
     bool? isRestart = true,
   }) =>
       (super.noSuchMethod(

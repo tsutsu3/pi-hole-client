@@ -306,6 +306,7 @@ void main() async {
           update: (context, bundle, statusUpdateService, previous) =>
               previous!..update(
                 metricsRepository: bundle?.metrics,
+                domainRepository: bundle?.domain,
                 apiVersion: bundle?.apiVersion,
                 onRefreshClients: statusUpdateService.refreshOnce,
               ),

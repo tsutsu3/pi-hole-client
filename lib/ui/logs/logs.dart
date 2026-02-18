@@ -5,7 +5,6 @@ import 'package:pi_hole_client/domain/model/metrics/queries.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/etc/logs_actions_service.dart';
 import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/widgets/active_filter_chips.dart';
@@ -47,10 +46,8 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
 
     _logsViewModel = context.read<LogsViewModel>();
 
-    final apiGateway = context.read<ServersViewModel>().selectedApiGateway;
-
     logActSvc = LogActionsService(
-      apiGateway: apiGateway!,
+      logsViewModel: _logsViewModel,
       context: context,
       appConfigViewModel: _appConfigViewModel,
     );

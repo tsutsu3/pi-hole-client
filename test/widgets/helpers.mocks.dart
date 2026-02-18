@@ -15,57 +15,60 @@ import 'package:mockito/src/dummies.dart' as _i9;
 import 'package:package_info_plus/package_info_plus.dart' as _i12;
 import 'package:pi_hole_client/config/enums.dart' as _i10;
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart' as _i19;
-import 'package:pi_hole_client/data/gateway/api_gateway_v5.dart' as _i35;
-import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart' as _i41;
-import 'package:pi_hole_client/data/model/v6/config/config.dart' as _i40;
+import 'package:pi_hole_client/data/gateway/api_gateway_v5.dart' as _i37;
+import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart' as _i43;
+import 'package:pi_hole_client/data/model/v6/config/config.dart' as _i42;
 import 'package:pi_hole_client/data/repositories/api/interfaces/actions_respository.dart'
-    as _i49;
+    as _i51;
+import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart'
+    as _i25;
 import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart'
-    as _i50;
+    as _i52;
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart'
-    as _i22;
-import 'package:pi_hole_client/domain/model/client/managed_client.dart' as _i30;
-import 'package:pi_hole_client/domain/model/domain/domain.dart' as _i28;
-import 'package:pi_hole_client/domain/model/ftl/message.dart' as _i48;
-import 'package:pi_hole_client/domain/model/group/group.dart' as _i44;
-import 'package:pi_hole_client/domain/model/list/adlist.dart' as _i46;
-import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart' as _i32;
+    as _i24;
+import 'package:pi_hole_client/domain/model/client/managed_client.dart' as _i32;
+import 'package:pi_hole_client/domain/model/domain/domain.dart' as _i23;
+import 'package:pi_hole_client/domain/model/ftl/message.dart' as _i50;
+import 'package:pi_hole_client/domain/model/group/group.dart' as _i46;
+import 'package:pi_hole_client/domain/model/list/adlist.dart' as _i48;
+import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart' as _i34;
 import 'package:pi_hole_client/domain/model/metrics/queries.dart' as _i21;
-import 'package:pi_hole_client/domain/model/network/network.dart' as _i33;
+import 'package:pi_hole_client/domain/model/network/network.dart' as _i35;
 import 'package:pi_hole_client/domain/models_old/app_log.dart' as _i11;
-import 'package:pi_hole_client/domain/models_old/clients.dart' as _i39;
+import 'package:pi_hole_client/domain/models_old/clients.dart' as _i41;
 import 'package:pi_hole_client/domain/models_old/database.dart' as _i15;
-import 'package:pi_hole_client/domain/models_old/devices.dart' as _i34;
-import 'package:pi_hole_client/domain/models_old/domain.dart' as _i36;
+import 'package:pi_hole_client/domain/models_old/devices.dart' as _i36;
+import 'package:pi_hole_client/domain/models_old/domain.dart' as _i38;
 import 'package:pi_hole_client/domain/models_old/gateways.dart' as _i6;
-import 'package:pi_hole_client/domain/models_old/groups.dart' as _i38;
-import 'package:pi_hole_client/domain/models_old/metrics.dart' as _i26;
-import 'package:pi_hole_client/domain/models_old/overtime_data.dart' as _i25;
+import 'package:pi_hole_client/domain/models_old/groups.dart' as _i40;
+import 'package:pi_hole_client/domain/models_old/metrics.dart' as _i29;
+import 'package:pi_hole_client/domain/models_old/overtime_data.dart' as _i28;
 import 'package:pi_hole_client/domain/models_old/query_status.dart' as _i18;
-import 'package:pi_hole_client/domain/models_old/realtime_status.dart' as _i24;
+import 'package:pi_hole_client/domain/models_old/realtime_status.dart' as _i27;
 import 'package:pi_hole_client/domain/models_old/server.dart' as _i4;
-import 'package:pi_hole_client/domain/models_old/subscriptions.dart' as _i37;
+import 'package:pi_hole_client/domain/models_old/subscriptions.dart' as _i39;
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart'
-    as _i42;
+    as _i44;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart'
     as _i7;
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart'
-    as _i47;
+    as _i49;
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart'
-    as _i31;
+    as _i33;
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart'
     as _i17;
-import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart' as _i23;
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart' as _i26;
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart'
-    as _i27;
+    as _i30;
 import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart' as _i20;
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart'
-    as _i45;
+    as _i47;
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart'
-    as _i29;
+    as _i31;
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart'
-    as _i43;
+    as _i45;
+import 'package:result_dart/result_dart.dart' as _i22;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -1168,6 +1171,29 @@ class MockLogsViewModel extends _i1.Mock implements _i20.LogsViewModel {
   );
 
   @override
+  _i14.Future<_i22.ResultDart<_i23.Domain, Exception>> addDomainToList({
+    required String? list,
+    required String? domain,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#addDomainToList, [], {
+              #list: list,
+              #domain: domain,
+            }),
+            returnValue:
+                _i14.Future<_i22.ResultDart<_i23.Domain, Exception>>.value(
+                  _i9.dummyValue<_i22.ResultDart<_i23.Domain, Exception>>(
+                    this,
+                    Invocation.method(#addDomainToList, [], {
+                      #list: list,
+                      #domain: domain,
+                    }),
+                  ),
+                ),
+          )
+          as _i14.Future<_i22.ResultDart<_i23.Domain, Exception>>);
+
+  @override
   void setStatusSelected(List<int>? values) => super.noSuchMethod(
     Invocation.method(#setStatusSelected, [values]),
     returnValueForMissingStub: null,
@@ -1243,12 +1269,14 @@ class MockLogsViewModel extends _i1.Mock implements _i20.LogsViewModel {
 
   @override
   void update({
-    _i22.MetricsRepository? metricsRepository,
+    _i24.MetricsRepository? metricsRepository,
+    _i25.DomainRepository? domainRepository,
     String? apiVersion,
     _i16.VoidCallback? onRefreshClients,
   }) => super.noSuchMethod(
     Invocation.method(#update, [], {
       #metricsRepository: metricsRepository,
+      #domainRepository: domainRepository,
       #apiVersion: apiVersion,
       #onRefreshClients: onRefreshClients,
     }),
@@ -1374,7 +1402,7 @@ class MockLogsViewModel extends _i1.Mock implements _i20.LogsViewModel {
 /// A class which mocks [StatusViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockStatusViewModel extends _i1.Mock implements _i23.StatusViewModel {
+class MockStatusViewModel extends _i1.Mock implements _i26.StatusViewModel {
   MockStatusViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -1429,7 +1457,7 @@ class MockStatusViewModel extends _i1.Mock implements _i23.StatusViewModel {
   );
 
   @override
-  void setRealtimeStatus(_i24.RealtimeStatus? realtimeStatus) =>
+  void setRealtimeStatus(_i27.RealtimeStatus? realtimeStatus) =>
       super.noSuchMethod(
         Invocation.method(#setRealtimeStatus, [realtimeStatus]),
         returnValueForMissingStub: null,
@@ -1443,13 +1471,13 @@ class MockStatusViewModel extends _i1.Mock implements _i23.StatusViewModel {
       );
 
   @override
-  void setOvertimeData(_i25.OverTimeData? value) => super.noSuchMethod(
+  void setOvertimeData(_i28.OverTimeData? value) => super.noSuchMethod(
     Invocation.method(#setOvertimeData, [value]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void setMetricsInfo(_i26.MetricsInfo? value) => super.noSuchMethod(
+  void setMetricsInfo(_i29.MetricsInfo? value) => super.noSuchMethod(
     Invocation.method(#setMetricsInfo, [value]),
     returnValueForMissingStub: null,
   );
@@ -1482,7 +1510,7 @@ class MockStatusViewModel extends _i1.Mock implements _i23.StatusViewModel {
 /// A class which mocks [DomainsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDomainsViewModel extends _i1.Mock implements _i27.DomainsViewModel {
+class MockDomainsViewModel extends _i1.Mock implements _i30.DomainsViewModel {
   MockDomainsViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -1499,15 +1527,15 @@ class MockDomainsViewModel extends _i1.Mock implements _i27.DomainsViewModel {
           as _i3.Command<void, void>);
 
   @override
-  _i3.Command<_i28.Domain, void> get deleteDomain =>
+  _i3.Command<_i23.Domain, void> get deleteDomain =>
       (super.noSuchMethod(
             Invocation.getter(#deleteDomain),
-            returnValue: _FakeCommand_1<_i28.Domain, void>(
+            returnValue: _FakeCommand_1<_i23.Domain, void>(
               this,
               Invocation.getter(#deleteDomain),
             ),
           )
-          as _i3.Command<_i28.Domain, void>);
+          as _i3.Command<_i23.Domain, void>);
 
   @override
   _i3.Command<
@@ -1529,47 +1557,47 @@ class MockDomainsViewModel extends _i1.Mock implements _i27.DomainsViewModel {
           >);
 
   @override
-  _i3.Command<_i28.Domain, void> get updateDomain =>
+  _i3.Command<_i23.Domain, void> get updateDomain =>
       (super.noSuchMethod(
             Invocation.getter(#updateDomain),
-            returnValue: _FakeCommand_1<_i28.Domain, void>(
+            returnValue: _FakeCommand_1<_i23.Domain, void>(
               this,
               Invocation.getter(#updateDomain),
             ),
           )
-          as _i3.Command<_i28.Domain, void>);
+          as _i3.Command<_i23.Domain, void>);
 
   @override
-  List<_i28.Domain> get whitelistDomains =>
+  List<_i23.Domain> get whitelistDomains =>
       (super.noSuchMethod(
             Invocation.getter(#whitelistDomains),
-            returnValue: <_i28.Domain>[],
+            returnValue: <_i23.Domain>[],
           )
-          as List<_i28.Domain>);
+          as List<_i23.Domain>);
 
   @override
-  List<_i28.Domain> get blacklistDomains =>
+  List<_i23.Domain> get blacklistDomains =>
       (super.noSuchMethod(
             Invocation.getter(#blacklistDomains),
-            returnValue: <_i28.Domain>[],
+            returnValue: <_i23.Domain>[],
           )
-          as List<_i28.Domain>);
+          as List<_i23.Domain>);
 
   @override
-  List<_i28.Domain> get filteredWhitelistDomains =>
+  List<_i23.Domain> get filteredWhitelistDomains =>
       (super.noSuchMethod(
             Invocation.getter(#filteredWhitelistDomains),
-            returnValue: <_i28.Domain>[],
+            returnValue: <_i23.Domain>[],
           )
-          as List<_i28.Domain>);
+          as List<_i23.Domain>);
 
   @override
-  List<_i28.Domain> get filteredBlacklistDomains =>
+  List<_i23.Domain> get filteredBlacklistDomains =>
       (super.noSuchMethod(
             Invocation.getter(#filteredBlacklistDomains),
-            returnValue: <_i28.Domain>[],
+            returnValue: <_i23.Domain>[],
           )
-          as List<_i28.Domain>);
+          as List<_i23.Domain>);
 
   @override
   String get searchTerm =>
@@ -1658,7 +1686,7 @@ class MockDomainsViewModel extends _i1.Mock implements _i27.DomainsViewModel {
 /// A class which mocks [ClientsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockClientsViewModel extends _i1.Mock implements _i29.ClientsViewModel {
+class MockClientsViewModel extends _i1.Mock implements _i31.ClientsViewModel {
   MockClientsViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -1707,31 +1735,31 @@ class MockClientsViewModel extends _i1.Mock implements _i29.ClientsViewModel {
           >);
 
   @override
-  _i3.Command<_i30.ManagedClient, void> get deleteClient =>
+  _i3.Command<_i32.ManagedClient, void> get deleteClient =>
       (super.noSuchMethod(
             Invocation.getter(#deleteClient),
-            returnValue: _FakeCommand_1<_i30.ManagedClient, void>(
+            returnValue: _FakeCommand_1<_i32.ManagedClient, void>(
               this,
               Invocation.getter(#deleteClient),
             ),
           )
-          as _i3.Command<_i30.ManagedClient, void>);
+          as _i3.Command<_i32.ManagedClient, void>);
 
   @override
-  List<_i30.ManagedClient> get clients =>
+  List<_i32.ManagedClient> get clients =>
       (super.noSuchMethod(
             Invocation.getter(#clients),
-            returnValue: <_i30.ManagedClient>[],
+            returnValue: <_i32.ManagedClient>[],
           )
-          as List<_i30.ManagedClient>);
+          as List<_i32.ManagedClient>);
 
   @override
-  List<_i30.ManagedClient> get filteredClients =>
+  List<_i32.ManagedClient> get filteredClients =>
       (super.noSuchMethod(
             Invocation.getter(#filteredClients),
-            returnValue: <_i30.ManagedClient>[],
+            returnValue: <_i32.ManagedClient>[],
           )
-          as List<_i30.ManagedClient>);
+          as List<_i32.ManagedClient>);
 
   @override
   String get searchTerm =>
@@ -1814,26 +1842,26 @@ class MockClientsViewModel extends _i1.Mock implements _i29.ClientsViewModel {
 /// A class which mocks [LocalDnsProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLocalDnsProvider extends _i1.Mock implements _i31.LocalDnsProvider {
+class MockLocalDnsProvider extends _i1.Mock implements _i33.LocalDnsProvider {
   MockLocalDnsProvider() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  List<_i32.LocalDns> get localDns =>
+  List<_i34.LocalDns> get localDns =>
       (super.noSuchMethod(
             Invocation.getter(#localDns),
-            returnValue: <_i32.LocalDns>[],
+            returnValue: <_i34.LocalDns>[],
           )
-          as List<_i32.LocalDns>);
+          as List<_i34.LocalDns>);
 
   @override
-  List<_i33.DeviceOption> get deviceOptions =>
+  List<_i35.DeviceOption> get deviceOptions =>
       (super.noSuchMethod(
             Invocation.getter(#deviceOptions),
-            returnValue: <_i33.DeviceOption>[],
+            returnValue: <_i35.DeviceOption>[],
           )
-          as List<_i33.DeviceOption>);
+          as List<_i35.DeviceOption>);
 
   @override
   Map<String, String> get ipToHostname =>
@@ -1888,7 +1916,7 @@ class MockLocalDnsProvider extends _i1.Mock implements _i31.LocalDnsProvider {
           as _i14.Future<void>);
 
   @override
-  _i14.Future<bool> addLocalDns(_i32.LocalDns? item) =>
+  _i14.Future<bool> addLocalDns(_i34.LocalDns? item) =>
       (super.noSuchMethod(
             Invocation.method(#addLocalDns, [item]),
             returnValue: _i14.Future<bool>.value(false),
@@ -1898,7 +1926,7 @@ class MockLocalDnsProvider extends _i1.Mock implements _i31.LocalDnsProvider {
   @override
   _i14.Future<bool> updateLocalDns({
     required String? oldIp,
-    required _i32.LocalDns? item,
+    required _i34.LocalDns? item,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateLocalDns, [], {
@@ -1910,7 +1938,7 @@ class MockLocalDnsProvider extends _i1.Mock implements _i31.LocalDnsProvider {
           as _i14.Future<bool>);
 
   @override
-  _i14.Future<bool> removeLocalDns(_i32.LocalDns? item) =>
+  _i14.Future<bool> removeLocalDns(_i34.LocalDns? item) =>
       (super.noSuchMethod(
             Invocation.method(#removeLocalDns, [item]),
             returnValue: _i14.Future<bool>.value(false),
@@ -1918,14 +1946,14 @@ class MockLocalDnsProvider extends _i1.Mock implements _i31.LocalDnsProvider {
           as _i14.Future<bool>);
 
   @override
-  List<_i33.DeviceOption> devicesInfoToOptions(
-    List<_i34.DeviceInfo>? devices,
+  List<_i35.DeviceOption> devicesInfoToOptions(
+    List<_i36.DeviceInfo>? devices,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#devicesInfoToOptions, [devices]),
-            returnValue: <_i33.DeviceOption>[],
+            returnValue: <_i35.DeviceOption>[],
           )
-          as List<_i33.DeviceOption>);
+          as List<_i35.DeviceOption>);
 
   @override
   void addListener(_i16.VoidCallback? listener) => super.noSuchMethod(
@@ -1955,7 +1983,7 @@ class MockLocalDnsProvider extends _i1.Mock implements _i31.LocalDnsProvider {
 /// A class which mocks [ApiGatewayV5].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiGatewayV5 extends _i1.Mock implements _i35.ApiGatewayV5 {
+class MockApiGatewayV5 extends _i1.Mock implements _i37.ApiGatewayV5 {
   MockApiGatewayV5() {
     _i1.throwOnMissingStub(this);
   }
@@ -2168,7 +2196,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i35.ApiGatewayV5 {
 
   @override
   _i14.Future<_i6.RemoveDomainFromListResponse> removeDomainFromList(
-    _i36.Domain? domain,
+    _i38.Domain? domain,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#removeDomainFromList, [domain]),
@@ -2198,7 +2226,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i35.ApiGatewayV5 {
 
   @override
   _i14.Future<_i6.DomainResponse> updateDomain({
-    required _i36.DomainRequest? body,
+    required _i38.DomainRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateDomain, [], {#body: body}),
@@ -2319,7 +2347,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i35.ApiGatewayV5 {
 
   @override
   _i14.Future<_i6.SubscriptionsResponse> createSubscription({
-    required _i37.SubscriptionRequest? body,
+    required _i39.SubscriptionRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createSubscription, [], {#body: body}),
@@ -2334,7 +2362,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i35.ApiGatewayV5 {
 
   @override
   _i14.Future<_i6.SubscriptionsResponse> updateSubscription({
-    required _i37.SubscriptionRequest? body,
+    required _i39.SubscriptionRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateSubscription, [], {#body: body}),
@@ -2403,7 +2431,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i35.ApiGatewayV5 {
 
   @override
   _i14.Future<_i6.GroupsResponse> createGroup({
-    required _i38.GroupRequest? body,
+    required _i40.GroupRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createGroup, [], {#body: body}),
@@ -2419,7 +2447,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i35.ApiGatewayV5 {
   @override
   _i14.Future<_i6.GroupsResponse> updateGroup({
     required String? name,
-    required _i38.GroupRequest? body,
+    required _i40.GroupRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateGroup, [], {#name: name, #body: body}),
@@ -2462,7 +2490,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i35.ApiGatewayV5 {
 
   @override
   _i14.Future<_i6.ClientsResponse> createClient({
-    required _i39.ClientRequest? body,
+    required _i41.ClientRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createClient, [], {#body: body}),
@@ -2478,7 +2506,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i35.ApiGatewayV5 {
   @override
   _i14.Future<_i6.ClientsResponse> updateClient({
     required String? client,
-    required _i39.ClientRequest? body,
+    required _i41.ClientRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateClient, [], {
@@ -2626,7 +2654,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i35.ApiGatewayV5 {
 
   @override
   _i14.Future<_i6.ConfigurationResponse> patchConfiguration(
-    _i40.ConfigData? body, {
+    _i42.ConfigData? body, {
     bool? isRestart = true,
   }) =>
       (super.noSuchMethod(
@@ -2919,7 +2947,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i35.ApiGatewayV5 {
 /// A class which mocks [ApiGatewayV6].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiGatewayV6 extends _i1.Mock implements _i41.ApiGatewayV6 {
+class MockApiGatewayV6 extends _i1.Mock implements _i43.ApiGatewayV6 {
   MockApiGatewayV6() {
     _i1.throwOnMissingStub(this);
   }
@@ -3202,7 +3230,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i41.ApiGatewayV6 {
 
   @override
   _i14.Future<_i6.RemoveDomainFromListResponse> removeDomainFromList(
-    _i36.Domain? domain,
+    _i38.Domain? domain,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#removeDomainFromList, [domain]),
@@ -3232,7 +3260,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i41.ApiGatewayV6 {
 
   @override
   _i14.Future<_i6.DomainResponse> updateDomain({
-    required _i36.DomainRequest? body,
+    required _i38.DomainRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateDomain, [], {#body: body}),
@@ -3353,7 +3381,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i41.ApiGatewayV6 {
 
   @override
   _i14.Future<_i6.SubscriptionsResponse> createSubscription({
-    required _i37.SubscriptionRequest? body,
+    required _i39.SubscriptionRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createSubscription, [], {#body: body}),
@@ -3368,7 +3396,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i41.ApiGatewayV6 {
 
   @override
   _i14.Future<_i6.SubscriptionsResponse> updateSubscription({
-    required _i37.SubscriptionRequest? body,
+    required _i39.SubscriptionRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateSubscription, [], {#body: body}),
@@ -3437,7 +3465,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i41.ApiGatewayV6 {
 
   @override
   _i14.Future<_i6.GroupsResponse> createGroup({
-    required _i38.GroupRequest? body,
+    required _i40.GroupRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createGroup, [], {#body: body}),
@@ -3453,7 +3481,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i41.ApiGatewayV6 {
   @override
   _i14.Future<_i6.GroupsResponse> updateGroup({
     required String? name,
-    required _i38.GroupRequest? body,
+    required _i40.GroupRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateGroup, [], {#name: name, #body: body}),
@@ -3496,7 +3524,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i41.ApiGatewayV6 {
 
   @override
   _i14.Future<_i6.ClientsResponse> createClient({
-    required _i39.ClientRequest? body,
+    required _i41.ClientRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createClient, [], {#body: body}),
@@ -3512,7 +3540,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i41.ApiGatewayV6 {
   @override
   _i14.Future<_i6.ClientsResponse> updateClient({
     required String? client,
-    required _i39.ClientRequest? body,
+    required _i41.ClientRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateClient, [], {
@@ -3660,7 +3688,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i41.ApiGatewayV6 {
 
   @override
   _i14.Future<_i6.ConfigurationResponse> patchConfiguration(
-    _i40.ConfigData? body, {
+    _i42.ConfigData? body, {
     bool? isRestart = true,
   }) =>
       (super.noSuchMethod(
@@ -3954,7 +3982,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i41.ApiGatewayV6 {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockStatusUpdateService extends _i1.Mock
-    implements _i42.StatusUpdateService {
+    implements _i44.StatusUpdateService {
   MockStatusUpdateService() {
     _i1.throwOnMissingStub(this);
   }
@@ -4010,7 +4038,7 @@ class MockStatusUpdateService extends _i1.Mock
 /// A class which mocks [GroupsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGroupsViewModel extends _i1.Mock implements _i43.GroupsViewModel {
+class MockGroupsViewModel extends _i1.Mock implements _i45.GroupsViewModel {
   MockGroupsViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -4059,31 +4087,31 @@ class MockGroupsViewModel extends _i1.Mock implements _i43.GroupsViewModel {
           >);
 
   @override
-  _i3.Command<_i44.Group, void> get deleteGroup =>
+  _i3.Command<_i46.Group, void> get deleteGroup =>
       (super.noSuchMethod(
             Invocation.getter(#deleteGroup),
-            returnValue: _FakeCommand_1<_i44.Group, void>(
+            returnValue: _FakeCommand_1<_i46.Group, void>(
               this,
               Invocation.getter(#deleteGroup),
             ),
           )
-          as _i3.Command<_i44.Group, void>);
+          as _i3.Command<_i46.Group, void>);
 
   @override
-  List<_i44.Group> get groups =>
+  List<_i46.Group> get groups =>
       (super.noSuchMethod(
             Invocation.getter(#groups),
-            returnValue: <_i44.Group>[],
+            returnValue: <_i46.Group>[],
           )
-          as List<_i44.Group>);
+          as List<_i46.Group>);
 
   @override
-  List<_i44.Group> get filteredGroups =>
+  List<_i46.Group> get filteredGroups =>
       (super.noSuchMethod(
             Invocation.getter(#filteredGroups),
-            returnValue: <_i44.Group>[],
+            returnValue: <_i46.Group>[],
           )
-          as List<_i44.Group>);
+          as List<_i46.Group>);
 
   @override
   String get searchTerm =>
@@ -4162,7 +4190,7 @@ class MockGroupsViewModel extends _i1.Mock implements _i43.GroupsViewModel {
 /// A class which mocks [AdlistsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAdlistsViewModel extends _i1.Mock implements _i45.AdlistsViewModel {
+class MockAdlistsViewModel extends _i1.Mock implements _i47.AdlistsViewModel {
   MockAdlistsViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -4179,15 +4207,15 @@ class MockAdlistsViewModel extends _i1.Mock implements _i45.AdlistsViewModel {
           as _i3.Command<void, void>);
 
   @override
-  _i3.Command<_i46.Adlist, void> get deleteAdlist =>
+  _i3.Command<_i48.Adlist, void> get deleteAdlist =>
       (super.noSuchMethod(
             Invocation.getter(#deleteAdlist),
-            returnValue: _FakeCommand_1<_i46.Adlist, void>(
+            returnValue: _FakeCommand_1<_i48.Adlist, void>(
               this,
               Invocation.getter(#deleteAdlist),
             ),
           )
-          as _i3.Command<_i46.Adlist, void>);
+          as _i3.Command<_i48.Adlist, void>);
 
   @override
   _i3.Command<
@@ -4227,47 +4255,47 @@ class MockAdlistsViewModel extends _i1.Mock implements _i45.AdlistsViewModel {
           >);
 
   @override
-  _i3.Command<_i46.Adlist, void> get updateAdlist =>
+  _i3.Command<_i48.Adlist, void> get updateAdlist =>
       (super.noSuchMethod(
             Invocation.getter(#updateAdlist),
-            returnValue: _FakeCommand_1<_i46.Adlist, void>(
+            returnValue: _FakeCommand_1<_i48.Adlist, void>(
               this,
               Invocation.getter(#updateAdlist),
             ),
           )
-          as _i3.Command<_i46.Adlist, void>);
+          as _i3.Command<_i48.Adlist, void>);
 
   @override
-  List<_i46.Adlist> get whitelistAdlists =>
+  List<_i48.Adlist> get whitelistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#whitelistAdlists),
-            returnValue: <_i46.Adlist>[],
+            returnValue: <_i48.Adlist>[],
           )
-          as List<_i46.Adlist>);
+          as List<_i48.Adlist>);
 
   @override
-  List<_i46.Adlist> get blacklistAdlists =>
+  List<_i48.Adlist> get blacklistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#blacklistAdlists),
-            returnValue: <_i46.Adlist>[],
+            returnValue: <_i48.Adlist>[],
           )
-          as List<_i46.Adlist>);
+          as List<_i48.Adlist>);
 
   @override
-  List<_i46.Adlist> get filteredWhitelistAdlists =>
+  List<_i48.Adlist> get filteredWhitelistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#filteredWhitelistAdlists),
-            returnValue: <_i46.Adlist>[],
+            returnValue: <_i48.Adlist>[],
           )
-          as List<_i46.Adlist>);
+          as List<_i48.Adlist>);
 
   @override
-  List<_i46.Adlist> get filteredBlacklistAdlists =>
+  List<_i48.Adlist> get filteredBlacklistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#filteredBlacklistAdlists),
-            returnValue: <_i46.Adlist>[],
+            returnValue: <_i48.Adlist>[],
           )
-          as List<_i46.Adlist>);
+          as List<_i48.Adlist>);
 
   @override
   String get searchTerm =>
@@ -4357,7 +4385,7 @@ class MockAdlistsViewModel extends _i1.Mock implements _i45.AdlistsViewModel {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGravityUpdateViewModel extends _i1.Mock
-    implements _i47.GravityUpdateViewModel {
+    implements _i49.GravityUpdateViewModel {
   MockGravityUpdateViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -4381,12 +4409,12 @@ class MockGravityUpdateViewModel extends _i1.Mock
           as bool);
 
   @override
-  List<_i48.FtlMessage> get messages =>
+  List<_i50.FtlMessage> get messages =>
       (super.noSuchMethod(
             Invocation.getter(#messages),
-            returnValue: <_i48.FtlMessage>[],
+            returnValue: <_i50.FtlMessage>[],
           )
-          as List<_i48.FtlMessage>);
+          as List<_i50.FtlMessage>);
 
   @override
   bool get hasListeners =>
@@ -4431,8 +4459,8 @@ class MockGravityUpdateViewModel extends _i1.Mock
 
   @override
   void update({
-    _i49.ActionsRepository? actionsRepository,
-    _i50.FtlRepository? ftlRepository,
+    _i51.ActionsRepository? actionsRepository,
+    _i52.FtlRepository? ftlRepository,
     String? serverAddress,
   }) => super.noSuchMethod(
     Invocation.method(#update, [], {

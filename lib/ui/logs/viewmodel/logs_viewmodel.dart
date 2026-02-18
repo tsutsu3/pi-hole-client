@@ -5,7 +5,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/config/query_types.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
+import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/metrics/queries.dart';
 import 'package:pi_hole_client/domain/use_cases/live_logs_service.dart';
 import 'package:pi_hole_client/domain/use_cases/logs_pagination_service.dart';
@@ -13,6 +15,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel/filters_inter
 import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel/filters_v5.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel/filters_v6.dart';
 import 'package:pi_hole_client/utils/logger.dart';
+import 'package:result_dart/result_dart.dart';
 
 /// Factory for creating [LogsPaginationService] instances.
 typedef PaginationServiceFactory = LogsPaginationService Function({
@@ -71,6 +74,21 @@ class LogsViewModel extends ChangeNotifier {
     if (totalClients.isEmpty) {
       _onRefreshClients?.call();
     }
+  }
+
+  /// Adds [domain] to the allow or deny list via [DomainRepository].
+  ///
+  /// [list] should be `'white'` for allow-list or `'black'` for deny-list.
+  /// Returns a [Result] so the caller can display appropriate UI feedback.
+  Future<Result<Domain>> addDomainToList({
+    required String list,
+    required String domain,
+  }) async {
+    if (_domainRepository == null) {
+      return Failure(Exception('DomainRepository not available'));
+    }
+    final type = list == 'white' ? DomainType.allow : DomainType.deny;
+    return _domainRepository!.addDomain(type, DomainKind.exact, domain);
   }
 
   // ------------------------------------------
@@ -214,6 +232,7 @@ class LogsViewModel extends ChangeNotifier {
   // ------------------------------------------
 
   MetricsRepository? _repository;
+  DomainRepository? _domainRepository;
   double _logsPerQuery = 2.0;
 
   LogsPaginationService? _paginationService;
@@ -307,10 +326,14 @@ class LogsViewModel extends ChangeNotifier {
   /// (i.e. server switch), reinitializes pagination services and reloads.
   void update({
     MetricsRepository? metricsRepository,
+    DomainRepository? domainRepository,
     String? apiVersion,
     VoidCallback? onRefreshClients,
   }) {
     _onRefreshClients = onRefreshClients;
+    if (domainRepository != null) {
+      _domainRepository = domainRepository;
+    }
     final version = apiVersion ?? 'v5';
     if (version != _apiVersion) {
       _apiVersion = version;

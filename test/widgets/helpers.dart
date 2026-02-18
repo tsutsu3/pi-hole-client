@@ -64,17 +64,18 @@ import 'package:pi_hole_client/ui/core/globals.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:result_dart/result_dart.dart';
 
 import '../../testing/fakes/repositories/api/fake_actions_repository.dart';
 import '../../testing/fakes/repositories/api/fake_adlist_repository.dart';
@@ -1636,6 +1637,7 @@ class TestSetupHelper {
               update: (context, bundle, statusUpdateService, previous) =>
                   previous!..update(
                     metricsRepository: bundle?.metrics,
+                    domainRepository: bundle?.domain,
                     apiVersion: bundle?.apiVersion,
                     onRefreshClients: statusUpdateService.refreshOnce,
                   ),
@@ -1748,6 +1750,7 @@ class TestSetupHelper {
           update: (context, bundle, statusUpdateService, previous) =>
               previous!..update(
                 metricsRepository: bundle?.metrics,
+                domainRepository: bundle?.domain,
                 apiVersion: bundle?.apiVersion,
                 onRefreshClients: statusUpdateService.refreshOnce,
               ),
@@ -1790,10 +1793,12 @@ class TestSetupHelper {
     when(mockConfigProvider.reducedDataCharts).thenReturn(false);
     when(mockConfigProvider.hideZeroValues).thenReturn(false);
     when(mockConfigProvider.selectedTheme).thenReturn(ThemeMode.light);
-    when(mockConfigProvider.statisticsVisualizationMode)
-        .thenReturn(StatisticsVisualizationMode.list);
-    when(mockConfigProvider.homeVisualizationMode)
-        .thenReturn(HomeVisualizationMode.lineArea);
+    when(
+      mockConfigProvider.statisticsVisualizationMode,
+    ).thenReturn(StatisticsVisualizationMode.list);
+    when(
+      mockConfigProvider.homeVisualizationMode,
+    ).thenReturn(HomeVisualizationMode.lineArea);
     when(mockConfigProvider.setShowingSnackbar(any)).thenReturn(null);
     when(
       mockConfigProvider.setReducedDataCharts(any),
@@ -1953,26 +1958,53 @@ class TestSetupHelper {
     when(mockLogsViewModel.logsPerQuery).thenReturn(2.0);
 
     // Void method stubs
-    when(mockLogsViewModel.initScreen(logsPerQuery: anyNamed('logsPerQuery')))
-        .thenReturn(null);
+    when(
+      mockLogsViewModel.initScreen(logsPerQuery: anyNamed('logsPerQuery')),
+    ).thenReturn(null);
     when(mockLogsViewModel.disposeScreen()).thenReturn(null);
     when(mockLogsViewModel.initializeLoad()).thenAnswer((_) async {});
-    when(mockLogsViewModel.applyFilterAndLoad(
-      inStartTime: anyNamed('inStartTime'),
-      inEndTime: anyNamed('inEndTime'),
-    )).thenAnswer((_) async {});
+    when(
+      mockLogsViewModel.applyFilterAndLoad(
+        inStartTime: anyNamed('inStartTime'),
+        inEndTime: anyNamed('inEndTime'),
+      ),
+    ).thenAnswer((_) async {});
     when(mockLogsViewModel.enqueueLoadMore()).thenAnswer((_) async {});
     when(mockLogsViewModel.resetLogs()).thenReturn(null);
-    when(mockLogsViewModel.configureLive(
-      liveLogEnabled: anyNamed('liveLogEnabled'),
-      isLivelogPaused: anyNamed('isLivelogPaused'),
-      isOnLogsTab: anyNamed('isOnLogsTab'),
-      logAutoRefreshTime: anyNamed('logAutoRefreshTime'),
-    )).thenReturn(null);
+    when(
+      mockLogsViewModel.configureLive(
+        liveLogEnabled: anyNamed('liveLogEnabled'),
+        isLivelogPaused: anyNamed('isLivelogPaused'),
+        isOnLogsTab: anyNamed('isOnLogsTab'),
+        logAutoRefreshTime: anyNamed('logAutoRefreshTime'),
+      ),
+    ).thenReturn(null);
     when(mockLogsViewModel.setSearchText(any)).thenReturn(null);
     when(mockLogsViewModel.setSelectedLog(any)).thenReturn(null);
     when(mockLogsViewModel.updateSortStatus(any)).thenReturn(null);
     when(mockLogsViewModel.isAllowedOrRetried(any)).thenReturn(true);
+
+    // Provide a dummy value for Result<Domain> so Mockito can generate
+    // a fallback before the when() stub is evaluated.
+    final dummyDomain = domain_model.Domain(
+      id: 1,
+      name: 'dummy.example.com',
+      punyCode: 'dummy.example.com',
+      type: DomainType.deny,
+      kind: DomainKind.exact,
+      comment: null,
+      groups: const [0],
+      enabled: true,
+      dateAdded: DateTime.now(),
+      dateModified: DateTime.now(),
+    );
+    provideDummy<Result<domain_model.Domain>>(Success(dummyDomain));
+    when(
+      mockLogsViewModel.addDomainToList(
+        list: anyNamed('list'),
+        domain: anyNamed('domain'),
+      ),
+    ).thenAnswer((_) async => Success(dummyDomain));
   }
 
   void _initStatusViewModelMock(String useApiGatewayVersion) {
