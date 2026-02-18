@@ -56,6 +56,7 @@ class RepositoryBundleFactory {
           metrics: MetricsRepositoryV6(client: client, creds: creds),
           network: NetworkRepositoryV6(client: client, creds: creds),
           serverAddress: server.address,
+          apiVersion: server.apiVersion,
         );
       default:
         final client = PiholeV5ApiClient(url: server.address);
@@ -74,6 +75,7 @@ class RepositoryBundleFactory {
           metrics: MetricsRepositoryV5(client: client, creds: creds),
           network: NetworkRepositoryV5(client: client, creds: creds),
           serverAddress: server.address,
+          apiVersion: server.apiVersion,
         );
     }
   }

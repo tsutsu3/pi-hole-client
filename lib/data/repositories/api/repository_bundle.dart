@@ -28,6 +28,7 @@ class RepositoryBundle {
     required this.metrics,
     required this.network,
     required this.serverAddress,
+    required this.apiVersion,
   });
 
   final ActionsRepository actions;
@@ -44,4 +45,5 @@ class RepositoryBundle {
   final MetricsRepository metrics;
   final NetworkRepository network;
   final String serverAddress;
+  final String apiVersion;
 }

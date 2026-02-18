@@ -163,8 +163,6 @@ void main() async {
     appConfigViewModel: configProvider,
     logsViewModel: logsViewModel,
   );
-  logsViewModel.setRefreshClientsCallback(statusUpdateService.refreshOnce);
-
   const widgetChannel = MethodChannel('pihole/widget');
 
   final appdata = await appConfigRepository.fetchAppConfig();
@@ -294,13 +292,22 @@ void main() async {
           },
         ),
 
-        ChangeNotifierProxyProvider2<RepositoryBundle?, ServersViewModel,
+        // ===================================================
+        // Layer 4: Use Cases / Services (cross-cutting)
+        // ===================================================
+        Provider<StatusUpdateService>(
+          create: (_) => statusUpdateService,
+          dispose: (_, service) => service.stopAutoRefresh(),
+        ),
+
+        ChangeNotifierProxyProvider2<RepositoryBundle?, StatusUpdateService,
             LogsViewModel>(
           create: (context) => logsViewModel,
-          update: (context, bundle, serversViewModel, previous) =>
+          update: (context, bundle, statusUpdateService, previous) =>
               previous!..update(
                 metricsRepository: bundle?.metrics,
-                serversViewModel: serversViewModel,
+                apiVersion: bundle?.apiVersion,
+                onRefreshClients: statusUpdateService.refreshOnce,
               ),
         ),
         ChangeNotifierProxyProvider2<RepositoryBundle?, ServersViewModel,
@@ -312,13 +319,6 @@ void main() async {
                 ftlRepository: bundle?.ftl,
                 serverAddress: serversViewModel.selectedServer?.address,
               ),
-        ),
-        // ===================================================
-        // Layer 4: Use Cases / Services (cross-cutting)
-        // ===================================================
-        Provider<StatusUpdateService>(
-          create: (_) => statusUpdateService,
-          dispose: (_, service) => service.stopAutoRefresh(),
         ),
       ],
       child: SentryWidget(child: Phoenix(child: const PiHoleClient())),

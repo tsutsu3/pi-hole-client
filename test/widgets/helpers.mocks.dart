@@ -1162,13 +1162,6 @@ class MockLogsViewModel extends _i1.Mock implements _i20.LogsViewModel {
           as bool);
 
   @override
-  void setRefreshClientsCallback(_i16.VoidCallback? callback) =>
-      super.noSuchMethod(
-        Invocation.method(#setRefreshClientsCallback, [callback]),
-        returnValueForMissingStub: null,
-      );
-
-  @override
   void refreshClients() => super.noSuchMethod(
     Invocation.method(#refreshClients, []),
     returnValueForMissingStub: null,
@@ -1251,11 +1244,13 @@ class MockLogsViewModel extends _i1.Mock implements _i20.LogsViewModel {
   @override
   void update({
     _i22.MetricsRepository? metricsRepository,
-    _i17.ServersViewModel? serversViewModel,
+    String? apiVersion,
+    _i16.VoidCallback? onRefreshClients,
   }) => super.noSuchMethod(
     Invocation.method(#update, [], {
       #metricsRepository: metricsRepository,
-      #serversViewModel: serversViewModel,
+      #apiVersion: apiVersion,
+      #onRefreshClients: onRefreshClients,
     }),
     returnValueForMissingStub: null,
   );

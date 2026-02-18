@@ -12,8 +12,18 @@ import 'package:pi_hole_client/domain/use_cases/logs_pagination_service.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel/filters_interface.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel/filters_v5.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel/filters_v6.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
+
+/// Factory for creating [LogsPaginationService] instances.
+typedef PaginationServiceFactory = LogsPaginationService Function({
+  required MetricsRepository repository,
+});
+
+/// Factory for creating [LiveLogsService] instances.
+typedef LiveLogsServiceFactory = LiveLogsService Function({
+  required LogsPaginationService paginationService,
+  required DateTime endTime,
+});
 
 /// ViewModel for the Logs screen.
 ///
@@ -22,27 +32,41 @@ import 'package:pi_hole_client/utils/logger.dart';
 /// (status, time range, clients, domain, request status) lives here.
 ///
 /// Injected via `ChangeNotifierProxyProvider2` from `RepositoryBundle` and
-/// [ServersViewModel]; the [update] method keeps the repository reference
-/// and API version in sync.
+/// `StatusUpdateService`; the [update] method keeps the repository reference,
+/// API version, and refresh callback in sync.
+///
+/// The constructor accepts optional factory parameters that allow tests to
+/// inject mock service factories. Production code uses the defaults.
 class LogsViewModel extends ChangeNotifier {
-  LogsViewModel();
+  LogsViewModel({
+    PaginationServiceFactory? paginationServiceFactory,
+    LiveLogsServiceFactory? liveLogsServiceFactory,
+  }) : _paginationServiceFactory =
+           paginationServiceFactory ?? _defaultPaginationFactory,
+       _liveLogsServiceFactory =
+           liveLogsServiceFactory ?? _defaultLiveLogsFactory;
+
+  final PaginationServiceFactory _paginationServiceFactory;
+  final LiveLogsServiceFactory _liveLogsServiceFactory;
+
+  static LogsPaginationService _defaultPaginationFactory({
+    required MetricsRepository repository,
+  }) => LogsPaginationService(repository: repository);
+
+  static LiveLogsService _defaultLiveLogsFactory({
+    required LogsPaginationService paginationService,
+    required DateTime endTime,
+  }) => LiveLogsService(paginationService: paginationService, endTime: endTime);
 
   // ------------------------------------------
-  // Refresh clients callback (injected from main.dart)
+  // Refresh clients callback (injected via update())
   // ------------------------------------------
 
   VoidCallback? _onRefreshClients;
 
-  /// Sets the callback invoked by [refreshClients] to trigger a client-list
-  /// refresh. Typically wired to `StatusUpdateService.refreshOnce()` from
-  /// `main.dart` to avoid a direct dependency on the use-case layer.
-  void setRefreshClientsCallback(VoidCallback callback) {
-    _onRefreshClients = callback;
-  }
-
   /// Triggers a client-list refresh when [totalClients] is empty.
   ///
-  /// Delegates to the callback set via [setRefreshClientsCallback].
+  /// Delegates to the callback injected via [update].
   void refreshClients() {
     if (totalClients.isEmpty) {
       _onRefreshClients?.call();
@@ -276,13 +300,18 @@ class LogsViewModel extends ChangeNotifier {
   /// server selection changes. Switches the filter delegate (V5/V6) when the
   /// API version changes.
   ///
+  /// [onRefreshClients] is wired to `StatusUpdateService.refreshOnce` to
+  /// trigger a client-list refresh without a direct use-case dependency.
+  ///
   /// When the repository instance changes while the screen is active
   /// (i.e. server switch), reinitializes pagination services and reloads.
   void update({
     MetricsRepository? metricsRepository,
-    ServersViewModel? serversViewModel,
+    String? apiVersion,
+    VoidCallback? onRefreshClients,
   }) {
-    final version = serversViewModel?.selectedServer?.apiVersion ?? 'v5';
+    _onRefreshClients = onRefreshClients;
+    final version = apiVersion ?? 'v5';
     if (version != _apiVersion) {
       _apiVersion = version;
       _filters = version == 'v6' ? FiltersV6() : FiltersV5();
@@ -296,8 +325,9 @@ class LogsViewModel extends ChangeNotifier {
       _filters = version == 'v6' ? FiltersV6() : FiltersV5();
     }
     if (repositoryChanged && _screenActive) {
-      _paginationService = LogsPaginationService(repository: _repository!);
-      _livePaginationService = LogsPaginationService(repository: _repository!);
+      _paginationService = _paginationServiceFactory(repository: _repository!);
+      _livePaginationService =
+          _paginationServiceFactory(repository: _repository!);
       _scheduleInitializeLoad();
     }
   }
@@ -312,8 +342,9 @@ class LogsViewModel extends ChangeNotifier {
     _screenActive = true;
     _logsPerQuery = logsPerQuery;
 
-    _paginationService = LogsPaginationService(repository: _repository!);
-    _livePaginationService = LogsPaginationService(repository: _repository!);
+    _paginationService = _paginationServiceFactory(repository: _repository!);
+    _livePaginationService =
+        _paginationServiceFactory(repository: _repository!);
 
     _scheduleInitializeLoad();
   }
@@ -608,7 +639,7 @@ class LogsViewModel extends ChangeNotifier {
 
   void _resetLiveBaseline({DateTime? endTime}) {
     if (_livePaginationService == null) return;
-    _liveLogsService = LiveLogsService(
+    _liveLogsService = _liveLogsServiceFactory(
       paginationService: _livePaginationService!,
       endTime: endTime ?? DateTime.now(),
     );

@@ -1236,6 +1236,12 @@ class MockLogsViewModel extends _i1.Mock implements _i23.LogsViewModel {
           as bool);
 
   @override
+  void refreshClients() => super.noSuchMethod(
+    Invocation.method(#refreshClients, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
   void setStatusSelected(List<int>? values) => super.noSuchMethod(
     Invocation.method(#setStatusSelected, [values]),
     returnValueForMissingStub: null,
@@ -1312,11 +1318,13 @@ class MockLogsViewModel extends _i1.Mock implements _i23.LogsViewModel {
   @override
   void update({
     _i25.MetricsRepository? metricsRepository,
-    _i16.ServersViewModel? serversViewModel,
+    String? apiVersion,
+    _i15.VoidCallback? onRefreshClients,
   }) => super.noSuchMethod(
     Invocation.method(#update, [], {
       #metricsRepository: metricsRepository,
-      #serversViewModel: serversViewModel,
+      #apiVersion: apiVersion,
+      #onRefreshClients: onRefreshClients,
     }),
     returnValueForMissingStub: null,
   );
@@ -1324,6 +1332,12 @@ class MockLogsViewModel extends _i1.Mock implements _i23.LogsViewModel {
   @override
   void initScreen({required double? logsPerQuery}) => super.noSuchMethod(
     Invocation.method(#initScreen, [], {#logsPerQuery: logsPerQuery}),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void resumeScreen() => super.noSuchMethod(
+    Invocation.method(#resumeScreen, []),
     returnValueForMissingStub: null,
   );
 

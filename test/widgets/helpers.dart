@@ -1604,16 +1604,40 @@ class TestSetupHelper {
             ChangeNotifierProvider<ClientsViewModel>.value(
               value: mockClientsViewModel,
             ),
+            Provider<StatusUpdateService>(
+              create: (_) => mockStatusUpdateService,
+              dispose: (_, service) => service.stopAutoRefresh(),
+            ),
+            Provider<RepositoryBundle?>(
+              create: (_) => RepositoryBundle(
+                actions: fakeActionsRepository,
+                adlist: fakeAdlistRepository,
+                auth: FakeAuthRepository(),
+                config: fakeConfigRepository,
+                dhcp: FakeDhcpRepository(),
+                dns: FakeDnsRepository(),
+                domain: fakeDomainRepository,
+                ftl: FakeFtlRepository(),
+                localDns: FakeLocalDnsRepository(),
+                metrics: FakeMetricsRepository(),
+                network: FakeNetworkRepository(),
+                client: FakeClientRepository(),
+                group: FakeGroupRepository(),
+                serverAddress: 'http://localhost:8081',
+                apiVersion: 'v6',
+              ),
+            ),
             ChangeNotifierProxyProvider2<
               RepositoryBundle?,
-              ServersViewModel,
+              StatusUpdateService,
               LogsViewModel
             >(
               create: (context) => mockLogsViewModel,
-              update: (context, bundle, serversViewModel, previous) =>
+              update: (context, bundle, statusUpdateService, previous) =>
                   previous!..update(
                     metricsRepository: bundle?.metrics,
-                    serversViewModel: serversViewModel,
+                    apiVersion: bundle?.apiVersion,
+                    onRefreshClients: statusUpdateService.refreshOnce,
                   ),
             ),
             ChangeNotifierProvider<AdlistsViewModel>.value(
@@ -1640,28 +1664,6 @@ class TestSetupHelper {
             ),
             ChangeNotifierProvider<LocalDnsProvider>.value(
               value: mockLocalDnsProvider,
-            ),
-            Provider<StatusUpdateService>(
-              create: (_) => mockStatusUpdateService,
-              dispose: (_, service) => service.stopAutoRefresh(),
-            ),
-            Provider<RepositoryBundle?>(
-              create: (_) => RepositoryBundle(
-                actions: fakeActionsRepository,
-                adlist: fakeAdlistRepository,
-                auth: FakeAuthRepository(),
-                config: fakeConfigRepository,
-                dhcp: FakeDhcpRepository(),
-                dns: FakeDnsRepository(),
-                domain: fakeDomainRepository,
-                ftl: FakeFtlRepository(),
-                localDns: FakeLocalDnsRepository(),
-                metrics: FakeMetricsRepository(),
-                network: FakeNetworkRepository(),
-                client: FakeClientRepository(),
-                group: FakeGroupRepository(),
-                serverAddress: 'http://localhost:8081',
-              ),
             ),
           ],
           child: Phoenix(
@@ -1714,16 +1716,40 @@ class TestSetupHelper {
         ChangeNotifierProvider<ClientsViewModel>.value(
           value: mockClientsViewModel,
         ),
+        Provider<StatusUpdateService>(
+          create: (_) => mockStatusUpdateService,
+          dispose: (_, service) => service.stopAutoRefresh(),
+        ),
+        Provider<RepositoryBundle?>(
+          create: (_) => RepositoryBundle(
+            actions: fakeActionsRepository,
+            adlist: fakeAdlistRepository,
+            auth: FakeAuthRepository(),
+            config: fakeConfigRepository,
+            dhcp: FakeDhcpRepository(),
+            dns: FakeDnsRepository(),
+            domain: fakeDomainRepository,
+            ftl: FakeFtlRepository(),
+            localDns: FakeLocalDnsRepository(),
+            metrics: FakeMetricsRepository(),
+            network: FakeNetworkRepository(),
+            client: FakeClientRepository(),
+            group: FakeGroupRepository(),
+            serverAddress: 'http://localhost:8081',
+            apiVersion: 'v6',
+          ),
+        ),
         ChangeNotifierProxyProvider2<
           RepositoryBundle?,
-          ServersViewModel,
+          StatusUpdateService,
           LogsViewModel
         >(
           create: (context) => mockLogsViewModel,
-          update: (context, bundle, serversViewModel, previous) =>
+          update: (context, bundle, statusUpdateService, previous) =>
               previous!..update(
                 metricsRepository: bundle?.metrics,
-                serversViewModel: serversViewModel,
+                apiVersion: bundle?.apiVersion,
+                onRefreshClients: statusUpdateService.refreshOnce,
               ),
         ),
         ChangeNotifierProvider<AdlistsViewModel>.value(
@@ -1750,28 +1776,6 @@ class TestSetupHelper {
         ),
         ChangeNotifierProvider<LocalDnsProvider>.value(
           value: mockLocalDnsProvider,
-        ),
-        Provider<StatusUpdateService>(
-          create: (_) => mockStatusUpdateService,
-          dispose: (_, service) => service.stopAutoRefresh(),
-        ),
-        Provider<RepositoryBundle?>(
-          create: (_) => RepositoryBundle(
-            actions: fakeActionsRepository,
-            adlist: fakeAdlistRepository,
-            auth: FakeAuthRepository(),
-            config: fakeConfigRepository,
-            dhcp: FakeDhcpRepository(),
-            dns: FakeDnsRepository(),
-            domain: fakeDomainRepository,
-            ftl: FakeFtlRepository(),
-            localDns: FakeLocalDnsRepository(),
-            metrics: FakeMetricsRepository(),
-            network: FakeNetworkRepository(),
-            client: FakeClientRepository(),
-            group: FakeGroupRepository(),
-            serverAddress: 'http://localhost:8081',
-          ),
         ),
       ],
       child: child,
