@@ -227,7 +227,16 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
               loadStatus: logsViewModel.loadStatus,
               logs: logsListDisplay,
               isLoadingMore: logsViewModel.isLoadingMore,
-              onRefresh: logsViewModel.initializeLoad,
+              onRefresh: () async {
+                if (logsViewModel.isFiltering) {
+                  await logsViewModel.applyFilterAndLoad(
+                    inStartTime: logsViewModel.startTime,
+                    inEndTime: logsViewModel.endTime,
+                  );
+                } else {
+                  await logsViewModel.initializeLoad();
+                }
+              },
               onLogTap: showLogDetails,
               selectedLog: logsViewModel.selectedLog,
               scrollController: scrollController,
