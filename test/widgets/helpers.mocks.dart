@@ -1162,6 +1162,19 @@ class MockLogsViewModel extends _i1.Mock implements _i20.LogsViewModel {
           as bool);
 
   @override
+  void setRefreshClientsCallback(_i16.VoidCallback? callback) =>
+      super.noSuchMethod(
+        Invocation.method(#setRefreshClientsCallback, [callback]),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void refreshClients() => super.noSuchMethod(
+    Invocation.method(#refreshClients, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
   void setStatusSelected(List<int>? values) => super.noSuchMethod(
     Invocation.method(#setStatusSelected, [values]),
     returnValueForMissingStub: null,
@@ -1250,6 +1263,12 @@ class MockLogsViewModel extends _i1.Mock implements _i20.LogsViewModel {
   @override
   void initScreen({required double? logsPerQuery}) => super.noSuchMethod(
     Invocation.method(#initScreen, [], {#logsPerQuery: logsPerQuery}),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void resumeScreen() => super.noSuchMethod(
+    Invocation.method(#resumeScreen, []),
     returnValueForMissingStub: null,
   );
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/formats.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
@@ -66,10 +65,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
     }
 
     void openClientsModal() {
-      // TODO: Call client only
-      if (logsViewModel.totalClients.isEmpty) {
-        context.read<StatusUpdateService>().refreshOnce();
-      }
+      logsViewModel.refreshClients();
       if (width > ResponsiveConstants.medium) {
         showDialog(
           context: context,

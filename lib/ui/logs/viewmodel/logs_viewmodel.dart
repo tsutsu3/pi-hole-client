@@ -28,6 +28,28 @@ class LogsViewModel extends ChangeNotifier {
   LogsViewModel();
 
   // ------------------------------------------
+  // Refresh clients callback (injected from main.dart)
+  // ------------------------------------------
+
+  VoidCallback? _onRefreshClients;
+
+  /// Sets the callback invoked by [refreshClients] to trigger a client-list
+  /// refresh. Typically wired to `StatusUpdateService.refreshOnce()` from
+  /// `main.dart` to avoid a direct dependency on the use-case layer.
+  void setRefreshClientsCallback(VoidCallback callback) {
+    _onRefreshClients = callback;
+  }
+
+  /// Triggers a client-list refresh when [totalClients] is empty.
+  ///
+  /// Delegates to the callback set via [setRefreshClientsCallback].
+  void refreshClients() {
+    if (totalClients.isEmpty) {
+      _onRefreshClients?.call();
+    }
+  }
+
+  // ------------------------------------------
   // Filter state (always available, replaces FiltersViewModel)
   // ------------------------------------------
 

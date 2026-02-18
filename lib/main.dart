@@ -163,6 +163,7 @@ void main() async {
     appConfigViewModel: configProvider,
     logsViewModel: logsViewModel,
   );
+  logsViewModel.setRefreshClientsCallback(statusUpdateService.refreshOnce);
 
   const widgetChannel = MethodChannel('pihole/widget');
 
