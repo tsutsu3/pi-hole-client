@@ -11,6 +11,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/group_repository
 import 'package:pi_hole_client/data/repositories/api/interfaces/local_dns_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart';
 
 class RepositoryBundle {
   const RepositoryBundle({
@@ -27,6 +28,7 @@ class RepositoryBundle {
     required this.localDns,
     required this.metrics,
     required this.network,
+    required this.realtimeStatus,
     required this.serverAddress,
     required this.apiVersion,
   });
@@ -44,6 +46,7 @@ class RepositoryBundle {
   final LocalDnsRepository localDns;
   final MetricsRepository metrics;
   final NetworkRepository network;
+  final RealtimeStatusRepository realtimeStatus;
   final String serverAddress;
   final String apiVersion;
 }

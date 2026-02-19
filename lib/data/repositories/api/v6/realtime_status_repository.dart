@@ -1,7 +1,4 @@
-// ignore: one_member_abstracts
-import 'package:pi_hole_client/data/repositories/api/interfaces/dns_repository.dart';
-import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
-import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
+// ignore_for_file: one_member_abstracts
 import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/base_v6_sid_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/constants.dart';
@@ -19,20 +16,10 @@ import 'package:result_dart/result_dart.dart';
 /// A unified "realtime status" API is no longer available, and no single endpoint
 /// returns the full picture.
 ///
-/// Instead, realtime status must be **composed manually at the domain (use case) level**
-/// by aggregating responses from the following repositories:
-///
-/// - [MetricsRepository.fetchStatsSummary]
-/// - [MetricsRepository.fetchStatsUpstreams]
-/// - [MetricsRepository.fetchStatsTopDomainsBlocked]
-/// - [MetricsRepository.fetchStatsTopDomainsAllowed]
-/// - [MetricsRepository.fetchStatsTopClientsBlocked]
-/// - [MetricsRepository.fetchStatsTopClientsAllowed]
-/// - [DnsRepository.fetchBlockingStatus]
-/// - [FtlRepository.fetchInfoFtl]
-///
 /// This implementation intentionally returns a [NotSupportedException].
-/// Use cases should handle v6 compatibility by orchestrating the above API calls.
+/// Use cases (e.g. [RealtimeStatusUseCaseV6]) should handle v6 compatibility
+/// by orchestrating the required API calls via [MetricsRepository] and
+/// [DnsRepository].
 class RealtimeStatusRepositoryV6 extends BaseV6SidRepository
     implements RealtimeStatusRepository {
   RealtimeStatusRepositoryV6({

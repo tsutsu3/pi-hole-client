@@ -90,6 +90,7 @@ import '../../testing/fakes/repositories/api/fake_group_repository.dart';
 import '../../testing/fakes/repositories/api/fake_local_dns_repository.dart';
 import '../../testing/fakes/repositories/api/fake_metrics_repository.dart';
 import '../../testing/fakes/repositories/api/fake_network_repository.dart';
+import '../../testing/fakes/repositories/api/fake_realtime_status_repository.dart';
 import './helpers.mocks.dart';
 
 final serverV5 = Server(
@@ -1622,6 +1623,7 @@ class TestSetupHelper {
                 localDns: FakeLocalDnsRepository(),
                 metrics: FakeMetricsRepository(),
                 network: FakeNetworkRepository(),
+                realtimeStatus: FakeRealTimeStatusRepository(),
                 client: FakeClientRepository(),
                 group: FakeGroupRepository(),
                 serverAddress: 'http://localhost:8081',
@@ -1735,6 +1737,7 @@ class TestSetupHelper {
             localDns: FakeLocalDnsRepository(),
             metrics: FakeMetricsRepository(),
             network: FakeNetworkRepository(),
+            realtimeStatus: FakeRealTimeStatusRepository(),
             client: FakeClientRepository(),
             group: FakeGroupRepository(),
             serverAddress: 'http://localhost:8081',
