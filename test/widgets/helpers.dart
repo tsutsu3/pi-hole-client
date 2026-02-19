@@ -37,6 +37,7 @@ import 'package:pi_hole_client/domain/model/ftl/message.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
+import 'package:pi_hole_client/domain/model/metrics/queries.dart' as logs_model;
 import 'package:pi_hole_client/domain/model/network/network.dart'
     show DeviceOption;
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
@@ -63,17 +64,18 @@ import 'package:pi_hole_client/ui/core/globals.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:result_dart/result_dart.dart';
 
 import '../../testing/fakes/repositories/api/fake_actions_repository.dart';
 import '../../testing/fakes/repositories/api/fake_adlist_repository.dart';
@@ -86,6 +88,7 @@ import '../../testing/fakes/repositories/api/fake_domain_repository.dart';
 import '../../testing/fakes/repositories/api/fake_ftl_repository.dart';
 import '../../testing/fakes/repositories/api/fake_group_repository.dart';
 import '../../testing/fakes/repositories/api/fake_local_dns_repository.dart';
+import '../../testing/fakes/repositories/api/fake_metrics_repository.dart';
 import '../../testing/fakes/repositories/api/fake_network_repository.dart';
 import './helpers.mocks.dart';
 
@@ -197,6 +200,20 @@ final queries = Queries.fromJson({
   'draw': 1,
   'took': 0.003,
 });
+
+final testLogsList = [
+  logs_model.Log(
+    id: 1,
+    dateTime: DateTime.now().subtract(const Duration(minutes: 10)),
+    type: DnsRecordType.a,
+    url: 'white.example.com',
+    device: '192.168.100.2',
+    status: QueryStatusType.forwarded,
+    replyType: ReplyType.ip,
+    replyTime: 0.019,
+    answeredBy: 'localhost#5353',
+  ),
+];
 
 final overtimeData = OverTimeData.fromJson({
   'domains_over_time': {
@@ -1454,7 +1471,7 @@ Future<void> initializeApp() async {
 @GenerateMocks([
   AppConfigViewModel,
   ServersViewModel,
-  FiltersViewModel,
+  LogsViewModel,
   StatusViewModel,
   DomainsViewModel,
   ClientsViewModel,
@@ -1470,7 +1487,7 @@ class TestSetupHelper {
   TestSetupHelper({
     MockAppConfigViewModel? customConfigProvider,
     MockServersViewModel? customServersViewModel,
-    MockFiltersViewModel? customFiltersViewModel,
+    MockLogsViewModel? customLogsViewModel,
     MockStatusViewModel? customStatusViewModel,
     MockDomainsViewModel? customDomainsViewModel,
     MockClientsViewModel? customClientsViewModel,
@@ -1484,7 +1501,7 @@ class TestSetupHelper {
   }) {
     mockConfigProvider = customConfigProvider ?? MockAppConfigViewModel();
     mockServersViewModel = customServersViewModel ?? MockServersViewModel();
-    mockFiltersViewModel = customFiltersViewModel ?? MockFiltersViewModel();
+    mockLogsViewModel = customLogsViewModel ?? MockLogsViewModel();
     mockStatusViewModel = customStatusViewModel ?? MockStatusViewModel();
     mockDomainsViewModel = customDomainsViewModel ?? MockDomainsViewModel();
     mockClientsViewModel = customClientsViewModel ?? MockClientsViewModel();
@@ -1512,7 +1529,7 @@ class TestSetupHelper {
 
   late MockAppConfigViewModel mockConfigProvider;
   late MockServersViewModel mockServersViewModel;
-  late MockFiltersViewModel mockFiltersViewModel;
+  late MockLogsViewModel mockLogsViewModel;
   late MockStatusViewModel mockStatusViewModel;
   late MockDomainsViewModel mockDomainsViewModel;
   late MockClientsViewModel mockClientsViewModel;
@@ -1535,7 +1552,7 @@ class TestSetupHelper {
   void initializeMock({String useApiGatewayVersion = 'v5'}) {
     _initConfiProviderMock(useApiGatewayVersion);
     _initServerProviderMock(useApiGatewayVersion);
-    _initFiltersViewModelMock(useApiGatewayVersion);
+    _initLogsViewModelMock(useApiGatewayVersion);
     _initStatusViewModelMock(useApiGatewayVersion);
     _initDomainsViewModelMock(useApiGatewayVersion);
     _initClientsViewModelMock(useApiGatewayVersion);
@@ -1588,10 +1605,42 @@ class TestSetupHelper {
             ChangeNotifierProvider<ClientsViewModel>.value(
               value: mockClientsViewModel,
             ),
-            ChangeNotifierProxyProvider<ServersViewModel, FiltersViewModel>(
-              create: (context) => mockFiltersViewModel,
-              update: (context, serverConfig, servers) =>
-                  servers!..update(serverConfig),
+            Provider<StatusUpdateService>(
+              create: (_) => mockStatusUpdateService,
+              dispose: (_, service) => service.stopAutoRefresh(),
+            ),
+            Provider<RepositoryBundle?>(
+              create: (_) => RepositoryBundle(
+                actions: fakeActionsRepository,
+                adlist: fakeAdlistRepository,
+                auth: FakeAuthRepository(),
+                config: fakeConfigRepository,
+                dhcp: FakeDhcpRepository(),
+                dns: FakeDnsRepository(),
+                domain: fakeDomainRepository,
+                ftl: FakeFtlRepository(),
+                localDns: FakeLocalDnsRepository(),
+                metrics: FakeMetricsRepository(),
+                network: FakeNetworkRepository(),
+                client: FakeClientRepository(),
+                group: FakeGroupRepository(),
+                serverAddress: 'http://localhost:8081',
+                apiVersion: 'v6',
+              ),
+            ),
+            ChangeNotifierProxyProvider2<
+              RepositoryBundle?,
+              StatusUpdateService,
+              LogsViewModel
+            >(
+              create: (context) => mockLogsViewModel,
+              update: (context, bundle, statusUpdateService, previous) =>
+                  previous!..update(
+                    metricsRepository: bundle?.metrics,
+                    domainRepository: bundle?.domain,
+                    apiVersion: bundle?.apiVersion,
+                    onRefreshClients: statusUpdateService.refreshOnce,
+                  ),
             ),
             ChangeNotifierProvider<AdlistsViewModel>.value(
               value: mockAdlistsViewModel,
@@ -1617,27 +1666,6 @@ class TestSetupHelper {
             ),
             ChangeNotifierProvider<LocalDnsProvider>.value(
               value: mockLocalDnsProvider,
-            ),
-            Provider<StatusUpdateService>(
-              create: (_) => mockStatusUpdateService,
-              dispose: (_, service) => service.stopAutoRefresh(),
-            ),
-            Provider<RepositoryBundle?>(
-              create: (_) => RepositoryBundle(
-                actions: fakeActionsRepository,
-                adlist: fakeAdlistRepository,
-                auth: FakeAuthRepository(),
-                config: fakeConfigRepository,
-                dhcp: FakeDhcpRepository(),
-                dns: FakeDnsRepository(),
-                domain: fakeDomainRepository,
-                ftl: FakeFtlRepository(),
-                localDns: FakeLocalDnsRepository(),
-                network: FakeNetworkRepository(),
-                client: FakeClientRepository(),
-                group: FakeGroupRepository(),
-                serverAddress: 'http://localhost:8081',
-              ),
             ),
           ],
           child: Phoenix(
@@ -1690,10 +1718,42 @@ class TestSetupHelper {
         ChangeNotifierProvider<ClientsViewModel>.value(
           value: mockClientsViewModel,
         ),
-        ChangeNotifierProxyProvider<ServersViewModel, FiltersViewModel>(
-          create: (context) => mockFiltersViewModel,
-          update: (context, serverConfig, servers) =>
-              servers!..update(serverConfig),
+        Provider<StatusUpdateService>(
+          create: (_) => mockStatusUpdateService,
+          dispose: (_, service) => service.stopAutoRefresh(),
+        ),
+        Provider<RepositoryBundle?>(
+          create: (_) => RepositoryBundle(
+            actions: fakeActionsRepository,
+            adlist: fakeAdlistRepository,
+            auth: FakeAuthRepository(),
+            config: fakeConfigRepository,
+            dhcp: FakeDhcpRepository(),
+            dns: FakeDnsRepository(),
+            domain: fakeDomainRepository,
+            ftl: FakeFtlRepository(),
+            localDns: FakeLocalDnsRepository(),
+            metrics: FakeMetricsRepository(),
+            network: FakeNetworkRepository(),
+            client: FakeClientRepository(),
+            group: FakeGroupRepository(),
+            serverAddress: 'http://localhost:8081',
+            apiVersion: 'v6',
+          ),
+        ),
+        ChangeNotifierProxyProvider2<
+          RepositoryBundle?,
+          StatusUpdateService,
+          LogsViewModel
+        >(
+          create: (context) => mockLogsViewModel,
+          update: (context, bundle, statusUpdateService, previous) =>
+              previous!..update(
+                metricsRepository: bundle?.metrics,
+                domainRepository: bundle?.domain,
+                apiVersion: bundle?.apiVersion,
+                onRefreshClients: statusUpdateService.refreshOnce,
+              ),
         ),
         ChangeNotifierProvider<AdlistsViewModel>.value(
           value: mockAdlistsViewModel,
@@ -1720,27 +1780,6 @@ class TestSetupHelper {
         ChangeNotifierProvider<LocalDnsProvider>.value(
           value: mockLocalDnsProvider,
         ),
-        Provider<StatusUpdateService>(
-          create: (_) => mockStatusUpdateService,
-          dispose: (_, service) => service.stopAutoRefresh(),
-        ),
-        Provider<RepositoryBundle?>(
-          create: (_) => RepositoryBundle(
-            actions: fakeActionsRepository,
-            adlist: fakeAdlistRepository,
-            auth: FakeAuthRepository(),
-            config: fakeConfigRepository,
-            dhcp: FakeDhcpRepository(),
-            dns: FakeDnsRepository(),
-            domain: fakeDomainRepository,
-            ftl: FakeFtlRepository(),
-            localDns: FakeLocalDnsRepository(),
-            network: FakeNetworkRepository(),
-            client: FakeClientRepository(),
-            group: FakeGroupRepository(),
-            serverAddress: 'http://localhost:8081',
-          ),
-        ),
       ],
       child: child,
     );
@@ -1754,10 +1793,12 @@ class TestSetupHelper {
     when(mockConfigProvider.reducedDataCharts).thenReturn(false);
     when(mockConfigProvider.hideZeroValues).thenReturn(false);
     when(mockConfigProvider.selectedTheme).thenReturn(ThemeMode.light);
-    when(mockConfigProvider.statisticsVisualizationMode)
-        .thenReturn(StatisticsVisualizationMode.list);
-    when(mockConfigProvider.homeVisualizationMode)
-        .thenReturn(HomeVisualizationMode.lineArea);
+    when(
+      mockConfigProvider.statisticsVisualizationMode,
+    ).thenReturn(StatisticsVisualizationMode.list);
+    when(
+      mockConfigProvider.homeVisualizationMode,
+    ).thenReturn(HomeVisualizationMode.lineArea);
     when(mockConfigProvider.setShowingSnackbar(any)).thenReturn(null);
     when(
       mockConfigProvider.setReducedDataCharts(any),
@@ -1839,6 +1880,10 @@ class TestSetupHelper {
       // forwarded
       useApiGatewayVersion == 'v5' ? queryStatusesV5[1] : queryStatusesV6[2],
     );
+    when(mockServersViewModel.getQueryStatusByType(any)).thenReturn(
+      // forwarded
+      useApiGatewayVersion == 'v5' ? queryStatusesV5[1] : queryStatusesV6[2],
+    );
     when(
       mockServersViewModel.checkUrlExists(any),
     ).thenAnswer((_) async => {'result': 'success', 'exists': false});
@@ -1868,35 +1913,98 @@ class TestSetupHelper {
     when(mockServersViewModel.unverifiedBannerDismissed).thenReturn(false);
   }
 
-  void _initFiltersViewModelMock(String useApiGatewayVersion) {
-    when(mockFiltersViewModel.statusSelected).thenReturn(
+  void _initLogsViewModelMock(String useApiGatewayVersion) {
+    // Filter state stubs (migrated from FiltersViewModel)
+    when(mockLogsViewModel.statusSelected).thenReturn(
       useApiGatewayVersion == 'v5'
           ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14]
           : [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
     );
-    when(mockFiltersViewModel.selectedClients).thenReturn(['192.168.100.2']);
-    when(mockFiltersViewModel.selectedDomain).thenReturn('white.example.com');
-    when(mockFiltersViewModel.startTime).thenReturn(DateTime.now());
+    when(mockLogsViewModel.selectedClients).thenReturn(['192.168.100.2']);
+    when(mockLogsViewModel.selectedDomain).thenReturn('white.example.com');
+    when(mockLogsViewModel.startTime).thenReturn(DateTime.now());
     when(
-      mockFiltersViewModel.endTime,
+      mockLogsViewModel.endTime,
     ).thenReturn(DateTime.now().add(const Duration(hours: 2)));
-    when(mockFiltersViewModel.resetFilters()).thenReturn(null);
+    when(mockLogsViewModel.resetFilters()).thenReturn(null);
     when(
-      mockFiltersViewModel.totalClients,
+      mockLogsViewModel.totalClients,
     ).thenReturn(['localhost', '192.168.100.2']);
-    when(mockFiltersViewModel.resetTime()).thenReturn(null);
-    when(mockFiltersViewModel.resetStatus()).thenReturn(null);
-    when(mockFiltersViewModel.resetClients()).thenReturn(null);
-    when(mockFiltersViewModel.setSelectedDomain(null)).thenReturn(null);
-    when(mockFiltersViewModel.statusAllowedAndRetried).thenReturn(
+    when(mockLogsViewModel.resetTime()).thenReturn(null);
+    when(mockLogsViewModel.resetStatus()).thenReturn(null);
+    when(mockLogsViewModel.resetClients()).thenReturn(null);
+    when(mockLogsViewModel.setSelectedDomain(null)).thenReturn(null);
+    when(mockLogsViewModel.statusAllowedAndRetried).thenReturn(
       useApiGatewayVersion == 'v5' ? [2, 3, 12, 13, 14] : [3, 4, 13, 14, 15],
     );
-    when(mockFiltersViewModel.requestStatus).thenReturn(RequestStatus.all);
-    when(mockFiltersViewModel.defaultSelected).thenReturn(
+    when(mockLogsViewModel.requestStatus).thenReturn(RequestStatus.all);
+    when(mockLogsViewModel.defaultSelected).thenReturn(
       useApiGatewayVersion == 'v5'
           ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14]
           : [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
     );
+
+    // Screen state stubs (for Logs widget)
+    when(mockLogsViewModel.loadStatus).thenReturn(LoadStatus.loaded);
+    when(mockLogsViewModel.logsList).thenReturn(testLogsList);
+    when(mockLogsViewModel.logsListDisplay).thenReturn(testLogsList);
+    when(mockLogsViewModel.sortStatus).thenReturn(0);
+    when(mockLogsViewModel.isLoadingMore).thenReturn(false);
+    when(mockLogsViewModel.selectedLog).thenReturn(null);
+    when(mockLogsViewModel.searchText).thenReturn('');
+    when(mockLogsViewModel.hasActiveChips).thenReturn(false);
+    when(mockLogsViewModel.screenActive).thenReturn(true);
+    when(mockLogsViewModel.isFiltering).thenReturn(false);
+    when(mockLogsViewModel.logsPerQuery).thenReturn(2.0);
+
+    // Void method stubs
+    when(
+      mockLogsViewModel.initScreen(logsPerQuery: anyNamed('logsPerQuery')),
+    ).thenReturn(null);
+    when(mockLogsViewModel.disposeScreen()).thenReturn(null);
+    when(mockLogsViewModel.initializeLoad()).thenAnswer((_) async {});
+    when(
+      mockLogsViewModel.applyFilterAndLoad(
+        inStartTime: anyNamed('inStartTime'),
+        inEndTime: anyNamed('inEndTime'),
+      ),
+    ).thenAnswer((_) async {});
+    when(mockLogsViewModel.enqueueLoadMore()).thenAnswer((_) async {});
+    when(mockLogsViewModel.resetLogs()).thenReturn(null);
+    when(
+      mockLogsViewModel.configureLive(
+        liveLogEnabled: anyNamed('liveLogEnabled'),
+        isLivelogPaused: anyNamed('isLivelogPaused'),
+        isOnLogsTab: anyNamed('isOnLogsTab'),
+        logAutoRefreshTime: anyNamed('logAutoRefreshTime'),
+      ),
+    ).thenReturn(null);
+    when(mockLogsViewModel.setSearchText(any)).thenReturn(null);
+    when(mockLogsViewModel.setSelectedLog(any)).thenReturn(null);
+    when(mockLogsViewModel.updateSortStatus(any)).thenReturn(null);
+    when(mockLogsViewModel.isAllowedOrRetried(any)).thenReturn(true);
+
+    // Provide a dummy value for Result<Domain> so Mockito can generate
+    // a fallback before the when() stub is evaluated.
+    final dummyDomain = domain_model.Domain(
+      id: 1,
+      name: 'dummy.example.com',
+      punyCode: 'dummy.example.com',
+      type: DomainType.deny,
+      kind: DomainKind.exact,
+      comment: null,
+      groups: const [0],
+      enabled: true,
+      dateAdded: DateTime.now(),
+      dateModified: DateTime.now(),
+    );
+    provideDummy<Result<domain_model.Domain>>(Success(dummyDomain));
+    when(
+      mockLogsViewModel.addDomainToList(
+        list: anyNamed('list'),
+        domain: anyNamed('domain'),
+      ),
+    ).thenAnswer((_) async => Success(dummyDomain));
   }
 
   void _initStatusViewModelMock(String useApiGatewayVersion) {

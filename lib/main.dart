@@ -21,10 +21,10 @@ import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
@@ -153,7 +153,7 @@ void main() async {
   final serversViewModel = ServersViewModel(serverRepository);
   final configProvider = AppConfigViewModel(appConfigRepository);
   final statusViewModel = StatusViewModel();
-  final filtersViewModel = FiltersViewModel(serversViewModel: serversViewModel);
+  final logsViewModel = LogsViewModel();
   final gravityUpdateViewModel = GravityUpdateViewModel(
     repository: gravityRepository,
   );
@@ -161,9 +161,8 @@ void main() async {
     serversViewModel: serversViewModel,
     statusViewModel: statusViewModel,
     appConfigViewModel: configProvider,
-    filtersViewModel: filtersViewModel,
+    logsViewModel: logsViewModel,
   );
-
   const widgetChannel = MethodChannel('pihole/widget');
 
   final appdata = await appConfigRepository.fetchAppConfig();
@@ -293,10 +292,24 @@ void main() async {
           },
         ),
 
-        ChangeNotifierProxyProvider<ServersViewModel, FiltersViewModel>(
-          create: (context) => filtersViewModel,
-          update: (context, serverConfig, servers) =>
-              servers!..update(serverConfig),
+        // ===================================================
+        // Layer 4: Use Cases / Services (cross-cutting)
+        // ===================================================
+        Provider<StatusUpdateService>(
+          create: (_) => statusUpdateService,
+          dispose: (_, service) => service.stopAutoRefresh(),
+        ),
+
+        ChangeNotifierProxyProvider2<RepositoryBundle?, StatusUpdateService,
+            LogsViewModel>(
+          create: (context) => logsViewModel,
+          update: (context, bundle, statusUpdateService, previous) =>
+              previous!..update(
+                metricsRepository: bundle?.metrics,
+                domainRepository: bundle?.domain,
+                apiVersion: bundle?.apiVersion,
+                onRefreshClients: statusUpdateService.refreshOnce,
+              ),
         ),
         ChangeNotifierProxyProvider2<RepositoryBundle?, ServersViewModel,
             GravityUpdateViewModel>(
@@ -307,13 +320,6 @@ void main() async {
                 ftlRepository: bundle?.ftl,
                 serverAddress: serversViewModel.selectedServer?.address,
               ),
-        ),
-        // ===================================================
-        // Layer 4: Use Cases / Services (cross-cutting)
-        // ===================================================
-        Provider<StatusUpdateService>(
-          create: (_) => statusUpdateService,
-          dispose: (_, service) => service.stopAutoRefresh(),
         ),
       ],
       child: SentryWidget(child: Phoenix(child: const PiHoleClient())),

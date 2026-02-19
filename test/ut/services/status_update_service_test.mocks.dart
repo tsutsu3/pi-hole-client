@@ -14,28 +14,34 @@ import 'package:mockito/src/dummies.dart' as _i8;
 import 'package:package_info_plus/package_info_plus.dart' as _i11;
 import 'package:pi_hole_client/config/enums.dart' as _i9;
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart' as _i18;
-import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart' as _i24;
-import 'package:pi_hole_client/data/model/v6/config/config.dart' as _i29;
+import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart' as _i29;
+import 'package:pi_hole_client/data/model/v6/config/config.dart' as _i34;
+import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart'
+    as _i28;
+import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart'
+    as _i27;
+import 'package:pi_hole_client/domain/model/domain/domain.dart' as _i26;
+import 'package:pi_hole_client/domain/model/metrics/queries.dart' as _i24;
 import 'package:pi_hole_client/domain/models_old/app_log.dart' as _i10;
-import 'package:pi_hole_client/domain/models_old/clients.dart' as _i28;
+import 'package:pi_hole_client/domain/models_old/clients.dart' as _i33;
 import 'package:pi_hole_client/domain/models_old/database.dart' as _i14;
-import 'package:pi_hole_client/domain/models_old/domain.dart' as _i25;
+import 'package:pi_hole_client/domain/models_old/domain.dart' as _i30;
 import 'package:pi_hole_client/domain/models_old/gateways.dart' as _i5;
-import 'package:pi_hole_client/domain/models_old/groups.dart' as _i27;
+import 'package:pi_hole_client/domain/models_old/groups.dart' as _i32;
 import 'package:pi_hole_client/domain/models_old/metrics.dart' as _i22;
 import 'package:pi_hole_client/domain/models_old/overtime_data.dart' as _i21;
 import 'package:pi_hole_client/domain/models_old/query_status.dart' as _i17;
 import 'package:pi_hole_client/domain/models_old/realtime_status.dart' as _i20;
 import 'package:pi_hole_client/domain/models_old/server.dart' as _i3;
-import 'package:pi_hole_client/domain/models_old/subscriptions.dart' as _i26;
+import 'package:pi_hole_client/domain/models_old/subscriptions.dart' as _i31;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart'
     as _i6;
-import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart'
-    as _i23;
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart'
     as _i16;
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart' as _i19;
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart' as _i23;
+import 'package:result_dart/result_dart.dart' as _i25;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -1058,13 +1064,24 @@ class MockStatusViewModel extends _i1.Mock implements _i19.StatusViewModel {
   );
 }
 
-/// A class which mocks [FiltersViewModel].
+/// A class which mocks [LogsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFiltersViewModel extends _i1.Mock implements _i23.FiltersViewModel {
-  MockFiltersViewModel() {
+class MockLogsViewModel extends _i1.Mock implements _i23.LogsViewModel {
+  MockLogsViewModel() {
     _i1.throwOnMissingStub(this);
   }
+
+  @override
+  String get apiVersion =>
+      (super.noSuchMethod(
+            Invocation.getter(#apiVersion),
+            returnValue: _i8.dummyValue<String>(
+              this,
+              Invocation.getter(#apiVersion),
+            ),
+          )
+          as String);
 
   @override
   List<int> get statusAllowedAndRetried =>
@@ -1126,15 +1143,130 @@ class MockFiltersViewModel extends _i1.Mock implements _i23.FiltersViewModel {
           as _i9.RequestStatus);
 
   @override
+  Set<_i9.QueryStatusType> get selectedStatusTypes =>
+      (super.noSuchMethod(
+            Invocation.getter(#selectedStatusTypes),
+            returnValue: <_i9.QueryStatusType>{},
+          )
+          as Set<_i9.QueryStatusType>);
+
+  @override
+  Set<_i9.QueryStatusType> get allowedAndRetriedStatusTypes =>
+      (super.noSuchMethod(
+            Invocation.getter(#allowedAndRetriedStatusTypes),
+            returnValue: <_i9.QueryStatusType>{},
+          )
+          as Set<_i9.QueryStatusType>);
+
+  @override
+  Set<_i9.QueryStatusType> get allStatusTypes =>
+      (super.noSuchMethod(
+            Invocation.getter(#allStatusTypes),
+            returnValue: <_i9.QueryStatusType>{},
+          )
+          as Set<_i9.QueryStatusType>);
+
+  @override
+  List<_i24.Log> get logsList =>
+      (super.noSuchMethod(
+            Invocation.getter(#logsList),
+            returnValue: <_i24.Log>[],
+          )
+          as List<_i24.Log>);
+
+  @override
+  _i9.LoadStatus get loadStatus =>
+      (super.noSuchMethod(
+            Invocation.getter(#loadStatus),
+            returnValue: _i9.LoadStatus.loading,
+          )
+          as _i9.LoadStatus);
+
+  @override
+  int get sortStatus =>
+      (super.noSuchMethod(Invocation.getter(#sortStatus), returnValue: 0)
+          as int);
+
+  @override
+  bool get isLoadingMore =>
+      (super.noSuchMethod(Invocation.getter(#isLoadingMore), returnValue: false)
+          as bool);
+
+  @override
+  String get searchText =>
+      (super.noSuchMethod(
+            Invocation.getter(#searchText),
+            returnValue: _i8.dummyValue<String>(
+              this,
+              Invocation.getter(#searchText),
+            ),
+          )
+          as String);
+
+  @override
+  double get logsPerQuery =>
+      (super.noSuchMethod(Invocation.getter(#logsPerQuery), returnValue: 0.0)
+          as double);
+
+  @override
+  bool get screenActive =>
+      (super.noSuchMethod(Invocation.getter(#screenActive), returnValue: false)
+          as bool);
+
+  @override
+  bool get isFiltering =>
+      (super.noSuchMethod(Invocation.getter(#isFiltering), returnValue: false)
+          as bool);
+
+  @override
+  List<_i24.Log> get logsListDisplay =>
+      (super.noSuchMethod(
+            Invocation.getter(#logsListDisplay),
+            returnValue: <_i24.Log>[],
+          )
+          as List<_i24.Log>);
+
+  @override
+  bool get hasActiveChips =>
+      (super.noSuchMethod(
+            Invocation.getter(#hasActiveChips),
+            returnValue: false,
+          )
+          as bool);
+
+  @override
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
 
   @override
-  void update(_i16.ServersViewModel? provider) => super.noSuchMethod(
-    Invocation.method(#update, [provider]),
+  void refreshClients() => super.noSuchMethod(
+    Invocation.method(#refreshClients, []),
     returnValueForMissingStub: null,
   );
+
+  @override
+  _i13.Future<_i25.ResultDart<_i26.Domain, Exception>> addDomainToList({
+    required String? list,
+    required String? domain,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#addDomainToList, [], {
+              #list: list,
+              #domain: domain,
+            }),
+            returnValue:
+                _i13.Future<_i25.ResultDart<_i26.Domain, Exception>>.value(
+                  _i8.dummyValue<_i25.ResultDart<_i26.Domain, Exception>>(
+                    this,
+                    Invocation.method(#addDomainToList, [], {
+                      #list: list,
+                      #domain: domain,
+                    }),
+                  ),
+                ),
+          )
+          as _i13.Future<_i25.ResultDart<_i26.Domain, Exception>>);
 
   @override
   void setStatusSelected(List<int>? values) => super.noSuchMethod(
@@ -1203,6 +1335,121 @@ class MockFiltersViewModel extends _i1.Mock implements _i23.FiltersViewModel {
   );
 
   @override
+  bool isAllowedOrRetried(_i9.QueryStatusType? status) =>
+      (super.noSuchMethod(
+            Invocation.method(#isAllowedOrRetried, [status]),
+            returnValue: false,
+          )
+          as bool);
+
+  @override
+  void update({
+    _i27.MetricsRepository? metricsRepository,
+    _i28.DomainRepository? domainRepository,
+    String? apiVersion,
+    _i15.VoidCallback? onRefreshClients,
+  }) => super.noSuchMethod(
+    Invocation.method(#update, [], {
+      #metricsRepository: metricsRepository,
+      #domainRepository: domainRepository,
+      #apiVersion: apiVersion,
+      #onRefreshClients: onRefreshClients,
+    }),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void initScreen({required double? logsPerQuery}) => super.noSuchMethod(
+    Invocation.method(#initScreen, [], {#logsPerQuery: logsPerQuery}),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void resumeScreen() => super.noSuchMethod(
+    Invocation.method(#resumeScreen, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void disposeScreen() => super.noSuchMethod(
+    Invocation.method(#disposeScreen, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  _i13.Future<void> initializeLoad() =>
+      (super.noSuchMethod(
+            Invocation.method(#initializeLoad, []),
+            returnValue: _i13.Future<void>.value(),
+            returnValueForMissingStub: _i13.Future<void>.value(),
+          )
+          as _i13.Future<void>);
+
+  @override
+  _i13.Future<void> applyFilterAndLoad({
+    DateTime? inStartTime,
+    DateTime? inEndTime,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#applyFilterAndLoad, [], {
+              #inStartTime: inStartTime,
+              #inEndTime: inEndTime,
+            }),
+            returnValue: _i13.Future<void>.value(),
+            returnValueForMissingStub: _i13.Future<void>.value(),
+          )
+          as _i13.Future<void>);
+
+  @override
+  void resetLogs() => super.noSuchMethod(
+    Invocation.method(#resetLogs, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  _i13.Future<void> enqueueLoadMore() =>
+      (super.noSuchMethod(
+            Invocation.method(#enqueueLoadMore, []),
+            returnValue: _i13.Future<void>.value(),
+            returnValueForMissingStub: _i13.Future<void>.value(),
+          )
+          as _i13.Future<void>);
+
+  @override
+  void setSelectedLog(_i24.Log? log) => super.noSuchMethod(
+    Invocation.method(#setSelectedLog, [log]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void setSearchText(String? text) => super.noSuchMethod(
+    Invocation.method(#setSearchText, [text]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void updateSortStatus(int? value) => super.noSuchMethod(
+    Invocation.method(#updateSortStatus, [value]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void configureLive({
+    required bool? liveLogEnabled,
+    required bool? isLivelogPaused,
+    required bool? isOnLogsTab,
+    required int? logAutoRefreshTime,
+  }) => super.noSuchMethod(
+    Invocation.method(#configureLive, [], {
+      #liveLogEnabled: liveLogEnabled,
+      #isLivelogPaused: isLivelogPaused,
+      #isOnLogsTab: isOnLogsTab,
+      #logAutoRefreshTime: logAutoRefreshTime,
+    }),
+    returnValueForMissingStub: null,
+  );
+
+  @override
   void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
@@ -1230,7 +1477,7 @@ class MockFiltersViewModel extends _i1.Mock implements _i23.FiltersViewModel {
 /// A class which mocks [ApiGatewayV6].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
+class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
   MockApiGatewayV6() {
     _i1.throwOnMissingStub(this);
   }
@@ -1513,7 +1760,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
 
   @override
   _i13.Future<_i5.RemoveDomainFromListResponse> removeDomainFromList(
-    _i25.Domain? domain,
+    _i30.Domain? domain,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#removeDomainFromList, [domain]),
@@ -1543,7 +1790,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
 
   @override
   _i13.Future<_i5.DomainResponse> updateDomain({
-    required _i25.DomainRequest? body,
+    required _i30.DomainRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateDomain, [], {#body: body}),
@@ -1664,7 +1911,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
 
   @override
   _i13.Future<_i5.SubscriptionsResponse> createSubscription({
-    required _i26.SubscriptionRequest? body,
+    required _i31.SubscriptionRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createSubscription, [], {#body: body}),
@@ -1679,7 +1926,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
 
   @override
   _i13.Future<_i5.SubscriptionsResponse> updateSubscription({
-    required _i26.SubscriptionRequest? body,
+    required _i31.SubscriptionRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateSubscription, [], {#body: body}),
@@ -1748,7 +1995,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
 
   @override
   _i13.Future<_i5.GroupsResponse> createGroup({
-    required _i27.GroupRequest? body,
+    required _i32.GroupRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createGroup, [], {#body: body}),
@@ -1764,7 +2011,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
   @override
   _i13.Future<_i5.GroupsResponse> updateGroup({
     required String? name,
-    required _i27.GroupRequest? body,
+    required _i32.GroupRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateGroup, [], {#name: name, #body: body}),
@@ -1807,7 +2054,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
 
   @override
   _i13.Future<_i5.ClientsResponse> createClient({
-    required _i28.ClientRequest? body,
+    required _i33.ClientRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createClient, [], {#body: body}),
@@ -1823,7 +2070,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
   @override
   _i13.Future<_i5.ClientsResponse> updateClient({
     required String? client,
-    required _i28.ClientRequest? body,
+    required _i33.ClientRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateClient, [], {
@@ -1971,7 +2218,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
 
   @override
   _i13.Future<_i5.ConfigurationResponse> patchConfiguration(
-    _i29.ConfigData? body, {
+    _i34.ConfigData? body, {
     bool? isRestart = true,
   }) =>
       (super.noSuchMethod(

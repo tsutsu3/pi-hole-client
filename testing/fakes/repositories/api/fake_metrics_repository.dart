@@ -36,6 +36,7 @@ class FakeMetricsRepository implements MetricsRepository {
     required DateTime until,
     int? length = 100,
     int? cursor,
+    int? start,
   }) async {
     if (shouldFail) {
       return Failure(Exception('Force fetchQueries failure'));

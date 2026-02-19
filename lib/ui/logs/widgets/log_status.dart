@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/color_helpers.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
@@ -7,7 +8,7 @@ import 'package:provider/provider.dart';
 class LogStatus extends StatelessWidget {
   const LogStatus({required this.status, required this.showIcon, super.key});
 
-  final String status;
+  final QueryStatusType status;
   final bool showIcon;
 
   @override
@@ -46,7 +47,7 @@ class LogStatus extends StatelessWidget {
       );
     }
 
-    final queryStatus = serverProvider.getQueryStatus(status);
+    final queryStatus = serverProvider.getQueryStatusByType(status);
     if (queryStatus == null) {
       return logStatusWidget(
         icon: Icons.shield_rounded,

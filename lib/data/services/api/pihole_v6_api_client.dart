@@ -172,14 +172,16 @@ class PiholeV6ApiClient {
     required DateTime until,
     int? length = 100,
     int? cursor,
+    int? start,
   }) async {
     final cursorPram = cursor == null ? '' : '&cursor=$cursor';
+    final startParam = start == null ? '' : '&start=$start';
 
     return safeApiCall<Queries>(() async {
       final resp = await _sendRequest(
         method: HttpMethod.get,
         path:
-            '/api/queries?from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}&length=$length$cursorPram',
+            '/api/queries?from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}&length=$length$cursorPram$startParam',
         sid: sid,
       );
 

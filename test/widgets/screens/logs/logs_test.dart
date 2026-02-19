@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/ui/logs/logs.dart';
 import 'package:pi_hole_client/ui/logs/widgets/logs_filters_modal.dart';
 
-import '../../helpers.dart';
+import '../../helpers.dart' show TestSetupHelper, initializeApp, testLogsList;
 
 void main() async {
   await initializeApp();
@@ -45,16 +45,10 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockApiGatewayV6.fetchLogs(
-          any,
-          any,
-          size: anyNamed('size'),
-          cursor: anyNamed('cursor'),
-        ),
-      ).thenAnswer(
-        (_) async => FetchLogsResponse(result: APiResponseType.error),
-      );
+      // Override mock to simulate error state
+      when(testSetup.mockLogsViewModel.loadStatus)
+          .thenReturn(LoadStatus.error);
+      when(testSetup.mockLogsViewModel.logsListDisplay).thenReturn([]);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -76,6 +70,10 @@ void main() async {
       tester.view.physicalSize = const Size(2176, 1600);
       tester.view.devicePixelRatio = 2.0;
 
+      // Pre-select a log so that the detail pane is visible on tablet
+      final selectedLog = testLogsList.first;
+      when(testSetup.mockLogsViewModel.selectedLog).thenReturn(selectedLog);
+
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
@@ -83,22 +81,14 @@ void main() async {
 
       await tester.pumpWidget(testSetup.buildTestWidget(const Logs()));
 
-      // Show logs screen
+      // Show logs screen with detail pane
       expect(find.byType(Logs), findsOneWidget);
       await tester.pumpAndSettle();
       expect(find.text('Query logs'), findsOneWidget);
       expect(find.text('white.example.com'), findsWidgets);
-      expect(
-        find.text('Choose a query log to see its details.'),
-        findsOneWidget,
-      );
-
-      // Tap whitelist domain to open domain detail screen
-      await tester.tap(find.text('white.example.com').at(0));
-      await tester.pumpAndSettle();
       expect(find.text('Log details'), findsOneWidget);
 
-      // Tap blacklist button
+      // Tap blacklist button (isAllowedOrRetried returns true → shows blacklist button)
       expect(find.byIcon(Icons.gpp_bad_rounded), findsOneWidget);
       await tester.tap(find.byIcon(Icons.gpp_bad_rounded));
       await tester.pump(const Duration(milliseconds: 1000));
@@ -124,6 +114,9 @@ void main() async {
       await tester.pumpAndSettle();
       expect(find.text('white.example.com'), findsWidgets);
 
+      // Simulate search filtering by re-stubbing logsListDisplay
+      when(testSetup.mockLogsViewModel.logsListDisplay).thenReturn([]);
+
       expect(find.byIcon(Icons.search_rounded), findsOneWidget);
       await tester.tap(find.byIcon(Icons.search_rounded));
       await tester.pumpAndSettle();
@@ -131,6 +124,7 @@ void main() async {
       await tester.enterText(find.byType(TextField), 'not.com');
       await tester.pumpAndSettle();
 
+      verify(testSetup.mockLogsViewModel.setSearchText('not.com')).called(1);
       expect(find.text('white.example.com'), findsNothing);
     });
 
@@ -323,16 +317,10 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockApiGatewayV5.fetchLogs(
-          any,
-          any,
-          size: anyNamed('size'),
-          cursor: anyNamed('cursor'),
-        ),
-      ).thenAnswer(
-        (_) async => FetchLogsResponse(result: APiResponseType.error),
-      );
+      // Override mock to simulate error state
+      when(testSetup.mockLogsViewModel.loadStatus)
+          .thenReturn(LoadStatus.error);
+      when(testSetup.mockLogsViewModel.logsListDisplay).thenReturn([]);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();

@@ -352,7 +352,7 @@ void main() async {
         // expect(find.byType(Logs), findsOneWidget);
         // expect(find.text('9 status selected'), findsOneWidget);
         verify(
-          testSetup.mockFiltersViewModel.setRequestStatus(RequestStatus.blocked),
+          testSetup.mockLogsViewModel.setRequestStatus(RequestStatus.blocked),
         ).called(1);
         verify(testSetup.mockConfigProvider.setSelectedTab(2)).called(1);
       },
@@ -379,7 +379,7 @@ void main() async {
         // expect(find.byType(Logs), findsOneWidget);
         // expect(find.text('9 status selected'), findsNothing);
         verify(
-          testSetup.mockFiltersViewModel.setRequestStatus(RequestStatus.all),
+          testSetup.mockLogsViewModel.setRequestStatus(RequestStatus.all),
         ).called(1);
         verify(testSetup.mockConfigProvider.setSelectedTab(2)).called(1);
       },

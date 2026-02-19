@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class StatusFiltersModal extends StatefulWidget {
@@ -49,11 +49,11 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
 
   @override
   Widget build(BuildContext context) {
-    final filtersViewModel = Provider.of<FiltersViewModel>(context);
+    final logsViewModel = Provider.of<LogsViewModel>(context);
     final serversViewModel = Provider.of<ServersViewModel>(context);
 
     void updateList() {
-      filtersViewModel.setStatusSelected(_statusSelected);
+      logsViewModel.setStatusSelected(_statusSelected);
     }
 
     Widget listItem({
@@ -86,7 +86,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
     void checkUncheckAll() {
       if (_statusSelected.length < serversViewModel.numShown) {
         setState(() {
-          _statusSelected = filtersViewModel.defaultSelected;
+          _statusSelected = logsViewModel.defaultSelected;
         });
       } else {
         setState(() {

@@ -128,6 +128,7 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     required DateTime until,
     int? length = 100,
     int? cursor,
+    int? start,
   }) async {
     if (shouldFail) {
       return Failure(Exception('Forced getQueries failure'));

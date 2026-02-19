@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/models_old/log.dart';
+import 'package:pi_hole_client/domain/model/metrics/queries.dart';
 import 'package:pi_hole_client/domain/use_cases/logs_pagination_service.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
@@ -21,8 +21,10 @@ class LiveLogsService {
 
   bool _liveLoading = false;
 
+  /// Whether a [tickOnce] call is currently in progress.
   bool get isLoading => _liveLoading;
 
+  /// The end timestamp of the most recent tick (used as the start of the next).
   DateTime? get lastEnd => _lastEnd;
 
   /// Fetches a new batch of live logs since the last tick.

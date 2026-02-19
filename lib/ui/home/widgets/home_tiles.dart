@@ -8,10 +8,10 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_tiles/home_tile.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:provider/provider.dart';
@@ -115,9 +115,9 @@ class HomeTiles extends StatelessWidget {
               },
               width: width,
               onTap: () {
-                final filtersViewModel = context.read<FiltersViewModel>();
+                final logsViewModel = context.read<LogsViewModel>();
                 final appConfigViewModel = context.read<AppConfigViewModel>();
-                filtersViewModel.setRequestStatus(RequestStatus.blocked);
+                logsViewModel.setRequestStatus(RequestStatus.blocked);
                 appConfigViewModel.setSelectedTab(2);
               },
             ),
@@ -134,9 +134,9 @@ class HomeTiles extends StatelessWidget {
               },
               width: width,
               onTap: () {
-                final filtersViewModel = context.read<FiltersViewModel>();
+                final logsViewModel = context.read<LogsViewModel>();
                 final appConfigViewModel = context.read<AppConfigViewModel>();
-                filtersViewModel.setRequestStatus(RequestStatus.all);
+                logsViewModel.setRequestStatus(RequestStatus.all);
                 appConfigViewModel.setSelectedTab(2);
               },
             ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/urls.dart';
-import 'package:pi_hole_client/domain/models_old/log.dart';
+import 'package:pi_hole_client/domain/model/metrics/queries.dart';
 import 'package:pi_hole_client/ui/core/formats.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/widgets/log_status.dart';
 import 'package:pi_hole_client/utils/format.dart';
 import 'package:pi_hole_client/utils/math.dart';
@@ -23,7 +24,7 @@ class LogDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final filterProvider = Provider.of<FiltersViewModel>(context);
+    final logsViewModel = Provider.of<LogsViewModel>(context);
 
     Widget item(IconData icon, String label, Widget value) {
       return Padding(
@@ -52,9 +53,7 @@ class LogDetailsScreen extends StatelessWidget {
     }
 
     Widget blackWhiteListButton() {
-      if (filterProvider.statusAllowedAndRetried.contains(
-        int.parse(log.status!),
-      )) {
+      if (logsViewModel.isAllowedOrRetried(log.status)) {
         return IconButton(
           onPressed: () {
             Navigator.maybePop(context);
@@ -99,7 +98,7 @@ class LogDetailsScreen extends StatelessWidget {
             CustomListTile(
               leadingIcon: Icons.http_rounded,
               label: AppLocalizations.of(context)!.type,
-              description: log.type,
+              description: log.type.name.toUpperCase(),
             ),
             CustomListTile(
               leadingIcon: Icons.phone_android_rounded,
@@ -120,7 +119,8 @@ class LogDetailsScreen extends StatelessWidget {
                 AppLocalizations.of(context)!.status,
                 LogStatus(status: log.status!, showIcon: false),
               ),
-            if (log.status == '2' && log.answeredBy != null)
+            if (log.status == QueryStatusType.forwarded &&
+                log.answeredBy != null)
               CustomListTile(
                 leadingIcon: Icons.domain,
                 label: AppLocalizations.of(context)!.answeredBy,
@@ -130,7 +130,7 @@ class LogDetailsScreen extends StatelessWidget {
               leadingIcon: Icons.system_update_alt_outlined,
               label: AppLocalizations.of(context)!.reply,
               description:
-                  '${log.replyType} (${prettyReplyTimeWithUnit(log.replyTime)})',
+                  '${log.replyType?.name.toUpperCase() ?? 'N/A'} (${prettyReplyTimeWithUnit(log.replyTime)})',
             ),
           ],
         ),

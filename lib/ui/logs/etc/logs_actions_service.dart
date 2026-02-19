@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/log.dart';
+import 'package:pi_hole_client/domain/model/metrics/queries.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 
 /// A UI-coupled service that handles API actions related to log entries,
 /// specifically adding URLs to the whitelist or blacklist.
@@ -26,7 +25,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 /// Example:
 /// ```dart
 /// final service = LogActionsService(
-///   apiGateway: apiGateway,
+///   logsViewModel: logsViewModel,
 ///   context: context,
 ///   appConfigViewModel: appConfigViewModel,
 /// );
@@ -34,21 +33,20 @@ import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 /// ```
 class LogActionsService {
   LogActionsService({
-    required this.apiGateway,
+    required this.logsViewModel,
     required this.context,
     required this.appConfigViewModel,
   });
 
-  final ApiGateway apiGateway;
+  final LogsViewModel logsViewModel;
   final BuildContext context;
   final AppConfigViewModel appConfigViewModel;
 
-  /// Adds the URL from the given [log] to either the whitelist or blacklist, depending on the [list] type.
+  /// Adds the URL from the given [log] to either the whitelist or blacklist,
+  /// depending on the [list] type.
   ///
   /// While the operation is in progress, a loading modal is shown.
-  /// After completion, a snackbar is displayed to indicate success or failure:
-  /// - If successful, a message indicates whether the URL was newly added or already present.
-  /// - If failed, an error message is shown.
+  /// After completion, a snackbar is displayed to indicate success or failure.
   ///
   /// Parameters:
   /// - [list]: Should be either `'white'` to add to the whitelist or `'black'` for the blacklist.
@@ -61,38 +59,30 @@ class LogActionsService {
 
     loading.open(list == 'white' ? loc.addingWhitelist : loc.addingBlacklist);
 
-    final result = await apiGateway.setWhiteBlacklist(log.url, list);
+    final result = await logsViewModel.addDomainToList(
+      list: list,
+      domain: log.url,
+    );
 
     loading.close();
 
     if (!context.mounted) return;
 
-    if (result.result == APiResponseType.success) {
-      if (result.data!.message.contains('Added')) {
-        showSuccessSnackBar(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          label: list == 'white'
-              ? loc.domainWhitelistAdded
-              : loc.domainBlacklistAdded,
-        );
-      } else {
-        showSuccessSnackBar(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          label: list == 'white'
-              ? loc.domainWhitelistAlready
-              : loc.domainBlacklistAlready,
-        );
-      }
-    } else {
-      showErrorSnackBar(
+    result.fold(
+      (_) => showSuccessSnackBar(
+        context: context,
+        appConfigViewModel: appConfigViewModel,
+        label: list == 'white'
+            ? loc.domainWhitelistAdded
+            : loc.domainBlacklistAdded,
+      ),
+      (_) => showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
         label: list == 'white'
             ? loc.domainWhitelistAddFailed
             : loc.domainBlacklistAddFailed,
-      );
-    }
+      ),
+    );
   }
 }
