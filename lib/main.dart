@@ -295,8 +295,15 @@ void main() async {
         // ===================================================
         // Layer 4: Use Cases / Services (cross-cutting)
         // ===================================================
-        Provider<StatusUpdateService>(
+        ProxyProvider<RepositoryBundle?, StatusUpdateService>(
           create: (_) => statusUpdateService,
+          update: (_, bundle, previous) => previous!..update(
+            realtimeStatusRepository: bundle?.realtimeStatus,
+            metricsRepository: bundle?.metrics,
+            dnsRepository: bundle?.dns,
+            ftlRepository: bundle?.ftl,
+            apiVersion: bundle?.apiVersion,
+          ),
           dispose: (_, service) => service.stopAutoRefresh(),
         ),
 

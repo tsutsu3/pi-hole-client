@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/models_old/metrics.dart';
+import 'package:pi_hole_client/domain/model/ftl/metrics.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
@@ -75,12 +75,12 @@ class DnsTabContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dnsCacheInfo = context.select<StatusViewModel, DnsCacheInfo?>(
-      (p) => p.getDnsCacheInfo,
+    final dnsCache = context.select<StatusViewModel, DnsCache?>(
+      (p) => p.getDnsCache,
     );
 
-    final dnsRepliesInfo = context.select<StatusViewModel, DnsRepliesInfo?>(
-      (p) => p.getDnsRepliesInfo,
+    final dnsReplies = context.select<StatusViewModel, DnsReplies?>(
+      (p) => p.getDnsReplies,
     );
 
     final loc = AppLocalizations.of(context)!;
@@ -90,7 +90,7 @@ class DnsTabContent extends StatelessWidget {
     return Column(
       children: [
         // DNS Cache
-        if (dnsCacheInfo != null)
+        if (dnsCache != null)
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: Column(
@@ -112,7 +112,7 @@ class DnsTabContent extends StatelessWidget {
                               maxHeight: 200,
                             ),
                             child: CustomPieChart(
-                              data: dnsCacheInfo.typePercentages,
+                              data: _buildCachePercentages(dnsCache),
                             ),
                           ),
                         ),
@@ -120,7 +120,7 @@ class DnsTabContent extends StatelessWidget {
                       Expanded(
                         flex: 3,
                         child: PieChartLegend(
-                          data: dnsCacheInfo.typePercentages,
+                          data: _buildCachePercentages(dnsCache),
                           dataUnit: '%',
                         ),
                       ),
@@ -129,11 +129,13 @@ class DnsTabContent extends StatelessWidget {
                 if (width <= ResponsiveConstants.medium) ...[
                   SizedBox(
                     width: width - 40,
-                    child: CustomPieChart(data: dnsCacheInfo.typePercentages),
+                    child: CustomPieChart(
+                      data: _buildCachePercentages(dnsCache),
+                    ),
                   ),
                   const SizedBox(height: 20),
                   PieChartLegend(
-                    data: dnsCacheInfo.typePercentages,
+                    data: _buildCachePercentages(dnsCache),
                     dataUnit: '%',
                   ),
                 ],
@@ -144,7 +146,7 @@ class DnsTabContent extends StatelessWidget {
           NoDataChart(topLabel: loc.queryTypes),
 
         // DNS Replies
-        if (dnsRepliesInfo != null)
+        if (dnsReplies != null)
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: Column(
@@ -166,7 +168,7 @@ class DnsTabContent extends StatelessWidget {
                               maxHeight: 200,
                             ),
                             child: CustomPieChart(
-                              data: _buildDnsRepliesList(dnsRepliesInfo, loc),
+                              data: _buildDnsRepliesList(dnsReplies, loc),
                             ),
                           ),
                         ),
@@ -174,7 +176,7 @@ class DnsTabContent extends StatelessWidget {
                       Expanded(
                         flex: 3,
                         child: PieChartLegend(
-                          data: _buildDnsRepliesList(dnsRepliesInfo, loc),
+                          data: _buildDnsRepliesList(dnsReplies, loc),
                           dataUnit: '%',
                         ),
                       ),
@@ -184,12 +186,12 @@ class DnsTabContent extends StatelessWidget {
                   SizedBox(
                     width: width - 40,
                     child: CustomPieChart(
-                      data: _buildDnsRepliesList(dnsRepliesInfo, loc),
+                      data: _buildDnsRepliesList(dnsReplies, loc),
                     ),
                   ),
                   const SizedBox(height: 20),
                   PieChartLegend(
-                    data: _buildDnsRepliesList(dnsRepliesInfo, loc),
+                    data: _buildDnsRepliesList(dnsReplies, loc),
                     dataUnit: '%',
                   ),
                 ],
@@ -202,23 +204,27 @@ class DnsTabContent extends StatelessWidget {
     );
   }
 
+  Map<String, double> _buildCachePercentages(DnsCache cache) {
+    final map = <String, double>{};
+    for (final tp in cache.typePercentages) {
+      final name = tp.isStale ? '${tp.type.name} (stale)' : tp.type.name;
+      map[name] = tp.percentage;
+    }
+    final total = map.values.fold(0.0, (a, b) => a + b);
+    map['empty'] = (100.0 - total).clamp(0.0, 100.0);
+    return map;
+  }
+
   Map<String, double> _buildDnsRepliesList(
-    DnsRepliesInfo info,
+    DnsReplies info,
     AppLocalizations loc,
   ) {
-    final entries = {
-      // 'Local/cache replies': info.localPercentage,
-      // 'Forwarded queries:': info.forwardedPercentage,
-      // 'Cache optimizer replies': info.optimizedPercentage,
-      // 'Unanswered queries': info.unansweredPercentage,
-      // 'Authoritative replies': info.authPercentage,
+    return {
       loc.localCacheReplies: info.localPercentage,
       loc.forwardedQueries: info.forwardedPercentage,
       loc.cacheOptimizerReplies: info.optimizedPercentage,
       loc.unansweredQueries: info.unansweredPercentage,
       loc.authoritativeReplies: info.authPercentage,
     };
-
-    return entries;
   }
 }

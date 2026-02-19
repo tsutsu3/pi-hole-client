@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/models_old/overtime_data.dart';
+import 'package:pi_hole_client/domain/model/metrics/clients.dart';
+import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -16,19 +17,6 @@ import 'package:pi_hole_client/ui/statistics/no_data_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-/// A responsive widget that visualizes client DNS activity over the past 24 hours.
-///
-/// Displays:
-/// - A line or bar chart showing queries per client over time
-/// - A color-coded list of client names/IPs matching the chart colors
-///
-/// Includes:
-/// - Section label
-/// - Chart widget (line or bar) based on app configuration
-/// - Legend with colored dots for each client
-///
-/// The layout adjusts based on screen size using [FractionallySizedBox] and [Wrap].
-/// If no client data is available, a [NoDataChart] is displayed instead.
 class ClientActivityChartSection extends StatelessWidget {
   const ClientActivityChartSection({required this.width, super.key});
 
@@ -42,19 +30,12 @@ class ClientActivityChartSection extends StatelessWidget {
       (provider) => provider.getOvertimeDataLoadStatus,
     );
 
-    final overtimeDataJson = context
-        .select<StatusViewModel, Map<String, dynamic>?>(
-          (provider) => provider.getOvertimeDataJson,
-        );
-
-    final overtimeData = context.select<StatusViewModel, OverTimeData?>(
+    final overtimeData = context.select<StatusViewModel, OverTime?>(
       (provider) => provider.getOvertimeData,
     );
 
     final clientsListIps = overtimeData != null
-        ? overtimeData.clients.map((client) {
-            return client.ip;
-          }).toList()
+        ? overtimeData.clients.map((client) => client.ip).toList()
         : <String>[];
 
     Widget child;
@@ -69,12 +50,11 @@ class ClientActivityChartSection extends StatelessWidget {
           clientsListIps,
         );
       case LoadStatus.loaded:
-        child = _hasData(overtimeDataJson)
+        child = _hasData(overtimeData)
             ? _buildLoadedContent(
                 context,
                 appConfigViewModel,
                 overtimeData,
-                overtimeDataJson,
                 clientsListIps,
               )
             : _buildNoDataChart(context);
@@ -86,43 +66,21 @@ class ClientActivityChartSection extends StatelessWidget {
     );
   }
 
-  /// Builds a widget that displays an error chart with a top label indicating
-  /// the total number of queries in the last 24 hours.
-  ///
-  /// The [context] parameter is used to access localization resources for the label.
-  ///
-  /// Returns an [ErrorDataChart] widget with a localized top label.
   Widget _buildErrorChart(BuildContext context) {
     return ErrorDataChart(
       topLabel: AppLocalizations.of(context)!.totalQueries24,
     );
   }
 
-  /// Builds a skeleton UI for the client activity chart section, typically shown while data is loading.
-  ///
-  /// This widget displays a placeholder for the section label, a chart skeleton (either line or bar chart,
-  /// depending on the current visualization mode), and a legend section with fake client data.
-  ///
-  /// Parameters:
-  /// - [context]: The build context.
-  /// - [appConfigViewModel]: Provides app configuration and state, such as theme and visualization mode.
-  /// - [overtimeData]: The data for client activity over time (can be null while loading).
-  /// - [clientsListIps]: The list of client IP addresses.
-  ///
-  /// Returns a widget displaying the skeleton layout for the client activity chart section.
   Widget _buildSkeleton(
     BuildContext context,
     AppConfigViewModel appConfigViewModel,
-    OverTimeData? overtimeData,
+    OverTime? overtimeData,
     List<String> clientsListIps,
   ) {
     final fakeClients = List.generate(
       3,
-      (index) => Client(
-        ip: '192.168.0.${index + 1}',
-        name: '',
-        color: Theme.of(context).extension<GraphColors>()!.getColor(index),
-      ),
+      (index) => Client(ip: '192.168.0.${index + 1}', name: ''),
     );
 
     return Skeletonizer(
@@ -170,23 +128,10 @@ class ClientActivityChartSection extends StatelessWidget {
     );
   }
 
-  /// Builds the content to display when the client activity data is loaded.
-  ///
-  /// This widget displays a section label, a graph of client activity over time,
-  /// and a legend section. It takes the following parameters:
-  ///
-  /// - [context]: The build context.
-  /// - [appConfigViewModel]: The provider for app configuration.
-  /// - [overtimeData]: The data representing client activity over time (optional).
-  /// - [overtimeDataJson]: The raw JSON data for client activity over time (optional).
-  /// - [clientsListIps]: The list of client IP addresses to display in the chart and legend.
-  ///
-  /// Returns a [Column] widget containing the chart and legend.
   Widget _buildLoadedContent(
     BuildContext context,
     AppConfigViewModel appConfigViewModel,
-    OverTimeData? overtimeData,
-    Map<String, dynamic>? overtimeDataJson,
+    OverTime? overtimeData,
     List<String> clientsListIps,
   ) {
     return Column(
@@ -202,7 +147,7 @@ class ClientActivityChartSection extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: _buildClientsGraph(
                 appConfigViewModel,
-                overtimeDataJson,
+                overtimeData,
                 clientsListIps,
               ),
             ),
@@ -213,34 +158,15 @@ class ClientActivityChartSection extends StatelessWidget {
     );
   }
 
-  /// Builds a widget that displays a chart indicating no data is available.
-  ///
-  /// This widget uses [NoDataChart] and sets the topLabel to the localized
-  /// string for "Client Activity (24h)".
-  ///
-  /// [context] is used to access localization resources.
   Widget _buildNoDataChart(BuildContext context) {
     return NoDataChart(
       topLabel: AppLocalizations.of(context)!.clientActivity24,
     );
   }
 
-  /// Builds a legend section widget displaying a list of clients with their corresponding legend dots.
-  ///
-  /// The legend is displayed as a [Wrap] of legend dots, each representing a client. The layout adapts
-  /// based on the available width and the number of clients, using [FractionallySizedBox] to control the width
-  /// of each legend item.
-  ///
-  /// Parameters:
-  /// - [context]: The build context.
-  /// - [overtimeData]: The data containing client information over time. If [fakeClients] is provided, it will be used instead.
-  /// - [clientsListIps]: A list of client IP addresses to be displayed in the legend.
-  /// - [fakeClients]: (Optional) A list of fake clients to use instead of the clients from [overtimeData].
-  ///
-  /// Returns a [Container] widget containing the legend section.
   Container _buildLegendSection(
     BuildContext context,
-    OverTimeData? overtimeData,
+    OverTime? overtimeData,
     List<String> clientsListIps, {
     List<Client>? fakeClients,
   }) {
@@ -270,30 +196,12 @@ class ClientActivityChartSection extends StatelessWidget {
     );
   }
 
-  /// Determines whether sufficient data exists to render the client activity chart.
-  ///
-  /// Returns `true` if the JSON data contains at least one client entry and
-  /// one time-series data point for `over_time`; otherwise returns `false`.
-  ///
-  /// - [overtimeDataJson]: The JSON data containing client activity over time.
-  bool _hasData(Map<String, dynamic>? overtimeDataJson) {
-    return overtimeDataJson != null &&
-        overtimeDataJson['over_time'].keys.length > 0 &&
-        overtimeDataJson['clients'].length > 0;
+  bool _hasData(OverTime? overtimeData) {
+    return overtimeData != null &&
+        overtimeData.clientEntries.isNotEmpty &&
+        overtimeData.clients.isNotEmpty;
   }
 
-  /// Builds a legend entry displaying a colored dot, client name (optional), and IP address.
-  ///
-  /// This legend item corresponds to a line or bar on the client activity chart.
-  /// If the client's name is empty, only the IP is shown. Text is truncated to fit.
-  ///
-  /// The dot color is determined by [_getColor] based on the client’s IP address.
-  ///
-  /// - [context]: Used to access theme and color.
-  /// - [entry]: A [MapEntry] of client index and the [Client] object.
-  /// - [clientsListIps]: A list of known client IPs to determine color index.
-  ///
-  /// Returns a [Row] widget with the dot and text information.
   Row _buildLegendDot(
     BuildContext context,
     MapEntry<int, Client> entry,
@@ -315,8 +223,8 @@ class ClientActivityChartSection extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (entry.value.name != '') ...[
-                Text(entry.value.name, overflow: TextOverflow.ellipsis),
+              if (entry.value.name != null && entry.value.name!.isNotEmpty) ...[
+                Text(entry.value.name!, overflow: TextOverflow.ellipsis),
                 const SizedBox(height: 2),
               ],
               Text(entry.value.ip, overflow: TextOverflow.ellipsis),
@@ -327,18 +235,6 @@ class ClientActivityChartSection extends StatelessWidget {
     );
   }
 
-  /// Resolves the display color for a [Client] based on its IP address.
-  ///
-  /// If the client's IP is found in [clientsListIps], the color is retrieved
-  /// from the theme's [GraphColors] palette based on its index.
-  /// Otherwise, the fallback is the client's defined color value.
-  ///
-  /// - [context]: The current [BuildContext] for theme access.
-  /// - [client]: The [Client] whose color is being resolved.
-  /// - [index]: The index in the list (not used directly, but typically aligns with position).
-  /// - [clientsListIps]: A list of known client IPs to determine color index.
-  ///
-  /// Returns a [Color] used for both chart and legend representation.
   Color _getColor(
     BuildContext context,
     Client client,
@@ -349,39 +245,26 @@ class ClientActivityChartSection extends StatelessWidget {
     if (exists >= 0) {
       return Theme.of(context).extension<GraphColors>()!.getColor(exists);
     } else {
-      return client.color;
+      return Theme.of(context).extension<GraphColors>()!.getColor(index);
     }
   }
 
-  /// Builds and returns the client activity chart widget based on app settings.
-  ///
-  /// The chart type is determined by homeVisualizationMode:
-  /// - 0 = Line chart ([ClientsLastHoursLine])
-  /// - 1 = Bar chart ([ClientsLastHoursBar])
-  ///
-  /// Additional flags like `reducedDataCharts` and `hideZeroValues` influence chart rendering.
-  ///
-  /// - [appConfigViewModel]: Provides user config such as visualization mode and flags.
-  /// - [overtimeDataJson]: The JSON data containing client activity over time.
-  /// - [clientsListIps]: Ordered list of known client IPs for color resolution.
-  ///
-  /// Returns a widget displaying the client activity chart.
   Widget _buildClientsGraph(
     AppConfigViewModel appConfigViewModel,
-    Map<String, dynamic>? overtimeDataJson,
+    OverTime? overtimeData,
     List<String> clientsListIps,
   ) {
     if (appConfigViewModel.homeVisualizationMode == HomeVisualizationMode.lineArea) {
       return ClientsLastHoursLine(
         realtimeListIps: clientsListIps,
-        data: overtimeDataJson!,
+        data: overtimeData!,
         reducedData: appConfigViewModel.reducedDataCharts,
         hideZeroValues: appConfigViewModel.hideZeroValues,
       );
     } else {
       return ClientsLastHoursBar(
         realtimeListIps: clientsListIps,
-        data: overtimeDataJson!,
+        data: overtimeData!,
         reducedData: appConfigViewModel.reducedDataCharts,
         hideZeroValues: appConfigViewModel.hideZeroValues,
       );

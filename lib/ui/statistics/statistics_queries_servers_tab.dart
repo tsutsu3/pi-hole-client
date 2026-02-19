@@ -1,6 +1,8 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
+import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
@@ -79,16 +81,37 @@ class QueriesServersTabContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final statusViewModel = Provider.of<StatusViewModel>(context);
     final realtimeStatus = context.select<StatusViewModel, RealtimeStatus?>(
       (provider) => provider.getRealtimeStatus,
     );
 
     final width = MediaQuery.of(context).size.width;
 
+    // Convert List<QueryTypeStat> to Map<String, double> for pie chart
+    final queryTypesMap = realtimeStatus != null
+        ? _sortedDescending(
+            Map.fromEntries(
+              realtimeStatus.summary.queryTypes
+                  .where((q) => q.percentage > 0)
+                  .map((q) => MapEntry(q.type.name, q.percentage)),
+            ),
+          )
+        : <String, double>{};
+
+    // Convert List<DestinationStat> to Map<String, double> for pie chart
+    final destinationsMap = realtimeStatus != null
+        ? _sortedDescending(
+            Map.fromEntries(
+              realtimeStatus.forwardDestinations
+                  .where((d) => d.percentage > 0)
+                  .map((d) => MapEntry(d.destination, d.percentage)),
+            ),
+          )
+        : <String, double>{};
+
     return Column(
       children: [
-        if (realtimeStatus?.queryTypes.isEmpty == false)
+        if (queryTypesMap.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: Column(
@@ -109,16 +132,14 @@ class QueriesServersTabContent extends StatelessWidget {
                               maxWidth: 200,
                               maxHeight: 200,
                             ),
-                            child: CustomPieChart(
-                              data: realtimeStatus!.queryTypes,
-                            ),
+                            child: CustomPieChart(data: queryTypesMap),
                           ),
                         ),
                       ),
                       Expanded(
                         flex: 3,
                         child: PieChartLegend(
-                          data: realtimeStatus.queryTypes,
+                          data: queryTypesMap,
                           dataUnit: '%',
                         ),
                       ),
@@ -127,20 +148,17 @@ class QueriesServersTabContent extends StatelessWidget {
                 if (width <= ResponsiveConstants.medium) ...[
                   SizedBox(
                     width: width - 40,
-                    child: CustomPieChart(data: realtimeStatus!.queryTypes),
+                    child: CustomPieChart(data: queryTypesMap),
                   ),
                   const SizedBox(height: 20),
-                  PieChartLegend(
-                    data: realtimeStatus.queryTypes,
-                    dataUnit: '%',
-                  ),
+                  PieChartLegend(data: queryTypesMap, dataUnit: '%'),
                 ],
               ],
             ),
           )
         else
           NoDataChart(topLabel: AppLocalizations.of(context)!.queryTypes),
-        if (realtimeStatus!.forwardDestinations.isEmpty == false)
+        if (destinationsMap.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: Column(
@@ -161,16 +179,14 @@ class QueriesServersTabContent extends StatelessWidget {
                               maxWidth: 200,
                               maxHeight: 200,
                             ),
-                            child: CustomPieChart(
-                              data: realtimeStatus.forwardDestinations,
-                            ),
+                            child: CustomPieChart(data: destinationsMap),
                           ),
                         ),
                       ),
                       Expanded(
                         flex: 3,
                         child: PieChartLegend(
-                          data: realtimeStatus.forwardDestinations,
+                          data: destinationsMap,
                           dataUnit: '%',
                         ),
                       ),
@@ -179,15 +195,10 @@ class QueriesServersTabContent extends StatelessWidget {
                 if (width <= ResponsiveConstants.medium) ...[
                   SizedBox(
                     width: width - 40,
-                    child: CustomPieChart(
-                      data: realtimeStatus.forwardDestinations,
-                    ),
+                    child: CustomPieChart(data: destinationsMap),
                   ),
                   const SizedBox(height: 20),
-                  PieChartLegend(
-                    data: realtimeStatus.forwardDestinations,
-                    dataUnit: '%',
-                  ),
+                  PieChartLegend(data: destinationsMap, dataUnit: '%'),
                 ],
               ],
             ),
@@ -195,6 +206,16 @@ class QueriesServersTabContent extends StatelessWidget {
         else
           NoDataChart(topLabel: AppLocalizations.of(context)!.upstreamServers),
       ],
+    );
+  }
+
+  Map<String, double> _sortedDescending(Map<String, double> values) {
+    final sortedKeys = values.keys.toList(growable: false)
+      ..sort((a, b) => values[b]!.compareTo(values[a]!));
+    return LinkedHashMap.fromIterable(
+      sortedKeys,
+      key: (k) => k,
+      value: (k) => values[k] ?? 0.0,
     );
   }
 }

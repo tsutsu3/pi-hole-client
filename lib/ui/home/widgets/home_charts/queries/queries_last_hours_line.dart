@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
@@ -7,13 +8,6 @@ import 'package:pi_hole_client/ui/home/widgets/home_charts/chart_utils.dart';
 import 'package:pi_hole_client/utils/format.dart';
 import 'package:provider/provider.dart';
 
-/// Displays a line chart showing query and ad-blocking activity over the past 24 hours.
-///
-/// This widget renders a chart based on the Pi-hole data provided in the `data` map.
-/// It distinguishes between blocked and allowed queries using separate lines and shading.
-/// The chart adapts depending on whether reduced (averaged) data is requested via [reducedData].
-///
-/// If the data is invalid or keys are mismatched, an error message is shown.
 class QueriesLastHoursLine extends StatelessWidget {
   const QueriesLastHoursLine({
     required this.data,
@@ -21,7 +15,7 @@ class QueriesLastHoursLine extends StatelessWidget {
     super.key,
   });
 
-  final Map<String, dynamic> data;
+  final OverTime data;
   final bool reducedData;
   static final Map<int, Widget> _titleCache = {};
 
@@ -58,31 +52,19 @@ class QueriesLastHoursLine extends StatelessWidget {
     );
   }
 
-  /// Formats raw Pi-hole API data for use in the chart.
-  ///
-  /// - Groups domain and ad query data into `FlSpot` lists.
-  /// - Applies downsampling if [reducedData] is true.
-  /// - Generates flat lines for tooltip legend display.
-  /// - Returns structured chart data, a list of timestamps, and the top Y value.
-  ///
-  /// Returns a map with keys:
-  /// - `'data'`: contains `domains`, `ads`, and `flatLines`
-  /// - `'topPoint'`: max Y value among data
-  /// - `'time'`: list of time labels
-  /// - `'error'`: included if domain/ad data length mismatch
-  Map<String, dynamic> _formatData(Map<String, dynamic> data) {
+  Map<String, dynamic> _formatData(OverTime data) {
     final domains = <FlSpot>[];
     final ads = <FlSpot>[];
     final flatLines = <FlSpot>[];
 
     var xPosition = 0;
     var topPoint = 0;
-    var tmp = 0;
-    final List<String> domainsKeys = data['domains_over_time'].keys.toList();
-    final List<String> adsKeys = data['ads_over_time'].keys.toList();
     final interval = reducedData == true ? averageIntervalCount : 1;
 
-    if (domainsKeys.length != adsKeys.length) {
+    final domainsOverTime = data.domainsOverTime;
+    final adsOverTime = data.adsOverTime;
+
+    if (domainsOverTime.length != adsOverTime.length) {
       return {
         'data': {'domains': [], 'ads': [], 'flatLines': []},
         'topPoint': 0,
@@ -91,37 +73,27 @@ class QueriesLastHoursLine extends StatelessWidget {
       };
     }
 
-    for (
-      var i = 0;
-      i < data['domains_over_time'].entries.length;
-      i += interval
-    ) {
-      tmp = _calcTopPoint(data, domainsKeys, adsKeys, i);
-      if (tmp > topPoint) {
-        topPoint = tmp;
-      }
+    for (var i = 0; i < domainsOverTime.length; i += interval) {
+      final domainCount = domainsOverTime[i].count;
+      final adCount = adsOverTime[i].count;
+      final permitted = domainCount - adCount;
+      final tmp = permitted > adCount ? permitted : adCount;
+      if (tmp > topPoint) topPoint = tmp;
+
       domains.add(
-        FlSpot(
-          xPosition.toDouble(),
-          data['domains_over_time'][domainsKeys[i]].toDouble() -
-              data['ads_over_time'][adsKeys[i]].toDouble(),
-        ),
+        FlSpot(xPosition.toDouble(), (domainCount - adCount).toDouble()),
       );
-      ads.add(
-        FlSpot(
-          xPosition.toDouble(),
-          data['ads_over_time'][adsKeys[i]].toDouble(),
-        ),
-      );
-      // Dummy data for legend
+      ads.add(FlSpot(xPosition.toDouble(), adCount.toDouble()));
       flatLines.add(FlSpot(xPosition.toDouble(), 0.0));
       xPosition++;
     }
 
     final timestamps = <String>[];
-    final List<String> k = data['domains_over_time'].keys.toList();
-    for (var i = 0; i < k.length; i += interval) {
-      timestamps.add(k[i]);
+    for (var i = 0; i < domainsOverTime.length; i += interval) {
+      timestamps.add(
+        (domainsOverTime[i].timestamp.millisecondsSinceEpoch ~/ 1000)
+            .toString(),
+      );
     }
 
     return {
@@ -131,14 +103,6 @@ class QueriesLastHoursLine extends StatelessWidget {
     };
   }
 
-  /// Generates tooltip legend entries based on touched chart points.
-  ///
-  /// Each legend item corresponds to a data series:
-  /// - Index 0: Timestamp
-  /// - Index 1: Blocked queries
-  /// - Index 2: Allowed queries
-  ///
-  /// Colors and text styling depend on [selectedTheme].
   List<LineTooltipItem> _createLegend(
     Map<String, dynamic> data,
     List<LineBarSpot> items,
@@ -188,15 +152,6 @@ class QueriesLastHoursLine extends StatelessWidget {
     return legend;
   }
 
-  /// Builds the [LineChartData] structure used by [LineChart] to render the query graph.
-  ///
-  /// Configures:
-  /// - Grid and axis styles
-  /// - Data series (ads, domains, flat lines)
-  /// - Touch/tooltip behavior
-  /// - Theming based on [selectedTheme]
-  ///
-  /// Uses values from `formattedData`, which includes chart points and top Y value.
   LineChartData _mainData(
     Map<String, dynamic> data,
     ThemeMode selectedTheme,
@@ -298,27 +253,5 @@ class QueriesLastHoursLine extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  /// Calculates the higher value between allowed and blocked queries at the given index.
-  ///
-  /// Returns the maximum of:
-  /// - permitted = total domains - ads
-  /// - blocked = number of ads
-  ///
-  /// Used to determine chart Y-axis range.
-  int _calcTopPoint(
-    Map<String, dynamic> data,
-    List<String> domainsKeys,
-    List<String> adsKeys,
-    int index,
-  ) {
-    final permitted =
-        data['domains_over_time'][domainsKeys[index]] -
-        data['ads_over_time'][adsKeys[index]];
-
-    final blocked = data['ads_over_time'][adsKeys[index]];
-
-    return permitted > blocked ? permitted : blocked;
   }
 }

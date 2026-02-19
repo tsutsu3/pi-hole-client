@@ -19,21 +19,29 @@ import 'package:pi_hole_client/data/gateway/api_gateway_v5.dart' as _i37;
 import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart' as _i43;
 import 'package:pi_hole_client/data/model/v6/config/config.dart' as _i42;
 import 'package:pi_hole_client/data/repositories/api/interfaces/actions_respository.dart'
-    as _i51;
+    as _i54;
+import 'package:pi_hole_client/data/repositories/api/interfaces/dns_repository.dart'
+    as _i46;
 import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart'
     as _i25;
 import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart'
-    as _i52;
+    as _i47;
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart'
     as _i24;
+import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart'
+    as _i45;
 import 'package:pi_hole_client/domain/model/client/managed_client.dart' as _i32;
 import 'package:pi_hole_client/domain/model/domain/domain.dart' as _i23;
-import 'package:pi_hole_client/domain/model/ftl/message.dart' as _i50;
-import 'package:pi_hole_client/domain/model/group/group.dart' as _i46;
-import 'package:pi_hole_client/domain/model/list/adlist.dart' as _i48;
+import 'package:pi_hole_client/domain/model/ftl/message.dart' as _i53;
+import 'package:pi_hole_client/domain/model/ftl/metrics.dart' as _i29;
+import 'package:pi_hole_client/domain/model/group/group.dart' as _i49;
+import 'package:pi_hole_client/domain/model/list/adlist.dart' as _i51;
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart' as _i34;
 import 'package:pi_hole_client/domain/model/metrics/queries.dart' as _i21;
 import 'package:pi_hole_client/domain/model/network/network.dart' as _i35;
+import 'package:pi_hole_client/domain/model/overtime/overtime.dart' as _i28;
+import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart'
+    as _i27;
 import 'package:pi_hole_client/domain/models_old/app_log.dart' as _i11;
 import 'package:pi_hole_client/domain/models_old/clients.dart' as _i41;
 import 'package:pi_hole_client/domain/models_old/database.dart' as _i15;
@@ -41,10 +49,7 @@ import 'package:pi_hole_client/domain/models_old/devices.dart' as _i36;
 import 'package:pi_hole_client/domain/models_old/domain.dart' as _i38;
 import 'package:pi_hole_client/domain/models_old/gateways.dart' as _i6;
 import 'package:pi_hole_client/domain/models_old/groups.dart' as _i40;
-import 'package:pi_hole_client/domain/models_old/metrics.dart' as _i29;
-import 'package:pi_hole_client/domain/models_old/overtime_data.dart' as _i28;
 import 'package:pi_hole_client/domain/models_old/query_status.dart' as _i18;
-import 'package:pi_hole_client/domain/models_old/realtime_status.dart' as _i27;
 import 'package:pi_hole_client/domain/models_old/server.dart' as _i4;
 import 'package:pi_hole_client/domain/models_old/subscriptions.dart' as _i39;
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart'
@@ -53,7 +58,7 @@ import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart'
     as _i7;
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart'
-    as _i49;
+    as _i52;
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart'
     as _i33;
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart'
@@ -63,11 +68,11 @@ import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart'
     as _i30;
 import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart' as _i20;
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart'
-    as _i47;
+    as _i50;
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart'
     as _i31;
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart'
-    as _i45;
+    as _i48;
 import 'package:result_dart/result_dart.dart' as _i22;
 
 // ignore_for_file: type=lint
@@ -1471,14 +1476,14 @@ class MockStatusViewModel extends _i1.Mock implements _i26.StatusViewModel {
       );
 
   @override
-  void setOvertimeData(_i28.OverTimeData? value) => super.noSuchMethod(
+  void setOvertimeData(_i28.OverTime? value) => super.noSuchMethod(
     Invocation.method(#setOvertimeData, [value]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void setMetricsInfo(_i29.MetricsInfo? value) => super.noSuchMethod(
-    Invocation.method(#setMetricsInfo, [value]),
+  void setFtlDnsMetrics(_i29.FtlDnsMetrics? value) => super.noSuchMethod(
+    Invocation.method(#setFtlDnsMetrics, [value]),
     returnValueForMissingStub: null,
   );
 
@@ -3996,11 +4001,22 @@ class MockStatusUpdateService extends _i1.Mock
           as bool);
 
   @override
-  void setClientsFromTopSources(_i6.RealtimeStatusResponse? statusResult) =>
-      super.noSuchMethod(
-        Invocation.method(#setClientsFromTopSources, [statusResult]),
-        returnValueForMissingStub: null,
-      );
+  void update({
+    _i45.RealtimeStatusRepository? realtimeStatusRepository,
+    _i24.MetricsRepository? metricsRepository,
+    _i46.DnsRepository? dnsRepository,
+    _i47.FtlRepository? ftlRepository,
+    String? apiVersion,
+  }) => super.noSuchMethod(
+    Invocation.method(#update, [], {
+      #realtimeStatusRepository: realtimeStatusRepository,
+      #metricsRepository: metricsRepository,
+      #dnsRepository: dnsRepository,
+      #ftlRepository: ftlRepository,
+      #apiVersion: apiVersion,
+    }),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void startAutoRefresh({
@@ -4017,13 +4033,12 @@ class MockStatusUpdateService extends _i1.Mock
   );
 
   @override
-  _i14.Future<void> refreshOnce() =>
+  _i14.Future<bool> refreshOnce() =>
       (super.noSuchMethod(
             Invocation.method(#refreshOnce, []),
-            returnValue: _i14.Future<void>.value(),
-            returnValueForMissingStub: _i14.Future<void>.value(),
+            returnValue: _i14.Future<bool>.value(false),
           )
-          as _i14.Future<void>);
+          as _i14.Future<bool>);
 
   @override
   void stopAutoRefresh({bool? showLoadingIndicator = true}) =>
@@ -4038,7 +4053,7 @@ class MockStatusUpdateService extends _i1.Mock
 /// A class which mocks [GroupsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGroupsViewModel extends _i1.Mock implements _i45.GroupsViewModel {
+class MockGroupsViewModel extends _i1.Mock implements _i48.GroupsViewModel {
   MockGroupsViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -4087,31 +4102,31 @@ class MockGroupsViewModel extends _i1.Mock implements _i45.GroupsViewModel {
           >);
 
   @override
-  _i3.Command<_i46.Group, void> get deleteGroup =>
+  _i3.Command<_i49.Group, void> get deleteGroup =>
       (super.noSuchMethod(
             Invocation.getter(#deleteGroup),
-            returnValue: _FakeCommand_1<_i46.Group, void>(
+            returnValue: _FakeCommand_1<_i49.Group, void>(
               this,
               Invocation.getter(#deleteGroup),
             ),
           )
-          as _i3.Command<_i46.Group, void>);
+          as _i3.Command<_i49.Group, void>);
 
   @override
-  List<_i46.Group> get groups =>
+  List<_i49.Group> get groups =>
       (super.noSuchMethod(
             Invocation.getter(#groups),
-            returnValue: <_i46.Group>[],
+            returnValue: <_i49.Group>[],
           )
-          as List<_i46.Group>);
+          as List<_i49.Group>);
 
   @override
-  List<_i46.Group> get filteredGroups =>
+  List<_i49.Group> get filteredGroups =>
       (super.noSuchMethod(
             Invocation.getter(#filteredGroups),
-            returnValue: <_i46.Group>[],
+            returnValue: <_i49.Group>[],
           )
-          as List<_i46.Group>);
+          as List<_i49.Group>);
 
   @override
   String get searchTerm =>
@@ -4190,7 +4205,7 @@ class MockGroupsViewModel extends _i1.Mock implements _i45.GroupsViewModel {
 /// A class which mocks [AdlistsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAdlistsViewModel extends _i1.Mock implements _i47.AdlistsViewModel {
+class MockAdlistsViewModel extends _i1.Mock implements _i50.AdlistsViewModel {
   MockAdlistsViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -4207,15 +4222,15 @@ class MockAdlistsViewModel extends _i1.Mock implements _i47.AdlistsViewModel {
           as _i3.Command<void, void>);
 
   @override
-  _i3.Command<_i48.Adlist, void> get deleteAdlist =>
+  _i3.Command<_i51.Adlist, void> get deleteAdlist =>
       (super.noSuchMethod(
             Invocation.getter(#deleteAdlist),
-            returnValue: _FakeCommand_1<_i48.Adlist, void>(
+            returnValue: _FakeCommand_1<_i51.Adlist, void>(
               this,
               Invocation.getter(#deleteAdlist),
             ),
           )
-          as _i3.Command<_i48.Adlist, void>);
+          as _i3.Command<_i51.Adlist, void>);
 
   @override
   _i3.Command<
@@ -4255,47 +4270,47 @@ class MockAdlistsViewModel extends _i1.Mock implements _i47.AdlistsViewModel {
           >);
 
   @override
-  _i3.Command<_i48.Adlist, void> get updateAdlist =>
+  _i3.Command<_i51.Adlist, void> get updateAdlist =>
       (super.noSuchMethod(
             Invocation.getter(#updateAdlist),
-            returnValue: _FakeCommand_1<_i48.Adlist, void>(
+            returnValue: _FakeCommand_1<_i51.Adlist, void>(
               this,
               Invocation.getter(#updateAdlist),
             ),
           )
-          as _i3.Command<_i48.Adlist, void>);
+          as _i3.Command<_i51.Adlist, void>);
 
   @override
-  List<_i48.Adlist> get whitelistAdlists =>
+  List<_i51.Adlist> get whitelistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#whitelistAdlists),
-            returnValue: <_i48.Adlist>[],
+            returnValue: <_i51.Adlist>[],
           )
-          as List<_i48.Adlist>);
+          as List<_i51.Adlist>);
 
   @override
-  List<_i48.Adlist> get blacklistAdlists =>
+  List<_i51.Adlist> get blacklistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#blacklistAdlists),
-            returnValue: <_i48.Adlist>[],
+            returnValue: <_i51.Adlist>[],
           )
-          as List<_i48.Adlist>);
+          as List<_i51.Adlist>);
 
   @override
-  List<_i48.Adlist> get filteredWhitelistAdlists =>
+  List<_i51.Adlist> get filteredWhitelistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#filteredWhitelistAdlists),
-            returnValue: <_i48.Adlist>[],
+            returnValue: <_i51.Adlist>[],
           )
-          as List<_i48.Adlist>);
+          as List<_i51.Adlist>);
 
   @override
-  List<_i48.Adlist> get filteredBlacklistAdlists =>
+  List<_i51.Adlist> get filteredBlacklistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#filteredBlacklistAdlists),
-            returnValue: <_i48.Adlist>[],
+            returnValue: <_i51.Adlist>[],
           )
-          as List<_i48.Adlist>);
+          as List<_i51.Adlist>);
 
   @override
   String get searchTerm =>
@@ -4385,7 +4400,7 @@ class MockAdlistsViewModel extends _i1.Mock implements _i47.AdlistsViewModel {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGravityUpdateViewModel extends _i1.Mock
-    implements _i49.GravityUpdateViewModel {
+    implements _i52.GravityUpdateViewModel {
   MockGravityUpdateViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -4409,12 +4424,12 @@ class MockGravityUpdateViewModel extends _i1.Mock
           as bool);
 
   @override
-  List<_i50.FtlMessage> get messages =>
+  List<_i53.FtlMessage> get messages =>
       (super.noSuchMethod(
             Invocation.getter(#messages),
-            returnValue: <_i50.FtlMessage>[],
+            returnValue: <_i53.FtlMessage>[],
           )
-          as List<_i50.FtlMessage>);
+          as List<_i53.FtlMessage>);
 
   @override
   bool get hasListeners =>
@@ -4459,8 +4474,8 @@ class MockGravityUpdateViewModel extends _i1.Mock
 
   @override
   void update({
-    _i51.ActionsRepository? actionsRepository,
-    _i52.FtlRepository? ftlRepository,
+    _i54.ActionsRepository? actionsRepository,
+    _i47.FtlRepository? ftlRepository,
     String? serverAddress,
   }) => super.noSuchMethod(
     Invocation.method(#update, [], {

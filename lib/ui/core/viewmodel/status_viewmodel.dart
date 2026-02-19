@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/models_old/metrics.dart';
-import 'package:pi_hole_client/domain/models_old/overtime_data.dart';
-import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
+import 'package:pi_hole_client/domain/model/ftl/metrics.dart';
+import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
+import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart';
 
 class StatusViewModel with ChangeNotifier {
   LoadStatus _serverStatus = LoadStatus.loading;
 
   LoadStatus _statusLoading = LoadStatus.loading;
   RealtimeStatus? _realtimeStatus;
-  MetricsInfo? _metricsInfo;
+  FtlDnsMetrics? _ftlDnsMetrics;
 
   LoadStatus _overtimeDataLoading = LoadStatus.loading;
-  OverTimeData? _overtimeData;
+  OverTime? _overtimeData;
 
   LoadStatus get getServerStatus {
     return _serverStatus;
@@ -30,36 +30,20 @@ class StatusViewModel with ChangeNotifier {
     return _statusLoading;
   }
 
-  OverTimeData? get getOvertimeData {
+  OverTime? get getOvertimeData {
     return _overtimeData;
   }
 
-  MetricsInfo? get getMetricsInfo {
-    return _metricsInfo;
+  FtlDnsMetrics? get getFtlDnsMetrics {
+    return _ftlDnsMetrics;
   }
 
-  DnsCacheInfo? get getDnsCacheInfo {
-    if (_metricsInfo != null) {
-      return _metricsInfo!.dnsCache;
-    }
-
-    return null;
+  DnsCache? get getDnsCache {
+    return _ftlDnsMetrics?.cache;
   }
 
-  DnsRepliesInfo? get getDnsRepliesInfo {
-    if (_metricsInfo != null) {
-      return _metricsInfo!.dnsReplies;
-    }
-
-    return null;
-  }
-
-  Map<String, dynamic>? get getOvertimeDataJson {
-    if (_overtimeData != null) {
-      return _overtimeData!.toJson();
-    } else {
-      return null;
-    }
+  DnsReplies? get getDnsReplies {
+    return _ftlDnsMetrics?.replies;
   }
 
   LoadStatus get getOvertimeDataLoadStatus {
@@ -87,13 +71,13 @@ class StatusViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void setOvertimeData(OverTimeData value) {
+  void setOvertimeData(OverTime value) {
     _overtimeData = value;
     notifyListeners();
   }
 
-  void setMetricsInfo(MetricsInfo value) {
-    _metricsInfo = value;
+  void setFtlDnsMetrics(FtlDnsMetrics value) {
+    _ftlDnsMetrics = value;
     notifyListeners();
   }
 }

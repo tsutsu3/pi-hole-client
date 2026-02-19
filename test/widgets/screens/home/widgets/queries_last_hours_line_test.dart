@@ -5,6 +5,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/data/mapper/v5/metrics_mapper.dart';
+import 'package:pi_hole_client/data/model/v5/over_time_data.dart' as v5_model;
 import 'package:pi_hole_client/ui/core/globals.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -28,7 +30,7 @@ void main() async {
       when(mockAppConfigViewModel.selectedTheme).thenReturn(ThemeMode.light);
     });
 
-    final data = {
+    final data = v5_model.OverTimeData.fromJson({
       'domains_over_time': {
         '1733391300': 0,
         '1733391900': 0,
@@ -471,10 +473,10 @@ void main() async {
         '1733476500': [0, 0],
         '1733477100': [0, 0],
       },
-    };
+    }).toDomain();
 
     // mismatched data sizes
-    final errData = {
+    final errData = v5_model.OverTimeData.fromJson({
       'domains_over_time': {
         '1733391300': 0,
         '1733391900': 0,
@@ -914,7 +916,7 @@ void main() async {
         '1733475300': [0, 0],
         '1733475900': [0, 0],
       },
-    };
+    }).toDomain();
 
     testWidgets('should show the line chart with the correct data', (
       WidgetTester tester,

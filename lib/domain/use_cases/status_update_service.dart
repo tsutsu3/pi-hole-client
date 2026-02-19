@@ -1,7 +1,14 @@
 import 'dart:async';
 
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/dns_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart';
+import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart';
+import 'package:pi_hole_client/domain/use_cases/realtime_status/realtime_status_usecase.dart';
+import 'package:pi_hole_client/domain/use_cases/realtime_status/realtime_status_usecase_v5.dart';
+import 'package:pi_hole_client/domain/use_cases/realtime_status/realtime_status_usecase_v6.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
@@ -27,6 +34,12 @@ class StatusUpdateService {
   final AppConfigViewModel _appConfigViewModel;
   final LogsViewModel _logsViewModel;
 
+  RealtimeStatusRepository? _realtimeStatusRepository;
+  MetricsRepository? _metricsRepository;
+  DnsRepository? _dnsRepository;
+  FtlRepository? _ftlRepository;
+  String? _apiVersion;
+
   Timer? _statusDataTimer;
   Timer? _overTimeDataTimer;
   Timer? _metricsDataTimer;
@@ -36,7 +49,39 @@ class StatusUpdateService {
 
   bool get isAutoRefreshRunning => _isAutoRefreshRunning;
 
-  /// Extracts client names from the RealtimeStatusResponse and sets them in the filters provider.
+  /// Updates the repository dependencies when the selected server changes.
+  void update({
+    RealtimeStatusRepository? realtimeStatusRepository,
+    MetricsRepository? metricsRepository,
+    DnsRepository? dnsRepository,
+    FtlRepository? ftlRepository,
+    String? apiVersion,
+  }) {
+    _realtimeStatusRepository = realtimeStatusRepository;
+    _metricsRepository = metricsRepository;
+    _dnsRepository = dnsRepository;
+    _ftlRepository = ftlRepository;
+    _apiVersion = apiVersion;
+  }
+
+  /// Creates the appropriate RealtimeStatusUseCase based on API version.
+  RealtimeStatusUseCase? _createRealtimeStatusUseCase() {
+    if (_apiVersion == 'v6') {
+      final metrics = _metricsRepository;
+      final dns = _dnsRepository;
+      if (metrics == null || dns == null) return null;
+      return RealtimeStatusUseCaseV6(
+        metricsRepository: metrics,
+        dnsRepository: dns,
+      );
+    } else {
+      final repo = _realtimeStatusRepository;
+      if (repo == null) return null;
+      return RealtimeStatusUseCaseV5(repository: repo);
+    }
+  }
+
+  /// Extracts client names from the RealtimeStatus and sets them in the filters provider.
   ///
   /// In topSources, client keys are formatted as either:
   /// - `hostname|ip`  (if hostname is available)
@@ -44,9 +89,9 @@ class StatusUpdateService {
   ///
   /// This method extracts only the hostname part when available.
   /// If no hostname is present, the IP address is used as-is.
-  void setClientsFromTopSources(RealtimeStatusResponse statusResult) {
-    final clients = statusResult.data!.topSources.keys
-        .map((client) => client.split('|').first)
+  void _setClientsFromTopSources(RealtimeStatus status) {
+    final clients = status.topClients.topSources
+        .map((source) => source.source.split('|').first)
         .toList();
     _logsViewModel.setClients(List<String>.from(clients));
   }
@@ -74,10 +119,10 @@ class StatusUpdateService {
     }
   }
 
-  /// Refresh the status data once
-  Future<void> refreshOnce() async {
+  /// Refresh the status data once. Returns true if all data fetched successfully.
+  Future<bool> refreshOnce() async {
     logger.d('Refresh once Server Status');
-    await _refreshOnce();
+    return _refreshOnce();
   }
 
   void stopAutoRefresh({bool showLoadingIndicator = true}) {
@@ -131,11 +176,11 @@ class StatusUpdateService {
   }
 
   /// Refresh the status data once
-  Future<void> _refreshOnce() async {
-    // _fetchStatusData issues 8 HTTP requests (4 APIs in 2 batches),
+  Future<bool> _refreshOnce() async {
+    // _fetchStatusData issues multiple HTTP requests,
     // so we start it immediately to give it a head start.
     // The others are slightly delayed to avoid overwhelming the connection pool.
-    if ((await Future.wait([
+    final (statusOk, overtimeOk, metricsOk) = await (
       _fetchStatusData(),
       Future.delayed(
         const Duration(milliseconds: 100),
@@ -143,68 +188,82 @@ class StatusUpdateService {
       Future.delayed(
         const Duration(milliseconds: 100),
       ).then((_) => _fetchMetricsData()),
-    ])).every((result) => result)) {
+    ).wait;
+
+    if (statusOk && overtimeOk && metricsOk) {
       _statusViewModel.setServerStatus(LoadStatus.loaded);
+      return true;
     } else {
       logger.w('Failed to fetch all status data. ');
       _statusViewModel.setServerStatus(LoadStatus.error);
+      return false;
     }
   }
 
   Future<bool> _fetchStatusData() async {
     if (_serversViewModel.selectedServer == null) return false;
 
-    final apiGateway = _serversViewModel.selectedApiGateway;
-    final statusResult = await apiGateway?.realtimeStatus(clientCount: 0);
+    final useCase = _createRealtimeStatusUseCase();
+    if (useCase == null) return false;
 
-    if (statusResult?.result == APiResponseType.success) {
-      _statusViewModel.setRealtimeStatus(statusResult!.data!);
+    final result = await useCase.fetchRealtimeStatus();
 
-      setClientsFromTopSources(statusResult);
-
-      _serversViewModel.updateselectedServerStatus(
-        statusResult.data!.status == 'enabled',
-      );
-      return true;
-    } else {
-      _statusViewModel.setStatusLoading(LoadStatus.error);
-      return false;
-    }
+    return result.fold(
+      (status) {
+        _statusViewModel.setRealtimeStatus(status);
+        _setClientsFromTopSources(status);
+        _serversViewModel.updateselectedServerStatus(
+          status.status == DnsBlockingStatus.enabled,
+        );
+        return true;
+      },
+      (error) {
+        _statusViewModel.setStatusLoading(LoadStatus.error);
+        return false;
+      },
+    );
   }
 
   Future<bool> _fetchOverTimeData() async {
     if (_serversViewModel.selectedServer == null) return false;
 
-    final apiGateway = _serversViewModel.selectedApiGateway;
-    final statusResult = await apiGateway?.fetchOverTimeData();
+    final metricsRepo = _metricsRepository;
+    if (metricsRepo == null) return false;
 
-    if (statusResult?.result == APiResponseType.success) {
-      _statusViewModel.setOvertimeData(statusResult!.data!);
-      _statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.loaded);
-      _statusViewModel.setStatusLoading(LoadStatus.loaded);
+    final result = await metricsRepo.fetchOverTime();
 
-      return true;
-    } else {
-      _statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.error);
-      return false;
-    }
+    return result.fold(
+      (overTime) {
+        _statusViewModel.setOvertimeData(overTime);
+        _statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.loaded);
+        _statusViewModel.setStatusLoading(LoadStatus.loaded);
+        return true;
+      },
+      (error) {
+        _statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.error);
+        return false;
+      },
+    );
   }
 
   Future<bool> _fetchMetricsData() async {
     if (_serversViewModel.selectedServer == null) return false;
 
-    final apiGateway = _serversViewModel.selectedApiGateway;
-    final metricsResult = await apiGateway?.getMetrics();
+    final ftlRepo = _ftlRepository;
+    if (ftlRepo == null) return false;
 
-    if (metricsResult?.result == APiResponseType.success) {
-      _statusViewModel.setMetricsInfo(metricsResult!.data!);
-      return true;
-    } else if (metricsResult?.result == APiResponseType.notSupported) {
-      // pihole v5
-      return true;
-    } else {
-      return false;
-    }
+    final result = await ftlRepo.fetchInfoMetrics();
+
+    return result.fold(
+      (metrics) {
+        _statusViewModel.setFtlDnsMetrics(metrics);
+        return true;
+      },
+      (error) {
+        // v5 returns NotSupportedException for metrics - that's OK
+        return true;
+      },
+    );
   }
 
   // ----------------------------------------
@@ -236,8 +295,10 @@ class StatusUpdateService {
         return;
       }
 
-      final apiGateway = _serversViewModel.selectedApiGateway;
-      final statusResult = await apiGateway?.realtimeStatus(clientCount: 0);
+      final useCase = _createRealtimeStatusUseCase();
+      if (useCase == null) return;
+
+      final result = await useCase.fetchRealtimeStatus();
 
       if (_serversViewModel.selectedServer?.address != selectedUrlBefore) {
         logger.d(
@@ -247,31 +308,34 @@ class StatusUpdateService {
         return;
       }
 
-      if (statusResult?.result == APiResponseType.success) {
-        _serversViewModel.updateselectedServerStatus(
-          statusResult!.data!.status == 'enabled',
-        );
-        _statusViewModel.setRealtimeStatus(statusResult.data!);
-        _statusViewModel.setStatusLoading(LoadStatus.loaded);
+      result.fold(
+        (status) {
+          _serversViewModel.updateselectedServerStatus(
+            status.status == DnsBlockingStatus.enabled,
+          );
+          _statusViewModel.setRealtimeStatus(status);
+          _statusViewModel.setStatusLoading(LoadStatus.loaded);
 
-        setClientsFromTopSources(statusResult);
+          _setClientsFromTopSources(status);
 
-        if (_statusViewModel.getServerStatus != LoadStatus.loaded) {
-          _statusViewModel.setServerStatus(LoadStatus.loaded);
-        }
-      } else {
-        if (selectedUrlBefore == currentServer.address) {
-          if (_statusViewModel.getServerStatus == LoadStatus.loaded) {
-            logger.w(
-              'Server disconnected: ${statusResult?.result.name}. ${currentServer.alias} (${currentServer.address})',
-            );
-            _statusViewModel.setServerStatus(LoadStatus.error);
+          if (_statusViewModel.getServerStatus != LoadStatus.loaded) {
+            _statusViewModel.setServerStatus(LoadStatus.loaded);
           }
-          if (_statusViewModel.getStatusLoading == LoadStatus.loading) {
-            _statusViewModel.setStatusLoading(LoadStatus.error);
+        },
+        (error) {
+          if (selectedUrlBefore == currentServer.address) {
+            if (_statusViewModel.getServerStatus == LoadStatus.loaded) {
+              logger.w(
+                'Server disconnected: $error. ${currentServer.alias} (${currentServer.address})',
+              );
+              _statusViewModel.setServerStatus(LoadStatus.error);
+            }
+            if (_statusViewModel.getStatusLoading == LoadStatus.loading) {
+              _statusViewModel.setStatusLoading(LoadStatus.error);
+            }
           }
-        }
-      }
+        },
+      );
     }
 
     if (runImmediately) {
@@ -313,8 +377,10 @@ class StatusUpdateService {
         return;
       }
 
-      final apiGateway = _serversViewModel.selectedApiGateway;
-      final statusResult = await apiGateway?.fetchOverTimeData();
+      final metricsRepo = _metricsRepository;
+      if (metricsRepo == null) return;
+
+      final result = await metricsRepo.fetchOverTime();
 
       if (_serversViewModel.selectedServer?.address != selectedUrlBefore) {
         logger.d(
@@ -324,26 +390,30 @@ class StatusUpdateService {
         return;
       }
 
-      if (statusResult?.result == APiResponseType.success) {
-        _statusViewModel.setOvertimeData(statusResult!.data!);
-        _statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.loaded);
+      result.fold(
+        (overTime) {
+          _statusViewModel.setOvertimeData(overTime);
+          _statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.loaded);
 
-        if (_statusViewModel.getServerStatus != LoadStatus.loaded) {
-          _statusViewModel.setServerStatus(LoadStatus.loaded);
-        }
-      } else {
-        if (selectedUrlBefore == currentServer.address) {
-          if (_statusViewModel.getServerStatus == LoadStatus.loaded) {
-            logger.w(
-              'Server disconnected: ${statusResult?.result.name}. ${currentServer.alias} (${currentServer.address})',
-            );
-            _statusViewModel.setServerStatus(LoadStatus.error);
+          if (_statusViewModel.getServerStatus != LoadStatus.loaded) {
+            _statusViewModel.setServerStatus(LoadStatus.loaded);
           }
-          if (_statusViewModel.getOvertimeDataLoadStatus == LoadStatus.loading) {
-            _statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.error);
+        },
+        (error) {
+          if (selectedUrlBefore == currentServer.address) {
+            if (_statusViewModel.getServerStatus == LoadStatus.loaded) {
+              logger.w(
+                'Server disconnected: $error. ${currentServer.alias} (${currentServer.address})',
+              );
+              _statusViewModel.setServerStatus(LoadStatus.error);
+            }
+            if (_statusViewModel.getOvertimeDataLoadStatus ==
+                LoadStatus.loading) {
+              _statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.error);
+            }
           }
-        }
-      }
+        },
+      );
     }
 
     void start() {
@@ -385,8 +455,11 @@ class StatusUpdateService {
         );
         return;
       }
-      final apiGateway = _serversViewModel.selectedApiGateway;
-      final metricsResult = await apiGateway?.getMetrics();
+
+      final ftlRepo = _ftlRepository;
+      if (ftlRepo == null) return;
+
+      final result = await ftlRepo.fetchInfoMetrics();
 
       if (_serversViewModel.selectedServer?.address != selectedUrlBefore) {
         logger.d(
@@ -396,9 +469,9 @@ class StatusUpdateService {
         return;
       }
 
-      if (metricsResult?.result == APiResponseType.success) {
-        _statusViewModel.setMetricsInfo(metricsResult!.data!);
-      }
+      result.fold(_statusViewModel.setFtlDnsMetrics, (error) {
+        // v5 returns NotSupportedException - that's OK
+      });
     }
 
     void start() {

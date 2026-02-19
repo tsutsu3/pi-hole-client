@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/chart_utils.dart';
@@ -16,7 +17,7 @@ class ClientsLastHoursBar extends StatelessWidget {
   });
 
   final List<String> realtimeListIps;
-  final Map<String, dynamic> data;
+  final OverTime data;
   final bool reducedData;
   final bool hideZeroValues;
   static final Map<int, Widget> _titleCache = {};
@@ -146,17 +147,17 @@ class ClientsLastHoursBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
-    Color getColor(Map<String, dynamic> client, int index) {
-      final exists = realtimeListIps.indexOf(data['clients'][index]['ip']);
+    Color getColor(int index) {
+      final exists = realtimeListIps.indexOf(data.clients[index].ip);
       if (exists >= 0) {
         return Theme.of(context).extension<GraphColors>()!.getColor(exists);
       } else {
-        return client['color'];
+        return Theme.of(context).extension<GraphColors>()!.getColor(index);
       }
     }
 
     Map<String, dynamic> formatData(
-      Map<String, dynamic> data,
+      OverTime data,
       double chartWidth,
       ThemeMode selectedTheme,
     ) {
@@ -165,31 +166,33 @@ class ClientsLastHoursBar extends StatelessWidget {
       var topPoint = 0;
       final interval = reducedData == true ? averageIntervalCount : 1;
 
-      final List<String> keys = data['over_time'].keys.toList();
-      final int numClients = data['clients'].length;
+      final clientEntries = data.clientEntries;
+      final numClients = data.clients.length;
       final barWidth =
           chartWidth /
           (reducedData == true
-              ? keys.length / averageIntervalCount
-              : keys.length) *
+              ? clientEntries.length / averageIntervalCount
+              : clientEntries.length) *
           0.8;
 
       for (var i = 0; i < numClients; i++) {
         clientsColors.add({
-          'ip': data['clients'][i]['ip'],
-          'name': data['clients'][i]['name'],
-          'color': getColor(data['clients'][i], i),
+          'ip': data.clients[i].ip,
+          'name': data.clients[i].name ?? '',
+          'color': getColor(i),
         });
       }
 
-      for (var j = 0; j < keys.length; j += interval) {
+      for (var j = 0; j < clientEntries.length; j += interval) {
         final barRods = <BarChartRodData>[];
         var stackedHeight = 0.0;
         final stackItems = <BarChartRodStackItem>[];
         var tmpTopPoint = 0.0;
 
         for (var i = 0; i < numClients; i++) {
-          final double yValue = data['over_time'][keys[j]][i].toDouble();
+          final yValue = i < clientEntries[j].values.length
+              ? clientEntries[j].values[i].toDouble()
+              : 0.0;
           tmpTopPoint += yValue.toInt();
 
           stackItems.add(
@@ -197,8 +200,8 @@ class ClientsLastHoursBar extends StatelessWidget {
               stackedHeight,
               stackedHeight + yValue,
               selectedTheme == ThemeMode.light
-                  ? getColor(data['clients'][i], i).withValues(alpha: 0.8)
-                  : getColor(data['clients'][i], i),
+                  ? getColor(i).withValues(alpha: 0.8)
+                  : getColor(i),
             ),
           );
 
@@ -226,8 +229,10 @@ class ClientsLastHoursBar extends StatelessWidget {
       }
 
       final timestamps = <String>[];
-      for (var i = 0; i < keys.length; i += interval) {
-        timestamps.add(keys[i]);
+      for (var i = 0; i < clientEntries.length; i += interval) {
+        timestamps.add(
+          (clientEntries[i].time.millisecondsSinceEpoch ~/ 1000).toString(),
+        );
       }
 
       return {

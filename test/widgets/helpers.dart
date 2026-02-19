@@ -50,8 +50,13 @@ import 'package:pi_hole_client/domain/models_old/gateway.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/host.dart';
 import 'package:pi_hole_client/domain/models_old/log.dart';
+import 'package:pi_hole_client/data/mapper/v5/metrics_mapper.dart';
+import 'package:pi_hole_client/data/model/v5/over_time_data.dart' as v5_model;
 import 'package:pi_hole_client/domain/models_old/metrics.dart';
-import 'package:pi_hole_client/domain/models_old/overtime_data.dart';
+import 'package:pi_hole_client/domain/models_old/overtime_data.dart' as legacy_ot;
+
+import '../../testing/models/v5/realtime_status.dart' as rt_fixture;
+import '../../testing/models/v6/ftl.dart' as ftl_fixture;
 import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
 import 'package:pi_hole_client/domain/models_old/sensors.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
@@ -216,7 +221,7 @@ final testLogsList = [
   ),
 ];
 
-final overtimeData = OverTimeData.fromJson({
+final _overtimeRawData = {
   'domains_over_time': {
     '1733391300': 0,
     '1733391900': 0,
@@ -659,7 +664,10 @@ final overtimeData = OverTimeData.fromJson({
     '1733476500': [0, 0],
     '1733477100': [0, 0],
   },
-});
+};
+final overtimeData =
+    v5_model.OverTimeData.fromJson(_overtimeRawData).toDomain();
+final legacyOvertimeData = legacy_ot.OverTimeData.fromJson(_overtimeRawData);
 
 final realtimeStatus = RealtimeStatus.fromJson({
   'domains_being_blocked': 121860,
@@ -2018,19 +2026,14 @@ class TestSetupHelper {
     when(
       mockStatusViewModel.getOvertimeDataLoadStatus,
     ).thenReturn(LoadStatus.loaded);
-    when(
-      mockStatusViewModel.getOvertimeDataJson,
-    ).thenReturn(overtimeData.toJson());
-    when(mockStatusViewModel.getRealtimeStatus).thenReturn(realtimeStatus);
-    when(
-      mockStatusViewModel.getMetricsInfo,
-    ).thenReturn(MetricsInfo.fromV6(metrics));
-    when(
-      mockStatusViewModel.getDnsCacheInfo,
-    ).thenReturn(MetricsInfo.fromV6(metrics).dnsCache);
-    when(
-      mockStatusViewModel.getDnsRepliesInfo,
-    ).thenReturn(MetricsInfo.fromV6(metrics).dnsReplies);
+    when(mockStatusViewModel.getRealtimeStatus)
+        .thenReturn(rt_fixture.kRepoFetchRealTimeStatus);
+    when(mockStatusViewModel.getFtlDnsMetrics)
+        .thenReturn(ftl_fixture.kRepoFetchFtlMetrics);
+    when(mockStatusViewModel.getDnsCache)
+        .thenReturn(ftl_fixture.kRepoFetchFtlMetrics.cache);
+    when(mockStatusViewModel.getDnsReplies)
+        .thenReturn(ftl_fixture.kRepoFetchFtlMetrics.replies);
   }
 
   void _initDomainsViewModelMock(String useApiGatewayVersion) {
@@ -2409,7 +2412,7 @@ class TestSetupHelper {
     when(mockApiGatewayV6.fetchOverTimeData()).thenAnswer(
       (_) async => FetchOverTimeDataResponse(
         result: APiResponseType.success,
-        data: overtimeData,
+        data: legacy_ot.OverTimeData.fromJson(_overtimeRawData),
       ),
     );
 
@@ -2606,6 +2609,6 @@ class TestSetupHelper {
 
   void _initStatusUpdateServiceMock() {
     when(mockStatusUpdateService.startAutoRefresh()).thenReturn(null);
-    when(mockStatusUpdateService.refreshOnce()).thenAnswer((_) async => ());
+    when(mockStatusUpdateService.refreshOnce()).thenAnswer((_) async => true);
   }
 }

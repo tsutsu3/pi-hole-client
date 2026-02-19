@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
+import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content.dart';
@@ -11,7 +11,6 @@ import 'package:pi_hole_client/ui/statistics/animated_percent_indicator.dart';
 import 'package:pi_hole_client/ui/statistics/custom_pie_chart.dart';
 import 'package:pi_hole_client/ui/statistics/no_data_chart.dart';
 import 'package:pi_hole_client/ui/statistics/pie_chart_legend.dart';
-import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:provider/provider.dart';
 
 class StatisticsList extends StatelessWidget {
@@ -184,7 +183,6 @@ class StatisticsListContent extends StatelessWidget {
                       const SizedBox(width: 20),
                       Expanded(
                         child: AnimatedPercentIndicator(
-                          // key: ValueKey('${item['label']}-${item['value']}'),
                           value: item['value'],
                           total: totalHits,
                         ),
@@ -199,7 +197,7 @@ class StatisticsListContent extends StatelessWidget {
       );
     }
 
-    Widget pieChertViewMode(List<Map<String, dynamic>> values) {
+    Widget pieChartViewMode(List<Map<String, dynamic>> values) {
       var items = <String, double>{};
       var legend = <String, int>{};
       for (final item in values) {
@@ -218,7 +216,9 @@ class StatisticsListContent extends StatelessWidget {
     }
 
     Widget generateList(Map<String, int> values, String label) {
-      final topQueriesList = convertFromMapToList(values);
+      final topList = values.entries
+          .map((e) => {'label': e.key, 'value': e.value})
+          .toList();
 
       return Column(
         children: [
@@ -227,43 +227,63 @@ class StatisticsListContent extends StatelessWidget {
             padding: const EdgeInsets.only(top: 24, left: 16, bottom: 16),
           ),
           if (visualizationMode == StatisticsVisualizationMode.list)
-            listViewMode(topQueriesList)
+            listViewMode(topList)
           else
-            pieChertViewMode(topQueriesList),
+            pieChartViewMode(topList),
         ],
       );
     }
 
     if (type == 'domains') {
+      final topQueries = realtimeStatus != null
+          ? Map.fromEntries(
+              realtimeStatus.topDomains.topQueries
+                  .map((q) => MapEntry(q.domain, q.count)),
+            )
+          : <String, int>{};
+      final topAds = realtimeStatus != null
+          ? Map.fromEntries(
+              realtimeStatus.topDomains.topAds
+                  .map((q) => MapEntry(q.domain, q.count)),
+            )
+          : <String, int>{};
+
       return Column(
         children: [
-          if (realtimeStatus!.topQueries.isNotEmpty)
-            generateList(realtimeStatus.topQueries, loc.topPermittedDomains)
+          if (topQueries.isNotEmpty)
+            generateList(topQueries, loc.topPermittedDomains)
           else
             NoDataChart(topLabel: loc.topPermittedDomains),
-          if (realtimeStatus.topAds.isNotEmpty)
-            generateList(realtimeStatus.topAds, loc.topBlockedDomains)
+          if (topAds.isNotEmpty)
+            generateList(topAds, loc.topBlockedDomains)
           else
             NoDataChart(topLabel: loc.topBlockedDomains),
         ],
       );
     } else if (type == 'clients') {
+      final topSources = realtimeStatus != null
+          ? Map.fromEntries(
+              realtimeStatus.topClients.topSources
+                  .take(topk)
+                  .map((s) => MapEntry(s.source, s.count)),
+            )
+          : <String, int>{};
+      final topSourcesBlocked = realtimeStatus != null
+          ? Map.fromEntries(
+              realtimeStatus.topClients.topSourcesBlocked
+                  .take(topk)
+                  .map((s) => MapEntry(s.source, s.count)),
+            )
+          : <String, int>{};
+
       return Column(
         children: [
-          if (realtimeStatus!.topSources.isNotEmpty)
-            generateList(
-              Map.fromEntries(realtimeStatus.topSources.entries.take(topk)),
-              loc.topClients,
-            )
+          if (topSources.isNotEmpty)
+            generateList(topSources, loc.topClients)
           else
             NoDataChart(topLabel: loc.topClients),
-          if (realtimeStatus.topSourcesBlocked.isNotEmpty)
-            generateList(
-              Map.fromEntries(
-                realtimeStatus.topSourcesBlocked.entries.take(topk),
-              ),
-              loc.topClientsBlocked,
-            )
+          if (topSourcesBlocked.isNotEmpty)
+            generateList(topSourcesBlocked, loc.topClientsBlocked)
           else
             NoDataChart(topLabel: loc.topClientsBlocked),
         ],

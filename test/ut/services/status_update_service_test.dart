@@ -5,17 +5,27 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/metrics.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/dns_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
+import 'package:pi_hole_client/domain/model/dns/dns.dart';
+import 'package:pi_hole_client/domain/model/ftl/metrics.dart';
+import 'package:pi_hole_client/domain/model/metrics/summary.dart';
+import 'package:pi_hole_client/domain/model/metrics/top_clients.dart';
+import 'package:pi_hole_client/domain/model/metrics/top_domains.dart';
+import 'package:pi_hole_client/domain/model/metrics/upstreams.dart';
+import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
+import 'package:result_dart/result_dart.dart';
 
-import '../../widgets/helpers.dart' show metrics, overtimeData, realtimeStatus;
+import '../../../testing/models/v6/dns.dart' as dns_fixture;
+import '../../../testing/models/v6/ftl.dart' as ftl_fixture;
+import '../../../testing/models/v6/metrics.dart' as metrics_fixture;
 import './status_update_service_test.mocks.dart' as ut;
 
 @GenerateMocks([
@@ -23,14 +33,39 @@ import './status_update_service_test.mocks.dart' as ut;
   ServersViewModel,
   StatusViewModel,
   LogsViewModel,
-  ApiGatewayV6,
+  MetricsRepository,
+  DnsRepository,
+  FtlRepository,
 ])
 void main() async {
   // For loading the .env file
   TestWidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
 
-  group('ServersViewModel', () {
+  // Provide dummy values for Result types that Mockito can't auto-generate
+  provideDummy<Result<Summary>>(
+    Success(metrics_fixture.kRepoFetchStatsSummary),
+  );
+  provideDummy<Result<List<DestinationStat>>>(
+    const Success(metrics_fixture.kRepoFetchStatsUpstreams),
+  );
+  provideDummy<Result<List<QueryStat>>>(
+    const Success(metrics_fixture.kRepoFetchStatsTopDomainsAllowed),
+  );
+  provideDummy<Result<List<SourceStat>>>(
+    const Success(metrics_fixture.kRepoFetchStatsTopClientsAllowed),
+  );
+  provideDummy<Result<OverTime>>(
+    Success(metrics_fixture.kRepoFetchOverTime),
+  );
+  provideDummy<Result<Blocking>>(
+    Success(dns_fixture.kRepoFetchDnsBlocking),
+  );
+  provideDummy<Result<FtlDnsMetrics>>(
+    Success(ftl_fixture.kRepoFetchFtlMetrics),
+  );
+
+  group('StatusUpdateService', () {
     late StatusUpdateService statusUpdateService;
 
     late ut.MockAppConfigViewModel mockAppConfigViewModel;
@@ -38,7 +73,9 @@ void main() async {
     late ut.MockStatusViewModel mockStatusViewModel;
     late ut.MockLogsViewModel mockLogsViewModel;
 
-    late ut.MockApiGatewayV6 mockApiGatewayV6;
+    late ut.MockMetricsRepository mockMetricsRepository;
+    late ut.MockDnsRepository mockDnsRepository;
+    late ut.MockFtlRepository mockFtlRepository;
 
     final server = Server(
       address: 'http://localhost:8081',
@@ -49,17 +86,117 @@ void main() async {
       ignoreCertificateErrors: false,
     );
 
+    void stubRepositoriesSuccess() {
+      // MetricsRepository stubs for RealtimeStatusUseCaseV6
+      when(mockMetricsRepository.fetchStatsSummary()).thenAnswer(
+        (_) async => Success(metrics_fixture.kRepoFetchStatsSummary),
+      );
+      when(mockMetricsRepository.fetchStatsUpstreams()).thenAnswer(
+        (_) async => const Success(metrics_fixture.kRepoFetchStatsUpstreams),
+      );
+      when(
+        mockMetricsRepository.fetchStatsTopDomainsAllowed(
+          count: anyNamed('count'),
+        ),
+      ).thenAnswer(
+        (_) async =>
+            const Success(metrics_fixture.kRepoFetchStatsTopDomainsAllowed),
+      );
+      when(
+        mockMetricsRepository.fetchStatsTopDomainsBlocked(
+          count: anyNamed('count'),
+        ),
+      ).thenAnswer(
+        (_) async =>
+            const Success(metrics_fixture.kRepoFetchStatsTopDomainsBlocked),
+      );
+      when(
+        mockMetricsRepository.fetchStatsTopClientsAllowed(
+          count: anyNamed('count'),
+        ),
+      ).thenAnswer(
+        (_) async =>
+            const Success(metrics_fixture.kRepoFetchStatsTopClientsAllowed),
+      );
+      when(
+        mockMetricsRepository.fetchStatsTopClientsBlocked(
+          count: anyNamed('count'),
+        ),
+      ).thenAnswer(
+        (_) async =>
+            const Success(metrics_fixture.kRepoFetchStatsTopClientsBlocked),
+      );
+
+      // MetricsRepository stub for fetchOverTime
+      when(
+        mockMetricsRepository.fetchOverTime(count: anyNamed('count')),
+      ).thenAnswer(
+        (_) async => Success(metrics_fixture.kRepoFetchOverTime),
+      );
+
+      // DnsRepository stub for fetchBlockingStatus
+      when(mockDnsRepository.fetchBlockingStatus()).thenAnswer(
+        (_) async => Success(dns_fixture.kRepoFetchDnsBlocking),
+      );
+
+      // FtlRepository stub for fetchInfoMetrics
+      when(mockFtlRepository.fetchInfoMetrics()).thenAnswer(
+        (_) async => Success(ftl_fixture.kRepoFetchFtlMetrics),
+      );
+    }
+
+    void stubRepositoriesFailure() {
+      final error = Exception('Network error');
+
+      when(mockMetricsRepository.fetchStatsSummary()).thenAnswer(
+        (_) async => Failure(error),
+      );
+      when(mockMetricsRepository.fetchStatsUpstreams()).thenAnswer(
+        (_) async => Failure(error),
+      );
+      when(
+        mockMetricsRepository.fetchStatsTopDomainsAllowed(
+          count: anyNamed('count'),
+        ),
+      ).thenAnswer((_) async => Failure(error));
+      when(
+        mockMetricsRepository.fetchStatsTopDomainsBlocked(
+          count: anyNamed('count'),
+        ),
+      ).thenAnswer((_) async => Failure(error));
+      when(
+        mockMetricsRepository.fetchStatsTopClientsAllowed(
+          count: anyNamed('count'),
+        ),
+      ).thenAnswer((_) async => Failure(error));
+      when(
+        mockMetricsRepository.fetchStatsTopClientsBlocked(
+          count: anyNamed('count'),
+        ),
+      ).thenAnswer((_) async => Failure(error));
+      when(
+        mockMetricsRepository.fetchOverTime(count: anyNamed('count')),
+      ).thenAnswer((_) async => Failure(error));
+      when(mockDnsRepository.fetchBlockingStatus()).thenAnswer(
+        (_) async => Failure(error),
+      );
+      when(mockFtlRepository.fetchInfoMetrics()).thenAnswer(
+        (_) async => Failure(error),
+      );
+    }
+
     setUp(() {
       mockAppConfigViewModel = ut.MockAppConfigViewModel();
       mockServersViewModel = ut.MockServersViewModel();
       mockStatusViewModel = ut.MockStatusViewModel();
       mockLogsViewModel = ut.MockLogsViewModel();
-      mockApiGatewayV6 = ut.MockApiGatewayV6();
+      mockMetricsRepository = ut.MockMetricsRepository();
+      mockDnsRepository = ut.MockDnsRepository();
+      mockFtlRepository = ut.MockFtlRepository();
 
       when(mockAppConfigViewModel.getAutoRefreshTime).thenReturn(5);
 
       when(mockServersViewModel.selectedServer).thenReturn(server);
-      when(mockServersViewModel.selectedApiGateway).thenReturn(mockApiGatewayV6);
       when(
         mockServersViewModel.updateselectedServerStatus(any),
       ).thenReturn(null);
@@ -69,7 +206,7 @@ void main() async {
       when(mockStatusViewModel.setRealtimeStatus(any)).thenReturn(null);
       when(mockStatusViewModel.setStatusLoading(any)).thenReturn(null);
       when(mockStatusViewModel.setOvertimeData(any)).thenReturn(null);
-      when(mockStatusViewModel.setMetricsInfo(any)).thenReturn(null);
+      when(mockStatusViewModel.setFtlDnsMetrics(any)).thenReturn(null);
       when(
         mockStatusViewModel.setOvertimeDataLoadingStatus(any),
       ).thenReturn(null);
@@ -78,34 +215,20 @@ void main() async {
 
       when(mockLogsViewModel.setClients(any)).thenReturn(null);
 
-      when(
-        mockApiGatewayV6.realtimeStatus(clientCount: anyNamed('clientCount')),
-      ).thenAnswer(
-        (_) async => RealtimeStatusResponse(
-          result: APiResponseType.success,
-          data: realtimeStatus,
-        ),
-      );
-
-      when(mockApiGatewayV6.fetchOverTimeData()).thenAnswer(
-        (_) async => FetchOverTimeDataResponse(
-          result: APiResponseType.success,
-          data: overtimeData,
-        ),
-      );
-
-      when(mockApiGatewayV6.getMetrics()).thenAnswer(
-        (_) async => MetricsResponse(
-          result: APiResponseType.success,
-          data: MetricsInfo.fromV6(metrics),
-        ),
-      );
+      stubRepositoriesSuccess();
 
       statusUpdateService = StatusUpdateService(
         serversViewModel: mockServersViewModel,
         statusViewModel: mockStatusViewModel,
         appConfigViewModel: mockAppConfigViewModel,
         logsViewModel: mockLogsViewModel,
+      );
+
+      statusUpdateService.update(
+        metricsRepository: mockMetricsRepository,
+        dnsRepository: mockDnsRepository,
+        ftlRepository: mockFtlRepository,
+        apiVersion: 'v6',
       );
     });
 
@@ -116,12 +239,12 @@ void main() async {
 
         statusUpdateService.startAutoRefresh();
 
-        // sleep for 2 seconds to allow the timer to run
+        // sleep for 1 second to allow the timer to run
         await Future.delayed(const Duration(seconds: 1));
         verify(mockAppConfigViewModel.getAutoRefreshTime).called(4);
         verify(mockStatusViewModel.setRealtimeStatus(any)).called(1);
         verify(mockStatusViewModel.setOvertimeData(any)).called(1);
-        verify(mockStatusViewModel.setMetricsInfo(any)).called(1);
+        verify(mockStatusViewModel.setFtlDnsMetrics(any)).called(1);
         expect(statusUpdateService.isAutoRefreshRunning, true);
 
         statusUpdateService.stopAutoRefresh();
@@ -139,7 +262,7 @@ void main() async {
         verify(mockAppConfigViewModel.getAutoRefreshTime).called(4);
         verify(mockStatusViewModel.setRealtimeStatus(any)).called(1);
         verify(mockStatusViewModel.setOvertimeData(any)).called(1);
-        verify(mockStatusViewModel.setMetricsInfo(any)).called(1);
+        verify(mockStatusViewModel.setFtlDnsMetrics(any)).called(1);
         expect(statusUpdateService.isAutoRefreshRunning, true);
 
         statusUpdateService.stopAutoRefresh();
@@ -155,7 +278,7 @@ void main() async {
       verify(mockAppConfigViewModel.getAutoRefreshTime).called(4);
       verifyNever(mockStatusViewModel.setRealtimeStatus(any));
       verifyNever(mockStatusViewModel.setOvertimeData(any));
-      verifyNever(mockStatusViewModel.setMetricsInfo(any));
+      verifyNever(mockStatusViewModel.setFtlDnsMetrics(any));
       expect(statusUpdateService.isAutoRefreshRunning, true);
 
       statusUpdateService.stopAutoRefresh();
@@ -164,20 +287,7 @@ void main() async {
     test(
       'startAutoRefresh should fail when fetching data from the server fails',
       () async {
-        when(
-          mockApiGatewayV6.realtimeStatus(clientCount: anyNamed('clientCount')),
-        ).thenAnswer(
-          (_) async => RealtimeStatusResponse(result: APiResponseType.socket),
-        );
-
-        when(mockApiGatewayV6.fetchOverTimeData()).thenAnswer(
-          (_) async =>
-              FetchOverTimeDataResponse(result: APiResponseType.socket),
-        );
-
-        when(mockApiGatewayV6.getMetrics()).thenAnswer(
-          (_) async => MetricsResponse(result: APiResponseType.socket),
-        );
+        stubRepositoriesFailure();
 
         when(mockStatusViewModel.getServerStatus).thenReturn(LoadStatus.loaded);
         when(mockStatusViewModel.isServerLoading).thenReturn(false);
@@ -191,9 +301,9 @@ void main() async {
         statusUpdateService.startAutoRefresh();
         await Future.delayed(const Duration(seconds: 1));
         verify(mockAppConfigViewModel.getAutoRefreshTime).called(4);
-        verifyNever(mockStatusViewModel.setRealtimeStatus(any)).called(0);
-        verifyNever(mockStatusViewModel.setOvertimeData(any)).called(0);
-        verifyNever(mockStatusViewModel.setMetricsInfo(any)).called(0);
+        verifyNever(mockStatusViewModel.setRealtimeStatus(any));
+        verifyNever(mockStatusViewModel.setOvertimeData(any));
+        verifyNever(mockStatusViewModel.setFtlDnsMetrics(any));
         expect(statusUpdateService.isAutoRefreshRunning, true);
 
         statusUpdateService.stopAutoRefresh();
@@ -203,11 +313,9 @@ void main() async {
     test(
       'startAutoRefresh should not raise a type error when selectedServer becomes null during asynchronous processing in _setupStatusDataTimer',
       () async {
-        when(
-          mockApiGatewayV6.realtimeStatus(clientCount: anyNamed('clientCount')),
-        ).thenAnswer((_) async {
+        when(mockMetricsRepository.fetchStatsSummary()).thenAnswer((_) async {
           when(mockServersViewModel.selectedServer).thenReturn(null);
-          return RealtimeStatusResponse(result: APiResponseType.socket);
+          return Failure(Exception('Network error'));
         });
 
         when(mockStatusViewModel.getServerStatus).thenReturn(LoadStatus.loaded);
@@ -241,9 +349,11 @@ void main() async {
     test(
       'startAutoRefresh should not raise a type error when selectedServer becomes null during asynchronous processing in _setupOverTimeDataTimer',
       () async {
-        when(mockApiGatewayV6.fetchOverTimeData()).thenAnswer((_) async {
+        when(
+          mockMetricsRepository.fetchOverTime(count: anyNamed('count')),
+        ).thenAnswer((_) async {
           when(mockServersViewModel.selectedServer).thenReturn(null);
-          return FetchOverTimeDataResponse(result: APiResponseType.socket);
+          return Failure(Exception('Network error'));
         });
 
         when(mockStatusViewModel.getServerStatus).thenReturn(LoadStatus.loaded);
@@ -276,39 +386,23 @@ void main() async {
 
     test('refreshOnce should succeed', () async {
       await statusUpdateService.refreshOnce();
-      verify(
-        mockApiGatewayV6.realtimeStatus(clientCount: anyNamed('clientCount')),
-      ).called(1);
-      verify(mockApiGatewayV6.fetchOverTimeData()).called(1);
-      verify(mockServersViewModel.updateselectedServerStatus(any)).called(1);
       verify(mockStatusViewModel.setRealtimeStatus(any)).called(1);
       verify(mockStatusViewModel.setOvertimeData(any)).called(1);
+      verify(mockStatusViewModel.setFtlDnsMetrics(any)).called(1);
+      verify(mockServersViewModel.updateselectedServerStatus(any)).called(1);
+      verify(mockStatusViewModel.setServerStatus(LoadStatus.loaded)).called(1);
     });
 
     test(
       'refreshOnce should fail when fetching data from the server fails',
       () async {
-        when(
-          mockApiGatewayV6.realtimeStatus(clientCount: anyNamed('clientCount')),
-        ).thenAnswer(
-          (_) async => RealtimeStatusResponse(result: APiResponseType.socket),
-        );
-
-        when(mockApiGatewayV6.fetchOverTimeData()).thenAnswer(
-          (_) async =>
-              FetchOverTimeDataResponse(result: APiResponseType.socket),
-        );
+        stubRepositoriesFailure();
 
         await statusUpdateService.refreshOnce();
-        verify(
-          mockApiGatewayV6.realtimeStatus(clientCount: anyNamed('clientCount')),
-        ).called(1);
-        verify(mockApiGatewayV6.fetchOverTimeData()).called(1);
-        verifyNever(
-          mockServersViewModel.updateselectedServerStatus(any),
-        ).called(0);
-        verifyNever(mockStatusViewModel.setRealtimeStatus(any)).called(0);
-        verifyNever(mockStatusViewModel.setOvertimeData(any)).called(0);
+        verifyNever(mockStatusViewModel.setRealtimeStatus(any));
+        verifyNever(mockStatusViewModel.setOvertimeData(any));
+        verifyNever(mockStatusViewModel.setFtlDnsMetrics(any));
+        verify(mockStatusViewModel.setServerStatus(LoadStatus.error)).called(1);
       },
     );
 
