@@ -207,7 +207,8 @@ class DnsTabContent extends StatelessWidget {
   Map<String, double> _buildCachePercentages(DnsCache cache) {
     final map = <String, double>{};
     for (final tp in cache.typePercentages) {
-      final name = tp.isStale ? '${tp.type.name} (stale)' : tp.type.name;
+      final typeName = tp.type.name.toUpperCase();
+      final name = tp.isStale ? '$typeName (stale)' : typeName;
       map[name] = tp.percentage;
     }
     final total = map.values.fold(0.0, (a, b) => a + b);
