@@ -6,6 +6,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/dns_repository.d
 import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart';
+import 'package:pi_hole_client/data/repositories/utils/exceptions.dart';
 import 'package:pi_hole_client/domain/model/ftl/metrics.dart';
 import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
 import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart';
@@ -369,8 +370,10 @@ class StatusViewModel with ChangeNotifier {
         return true;
       },
       (error) {
-        // v5 returns NotSupportedException for metrics — that's OK
-        return true;
+        // v5 returns NotSupportedException for metrics — that's OK.
+        // Genuine errors (e.g. network) should propagate as failure.
+        if (error is NotSupportedException) return true;
+        return false;
       },
     );
   }
