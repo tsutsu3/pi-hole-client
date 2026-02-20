@@ -93,7 +93,9 @@ class QueriesServersTabContent extends StatelessWidget {
             Map.fromEntries(
               realtimeStatus.summary.queryTypes
                   .where((q) => q.percentage > 0)
-                  .map((q) => MapEntry(q.type.name, q.percentage)),
+                  .map(
+                    (q) => MapEntry(q.type.name.toUpperCase(), q.percentage),
+                  ),
             ),
           )
         : <String, double>{};
