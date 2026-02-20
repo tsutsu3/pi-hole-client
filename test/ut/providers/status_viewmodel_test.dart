@@ -1,11 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/mapper/v5/metrics_mapper.dart';
-import 'package:pi_hole_client/data/model/v5/over_time_data.dart' as v5_model;
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
-
-import '../../../testing/models/v5/realtime_status.dart' as rt_fixture;
-import '../../../testing/models/v6/ftl.dart' as ftl_fixture;
 
 void main() {
   group('StatusViewModel Tests', () {
@@ -30,74 +25,61 @@ void main() {
       expect(statusViewModel.getFtlDnsMetrics, null);
       expect(statusViewModel.getOvertimeDataLoadStatus, LoadStatus.loading);
       expect(statusViewModel.isServerLoading, true);
+      expect(statusViewModel.isAutoRefreshRunning, false);
+      expect(statusViewModel.topClientNames, isEmpty);
     });
 
     test('setServerStatus updates value and notifies listeners', () {
       statusViewModel.setServerStatus(LoadStatus.loaded);
       expect(statusViewModel.getServerStatus, LoadStatus.loaded);
+      expect(statusViewModel.isServerLoading, false);
       expect(listenerCalled, true);
     });
 
-    test('setStatusLoading updates value and notifies listeners', () {
-      statusViewModel.setStatusLoading(LoadStatus.loaded);
-      expect(statusViewModel.getStatusLoading, LoadStatus.loaded);
+    test('update resets state when server address changes', () {
+      // Set initial server address.
+      statusViewModel.update(
+        selectedServerAddress: 'http://server-a',
+        selectedServerAlias: 'Server A',
+      );
+      // Simulate loaded state.
+      statusViewModel.setServerStatus(LoadStatus.loaded);
+      listenerCalled = false;
+
+      // Switch to a different server.
+      statusViewModel.update(
+        selectedServerAddress: 'http://server-b',
+        selectedServerAlias: 'Server B',
+      );
+
+      // Server address changed → state should reset to loading.
+      expect(statusViewModel.getServerStatus, LoadStatus.loading);
+      expect(statusViewModel.getRealtimeStatus, null);
+      expect(statusViewModel.getOvertimeData, null);
+      expect(statusViewModel.getFtlDnsMetrics, null);
       expect(listenerCalled, true);
     });
 
-    test('setRealtimeStatus updates value and notifies listeners', () {
-      statusViewModel.setRealtimeStatus(rt_fixture.kRepoFetchRealTimeStatus);
-      expect(statusViewModel.getRealtimeStatus,
-          rt_fixture.kRepoFetchRealTimeStatus);
-      expect(statusViewModel.getStatusLoading, LoadStatus.loaded);
-      expect(listenerCalled, true);
+    test('update does not reset state when same server address', () {
+      statusViewModel.update(
+        selectedServerAddress: 'http://server-a',
+        selectedServerAlias: 'Server A',
+      );
+      statusViewModel.setServerStatus(LoadStatus.loaded);
+      listenerCalled = false;
+
+      statusViewModel.update(
+        selectedServerAddress: 'http://server-a',
+        selectedServerAlias: 'Server A',
+      );
+
+      // Same server → state should be preserved.
+      expect(statusViewModel.getServerStatus, LoadStatus.loaded);
+      expect(listenerCalled, false);
     });
 
-    test(
-      'setOvertimeDataLoadingStatus updates value and notifies listeners',
-      () {
-        statusViewModel.setOvertimeDataLoadingStatus(LoadStatus.loaded);
-        expect(statusViewModel.getOvertimeDataLoadStatus, LoadStatus.loaded);
-        expect(listenerCalled, true);
-      },
-    );
-
-    test('setOvertimeData updates value and notifies listeners', () {
-      final data = v5_model.OverTimeData.fromJson({
-        'domains_over_time': {
-          '1733391300': 0,
-          '1733396700': 3,
-          '1733400300': 2,
-        },
-        'ads_over_time': {
-          '1733391300': 0,
-          '1733396700': 0,
-          '1733400300': 0,
-        },
-        'clients': [
-          {'name': '', 'ip': '172.26.0.1'},
-          {'name': 'localhost', 'ip': '127.0.0.1'},
-        ],
-        'over_time': {
-          '1733391300': [0, 0],
-          '1733396700': [3, 0],
-          '1733400300': [0, 2],
-        },
-      });
-      final overtimeData = data.toDomain();
-      statusViewModel.setOvertimeData(overtimeData);
-      expect(statusViewModel.getOvertimeData, overtimeData);
-      expect(listenerCalled, true);
-    });
-
-    test('setFtlDnsMetrics updates value and notifies listeners', () {
-      statusViewModel.setFtlDnsMetrics(ftl_fixture.kRepoFetchFtlMetrics);
-      expect(
-          statusViewModel.getFtlDnsMetrics, ftl_fixture.kRepoFetchFtlMetrics);
-      expect(
-          statusViewModel.getDnsCache, ftl_fixture.kRepoFetchFtlMetrics.cache);
-      expect(statusViewModel.getDnsReplies,
-          ftl_fixture.kRepoFetchFtlMetrics.replies);
-      expect(listenerCalled, true);
+    test('topClientNames returns empty when no realtime status', () {
+      expect(statusViewModel.topClientNames, isEmpty);
     });
   });
 }

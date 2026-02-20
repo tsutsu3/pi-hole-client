@@ -14,6 +14,8 @@ import 'package:pi_hole_client/config/query_types.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_v5.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart';
+import 'package:pi_hole_client/data/mapper/v5/metrics_mapper.dart';
+import 'package:pi_hole_client/data/model/v5/over_time_data.dart' as v5_model;
 import 'package:pi_hole_client/data/model/v6/auth/sessions.dart';
 import 'package:pi_hole_client/data/model/v6/config/config.dart' show Config;
 import 'package:pi_hole_client/data/model/v6/dhcp/dhcp.dart' show Dhcp;
@@ -50,13 +52,9 @@ import 'package:pi_hole_client/domain/models_old/gateway.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/host.dart';
 import 'package:pi_hole_client/domain/models_old/log.dart';
-import 'package:pi_hole_client/data/mapper/v5/metrics_mapper.dart';
-import 'package:pi_hole_client/data/model/v5/over_time_data.dart' as v5_model;
 import 'package:pi_hole_client/domain/models_old/metrics.dart';
-import 'package:pi_hole_client/domain/models_old/overtime_data.dart' as legacy_ot;
-
-import '../../testing/models/v5/realtime_status.dart' as rt_fixture;
-import '../../testing/models/v6/ftl.dart' as ftl_fixture;
+import 'package:pi_hole_client/domain/models_old/overtime_data.dart'
+    as legacy_ot;
 import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
 import 'package:pi_hole_client/domain/models_old/sensors.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
@@ -64,7 +62,6 @@ import 'package:pi_hole_client/domain/models_old/sessions.dart';
 import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
 import 'package:pi_hole_client/domain/models_old/system.dart';
 import 'package:pi_hole_client/domain/models_old/version.dart';
-import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/globals.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -96,6 +93,8 @@ import '../../testing/fakes/repositories/api/fake_local_dns_repository.dart';
 import '../../testing/fakes/repositories/api/fake_metrics_repository.dart';
 import '../../testing/fakes/repositories/api/fake_network_repository.dart';
 import '../../testing/fakes/repositories/api/fake_realtime_status_repository.dart';
+import '../../testing/models/v5/realtime_status.dart' as rt_fixture;
+import '../../testing/models/v6/ftl.dart' as ftl_fixture;
 import './helpers.mocks.dart';
 
 final serverV5 = Server(
@@ -665,8 +664,9 @@ final _overtimeRawData = {
     '1733477100': [0, 0],
   },
 };
-final overtimeData =
-    v5_model.OverTimeData.fromJson(_overtimeRawData).toDomain();
+final overtimeData = v5_model.OverTimeData.fromJson(
+  _overtimeRawData,
+).toDomain();
 final legacyOvertimeData = legacy_ot.OverTimeData.fromJson(_overtimeRawData);
 
 final realtimeStatus = RealtimeStatus.fromJson({
@@ -1487,7 +1487,6 @@ Future<void> initializeApp() async {
   LocalDnsProvider,
   ApiGatewayV5,
   ApiGatewayV6,
-  StatusUpdateService,
   GroupsViewModel,
   AdlistsViewModel,
   GravityUpdateViewModel,
@@ -1506,7 +1505,6 @@ class TestSetupHelper {
     MockLocalDnsProvider? customLocalDnsProvider,
     MockApiGatewayV5? customApiGatewayV5,
     MockApiGatewayV6? customApiGatewayV6,
-    MockStatusUpdateService? customStatusUpdateService,
   }) {
     mockConfigProvider = customConfigProvider ?? MockAppConfigViewModel();
     mockServersViewModel = customServersViewModel ?? MockServersViewModel();
@@ -1522,9 +1520,6 @@ class TestSetupHelper {
 
     mockApiGatewayV5 = customApiGatewayV5 ?? MockApiGatewayV5();
     mockApiGatewayV6 = customApiGatewayV6 ?? MockApiGatewayV6();
-
-    mockStatusUpdateService =
-        customStatusUpdateService ?? MockStatusUpdateService();
 
     fakeActionsRepository = FakeActionsRepository();
     fakeAdlistRepository = FakeAdlistRepository();
@@ -1550,8 +1545,6 @@ class TestSetupHelper {
   late MockApiGatewayV5 mockApiGatewayV5;
   late MockApiGatewayV6 mockApiGatewayV6;
 
-  late MockStatusUpdateService mockStatusUpdateService;
-
   late FakeActionsRepository fakeActionsRepository;
   late FakeAdlistRepository fakeAdlistRepository;
   late FakeConfigRepository fakeConfigRepository;
@@ -1571,7 +1564,6 @@ class TestSetupHelper {
     _initGravityUpdateViewModelMock(useApiGatewayVersion);
     _initApiGatewayV5Mock();
     _initApiGatewayV6Mock();
-    _initStatusUpdateServiceMock();
   }
 
   /// Build the test widget with the given setup helper.
@@ -1614,10 +1606,6 @@ class TestSetupHelper {
             ChangeNotifierProvider<ClientsViewModel>.value(
               value: mockClientsViewModel,
             ),
-            Provider<StatusUpdateService>(
-              create: (_) => mockStatusUpdateService,
-              dispose: (_, service) => service.stopAutoRefresh(),
-            ),
             Provider<RepositoryBundle?>(
               create: (_) => RepositoryBundle(
                 actions: fakeActionsRepository,
@@ -1640,16 +1628,17 @@ class TestSetupHelper {
             ),
             ChangeNotifierProxyProvider2<
               RepositoryBundle?,
-              StatusUpdateService,
+              StatusViewModel,
               LogsViewModel
             >(
               create: (context) => mockLogsViewModel,
-              update: (context, bundle, statusUpdateService, previous) =>
+              update: (context, bundle, statusVM, previous) =>
                   previous!..update(
                     metricsRepository: bundle?.metrics,
                     domainRepository: bundle?.domain,
                     apiVersion: bundle?.apiVersion,
-                    onRefreshClients: statusUpdateService.refreshOnce,
+                    topClientNames: statusVM.topClientNames,
+                    onRefreshClients: statusVM.refreshOnce,
                   ),
             ),
             ChangeNotifierProvider<AdlistsViewModel>.value(
@@ -1728,10 +1717,6 @@ class TestSetupHelper {
         ChangeNotifierProvider<ClientsViewModel>.value(
           value: mockClientsViewModel,
         ),
-        Provider<StatusUpdateService>(
-          create: (_) => mockStatusUpdateService,
-          dispose: (_, service) => service.stopAutoRefresh(),
-        ),
         Provider<RepositoryBundle?>(
           create: (_) => RepositoryBundle(
             actions: fakeActionsRepository,
@@ -1754,17 +1739,18 @@ class TestSetupHelper {
         ),
         ChangeNotifierProxyProvider2<
           RepositoryBundle?,
-          StatusUpdateService,
+          StatusViewModel,
           LogsViewModel
         >(
           create: (context) => mockLogsViewModel,
-          update: (context, bundle, statusUpdateService, previous) =>
-              previous!..update(
-                metricsRepository: bundle?.metrics,
-                domainRepository: bundle?.domain,
-                apiVersion: bundle?.apiVersion,
-                onRefreshClients: statusUpdateService.refreshOnce,
-              ),
+          update: (context, bundle, statusVM, previous) => previous!
+            ..update(
+              metricsRepository: bundle?.metrics,
+              domainRepository: bundle?.domain,
+              apiVersion: bundle?.apiVersion,
+              topClientNames: statusVM.topClientNames,
+              onRefreshClients: statusVM.refreshOnce,
+            ),
         ),
         ChangeNotifierProvider<AdlistsViewModel>.value(
           value: mockAdlistsViewModel,
@@ -2026,14 +2012,21 @@ class TestSetupHelper {
     when(
       mockStatusViewModel.getOvertimeDataLoadStatus,
     ).thenReturn(LoadStatus.loaded);
-    when(mockStatusViewModel.getRealtimeStatus)
-        .thenReturn(rt_fixture.kRepoFetchRealTimeStatus);
-    when(mockStatusViewModel.getFtlDnsMetrics)
-        .thenReturn(ftl_fixture.kRepoFetchFtlMetrics);
-    when(mockStatusViewModel.getDnsCache)
-        .thenReturn(ftl_fixture.kRepoFetchFtlMetrics.cache);
-    when(mockStatusViewModel.getDnsReplies)
-        .thenReturn(ftl_fixture.kRepoFetchFtlMetrics.replies);
+    when(
+      mockStatusViewModel.getRealtimeStatus,
+    ).thenReturn(rt_fixture.kRepoFetchRealTimeStatus);
+    when(
+      mockStatusViewModel.getFtlDnsMetrics,
+    ).thenReturn(ftl_fixture.kRepoFetchFtlMetrics);
+    when(
+      mockStatusViewModel.getDnsCache,
+    ).thenReturn(ftl_fixture.kRepoFetchFtlMetrics.cache);
+    when(
+      mockStatusViewModel.getDnsReplies,
+    ).thenReturn(ftl_fixture.kRepoFetchFtlMetrics.replies);
+    when(mockStatusViewModel.topClientNames).thenReturn([]);
+    when(mockStatusViewModel.isAutoRefreshRunning).thenReturn(false);
+    when(mockStatusViewModel.refreshOnce()).thenAnswer((_) async => true);
   }
 
   void _initDomainsViewModelMock(String useApiGatewayVersion) {
@@ -2605,10 +2598,5 @@ class TestSetupHelper {
     when(mockApiGatewayV6.deleteDhcp(any)).thenAnswer(
       (_) async => DeleteDhcpResponse(result: APiResponseType.success),
     );
-  }
-
-  void _initStatusUpdateServiceMock() {
-    when(mockStatusUpdateService.startAutoRefresh()).thenReturn(null);
-    when(mockStatusUpdateService.refreshOnce()).thenAnswer((_) async => true);
   }
 }

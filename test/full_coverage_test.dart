@@ -542,7 +542,6 @@ import 'package:pi_hole_client/domain/use_cases/realtime_status/realtime_status_
 import 'package:pi_hole_client/domain/use_cases/realtime_status/realtime_status_usecase_v5.dart';
 import 'package:pi_hole_client/domain/use_cases/realtime_status/realtime_status_usecase_v6.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection_service.dart';
-import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/domain/use_cases/usecase_factory.dart';
 import 'package:pi_hole_client/main.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';

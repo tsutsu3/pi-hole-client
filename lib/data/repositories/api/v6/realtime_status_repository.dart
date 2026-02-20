@@ -17,9 +17,9 @@ import 'package:result_dart/result_dart.dart';
 /// returns the full picture.
 ///
 /// This implementation intentionally returns a [NotSupportedException].
-/// Use cases (e.g. [RealtimeStatusUseCaseV6]) should handle v6 compatibility
-/// by orchestrating the required API calls via [MetricsRepository] and
-/// [DnsRepository].
+/// Use cases (e.g. `RealtimeStatusUseCaseV6`) should handle v6 compatibility
+/// by orchestrating the required API calls via `MetricsRepository` and
+/// `DnsRepository`.
 class RealtimeStatusRepositoryV6 extends BaseV6SidRepository
     implements RealtimeStatusRepository {
   RealtimeStatusRepositoryV6({

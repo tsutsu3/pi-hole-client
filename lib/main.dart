@@ -18,7 +18,6 @@ import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
-import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';
@@ -157,12 +156,6 @@ void main() async {
   final gravityUpdateViewModel = GravityUpdateViewModel(
     repository: gravityRepository,
   );
-  final statusUpdateService = StatusUpdateService(
-    serversViewModel: serversViewModel,
-    statusViewModel: statusViewModel,
-    appConfigViewModel: configProvider,
-    logsViewModel: logsViewModel,
-  );
   const widgetChannel = MethodChannel('pihole/widget');
 
   final appdata = await appConfigRepository.fetchAppConfig();
@@ -190,7 +183,7 @@ void main() async {
     serversViewModel.setselectedServer(server: target, toHomeTab: true);
     final result = await serversViewModel.selectedApiGateway?.loginQuery();
     serversViewModel.updateselectedServerStatus(result?.status == 'enabled');
-    statusUpdateService.startAutoRefresh(showLoadingIndicator: false);
+    statusViewModel.startAutoRefresh(showLoadingIndicator: false);
   });
 
   // Initialize devices
@@ -264,7 +257,6 @@ void main() async {
         // ===================================================
         ChangeNotifierProvider(create: (context) => configProvider),
         ChangeNotifierProvider(create: (context) => serversViewModel),
-        ChangeNotifierProvider(create: (context) => statusViewModel),
         ChangeNotifierProxyProvider<AppConfigViewModel, ServersViewModel>(
           create: (context) => serversViewModel,
           update: (context, appConfig, servers) => servers!..update(appConfig),
@@ -293,29 +285,39 @@ void main() async {
         ),
 
         // ===================================================
-        // Layer 4: Use Cases / Services (cross-cutting)
+        // Layer 4: StatusViewModel (depends on RepositoryBundle + ServersVM)
+        //
+        // Replaces the former StatusUpdateService + dumb StatusViewModel.
+        // Timer/fetch/caching logic now lives inside StatusViewModel.
         // ===================================================
-        ProxyProvider<RepositoryBundle?, StatusUpdateService>(
-          create: (_) => statusUpdateService,
-          update: (_, bundle, previous) => previous!..update(
-            realtimeStatusRepository: bundle?.realtimeStatus,
-            metricsRepository: bundle?.metrics,
-            dnsRepository: bundle?.dns,
-            ftlRepository: bundle?.ftl,
-            apiVersion: bundle?.apiVersion,
-          ),
-          dispose: (_, service) => service.stopAutoRefresh(),
+        ChangeNotifierProxyProvider2<RepositoryBundle?, ServersViewModel,
+            StatusViewModel>(
+          create: (_) => statusViewModel,
+          update: (context, bundle, servers, previous) =>
+              previous!..update(
+                realtimeStatusRepository: bundle?.realtimeStatus,
+                metricsRepository: bundle?.metrics,
+                dnsRepository: bundle?.dns,
+                ftlRepository: bundle?.ftl,
+                apiVersion: bundle?.apiVersion,
+                selectedServerAddress: servers.selectedServer?.address,
+                selectedServerAlias: servers.selectedServer?.alias,
+                isConnecting: servers.connectingServer != null,
+                onUpdateServerStatus: servers.updateselectedServerStatus,
+                autoRefreshTime: configProvider.getAutoRefreshTime,
+              ),
         ),
 
-        ChangeNotifierProxyProvider2<RepositoryBundle?, StatusUpdateService,
+        ChangeNotifierProxyProvider2<RepositoryBundle?, StatusViewModel,
             LogsViewModel>(
           create: (context) => logsViewModel,
-          update: (context, bundle, statusUpdateService, previous) =>
+          update: (context, bundle, statusVM, previous) =>
               previous!..update(
                 metricsRepository: bundle?.metrics,
                 domainRepository: bundle?.domain,
                 apiVersion: bundle?.apiVersion,
-                onRefreshClients: statusUpdateService.refreshOnce,
+                topClientNames: statusVM.topClientNames,
+                onRefreshClients: statusVM.refreshOnce,
               ),
         ),
         ChangeNotifierProxyProvider2<RepositoryBundle?, ServersViewModel,

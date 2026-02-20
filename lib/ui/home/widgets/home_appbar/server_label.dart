@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection_service.dart';
-import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
@@ -32,7 +31,6 @@ class ServerLabel extends StatelessWidget {
     final serversViewModel = context.watch<ServersViewModel>();
     final statusViewModel = context.read<StatusViewModel>();
     final appConfigViewModel = context.read<AppConfigViewModel>();
-    final statusUpdateService = context.read<StatusUpdateService>();
 
     return InkWell(
       onTap: () {
@@ -41,7 +39,6 @@ class ServerLabel extends StatelessWidget {
           appConfigViewModel,
           statusViewModel,
           serversViewModel,
-          statusUpdateService,
         );
       },
       borderRadius: BorderRadius.circular(8),
@@ -83,13 +80,12 @@ class ServerLabel extends StatelessWidget {
   /// - [appConfigViewModel]: The provider for application configuration.
   /// - [statusViewModel]: The provider for server status.
   /// - [serversViewModel]: The provider for the list of servers.
-  /// - [statusUpdateService]: The service responsible for updating server status.
+  /// - [statusViewModel]: The view model responsible for server status updates.
   void _openSwitchServerModal(
     BuildContext context,
     AppConfigViewModel appConfigViewModel,
     StatusViewModel statusViewModel,
     ServersViewModel serversViewModel,
-    StatusUpdateService statusUpdateService,
   ) {
     showDialog(
       context: context,
@@ -103,7 +99,6 @@ class ServerLabel extends StatelessWidget {
             appConfigViewModel: appConfigViewModel,
             statusViewModel: statusViewModel,
             serversViewModel: serversViewModel,
-            statusUpdateService: statusUpdateService,
             server: server,
           );
 

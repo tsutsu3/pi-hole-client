@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
@@ -36,7 +35,7 @@ class ServerActionsMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final serversViewModel = context.watch<ServersViewModel>();
-    final statusUpdateService = context.read<StatusUpdateService>();
+    final statusViewModel = context.read<StatusViewModel>();
     final appConfigViewModel = context.read<AppConfigViewModel>();
 
     final isConnected = context.select<StatusViewModel, bool>(
@@ -51,7 +50,7 @@ class ServerActionsMenu extends StatelessWidget {
       itemBuilder: (context) => _buildPopupMenuItems(
         context,
         appConfigViewModel,
-        statusUpdateService,
+        statusViewModel,
         serversViewModel,
         isConnected,
         isServerSelected,
@@ -82,7 +81,7 @@ class ServerActionsMenu extends StatelessWidget {
   List<PopupMenuEntry<void>> _buildPopupMenuItems(
     BuildContext context,
     AppConfigViewModel appConfigViewModel,
-    StatusUpdateService statusUpdateService,
+    StatusViewModel statusViewModel,
     ServersViewModel serversViewModel,
     bool isConnected,
     bool isServerSelected,
@@ -105,7 +104,7 @@ class ServerActionsMenu extends StatelessWidget {
           onTap: () => _refresh(
             context,
             appConfigViewModel,
-            statusUpdateService,
+            statusViewModel,
           ),
           child: _menuItem(
             Icons.refresh,
@@ -135,7 +134,7 @@ class ServerActionsMenu extends StatelessWidget {
         onTap: () => _refresh(
           context,
           appConfigViewModel,
-          statusUpdateService,
+          statusViewModel,
         ),
         child: _menuItem(
           Icons.refresh_rounded,
@@ -157,13 +156,13 @@ class ServerActionsMenu extends StatelessWidget {
     return Row(children: [Icon(icon), const SizedBox(width: 15), Text(label)]);
   }
 
-  /// Refreshes the server status by delegating to [StatusUpdateService].
+  /// Refreshes the server status by delegating to [StatusViewModel].
   Future<void> _refresh(
     BuildContext context,
     AppConfigViewModel appConfigViewModel,
-    StatusUpdateService statusUpdateService,
+    StatusViewModel statusViewModel,
   ) async {
-    final success = await statusUpdateService.refreshOnce();
+    final success = await statusViewModel.refreshOnce();
     if (!context.mounted) return;
 
     if (!success) {

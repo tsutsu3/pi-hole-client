@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/app_screens.dart';
-import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/layout/bottom_nav_bar.dart';
 import 'package:pi_hole_client/ui/core/ui/layout/navigation_rail.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/start_warning_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/domains_page.dart';
 import 'package:pi_hole_client/ui/home/home.dart';
 import 'package:pi_hole_client/ui/logs/logs.dart';
@@ -68,10 +68,12 @@ class _BaseState extends State<Base>
 
       if (serversViewModel.selectedServer != null) {
         final result = await serversViewModel.selectedApiGateway?.loginQuery();
-        serversViewModel.updateselectedServerStatus(result?.status == 'enabled');
+        serversViewModel.updateselectedServerStatus(
+          result?.status == 'enabled',
+        );
 
         if (!mounted) return;
-        context.read<StatusUpdateService>().startAutoRefresh();
+        context.read<StatusViewModel>().startAutoRefresh();
       }
     });
   }
@@ -122,11 +124,11 @@ class _BaseState extends State<Base>
   /// - When the window is restored from being minimized
   Future<void> onResumed() async {
     final serversViewModel = context.read<ServersViewModel>();
-    final statusUpdateService = context.read<StatusUpdateService>();
+    final statusViewModel = context.read<StatusViewModel>();
 
     if (serversViewModel.selectedServer != null) {
       await serversViewModel.selectedApiGateway?.loginQuery();
-      statusUpdateService.startAutoRefresh(showLoadingIndicator: false);
+      statusViewModel.startAutoRefresh(showLoadingIndicator: false);
     }
   }
 
@@ -138,8 +140,8 @@ class _BaseState extends State<Base>
   /// ## Desktop
   /// - When the window is minimized
   void onPaused() {
-    final statusUpdateService = context.read<StatusUpdateService>();
-    statusUpdateService.stopAutoRefresh(showLoadingIndicator: false);
+    final statusViewModel = context.read<StatusViewModel>();
+    statusViewModel.stopAutoRefresh(showLoadingIndicator: false);
   }
 
   Widget _buildPageTransitionSwitcher(Widget child) {
@@ -203,10 +205,7 @@ class _BaseState extends State<Base>
               screens: screens,
               selectedScreen: currentTab,
               onChange: (selected) {
-                _handleTabChange(
-                  selected,
-                  context.read<AppConfigViewModel>(),
-                );
+                _handleTabChange(selected, context.read<AppConfigViewModel>());
               },
             )
           : null,
