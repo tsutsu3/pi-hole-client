@@ -559,6 +559,14 @@ class StatusViewModel with ChangeNotifier {
     bool isDelay = false,
   }) {
     Future<void> timerFn({Timer? timer}) async {
+      if (_autoRefreshTime != _previousRefreshTime) {
+        logger.d('Auto Refresh Time Changed. Restarting Metrics Timer');
+        timer?.cancel();
+        _previousRefreshTime = _autoRefreshTime;
+        _setupMetricsDataTimer();
+        return;
+      }
+
       if (_selectedServerAddress == null) {
         timer?.cancel();
         return;
