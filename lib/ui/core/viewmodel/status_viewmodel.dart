@@ -463,7 +463,7 @@ class StatusViewModel with ChangeNotifier {
       // This error occurs frequently on certain devices (e.g. Pixel 6a) when
       // using exact intervals (e.g. 5000ms). Using a slightly shorter interval
       // (e.g. 4700ms) prevents hitting the edge of server-side timeout.
-      Duration(milliseconds: _autoRefreshTime! * 1000 - 300),
+      Duration(milliseconds: (_autoRefreshTime ?? 5) * 1000 - 300),
       (timer) => timerFn(timer: timer),
     );
   }
@@ -603,7 +603,7 @@ class StatusViewModel with ChangeNotifier {
       }
 
       _metricsDataTimer = Timer.periodic(
-        Duration(seconds: _autoRefreshTime!),
+        Duration(seconds: _autoRefreshTime ?? 5),
         (timer) => timerFn(timer: timer),
       );
     }
