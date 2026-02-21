@@ -77,7 +77,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
   Widget buildMessageCard({
     required String title,
     required String subtitle,
-    required VoidCallback onDelete,
+    required Future<bool> Function() onDelete,
     required Icon icon,
     Key? key,
   }) {
@@ -90,7 +90,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
         color: Theme.of(context).extension<AppColors>()!.commonRed,
         child: const Icon(Icons.delete_rounded, color: Colors.white),
       ),
-      onDismissed: (_) => onDelete(),
+      confirmDismiss: (_) => onDelete(),
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -186,28 +186,29 @@ class _GravityUpdateState extends State<GravityUpdate> {
     );
   }
 
-  Future<void> handleDeleteMessage({
+  Future<bool> handleDeleteMessage({
     required BuildContext context,
     required GravityUpdateViewModel provider,
     required AppConfigViewModel appConfigViewModel,
     required int messageId,
   }) async {
     final deleted = await provider.removeMessage(messageId);
-    if (deleted == true) {
-      if (!context.mounted) return;
-      showSuccessSnackBar(
-        context: context,
-        appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.messageDeleteSuccess,
-      );
-    } else {
-      if (!context.mounted) return;
-      showErrorSnackBar(
-        context: context,
-        appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.messageDeleteFailed,
-      );
+    if (context.mounted) {
+      if (deleted) {
+        showSuccessSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: AppLocalizations.of(context)!.messageDeleteSuccess,
+        );
+      } else {
+        showErrorSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: AppLocalizations.of(context)!.messageDeleteFailed,
+        );
+      }
     }
+    return deleted;
   }
 
   @override
