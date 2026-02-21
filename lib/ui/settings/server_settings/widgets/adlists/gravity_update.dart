@@ -193,16 +193,14 @@ class _GravityUpdateState extends State<GravityUpdate> {
     required int messageId,
   }) async {
     final deleted = await provider.removeMessage(messageId);
-    if (deleted) {
-      if (context.mounted) {
+    if (context.mounted) {
+      if (deleted) {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.messageDeleteSuccess,
         );
-      }
-    } else {
-      if (context.mounted) {
+      } else {
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
