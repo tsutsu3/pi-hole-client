@@ -35,6 +35,7 @@ import 'package:pi_hole_client/data/model/v6/network/devices.dart' show Devices;
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart' show Gateway;
 import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:pi_hole_client/data/services/utils/safe_api_call.dart';
+import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/misc.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -335,11 +336,7 @@ class PiholeV6ApiClient {
         method: HttpMethod.post,
         path: '/api/groups',
         sid: sid,
-        body: {
-          'name': name,
-          'comment': comment,
-          'enabled': enabled,
-        },
+        body: {'name': name, 'comment': comment, 'enabled': enabled},
       );
 
       if (resp.statusCode == 201) {
@@ -361,10 +358,7 @@ class PiholeV6ApiClient {
         method: HttpMethod.put,
         path: '/api/groups/${Uri.encodeComponent(name)}',
         sid: sid,
-        body: {
-          'comment': comment,
-          'enabled': enabled,
-        },
+        body: {'comment': comment, 'enabled': enabled},
       );
 
       if (resp.statusCode == 200) {
@@ -375,10 +369,7 @@ class PiholeV6ApiClient {
     });
   }
 
-  Future<Result<Unit>> deleteGroups(
-    String sid, {
-    required String name,
-  }) async {
+  Future<Result<Unit>> deleteGroups(String sid, {required String name}) async {
     return safeApiCall<Unit>(() async {
       final resp = await _sendRequest(
         method: HttpMethod.delete,
@@ -424,11 +415,7 @@ class PiholeV6ApiClient {
         method: HttpMethod.post,
         path: '/api/clients',
         sid: sid,
-        body: {
-          'client': client,
-          'comment': comment,
-          'groups': groups,
-        },
+        body: {'client': client, 'comment': comment, 'groups': groups},
       );
 
       if (resp.statusCode == 201) {
@@ -450,10 +437,7 @@ class PiholeV6ApiClient {
         method: HttpMethod.put,
         path: '/api/clients/${Uri.encodeComponent(client)}',
         sid: sid,
-        body: {
-          'comment': comment,
-          'groups': groups,
-        },
+        body: {'comment': comment, 'groups': groups},
       );
 
       if (resp.statusCode == 200) {
@@ -839,6 +823,12 @@ class PiholeV6ApiClient {
       );
 
       if (resp.statusCode == 204) {
+        return unit;
+      }
+
+      // 404: message already gone on the server - treat as success.
+      if (resp.statusCode == 404) {
+        logger.d('Message $messageId already deleted (404)');
         return unit;
       }
 
