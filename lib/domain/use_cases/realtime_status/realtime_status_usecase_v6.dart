@@ -23,7 +23,15 @@ class RealtimeStatusUseCaseV6 implements RealtimeStatusUseCase {
   @override
   Future<Result<RealtimeStatus>> fetchRealtimeStatus() async {
     try {
-      final response = await Future.wait([
+      final (
+        statsSummary,
+        blockingStatus,
+        upstreams,
+        topDomainsAllowed,
+        topDomainsBlocked,
+        topClientsAllowed,
+        topClientsBlocked,
+      ) = await (
         _metricsRepository.fetchStatsSummary(),
         _dnsRepository.fetchBlockingStatus(),
         _metricsRepository.fetchStatsUpstreams(),
@@ -31,15 +39,7 @@ class RealtimeStatusUseCaseV6 implements RealtimeStatusUseCase {
         _metricsRepository.fetchStatsTopDomainsBlocked(),
         _metricsRepository.fetchStatsTopClientsAllowed(),
         _metricsRepository.fetchStatsTopClientsBlocked(),
-      ]);
-
-      final statsSummary = response[0] as Result<Summary>;
-      final blockingStatus = response[1] as Result<Blocking>;
-      final upstreams = response[2] as Result<List<DestinationStat>>;
-      final topDomainsAllowed = response[3] as Result<List<QueryStat>>;
-      final topDomainsBlocked = response[4] as Result<List<QueryStat>>;
-      final topClientsAllowed = response[5] as Result<List<SourceStat>>;
-      final topClientsBlocked = response[6] as Result<List<SourceStat>>;
+      ).wait;
 
       return Success(
         _convert(
