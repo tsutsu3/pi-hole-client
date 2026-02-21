@@ -5,7 +5,6 @@ import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/domain/model/api_versions.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
-import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
@@ -13,6 +12,7 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/scan_token_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
@@ -223,7 +223,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   Widget build(BuildContext context) {
     final serversViewModel = Provider.of<ServersViewModel>(context);
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
-    final statusUpdateService = context.read<StatusUpdateService>();
+    final statusViewModel = context.read<StatusViewModel>();
     final appColors = Theme.of(context).extension<AppColors>()!;
 
     final mediaQuery = MediaQuery.of(context);
@@ -524,7 +524,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       await serverObj.sm.savePassword(passwordFieldController.text);
       await serverObj.sm.saveToken(tokenFieldController.text);
       if (serversViewModel.selectedServer != null) {
-        statusUpdateService.stopAutoRefresh();
+        statusViewModel.stopAutoRefresh();
       }
 
       // Validate certificate BEFORE connection test (same as connect())
@@ -535,7 +535,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             isConnecting = false;
           });
           if (serversViewModel.selectedServer != null) {
-            statusUpdateService.startAutoRefresh();
+            statusViewModel.startAutoRefresh();
           }
         },
       );
@@ -593,7 +593,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       }
 
       if (serversViewModel.selectedServer != null) {
-        statusUpdateService.startAutoRefresh();
+        statusViewModel.startAutoRefresh();
       }
     }
 

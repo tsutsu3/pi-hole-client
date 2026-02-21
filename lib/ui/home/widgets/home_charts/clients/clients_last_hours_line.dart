@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/chart_utils.dart';
@@ -16,15 +17,11 @@ class ClientsLastHoursLine extends StatelessWidget {
   });
 
   final List<String> realtimeListIps;
-  final Map<String, dynamic> data;
+  final OverTime data;
   final bool reducedData;
   final bool hideZeroValues;
   static final Map<int, Widget> _titleCache = {};
 
-  /// Get the legend name for the tooltip.
-  ///
-  /// If the client has a name, it will be used, otherwise the IP address.
-  /// If the name is longer than 14 characters, it will be truncated.
   String _getLegendName(Map<String, dynamic> data, LineBarSpot item) {
     if (data['clientsColors'][item.barIndex]['name'] != '') {
       if (data['clientsColors'][item.barIndex]['name'].length > 14) {
@@ -156,68 +153,66 @@ class ClientsLastHoursLine extends StatelessWidget {
   Widget build(BuildContext context) {
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
-    Color getColor(Map<String, dynamic> client, int index) {
-      final exists = realtimeListIps.indexOf(data['clients'][index]['ip']);
+    Color getColor(int index) {
+      final exists = realtimeListIps.indexOf(data.clients[index].ip);
       if (exists >= 0) {
         return Theme.of(context).extension<GraphColors>()!.getColor(exists);
       } else {
-        return client['color'];
+        return Theme.of(context).extension<GraphColors>()!.getColor(index);
       }
     }
 
-    Map<String, dynamic> formatData(Map<String, dynamic> data) {
+    Map<String, dynamic> formatData(OverTime data) {
       final items = <LineChartBarData>[];
       final clientsColors = <Map<String, dynamic>>[];
       var topPoint = 0;
-      final List<String> keys = data['over_time'].keys.toList();
+      final clientEntries = data.clientEntries;
       final interval = reducedData == true ? averageIntervalCount : 1;
 
-      for (var i = 0; i < data['clients'].length; i++) {
+      for (var i = 0; i < data.clients.length; i++) {
         final client = <FlSpot>[];
         var xPosition = 0;
-        for (var j = 0; j < data['over_time'].entries.length; j += interval) {
-          if (data['over_time'][keys[j]][i] > topPoint) {
-            topPoint = data['over_time'][keys[j]][i];
-          }
-          client.add(
-            FlSpot(
-              xPosition.toDouble(),
-              data['over_time'][keys[j]][i].toDouble(),
-            ),
-          );
+        for (var j = 0; j < clientEntries.length; j += interval) {
+          final value = i < clientEntries[j].values.length
+              ? clientEntries[j].values[i]
+              : 0;
+          if (value > topPoint) topPoint = value;
+          client.add(FlSpot(xPosition.toDouble(), value.toDouble()));
           xPosition++;
         }
         items.add(
           LineChartBarData(
             spots: client,
-            color: getColor(data['clients'][i], i),
+            color: getColor(i),
             isCurved: true,
             preventCurveOverShooting: true,
             isStrokeCapRound: true,
             dotData: const FlDotData(show: false),
             belowBarData: BarAreaData(
               show: true,
-              color: getColor(data['clients'][i], i).withValues(alpha: 0.2),
+              color: getColor(i).withValues(alpha: 0.2),
             ),
           ),
         );
         clientsColors.add({
-          'ip': data['clients'][i]['ip'],
-          'name': data['clients'][i]['name'],
-          'color': getColor(data['clients'][i], i),
+          'ip': data.clients[i].ip,
+          'name': data.clients[i].name ?? '',
+          'color': getColor(i),
         });
       }
 
       final timestamps = <String>[];
-      final List<String> k = data['domains_over_time'].keys.toList();
-      for (var i = 0; i < k.length; i += interval) {
-        timestamps.add(k[i]);
+      for (var i = 0; i < data.domainsOverTime.length; i += interval) {
+        timestamps.add(
+          (data.domainsOverTime[i].timestamp.millisecondsSinceEpoch ~/ 1000)
+              .toString(),
+        );
       }
 
       /// Dummy data for legend
       final flatLine = <FlSpot>[];
       var xPosition = 0;
-      for (var j = 0; j < data['over_time'].entries.length; j += interval) {
+      for (var j = 0; j < clientEntries.length; j += interval) {
         flatLine.add(FlSpot(xPosition.toDouble(), 0));
         xPosition++;
       }

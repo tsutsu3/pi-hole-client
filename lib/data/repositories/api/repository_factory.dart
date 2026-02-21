@@ -12,6 +12,7 @@ import 'package:pi_hole_client/data/repositories/api/v5/group_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/local_dns_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/metrics_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/network_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/v5/realtime_status_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/actions_respository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/adlist_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/auth_repository.dart';
@@ -25,6 +26,8 @@ import 'package:pi_hole_client/data/repositories/api/v6/group_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/local_dns_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/metrics_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/network_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/realtime_status_repository.dart'
+    as v6;
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
@@ -55,6 +58,10 @@ class RepositoryBundleFactory {
           localDns: LocalDnsRepositoryV6(client: client, creds: creds),
           metrics: MetricsRepositoryV6(client: client, creds: creds),
           network: NetworkRepositoryV6(client: client, creds: creds),
+          realtimeStatus: v6.RealtimeStatusRepositoryV6(
+            client: client,
+            creds: creds,
+          ),
           serverAddress: server.address,
           apiVersion: server.apiVersion,
         );
@@ -74,6 +81,10 @@ class RepositoryBundleFactory {
           localDns: LocalDnsRepositoryV5(client: client, creds: creds),
           metrics: MetricsRepositoryV5(client: client, creds: creds),
           network: NetworkRepositoryV5(client: client, creds: creds),
+          realtimeStatus: RealTimeStatusRepositoryV5(
+            client: client,
+            creds: creds,
+          ),
           serverAddress: server.address,
           apiVersion: server.apiVersion,
         );

@@ -35,7 +35,7 @@ typedef LiveLogsServiceFactory = LiveLogsService Function({
 /// (status, time range, clients, domain, request status) lives here.
 ///
 /// Injected via `ChangeNotifierProxyProvider2` from `RepositoryBundle` and
-/// `StatusUpdateService`; the [update] method keeps the repository reference,
+/// `StatusViewModel`; the [update] method keeps the repository reference,
 /// API version, and refresh callback in sync.
 ///
 /// The constructor accepts optional factory parameters that allow tests to
@@ -319,8 +319,12 @@ class LogsViewModel extends ChangeNotifier {
   /// server selection changes. Switches the filter delegate (V5/V6) when the
   /// API version changes.
   ///
-  /// [onRefreshClients] is wired to `StatusUpdateService.refreshOnce` to
+  /// [onRefreshClients] is wired to `StatusViewModel.refreshOnce` to
   /// trigger a client-list refresh without a direct use-case dependency.
+  ///
+  /// [topClientNames] receives the derived client list from
+  /// `StatusViewModel.topClientNames` via ProxyProvider, replacing the
+  /// former direct push from `StatusUpdateService`.
   ///
   /// When the repository instance changes while the screen is active
   /// (i.e. server switch), reinitializes pagination services and reloads.
@@ -328,9 +332,13 @@ class LogsViewModel extends ChangeNotifier {
     MetricsRepository? metricsRepository,
     DomainRepository? domainRepository,
     String? apiVersion,
+    List<String>? topClientNames,
     VoidCallback? onRefreshClients,
   }) {
     _onRefreshClients = onRefreshClients;
+    if (topClientNames != null && topClientNames.isNotEmpty) {
+      _filters.setClients(topClientNames);
+    }
     if (domainRepository != null) {
       _domainRepository = domainRepository;
     }

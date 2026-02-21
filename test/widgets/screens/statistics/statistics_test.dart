@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
+import 'package:pi_hole_client/domain/model/metrics/summary.dart';
+import 'package:pi_hole_client/domain/model/metrics/top_clients.dart';
+import 'package:pi_hole_client/domain/model/metrics/top_domains.dart';
+import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart';
 import 'package:pi_hole_client/ui/statistics/statistics.dart';
 import 'package:pi_hole_client/ui/statistics/statistics_list.dart';
 import 'package:pi_hole_client/ui/statistics/statistics_triple_column.dart';
@@ -144,54 +147,38 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      final realtimeStatus = RealtimeStatus.fromJson({
-        'domains_being_blocked': 121860,
-        'dns_queries_today': 16,
-        'ads_blocked_today': 1,
-        'ads_percentage_today': 6.25,
-        'unique_domains': 11,
-        'queries_forwarded': 9,
-        'queries_cached': 6,
-        'clients_ever_seen': 2,
-        'unique_clients': 2,
-        'dns_queries_all_types': 16,
-        'reply_UNKNOWN': 0,
-        'reply_NODATA': 0,
-        'reply_NXDOMAIN': 3,
-        'reply_CNAME': 0,
-        'reply_IP': 10,
-        'reply_DOMAIN': 3,
-        'reply_RRNAME': 0,
-        'reply_SERVFAIL': 0,
-        'reply_REFUSED': 0,
-        'reply_NOTIMP': 0,
-        'reply_OTHER': 0,
-        'reply_DNSSEC': 0,
-        'reply_NONE': 0,
-        'reply_BLOB': 0,
-        'dns_queries_all_replies': 16,
-        'privacy_level': 0,
-        'status': 'enabled',
-        'gravity_last_updated': {
-          'file_exists': true,
-          'absolute': 1732972589,
-          'relative': {'days': 5, 'hours': 18, 'minutes': 14},
-        },
-        'top_queries': {},
-        'top_ads': {},
-        'top_sources': {},
-        'top_sources_blocked': {},
-        'forward_destinations': {},
-        'querytypes': {},
-      });
+      final realtimeStatus = RealtimeStatus(
+        summary: Summary(
+          domainsBeingBlocked: 121860,
+          dnsQueriesToday: 16,
+          adsBlockedToday: 1,
+          adsPercentageToday: 6.25,
+          uniqueDomains: 11,
+          queriesForwarded: 9,
+          queriesCached: 6,
+          clientsEverSeen: 2,
+          uniqueClients: 2,
+          dnsQueriesAllTypes: 16,
+          replies: const ReplyCounts(
+            unknown: 0, nodata: 0, nxDomain: 3, cname: 0, ip: 10, domain: 3,
+            rrname: 0, servfail: 0, refused: 0, notimp: 0, other: 0,
+            dnssec: 0, none: 0, blob: 0, total: 16,
+          ),
+          queryTypes: const [],
+        ),
+        status: DnsBlockingStatus.enabled,
+        topDomains: const TopDomains(topQueries: [], topAds: []),
+        topClients: const TopClients(topSources: [], topSourcesBlocked: []),
+        forwardDestinations: const [],
+      );
 
       when(
         testSetup.mockStatusViewModel.getRealtimeStatus,
       ).thenReturn(realtimeStatus);
 
-      when(testSetup.mockStatusViewModel.getMetricsInfo).thenReturn(null);
-      when(testSetup.mockStatusViewModel.getDnsCacheInfo).thenReturn(null);
-      when(testSetup.mockStatusViewModel.getDnsRepliesInfo).thenReturn(null);
+      when(testSetup.mockStatusViewModel.getFtlDnsMetrics).thenReturn(null);
+      when(testSetup.mockStatusViewModel.getDnsCache).thenReturn(null);
+      when(testSetup.mockStatusViewModel.getDnsReplies).thenReturn(null);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();

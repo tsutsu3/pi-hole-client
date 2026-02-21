@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
-import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/globals.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
@@ -25,7 +24,6 @@ class ServerConnectionService {
     required this.appConfigViewModel,
     required this.statusViewModel,
     required this.serversViewModel,
-    required this.statusUpdateService,
     required this.server,
     this.useRootContextOnFailure = false,
     this.showModal = false,
@@ -35,7 +33,6 @@ class ServerConnectionService {
   final AppConfigViewModel appConfigViewModel;
   final StatusViewModel statusViewModel;
   final ServersViewModel serversViewModel;
-  final StatusUpdateService statusUpdateService;
   final Server server;
   final bool useRootContextOnFailure;
   final bool showModal;
@@ -90,7 +87,7 @@ class ServerConnectionService {
 
   void _startConnection() {
     serversViewModel.setConnectingServer(server);
-    statusUpdateService.stopAutoRefresh();
+    statusViewModel.stopAutoRefresh();
     statusViewModel.setServerStatus(LoadStatus.loading);
   }
 
@@ -103,7 +100,7 @@ class ServerConnectionService {
     if (fallback != null) {
       serversViewModel.setselectedServer(server: fallback);
       statusViewModel.setServerStatus(LoadStatus.loaded);
-      statusUpdateService.startAutoRefresh();
+      statusViewModel.startAutoRefresh();
     } else {
       statusViewModel.setServerStatus(LoadStatus.error);
     }
@@ -134,7 +131,7 @@ class ServerConnectionService {
     );
 
     statusViewModel.setServerStatus(LoadStatus.loaded);
-    statusUpdateService.startAutoRefresh();
+    statusViewModel.startAutoRefresh();
   }
 
   Future<Server?> _ensurePinnedFingerprintIfNeeded(Server server) async {
@@ -181,7 +178,7 @@ class ServerConnectionService {
     if (fallback != null) {
       serversViewModel.setselectedServer(server: fallback);
       statusViewModel.setServerStatus(LoadStatus.loading);
-      statusUpdateService.startAutoRefresh();
+      statusViewModel.startAutoRefresh();
     } else {
       statusViewModel.setServerStatus(LoadStatus.error);
     }
@@ -293,7 +290,6 @@ class ServerConnectionService {
             appConfigViewModel: appConfigViewModel,
             statusViewModel: statusViewModel,
             serversViewModel: serversViewModel,
-            statusUpdateService: statusUpdateService,
             server: updated,
             useRootContextOnFailure: useRootContextOnFailure,
             showModal: showModal,

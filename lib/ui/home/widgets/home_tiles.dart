@@ -70,7 +70,7 @@ class HomeTiles extends StatelessWidget {
               valueSelector: (context) {
                 return context.select<StatusViewModel, String>(
                   (provider) => intFormat(
-                    provider.getRealtimeStatus?.dnsQueriesToday ?? _fakeTotal,
+                    provider.getRealtimeStatus?.summary.dnsQueriesToday ?? _fakeTotal,
                     locale,
                   ),
                 );
@@ -108,7 +108,7 @@ class HomeTiles extends StatelessWidget {
               valueSelector: (context) {
                 return context.select<StatusViewModel, String>(
                   (provider) => intFormat(
-                    provider.getRealtimeStatus?.adsBlockedToday ?? _fakeblocked,
+                    provider.getRealtimeStatus?.summary.adsBlockedToday ?? _fakeblocked,
                     locale,
                   ),
                 );
@@ -129,7 +129,7 @@ class HomeTiles extends StatelessWidget {
               valueSelector: (context) {
                 return context.select<StatusViewModel, String>(
                   (provider) =>
-                      '${formatPercentage(provider.getRealtimeStatus?.adsPercentageToday ?? _fakePercentage, locale)}%',
+                      '${formatPercentage(provider.getRealtimeStatus?.summary.adsPercentageToday ?? _fakePercentage, locale)}%',
                 );
               },
               width: width,
@@ -148,7 +148,7 @@ class HomeTiles extends StatelessWidget {
               valueSelector: (context) {
                 return context.select<StatusViewModel, String>(
                   (provider) => intFormat(
-                    provider.getRealtimeStatus?.domainsBeingBlocked ??
+                    provider.getRealtimeStatus?.summary.domainsBeingBlocked ??
                         _fakeDomains,
                     locale,
                   ),

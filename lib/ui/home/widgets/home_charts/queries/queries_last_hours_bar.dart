@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
@@ -14,7 +15,7 @@ class QueriesLastHoursBar extends StatelessWidget {
     super.key,
   });
 
-  final Map<String, dynamic> data;
+  final OverTime data;
   final bool reducedData;
   static final Map<int, Widget> _titleCache = {};
 
@@ -132,24 +133,24 @@ class QueriesLastHoursBar extends StatelessWidget {
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     Map<String, dynamic> formatData(
-      Map<String, dynamic> data,
+      OverTime data,
       double chartWidth,
       ThemeMode selectedTheme,
     ) {
       final items = <BarChartGroupData>[];
 
       var topPoint = 0;
-      final List<String> domainsKeys = data['domains_over_time'].keys.toList();
-      final List<String> adsKeys = data['ads_over_time'].keys.toList();
+      final domainsOverTime = data.domainsOverTime;
+      final adsOverTime = data.adsOverTime;
       final interval = reducedData == true ? averageIntervalCount : 1;
       final barWidth =
           chartWidth /
           (reducedData == true
-              ? domainsKeys.length / averageIntervalCount
-              : domainsKeys.length) *
+              ? domainsOverTime.length / averageIntervalCount
+              : domainsOverTime.length) *
           0.8;
 
-      if (domainsKeys.length != adsKeys.length) {
+      if (domainsOverTime.length != adsOverTime.length) {
         return {
           'data': {'domains': [], 'ads': [], 'flatLines': []},
           'topPoint': 0,
@@ -158,18 +159,12 @@ class QueriesLastHoursBar extends StatelessWidget {
         };
       }
 
-      for (
-        var i = 0;
-        i < data['domains_over_time'].entries.length;
-        i += interval
-      ) {
+      for (var i = 0; i < domainsOverTime.length; i += interval) {
         final barRods = <BarChartRodData>[];
-        var stackedHeight = 0.0;
-        var adsHeight = 0.0;
         final stackItems = <BarChartRodStackItem>[];
 
-        stackedHeight = data['domains_over_time'][domainsKeys[i]].toDouble();
-        adsHeight = data['ads_over_time'][adsKeys[i]].toDouble();
+        final stackedHeight = domainsOverTime[i].count.toDouble();
+        final adsHeight = adsOverTime[i].count.toDouble();
 
         if (stackedHeight > topPoint) {
           topPoint = stackedHeight.toInt();
@@ -218,9 +213,11 @@ class QueriesLastHoursBar extends StatelessWidget {
       }
 
       final timestamps = <String>[];
-      final List<String> k = data['domains_over_time'].keys.toList();
-      for (var i = 0; i < k.length; i += interval) {
-        timestamps.add(k[i]);
+      for (var i = 0; i < domainsOverTime.length; i += interval) {
+        timestamps.add(
+          (domainsOverTime[i].timestamp.millisecondsSinceEpoch ~/ 1000)
+              .toString(),
+        );
       }
 
       return {'data': items, 'topPoint': topPoint, 'time': timestamps};

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/servers.dart';
-import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:provider/provider.dart';
 
@@ -108,7 +105,6 @@ class ServerActionsMenu extends StatelessWidget {
             context,
             appConfigViewModel,
             statusViewModel,
-            serversViewModel,
           ),
           child: _menuItem(
             Icons.refresh,
@@ -139,7 +135,6 @@ class ServerActionsMenu extends StatelessWidget {
           context,
           appConfigViewModel,
           statusViewModel,
-          serversViewModel,
         ),
         child: _menuItem(
           Icons.refresh_rounded,
@@ -161,57 +156,16 @@ class ServerActionsMenu extends StatelessWidget {
     return Row(children: [Icon(icon), const SizedBox(width: 15), Text(label)]);
   }
 
-  /// Refreshes the real-time status of the currently selected server and updates the UI accordingly.
-  ///
-  /// This method performs the following actions:
-  ///
-  /// 1. Sets the main status loading indicator to `loading`.
-  /// 2. Attempts to fetch the latest real-time status from the currently selected API gateway.
-  /// 3. If the status fetch is successful:
-  ///    - Updates the server's enabled/disabled status in the server provider.
-  ///    - Marks the server as connected.
-  ///    - Updates the real-time status in the status provider.
-  /// 4. If the status fetch fails:
-  ///    - Logs a warning message.
-  ///    - Marks the server as disconnected.
-  ///    - If the loading indicator is still `loading`, sets it to `error`.
-  ///    - Displays an error snackbar to notify the user.
-  ///
-  /// UI updates are performed only if the [context] is still mounted.
-  ///
-  /// Parameters:
-  /// - [context]: The build context used to show error messages and update the UI.
-  /// - [appConfigViewModel]: The application configuration provider used to access app settings.
-  /// - [statusViewModel]: The status provider used to manage the current status of the server
-  /// - [serversViewModel]: The servers provider used to access the currently selected server and its API gateway.
-  ///
-  /// Returns:
-  /// A [Future] that completes when the refresh operation is done.
+  /// Refreshes the server status by delegating to [StatusViewModel].
   Future<void> _refresh(
     BuildContext context,
     AppConfigViewModel appConfigViewModel,
     StatusViewModel statusViewModel,
-    ServersViewModel serversViewModel,
   ) async {
-    statusViewModel.setStatusLoading(LoadStatus.loading);
-
-    final result = await serversViewModel.selectedApiGateway?.realtimeStatus(
-      clientCount: 0,
-    );
+    final success = await statusViewModel.refreshOnce();
     if (!context.mounted) return;
 
-    if (result?.result == APiResponseType.success) {
-      serversViewModel.updateselectedServerStatus(
-        result!.data!.status == 'enabled' ? true : false,
-      );
-      statusViewModel.setServerStatus(LoadStatus.loaded);
-      statusViewModel.setRealtimeStatus(result.data!);
-    } else {
-      logger.w('Error while fetching server status: ${result?.result.name}');
-      statusViewModel.setServerStatus(LoadStatus.error);
-      if (statusViewModel.getStatusLoading == LoadStatus.loading) {
-        statusViewModel.setStatusLoading(LoadStatus.error);
-      }
+    if (!success) {
       showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,

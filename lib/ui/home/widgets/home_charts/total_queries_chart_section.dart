@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_data_chart.dart';
@@ -9,19 +10,6 @@ import 'package:pi_hole_client/ui/home/widgets/home_charts/queries/queries_skele
 import 'package:pi_hole_client/ui/statistics/no_data_chart.dart';
 import 'package:provider/provider.dart';
 
-/// A responsive widget that renders the total DNS query statistics section.
-///
-/// Displays a 24-hour line or bar chart of:
-/// - Blocked queries (ads)
-/// - Allowed queries
-///
-/// Includes:
-/// - Section label
-/// - `fl_chart` line graph
-/// - Legend showing color-coded query types
-///
-/// The layout adapts based on screen width using [FractionallySizedBox].
-/// If no valid data is present, a [NoDataChart] is displayed instead.
 class TotalQueriesChartSection extends StatelessWidget {
   const TotalQueriesChartSection({required this.width, super.key});
 
@@ -33,10 +21,9 @@ class TotalQueriesChartSection extends StatelessWidget {
       (provider) => provider.getOvertimeDataLoadStatus,
     );
 
-    final overtimeDataJson = context
-        .select<StatusViewModel, Map<String, dynamic>?>(
-          (provider) => provider.getOvertimeDataJson,
-        );
+    final overtimeData = context.select<StatusViewModel, OverTime?>(
+      (provider) => provider.getOvertimeData,
+    );
 
     Widget child;
     switch (overTimeDataLoadStatus) {
@@ -47,7 +34,7 @@ class TotalQueriesChartSection extends StatelessWidget {
       case LoadStatus.loading:
         child = const QueriesSkeleton();
       case LoadStatus.loaded:
-        child = _hasData(overtimeDataJson)
+        child = _hasData(overtimeData)
             ? const QueriesContent()
             : NoDataChart(
                 topLabel: AppLocalizations.of(context)!.totalQueries24,
@@ -60,31 +47,9 @@ class TotalQueriesChartSection extends StatelessWidget {
     );
   }
 
-  /// Checks whether the query data contains any non-zero values.
-  ///
-  /// This is used to determine whether to show the chart or the fallback [NoDataChart].
-  ///
-  /// Parameters:
-  /// - [overtimeDataJson]: The JSON data containing query statistics.
-  bool _hasData(Map<String, dynamic>? overtimeDataJson) {
-    if (overtimeDataJson == null) return false;
-    return _checkExistsData(overtimeDataJson['domains_over_time'] ?? {}) ||
-        _checkExistsData(overtimeDataJson['ads_over_time'] ?? {});
-  }
-
-  /// Checks whether any value in the given [data] map is greater than 0.
-  ///
-  /// Returns `true` if at least one non-zero value exists; otherwise `false`.
-  ///
-  /// Used to determine if sufficient data exists to render a chart.
-  bool _checkExistsData(Map<String, dynamic> data) {
-    var exists = false;
-    for (final element in data.keys) {
-      if (data[element] > 0) {
-        exists = true;
-        break;
-      }
-    }
-    return exists;
+  bool _hasData(OverTime? overtimeData) {
+    if (overtimeData == null) return false;
+    return overtimeData.domainsOverTime.any((e) => e.count > 0) ||
+        overtimeData.adsOverTime.any((e) => e.count > 0);
   }
 }

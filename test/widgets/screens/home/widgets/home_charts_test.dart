@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/models_old/overtime_data.dart';
+import 'package:pi_hole_client/data/mapper/v5/metrics_mapper.dart';
+import 'package:pi_hole_client/data/model/v5/over_time_data.dart' as v5_model;
 import 'package:pi_hole_client/ui/home/widgets/home_charts.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/clients/clients_last_hours_bar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/clients/clients_last_hours_line.dart';
@@ -195,7 +196,7 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        final overtimeData = OverTimeData.fromJson({
+        final overtimeData = v5_model.OverTimeData.fromJson({
           'domains_over_time': {
             '1733391300': 0,
             '1733391900': 0,
@@ -638,14 +639,11 @@ void main() async {
             '1733476500': [0, 0],
             '1733477100': [0, 0],
           },
-        });
+        }).toDomain();
 
         when(
           testSetup.mockStatusViewModel.getOvertimeData,
         ).thenReturn(overtimeData);
-        when(
-          testSetup.mockStatusViewModel.getOvertimeDataJson,
-        ).thenReturn(overtimeData.toJson());
 
         await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
 
@@ -674,7 +672,7 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        final overtimeData = OverTimeData.fromJson({
+        final overtimeData = v5_model.OverTimeData.fromJson({
           'domains_over_time': {
             '1733391300': 0,
             '1733391900': 0,
@@ -1117,14 +1115,11 @@ void main() async {
             '1733476500': [1, 0],
             '1733477100': [0, 1],
           },
-        });
+        }).toDomain();
 
         when(
           testSetup.mockStatusViewModel.getOvertimeData,
         ).thenReturn(overtimeData);
-        when(
-          testSetup.mockStatusViewModel.getOvertimeDataJson,
-        ).thenReturn(overtimeData.toJson());
 
         await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
 
@@ -1153,7 +1148,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      final overtimeData = OverTimeData.fromJson({
+      final overtimeData = v5_model.OverTimeData.fromJson({
         'domains_over_time': {
           '1733391300': 0,
           '1733391900': 0,
@@ -1593,14 +1588,11 @@ void main() async {
           '1733476500': [0, 0],
           '1733477100': [0, 0],
         },
-      });
+      }).toDomain();
 
       when(
         testSetup.mockStatusViewModel.getOvertimeData,
       ).thenReturn(overtimeData);
-      when(
-        testSetup.mockStatusViewModel.getOvertimeDataJson,
-      ).thenReturn(overtimeData.toJson());
 
       await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
 
