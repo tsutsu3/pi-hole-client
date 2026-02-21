@@ -127,6 +127,26 @@ class StatusViewModel with ChangeNotifier {
     _autoRefreshTime = autoRefreshTime;
     _onUpdateServerStatus = onUpdateServerStatus;
 
+    // Restart all timers when the refresh interval changes mid-polling.
+    final hasInterval = _previousRefreshTime != null;
+    final intervalChanged = autoRefreshTime != _previousRefreshTime;
+    final refreshTimeChanged =
+        hasInterval &&
+        intervalChanged &&
+        _isAutoRefreshRunning &&
+        !serverChanged;
+    _previousRefreshTime = autoRefreshTime;
+
+    if (refreshTimeChanged) {
+      logger.d('Auto Refresh Time Changed. Restarting all timers.');
+      _stopAutoRefresh(showLoadingIndicator: false);
+      Future.microtask(() {
+        if (!_isAutoRefreshRunning && _selectedServerAddress != null) {
+          startAutoRefresh(showLoadingIndicator: false);
+        }
+      });
+    }
+
     // When the server changes, reset all state (functionally equivalent to
     // disposing and recreating the ViewModel).
     if (serverChanged) {
@@ -382,17 +402,7 @@ class StatusViewModel with ChangeNotifier {
   // Private — timer setup (status data)
   // ---------------------------------------------------------------------------
   void _setupStatusDataTimer({bool runImmediately = true}) {
-    _previousRefreshTime ??= _autoRefreshTime;
-
     Future<void> timerFn({Timer? timer}) async {
-      if (_autoRefreshTime != _previousRefreshTime) {
-        logger.d('Auto Refresh Time Changed. Restarting Timer');
-        timer?.cancel();
-        _previousRefreshTime = _autoRefreshTime;
-        _setupStatusDataTimer();
-        return;
-      }
-
       if (_selectedServerAddress == null) {
         timer?.cancel();
         return;
@@ -559,14 +569,6 @@ class StatusViewModel with ChangeNotifier {
     bool isDelay = false,
   }) {
     Future<void> timerFn({Timer? timer}) async {
-      if (_autoRefreshTime != _previousRefreshTime) {
-        logger.d('Auto Refresh Time Changed. Restarting Metrics Timer');
-        timer?.cancel();
-        _previousRefreshTime = _autoRefreshTime;
-        _setupMetricsDataTimer();
-        return;
-      }
-
       if (_selectedServerAddress == null) {
         timer?.cancel();
         return;

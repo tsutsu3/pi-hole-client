@@ -285,15 +285,16 @@ void main() async {
         ),
 
         // ===================================================
-        // Layer 4: StatusViewModel (depends on RepositoryBundle + ServersVM)
+        // Layer 4: StatusViewModel
+        // (depends on RepositoryBundle + ServersVM + AppConfigVM)
         //
         // Replaces the former StatusUpdateService + dumb StatusViewModel.
         // Timer/fetch/caching logic now lives inside StatusViewModel.
         // ===================================================
-        ChangeNotifierProxyProvider2<RepositoryBundle?, ServersViewModel,
-            StatusViewModel>(
+        ChangeNotifierProxyProvider3<RepositoryBundle?, ServersViewModel,
+            AppConfigViewModel, StatusViewModel>(
           create: (_) => statusViewModel,
-          update: (context, bundle, servers, previous) =>
+          update: (context, bundle, servers, appConfig, previous) =>
               previous!..update(
                 realtimeStatusRepository: bundle?.realtimeStatus,
                 metricsRepository: bundle?.metrics,
@@ -304,7 +305,7 @@ void main() async {
                 selectedServerAlias: servers.selectedServer?.alias,
                 isConnecting: servers.connectingServer != null,
                 onUpdateServerStatus: servers.updateselectedServerStatus,
-                autoRefreshTime: configProvider.getAutoRefreshTime,
+                autoRefreshTime: appConfig.getAutoRefreshTime,
               ),
         ),
 
