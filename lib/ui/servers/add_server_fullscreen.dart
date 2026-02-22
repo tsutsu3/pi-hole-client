@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/urls.dart';
+import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
+import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/domain/model/api_versions.dart';
+import 'package:pi_hole_client/domain/model/app/app_log.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
@@ -179,8 +182,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   Future<void> _loadSecrets() async {
     if (widget.server != null) {
       try {
-        final password = await widget.server!.sm.password;
-        final token = await widget.server!.sm.token;
+        final sm = SecureDataRepository(
+          SecureStorageService(),
+          widget.server!.address,
+        );
+        final password = await sm.password;
+        final token = await sm.token;
 
         if (mounted) {
           setState(() {
@@ -214,8 +221,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   Future<void> _restoreSecrets() async {
     if (widget.server != null) {
-      await widget.server?.sm.savePassword(initPassword!);
-      await widget.server?.sm.saveToken(initToken!);
+      final sm = SecureDataRepository(
+        SecureStorageService(),
+        widget.server!.address,
+      );
+      await sm.savePassword(initPassword!);
+      await sm.saveToken(initToken!);
     }
   }
 
@@ -260,7 +271,16 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       );
 
       if (result?.log != null) {
-        appConfigViewModel.addLog(result!.log!);
+        final oldLog = result!.log!;
+        appConfigViewModel.addLog(
+          AppLog(
+            type: oldLog.type,
+            dateTime: oldLog.dateTime,
+            message: oldLog.message,
+            statusCode: oldLog.statusCode,
+            resBody: oldLog.resBody,
+          ),
+        );
       }
     }
 
@@ -432,14 +452,17 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         var serverObj = Server(
           address: url,
           alias: aliasFieldController.text,
-          defaultServer: false,
           apiVersion: piHoleVersion,
           allowSelfSignedCert: allowSelfSignedCert,
           ignoreCertificateErrors: ignoreCertificateErrors,
           pinnedCertificateSha256: pinnedCertificateSha256,
         );
-        await serverObj.sm.savePassword(passwordFieldController.text);
-        await serverObj.sm.saveToken(tokenFieldController.text);
+        final connectSm = SecureDataRepository(
+          SecureStorageService(),
+          url,
+        );
+        await connectSm.savePassword(passwordFieldController.text);
+        await connectSm.saveToken(tokenFieldController.text);
 
         serverObj =
             await validateAndUpdateServerCertificate(
@@ -465,17 +488,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             label: AppLocalizations.of(context)!.connectedSuccessfully,
           );
           await serversViewModel.addServer(
-            Server(
-              address: serverObj.address,
-              alias: serverObj.alias,
-              defaultServer: defaultCheckbox,
-              apiVersion: piHoleVersion,
-              enabled: result!.status == 'enabled' ? true : false,
-              allowSelfSignedCert: allowSelfSignedCert,
-              ignoreCertificateErrors: ignoreCertificateErrors,
-              pinnedCertificateSha256: serverObj.pinnedCertificateSha256,
-              sm: serverObj.sm,
-            ),
+            serverObj.copyWith(defaultServer: defaultCheckbox),
           );
         } else {
           if (mounted) {
@@ -484,8 +497,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               _restoreSecrets();
             });
 
-            await serverObj.sm.deletePassword();
-            await serverObj.sm.deleteToken();
+            await connectSm.deletePassword();
+            await connectSm.deleteToken();
             if (!context.mounted) return;
 
             handleApiErrorResult(
@@ -515,14 +528,17 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       var serverObj = Server(
         address: widget.server!.address,
         alias: aliasFieldController.text,
-        defaultServer: false,
         apiVersion: piHoleVersion,
         allowSelfSignedCert: allowSelfSignedCert,
         ignoreCertificateErrors: ignoreCertificateErrors,
         pinnedCertificateSha256: pinnedCertificateSha256,
       );
-      await serverObj.sm.savePassword(passwordFieldController.text);
-      await serverObj.sm.saveToken(tokenFieldController.text);
+      final saveSm = SecureDataRepository(
+        SecureStorageService(),
+        widget.server!.address,
+      );
+      await saveSm.savePassword(passwordFieldController.text);
+      await saveSm.saveToken(tokenFieldController.text);
       if (serversViewModel.selectedServer != null) {
         statusViewModel.stopAutoRefresh();
       }

@@ -4,16 +4,15 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/mapper.dart';
+import 'package:pi_hole_client/config/query_status.dart';
 import 'package:pi_hole_client/config/query_types.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_factory.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
-import 'package:pi_hole_client/domain/models_old/database.dart';
-import 'package:pi_hole_client/domain/models_old/query_status.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/domain/models_old/server.dart' as legacy;
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 
@@ -28,6 +27,9 @@ class ServersViewModel with ChangeNotifier {
   List<Server> _serversList = [];
 
   Server? _selectedServer;
+
+  /// Selected server's enabled/disabled status (not part of domain model).
+  bool? _selectedServerEnabled;
 
   Server? _connectingServer;
   bool _unverifiedBannerDismissed = false;
@@ -47,6 +49,9 @@ class ServersViewModel with ChangeNotifier {
   Server? get selectedServer {
     return _selectedServer;
   }
+
+  /// Whether the selected server is enabled (Pi-hole blocking active).
+  bool? get selectedServerEnabled => _selectedServerEnabled;
 
   Server? get connectingServer => _connectingServer;
   bool get unverifiedBannerDismissed => _unverifiedBannerDismissed;
@@ -114,17 +119,31 @@ class ServersViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Converts a new [Server] to the legacy Server type for Gateway layer
+  /// compatibility. This bridge will be removed in Phase 5.
+  legacy.Server _toLegacyServer(Server server) {
+    return legacy.Server(
+      address: server.address,
+      alias: server.alias,
+      defaultServer: server.defaultServer,
+      apiVersion: server.apiVersion,
+      allowSelfSignedCert: server.allowSelfSignedCert,
+      ignoreCertificateErrors: server.ignoreCertificateErrors,
+      pinnedCertificateSha256: server.pinnedCertificateSha256,
+    );
+  }
+
   ApiGateway? loadApiGateway(Server server) {
     final gateway = _serverGateways[server.address];
     if (gateway == null) {
-      return ApiGatewayFactory.create(server);
+      return ApiGatewayFactory.create(_toLegacyServer(server));
     }
 
     return _serverGateways[server.address];
   }
 
   ApiGateway? createApiGateway(Server server) {
-    return ApiGatewayFactory.create(server);
+    return ApiGatewayFactory.create(_toLegacyServer(server));
   }
 
   /// Returns the query status object for the given key.
@@ -177,7 +196,9 @@ class ServersViewModel with ChangeNotifier {
   Future<bool> addServer(Server server) async {
     final saved = await _repository.insertServer(server);
     if (saved.isSuccess()) {
-      _serverGateways[server.address] = ApiGatewayFactory.create(server);
+      _serverGateways[server.address] = ApiGatewayFactory.create(
+        _toLegacyServer(server),
+      );
       if (server.defaultServer == true) {
         final defaultServer = await setDefaultServer(server);
         if (defaultServer == true) {
@@ -221,7 +242,9 @@ class ServersViewModel with ChangeNotifier {
       // Update the API gateway if it exists
       if (_serverGateways.containsKey(server.address)) {
         _serverGateways[server.address]?.close();
-        _serverGateways[server.address] = ApiGatewayFactory.create(server);
+        _serverGateways[server.address] = ApiGatewayFactory.create(
+          _toLegacyServer(server),
+        );
       }
 
       // Handle default server update
@@ -254,6 +277,7 @@ class ServersViewModel with ChangeNotifier {
 
         if (_selectedServer?.address == serverAddress) {
           _selectedServer = null;
+          _selectedServerEnabled = null;
         }
 
         await WidgetChannel.sendServerRemoved(serverAddress);
@@ -286,34 +310,24 @@ class ServersViewModel with ChangeNotifier {
     }
   }
 
-  Future<dynamic> saveFromDb(List<ServerDbData>? servers) async {
-    if (servers != null) {
-      Server? defaultServer;
-      for (final server in servers) {
-        final serverObj = Server(
-          address: server.address,
-          alias: server.alias,
-          defaultServer: convertFromIntToBool(server.isDefaultServer)!,
-          apiVersion: server.apiVersion,
-          allowSelfSignedCert: server.allowSelfSignedCert,
-          ignoreCertificateErrors: server.ignoreCertificateErrors,
-          pinnedCertificateSha256: server.pinnedCertificateSha256,
-        );
-        _serversList.add(serverObj);
-        _serverGateways[serverObj.address] = ApiGatewayFactory.create(
-          serverObj,
-        );
-        if (convertFromIntToBool(server.isDefaultServer) == true) {
-          defaultServer = serverObj;
-        }
-
-        if (defaultServer != null) {
-          _selectedServer = defaultServer;
-        }
-
-        notifyListeners();
+  Future<dynamic> saveFromDb(List<Server> servers) async {
+    Server? defaultServer;
+    for (final server in servers) {
+      _serversList.add(server);
+      _serverGateways[server.address] = ApiGatewayFactory.create(
+        _toLegacyServer(server),
+      );
+      if (server.defaultServer == true) {
+        defaultServer = server;
       }
-    } else {
+
+      if (defaultServer != null) {
+        _selectedServer = defaultServer;
+      }
+
+      notifyListeners();
+    }
+    if (servers.isEmpty) {
       notifyListeners();
     }
   }
@@ -336,13 +350,14 @@ class ServersViewModel with ChangeNotifier {
 
   void setselectedServer({required Server? server, bool? toHomeTab}) {
     _selectedServer = server;
+    if (server == null) _selectedServerEnabled = null;
     if (toHomeTab == true) _appConfigViewModel!.setSelectedTab(0);
     notifyListeners();
   }
 
   void updateselectedServerStatus(bool enabled) {
-    if (_selectedServer != null && _selectedServer!.enabled != enabled) {
-      _selectedServer = _selectedServer!.copyWith(enabled: enabled);
+    if (_selectedServer != null && _selectedServerEnabled != enabled) {
+      _selectedServerEnabled = enabled;
       notifyListeners();
     }
   }
@@ -355,6 +370,7 @@ class ServersViewModel with ChangeNotifier {
       if (result.isSuccess()) {
         _serversList = [];
         _selectedServer = null;
+        _selectedServerEnabled = null;
         notifyListeners();
         return true;
       } else {
@@ -369,6 +385,7 @@ class ServersViewModel with ChangeNotifier {
 
   Future<bool> resetSelectedServer() async {
     _selectedServer = null;
+    _selectedServerEnabled = null;
     notifyListeners();
     return true;
   }

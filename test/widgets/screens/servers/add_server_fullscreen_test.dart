@@ -443,7 +443,11 @@ void main() async {
 
       await tester.pumpWidget(
         testSetup.buildTestWidget(
-          AddServerFullscreen(window: false, title: 'test', server: serverV6),
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: serverV6,
+          ),
         ),
       );
 
@@ -486,7 +490,11 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            AddServerFullscreen(window: false, title: 'test', server: serverV6),
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: serverV6,
+            ),
           ),
         );
 
@@ -530,7 +538,11 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            AddServerFullscreen(window: false, title: 'test', server: serverV6),
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: serverV6,
+            ),
           ),
         );
 
@@ -579,7 +591,11 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            AddServerFullscreen(window: false, title: 'test', server: serverV6),
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: serverV6,
+            ),
           ),
         );
 
@@ -626,7 +642,11 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            AddServerFullscreen(window: false, title: 'test', server: serverV6),
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: serverV6,
+            ),
           ),
         );
 
@@ -670,7 +690,11 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            AddServerFullscreen(window: false, title: 'test', server: serverV6),
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: serverV6,
+            ),
           ),
         );
 
@@ -717,7 +741,11 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            AddServerFullscreen(window: false, title: 'test', server: serverV6),
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: serverV6,
+            ),
           ),
         );
 

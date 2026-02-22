@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/l10n/languages.dart';

@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/globals.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
@@ -126,8 +126,9 @@ class ServerConnectionService {
       appConfigViewModel.setSelectedTab(4);
     }
 
-    serversViewModel.setselectedServer(
-      server: connectedServer.copyWith(enabled: result.status == 'enabled'),
+    serversViewModel.setselectedServer(server: connectedServer);
+    serversViewModel.updateselectedServerStatus(
+      result.status == 'enabled',
     );
 
     statusViewModel.setServerStatus(LoadStatus.loaded);

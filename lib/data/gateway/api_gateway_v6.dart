@@ -196,7 +196,7 @@ class ApiGatewayV6 implements ApiGateway {
 
       if (response.statusCode == 401 || response.statusCode == 403) {
         if (attempt >= maxRetries) {
-          await WidgetChannel.sendSidInvalidated(server: _server);
+          await WidgetChannel.sendSidInvalidated(serverAddress: _server.address);
           return response;
         }
 
@@ -245,7 +245,7 @@ class ApiGatewayV6 implements ApiGateway {
       if (streamedResponse.statusCode == 401 ||
           streamedResponse.statusCode == 403) {
         if (attempt >= maxRetries) {
-          await WidgetChannel.sendSidInvalidated(server: _server);
+          await WidgetChannel.sendSidInvalidated(serverAddress: _server.address);
           return streamedResponse;
         }
 
@@ -310,7 +310,7 @@ class ApiGatewayV6 implements ApiGateway {
           }
         }
 
-        await WidgetChannel.sendSidUpdated(server: _server, sid: cachedSid);
+        await WidgetChannel.sendSidUpdated(serverAddress: _server.address, sid: cachedSid);
 
         return LoginQueryResponse(
           result: APiResponseType.success,
@@ -342,7 +342,7 @@ class ApiGatewayV6 implements ApiGateway {
             jsonDecode(enableOrDisable.body),
           );
           await WidgetChannel.sendSidUpdated(
-            server: _server,
+            serverAddress: _server.address,
             sid: statusParsed.session.sid,
           );
 
@@ -538,7 +538,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
       if (response.statusCode == 200) {
         final body = Blocking.fromJson(jsonDecode(response.body));
-        await WidgetChannel.sendBlockingUpdated(server: _server);
+        await WidgetChannel.sendBlockingUpdated(serverAddress: _server.address);
         return DisableServerResponse(
           result: APiResponseType.success,
           status: body.blocking,
@@ -570,7 +570,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
       if (response.statusCode == 200) {
         final body = Blocking.fromJson(jsonDecode(response.body));
-        await WidgetChannel.sendBlockingUpdated(server: _server);
+        await WidgetChannel.sendBlockingUpdated(serverAddress: _server.address);
         return EnableServerResponse(
           result: APiResponseType.success,
           status: body.blocking,

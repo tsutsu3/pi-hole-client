@@ -2,8 +2,7 @@ import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/data/services/utils/database_utils.dart';
-import 'package:pi_hole_client/domain/models_old/database.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:result_dart/result_dart.dart';
@@ -25,40 +24,36 @@ class ServerRepository {
   final DatabaseService _database;
   final SecureStorageService _secureStorage;
 
-  /// Loads all saved server entries from the database, along with their secrets.
+  /// Loads all saved server entries from the database as [Server] domain objects.
   ///
-  /// This method reads all rows from the `servers` table and for each one,
-  /// it retrieves the corresponding token and sid from secure storage.
-  /// These values are then merged into each server record.
+  /// This method reads all rows from the `servers` table and converts them
+  /// into [Server] domain model instances. Secrets (token, sid) remain in
+  /// secure storage and are not loaded into the domain model.
   ///
-  /// Returns a [Result] containing the list of [ServerDbData] with secrets
-  /// on success, or a [Failure] if any error occurs during retrieval.
-  Future<Result<List<ServerDbData>>> fetchServers() async {
+  /// Returns a [Result] containing the list of [Server] on success,
+  /// or a [Failure] if any error occurs during retrieval.
+  Future<Result<List<Server>>> fetchServers() async {
     try {
       await openDbIfNeeded(_database);
-
-      List<ServerDbData>? servers;
 
       final rows = await runWithRetry<Result<List<Map<String, dynamic>>>>(
         action: () => _database.rawQuery('SELECT * FROM servers'),
         onRetry: (attempt, error, _) =>
             logger.w('Attempt $attempt: Failed to read servers - $error'),
       );
-      servers = rows.getOrThrow().map(ServerDbData.fromMap).toList();
 
-      if (servers.isNotEmpty) {
-        for (var i = 0; i < servers.length; i++) {
-          final srv = servers[i];
-          final token = await _secureStorage.getValue('${srv.address}_token');
-          final sid = await _secureStorage.getValue('${srv.address}_sid');
-
-          servers[i] = ServerDbData.withSecrets(
-            srv,
-            token.getOrNull(),
-            sid.getOrNull(),
-          );
-        }
-      }
+      final servers = rows.getOrThrow().map((map) {
+        return Server(
+          address: map['address']! as String,
+          alias: map['alias']! as String,
+          apiVersion: map['apiVersion']! as String,
+          defaultServer: (map['isDefaultServer']! as int) == 1,
+          allowSelfSignedCert: (map['allowSelfSignedCert']! as int) == 1,
+          ignoreCertificateErrors:
+              ((map['ignoreCertificateErrors'] as int?) ?? 0) == 1,
+          pinnedCertificateSha256: map['pinnedCertificateSha256'] as String?,
+        );
+      }).toList();
 
       return Success(servers);
     } catch (e, st) {
@@ -70,35 +65,30 @@ class ServerRepository {
   /// Saves a new server entry to the database and stores secrets in secure storage.
   ///
   /// This method inserts a new row into the `servers` table with the provided server
-  /// data. If available, the token, password, and session ID (`sid`) are saved to
+  /// data. If [token], [password], or [sid] are provided, they are saved to
   /// secure storage under the server address prefix.
   ///
   /// Returns a [Result] containing the number of rows inserted on success,
   /// or a [Failure] if the operation fails.
-  Future<Result<int>> insertServer(Server server) async {
+  Future<Result<int>> insertServer(
+    Server server, {
+    String? token,
+    String? password,
+    String? sid,
+  }) async {
     try {
       await openDbIfNeeded(_database);
 
-      final token = await server.sm.token;
-      if (token.isSuccess()) {
-        await _secureStorage.saveValue(
-          '${server.address}_token',
-          token.getOrThrow(),
-        );
+      if (token != null && token.isNotEmpty) {
+        await _secureStorage.saveValue('${server.address}_token', token);
       }
 
-      final password = await server.sm.password;
-      if (password.isSuccess()) {
-        await _secureStorage.saveValue(
-          '${server.address}_password',
-          password.getOrThrow(),
-        );
+      if (password != null && password.isNotEmpty) {
+        await _secureStorage.saveValue('${server.address}_password', password);
       }
-      if (server.sm.sid.isSuccess()) {
-        await _secureStorage.saveValue(
-          '${server.address}_sid',
-          server.sm.sid.getOrDefault(''),
-        );
+
+      if (sid != null && sid.isNotEmpty) {
+        await _secureStorage.saveValue('${server.address}_sid', sid);
       }
 
       return await _database.insert('servers', {
@@ -116,38 +106,33 @@ class ServerRepository {
     }
   }
 
-  /// Updates an existing server entry and its secrets.
+  /// Updates an existing server entry and optionally its secrets.
   ///
   /// This method updates the server record in the `servers` table matching the
-  /// given address. It also updates the token, password, and session ID in
-  /// secure storage if new values are available.
+  /// given address. If [token], [password], or [sid] are provided, they are
+  /// also updated in secure storage.
   ///
   /// Returns a [Result] containing the number of rows updated on success,
   /// or a [Failure] if the operation fails.
-  Future<Result<int>> updateServer(Server server) async {
+  Future<Result<int>> updateServer(
+    Server server, {
+    String? token,
+    String? password,
+    String? sid,
+  }) async {
     try {
       await openDbIfNeeded(_database);
 
-      final token = await server.sm.token;
-      if (token.isSuccess()) {
-        await _secureStorage.saveValue(
-          '${server.address}_token',
-          token.getOrThrow(),
-        );
+      if (token != null && token.isNotEmpty) {
+        await _secureStorage.saveValue('${server.address}_token', token);
       }
 
-      final password = await server.sm.password;
-      if (password.isSuccess()) {
-        await _secureStorage.saveValue(
-          '${server.address}_password',
-          password.getOrThrow(),
-        );
+      if (password != null && password.isNotEmpty) {
+        await _secureStorage.saveValue('${server.address}_password', password);
       }
-      if (server.sm.sid.isSuccess()) {
-        await _secureStorage.saveValue(
-          '${server.address}_sid',
-          server.sm.sid.getOrThrow(),
-        );
+
+      if (sid != null && sid.isNotEmpty) {
+        await _secureStorage.saveValue('${server.address}_sid', sid);
       }
 
       return await _database.update(

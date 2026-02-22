@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/model/local/gravity_db_data.dart';
 import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
-import 'package:pi_hole_client/domain/models_old/database.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../../../../testing/fakes/services/fake_database_service.dart';
@@ -73,7 +73,11 @@ void main() {
 
       final result = await repository.fetchGravityUpdate(address);
       expect(result.isSuccess(), true);
-      expect(result.getOrNull()!.toDict(), gravityUpdateData.toDict());
+      final fetchedUpdate = result.getOrNull()!;
+      expect(fetchedUpdate.address, gravityUpdateData.address);
+      expect(fetchedUpdate.startTime, gravityUpdateData.startTime);
+      expect(fetchedUpdate.endTime, gravityUpdateData.endTime);
+      expect(fetchedUpdate.status, gravityUpdateData.status);
     });
 
     test('fetch gravity update data when it does not exist', () async {
@@ -116,7 +120,11 @@ void main() {
       expect(result.isSuccess(), true);
 
       final fetchedResult = await repository.fetchGravityUpdate(address);
-      expect(fetchedResult.getOrNull()!.toDict(), gravityUpdateData.toDict());
+      final fetchedUpsert = fetchedResult.getOrNull()!;
+      expect(fetchedUpsert.address, gravityUpdateData.address);
+      expect(fetchedUpsert.startTime, gravityUpdateData.startTime);
+      expect(fetchedUpsert.endTime, gravityUpdateData.endTime);
+      expect(fetchedUpsert.status, gravityUpdateData.status);
     });
 
     test('upsert gravity update data when it exists', () async {
@@ -129,7 +137,11 @@ void main() {
       expect(result.isSuccess(), true);
 
       final fetchedResult = await repository.fetchGravityUpdate(address);
-      expect(fetchedResult.getOrNull()!.toDict(), updatedData.toDict());
+      final fetchedUpdated = fetchedResult.getOrNull()!;
+      expect(fetchedUpdated.address, updatedData.address);
+      expect(fetchedUpdated.startTime, updatedData.startTime);
+      expect(fetchedUpdated.endTime, updatedData.endTime);
+      expect(fetchedUpdated.status, updatedData.status);
     });
 
     test('returns Failure when unexpected error', () async {
@@ -214,7 +226,11 @@ void main() {
       final result = await repository.fetchGravityLogs(address);
       expect(result.isSuccess(), true);
       expect(result.getOrNull()!.length, 1);
-      expect(result.getOrNull()![0].toDict(), gravityLogsData.toDict());
+      final fetchedLog = result.getOrNull()![0];
+      expect(fetchedLog.address, gravityLogsData.address);
+      expect(fetchedLog.line, gravityLogsData.line);
+      expect(fetchedLog.message, gravityLogsData.message);
+      expect(fetchedLog.timestamp, gravityLogsData.timestamp);
     });
 
     test('fetch gravity logs when they do not exist', () async {
@@ -258,7 +274,11 @@ void main() {
 
       final fetchedResult = await repository.fetchGravityLogs(address);
       expect(fetchedResult.getOrNull()!.length, 1);
-      expect(fetchedResult.getOrNull()![0].toDict(), gravityLogsData.toDict());
+      final fetchedLog0 = fetchedResult.getOrNull()![0];
+      expect(fetchedLog0.address, gravityLogsData.address);
+      expect(fetchedLog0.line, gravityLogsData.line);
+      expect(fetchedLog0.message, gravityLogsData.message);
+      expect(fetchedLog0.timestamp, gravityLogsData.timestamp);
     });
 
     test('insert gravity logs when they exist', () async {
@@ -268,8 +288,16 @@ void main() {
 
       final fetchedResult = await repository.fetchGravityLogs(address);
       expect(fetchedResult.getOrNull()!.length, 2);
-      expect(fetchedResult.getOrNull()![0].toDict(), gravityLogsData.toDict());
-      expect(fetchedResult.getOrNull()![1].toDict(), gravityLogsData.toDict());
+      final fetchedLogFirst = fetchedResult.getOrNull()![0];
+      expect(fetchedLogFirst.address, gravityLogsData.address);
+      expect(fetchedLogFirst.line, gravityLogsData.line);
+      expect(fetchedLogFirst.message, gravityLogsData.message);
+      expect(fetchedLogFirst.timestamp, gravityLogsData.timestamp);
+      final fetchedLogSecond = fetchedResult.getOrNull()![1];
+      expect(fetchedLogSecond.address, gravityLogsData.address);
+      expect(fetchedLogSecond.line, gravityLogsData.line);
+      expect(fetchedLogSecond.message, gravityLogsData.message);
+      expect(fetchedLogSecond.timestamp, gravityLogsData.timestamp);
     });
 
     test('returns Failure when unexpected error', () async {
@@ -354,7 +382,12 @@ void main() {
       final result = await repository.fetchGravityMessages(address);
       expect(result.isSuccess(), true);
       expect(result.getOrNull()!.length, 1);
-      expect(result.getOrNull()![0].toDict(), gravityMessagesData.toDict());
+      final fetchedMsg = result.getOrNull()![0];
+      expect(fetchedMsg.id, gravityMessagesData.id);
+      expect(fetchedMsg.address, gravityMessagesData.address);
+      expect(fetchedMsg.message, gravityMessagesData.message);
+      expect(fetchedMsg.url, gravityMessagesData.url);
+      expect(fetchedMsg.timestamp, gravityMessagesData.timestamp);
     });
 
     test('fetch gravity messages when they do not exist', () async {
@@ -400,10 +433,12 @@ void main() {
 
       final fetchedResult = await repository.fetchGravityMessages(address);
       expect(fetchedResult.getOrNull()!.length, 1);
-      expect(
-        fetchedResult.getOrNull()![0].toDict(),
-        gravityMessagesData.toDict(),
-      );
+      final fetched0 = fetchedResult.getOrNull()![0];
+      expect(fetched0.id, gravityMessagesData.id);
+      expect(fetched0.address, gravityMessagesData.address);
+      expect(fetched0.message, gravityMessagesData.message);
+      expect(fetched0.url, gravityMessagesData.url);
+      expect(fetched0.timestamp, gravityMessagesData.timestamp);
     });
 
     test('insert gravity messages when they exist', () async {
@@ -415,14 +450,18 @@ void main() {
 
       final fetchedResult = await repository.fetchGravityMessages(address);
       expect(fetchedResult.getOrNull()!.length, 2);
-      expect(
-        fetchedResult.getOrNull()![0].toDict(),
-        gravityMessagesData.toDict(),
-      );
-      expect(
-        fetchedResult.getOrNull()![1].toDict(),
-        gravityMessagesData.toDict(),
-      );
+      final fetchedFirst = fetchedResult.getOrNull()![0];
+      expect(fetchedFirst.id, gravityMessagesData.id);
+      expect(fetchedFirst.address, gravityMessagesData.address);
+      expect(fetchedFirst.message, gravityMessagesData.message);
+      expect(fetchedFirst.url, gravityMessagesData.url);
+      expect(fetchedFirst.timestamp, gravityMessagesData.timestamp);
+      final fetchedSecond = fetchedResult.getOrNull()![1];
+      expect(fetchedSecond.id, gravityMessagesData.id);
+      expect(fetchedSecond.address, gravityMessagesData.address);
+      expect(fetchedSecond.message, gravityMessagesData.message);
+      expect(fetchedSecond.url, gravityMessagesData.url);
+      expect(fetchedSecond.timestamp, gravityMessagesData.timestamp);
     });
 
     test('returns Failure when unexpected error', () async {
@@ -557,20 +596,24 @@ void main() {
 
       final result = await repository.fetchGravityData(address);
       expect(result.isSuccess(), true);
-      expect(
-        result.getOrNull()!.gravityUpdate?.toDict(),
-        gravityUpdateData.toDict(),
-      );
+      final fetchedUpdate = result.getOrNull()!.gravityUpdate!;
+      expect(fetchedUpdate.address, gravityUpdateData.address);
+      expect(fetchedUpdate.startTime, gravityUpdateData.startTime);
+      expect(fetchedUpdate.endTime, gravityUpdateData.endTime);
+      expect(fetchedUpdate.status, gravityUpdateData.status);
       expect(result.getOrNull()!.gravityLogs?.length, 1);
-      expect(
-        result.getOrNull()!.gravityLogs?[0].toDict(),
-        gravityLogsData.toDict(),
-      );
+      final fetchedLog = result.getOrNull()!.gravityLogs![0];
+      expect(fetchedLog.address, gravityLogsData.address);
+      expect(fetchedLog.line, gravityLogsData.line);
+      expect(fetchedLog.message, gravityLogsData.message);
+      expect(fetchedLog.timestamp, gravityLogsData.timestamp);
       expect(result.getOrNull()!.gravityMessages?.length, 1);
-      expect(
-        result.getOrNull()!.gravityMessages?[0].toDict(),
-        gravityMessagesData.toDict(),
-      );
+      final fetchedMsg = result.getOrNull()!.gravityMessages![0];
+      expect(fetchedMsg.id, gravityMessagesData.id);
+      expect(fetchedMsg.address, gravityMessagesData.address);
+      expect(fetchedMsg.message, gravityMessagesData.message);
+      expect(fetchedMsg.url, gravityMessagesData.url);
+      expect(fetchedMsg.timestamp, gravityMessagesData.timestamp);
     });
 
     test('fetch all gravity data when it does not exist', () async {

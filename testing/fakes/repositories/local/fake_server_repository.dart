@@ -1,30 +1,25 @@
 import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
-import 'package:pi_hole_client/domain/models_old/database.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:result_dart/result_dart.dart';
 
 class FakeServerRepository implements ServerRepository {
   @override
-  Future<Result<List<ServerDbData>>> fetchServers() async {
-    return Success([
-      ServerDbData(
+  Future<Result<List<Server>>> fetchServers() async {
+    return const Success([
+      Server(
         address: 'http://example.com',
         alias: 'v6',
-        token: null,
-        isDefaultServer: 1,
+        defaultServer: true,
         apiVersion: 'v6',
-        sid: 'sid123',
         allowSelfSignedCert: true,
         ignoreCertificateErrors: false,
         pinnedCertificateSha256: null,
       ),
-      ServerDbData(
+      Server(
         address: 'http://example.com:8080',
         alias: 'v5',
-        token: 'token123',
-        isDefaultServer: 0,
+        defaultServer: false,
         apiVersion: 'v5',
-        sid: null,
         allowSelfSignedCert: true,
         ignoreCertificateErrors: false,
         pinnedCertificateSha256: null,
@@ -33,12 +28,22 @@ class FakeServerRepository implements ServerRepository {
   }
 
   @override
-  Future<Result<int>> insertServer(Server server) async {
+  Future<Result<int>> insertServer(
+    Server server, {
+    String? token,
+    String? password,
+    String? sid,
+  }) async {
     return const Success(1);
   }
 
   @override
-  Future<Result<int>> updateServer(Server server) async {
+  Future<Result<int>> updateServer(
+    Server server, {
+    String? token,
+    String? password,
+    String? sid,
+  }) async {
     return const Success(1);
   }
 

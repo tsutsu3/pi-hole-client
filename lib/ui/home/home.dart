@@ -75,7 +75,7 @@ class _HomeState extends State<Home> {
     Future<void> enableDisableServer() async {
       if (isConnectionAttemptFinished == true &&
           serversViewModel.selectedServer != null) {
-        if (serversViewModel.selectedServer?.enabled == true) {
+        if (serversViewModel.selectedServerEnabled == true) {
           if (width > ResponsiveConstants.medium) {
             await showDialog(
               context: context,

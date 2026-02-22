@@ -17,7 +17,7 @@ import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';

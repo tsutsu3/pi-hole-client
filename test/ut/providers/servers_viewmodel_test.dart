@@ -3,12 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/query_types.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart';
-import 'package:pi_hole_client/domain/models_old/database.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:result_dart/result_dart.dart';
 
 import '../../../testing/fakes/repositories/local/fake_server_repository.dart';
 import './servers_viewmodel_test.mocks.dart';
@@ -23,7 +20,7 @@ void main() async {
     late MockAppConfigViewModel mockAppConfigViewModel;
     late bool listenerCalled;
 
-    final server = Server(
+    const server = Server(
       address: 'http://localhost:8081',
       alias: 'test v6',
       defaultServer: false,
@@ -73,7 +70,11 @@ void main() async {
 
     test('loadApiGateway loads the api gateways', () {
       final result = serversViewModel.loadApiGateway(server);
-      expect(result!.server, ApiGatewayV6(server).server);
+      expect(result!.server.alias, server.alias);
+      expect(result.server.address, server.address);
+      expect(result.server.apiVersion, server.apiVersion);
+      expect(result.server.allowSelfSignedCert, server.allowSelfSignedCert);
+      expect(result.server.defaultServer, server.defaultServer);
       expect(listenerCalled, false);
     });
 
@@ -106,7 +107,7 @@ void main() async {
     test(
       'addServer adds a server (defaultServer: on) option and notifies listeners',
       () async {
-        final server2 = Server(
+        const server2 = Server(
           address: 'http://localhost:8081',
           alias: 'test v6',
           defaultServer: true,
@@ -158,13 +159,11 @@ void main() async {
 
     test('saveFromDb saves the servers from the database', () async {
       final servers = [
-        ServerDbData(
+        Server(
           address: server.address,
           alias: server.alias,
-          token: await server.sm.token.getOrNull(),
-          isDefaultServer: 1,
+          defaultServer: true,
           apiVersion: server.apiVersion,
-          sid: 'sid01',
           allowSelfSignedCert: server.allowSelfSignedCert,
           ignoreCertificateErrors: server.ignoreCertificateErrors,
           pinnedCertificateSha256: null,
@@ -194,7 +193,7 @@ void main() async {
 
       serversViewModel.updateselectedServerStatus(true);
 
-      expect(serversViewModel.selectedServer!.enabled, true);
+      expect(serversViewModel.selectedServerEnabled, true);
       expect(listenerCalled, true);
     });
 

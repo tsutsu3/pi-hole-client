@@ -27,7 +27,7 @@ class AdBlockStatusIcon extends StatelessWidget {
     final colors = context.select<ServersViewModel, AppColors>((p) => p.colors);
 
     final enableSelectedServer = context.select<ServersViewModel, bool>(
-      (p) => p.selectedServer?.enabled ?? false,
+      (p) => p.selectedServerEnabled ?? false,
     );
 
     IconData iconData;

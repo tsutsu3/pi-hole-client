@@ -20,9 +20,12 @@ import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
 import 'package:pi_hole_client/domain/models_old/version.dart';
-import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:pi_hole_client/utils/misc.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
+
+List<Domain> _parseDomainList(List<Map<String, dynamic>> jsonList) {
+  return jsonList.map(Domain.fromJson).toList();
+}
 
 class ApiGatewayV5 implements ApiGateway {
   /// Creates a new instance of the `ApiGatewayV5` class.
@@ -306,7 +309,7 @@ class ApiGatewayV5 implements ApiGateway {
       );
       final body = jsonDecode(response.body);
       if (body.runtimeType != List && body['status'] != null) {
-        await WidgetChannel.sendBlockingUpdated(server: _server);
+        await WidgetChannel.sendBlockingUpdated(serverAddress: _server.address);
         return DisableServerResponse(
           result: APiResponseType.success,
           status: body['status'],
@@ -338,7 +341,7 @@ class ApiGatewayV5 implements ApiGateway {
       );
       final body = jsonDecode(response.body);
       if (body.runtimeType != List && body['status'] != null) {
-        await WidgetChannel.sendBlockingUpdated(server: _server);
+        await WidgetChannel.sendBlockingUpdated(serverAddress: _server.address);
         return EnableServerResponse(
           result: APiResponseType.success,
           status: body['status'],
@@ -520,16 +523,16 @@ class ApiGatewayV5 implements ApiGateway {
         return GetDomainLists(
           result: APiResponseType.success,
           data: DomainListResult(
-            whitelist: parseDomainList(
+            whitelist: _parseDomainList(
               jsonDecode(results[0].body)['data'].cast<Map<String, dynamic>>(),
             ),
-            whitelistRegex: parseDomainList(
+            whitelistRegex: _parseDomainList(
               jsonDecode(results[1].body)['data'].cast<Map<String, dynamic>>(),
             ),
-            blacklist: parseDomainList(
+            blacklist: _parseDomainList(
               jsonDecode(results[2].body)['data'].cast<Map<String, dynamic>>(),
             ),
-            blacklistRegex: parseDomainList(
+            blacklistRegex: _parseDomainList(
               jsonDecode(results[3].body)['data'].cast<Map<String, dynamic>>(),
             ),
           ),

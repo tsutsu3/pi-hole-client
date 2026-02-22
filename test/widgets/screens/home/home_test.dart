@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/home/home.dart';
 import 'package:pi_hole_client/ui/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar.dart';
@@ -148,16 +148,16 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      final serverV6 = Server(
+      const serverV6 = Server(
         address: 'http://localhost:8081',
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
-        enabled: false,
         allowSelfSignedCert: true,
         ignoreCertificateErrors: false,
       );
       when(testSetup.mockServersViewModel.selectedServer).thenReturn(serverV6);
+      when(testSetup.mockServersViewModel.selectedServerEnabled).thenReturn(false);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();

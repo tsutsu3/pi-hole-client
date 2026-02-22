@@ -6,9 +6,9 @@ import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/domain/models_old/devices.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 
@@ -25,7 +25,7 @@ void main() async {
     late MockApiGatewayV6 mockApiGatewayV6;
     late bool listenerCalled;
 
-    final server = Server(
+    const server = Server(
       address: 'http://localhost:8081',
       alias: 'test v6',
       defaultServer: false,
@@ -101,9 +101,13 @@ void main() async {
       mockApiGatewayV6 = MockApiGatewayV6();
 
       when(mockServersViewModel.selectedServer).thenReturn(server);
-      when(mockServersViewModel.selectedApiGateway).thenReturn(mockApiGatewayV6);
+      when(
+        mockServersViewModel.selectedApiGateway,
+      ).thenReturn(mockApiGatewayV6);
 
-      localDnsProvider = LocalDnsProvider(serversViewModel: mockServersViewModel);
+      localDnsProvider = LocalDnsProvider(
+        serversViewModel: mockServersViewModel,
+      );
       listenerCalled = false;
       localDnsProvider.addListener(() {
         listenerCalled = true;

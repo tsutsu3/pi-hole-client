@@ -33,6 +33,7 @@ import 'package:pi_hole_client/data/model/v6/metrics/query.dart';
 import 'package:pi_hole_client/data/model/v6/network/devices.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
+import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart' as domain_model;
 import 'package:pi_hole_client/domain/model/ftl/message.dart';
@@ -42,7 +43,7 @@ import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/metrics/queries.dart' as logs_model;
 import 'package:pi_hole_client/domain/model/network/network.dart'
     show DeviceOption;
-import 'package:pi_hole_client/domain/models_old/app_log.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/domain/models_old/client.dart';
 import 'package:pi_hole_client/domain/models_old/config.dart';
 import 'package:pi_hole_client/domain/models_old/devices.dart';
@@ -57,7 +58,7 @@ import 'package:pi_hole_client/domain/models_old/overtime_data.dart'
     as legacy_ot;
 import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
 import 'package:pi_hole_client/domain/models_old/sensors.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/models_old/server.dart' as legacy_server;
 import 'package:pi_hole_client/domain/models_old/sessions.dart';
 import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
 import 'package:pi_hole_client/domain/models_old/system.dart';
@@ -97,22 +98,38 @@ import '../../testing/models/v5/realtime_status.dart' as rt_fixture;
 import '../../testing/models/v6/ftl.dart' as ftl_fixture;
 import './helpers.mocks.dart';
 
-final serverV5 = Server(
+const serverV5 = Server(
   address: 'http://localhost:8080',
   alias: 'test v5',
   defaultServer: false,
   apiVersion: 'v5',
-  enabled: false,
   allowSelfSignedCert: true,
   ignoreCertificateErrors: false,
 );
 
-final serverV6 = Server(
+const serverV6 = Server(
   address: 'http://localhost:8081',
   alias: 'test v6',
   defaultServer: false,
   apiVersion: 'v6',
-  enabled: true,
+  allowSelfSignedCert: true,
+  ignoreCertificateErrors: false,
+);
+
+final legacyServerV5 = legacy_server.Server(
+  address: 'http://localhost:8080',
+  alias: 'test v5',
+  defaultServer: false,
+  apiVersion: 'v5',
+  allowSelfSignedCert: true,
+  ignoreCertificateErrors: false,
+);
+
+final legacyServerV6 = legacy_server.Server(
+  address: 'http://localhost:8081',
+  alias: 'test v6',
+  defaultServer: false,
+  apiVersion: 'v6',
   allowSelfSignedCert: true,
   ignoreCertificateErrors: false,
 );
@@ -1869,6 +1886,7 @@ class TestSetupHelper {
     when(
       mockServersViewModel.selectedServer,
     ).thenReturn(useApiGatewayVersion == 'v5' ? serverV5 : serverV6);
+    when(mockServersViewModel.selectedServerEnabled).thenReturn(true);
     when(mockServersViewModel.colors).thenReturn(lightAppColors);
     when(
       mockServersViewModel.numShown,
@@ -2305,7 +2323,7 @@ class TestSetupHelper {
       );
     });
 
-    when(mockApiGatewayV5.server).thenReturn(serverV5);
+    when(mockApiGatewayV5.server).thenReturn(legacyServerV5);
 
     when(mockApiGatewayV5.updateDomain(body: anyNamed('body'))).thenAnswer(
       (_) async =>
@@ -2419,7 +2437,7 @@ class TestSetupHelper {
       ),
     );
 
-    when(mockApiGatewayV6.server).thenReturn(serverV6);
+    when(mockApiGatewayV6.server).thenReturn(legacyServerV6);
 
     when(
       mockApiGatewayV6.updateSubscription(body: anyNamed('body')),

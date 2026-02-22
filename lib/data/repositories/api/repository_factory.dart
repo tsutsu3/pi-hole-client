@@ -32,7 +32,7 @@ import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 
 class RepositoryBundleFactory {
   static RepositoryBundle create({
