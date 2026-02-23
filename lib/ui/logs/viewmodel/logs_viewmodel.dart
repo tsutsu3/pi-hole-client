@@ -371,6 +371,7 @@ class LogsViewModel extends ChangeNotifier {
   void initScreen({required double logsPerQuery}) {
     if (_repository == null) return;
     _screenActive = true;
+    _selectedLog = null;
     _logsPerQuery = logsPerQuery;
 
     _paginationService = _paginationServiceFactory(repository: _repository!);
