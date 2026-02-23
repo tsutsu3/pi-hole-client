@@ -12,7 +12,6 @@ import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_tiles/home_tile.dart';
 import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -86,12 +85,7 @@ class HomeTiles extends StatelessWidget {
                   appConfigViewModel.setSelectedSettingsScreen(screen: 6);
                 } else {
                   final apiVersion = serverProvider.selectedServer?.apiVersion;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AdvancedServerOptions(),
-                    ),
-                  );
+                  context.pushNamed(Routes.settingsServerAdvanced);
                   if (apiVersion == 'v6') {
                     context.pushNamed(
                       Routes.settingsServerAdvancedNetwork,

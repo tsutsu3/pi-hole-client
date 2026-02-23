@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg_test/flutter_svg_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/ui/settings/about/app_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/settings.dart';
 
 import '../../helpers.dart';
@@ -330,7 +329,8 @@ void main() async {
       expect(find.text('Access advanced server settings'), findsOneWidget);
     });
 
-    testWidgets('should show Application Detail screen with tap', (
+    // Application Detail navigation now uses go_router (context.pushNamed).
+    testWidgets('should show Application Detail tile', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -346,9 +346,8 @@ void main() async {
       expect(find.byType(Settings), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Application Detail'));
-      await tester.pumpAndSettle();
-      expect(find.byType(AppDetailScreen), findsOneWidget);
+      expect(find.text('Application Detail'), findsOneWidget);
+      expect(find.text('Get help and learn about this app'), findsOneWidget);
     });
 
     // Privacy navigation now uses go_router (context.pushNamed).

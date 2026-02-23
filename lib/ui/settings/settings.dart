@@ -196,40 +196,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       appConfigViewModel.setSelectedSettingsScreen(screen: null);
     }
 
-    Widget settingsTile({
-      required String title,
-      required String subtitle,
-      required Widget screenToNavigate,
-      required int thisItem,
-      IconData? icon,
-      Widget? trailing,
-    }) {
-      if (width > ResponsiveConstants.large) {
-        return CustomListTile(
-          label: title,
-          description: subtitle,
-          leadingIcon: icon,
-          trailing: trailing,
-          onTap: () {
-            setState(() => selectedScreen = thisItem);
-            SplitView.of(context).setSecondary(screenToNavigate);
-          },
-        );
-      } else {
-        return CustomListTile(
-          label: title,
-          description: subtitle,
-          leadingIcon: icon,
-          trailing: trailing,
-          onTap: () {
-            Navigator.of(
-              context,
-            ).push(MaterialPageRoute(builder: (context) => screenToNavigate));
-          },
-        );
-      }
-    }
-
     Widget routedSettingsTile({
       required BuildContext context,
       required double width,
@@ -311,7 +277,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               SplitView.of(context).setSecondary(const LanguageScreen());
             },
           ),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.storage_rounded,
             title: AppLocalizations.of(context)!.servers,
             subtitle: _buildServerSubtitle(
@@ -320,8 +288,11 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               serverStatus: serverStatus,
               isAliasOnly: false,
             ),
-            screenToNavigate: const ServersPage(),
             thisItem: 2,
+            routeName: Routes.settingsAppServers,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(const ServersPage());
+            },
           ),
           routedSettingsTile(
             context: context,
@@ -473,14 +444,21 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionLabel(label: AppLocalizations.of(context)!.about),
-          settingsTile(
+          routedSettingsTile(
+            context: context,
+            width: width,
             icon: Icons.phone_android_rounded,
             title: AppLocalizations.of(context)!.applicationDetail,
             subtitle: AppLocalizations.of(context)!.aboutThisApp,
-            screenToNavigate: AppDetailScreen(
-              appVersion: appConfigViewModel.getAppInfo?.version,
-            ),
             thisItem: 7,
+            routeName: Routes.settingsAboutAppDetail,
+            splitViewChild: () {
+              SplitView.of(context).setSecondary(
+                AppDetailScreen(
+                  appVersion: appConfigViewModel.getAppInfo?.version,
+                ),
+              );
+            },
           ),
           routedSettingsTile(
             context: context,

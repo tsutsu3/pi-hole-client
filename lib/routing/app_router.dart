@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/routing/routes.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
+import 'package:pi_hole_client/ui/servers/servers.dart';
+import 'package:pi_hole_client/ui/settings/about/app_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/licenses_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/privacy_screen.dart';
@@ -204,6 +207,11 @@ GoRouter createAppRouter({
         builder: (context, state) => const LanguageScreen(),
       ),
       GoRoute(
+        path: '/settings/app/servers',
+        name: Routes.settingsAppServers,
+        builder: (context, state) => const ServersPage(),
+      ),
+      GoRoute(
         path: '/settings/app/advanced',
         name: Routes.settingsAppAdvanced,
         builder: (context, state) => const AdvancedOptions(),
@@ -215,6 +223,16 @@ GoRouter createAppRouter({
         builder: (context, state) => const AdvancedServerOptions(),
       ),
       // ===== Settings > About =====
+      GoRoute(
+        path: '/settings/about/app-detail',
+        name: Routes.settingsAboutAppDetail,
+        builder: (context, state) {
+          final appConfigViewModel = context.read<AppConfigViewModel>();
+          return AppDetailScreen(
+            appVersion: appConfigViewModel.getAppInfo?.version,
+          );
+        },
+      ),
       GoRoute(
         path: '/settings/about/privacy',
         name: Routes.settingsAboutPrivacy,

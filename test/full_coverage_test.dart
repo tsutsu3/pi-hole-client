@@ -6,6 +6,7 @@ import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/query_status.dart';
 import 'package:pi_hole_client/config/query_types.dart';
 import 'package:pi_hole_client/config/urls.dart';
+import 'package:pi_hole_client/data/mapper/v5/dns_mapper.dart';
 import 'package:pi_hole_client/data/mapper/v5/domain_mapper.dart';
 import 'package:pi_hole_client/data/mapper/v5/ftl_mapper.dart';
 import 'package:pi_hole_client/data/mapper/v5/metrics_mapper.dart';
