@@ -2894,6 +2894,7 @@ void main() {
       final response = http.Response(jsonEncode(data), 200);
       mockPost(mockClient, url, response);
 
+      // ignore: deprecated_member_use_from_same_package
       final result = await apiClient.postActionFlushArp(sid);
 
       expectSuccess(result, data);
@@ -2911,6 +2912,7 @@ void main() {
       final response = http.Response(jsonEncode(data), 401);
       mockPost(mockClient, url, response);
 
+      // ignore: deprecated_member_use_from_same_package
       final result = await apiClient.postActionFlushArp(sid);
 
       expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');

@@ -32,6 +32,7 @@ class ActionsRepositoryV6 extends BaseV6SidRepository
         final error = networkResult.exceptionOrNull();
         if (error is HttpStatusCodeException && error.statusCode == 404) {
           logger.w('flush/network not found, falling back to flush/arp');
+          // ignore: deprecated_member_use_from_same_package
           final arpResult = await _client.postActionFlushArp(sid);
           return arpResult.map((_) => unit);
         }
