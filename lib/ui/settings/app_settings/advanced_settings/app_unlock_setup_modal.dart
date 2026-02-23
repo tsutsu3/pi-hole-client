@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/helpers/color_helpers.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_lock/create_pass_code_modal.dart';
@@ -47,6 +46,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
   @override
   Widget build(BuildContext context) {
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
+    final colors = appConfigViewModel.colors;
 
     final mediaQuery = MediaQuery.of(context);
 
@@ -158,8 +158,8 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
           decoration: BoxDecoration(
             border: Border.all(
               color: appConfigViewModel.passCode != null
-                  ? convertColor(appConfigViewModel.colors, Colors.green)
-                  : convertColor(appConfigViewModel.colors, Colors.red),
+                  ? colors.commonGreen ?? Colors.green
+                  : colors.commonRed ?? Colors.red,
             ),
             borderRadius: BorderRadius.circular(30),
           ),
@@ -170,20 +170,14 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                   children: [
                     Icon(
                       Icons.check,
-                      color: convertColor(
-                        appConfigViewModel.colors,
-                        Colors.green,
-                      ),
+                      color: colors.commonGreen ?? Colors.green,
                       size: 20,
                     ),
                     const SizedBox(width: 20),
                     Text(
                       AppLocalizations.of(context)!.statusEnabled,
                       style: TextStyle(
-                        color: convertColor(
-                          appConfigViewModel.colors,
-                          Colors.green,
-                        ),
+                        color: colors.commonGreen ?? Colors.green,
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                       ),
@@ -196,17 +190,14 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                   children: [
                     Icon(
                       Icons.close,
-                      color: convertColor(appConfigViewModel.colors, Colors.red),
+                      color: colors.commonRed ?? Colors.red,
                       size: 20,
                     ),
                     const SizedBox(width: 20),
                     Text(
                       AppLocalizations.of(context)!.statusDisabled,
                       style: TextStyle(
-                        color: convertColor(
-                          appConfigViewModel.colors,
-                          Colors.red,
-                        ),
+                        color: colors.commonRed ?? Colors.red,
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                       ),
@@ -305,10 +296,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                           Icons.fingerprint,
                           color: appConfigViewModel.passCode != null
                               ? null
-                              : convertColor(
-                                  appConfigViewModel.colors,
-                                  Colors.grey,
-                                ),
+                              : colors.queryGrey ?? Colors.grey,
                         ),
                         const SizedBox(width: 10),
                         Text(
@@ -317,10 +305,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                             fontSize: 16,
                             color: appConfigViewModel.passCode != null
                                 ? null
-                                : convertColor(
-                                    appConfigViewModel.colors,
-                                    Colors.grey,
-                                  ),
+                                : colors.queryGrey ?? Colors.grey,
                           ),
                         ),
                       ],

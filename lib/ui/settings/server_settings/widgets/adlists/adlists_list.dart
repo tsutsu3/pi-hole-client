@@ -8,7 +8,6 @@ import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/add_adlist_modal.dart'
     hide ListType;
@@ -69,7 +68,6 @@ class _AdlistsListState extends State<AdlistsList> {
 
   @override
   Widget build(BuildContext context) {
-    final serversViewModel = Provider.of<ServersViewModel>(context);
     final viewModel = Provider.of<AdlistsViewModel>(context);
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
     final groups = context.watch<GroupsViewModel>().groupItems;
@@ -223,7 +221,7 @@ class _AdlistsListState extends State<AdlistsList> {
                           child: AdlistDetailsScreen(
                             adlist: d,
                             remove: removeAdlist,
-                            colors: serversViewModel.colors,
+                            colors: appConfigViewModel.colors,
                             groups: groups,
                           ),
                         ),
@@ -231,7 +229,7 @@ class _AdlistsListState extends State<AdlistsList> {
                     );
                   }
                 },
-                colors: serversViewModel.colors,
+                colors: appConfigViewModel.colors,
               ),
             );
           },

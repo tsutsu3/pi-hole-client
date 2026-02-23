@@ -5,7 +5,6 @@ import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domains_list.dart';
@@ -75,7 +74,6 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<DomainsViewModel>(context);
-    final serversViewModel = Provider.of<ServersViewModel>(context);
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
     final groups = context.watch<GroupsViewModel>().groupItems;
 
@@ -249,7 +247,7 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
                         removeDomain(domain);
                       },
                       groups: groups,
-                      colors: serversViewModel.colors,
+                      colors: appConfigViewModel.colors,
                     )
                   : SizedBox(
                       child: SafeArea(

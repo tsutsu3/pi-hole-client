@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+enum QueryColorCategory { red, green, blue, orange, grey }
+
 class QueryStatus {
   const QueryStatus({
     required this.index,
     required this.key,
     required this.text,
-    required this.color,
+    required this.colorCategory,
     required this.icon,
     this.isShown = true,
   });
@@ -13,7 +15,7 @@ class QueryStatus {
   final int index;
   final String key;
   final String text;
-  final Color color;
+  final QueryColorCategory colorCategory;
   final IconData icon;
   final bool isShown;
 }

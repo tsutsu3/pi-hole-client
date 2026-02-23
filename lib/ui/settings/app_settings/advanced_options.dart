@@ -5,7 +5,6 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
-import 'package:pi_hole_client/ui/core/ui/helpers/color_helpers.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
@@ -384,7 +383,7 @@ class AdvancedOptions extends StatelessWidget {
               leadingIcon: Icons.delete,
               label: AppLocalizations.of(context)!.resetApplication,
               description: AppLocalizations.of(context)!.erasesAppData,
-              color: convertColor(serversViewModel.colors, Colors.red),
+              color: appConfigViewModel.colors.commonRed ?? Colors.red,
               onTap: () => {
                 Navigator.push(
                   context,

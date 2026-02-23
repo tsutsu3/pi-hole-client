@@ -10,7 +10,6 @@ import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/add_domain_modal.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
@@ -70,7 +69,6 @@ class _DomainsListState extends State<DomainsList> {
 
   @override
   Widget build(BuildContext context) {
-    final serversViewModel = Provider.of<ServersViewModel>(context);
     final viewModel = Provider.of<DomainsViewModel>(context);
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
     final groups = context.watch<GroupsViewModel>().groupItems;
@@ -221,14 +219,14 @@ class _DomainsListState extends State<DomainsList> {
                             domain: d,
                             remove: removeDomain,
                             groups: groups,
-                            colors: serversViewModel.colors,
+                            colors: appConfigViewModel.colors,
                           ),
                         ),
                       ),
                     );
                   }
                 },
-                colors: serversViewModel.colors,
+                colors: appConfigViewModel.colors,
               ),
             );
           },

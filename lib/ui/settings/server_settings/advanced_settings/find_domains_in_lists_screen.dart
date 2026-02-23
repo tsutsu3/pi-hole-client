@@ -63,7 +63,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     final serversViewModel = context.watch<ServersViewModel>();
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final groups = context.watch<GroupsViewModel>().groupItems;
-    final colors = serversViewModel.colors;
+    final colors = appConfigViewModel.colors;
     final apiVersion = serversViewModel.selectedServer?.apiVersion;
 
     if (apiVersion == null) {
