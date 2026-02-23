@@ -1,18 +1,23 @@
 import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/config/query_status.dart';
 import 'package:pi_hole_client/config/query_types.dart';
 import 'package:pi_hole_client/ui/logs/viewmodel/filters/filters_interface.dart';
+
+List<int> _indexesWhere(bool Function(QueryStatus) test) =>
+    queryStatusesV5.where(test).map((e) => e.index).toList();
 
 class FiltersV5 implements Filters {
   FiltersV5() : _statusSelected = [] {
     _statusSelected = _statusAll;
   }
 
-  final List<int> _statusAll = queryStatusesV5
-      .where((e) => e.isShown)
-      .map((e) => e.index)
-      .toList();
-  final List<int> _statusAllowed = [2, 3];
-  final List<int> _statusBlocked = [1, 4, 5, 6, 7, 8, 9, 10, 11];
+  final List<int> _statusAll = _indexesWhere((e) => e.isShown);
+  final List<int> _statusAllowed = _indexesWhere(
+    (e) => e.isShown && e.requestCategory == QueryRequestCategory.allowed,
+  );
+  final List<int> _statusBlocked = _indexesWhere(
+    (e) => e.isShown && e.requestCategory == QueryRequestCategory.blocked,
+  );
   List<int> _statusSelected;
   DateTime? _startTime;
   DateTime? _endTime;
@@ -21,10 +26,16 @@ class FiltersV5 implements Filters {
   String? _selectedDomain;
   RequestStatus _requestStatus = RequestStatus.all;
 
+  final List<int> _statusAllowedAndRetried = _indexesWhere(
+    (e) =>
+        e.isShown &&
+        (e.requestCategory == QueryRequestCategory.allowed ||
+            e.requestCategory == QueryRequestCategory.retried ||
+            e.requestCategory == QueryRequestCategory.inProgress),
+  );
+
   @override
-  List<int> get statusAllowedAndRetried {
-    return [2, 3, 12, 13, 14];
-  }
+  List<int> get statusAllowedAndRetried => _statusAllowedAndRetried;
 
   @override
   List<int> get defaultSelected {

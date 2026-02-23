@@ -7,6 +7,7 @@ final List<QueryStatus> queryStatusesV5 = [
     key: '1',
     text: 'Blocked (gravity)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -14,6 +15,7 @@ final List<QueryStatus> queryStatusesV5 = [
     key: '2',
     text: 'OK (forwarded)',
     colorCategory: QueryColorCategory.green,
+    requestCategory: QueryRequestCategory.allowed,
     icon: Icons.verified_user_rounded,
   ),
   const QueryStatus(
@@ -21,6 +23,7 @@ final List<QueryStatus> queryStatusesV5 = [
     key: '3',
     text: 'OK (cache)',
     colorCategory: QueryColorCategory.green,
+    requestCategory: QueryRequestCategory.allowed,
     icon: Icons.verified_user_rounded,
   ),
   const QueryStatus(
@@ -28,6 +31,7 @@ final List<QueryStatus> queryStatusesV5 = [
     key: '4',
     text: 'Blocked (regex blacklist)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -35,6 +39,7 @@ final List<QueryStatus> queryStatusesV5 = [
     key: '5',
     text: 'Blocked (exact blacklist)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -42,6 +47,7 @@ final List<QueryStatus> queryStatusesV5 = [
     key: '6',
     text: 'Blocked (external, IP)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -49,6 +55,7 @@ final List<QueryStatus> queryStatusesV5 = [
     key: '7',
     text: 'Blocked (external, NULL)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -56,6 +63,7 @@ final List<QueryStatus> queryStatusesV5 = [
     key: '8',
     text: 'Blocked (external, NXRA)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -63,6 +71,7 @@ final List<QueryStatus> queryStatusesV5 = [
     key: '9',
     text: 'Blocked (gravity, CNAME)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -70,6 +79,7 @@ final List<QueryStatus> queryStatusesV5 = [
     key: '10',
     text: 'Blocked (regex blacklist, CNAME)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -77,6 +87,7 @@ final List<QueryStatus> queryStatusesV5 = [
     key: '11',
     text: 'Blocked (exact blacklist, CNAME)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -84,6 +95,7 @@ final List<QueryStatus> queryStatusesV5 = [
     key: '12',
     text: 'Retried',
     colorCategory: QueryColorCategory.blue,
+    requestCategory: QueryRequestCategory.retried,
     icon: Icons.refresh_rounded,
   ),
   const QueryStatus(
@@ -91,6 +103,7 @@ final List<QueryStatus> queryStatusesV5 = [
     key: '13',
     text: 'Retried (ignored)',
     colorCategory: QueryColorCategory.blue,
+    requestCategory: QueryRequestCategory.retried,
     icon: Icons.refresh_rounded,
   ),
   const QueryStatus(
@@ -98,6 +111,7 @@ final List<QueryStatus> queryStatusesV5 = [
     key: '14',
     text: 'OK (already forwarded)',
     colorCategory: QueryColorCategory.green,
+    requestCategory: QueryRequestCategory.inProgress,
     icon: Icons.verified_user_rounded,
   ),
   const QueryStatus(
@@ -105,6 +119,7 @@ final List<QueryStatus> queryStatusesV5 = [
     key: '15',
     text: 'Database is busy',
     colorCategory: QueryColorCategory.orange,
+    requestCategory: QueryRequestCategory.other,
     icon: Icons.storage_rounded,
     isShown: false,
   ),
@@ -116,6 +131,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'UNKNOWN',
     text: 'UNKNOWN',
     colorCategory: QueryColorCategory.grey,
+    requestCategory: QueryRequestCategory.other,
     icon: Icons.question_mark_rounded,
     isShown: false,
   ),
@@ -124,6 +140,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'GRAVITY',
     text: 'Blocked (gravity)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -131,6 +148,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'FORWARDED',
     text: 'Forwarded',
     colorCategory: QueryColorCategory.green,
+    requestCategory: QueryRequestCategory.allowed,
     icon: Icons.verified_user_rounded,
   ),
   const QueryStatus(
@@ -138,6 +156,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'CACHE',
     text: 'Served from cache',
     colorCategory: QueryColorCategory.green,
+    requestCategory: QueryRequestCategory.allowed,
     icon: Icons.verified_user_rounded,
   ),
   const QueryStatus(
@@ -145,6 +164,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'REGEX',
     text: 'Blocked (regex)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -152,6 +172,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'DENYLIST',
     text: 'Blocked (exact)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -159,6 +180,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'EXTERNAL_BLOCKED_IP',
     text: 'Blocked (external, IP)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -166,6 +188,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'EXTERNAL_BLOCKED_NULL',
     text: 'Blocked (external, NULL)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -173,6 +196,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'EXTERNAL_BLOCKED_NXRA',
     text: 'Blocked (external, NXRA)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -180,6 +204,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'GRAVITY_CNAME',
     text: 'Blocked (gravity, CNAME)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -187,6 +212,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'REGEX_CNAME',
     text: 'Blocked (regex denied, CNAME)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -194,6 +220,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'DENYLIST_CNAME',
     text: 'Blocked (exact denied, CNAME)',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
   ),
   const QueryStatus(
@@ -201,6 +228,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'RETRIED',
     text: 'Retried',
     colorCategory: QueryColorCategory.blue,
+    requestCategory: QueryRequestCategory.retried,
     icon: Icons.refresh_rounded,
   ),
   const QueryStatus(
@@ -208,6 +236,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'RETRIED_DNSSEC',
     text: 'Retried (ignored)',
     colorCategory: QueryColorCategory.blue,
+    requestCategory: QueryRequestCategory.retried,
     icon: Icons.refresh_rounded,
   ),
   const QueryStatus(
@@ -215,6 +244,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'IN_PROGRESS',
     text: 'Already forwarded, awaiting reply',
     colorCategory: QueryColorCategory.green,
+    requestCategory: QueryRequestCategory.inProgress,
     icon: Icons.verified_user_rounded,
   ),
   const QueryStatus(
@@ -222,6 +252,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'DBBUSY',
     text: 'DBBUSY',
     colorCategory: QueryColorCategory.orange,
+    requestCategory: QueryRequestCategory.other,
     icon: Icons.storage_rounded,
     isShown: false,
   ),
@@ -230,6 +261,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'SPECIAL_DOMAIN',
     text: 'SPECIAL_DOMAIN',
     colorCategory: QueryColorCategory.red,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.gpp_bad_rounded,
     isShown: false,
   ),
@@ -238,6 +270,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'CACHE_STALE',
     text: 'Served by cache optimizer',
     colorCategory: QueryColorCategory.blue,
+    requestCategory: QueryRequestCategory.allowed,
     icon: Icons.cached_rounded,
     isShown: false,
   ),
@@ -246,6 +279,7 @@ final List<QueryStatus> queryStatusesV6 = [
     key: 'EXTERNAL_BLOCKED_EDE15',
     text: 'EXTERNAL_BLOCKED_EDE15',
     colorCategory: QueryColorCategory.orange,
+    requestCategory: QueryRequestCategory.blocked,
     icon: Icons.question_mark_rounded,
     isShown: false,
   ),
