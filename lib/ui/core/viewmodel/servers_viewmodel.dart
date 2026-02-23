@@ -2,13 +2,12 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/enum_converters.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/config/query_status.dart';
 import 'package:pi_hole_client/config/query_types.dart';
 import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
-import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
@@ -30,10 +29,6 @@ class ServersViewModel with ChangeNotifier {
 
   Server? _connectingServer;
   bool _unverifiedBannerDismissed = false;
-
-  AppColors get colors => _appConfigViewModel!.selectedTheme == ThemeMode.light
-      ? lightAppColors
-      : darkAppColors;
 
   AppConfigViewModel? get appConfigViewModel => _appConfigViewModel;
 
@@ -128,15 +123,13 @@ class ServersViewModel with ChangeNotifier {
   /// Returns the [QueryStatus] display info for a [QueryStatusType] enum value.
   QueryStatus? getQueryStatusByType(QueryStatusType? type) {
     if (type == null) return null;
-    final statuses =
-        _selectedServer?.apiVersion == 'v6'
-            ? _queryStatusesV6
-            : _queryStatusesV5;
+    final statuses = _selectedServer?.apiVersion == 'v6'
+        ? _queryStatusesV6
+        : _queryStatusesV5;
     return statuses.firstWhereOrNull((s) {
-      final mapped =
-          _selectedServer?.apiVersion == 'v6'
-              ? convertQueryStatusTypeV6(s.key)
-              : convertQueryStatusTypeV5(int.tryParse(s.key));
+      final mapped = _selectedServer?.apiVersion == 'v6'
+          ? convertQueryStatusTypeV6(s.key)
+          : convertQueryStatusTypeV5(int.tryParse(s.key));
       return mapped == type;
     });
   }

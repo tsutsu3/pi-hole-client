@@ -39,6 +39,8 @@ import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/misc.dart';
 import 'package:result_dart/result_dart.dart';
 
+enum HttpMethod { get, post, put, patch, delete }
+
 class PiholeV6ApiClient {
   PiholeV6ApiClient({
     required String url,

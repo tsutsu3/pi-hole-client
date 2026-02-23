@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/config/mapper.dart';
+import 'package:pi_hole_client/config/enum_converters.dart';
 import 'package:pi_hole_client/data/model/v6/network/devices.dart' as s;
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart' as s;
 import 'package:pi_hole_client/data/model/v6/network/interfaces.dart' as s;

@@ -1,21 +1,3 @@
-/// Http methods
-enum HttpMethod {
-  //0: Get
-  get,
-
-  //1: Post
-  post,
-
-  //2: Put
-  put,
-
-  //3: Patch
-  patch,
-
-  //4: Delete
-  delete,
-}
-
 enum LoadStatus { loading, loaded, error }
 
 /// Lists status (Supscription status)

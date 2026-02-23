@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/config/mapper.dart';
+import 'package:pi_hole_client/config/enum_converters.dart';
 import 'package:pi_hole_client/data/model/v5/over_time_data.dart' as s;
 import 'package:pi_hole_client/data/model/v5/queries.dart' as s;
 import 'package:pi_hole_client/domain/model/metrics/clients.dart' as d;

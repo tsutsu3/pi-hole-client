@@ -1,5 +1,5 @@
+import 'package:pi_hole_client/config/enum_converters.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/data/mapper/v5/domain_mapper.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/base_v5_token_repository.dart';

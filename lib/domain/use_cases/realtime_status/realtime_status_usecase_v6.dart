@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/config/mapper.dart';
+import 'package:pi_hole_client/config/enum_converters.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/dns_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
 import 'package:pi_hole_client/domain/model/dns/dns.dart';

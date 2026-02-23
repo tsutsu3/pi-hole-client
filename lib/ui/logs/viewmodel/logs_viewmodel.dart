@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:pi_hole_client/config/enum_converters.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/config/query_types.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
@@ -11,22 +11,22 @@ import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/metrics/queries.dart';
 import 'package:pi_hole_client/domain/use_cases/live_logs_service.dart';
 import 'package:pi_hole_client/domain/use_cases/logs_pagination_service.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel/filters_interface.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel/filters_v5.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/filters_viewmodel/filters_v6.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/filters/filters_interface.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/filters/filters_v5.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/filters/filters_v6.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:result_dart/result_dart.dart';
 
 /// Factory for creating [LogsPaginationService] instances.
-typedef PaginationServiceFactory = LogsPaginationService Function({
-  required MetricsRepository repository,
-});
+typedef PaginationServiceFactory =
+    LogsPaginationService Function({required MetricsRepository repository});
 
 /// Factory for creating [LiveLogsService] instances.
-typedef LiveLogsServiceFactory = LiveLogsService Function({
-  required LogsPaginationService paginationService,
-  required DateTime endTime,
-});
+typedef LiveLogsServiceFactory =
+    LiveLogsService Function({
+      required LogsPaginationService paginationService,
+      required DateTime endTime,
+    });
 
 /// ViewModel for the Logs screen.
 ///
@@ -357,8 +357,9 @@ class LogsViewModel extends ChangeNotifier {
     }
     if (repositoryChanged && _screenActive) {
       _paginationService = _paginationServiceFactory(repository: _repository!);
-      _livePaginationService =
-          _paginationServiceFactory(repository: _repository!);
+      _livePaginationService = _paginationServiceFactory(
+        repository: _repository!,
+      );
       _scheduleInitializeLoad();
     }
   }
@@ -375,8 +376,9 @@ class LogsViewModel extends ChangeNotifier {
     _logsPerQuery = logsPerQuery;
 
     _paginationService = _paginationServiceFactory(repository: _repository!);
-    _livePaginationService =
-        _paginationServiceFactory(repository: _repository!);
+    _livePaginationService = _paginationServiceFactory(
+      repository: _repository!,
+    );
 
     _scheduleInitializeLoad();
   }

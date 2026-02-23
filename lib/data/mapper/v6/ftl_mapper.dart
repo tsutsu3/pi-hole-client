@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/config/mapper.dart';
+import 'package:pi_hole_client/config/enum_converters.dart';
 import 'package:pi_hole_client/data/model/v6/ftl/client.dart' as s;
 import 'package:pi_hole_client/data/model/v6/ftl/ftl.dart' as s;
 import 'package:pi_hole_client/data/model/v6/ftl/host.dart' as s;
