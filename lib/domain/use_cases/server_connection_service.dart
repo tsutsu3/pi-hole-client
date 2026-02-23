@@ -3,8 +3,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
+import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
+import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
+import 'package:pi_hole_client/data/services/utils/exceptions.dart';
+import 'package:pi_hole_client/domain/model/dns/dns.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/ui/core/globals.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
@@ -17,6 +21,7 @@ import 'package:pi_hole_client/ui/servers/add_server_fullscreen.dart';
 import 'package:pi_hole_client/ui/servers/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
+import 'package:result_dart/result_dart.dart';
 
 class ServerConnectionService {
   ServerConnectionService({
@@ -25,6 +30,8 @@ class ServerConnectionService {
     required this.statusViewModel,
     required this.serversViewModel,
     required this.server,
+    required this.secureStorageService,
+    required this.createBundle,
     this.useRootContextOnFailure = false,
     this.showModal = false,
   });
@@ -34,6 +41,8 @@ class ServerConnectionService {
   final StatusViewModel statusViewModel;
   final ServersViewModel serversViewModel;
   final Server server;
+  final SecureStorageService secureStorageService;
+  final CreateRepositoryBundle createBundle;
   final bool useRootContextOnFailure;
   final bool showModal;
 
@@ -68,21 +77,23 @@ class ServerConnectionService {
 
     serversViewModel.clearConnectingServer();
 
-    if (result?.result == APiResponseType.success) {
-      logger.d(
-        '<*> Server connection successful: '
-        '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
-        '-> ${server.address}(${server.alias})',
-      );
-      _onSuccess(result!, serverForLogin);
-    } else {
+    if (result == null || result.isError()) {
       logger.d(
         'Fallback to previously selected server: '
         '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
         '<- ${server.address}(${server.alias})',
       );
-      await _onFailure(previouslySelectedServer, result);
+      final error = result?.exceptionOrNull();
+      await _onFailure(previouslySelectedServer, error);
+      return;
     }
+
+    logger.d(
+      '<*> Server connection successful: '
+      '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
+      '-> ${server.address}(${server.alias})',
+    );
+    _onSuccess(result.getOrThrow(), serverForLogin);
   }
 
   void _startConnection() {
@@ -106,21 +117,39 @@ class ServerConnectionService {
     }
   }
 
-  Future<LoginQueryResponse?> _runLoginQuery(Server serverForLogin) async {
+  Future<Result<Blocking>?> _runLoginQuery(Server serverForLogin) async {
     ProcessModal? process;
     if (showModal) {
       process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.connecting);
     }
 
-    final result = await serversViewModel
-        .loadApiGateway(serverForLogin)
-        ?.loginQuery();
+    final bundle = createBundle(
+      server: serverForLogin,
+      storage: secureStorageService,
+    );
+    if (serverForLogin.apiVersion == 'v6') {
+      final creds = SessionCredentialService(
+        secureStorageService,
+        serverForLogin.address,
+      );
+      final pw = await creds.password;
+      if (pw.isSuccess()) {
+        final authResult = await bundle.auth.createSession(pw.getOrThrow());
+        if (authResult.isError()) {
+          process?.close();
+          return Failure(
+            authResult.exceptionOrNull() ?? Exception('Auth failed'),
+          );
+        }
+      }
+    }
+    final result = await bundle.dns.fetchBlockingStatus();
     process?.close();
     return result;
   }
 
-  void _onSuccess(LoginQueryResponse result, Server connectedServer) {
+  void _onSuccess(Blocking blocking, Server connectedServer) {
     if (serversViewModel.selectedServer == null &&
         appConfigViewModel.selectedTab == 1) {
       appConfigViewModel.setSelectedTab(4);
@@ -128,7 +157,7 @@ class ServerConnectionService {
 
     serversViewModel.setselectedServer(server: connectedServer);
     serversViewModel.updateselectedServerStatus(
-      result.status == 'enabled',
+      blocking.status == DnsBlockingStatus.enabled,
     );
 
     statusViewModel.setServerStatus(LoadStatus.loaded);
@@ -175,7 +204,11 @@ class ServerConnectionService {
     return _openUpdatePinnedFingerprint(context, server);
   }
 
-  Future<void> _onFailure(Server? fallback, LoginQueryResponse? result) async {
+  bool _isSslError(Exception error) {
+    return error is HttpStatusCodeException && error.statusCode == 495;
+  }
+
+  Future<void> _onFailure(Server? fallback, Exception? error) async {
     if (fallback != null) {
       serversViewModel.setselectedServer(server: fallback);
       statusViewModel.setServerStatus(LoadStatus.loading);
@@ -237,7 +270,7 @@ class ServerConnectionService {
       );
     }
 
-    if (result?.result != APiResponseType.sslError) return;
+    if (error == null || !_isSslError(error)) return;
     if (targetContext == null) return;
     if (!targetContext.mounted) return;
 
@@ -292,6 +325,8 @@ class ServerConnectionService {
             statusViewModel: statusViewModel,
             serversViewModel: serversViewModel,
             server: updated,
+            secureStorageService: secureStorageService,
+            createBundle: createBundle,
             useRootContextOnFailure: useRootContextOnFailure,
             showModal: showModal,
           ).connect();

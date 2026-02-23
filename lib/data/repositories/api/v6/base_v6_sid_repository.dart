@@ -47,6 +47,12 @@ abstract class BaseV6SidRepository {
     }
   }
 
+  /// Saves a new SID to secure storage and updates the in-memory cache.
+  Future<void> saveSid(String sid) async {
+    _sid = sid;
+    await _creds.saveSid(sid);
+  }
+
   /// Clears the cached V6 SID.
   Future<void> clearSid() async {
     _sid = null;

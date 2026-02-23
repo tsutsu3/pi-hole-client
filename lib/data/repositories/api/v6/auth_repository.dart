@@ -20,7 +20,12 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
     return runWithResultRetry<Auth>(
       action: () async {
         final result = await _client.postAuth(password: password);
-        return result.map((e) => e.toDomain());
+        final auth = result.map((e) => e.toDomain());
+        final value = auth.getOrNull();
+        if (value != null && value.valid) {
+          await saveSid(value.sid);
+        }
+        return auth;
       },
       onRetry: (_) => clearSid(),
     );

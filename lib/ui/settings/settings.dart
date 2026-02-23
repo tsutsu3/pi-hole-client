@@ -119,7 +119,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             case 11:
               final clientBundle = context.read<RepositoryBundle?>();
               if (clientBundle != null) {
-                final serversViewModel = context.read<ServersViewModel>();
                 splitView.setSecondary(
                   MultiProvider(
                     providers: [
@@ -145,7 +144,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                       ),
                       ChangeNotifierProvider(
                         create: (_) => LocalDnsProvider(
-                          serversViewModel: serversViewModel,
+                          localDnsRepository: clientBundle.localDns,
+                          networkRepository: clientBundle.network,
                         ),
                       ),
                     ],
@@ -413,7 +413,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             splitViewChild: () {
               final bundle = context.read<RepositoryBundle?>();
               if (bundle == null) return;
-              final serversViewModel = context.read<ServersViewModel>();
               SplitView.of(context).setSecondary(
                 MultiProvider(
                   providers: [
@@ -438,8 +437,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                             ..loadAdlists.run(),
                     ),
                     ChangeNotifierProvider(
-                      create: (_) =>
-                          LocalDnsProvider(serversViewModel: serversViewModel),
+                      create: (_) => LocalDnsProvider(
+                        localDnsRepository: bundle.localDns,
+                        networkRepository: bundle.network,
+                      ),
                     ),
                   ],
                   child: const GroupClientScreen(),

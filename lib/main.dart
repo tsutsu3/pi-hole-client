@@ -10,6 +10,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
 import 'package:pi_hole_client/data/repositories/local/app_config_repository.dart';
@@ -181,8 +182,14 @@ void main() async {
     if (target == null) return;
 
     serversViewModel.setselectedServer(server: target, toHomeTab: true);
-    final result = await serversViewModel.selectedApiGateway?.loginQuery();
-    serversViewModel.updateselectedServerStatus(result?.status == 'enabled');
+    final bundle = RepositoryBundleFactory.create(
+      server: target,
+      storage: secureStorageService,
+    );
+    final result = await bundle.dns.fetchBlockingStatus();
+    serversViewModel.updateselectedServerStatus(
+      result.getOrNull()?.status == DnsBlockingStatus.enabled,
+    );
     statusViewModel.startAutoRefresh(showLoadingIndicator: false);
   });
 
@@ -239,6 +246,9 @@ void main() async {
         // ===================================================
         Provider<DatabaseService>(create: (_) => dbService),
         Provider<SecureStorageService>(create: (_) => secureStorageService),
+        Provider<CreateRepositoryBundle>(
+          create: (_) => RepositoryBundleFactory.create,
+        ),
 
         // ===================================================
         // Layer 2: Repositories (depend on Services)

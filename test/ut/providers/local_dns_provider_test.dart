@@ -3,80 +3,67 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/local_dns_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
-import 'package:pi_hole_client/domain/model/server/server.dart';
-import 'package:pi_hole_client/domain/models_old/devices.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:result_dart/result_dart.dart';
 
 import './local_dns_provider_test.mocks.dart';
 
-@GenerateMocks([ServersViewModel, ApiGatewayV6])
+@GenerateMocks([LocalDnsRepository, NetworkRepository])
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
 
   group('LocalDnsProvider', () {
     late LocalDnsProvider localDnsProvider;
-    late MockServersViewModel mockServersViewModel;
-    late MockApiGatewayV6 mockApiGatewayV6;
+    late MockLocalDnsRepository mockLocalDnsRepository;
+    late MockNetworkRepository mockNetworkRepository;
     late bool listenerCalled;
 
-    const server = Server(
-      address: 'http://localhost:8081',
-      alias: 'test v6',
-      defaultServer: false,
-      apiVersion: 'v6',
-      allowSelfSignedCert: true,
-      ignoreCertificateErrors: false,
-    );
-
-    final devicesInfo = DevicesInfo(
-      devices: [
-        DeviceInfo(
-          id: 1,
-          hwaddr: '00:11:22:33:44:55',
-          interface: 'eth0',
-          firstSeen: DateTime.now(),
-          lastQuery: DateTime.now(),
-          numQueries: 10,
-          ips: [
-            DeviceAddress(
-              ip: '192.168.1.100',
-              name: 'ubuntu-server',
-              lastSeen: DateTime.now(),
-              nameUpdated: DateTime.now(),
-            ),
-          ],
-          macVendor: 'Digital Data Communications Asia Co.,Ltd',
-        ),
-        DeviceInfo(
-          id: 2,
-          hwaddr: '00:11:22:33:44:66',
-          interface: 'eth0',
-          firstSeen: DateTime.now(),
-          lastQuery: DateTime.now(),
-          numQueries: 12,
-          ips: [
-            DeviceAddress(
-              ip: '192.168.1.52',
-              name: 'test',
-              lastSeen: DateTime.now(),
-              nameUpdated: DateTime.now(),
-            ),
-            DeviceAddress(
-              ip: '192.168.1.62',
-              lastSeen: DateTime.now(),
-              nameUpdated: DateTime.now(),
-            ),
-          ],
-          macVendor: 'test',
-        ),
-      ],
-    );
+    final devices = [
+      Device(
+        id: 1,
+        hwaddr: '00:11:22:33:44:55',
+        interface: 'eth0',
+        firstSeen: DateTime.now(),
+        lastQuery: DateTime.now(),
+        numQueries: 10,
+        ips: [
+          DeviceIp(
+            ip: '192.168.1.100',
+            name: 'ubuntu-server',
+            lastSeen: DateTime.now(),
+            nameUpdated: DateTime.now(),
+          ),
+        ],
+        macVendor: 'Digital Data Communications Asia Co.,Ltd',
+      ),
+      Device(
+        id: 2,
+        hwaddr: '00:11:22:33:44:66',
+        interface: 'eth0',
+        firstSeen: DateTime.now(),
+        lastQuery: DateTime.now(),
+        numQueries: 12,
+        ips: [
+          DeviceIp(
+            ip: '192.168.1.52',
+            name: 'test',
+            lastSeen: DateTime.now(),
+            nameUpdated: DateTime.now(),
+          ),
+          DeviceIp(
+            ip: '192.168.1.62',
+            lastSeen: DateTime.now(),
+            nameUpdated: DateTime.now(),
+          ),
+        ],
+        macVendor: 'test',
+      ),
+    ];
 
     const deviceOptions = [
       DeviceOption(
@@ -97,16 +84,19 @@ void main() async {
     ];
 
     setUp(() {
-      mockServersViewModel = MockServersViewModel();
-      mockApiGatewayV6 = MockApiGatewayV6();
+      provideDummy<Result<List<LocalDns>>>(const Success([]));
+      provideDummy<Result<Unit>>(const Success(unit));
+      provideDummy<Result<List<Device>>>(const Success([]));
+      provideDummy<Result<Gateways>>(
+        const Success(Gateways(gateways: [])),
+      );
 
-      when(mockServersViewModel.selectedServer).thenReturn(server);
-      when(
-        mockServersViewModel.selectedApiGateway,
-      ).thenReturn(mockApiGatewayV6);
+      mockLocalDnsRepository = MockLocalDnsRepository();
+      mockNetworkRepository = MockNetworkRepository();
 
       localDnsProvider = LocalDnsProvider(
-        serversViewModel: mockServersViewModel,
+        localDnsRepository: mockLocalDnsRepository,
+        networkRepository: mockNetworkRepository,
       );
       listenerCalled = false;
       localDnsProvider.addListener(() {
@@ -132,16 +122,17 @@ void main() async {
     );
 
     test('load() updates local DNS and notifies listeners', () async {
-      when(mockApiGatewayV6.getLocalDns()).thenAnswer(
-        (_) async => LocalDnsResponse(
-          result: APiResponseType.success,
-          data: [const LocalDns(ip: '192.168.1.2', name: 'device')],
+      when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
+        (_) async => const Success(
+          [LocalDns(ip: '192.168.1.2', name: 'device')],
         ),
       );
-      when(mockApiGatewayV6.getDevices()).thenAnswer(
-        (_) async =>
-            DevicesResponse(result: APiResponseType.success, data: devicesInfo),
-      );
+      when(
+        mockNetworkRepository.fetchDevices(
+          maxDevices: anyNamed('maxDevices'),
+          maxAddresses: anyNamed('maxAddresses'),
+        ),
+      ).thenAnswer((_) async => Success(devices));
 
       await localDnsProvider.load();
 
@@ -180,10 +171,8 @@ void main() async {
 
     test('addLocalDns() updates status and notifies listeners', () async {
       when(
-        mockApiGatewayV6.addLocalDns(ip: '192.168.11.3', name: 'test'),
-      ).thenAnswer(
-        (_) async => AddLocalDnsResponse(result: APiResponseType.success),
-      );
+        mockLocalDnsRepository.addRecord(ip: '192.168.11.3', name: 'test'),
+      ).thenAnswer((_) async => const Success(unit));
 
       final resp = await localDnsProvider.addLocalDns(
         const LocalDns(ip: '192.168.11.3', name: 'test'),
@@ -199,10 +188,8 @@ void main() async {
 
     test('addLocalDns() failed', () async {
       when(
-        mockApiGatewayV6.addLocalDns(ip: '192.168.11.3', name: 'test'),
-      ).thenAnswer(
-        (_) async => AddLocalDnsResponse(result: APiResponseType.error),
-      );
+        mockLocalDnsRepository.addRecord(ip: '192.168.11.3', name: 'test'),
+      ).thenAnswer((_) async => Failure(Exception('Failed to add')));
 
       final resp = await localDnsProvider.addLocalDns(
         const LocalDns(ip: '192.168.11.3', name: 'test'),
@@ -213,31 +200,28 @@ void main() async {
       expect(listenerCalled, true);
     });
 
-    test('updateLocalDns() updates local DNS and notifies listeners', () async {
-      when(mockApiGatewayV6.getLocalDns()).thenAnswer(
-        (_) async => LocalDnsResponse(
-          result: APiResponseType.success,
-          data: [const LocalDns(ip: '192.168.1.2', name: 'device')],
+    test('updateLocalDns() updates local DNS and notifies listeners',
+        () async {
+      when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
+        (_) async => const Success(
+          [LocalDns(ip: '192.168.1.2', name: 'device')],
         ),
       );
-      when(mockApiGatewayV6.getDevices()).thenAnswer(
-        (_) async =>
-            DevicesResponse(result: APiResponseType.success, data: devicesInfo),
-      );
+      when(
+        mockNetworkRepository.fetchDevices(
+          maxDevices: anyNamed('maxDevices'),
+          maxAddresses: anyNamed('maxAddresses'),
+        ),
+      ).thenAnswer((_) async => Success(devices));
       await localDnsProvider.load();
 
       when(
-        mockApiGatewayV6.updateLocalDns(
-          ip: '192.168.1.3',
-          name: 'test',
+        mockLocalDnsRepository.updateRecord(
+          record: const LocalDns(ip: '192.168.1.3', name: 'test'),
           oldIp: '192.168.1.2',
         ),
-      ).thenAnswer(
-        (_) async => LocalDnsResponse(
-          result: APiResponseType.success,
-          data: [const LocalDns(ip: '192.168.1.3', name: 'test')],
-        ),
-      );
+      ).thenAnswer((_) async => const Success(unit));
+
       final resp = await localDnsProvider.updateLocalDns(
         oldIp: '192.168.1.2',
         item: const LocalDns(ip: '192.168.1.3', name: 'test'),
@@ -253,27 +237,26 @@ void main() async {
     });
 
     test('updateLocalDns() failed', () async {
-      when(mockApiGatewayV6.getLocalDns()).thenAnswer(
-        (_) async => LocalDnsResponse(
-          result: APiResponseType.success,
-          data: [const LocalDns(ip: '192.168.1.2', name: 'device')],
+      when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
+        (_) async => const Success(
+          [LocalDns(ip: '192.168.1.2', name: 'device')],
         ),
       );
-      when(mockApiGatewayV6.getDevices()).thenAnswer(
-        (_) async =>
-            DevicesResponse(result: APiResponseType.success, data: devicesInfo),
-      );
+      when(
+        mockNetworkRepository.fetchDevices(
+          maxDevices: anyNamed('maxDevices'),
+          maxAddresses: anyNamed('maxAddresses'),
+        ),
+      ).thenAnswer((_) async => Success(devices));
       await localDnsProvider.load();
 
       when(
-        mockApiGatewayV6.updateLocalDns(
-          ip: '192.168.1.3',
-          name: 'test',
+        mockLocalDnsRepository.updateRecord(
+          record: const LocalDns(ip: '192.168.1.3', name: 'test'),
           oldIp: '192.168.1.2',
         ),
-      ).thenAnswer(
-        (_) async => LocalDnsResponse(result: APiResponseType.error),
-      );
+      ).thenAnswer((_) async => Failure(Exception('Failed to update')));
+
       final resp = await localDnsProvider.updateLocalDns(
         oldIp: '192.168.1.2',
         item: const LocalDns(ip: '192.168.1.3', name: 'test'),
@@ -289,23 +272,26 @@ void main() async {
     });
 
     test('removeLocalDns() loads local DNS and notifies listeners', () async {
-      when(mockApiGatewayV6.getLocalDns()).thenAnswer(
-        (_) async => LocalDnsResponse(
-          result: APiResponseType.success,
-          data: [const LocalDns(ip: '192.168.1.2', name: 'device')],
+      when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
+        (_) async => const Success(
+          [LocalDns(ip: '192.168.1.2', name: 'device')],
         ),
       );
-      when(mockApiGatewayV6.getDevices()).thenAnswer(
-        (_) async =>
-            DevicesResponse(result: APiResponseType.success, data: devicesInfo),
-      );
+      when(
+        mockNetworkRepository.fetchDevices(
+          maxDevices: anyNamed('maxDevices'),
+          maxAddresses: anyNamed('maxAddresses'),
+        ),
+      ).thenAnswer((_) async => Success(devices));
       await localDnsProvider.load();
 
       when(
-        mockApiGatewayV6.deleteLocalDns(ip: '192.168.1.2', name: 'device'),
-      ).thenAnswer(
-        (_) async => DeleteLocalDnsResponse(result: APiResponseType.success),
-      );
+        mockLocalDnsRepository.deleteRecord(
+          ip: '192.168.1.2',
+          name: 'device',
+        ),
+      ).thenAnswer((_) async => const Success(unit));
+
       final resp = await localDnsProvider.removeLocalDns(
         const LocalDns(ip: '192.168.1.2', name: 'device'),
       );
@@ -316,23 +302,26 @@ void main() async {
     });
 
     test('removeLocalDns() failed', () async {
-      when(mockApiGatewayV6.getLocalDns()).thenAnswer(
-        (_) async => LocalDnsResponse(
-          result: APiResponseType.success,
-          data: [const LocalDns(ip: '192.168.1.2', name: 'device')],
+      when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
+        (_) async => const Success(
+          [LocalDns(ip: '192.168.1.2', name: 'device')],
         ),
       );
-      when(mockApiGatewayV6.getDevices()).thenAnswer(
-        (_) async =>
-            DevicesResponse(result: APiResponseType.success, data: devicesInfo),
-      );
+      when(
+        mockNetworkRepository.fetchDevices(
+          maxDevices: anyNamed('maxDevices'),
+          maxAddresses: anyNamed('maxAddresses'),
+        ),
+      ).thenAnswer((_) async => Success(devices));
       await localDnsProvider.load();
 
       when(
-        mockApiGatewayV6.deleteLocalDns(ip: '192.168.1.2', name: 'device'),
-      ).thenAnswer(
-        (_) async => DeleteLocalDnsResponse(result: APiResponseType.error),
-      );
+        mockLocalDnsRepository.deleteRecord(
+          ip: '192.168.1.2',
+          name: 'device',
+        ),
+      ).thenAnswer((_) async => Failure(Exception('Failed to delete')));
+
       final resp = await localDnsProvider.removeLocalDns(
         const LocalDns(ip: '192.168.1.2', name: 'device'),
       );
@@ -346,8 +335,8 @@ void main() async {
       expect(listenerCalled, true);
     });
 
-    test('devicesInfoToOptions() updates messages and notifies listeners', () {
-      final resp = localDnsProvider.devicesInfoToOptions(devicesInfo.devices);
+    test('devicesToOptions() converts devices to device options', () {
+      final resp = localDnsProvider.devicesToOptions(devices);
 
       expect(
         resp.map((e) => e.toJson()).toList(),

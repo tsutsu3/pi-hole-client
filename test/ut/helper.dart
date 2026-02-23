@@ -1,5 +1,5 @@
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbHelper {
@@ -97,33 +97,11 @@ class DbHelper {
 
   Future<bool> saveDb(Server server) async {
     try {
-      final token = await server.sm.token;
-      if (token.isSuccess()) {
-        await _secureStorage.saveValue(
-          '${server.address}_token',
-          token.getOrThrow(),
-        );
-      }
-
-      final password = await server.sm.password;
-      if (password.isSuccess()) {
-        await _secureStorage.saveValue(
-          '${server.address}_password',
-          password.getOrThrow(),
-        );
-      }
-      if (server.sm.sid.isSuccess()) {
-        await _secureStorage.saveValue(
-          '${server.address}_sid',
-          server.sm.sid.getOrDefault(''),
-        );
-      }
-
       await _db.transaction((txn) async {
         await txn.insert('servers', {
           'address': server.address,
           'alias': server.alias,
-          'isDefaultServer': 0,
+          'isDefaultServer': server.defaultServer ? 1 : 0,
           'apiVersion': server.apiVersion,
           'allowSelfSignedCert': server.allowSelfSignedCert ? 1 : 0,
         });

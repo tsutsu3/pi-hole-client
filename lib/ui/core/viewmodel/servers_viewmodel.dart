@@ -6,11 +6,8 @@ import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/config/query_status.dart';
 import 'package:pi_hole_client/config/query_types.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_factory.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart' as legacy;
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
@@ -33,8 +30,6 @@ class ServersViewModel with ChangeNotifier {
 
   Server? _connectingServer;
   bool _unverifiedBannerDismissed = false;
-
-  final Map<String, ApiGateway> _serverGateways = {};
 
   AppColors get colors => _appConfigViewModel!.selectedTheme == ThemeMode.light
       ? lightAppColors
@@ -72,12 +67,6 @@ class ServersViewModel with ChangeNotifier {
         (server.pinnedCertificateSha256 == null ||
             server.pinnedCertificateSha256!.isEmpty);
   }
-
-  /// Returns the gateway for the selected server if a server is selected,
-  /// otherwise returns null.
-  ApiGateway? get selectedApiGateway => _selectedServer != null
-      ? _serverGateways[_selectedServer?.address]
-      : null;
 
   int get numShown {
     switch (_selectedServer?.apiVersion) {
@@ -117,33 +106,6 @@ class ServersViewModel with ChangeNotifier {
     if (_unverifiedBannerDismissed == dismissed) return;
     _unverifiedBannerDismissed = dismissed;
     notifyListeners();
-  }
-
-  /// Converts a new [Server] to the legacy Server type for Gateway layer
-  /// compatibility. This bridge will be removed in Phase 5.
-  legacy.Server _toLegacyServer(Server server) {
-    return legacy.Server(
-      address: server.address,
-      alias: server.alias,
-      defaultServer: server.defaultServer,
-      apiVersion: server.apiVersion,
-      allowSelfSignedCert: server.allowSelfSignedCert,
-      ignoreCertificateErrors: server.ignoreCertificateErrors,
-      pinnedCertificateSha256: server.pinnedCertificateSha256,
-    );
-  }
-
-  ApiGateway? loadApiGateway(Server server) {
-    final gateway = _serverGateways[server.address];
-    if (gateway == null) {
-      return ApiGatewayFactory.create(_toLegacyServer(server));
-    }
-
-    return _serverGateways[server.address];
-  }
-
-  ApiGateway? createApiGateway(Server server) {
-    return ApiGatewayFactory.create(_toLegacyServer(server));
   }
 
   /// Returns the query status object for the given key.
@@ -196,9 +158,6 @@ class ServersViewModel with ChangeNotifier {
   Future<bool> addServer(Server server) async {
     final saved = await _repository.insertServer(server);
     if (saved.isSuccess()) {
-      _serverGateways[server.address] = ApiGatewayFactory.create(
-        _toLegacyServer(server),
-      );
       if (server.defaultServer == true) {
         final defaultServer = await setDefaultServer(server);
         if (defaultServer == true) {
@@ -239,14 +198,6 @@ class ServersViewModel with ChangeNotifier {
         _selectedServer = server;
       }
 
-      // Update the API gateway if it exists
-      if (_serverGateways.containsKey(server.address)) {
-        _serverGateways[server.address]?.close();
-        _serverGateways[server.address] = ApiGatewayFactory.create(
-          _toLegacyServer(server),
-        );
-      }
-
       // Handle default server update
       if (server.defaultServer == true) {
         final defaultUpdated = await setDefaultServer(server);
@@ -269,7 +220,6 @@ class ServersViewModel with ChangeNotifier {
       final result = await _repository.deleteServer(serverAddress);
 
       if (result.isSuccess()) {
-        _serverGateways.remove(serverAddress);
         // Create new list so context.select() can detect the change
         _serversList = _serversList
             .where((s) => s.address != serverAddress)
@@ -314,9 +264,6 @@ class ServersViewModel with ChangeNotifier {
     Server? defaultServer;
     for (final server in servers) {
       _serversList.add(server);
-      _serverGateways[server.address] = ApiGatewayFactory.create(
-        _toLegacyServer(server),
-      );
       if (server.defaultServer == true) {
         defaultServer = server;
       }

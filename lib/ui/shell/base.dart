@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/app_screens.dart';
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/layout/bottom_nav_bar.dart';
 import 'package:pi_hole_client/ui/core/ui/layout/navigation_rail.dart';
@@ -67,10 +69,13 @@ class _BaseState extends State<Base>
       }
 
       if (serversViewModel.selectedServer != null) {
-        final result = await serversViewModel.selectedApiGateway?.loginQuery();
-        serversViewModel.updateselectedServerStatus(
-          result?.status == 'enabled',
-        );
+        final bundle = context.read<RepositoryBundle?>();
+        if (bundle != null) {
+          final result = await bundle.dns.fetchBlockingStatus();
+          serversViewModel.updateselectedServerStatus(
+            result.getOrNull()?.status == DnsBlockingStatus.enabled,
+          );
+        }
 
         if (!mounted) return;
         context.read<StatusViewModel>().startAutoRefresh();
@@ -127,7 +132,13 @@ class _BaseState extends State<Base>
     final statusViewModel = context.read<StatusViewModel>();
 
     if (serversViewModel.selectedServer != null) {
-      await serversViewModel.selectedApiGateway?.loginQuery();
+      final bundle = context.read<RepositoryBundle?>();
+      if (bundle != null) {
+        final result = await bundle.dns.fetchBlockingStatus();
+        serversViewModel.updateselectedServerStatus(
+          result.getOrNull()?.status == DnsBlockingStatus.enabled,
+        );
+      }
       statusViewModel.startAutoRefresh(showLoadingIndicator: false);
     }
   }

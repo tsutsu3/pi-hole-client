@@ -2,12 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/urls.dart';
+import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
 import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
+import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:pi_hole_client/domain/model/api_versions.dart';
 import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
@@ -243,23 +244,28 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     void handleApiErrorResult({
       required BuildContext context,
       required AppConfigViewModel appConfigViewModel,
-      required LoginQueryResponse? result,
+      required Exception error,
       required String version,
     }) {
       final loc = AppLocalizations.of(context)!;
 
       String label;
 
-      if (result?.result == APiResponseType.socket) {
-        label = loc.checkAddress;
-      } else if (result?.result == APiResponseType.timeout) {
-        label = loc.connectionTimeout;
-      } else if (result?.result == APiResponseType.noConnection) {
-        label = loc.cantReachServer;
-      } else if (result?.result == APiResponseType.authError) {
-        label = version == 'v6' ? loc.passwordNotValid : loc.tokenNotValid;
-      } else if (result?.result == APiResponseType.sslError) {
-        label = loc.sslErrorLong;
+      if (error is HttpStatusCodeException) {
+        switch (error.statusCode) {
+          case 503:
+            label = loc.checkAddress;
+          case 504:
+            label = loc.connectionTimeout;
+          case 495:
+            label = loc.sslErrorLong;
+          case 401:
+            label = version == 'v6'
+                ? loc.passwordNotValid
+                : loc.tokenNotValid;
+          default:
+            label = loc.cantReachServer;
+        }
       } else {
         label = loc.unknownError;
       }
@@ -270,18 +276,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         label: label,
       );
 
-      if (result?.log != null) {
-        final oldLog = result!.log!;
-        appConfigViewModel.addLog(
-          AppLog(
-            type: oldLog.type,
-            dateTime: oldLog.dateTime,
-            message: oldLog.message,
-            statusCode: oldLog.statusCode,
-            resBody: oldLog.resBody,
-          ),
-        );
-      }
+      appConfigViewModel.addLog(
+        AppLog(
+          type: 'login',
+          dateTime: DateTime.now(),
+          message: error.toString(),
+        ),
+      );
     }
 
     Future<String?> ensurePinnedFingerprint({
@@ -408,7 +409,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           );
           return null;
         } catch (e) {
-          // Other network errors - let loginQuery handle them
+          // Other network errors - let connection test handle them
           // ignore: avoid_redundant_argument_values
           return serverObj.copyWith(pinnedCertificateSha256: null);
         }
@@ -429,6 +430,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       final exists = await serversViewModel.checkUrlExists(url);
 
       if (!context.mounted) return;
+      final secureStorage = context.read<SecureStorageService>();
+      final createBundle = context.read<CreateRepositoryBundle>();
 
       if (exists['result'] == 'success' && exists['exists'] == true) {
         setState(() {
@@ -475,11 +478,36 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             ) ??
             serverObj;
 
-        final result = await serversViewModel
-            .loadApiGateway(serverObj)
-            ?.loginQuery();
+        final bundle = createBundle(
+          server: serverObj,
+          storage: secureStorage,
+        );
+        if (serverObj.apiVersion == 'v6') {
+          final authResult = await bundle.auth.createSession(
+            passwordFieldController.text,
+          );
+          if (authResult.isError()) {
+            if (mounted) {
+              setState(() {
+                isConnecting = false;
+                _restoreSecrets();
+              });
+              await connectSm.deletePassword();
+              await connectSm.deleteToken();
+              if (!context.mounted) return;
+              handleApiErrorResult(
+                context: context,
+                appConfigViewModel: appConfigViewModel,
+                error: authResult.exceptionOrNull()!,
+                version: piHoleVersion,
+              );
+            }
+            return;
+          }
+        }
+        final result = await bundle.dns.fetchBlockingStatus();
         if (!context.mounted) return;
-        if (result?.result == APiResponseType.success) {
+        if (result.isSuccess()) {
           await Navigator.maybePop(context);
           if (!context.mounted) return;
           showSuccessSnackBar(
@@ -504,7 +532,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             handleApiErrorResult(
               context: context,
               appConfigViewModel: appConfigViewModel,
-              result: result,
+              error: result.exceptionOrNull()!,
               version: piHoleVersion,
             );
           } else {
@@ -516,6 +544,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
     Future<void> save() async {
       FocusManager.instance.primaryFocus?.unfocus();
+      final saveSecureStorage = context.read<SecureStorageService>();
+      final saveCreateBundle = context.read<CreateRepositoryBundle>();
       setState(() {
         errorUrl = null;
         isConnecting = true;
@@ -562,15 +592,40 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       serverObj = updatedServer;
 
-      final result = await serversViewModel
-          .createApiGateway(serverObj)
-          ?.loginQuery(refresh: true);
+      final bundle = saveCreateBundle(
+        server: serverObj,
+        storage: saveSecureStorage,
+      );
+      if (serverObj.apiVersion == 'v6') {
+        final authResult = await bundle.auth.createSession(
+          passwordFieldController.text,
+        );
+        if (authResult.isError()) {
+          if (context.mounted) {
+            setState(() {
+              isConnecting = false;
+              _restoreSecrets();
+            });
+            handleApiErrorResult(
+              context: context,
+              appConfigViewModel: appConfigViewModel,
+              error: authResult.exceptionOrNull()!,
+              version: piHoleVersion,
+            );
+          }
+          if (serversViewModel.selectedServer != null) {
+            statusViewModel.startAutoRefresh();
+          }
+          return;
+        }
+      }
+      final result = await bundle.dns.fetchBlockingStatus();
 
-      if (result?.result == APiResponseType.success) {
+      if (result.isSuccess()) {
         final server = serverObj.copyWith(defaultServer: defaultCheckbox);
-        final result = await serversViewModel.editServer(server);
+        final editResult = await serversViewModel.editServer(server);
         if (context.mounted) {
-          if (result == true) {
+          if (editResult == true) {
             await Navigator.maybePop(context);
             if (!context.mounted) return;
 
@@ -600,7 +655,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           handleApiErrorResult(
             context: context,
             appConfigViewModel: appConfigViewModel,
-            result: result,
+            error: result.exceptionOrNull()!,
             version: piHoleVersion,
           );
         } else {

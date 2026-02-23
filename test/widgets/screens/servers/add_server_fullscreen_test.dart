@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/domain/models_old/app_log.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:pi_hole_client/ui/servers/add_server_fullscreen.dart';
 
 import '../../helpers.dart';
@@ -82,19 +80,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(
-          testSetup.mockServersViewModel.addServer(any),
-        ).thenAnswer((_) async => false);
-        when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
-          (_) async => LoginQueryResponse(
-            result: APiResponseType.socket,
-            log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'SocketException',
-            ),
-          ),
-        );
+        testSetup.fakeDnsRepository
+          ..shouldFail = true
+          ..failureException = HttpStatusCodeException(503);
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -132,19 +120,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(
-          testSetup.mockServersViewModel.addServer(any),
-        ).thenAnswer((_) async => false);
-        when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
-          (_) async => LoginQueryResponse(
-            result: APiResponseType.timeout,
-            log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'timeout',
-            ),
-          ),
-        );
+        testSetup.fakeDnsRepository
+          ..shouldFail = true
+          ..failureException = HttpStatusCodeException(504);
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -187,19 +165,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(
-          testSetup.mockServersViewModel.addServer(any),
-        ).thenAnswer((_) async => false);
-        when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
-          (_) async => LoginQueryResponse(
-            result: APiResponseType.noConnection,
-            log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'noConnection',
-            ),
-          ),
-        );
+        testSetup.fakeDnsRepository
+          ..shouldFail = true
+          ..failureException = HttpStatusCodeException(500);
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -240,19 +208,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(
-          testSetup.mockServersViewModel.addServer(any),
-        ).thenAnswer((_) async => false);
-        when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
-          (_) async => LoginQueryResponse(
-            result: APiResponseType.authError,
-            log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'authError',
-            ),
-          ),
-        );
+        testSetup.fakeDnsRepository
+          ..shouldFail = true
+          ..failureException = HttpStatusCodeException(401);
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -290,19 +248,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(
-          testSetup.mockServersViewModel.addServer(any),
-        ).thenAnswer((_) async => false);
-        when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
-          (_) async => LoginQueryResponse(
-            result: APiResponseType.sslError,
-            log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'sslError',
-            ),
-          ),
-        );
+        testSetup.fakeDnsRepository
+          ..shouldFail = true
+          ..failureException = HttpStatusCodeException(495);
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -343,19 +291,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(
-          testSetup.mockServersViewModel.addServer(any),
-        ).thenAnswer((_) async => false);
-        when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
-          (_) async => LoginQueryResponse(
-            result: APiResponseType.alreadyAdded,
-            log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'unknownError',
-            ),
-          ),
-        );
+        testSetup.fakeDnsRepository
+          ..shouldFail = true
+          ..failureException = null; // Generic Exception → unknown error
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -472,16 +410,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockApiGatewayV6.loginQuery(refresh: true)).thenAnswer(
-          (_) async => LoginQueryResponse(
-            result: APiResponseType.socket,
-            log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'socketError',
-            ),
-          ),
-        );
+        testSetup.fakeDnsRepository
+          ..shouldFail = true
+          ..failureException = HttpStatusCodeException(503);
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -520,16 +451,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockApiGatewayV6.loginQuery(refresh: true)).thenAnswer(
-          (_) async => LoginQueryResponse(
-            result: APiResponseType.timeout,
-            log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'timeout',
-            ),
-          ),
-        );
+        testSetup.fakeDnsRepository
+          ..shouldFail = true
+          ..failureException = HttpStatusCodeException(504);
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -573,16 +497,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockApiGatewayV6.loginQuery(refresh: true)).thenAnswer(
-          (_) async => LoginQueryResponse(
-            result: APiResponseType.noConnection,
-            log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'noConnection',
-            ),
-          ),
-        );
+        testSetup.fakeDnsRepository
+          ..shouldFail = true
+          ..failureException = HttpStatusCodeException(500);
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -624,16 +541,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockApiGatewayV6.loginQuery(refresh: true)).thenAnswer(
-          (_) async => LoginQueryResponse(
-            result: APiResponseType.authError,
-            log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'AuthError',
-            ),
-          ),
-        );
+        testSetup.fakeDnsRepository
+          ..shouldFail = true
+          ..failureException = HttpStatusCodeException(401);
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -672,16 +582,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockApiGatewayV6.loginQuery(refresh: true)).thenAnswer(
-          (_) async => LoginQueryResponse(
-            result: APiResponseType.sslError,
-            log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'sslError',
-            ),
-          ),
-        );
+        testSetup.fakeDnsRepository
+          ..shouldFail = true
+          ..failureException = HttpStatusCodeException(495);
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -723,16 +626,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockApiGatewayV6.loginQuery(refresh: true)).thenAnswer(
-          (_) async => LoginQueryResponse(
-            result: APiResponseType.alreadyAdded,
-            log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'unknownError',
-            ),
-          ),
-        );
+        testSetup.fakeDnsRepository
+          ..shouldFail = true
+          ..failureException = null; // Generic Exception → unknown error
 
         addTearDown(() {
           tester.view.resetPhysicalSize();

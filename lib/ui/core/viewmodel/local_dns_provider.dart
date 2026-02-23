@@ -2,22 +2,25 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/local_dns_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
-import 'package:pi_hole_client/domain/models_old/devices.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
 class LocalDnsProvider with ChangeNotifier {
-  LocalDnsProvider({required ServersViewModel serversViewModel})
-    : _serversViewModel = serversViewModel;
+  LocalDnsProvider({
+    required LocalDnsRepository localDnsRepository,
+    required NetworkRepository networkRepository,
+  }) : _localDnsRepository = localDnsRepository,
+       _networkRepository = networkRepository;
 
-  final ServersViewModel _serversViewModel;
+  final LocalDnsRepository _localDnsRepository;
+  final NetworkRepository _networkRepository;
 
-  List<LocalDns> _localDns = [];
+  final List<LocalDns> _localDns = [];
 
-  List<DeviceOption> _deviceOptions = [];
+  final List<DeviceOption> _deviceOptions = [];
   Map<String, String> _ipToHostname = {};
   Map<String, String> _ipToMac = {};
   Map<String, String> _macToIp = {};
@@ -41,41 +44,33 @@ class LocalDnsProvider with ChangeNotifier {
   }
 
   Future<void> load() async {
-    final apiGateway = _serversViewModel.selectedApiGateway;
-
-    if (apiGateway == null) {
-      _localDns = [];
-      _deviceOptions = [];
-      _loadingStatus = LoadStatus.error;
-      notifyListeners();
-      return;
-    }
-
     _loadingStatus = LoadStatus.loading;
     notifyListeners();
 
     try {
-      final result = await Future.wait<BaseInfoResponse<dynamic>>([
-        apiGateway.getLocalDns(),
-        apiGateway.getDevices(),
+      final results = await Future.wait([
+        _localDnsRepository.fetchRecords(),
+        _networkRepository.fetchDevices(),
       ]);
 
-      if (result[0].result == APiResponseType.success &&
-          result[1].result == APiResponseType.success) {
+      final dnsResult = results[0];
+      final devicesResult = results[1];
+
+      if (dnsResult.isSuccess() && devicesResult.isSuccess()) {
         _localDns
           ..clear()
-          ..addAll(result[0].data as List<LocalDns>);
-        final devicesInfo = result[1].data as DevicesInfo;
+          ..addAll(dnsResult.getOrThrow() as List<LocalDns>);
+        final devices = devicesResult.getOrThrow() as List<Device>;
         _deviceOptions
           ..clear()
-          ..addAll(devicesInfoToOptions(devicesInfo.devices));
-        _buildDeviceMaps(devicesInfo.devices);
+          ..addAll(devicesToOptions(devices));
+        _buildDeviceMaps(devices);
         _loadingStatus = LoadStatus.loaded;
       } else {
         logger.e(
           'Failed to load LocalDns data. '
-          'getLocalDns: ${result[0].result} (${result[0].message ?? 'no message'}), '
-          'getDevices: ${result[1].result} (${result[1].message ?? 'no message'})',
+          'fetchRecords: ${dnsResult.isSuccess() ? 'ok' : dnsResult.exceptionOrNull()}, '
+          'fetchDevices: ${devicesResult.isSuccess() ? 'ok' : devicesResult.exceptionOrNull()}',
         );
         _loadingStatus = LoadStatus.error;
       }
@@ -90,18 +85,11 @@ class LocalDnsProvider with ChangeNotifier {
   Future<bool> addLocalDns(LocalDns item) async {
     _localDns.add(item);
 
-    final apiGateway = _serversViewModel.selectedApiGateway;
-
-    if (apiGateway == null) {
-      _localDns = [];
-      _deviceOptions = [];
-      _loadingStatus = LoadStatus.error;
-      notifyListeners();
-      return false;
-    }
-
-    final resp = await apiGateway.addLocalDns(ip: item.ip, name: item.name);
-    if (resp.result != APiResponseType.success) {
+    final result = await _localDnsRepository.addRecord(
+      ip: item.ip,
+      name: item.name,
+    );
+    if (result.isError()) {
       _localDns.removeWhere((e) => e.ip == item.ip && e.name == item.name);
       notifyListeners();
       return false;
@@ -121,22 +109,11 @@ class LocalDnsProvider with ChangeNotifier {
     final before = _localDns[idx];
     _localDns[idx] = item;
 
-    final apiGateway = _serversViewModel.selectedApiGateway;
-
-    if (apiGateway == null) {
-      _localDns = [];
-      _deviceOptions = [];
-      _loadingStatus = LoadStatus.error;
-      notifyListeners();
-      return false;
-    }
-
-    final resp = await apiGateway.updateLocalDns(
-      ip: item.ip,
-      name: item.name,
+    final result = await _localDnsRepository.updateRecord(
+      record: item,
       oldIp: oldIp,
     );
-    if (resp.result != APiResponseType.success) {
+    if (result.isError()) {
       _localDns[idx] = before;
       notifyListeners();
       return false;
@@ -152,18 +129,11 @@ class LocalDnsProvider with ChangeNotifier {
 
     final removed = _localDns.removeAt(idx);
 
-    final apiGateway = _serversViewModel.selectedApiGateway;
-
-    if (apiGateway == null) {
-      _localDns = [];
-      _deviceOptions = [];
-      _loadingStatus = LoadStatus.error;
-      notifyListeners();
-      return false;
-    }
-
-    final resp = await apiGateway.deleteLocalDns(ip: item.ip, name: item.name);
-    if (resp.result != APiResponseType.success) {
+    final result = await _localDnsRepository.deleteRecord(
+      ip: item.ip,
+      name: item.name,
+    );
+    if (result.isError()) {
       _localDns.insert(idx, removed);
       notifyListeners();
       return false;
@@ -173,7 +143,7 @@ class LocalDnsProvider with ChangeNotifier {
     return true;
   }
 
-  List<DeviceOption> devicesInfoToOptions(List<DeviceInfo> devices) {
+  List<DeviceOption> devicesToOptions(List<Device> devices) {
     final list = devices
         .where((device) {
           // Exclude devices with lastQuery as 0 (unused)
@@ -188,10 +158,6 @@ class LocalDnsProvider with ChangeNotifier {
                     addr.ip == '::1') {
                   return false;
                 }
-                // Exclude if name is present
-                // if (addr.name != null && addr.name!.isNotEmpty) {
-                //   return false;
-                // }
                 return true;
               })
               .map((addr) {
@@ -229,7 +195,7 @@ class LocalDnsProvider with ChangeNotifier {
     return list;
   }
 
-  void _buildDeviceMaps(List<DeviceInfo> devices) {
+  void _buildDeviceMaps(List<Device> devices) {
     final ipToHostname = <String, String>{};
     final ipToMac = <String, String>{};
     final macToIp = <String, String>{};

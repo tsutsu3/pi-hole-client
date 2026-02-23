@@ -236,7 +236,6 @@ GoRouter createAppRouter({
         name: Routes.settingsServerGroupClient,
         builder: (context, state) {
           final bundle = context.read<RepositoryBundle?>();
-          final serversViewModel = context.read<ServersViewModel>();
           return MultiProvider(
             providers: [
               ChangeNotifierProvider(
@@ -260,8 +259,10 @@ GoRouter createAppRouter({
                       ..loadAdlists.run(),
               ),
               ChangeNotifierProvider(
-                create: (_) =>
-                    LocalDnsProvider(serversViewModel: serversViewModel),
+                create: (_) => LocalDnsProvider(
+                  localDnsRepository: bundle!.localDns,
+                  networkRepository: bundle.network,
+                ),
               ),
             ],
             child: const GroupClientScreen(),

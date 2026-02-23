@@ -45,7 +45,6 @@ void main() async {
     test('initial values are correct', () {
       expect(serversViewModel.getServersList, []);
       expect(serversViewModel.selectedServer, null);
-      expect(serversViewModel.selectedApiGateway, null);
       expect(serversViewModel.numShown, 0);
       expect(serversViewModel.queryStatuses, []);
       expect(serversViewModel.connectingServer, null);
@@ -55,26 +54,6 @@ void main() async {
     test('update sets AppConfigViewModel', () {
       serversViewModel.update(mockAppConfigViewModel);
       expect(serversViewModel.appConfigViewModel, mockAppConfigViewModel);
-      expect(listenerCalled, false);
-    });
-
-    test('createApiGateway creates the api gateways', () {
-      final result = serversViewModel.createApiGateway(server);
-      expect(result?.server.alias, server.alias);
-      expect(result?.server.address, server.address);
-      expect(result?.server.apiVersion, server.apiVersion);
-      expect(result?.server.allowSelfSignedCert, server.allowSelfSignedCert);
-      expect(result?.server.defaultServer, server.defaultServer);
-      expect(listenerCalled, false);
-    });
-
-    test('loadApiGateway loads the api gateways', () {
-      final result = serversViewModel.loadApiGateway(server);
-      expect(result!.server.alias, server.alias);
-      expect(result.server.address, server.address);
-      expect(result.server.apiVersion, server.apiVersion);
-      expect(result.server.allowSelfSignedCert, server.allowSelfSignedCert);
-      expect(result.server.defaultServer, server.defaultServer);
       expect(listenerCalled, false);
     });
 

@@ -85,7 +85,6 @@ void main() async {
       tester.view.devicePixelRatio = 2.0;
 
       when(testSetup.mockServersViewModel.selectedServer).thenReturn(null);
-      when(testSetup.mockServersViewModel.selectedApiGateway).thenReturn(null);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
