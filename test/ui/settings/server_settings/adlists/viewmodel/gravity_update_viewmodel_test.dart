@@ -6,9 +6,9 @@ import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/gravity_update_viewmodel.dart';
 import 'package:result_dart/result_dart.dart';
 
-import '../../../testing/fakes/repositories/api/fake_actions_repository.dart';
-import '../../../testing/fakes/repositories/api/fake_ftl_repository.dart';
-import '../../../testing/fakes/repositories/local/fake_gravity_repository.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_actions_repository.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_ftl_repository.dart';
+import '../../../../../../testing/fakes/repositories/local/fake_gravity_repository.dart';
 
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();

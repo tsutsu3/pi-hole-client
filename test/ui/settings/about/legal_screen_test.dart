@@ -3,19 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';
 
-import '../../../helpers.dart';
+import '../../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('LegalScreen Tests', () {
-    late TestSetupHelper testSetup;
-
-    setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
-    });
-
     testWidgets('displays error UI when NOTICE file fails to load', (
       WidgetTester tester,
     ) async {
@@ -43,7 +36,7 @@ void main() async {
         },
       );
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const LegalScreen()));
+      await tester.pumpWidget(buildTestApp(const LegalScreen()));
 
       expect(find.byType(LegalScreen), findsOneWidget);
       await tester.pump();

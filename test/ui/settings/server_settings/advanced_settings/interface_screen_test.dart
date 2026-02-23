@@ -9,7 +9,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/int
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/viewmodel/interface_viewmodel.dart';
 
 import '../../../../../testing/fakes/repositories/api/fake_network_repository.dart';
-import '../../../helpers/test_app.dart';
+import '../../../../../testing/test_app.dart';
 
 void main() async {
   await initTestApp();

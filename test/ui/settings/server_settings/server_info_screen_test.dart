@@ -10,7 +10,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/widgets/server_info/p
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/server_info/server_connection_section.dart';
 
 import '../../../../testing/fakes/repositories/api/fake_ftl_repository.dart';
-import '../../helpers/test_app.dart';
+import '../../../../testing/test_app.dart';
 
 void main() async {
   await initTestApp();

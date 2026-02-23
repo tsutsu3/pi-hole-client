@@ -2,19 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/group_filter_modal.dart';
 
-import '../../helpers.dart';
+import '../../../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('GroupFilterModal', () {
-    late TestSetupHelper testSetup;
-
-    setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
-    });
-
     testWidgets('should display modal with groups', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
@@ -27,7 +20,7 @@ void main() async {
       int? appliedGroupId;
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           GroupFilterModal(
             groups: const {
               0: 'Default',
@@ -73,7 +66,7 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           GroupFilterModal(
             groups: const {
               0: 'Default',
@@ -104,7 +97,7 @@ void main() async {
       int? appliedGroupId = 1;
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           GroupFilterModal(
             groups: const {
               0: 'Default',
@@ -139,7 +132,7 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           Builder(
             builder: (context) {
               return ElevatedButton(
@@ -177,7 +170,7 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           Builder(
             builder: (context) {
               return ElevatedButton(

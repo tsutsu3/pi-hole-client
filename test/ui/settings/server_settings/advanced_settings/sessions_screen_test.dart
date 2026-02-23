@@ -8,7 +8,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/ses
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/viewmodel/sessions_viewmodel.dart';
 
 import '../../../../../testing/fakes/repositories/api/fake_auth_repository.dart';
-import '../../../helpers/test_app.dart';
+import '../../../../../testing/test_app.dart';
 
 void main() async {
   await initTestApp();

@@ -5,7 +5,7 @@ import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/local/app_db_data.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 
-import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

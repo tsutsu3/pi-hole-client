@@ -7,7 +7,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/loc
 
 import '../../../../../testing/fakes/repositories/api/fake_local_dns_repository.dart';
 import '../../../../../testing/fakes/repositories/api/fake_network_repository.dart';
-import '../../../helpers/test_app.dart';
+import '../../../../../testing/test_app.dart';
 
 void main() async {
   await initTestApp();

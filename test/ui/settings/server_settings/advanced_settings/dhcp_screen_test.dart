@@ -9,7 +9,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhc
 
 import '../../../../../testing/fakes/repositories/api/fake_dhcp_repository.dart';
 import '../../../../../testing/fakes/repositories/api/fake_ftl_repository.dart';
-import '../../../helpers/test_app.dart';
+import '../../../../../testing/test_app.dart';
 
 void main() async {
   await initTestApp();

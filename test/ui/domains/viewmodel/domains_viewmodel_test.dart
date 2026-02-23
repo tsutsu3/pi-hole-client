@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 
-import '../../../testing/fakes/repositories/api/fake_domain_repository.dart';
+import '../../../../testing/fakes/repositories/api/fake_domain_repository.dart';
 
 void main() {
   group('DomainsViewModel', () {

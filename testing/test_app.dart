@@ -7,19 +7,23 @@ import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import 'fakes/repositories/local/fake_app_config_repository.dart';
 
 Future<void> initTestApp() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
 }
 
-Widget buildTestApp(Widget child, {AppConfigViewModel? appConfigViewModel}) {
+Widget buildTestApp(
+  Widget child, {
+  AppConfigViewModel? appConfigViewModel,
+  bool useScaffold = true,
+}) {
   return ChangeNotifierProvider<AppConfigViewModel>.value(
     value: appConfigViewModel ?? AppConfigViewModel(FakeAppConfigRepository()),
     child: MaterialApp(
       theme: lightTheme(null),
-      home: child,
+      home: useScaffold ? Scaffold(body: child) : child,
       locale: const Locale('en'),
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,

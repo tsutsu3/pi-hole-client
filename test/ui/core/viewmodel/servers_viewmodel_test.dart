@@ -7,7 +7,7 @@ import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 
-import '../../../testing/fakes/repositories/local/fake_server_repository.dart';
+import '../../../../testing/fakes/repositories/local/fake_server_repository.dart';
 import './servers_viewmodel_test.mocks.dart';
 
 @GenerateMocks([AppConfigViewModel])
