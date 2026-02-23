@@ -13,7 +13,7 @@ import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/local_dns_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
@@ -143,7 +143,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                         )..loadAdlists.run(),
                       ),
                       ChangeNotifierProvider(
-                        create: (_) => LocalDnsProvider(
+                        create: (_) => LocalDnsViewModel(
                           localDnsRepository: clientBundle.localDns,
                           networkRepository: clientBundle.network,
                         ),
@@ -437,7 +437,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                             ..loadAdlists.run(),
                     ),
                     ChangeNotifierProvider(
-                      create: (_) => LocalDnsProvider(
+                      create: (_) => LocalDnsViewModel(
                         localDnsRepository: bundle.localDns,
                         networkRepository: bundle.network,
                       ),

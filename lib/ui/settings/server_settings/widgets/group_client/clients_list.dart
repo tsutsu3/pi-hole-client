@@ -7,7 +7,7 @@ import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/local_dns_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/add_client_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/client_tile.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
@@ -64,7 +64,7 @@ class _ClientsListState extends State<ClientsList> {
   @override
   Widget build(BuildContext context) {
     final clientsViewModel = Provider.of<ClientsViewModel>(context);
-    final localDnsProvider = Provider.of<LocalDnsProvider>(context);
+    final localDnsProvider = Provider.of<LocalDnsViewModel>(context);
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     final clients = clientsViewModel.filteredClients;

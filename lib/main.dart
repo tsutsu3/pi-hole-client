@@ -21,10 +21,10 @@ import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/gravity_update_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
@@ -301,8 +301,12 @@ void main() async {
         // Replaces the former StatusUpdateService + dumb StatusViewModel.
         // Timer/fetch/caching logic now lives inside StatusViewModel.
         // ===================================================
-        ChangeNotifierProxyProvider3<RepositoryBundle?, ServersViewModel,
-            AppConfigViewModel, StatusViewModel>(
+        ChangeNotifierProxyProvider3<
+          RepositoryBundle?,
+          ServersViewModel,
+          AppConfigViewModel,
+          StatusViewModel
+        >(
           create: (_) => statusViewModel,
           update: (context, bundle, servers, appConfig, previous) =>
               previous!..update(
@@ -319,20 +323,26 @@ void main() async {
               ),
         ),
 
-        ChangeNotifierProxyProvider2<RepositoryBundle?, StatusViewModel,
-            LogsViewModel>(
+        ChangeNotifierProxyProvider2<
+          RepositoryBundle?,
+          StatusViewModel,
+          LogsViewModel
+        >(
           create: (context) => logsViewModel,
-          update: (context, bundle, statusVM, previous) =>
-              previous!..update(
-                metricsRepository: bundle?.metrics,
-                domainRepository: bundle?.domain,
-                apiVersion: bundle?.apiVersion,
-                topClientNames: statusVM.topClientNames,
-                onRefreshClients: statusVM.refreshOnce,
-              ),
+          update: (context, bundle, statusVM, previous) => previous!
+            ..update(
+              metricsRepository: bundle?.metrics,
+              domainRepository: bundle?.domain,
+              apiVersion: bundle?.apiVersion,
+              topClientNames: statusVM.topClientNames,
+              onRefreshClients: statusVM.refreshOnce,
+            ),
         ),
-        ChangeNotifierProxyProvider2<RepositoryBundle?, ServersViewModel,
-            GravityUpdateViewModel>(
+        ChangeNotifierProxyProvider2<
+          RepositoryBundle?,
+          ServersViewModel,
+          GravityUpdateViewModel
+        >(
           create: (context) => gravityUpdateViewModel,
           update: (context, bundle, serversViewModel, previous) =>
               previous!..update(

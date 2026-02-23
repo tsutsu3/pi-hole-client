@@ -47,13 +47,13 @@ import 'package:pi_hole_client/ui/core/globals.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/local_dns_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/gravity_update_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
@@ -1323,7 +1323,7 @@ Future<void> initializeApp() async {
   StatusViewModel,
   DomainsViewModel,
   ClientsViewModel,
-  LocalDnsProvider,
+  LocalDnsViewModel,
   GroupsViewModel,
   AdlistsViewModel,
   GravityUpdateViewModel,
@@ -1339,7 +1339,7 @@ class TestSetupHelper {
     MockGroupsViewModel? customGroupsViewModel,
     MockAdlistsViewModel? customAdlistsViewModel,
     MockGravityUpdateViewModel? customGravityUpdateViewModel,
-    MockLocalDnsProvider? customLocalDnsProvider,
+    MockLocalDnsViewModel? customLocalDnsViewModel,
   }) {
     mockConfigProvider = customConfigProvider ?? MockAppConfigViewModel();
     mockServersViewModel = customServersViewModel ?? MockServersViewModel();
@@ -1351,7 +1351,7 @@ class TestSetupHelper {
     mockAdlistsViewModel = customAdlistsViewModel ?? MockAdlistsViewModel();
     mockGravityUpdateViewModel =
         customGravityUpdateViewModel ?? MockGravityUpdateViewModel();
-    mockLocalDnsProvider = customLocalDnsProvider ?? MockLocalDnsProvider();
+    mockLocalDnsViewModel = customLocalDnsViewModel ?? MockLocalDnsViewModel();
 
     fakeActionsRepository = FakeActionsRepository();
     fakeAdlistRepository = FakeAdlistRepository();
@@ -1373,7 +1373,7 @@ class TestSetupHelper {
   late MockGroupsViewModel mockGroupsViewModel;
   late MockAdlistsViewModel mockAdlistsViewModel;
   late MockGravityUpdateViewModel mockGravityUpdateViewModel;
-  late MockLocalDnsProvider mockLocalDnsProvider;
+  late MockLocalDnsViewModel mockLocalDnsViewModel;
 
   late FakeActionsRepository fakeActionsRepository;
   late FakeAdlistRepository fakeAdlistRepository;
@@ -1391,7 +1391,7 @@ class TestSetupHelper {
     _initClientsViewModelMock(useApiGatewayVersion);
     _initGroupsViewModelMock(useApiGatewayVersion);
     _initAdlistsViewModelMock(useApiGatewayVersion);
-    _initLocalDnsProviderMock(useApiGatewayVersion);
+    _initLocalDnsViewModelMock(useApiGatewayVersion);
     _initGravityUpdateViewModelMock(useApiGatewayVersion);
   }
 
@@ -1456,11 +1456,8 @@ class TestSetupHelper {
               ),
             ),
             Provider<CreateRepositoryBundle>(
-              create: (_) => ({
-                required server,
-                required storage,
-              }) =>
-                  RepositoryBundle(
+              create: (_) =>
+                  ({required server, required storage}) => RepositoryBundle(
                     actions: fakeActionsRepository,
                     adlist: fakeAdlistRepository,
                     auth: FakeAuthRepository(),
@@ -1516,8 +1513,8 @@ class TestSetupHelper {
                     serverAddress: serversViewModel.selectedServer?.address,
                   ),
             ),
-            ChangeNotifierProvider<LocalDnsProvider>.value(
-              value: mockLocalDnsProvider,
+            ChangeNotifierProvider<LocalDnsViewModel>.value(
+              value: mockLocalDnsViewModel,
             ),
             Provider<SecureStorageService>(
               create: (_) => SecureStorageService(),
@@ -1594,11 +1591,8 @@ class TestSetupHelper {
           ),
         ),
         Provider<CreateRepositoryBundle>(
-          create: (_) => ({
-            required server,
-            required storage,
-          }) =>
-              RepositoryBundle(
+          create: (_) =>
+              ({required server, required storage}) => RepositoryBundle(
                 actions: fakeActionsRepository,
                 adlist: fakeAdlistRepository,
                 auth: FakeAuthRepository(),
@@ -1654,12 +1648,10 @@ class TestSetupHelper {
                 serverAddress: serversViewModel.selectedServer?.address,
               ),
         ),
-        ChangeNotifierProvider<LocalDnsProvider>.value(
-          value: mockLocalDnsProvider,
+        ChangeNotifierProvider<LocalDnsViewModel>.value(
+          value: mockLocalDnsViewModel,
         ),
-        Provider<SecureStorageService>(
-          create: (_) => SecureStorageService(),
-        ),
+        Provider<SecureStorageService>(create: (_) => SecureStorageService()),
       ],
       child: child,
     );
@@ -1748,7 +1740,6 @@ class TestSetupHelper {
       mockServersViewModel.selectedServer,
     ).thenReturn(useApiGatewayVersion == 'v5' ? serverV5 : serverV6);
     when(mockServersViewModel.selectedServerEnabled).thenReturn(true);
-    when(mockServersViewModel.colors).thenReturn(lightAppColors);
     when(
       mockServersViewModel.numShown,
     ).thenReturn(useApiGatewayVersion == 'v5' ? 12 : 14);
@@ -1768,7 +1759,6 @@ class TestSetupHelper {
     when(
       mockServersViewModel.getServersList,
     ).thenReturn(useApiGatewayVersion == 'v5' ? [serverV5] : [serverV6]);
-    when(mockServersViewModel.colors).thenReturn(lightAppColors);
     when(mockServersViewModel.queryStatuses).thenReturn(
       useApiGatewayVersion == 'v5' ? queryStatusesV5 : queryStatusesV6,
     );
@@ -2102,39 +2092,39 @@ class TestSetupHelper {
     when(mockGravityUpdateViewModel.reset()).thenReturn(null);
   }
 
-  void _initLocalDnsProviderMock(String useApiGatewayVersion) {
-    when(mockLocalDnsProvider.localDns).thenReturn([localDns]);
-    when(mockLocalDnsProvider.deviceOptions).thenReturn([deviceOption]);
+  void _initLocalDnsViewModelMock(String useApiGatewayVersion) {
+    when(mockLocalDnsViewModel.localDns).thenReturn([localDns]);
+    when(mockLocalDnsViewModel.deviceOptions).thenReturn([deviceOption]);
     when(
-      mockLocalDnsProvider.ipToMac,
+      mockLocalDnsViewModel.ipToMac,
     ).thenReturn({deviceOption.ip: deviceOption.hwaddr});
-    when(mockLocalDnsProvider.ipToHostname).thenReturn({});
+    when(mockLocalDnsViewModel.ipToHostname).thenReturn({});
     when(
-      mockLocalDnsProvider.macToIp,
+      mockLocalDnsViewModel.macToIp,
     ).thenReturn({deviceOption.hwaddr: deviceOption.ip});
-    when(mockLocalDnsProvider.loadingStatus).thenReturn(LoadStatus.loaded);
+    when(mockLocalDnsViewModel.loadingStatus).thenReturn(LoadStatus.loaded);
 
     when(
-      mockLocalDnsProvider.setLoadingStatus(any),
+      mockLocalDnsViewModel.setLoadingStatus(any),
     ).thenAnswer((_) async => ());
 
-    when(mockLocalDnsProvider.load()).thenAnswer((_) async => ());
+    when(mockLocalDnsViewModel.load()).thenAnswer((_) async => ());
 
-    when(mockLocalDnsProvider.addLocalDns(any)).thenAnswer((_) async => true);
+    when(mockLocalDnsViewModel.addLocalDns(any)).thenAnswer((_) async => true);
 
     when(
-      mockLocalDnsProvider.updateLocalDns(
+      mockLocalDnsViewModel.updateLocalDns(
         oldIp: anyNamed('oldIp'),
         item: anyNamed('item'),
       ),
     ).thenAnswer((_) async => true);
 
     when(
-      mockLocalDnsProvider.removeLocalDns(any),
+      mockLocalDnsViewModel.removeLocalDns(any),
     ).thenAnswer((_) async => true);
 
     when(
-      mockLocalDnsProvider.devicesToOptions(any),
+      mockLocalDnsViewModel.devicesToOptions(any),
     ).thenReturn([deviceOption]);
   }
 }

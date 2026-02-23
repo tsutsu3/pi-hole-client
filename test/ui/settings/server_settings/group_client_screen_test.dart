@@ -332,13 +332,13 @@ void main() async {
         testSetup.mockClientsViewModel.filteredClients,
       ).thenReturn(clients);
       when(
-        testSetup.mockLocalDnsProvider.ipToMac,
+        testSetup.mockLocalDnsViewModel.ipToMac,
       ).thenReturn({'192.168.1.20': '00:11:22:33:44:55'});
       when(
-        testSetup.mockLocalDnsProvider.ipToHostname,
+        testSetup.mockLocalDnsViewModel.ipToHostname,
       ).thenReturn({'192.168.1.20': 'desktop'});
       when(
-        testSetup.mockLocalDnsProvider.macToIp,
+        testSetup.mockLocalDnsViewModel.macToIp,
       ).thenReturn({'00:11:22:33:44:55': '192.168.1.20'});
 
       addTearDown(() {

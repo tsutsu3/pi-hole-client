@@ -40,9 +40,9 @@ import 'package:pi_hole_client/domain/model/server/server.dart' as _i15;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart'
     as _i4;
-import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart'
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/gravity_update_viewmodel.dart'
     as _i37;
-import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart'
+import 'package:pi_hole_client/ui/core/viewmodel/local_dns_viewmodel.dart'
     as _i30;
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart'
     as _i14;
@@ -1589,11 +1589,11 @@ class MockClientsViewModel extends _i1.Mock implements _i28.ClientsViewModel {
   );
 }
 
-/// A class which mocks [LocalDnsProvider].
+/// A class which mocks [LocalDnsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLocalDnsProvider extends _i1.Mock implements _i30.LocalDnsProvider {
-  MockLocalDnsProvider() {
+class MockLocalDnsViewModel extends _i1.Mock implements _i30.LocalDnsViewModel {
+  MockLocalDnsViewModel() {
     _i1.throwOnMissingStub(this);
   }
 

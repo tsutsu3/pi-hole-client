@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/routing/routes.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';
@@ -259,7 +258,7 @@ GoRouter createAppRouter({
                       ..loadAdlists.run(),
               ),
               ChangeNotifierProvider(
-                create: (_) => LocalDnsProvider(
+                create: (_) => LocalDnsViewModel(
                   localDnsRepository: bundle!.localDns,
                   networkRepository: bundle.network,
                 ),

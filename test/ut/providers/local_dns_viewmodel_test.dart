@@ -7,18 +7,18 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/local_dns_reposi
 import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/local_dns_viewmodel.dart';
 import 'package:result_dart/result_dart.dart';
 
-import './local_dns_provider_test.mocks.dart';
+import './local_dns_viewmodel_test.mocks.dart';
 
 @GenerateMocks([LocalDnsRepository, NetworkRepository])
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
 
-  group('LocalDnsProvider', () {
-    late LocalDnsProvider localDnsProvider;
+  group('LocalDnsViewModel', () {
+    late LocalDnsViewModel localDnsProvider;
     late MockLocalDnsRepository mockLocalDnsRepository;
     late MockNetworkRepository mockNetworkRepository;
     late bool listenerCalled;
@@ -94,7 +94,7 @@ void main() async {
       mockLocalDnsRepository = MockLocalDnsRepository();
       mockNetworkRepository = MockNetworkRepository();
 
-      localDnsProvider = LocalDnsProvider(
+      localDnsProvider = LocalDnsViewModel(
         localDnsRepository: mockLocalDnsRepository,
         networkRepository: mockNetworkRepository,
       );

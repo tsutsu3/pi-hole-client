@@ -8,9 +8,9 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/group_filter_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/gravity_update_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlists_list.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/gravity_update.dart';
@@ -23,7 +23,6 @@ class AdlistScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final serversViewModel = Provider.of<ServersViewModel>(context);
-
     final selectedServer = serversViewModel.selectedServer;
 
     if (selectedServer == null) {
@@ -93,7 +92,6 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<AdlistsViewModel>(context);
-    final serversViewModel = Provider.of<ServersViewModel>(context);
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
     final groups = context.watch<GroupsViewModel>().groupItems;
 
@@ -280,7 +278,7 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
                       removeAdlist(adlist);
                     },
                     groups: groups,
-                    colors: serversViewModel.colors,
+                    colors: appConfigViewModel.colors,
                   )
                 : ColoredBox(
                     color: Theme.of(context).scaffoldBackgroundColor,
@@ -320,7 +318,7 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
                     removeAdlist(s);
                   },
                   groups: groups,
-                  colors: serversViewModel.colors,
+                  colors: appConfigViewModel.colors,
                 ),
               ),
             ),

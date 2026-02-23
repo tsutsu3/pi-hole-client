@@ -8,8 +8,8 @@ import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
-class LocalDnsProvider with ChangeNotifier {
-  LocalDnsProvider({
+class LocalDnsViewModel with ChangeNotifier {
+  LocalDnsViewModel({
     required LocalDnsRepository localDnsRepository,
     required NetworkRepository networkRepository,
   }) : _localDnsRepository = localDnsRepository,
