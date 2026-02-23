@@ -12,8 +12,8 @@ import 'package:result_dart/result_dart.dart';
 /// api.setApiKey('x_header_sid', sid);
 /// ```
 ///
-/// In Phase 3, Repositories will depend on this service to access the
-/// Pi-hole v6 API. Domain model mapping will be added at that stage.
+/// Repositories depend on this service to access the Pi-hole v6 API.
+/// Domain model mapping is handled in the repository layer.
 class PiholeV6Service {
   PiholeV6Service({required PiholeV6Api api}) : _api = api;
 

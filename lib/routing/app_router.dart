@@ -38,22 +38,12 @@ import 'package:provider/provider.dart';
 
 /// Creates the application router configuration.
 ///
-/// The router is created as a function that takes the navigator key
-/// to maintain compatibility with existing navigation observers (e.g., Sentry).
+/// ## ViewModel DI Pattern
 ///
-/// ## Migration Strategy
-///
-/// This is the foundation setup for go_router (Phase 1.2).
-/// Currently, the router wraps the existing [Base] widget which handles
-/// internal tab-based navigation. In Phase 3, individual screens will be
-/// migrated to use go_router directly.
-///
-/// ## ViewModel DI Pattern (Phase 3)
-///
-/// New ViewModels will be created in route builders, NOT in MultiProvider.
-/// [RepositoryBundle] is provided via [ProxyProvider] in the widget tree,
-/// creating version-specific repositories based on the selected server.
-/// ViewModels receive repositories via constructor.
+/// Route-specific ViewModels are created in route builders
+/// via `context.read<Repository>()`.
+/// App-level ViewModels (AppConfig, Servers, Status, Logs, GravityUpdate)
+/// remain in `main.dart`'s MultiProvider.
 ///
 /// The [navigatorKey] parameter allows external observers like
 /// `SentryNavigatorObserver` to track navigation events.
@@ -68,8 +58,6 @@ GoRouter createAppRouter({
     routes: [
       // Main shell route - wraps the Base widget which handles
       // bottom navigation and internal tab switching.
-      // In Phase 3, this will be refactored to use ShellRoute
-      // with individual GoRoute children for each tab.
       GoRoute(
         path: '/',
         name: Routes.home,
