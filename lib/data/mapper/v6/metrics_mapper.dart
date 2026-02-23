@@ -159,8 +159,7 @@ extension HistoryClientsMapper on sh.HistoryClients {
   d.Clients toDomain() {
     final orderedClients = clients.entries.map((e) {
       final ip = e.key;
-      final name = e.value.name ?? '';
-      return d.Client(name: name, ip: ip, total: e.value.total);
+      return d.Client(name: e.value.name, ip: ip, total: e.value.total);
     }).toList();
 
     final overTime = <d.ClientOverTimeEntry>[];

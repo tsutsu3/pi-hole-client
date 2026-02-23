@@ -60,6 +60,7 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   bool shouldPostDnsBlockingReturnEnabled = false;
   bool shouldGetInfoVersionWithDocker = false;
   bool shouldGetInfoSystemOld = false;
+  bool shouldGetInfoFtlV63 = false;
 
   @override
   void close() {}
@@ -486,6 +487,9 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   Future<Result<InfoFtl>> getInfoFtl(String sid) async {
     if (shouldFail) {
       return Failure(Exception('Forced getInfoFtl failure'));
+    }
+    if (shouldGetInfoFtlV63) {
+      return const Success(kSrvGetInfoFtlV63);
     }
     return const Success(kSrvGetInfoFtl);
   }
