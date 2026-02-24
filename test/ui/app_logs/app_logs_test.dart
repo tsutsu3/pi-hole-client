@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/ui/app_logs/app_log_details_modal.dart';
 import 'package:pi_hole_client/ui/app_logs/app_logs.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 
-import '../../helpers.dart';
+import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('App Log Screen Widget Tests', () {
-    late TestSetupHelper testSetup;
+    late AppConfigViewModel appConfigViewModel;
 
-    setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+    setUp(() {
+      appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
     });
 
     testWidgets('should show AppLogs screen with one log', (
@@ -43,7 +44,22 @@ void main() async {
             .setMockMethodCallHandler(SystemChannels.platform, null);
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const AppLogs()));
+      appConfigViewModel.addLog(
+        AppLog(
+          type: 'sample',
+          dateTime: DateTime(2025, 01, 22, 10, 50, 31),
+          message: 'message',
+          statusCode: '200',
+          resBody: 'body',
+        ),
+      );
+
+      await tester.pumpWidget(
+        buildTestApp(
+          const AppLogs(),
+          appConfigViewModel: appConfigViewModel,
+        ),
+      );
 
       expect(find.byType(AppLogs), findsOneWidget);
       await tester.pump();
@@ -86,14 +102,19 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 1.0;
 
-      when(testSetup.mockConfigProvider.logs).thenReturn([]);
-
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const AppLogs()));
+      // No logs added — logs list is empty by default
+
+      await tester.pumpWidget(
+        buildTestApp(
+          const AppLogs(),
+          appConfigViewModel: appConfigViewModel,
+        ),
+      );
 
       expect(find.byType(AppLogs), findsOneWidget);
       await tester.pump();

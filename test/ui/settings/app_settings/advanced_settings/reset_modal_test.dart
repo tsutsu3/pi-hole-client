@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 
-import '../../../../helpers.dart';
+import '../../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../../../testing/fakes/repositories/local/fake_server_repository.dart';
+import '../../../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('Erase App Data Screen Widget Tests', () {
-    late TestSetupHelper testSetup;
+    late AppConfigViewModel appConfigViewModel;
+    late ServersViewModel serversViewModel;
 
     setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+      final serverRepo = FakeServerRepository();
+      appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
+      serversViewModel = ServersViewModel(serverRepo);
+      final servers = await serverRepo.fetchServers();
+      await serversViewModel.saveFromDb(servers.getOrThrow());
     });
 
     testWidgets('should cancel the reset application action', (
@@ -28,7 +36,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          const AdvancedOptions(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       await tester.scrollUntilVisible(find.text('Reset application'), 100);
@@ -55,7 +67,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(Phoenix(child: const AdvancedOptions())),
+        buildTestApp(
+          Phoenix(child: const AdvancedOptions()),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       await tester.scrollUntilVisible(find.text('Reset application'), 100);

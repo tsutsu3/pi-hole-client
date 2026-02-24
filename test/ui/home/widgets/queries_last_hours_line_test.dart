@@ -1,33 +1,21 @@
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/data/mapper/v5/metrics_mapper.dart';
 import 'package:pi_hole_client/data/model/v5/over_time_data.dart' as v5_model;
-import 'package:pi_hole_client/ui/core/globals.dart';
-import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/queries/queries_last_hours_line.dart';
-import 'package:provider/provider.dart';
 
-import 'queries_last_hours_line_test.mocks.dart';
+import '../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../../testing/test_app.dart';
 
-@GenerateMocks([AppConfigViewModel])
 void main() async {
-  TestWidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load();
+  await initTestApp();
 
   group('Queries Last Hours Line Widget Tests', () {
-    late MockAppConfigViewModel mockAppConfigViewModel;
+    late AppConfigViewModel appConfigViewModel;
 
     setUp(() async {
-      mockAppConfigViewModel = MockAppConfigViewModel();
-
-      when(mockAppConfigViewModel.selectedTheme).thenReturn(ThemeMode.light);
+      appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
     });
 
     final data = v5_model.OverTimeData.fromJson({
@@ -930,29 +918,9 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        DynamicColorBuilder(
-          builder: (lightDynamic, darkDynamic) {
-            return MultiProvider(
-              providers: [
-                ChangeNotifierProvider<AppConfigViewModel>(
-                  create: (context) => mockAppConfigViewModel,
-                ),
-              ],
-              child: MaterialApp(
-                theme: lightTheme(lightDynamic),
-                darkTheme: darkTheme(darkDynamic),
-                themeMode: ThemeMode.light,
-                home: Scaffold(
-                  body: QueriesLastHoursLine(data: data, reducedData: false),
-                ),
-                localizationsDelegates: const [
-                  GlobalMaterialLocalizations.delegate,
-                  AppLocalizations.delegate,
-                ],
-                scaffoldMessengerKey: scaffoldMessengerKey,
-              ),
-            );
-          },
+        buildTestApp(
+          QueriesLastHoursLine(data: data, reducedData: false),
+          appConfigViewModel: appConfigViewModel,
         ),
       );
 
@@ -975,29 +943,9 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        DynamicColorBuilder(
-          builder: (lightDynamic, darkDynamic) {
-            return MultiProvider(
-              providers: [
-                ChangeNotifierProvider<AppConfigViewModel>(
-                  create: (context) => mockAppConfigViewModel,
-                ),
-              ],
-              child: MaterialApp(
-                theme: lightTheme(lightDynamic),
-                darkTheme: darkTheme(darkDynamic),
-                themeMode: ThemeMode.light,
-                home: Scaffold(
-                  body: QueriesLastHoursLine(data: errData, reducedData: false),
-                ),
-                localizationsDelegates: const [
-                  GlobalMaterialLocalizations.delegate,
-                  AppLocalizations.delegate,
-                ],
-                scaffoldMessengerKey: scaffoldMessengerKey,
-              ),
-            );
-          },
+        buildTestApp(
+          QueriesLastHoursLine(data: errData, reducedData: false),
+          appConfigViewModel: appConfigViewModel,
         ),
       );
 

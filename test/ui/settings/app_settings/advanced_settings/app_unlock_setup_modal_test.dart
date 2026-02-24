@@ -1,23 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_lock/create_pass_code_modal.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_lock/remove_passcode_modal.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/enter_passcode_modal.dart';
 
-import '../../../../helpers.dart';
+import '../../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../../../testing/fakes/repositories/local/fake_server_repository.dart';
+import '../../../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('App unlock Widget Tests', () {
-    late TestSetupHelper testSetup;
+    late AppConfigViewModel appConfigViewModel;
+    late ServersViewModel serversViewModel;
 
     setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+      final serverRepo = FakeServerRepository();
+      appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
+      appConfigViewModel.setBiometricsSupport(true);
+      serversViewModel = ServersViewModel(serverRepo);
+      final servers = await serverRepo.fetchServers();
+      await serversViewModel.saveFromDb(servers.getOrThrow());
     });
 
     testWidgets('should show the app unlock setup modal (passcode not set)', (
@@ -32,7 +40,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          const AdvancedOptions(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
@@ -64,10 +76,14 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      when(testSetup.mockConfigProvider.passCode).thenReturn('1234');
+      await appConfigViewModel.setPassCode('1234');
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          const AdvancedOptions(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
@@ -91,15 +107,16 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      when(testSetup.mockConfigProvider.passCode).thenReturn('1234');
+      await appConfigViewModel.setPassCode('1234');
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           const AppUnlockSetupModal(
             topBarHeight: 0.0,
             useBiometrics: false,
             window: false,
           ),
+          appConfigViewModel: appConfigViewModel,
         ),
       );
 
@@ -122,12 +139,13 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           const AppUnlockSetupModal(
             topBarHeight: 0.0,
             useBiometrics: false,
             window: false,
           ),
+          appConfigViewModel: appConfigViewModel,
         ),
       );
 
@@ -170,15 +188,16 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      when(testSetup.mockConfigProvider.passCode).thenReturn('1234');
+      await appConfigViewModel.setPassCode('1234');
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           const AppUnlockSetupModal(
             topBarHeight: 0.0,
             useBiometrics: false,
             window: false,
           ),
+          appConfigViewModel: appConfigViewModel,
         ),
       );
 
@@ -221,15 +240,16 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      when(testSetup.mockConfigProvider.passCode).thenReturn('1234');
+      await appConfigViewModel.setPassCode('1234');
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           const AppUnlockSetupModal(
             topBarHeight: 0.0,
             useBiometrics: false,
             window: false,
           ),
+          appConfigViewModel: appConfigViewModel,
         ),
       );
 

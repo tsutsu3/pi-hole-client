@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/ui/app_logs/app_logs.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/chart_visualization_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/reset_screen.dart';
 
-import '../../../../helpers.dart';
+import '../../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../../../testing/fakes/repositories/local/fake_server_repository.dart';
+import '../../../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('Advanced Options Screen Widget Tests', () {
-    late TestSetupHelper testSetup;
+    late AppConfigViewModel appConfigViewModel;
+    late ServersViewModel serversViewModel;
 
     setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+      final serverRepo = FakeServerRepository();
+      appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
+      serversViewModel = ServersViewModel(serverRepo);
+      final servers = await serverRepo.fetchServers();
+      await serversViewModel.saveFromDb(servers.getOrThrow());
     });
 
     testWidgets('should show advanced options screen', (
@@ -31,7 +39,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          const AdvancedOptions(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
@@ -61,7 +73,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          const AdvancedOptions(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
@@ -84,7 +100,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          const AdvancedOptions(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
@@ -106,7 +126,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          const AdvancedOptions(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
@@ -128,7 +152,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          const AdvancedOptions(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
@@ -150,7 +178,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          const AdvancedOptions(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
@@ -173,7 +205,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          const AdvancedOptions(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       await tester.scrollUntilVisible(find.text('App logs'), 100);
@@ -198,7 +234,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          const AdvancedOptions(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);

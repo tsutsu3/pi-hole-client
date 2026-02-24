@@ -1,20 +1,14 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/chart_visualization_screen.dart';
 
-import '../../../../helpers.dart';
+import '../../../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('Advanced Options Screen Widget Tests', () {
-    late TestSetupHelper testSetup;
-
-    setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
-    });
-
     testWidgets('should change the statistics visualization mode', (
       WidgetTester tester,
     ) async {
@@ -27,7 +21,7 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const ChartVisualizationScreen()),
+        buildTestApp(const ChartVisualizationScreen()),
       );
 
       expect(find.byType(ChartVisualizationScreen), findsOneWidget);

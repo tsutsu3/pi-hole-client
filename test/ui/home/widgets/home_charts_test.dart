@@ -1,10 +1,11 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/mapper/v5/metrics_mapper.dart';
 import 'package:pi_hole_client/data/model/v5/over_time_data.dart' as v5_model;
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/clients/clients_last_hours_bar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/clients/clients_last_hours_line.dart';
@@ -12,19 +13,41 @@ import 'package:pi_hole_client/ui/home/widgets/home_charts/queries/queries_last_
 import 'package:pi_hole_client/ui/home/widgets/home_charts/queries/queries_last_hours_line.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/skeleton/bar_chart_skeleton.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/skeleton/line_chart_skeleton.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 
-import '../../../helpers.dart';
+import '../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../../testing/fakes/repositories/local/fake_server_repository.dart';
+import '../../../../testing/fakes/viewmodels/fake_status_viewmodel.dart';
+import '../../../../testing/models/v5/merics.dart' as metrics_fixture;
+import '../../../../testing/models/v5/realtime_status.dart' as rt_fixture;
+import '../../../../testing/models/v6/ftl.dart' as ftl_fixture;
+import '../../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('HomeChart Screen Widget Tests', () {
-    late TestSetupHelper testSetup;
+    late AppConfigViewModel appConfigViewModel;
+    late ServersViewModel serversViewModel;
+    late FakeStatusViewModel statusViewModel;
+    late LogsViewModel logsViewModel;
 
     setUp(() async {
-      testSetup = TestSetupHelper();
+      final serverRepo = FakeServerRepository();
+      appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
+      serversViewModel = ServersViewModel(serverRepo);
+      final servers = await serverRepo.fetchServers();
+      await serversViewModel.saveFromDb(servers.getOrThrow());
 
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+      statusViewModel = FakeStatusViewModel();
+      statusViewModel.realtimeStatus = rt_fixture.kRepoFetchRealTimeStatus;
+      statusViewModel.ftlDnsMetrics = ftl_fixture.kRepoFetchFtlMetrics;
+      statusViewModel.overtimeData = metrics_fixture.kRepoFetchOverTime;
+
+      logsViewModel = LogsViewModel();
+
+      // Old mock defaulted loadingAnimation to true
+      await appConfigViewModel.setShowLoadingAnimation(true);
     });
 
     testWidgets('should show line skelton when data is loading', (
@@ -38,11 +61,17 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      when(
-        testSetup.mockStatusViewModel.getOvertimeDataLoadStatus,
-      ).thenReturn(LoadStatus.loading);
+      statusViewModel.overtimeDataLoading = LoadStatus.loading;
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const HomeCharts(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(HomeCharts), findsOneWidget);
       await tester.pump();
@@ -56,19 +85,26 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 1.0;
 
-      when(testSetup.mockConfigProvider.homeVisualizationMode)
-          .thenReturn(HomeVisualizationMode.bar);
+      await appConfigViewModel.setHomeVisualizationMode(
+        HomeVisualizationMode.bar,
+      );
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      when(
-        testSetup.mockStatusViewModel.getOvertimeDataLoadStatus,
-      ).thenReturn(LoadStatus.loading);
+      statusViewModel.overtimeDataLoading = LoadStatus.loading;
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const HomeCharts(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(HomeCharts), findsOneWidget);
       await tester.pump();
@@ -82,18 +118,24 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 1.0;
 
-      when(testSetup.mockConfigProvider.loadingAnimation).thenReturn(false);
+      await appConfigViewModel.setShowLoadingAnimation(false);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      when(
-        testSetup.mockStatusViewModel.getOvertimeDataLoadStatus,
-      ).thenReturn(LoadStatus.loading);
+      statusViewModel.overtimeDataLoading = LoadStatus.loading;
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const HomeCharts(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(HomeCharts), findsOneWidget);
       await tester.pump();
@@ -113,11 +155,17 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      when(
-        testSetup.mockStatusViewModel.getOvertimeDataLoadStatus,
-      ).thenReturn(LoadStatus.error);
+      statusViewModel.overtimeDataLoading = LoadStatus.error;
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const HomeCharts(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(HomeCharts), findsOneWidget);
       await tester.pump();
@@ -135,7 +183,15 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
+        await tester.pumpWidget(
+          buildTestApp(
+            const HomeCharts(),
+            appConfigViewModel: appConfigViewModel,
+            serversViewModel: serversViewModel,
+            statusViewModel: statusViewModel,
+            logsViewModel: logsViewModel,
+          ),
+        );
 
         expect(find.byType(HomeCharts), findsOneWidget);
         await tester.pump();
@@ -159,15 +215,24 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 1.0;
 
-        when(testSetup.mockConfigProvider.homeVisualizationMode)
-          .thenReturn(HomeVisualizationMode.bar);
+        await appConfigViewModel.setHomeVisualizationMode(
+          HomeVisualizationMode.bar,
+        );
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
           tester.view.resetDevicePixelRatio();
         });
 
-        await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
+        await tester.pumpWidget(
+          buildTestApp(
+            const HomeCharts(),
+            appConfigViewModel: appConfigViewModel,
+            serversViewModel: serversViewModel,
+            statusViewModel: statusViewModel,
+            logsViewModel: logsViewModel,
+          ),
+        );
 
         expect(find.byType(HomeCharts), findsOneWidget);
         await tester.pump();
@@ -641,11 +706,17 @@ void main() async {
           },
         }).toDomain();
 
-        when(
-          testSetup.mockStatusViewModel.getOvertimeData,
-        ).thenReturn(overtimeData);
+        statusViewModel.overtimeData = overtimeData;
 
-        await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
+        await tester.pumpWidget(
+          buildTestApp(
+            const HomeCharts(),
+            appConfigViewModel: appConfigViewModel,
+            serversViewModel: serversViewModel,
+            statusViewModel: statusViewModel,
+            logsViewModel: logsViewModel,
+          ),
+        );
 
         expect(find.byType(HomeCharts), findsOneWidget);
         await tester.pump();
@@ -1117,11 +1188,17 @@ void main() async {
           },
         }).toDomain();
 
-        when(
-          testSetup.mockStatusViewModel.getOvertimeData,
-        ).thenReturn(overtimeData);
+        statusViewModel.overtimeData = overtimeData;
 
-        await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
+        await tester.pumpWidget(
+          buildTestApp(
+            const HomeCharts(),
+            appConfigViewModel: appConfigViewModel,
+            serversViewModel: serversViewModel,
+            statusViewModel: statusViewModel,
+            logsViewModel: logsViewModel,
+          ),
+        );
 
         expect(find.byType(HomeCharts), findsOneWidget);
         await tester.pump();
@@ -1590,11 +1667,17 @@ void main() async {
         },
       }).toDomain();
 
-      when(
-        testSetup.mockStatusViewModel.getOvertimeData,
-      ).thenReturn(overtimeData);
+      statusViewModel.overtimeData = overtimeData;
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const HomeCharts()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const HomeCharts(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(HomeCharts), findsOneWidget);
       await tester.pump();

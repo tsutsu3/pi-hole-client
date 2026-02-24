@@ -3,19 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/ui/core/ui/components/numeric_pad.dart';
 import 'package:pi_hole_client/ui/core/ui/components/unlock.dart';
 
-import '../helpers.dart';
+import '../../../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('Unlock Screen Widget Tests', () {
-    late TestSetupHelper testSetup;
-
-    setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
-    });
-
     testWidgets('should show lock screen', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 1.0;
@@ -25,7 +18,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Unlock()));
+      await tester.pumpWidget(buildTestApp(const Unlock()));
 
       expect(find.byType(Unlock), findsOneWidget);
       await tester.pump();

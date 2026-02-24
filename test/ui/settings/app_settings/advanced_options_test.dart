@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v6_not_supported_screen.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
 
-import '../../../helpers.dart';
+import '../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../../testing/fakes/repositories/local/fake_server_repository.dart';
+import '../../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('Advanced Options Screen tests', () {
-    late TestSetupHelper testSetup;
+    late AppConfigViewModel appConfigViewModel;
+    late ServersViewModel serversViewModel;
 
     setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+      final serverRepo = FakeServerRepository();
+      appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
+      serversViewModel = ServersViewModel(serverRepo);
+      final servers = await serverRepo.fetchServers();
+      await serversViewModel.saveFromDb(servers.getOrThrow());
     });
 
     testWidgets('should close reset screen', (WidgetTester tester) async {
@@ -29,7 +37,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          Phoenix(child: const AdvancedOptions()),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
@@ -39,24 +51,21 @@ void main() async {
       await tester.tap(find.text('Reset application'));
       await tester.pumpAndSettle();
 
-      // Tap Elase all button
+      // Tap Erase all button
       expect(find.text('Erase app data'), findsNWidgets(2));
       await tester.pumpAndSettle(const Duration(seconds: 6));
       await tester.tap(find.text('ERASE ALL').last);
 
-      // AUto close dialog
+      // Auto close dialog
       await tester.pumpAndSettle(const Duration(seconds: 1));
       expect(find.text('Erase app data'), findsNothing);
-
-      // Show StartInfoModal
-      // expect(find.text('Getting Started'), findsOneWidget);
     });
 
     testWidgets('should open EnterPasscodeModal', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(testSetup.mockConfigProvider.passCode).thenReturn('1111');
+      await appConfigViewModel.setPassCode('1111');
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -64,7 +73,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          const AdvancedOptions(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
@@ -89,7 +102,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          const AdvancedOptions(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
@@ -112,7 +129,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          const AdvancedOptions(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
@@ -126,12 +147,27 @@ void main() async {
   });
 
   group('Advanced Options Screen tests (v5)', () {
-    late TestSetupHelper testSetup;
+    late AppConfigViewModel appConfigViewModel;
+    late ServersViewModel serversViewModel;
 
     setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock();
+      final serverRepo = FakeServerRepository();
+      appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
+      serversViewModel = ServersViewModel(serverRepo);
+      // Load servers with v5 as default
+      final servers = await serverRepo.fetchServers();
+      final serverList = servers.getOrThrow();
+      // Set the v5 server as selected by using saveFromDb with only v5
+      await serversViewModel.saveFromDb(
+        serverList.map((s) {
+          if (s.apiVersion == 'v5') {
+            return s.copyWith(defaultServer: true);
+          }
+          return s.copyWith(defaultServer: false);
+        }).toList(),
+      );
     });
+
     testWidgets('should show Logs quantity screen with tap', (
       WidgetTester tester,
     ) async {
@@ -144,7 +180,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
+        buildTestApp(
+          const AdvancedOptions(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);

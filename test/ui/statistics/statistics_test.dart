@@ -1,28 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/model/metrics/summary.dart';
 import 'package:pi_hole_client/domain/model/metrics/top_clients.dart';
 import 'package:pi_hole_client/domain/model/metrics/top_domains.dart';
 import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/statistics/statistics.dart';
 import 'package:pi_hole_client/ui/statistics/statistics_list.dart';
 import 'package:pi_hole_client/ui/statistics/statistics_triple_column.dart';
 import 'package:pie_chart/pie_chart.dart';
 
-import '../../helpers.dart';
+import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../testing/fakes/repositories/local/fake_server_repository.dart';
+import '../../../testing/fakes/viewmodels/fake_status_viewmodel.dart';
+import '../../../testing/models/v5/realtime_status.dart' as rt_fixture;
+import '../../../testing/models/v6/ftl.dart' as ftl_fixture;
+import '../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('Statistics Screen Widget Tests', () {
-    late TestSetupHelper testSetup;
+    late AppConfigViewModel appConfigViewModel;
+    late ServersViewModel serversViewModel;
+    late FakeStatusViewModel statusViewModel;
+    late LogsViewModel logsViewModel;
 
     setUp(() async {
-      testSetup = TestSetupHelper();
+      final serverRepo = FakeServerRepository();
+      appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
+      serversViewModel = ServersViewModel(serverRepo);
+      final servers = await serverRepo.fetchServers();
+      await serversViewModel.saveFromDb(servers.getOrThrow());
 
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+      statusViewModel = FakeStatusViewModel();
+      statusViewModel.realtimeStatus = rt_fixture.kRepoFetchRealTimeStatus;
+      statusViewModel.ftlDnsMetrics = ftl_fixture.kRepoFetchFtlMetrics;
+
+      logsViewModel = LogsViewModel();
     });
 
     testWidgets('should show statistics screen (all graphs are rendered)', (
@@ -36,7 +54,15 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Statistics()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const Statistics(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(Statistics), findsOneWidget);
       await tester.pump();
@@ -91,16 +117,22 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockStatusViewModel.getStatusLoading,
-      ).thenReturn(LoadStatus.loading);
+      statusViewModel.statusLoading = LoadStatus.loading;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Statistics()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const Statistics(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(Statistics), findsOneWidget);
       await tester.pump();
@@ -118,16 +150,22 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockStatusViewModel.getStatusLoading,
-      ).thenReturn(LoadStatus.error);
+      statusViewModel.statusLoading = LoadStatus.error;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Statistics()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const Statistics(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(Statistics), findsOneWidget);
       await tester.pump();
@@ -172,20 +210,23 @@ void main() async {
         forwardDestinations: const [],
       );
 
-      when(
-        testSetup.mockStatusViewModel.getRealtimeStatus,
-      ).thenReturn(realtimeStatus);
-
-      when(testSetup.mockStatusViewModel.getFtlDnsMetrics).thenReturn(null);
-      when(testSetup.mockStatusViewModel.getDnsCache).thenReturn(null);
-      when(testSetup.mockStatusViewModel.getDnsReplies).thenReturn(null);
+      statusViewModel.realtimeStatus = realtimeStatus;
+      statusViewModel.ftlDnsMetrics = null;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Statistics()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const Statistics(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(Statistics), findsOneWidget);
       await tester.pump();
@@ -228,7 +269,15 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Statistics()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const Statistics(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(Statistics), findsOneWidget);
       expect(find.byType(StatisticsTripleColumn), findsOneWidget);
@@ -248,7 +297,15 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        await tester.pumpWidget(testSetup.buildTestWidget(const Statistics()));
+        await tester.pumpWidget(
+          buildTestApp(
+            const Statistics(),
+            appConfigViewModel: appConfigViewModel,
+            serversViewModel: serversViewModel,
+            statusViewModel: statusViewModel,
+            logsViewModel: logsViewModel,
+          ),
+        );
 
         expect(find.byType(Statistics), findsOneWidget);
         expect(find.byType(StatisticsTripleColumn), findsOneWidget);
@@ -273,16 +330,22 @@ void main() async {
       tester.view.physicalSize = const Size(2400, 1080);
       tester.view.devicePixelRatio = 1.5;
 
-      when(
-        testSetup.mockStatusViewModel.getStatusLoading,
-      ).thenReturn(LoadStatus.error);
+      statusViewModel.statusLoading = LoadStatus.error;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Statistics()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const Statistics(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(Statistics), findsOneWidget);
       expect(find.byType(StatisticsTripleColumn), findsOneWidget);
@@ -298,16 +361,22 @@ void main() async {
       tester.view.physicalSize = const Size(2400, 1080);
       tester.view.devicePixelRatio = 1.5;
 
-      when(
-        testSetup.mockStatusViewModel.getStatusLoading,
-      ).thenReturn(LoadStatus.loading);
+      statusViewModel.statusLoading = LoadStatus.loading;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Statistics()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const Statistics(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(Statistics), findsOneWidget);
       expect(find.byType(StatisticsTripleColumn), findsOneWidget);
