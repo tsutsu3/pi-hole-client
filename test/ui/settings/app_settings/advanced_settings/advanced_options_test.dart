@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/app_logs/app_logs.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
@@ -11,6 +13,29 @@ import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/reset_
 import '../../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../../../testing/fakes/repositories/local/fake_server_repository.dart';
 import '../../../../../testing/test_app.dart';
+
+GoRouter _createTestRouter() {
+  return GoRouter(
+    initialLocation: '/settings/app/advanced',
+    routes: [
+      GoRoute(
+        path: '/settings/app/advanced',
+        name: Routes.settingsAppAdvanced,
+        builder: (_, _) => const AdvancedOptions(),
+      ),
+      GoRoute(
+        path: '/settings/app/advanced/chart-visualization',
+        name: Routes.settingsAppAdvancedChartVisualization,
+        builder: (_, _) => const ChartVisualizationScreen(),
+      ),
+      GoRoute(
+        path: '/settings/app/advanced/app-logs',
+        name: Routes.settingsAppAdvancedAppLogs,
+        builder: (_, _) => const AppLogs(),
+      ),
+    ],
+  );
+}
 
 void main() async {
   await initTestApp();
@@ -179,9 +204,10 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptions(),
+          const SizedBox(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
+          router: _createTestRouter(),
         ),
       );
 
@@ -206,9 +232,10 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptions(),
+          const SizedBox(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
+          router: _createTestRouter(),
         ),
       );
 

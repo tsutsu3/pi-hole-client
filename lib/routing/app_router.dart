@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/routing/routes.dart';
+import 'package:pi_hole_client/ui/app_logs/app_logs.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/domains_page.dart';
@@ -13,6 +14,10 @@ import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/licenses_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/privacy_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/chart_visualization_screen.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/log_refresh_interval_screen.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/adlist_screen_factory.dart';
@@ -149,6 +154,45 @@ GoRouter createAppRouter({
                         path: '/settings/app/advanced',
                         name: Routes.settingsAppAdvanced,
                         builder: (context, state) => const AdvancedOptions(),
+                      ),
+
+                      // ── Settings > App > Advanced ──
+                      GoRoute(
+                        path: '/settings/app/advanced/chart-visualization',
+                        name: Routes.settingsAppAdvancedChartVisualization,
+                        builder: (context, state) =>
+                            const ChartVisualizationScreen(),
+                      ),
+                      GoRoute(
+                        path: '/settings/app/advanced/stats-refresh-time',
+                        name: Routes.settingsAppAdvancedStatsRefreshTime,
+                        builder: (context, state) =>
+                            const AutoRefreshTimeScreen(),
+                      ),
+                      GoRoute(
+                        path: '/settings/app/advanced/log-refresh-interval',
+                        name: Routes.settingsAppAdvancedLogRefreshInterval,
+                        builder: (context, state) =>
+                            const LogRefreshIntervalScreen(),
+                      ),
+                      GoRoute(
+                        path: '/settings/app/advanced/logs-quantity-load',
+                        name: Routes.settingsAppAdvancedLogsQuantityLoad,
+                        builder: (context, state) {
+                          final apiVersion = context
+                                  .read<ServersViewModel>()
+                                  .selectedServer
+                                  ?.apiVersion ??
+                              '';
+                          return LogsQuantityLoadScreen(
+                            apiVersion: apiVersion,
+                          );
+                        },
+                      ),
+                      GoRoute(
+                        path: '/settings/app/advanced/app-logs',
+                        name: Routes.settingsAppAdvancedAppLogs,
+                        builder: (context, state) => const AppLogs(),
                       ),
 
                       // ── Settings > Server ──

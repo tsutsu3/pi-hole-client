@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:pi_hole_client/ui/app_logs/app_logs.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
@@ -10,11 +11,7 @@ import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/chart_visualization_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/enter_passcode_modal.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/log_refresh_interval_screen.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/reset_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -275,11 +272,8 @@ class AdvancedOptions extends StatelessWidget {
               description: AppLocalizations.of(
                 context,
               )!.chartDisplayModeSubtitle,
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ChartVisualizationScreen(),
-                ),
+              onTap: () => context.pushNamed(
+                Routes.settingsAppAdvancedChartVisualization,
               ),
               padding: const EdgeInsets.only(
                 top: 10,
@@ -294,11 +288,8 @@ class AdvancedOptions extends StatelessWidget {
               label: AppLocalizations.of(context)!.autoRefreshTime,
               description:
                   '${appConfigViewModel.getAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AutoRefreshTimeScreen(),
-                ),
+              onTap: () => context.pushNamed(
+                Routes.settingsAppAdvancedStatsRefreshTime,
               ),
               padding: const EdgeInsets.only(
                 top: 10,
@@ -328,11 +319,8 @@ class AdvancedOptions extends StatelessWidget {
               label: AppLocalizations.of(context)!.logAutoRefreshTime,
               description:
                   '${appConfigViewModel.logAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const LogRefreshIntervalScreen(),
-                ),
+              onTap: () => context.pushNamed(
+                Routes.settingsAppAdvancedLogRefreshInterval,
               ),
               padding: const EdgeInsets.only(
                 top: 10,
@@ -345,14 +333,8 @@ class AdvancedOptions extends StatelessWidget {
               leadingIcon: Icons.list_rounded,
               label: AppLocalizations.of(context)!.logsQuantityPerLoad,
               description: logDescription,
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LogsQuantityLoadScreen(
-                    apiVersion:
-                        serversViewModel.selectedServer?.apiVersion ?? '',
-                  ),
-                ),
+              onTap: () => context.pushNamed(
+                Routes.settingsAppAdvancedLogsQuantityLoad,
               ),
               padding: const EdgeInsets.only(
                 top: 10,
@@ -366,12 +348,9 @@ class AdvancedOptions extends StatelessWidget {
               leadingIcon: Icons.list,
               label: AppLocalizations.of(context)!.appLogs,
               description: AppLocalizations.of(context)!.errorsApp,
-              onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AppLogs()),
-                ),
-              },
+              onTap: () => context.pushNamed(
+                Routes.settingsAppAdvancedAppLogs,
+              ),
               padding: const EdgeInsets.only(
                 top: 10,
                 bottom: 10,

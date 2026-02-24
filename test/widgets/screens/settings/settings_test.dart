@@ -97,7 +97,7 @@ void main() async {
       await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
       expect(find.byType(SettingsWidget), findsOneWidget);
-      expect(find.text('Settings'), findsNWidgets(2)); //title and nav bar
+      expect(find.text('Settings'), findsOneWidget);
 
       expect(find.text('App Settings'), findsOneWidget);
 

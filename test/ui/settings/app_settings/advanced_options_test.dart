@@ -1,16 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v6_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../../testing/fakes/repositories/local/fake_server_repository.dart';
 import '../../../../testing/test_app.dart';
+
+GoRouter _createTestRouter() {
+  return GoRouter(
+    initialLocation: '/settings/app/advanced',
+    routes: [
+      GoRoute(
+        path: '/settings/app/advanced',
+        name: Routes.settingsAppAdvanced,
+        builder: (_, _) => const AdvancedOptions(),
+      ),
+      GoRoute(
+        path: '/settings/app/advanced/stats-refresh-time',
+        name: Routes.settingsAppAdvancedStatsRefreshTime,
+        builder: (_, _) => const AutoRefreshTimeScreen(),
+      ),
+      GoRoute(
+        path: '/settings/app/advanced/logs-quantity-load',
+        name: Routes.settingsAppAdvancedLogsQuantityLoad,
+        builder: (context, _) {
+          final apiVersion =
+              context.read<ServersViewModel>().selectedServer?.apiVersion ?? '';
+          return LogsQuantityLoadScreen(apiVersion: apiVersion);
+        },
+      ),
+    ],
+  );
+}
 
 void main() async {
   await initTestApp();
@@ -103,9 +133,10 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptions(),
+          const SizedBox(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
+          router: _createTestRouter(),
         ),
       );
 
@@ -130,9 +161,10 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptions(),
+          const SizedBox(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
+          router: _createTestRouter(),
         ),
       );
 
@@ -181,9 +213,10 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptions(),
+          const SizedBox(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
+          router: _createTestRouter(),
         ),
       );
 
