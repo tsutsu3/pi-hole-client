@@ -34,7 +34,6 @@ class AppConfigViewModel with ChangeNotifier {
       StatisticsVisualizationMode.list;
   HomeVisualizationMode _homeVisualizationMode = HomeVisualizationMode.lineArea;
   int _sendCrashReports = 0;
-  int? _selectedSettingsScreen;
   String _selectedLanguage = 'en';
   int _logAutoRefreshTime = 5;
   bool _liveLog = true;
@@ -161,10 +160,6 @@ class AppConfigViewModel with ChangeNotifier {
     return _logs;
   }
 
-  int? get selectedSettingsScreen {
-    return _selectedSettingsScreen;
-  }
-
   int get logAutoRefreshTime {
     return _logAutoRefreshTime;
   }
@@ -220,13 +215,6 @@ class AppConfigViewModel with ChangeNotifier {
   void addLog(AppLog log) {
     _logs.add(log);
     notifyListeners();
-  }
-
-  void setSelectedSettingsScreen({required int? screen, bool? notify}) {
-    _selectedSettingsScreen = screen;
-    if (notify == true) {
-      notifyListeners();
-    }
   }
 
   Future<bool> setUseBiometrics(bool biometrics) async {

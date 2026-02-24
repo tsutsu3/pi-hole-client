@@ -1691,7 +1691,6 @@ class TestSetupHelper {
     when(mockConfigProvider.appThemeMode).thenReturn(AppThemeMode.system);
     when(mockConfigProvider.selectedLanguage).thenReturn('en');
     when(mockConfigProvider.getAutoRefreshTime).thenReturn(5);
-    when(mockConfigProvider.selectedSettingsScreen).thenReturn(null);
     when(mockConfigProvider.selectedLanguageNumber).thenReturn(0);
     when(mockConfigProvider.getAppInfo).thenReturn(
       PackageInfo(

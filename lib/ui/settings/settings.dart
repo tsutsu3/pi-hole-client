@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_split_view/flutter_split_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/urls.dart';
-import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
@@ -15,109 +13,15 @@ import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
-import 'package:pi_hole_client/ui/servers/servers.dart';
-import 'package:pi_hole_client/ui/settings/about/app_detail_screen.dart';
-import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';
-import 'package:pi_hole_client/ui/settings/about/licenses_screen.dart';
-import 'package:pi_hole_client/ui/settings/about/privacy_screen.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/adlist_screen_factory.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/network_screen_factory.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen_factory.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/server_info/server_info_screen_factory.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:provider/provider.dart';
 
-class Settings extends StatelessWidget {
-  const Settings({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-
-    if (width > ResponsiveConstants.large) {
-      return SplitView.material(
-        hideDivider: true,
-        // flexWidth: const FlexWidth(mainViewFlexWidth: 1, secondaryViewFlexWidth: 2),
-        placeholder: Center(
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Text(
-                AppLocalizations.of(context)!.selectOptionLeftColumn,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-              ),
-            ),
-          ),
-        ),
-        child: const SettingsWidget(),
-      );
-    } else {
-      return const SettingsWidget();
-    }
-  }
-}
-
-class SettingsWidget extends StatefulWidget {
+/// The settings list widget.
+///
+/// On mobile, shown full-screen via the `/settings` route.
+/// On desktop, shown as the master pane inside [SettingsShell].
+class SettingsWidget extends StatelessWidget {
   const SettingsWidget({super.key});
-
-  @override
-  State<SettingsWidget> createState() => _SettingsWidgetState();
-}
-
-class _SettingsWidgetState extends State<SettingsWidget> {
-  int? selectedScreen;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    final appConfigViewModel = context.read<AppConfigViewModel>();
-    final width = MediaQuery.of(context).size.width;
-
-    final screenToShow = appConfigViewModel.selectedSettingsScreen;
-    if (screenToShow != null && width > ResponsiveConstants.large) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        final splitView = context.findAncestorStateOfType<SplitViewState>();
-        if (splitView != null) {
-          switch (screenToShow) {
-            case 5:
-              final adlistBundle = context.read<RepositoryBundle?>();
-              if (adlistBundle != null) {
-                splitView.setSecondary(createAdlistScreen(adlistBundle));
-              }
-            case 11:
-              final clientBundle = context.read<RepositoryBundle?>();
-              if (clientBundle != null) {
-                splitView.setSecondary(
-                  createGroupClientScreen(clientBundle),
-                );
-              }
-            case 6:
-              splitView.setSecondary(const AdvancedServerOptions());
-              final apiVersion = context
-                  .read<ServersViewModel>()
-                  .selectedServer
-                  ?.apiVersion;
-              if (apiVersion == 'v6') {
-                final bundle = context.read<RepositoryBundle?>();
-                if (bundle != null) {
-                  splitView.push(createNetworkScreen(bundle));
-                }
-              }
-          }
-          appConfigViewModel.setSelectedSettingsScreen(screen: null);
-        }
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,42 +31,21 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     final serverStatus = context.select<StatusViewModel, LoadStatus>(
       (p) => p.getServerStatus,
     );
-    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
-
+    final appConfigViewModel = context.watch<AppConfigViewModel>();
     final width = MediaQuery.of(context).size.width;
 
-    if (width <= ResponsiveConstants.large &&
-        appConfigViewModel.selectedSettingsScreen != null) {
-      appConfigViewModel.setSelectedSettingsScreen(screen: null);
-    }
-
-    Widget routedSettingsTile({
-      required BuildContext context,
-      required double width,
-      required String title,
-      required String subtitle,
-      required int thisItem,
-      required String routeName,
-      required VoidCallback splitViewChild,
-      IconData? icon,
-    }) {
+    /// Navigate to a settings sub-route.
+    ///
+    /// On desktop, resets the stack to `/settings` first, then pushes the
+    /// target. This clears any intermediate pages (e.g. Advanced → Sessions)
+    /// so that back always returns to the settings list.
+    /// On mobile, simply pushes a full-screen page.
+    void navigateToSetting(String routeName) {
       if (width > ResponsiveConstants.large) {
-        return CustomListTile(
-          label: title,
-          description: subtitle,
-          leadingIcon: icon,
-          onTap: () {
-            setState(() => selectedScreen = thisItem);
-            splitViewChild();
-          },
-        );
+        context.goNamed(Routes.settings);
+        context.pushNamed(routeName);
       } else {
-        return CustomListTile(
-          label: title,
-          description: subtitle,
-          leadingIcon: icon,
-          onTap: () => context.pushNamed(routeName),
-        );
+        context.pushNamed(routeName);
       }
     }
 
@@ -170,10 +53,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       switch (appConfigViewModel.appThemeMode) {
         case AppThemeMode.system:
           return AppLocalizations.of(context)!.systemTheme;
-
         case AppThemeMode.light:
           return AppLocalizations.of(context)!.light;
-
         case AppThemeMode.dark:
           return AppLocalizations.of(context)!.dark;
       }
@@ -193,58 +74,35 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionLabel(label: AppLocalizations.of(context)!.appSettings),
-          routedSettingsTile(
-            context: context,
-            width: width,
-            icon: Icons.light_mode_rounded,
-            title: AppLocalizations.of(context)!.theme,
-            subtitle: getThemeString(),
-            thisItem: 0,
-            routeName: Routes.settingsAppTheme,
-            splitViewChild: () {
-              SplitView.of(context).setSecondary(const ThemeScreen());
-            },
+          CustomListTile(
+            leadingIcon: Icons.light_mode_rounded,
+            label: AppLocalizations.of(context)!.theme,
+            description: getThemeString(),
+            onTap: () => navigateToSetting(Routes.settingsAppTheme),
           ),
-          routedSettingsTile(
-            context: context,
-            width: width,
-            icon: Icons.language,
-            title: AppLocalizations.of(context)!.language,
-            subtitle: getLanguageString(),
-            thisItem: 1,
-            routeName: Routes.settingsAppLanguage,
-            splitViewChild: () {
-              SplitView.of(context).setSecondary(const LanguageScreen());
-            },
+          CustomListTile(
+            leadingIcon: Icons.language,
+            label: AppLocalizations.of(context)!.language,
+            description: getLanguageString(),
+            onTap: () => navigateToSetting(Routes.settingsAppLanguage),
           ),
-          routedSettingsTile(
-            context: context,
-            width: width,
-            icon: Icons.storage_rounded,
-            title: AppLocalizations.of(context)!.servers,
-            subtitle: _buildServerSubtitle(
+          CustomListTile(
+            leadingIcon: Icons.storage_rounded,
+            label: AppLocalizations.of(context)!.servers,
+            description: _buildServerSubtitle(
               context: context,
               selectedServer: selectedServer,
               serverStatus: serverStatus,
               isAliasOnly: false,
             ),
-            thisItem: 2,
-            routeName: Routes.settingsAppServers,
-            splitViewChild: () {
-              SplitView.of(context).setSecondary(const ServersPage());
-            },
+            onTap: () => navigateToSetting(Routes.settingsAppServers),
           ),
-          routedSettingsTile(
-            context: context,
-            width: width,
-            icon: Icons.settings_rounded,
-            title: AppLocalizations.of(context)!.advancedSetup,
-            subtitle: AppLocalizations.of(context)!.advancedAppSetupDescription,
-            thisItem: 3,
-            routeName: Routes.settingsAppAdvanced,
-            splitViewChild: () {
-              SplitView.of(context).setSecondary(const AdvancedOptions());
-            },
+          CustomListTile(
+            leadingIcon: Icons.settings_rounded,
+            label: AppLocalizations.of(context)!.advancedSetup,
+            description:
+                AppLocalizations.of(context)!.advancedAppSetupDescription,
+            onTap: () => navigateToSetting(Routes.settingsAppAdvanced),
           ),
         ],
       );
@@ -255,80 +113,36 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionLabel(label: AppLocalizations.of(context)!.serverSettings),
-          routedSettingsTile(
-            context: context,
-            width: width,
-            icon: Icons.connected_tv_rounded,
-            title: AppLocalizations.of(context)!.serverInfo,
-            subtitle: _buildServerSubtitle(
+          CustomListTile(
+            leadingIcon: Icons.connected_tv_rounded,
+            label: AppLocalizations.of(context)!.serverInfo,
+            description: _buildServerSubtitle(
               context: context,
               selectedServer: selectedServer,
               serverStatus: serverStatus,
               isAliasOnly: true,
             ),
-            thisItem: 4,
-            routeName: Routes.settingsServerInfo,
-            splitViewChild: () {
-              final bundle = context.read<RepositoryBundle?>();
-              if (bundle == null) return;
-              final server = context.read<ServersViewModel>().selectedServer;
-              if (server == null) return;
-              SplitView.of(context).setSecondary(
-                createServerInfoScreen(
-                  bundle: bundle,
-                  serverAlias: server.alias,
-                  serverAddress: server.address,
-                ),
-              );
-            },
+            onTap: () => navigateToSetting(Routes.settingsServerInfo),
           ),
-          routedSettingsTile(
-            context: context,
-            width: width,
-            icon: Icons.security_rounded,
-            title: AppLocalizations.of(context)!.adlists,
-            subtitle: AppLocalizations.of(context)!.adlistDescription,
-            thisItem: 5,
-            routeName: Routes.settingsServerAdlists,
-            splitViewChild: () {
-              final bundle = context.read<RepositoryBundle?>();
-              if (bundle == null) return;
-              SplitView.of(context).setSecondary(
-                createAdlistScreen(bundle),
-              );
-            },
+          CustomListTile(
+            leadingIcon: Icons.security_rounded,
+            label: AppLocalizations.of(context)!.adlists,
+            description: AppLocalizations.of(context)!.adlistDescription,
+            onTap: () => navigateToSetting(Routes.settingsServerAdlists),
           ),
-          routedSettingsTile(
-            context: context,
-            width: width,
-            icon: Icons.group_rounded,
-            title: AppLocalizations.of(context)!.groupsAndClients,
-            subtitle: AppLocalizations.of(context)!.groupsAndClientsDescription,
-            thisItem: 11,
-            routeName: Routes.settingsServerGroupClient,
-            splitViewChild: () {
-              final bundle = context.read<RepositoryBundle?>();
-              if (bundle == null) return;
-              SplitView.of(context).setSecondary(
-                createGroupClientScreen(bundle),
-              );
-            },
+          CustomListTile(
+            leadingIcon: Icons.group_rounded,
+            label: AppLocalizations.of(context)!.groupsAndClients,
+            description:
+                AppLocalizations.of(context)!.groupsAndClientsDescription,
+            onTap: () => navigateToSetting(Routes.settingsServerGroupClient),
           ),
-          routedSettingsTile(
-            context: context,
-            width: width,
-            icon: Icons.build_rounded,
-            title: AppLocalizations.of(context)!.advancedSetup,
-            subtitle: AppLocalizations.of(
-              context,
-            )!.advancedServerSetupDescription,
-            thisItem: 6,
-            routeName: Routes.settingsServerAdvanced,
-            splitViewChild: () {
-              SplitView.of(context).setSecondary(
-                const AdvancedServerOptions(),
-              );
-            },
+          CustomListTile(
+            leadingIcon: Icons.build_rounded,
+            label: AppLocalizations.of(context)!.advancedSetup,
+            description:
+                AppLocalizations.of(context)!.advancedServerSetupDescription,
+            onTap: () => navigateToSetting(Routes.settingsServerAdvanced),
           ),
         ],
       );
@@ -339,57 +153,29 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionLabel(label: AppLocalizations.of(context)!.about),
-          routedSettingsTile(
-            context: context,
-            width: width,
-            icon: Icons.phone_android_rounded,
-            title: AppLocalizations.of(context)!.applicationDetail,
-            subtitle: AppLocalizations.of(context)!.aboutThisApp,
-            thisItem: 7,
-            routeName: Routes.settingsAboutAppDetail,
-            splitViewChild: () {
-              SplitView.of(context).setSecondary(
-                AppDetailScreen(
-                  appVersion: appConfigViewModel.getAppInfo?.version,
-                ),
-              );
-            },
+          CustomListTile(
+            leadingIcon: Icons.phone_android_rounded,
+            label: AppLocalizations.of(context)!.applicationDetail,
+            description: AppLocalizations.of(context)!.aboutThisApp,
+            onTap: () => navigateToSetting(Routes.settingsAboutAppDetail),
           ),
-          routedSettingsTile(
-            context: context,
-            width: width,
-            icon: Icons.privacy_tip_rounded,
-            title: AppLocalizations.of(context)!.privacy,
-            subtitle: AppLocalizations.of(context)!.privacyInfo,
-            thisItem: 8,
-            routeName: Routes.settingsAboutPrivacy,
-            splitViewChild: () {
-              SplitView.of(context).setSecondary(const PrivacyScreen());
-            },
+          CustomListTile(
+            leadingIcon: Icons.privacy_tip_rounded,
+            label: AppLocalizations.of(context)!.privacy,
+            description: AppLocalizations.of(context)!.privacyInfo,
+            onTap: () => navigateToSetting(Routes.settingsAboutPrivacy),
           ),
-          routedSettingsTile(
-            context: context,
-            width: width,
-            icon: Icons.balance_rounded,
-            title: AppLocalizations.of(context)!.legal,
-            subtitle: AppLocalizations.of(context)!.legalInfo,
-            thisItem: 9,
-            routeName: Routes.settingsAboutLegal,
-            splitViewChild: () {
-              SplitView.of(context).setSecondary(const LegalScreen());
-            },
+          CustomListTile(
+            leadingIcon: Icons.balance_rounded,
+            label: AppLocalizations.of(context)!.legal,
+            description: AppLocalizations.of(context)!.legalInfo,
+            onTap: () => navigateToSetting(Routes.settingsAboutLegal),
           ),
-          routedSettingsTile(
-            context: context,
-            width: width,
-            icon: Icons.description_rounded,
-            title: AppLocalizations.of(context)!.licenses,
-            subtitle: AppLocalizations.of(context)!.licensesInfo,
-            thisItem: 10,
-            routeName: Routes.settingsAboutLicenses,
-            splitViewChild: () {
-              SplitView.of(context).setSecondary(const LicensesScreen());
-            },
+          CustomListTile(
+            leadingIcon: Icons.description_rounded,
+            label: AppLocalizations.of(context)!.licenses,
+            description: AppLocalizations.of(context)!.licensesInfo,
+            onTap: () => navigateToSetting(Routes.settingsAboutLicenses),
           ),
           Padding(
             padding: const EdgeInsets.all(15),
@@ -431,7 +217,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 
     return Scaffold(
       body: SafeArea(
-        // minimum: const EdgeInsets.all(16),
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[

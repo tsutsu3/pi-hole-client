@@ -733,7 +733,9 @@ import 'package:pi_hole_client/ui/settings/server_settings/widgets/server_info/p
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/server_info/pihole_version_section.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/server_info/server_connection_section.dart';
 import 'package:pi_hole_client/ui/settings/settings.dart';
+import 'package:pi_hole_client/ui/shell/app_shell.dart';
 import 'package:pi_hole_client/ui/shell/base.dart';
+import 'package:pi_hole_client/ui/shell/settings_shell.dart';
 import 'package:pi_hole_client/ui/statistics/animated_percent_indicator.dart';
 import 'package:pi_hole_client/ui/statistics/custom_pie_chart.dart';
 import 'package:pi_hole_client/ui/statistics/dns_tab.dart';

@@ -54,7 +54,6 @@ void main() {
       );
       expect(appConfigViewModel.sendCrashReports, false);
       expect(appConfigViewModel.logs, []);
-      expect(appConfigViewModel.selectedSettingsScreen, null);
       expect(listenerCalled, false);
     });
 
@@ -106,12 +105,6 @@ void main() {
     //   appConfigViewModel.addLog(log);
     //   expect(appConfigViewModel.logs, [log]);
     // });
-
-    test('setSelectedSettingsScreen updates value and notifies listeners', () {
-      appConfigViewModel.setSelectedSettingsScreen(screen: 1, notify: true);
-      expect(appConfigViewModel.selectedSettingsScreen, 1);
-      expect(listenerCalled, true);
-    });
 
     test('setUseBiometrics updates value and notifies listeners', () async {
       final result = await appConfigViewModel.setUseBiometrics(true);

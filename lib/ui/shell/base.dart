@@ -1,29 +1,25 @@
 import 'dart:io';
 
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/app_screens.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
-import 'package:pi_hole_client/ui/core/responsive.dart';
-import 'package:pi_hole_client/ui/core/ui/layout/bottom_nav_bar.dart';
-import 'package:pi_hole_client/ui/core/ui/layout/navigation_rail.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/start_warning_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
-import 'package:pi_hole_client/ui/domains/domains_page.dart';
-import 'package:pi_hole_client/ui/home/home.dart';
-import 'package:pi_hole_client/ui/logs/logs.dart';
-import 'package:pi_hole_client/ui/servers/servers.dart';
-import 'package:pi_hole_client/ui/settings/settings.dart';
-import 'package:pi_hole_client/ui/statistics/statistics.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 
+/// Lifecycle wrapper that manages app lifecycle events (resume/pause,
+/// window minimize/restore) and initial setup (server connection, auto-refresh).
+///
+/// Used as the outermost `ShellRoute` builder in the router configuration.
+/// All navigation layout (NavigationRail, BottomNavBar) is handled by [AppShell].
 class Base extends StatefulWidget {
-  const Base({super.key});
+  const Base({required this.child, super.key});
+
+  final Widget child;
 
   @override
   State<Base> createState() => _BaseState();
@@ -31,19 +27,6 @@ class Base extends StatefulWidget {
 
 class _BaseState extends State<Base>
     with WidgetsBindingObserver, WindowListener {
-  final pages = [
-    const Home(),
-    const Statistics(),
-    const Logs(),
-    const DomainsPage(),
-    const Settings(),
-  ];
-
-  final List<Widget> pagesNotSelected = [
-    const ServersPage(isFromBase: true),
-    const Settings(),
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -155,71 +138,8 @@ class _BaseState extends State<Base>
     statusViewModel.stopAutoRefresh(showLoadingIndicator: false);
   }
 
-  Widget _buildPageTransitionSwitcher(Widget child) {
-    return PageTransitionSwitcher(
-      duration: const Duration(milliseconds: 200),
-      transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
-        return FadeThroughTransition(
-          animation: primaryAnimation,
-          secondaryAnimation: secondaryAnimation,
-          child: child,
-        );
-      },
-      child: child,
-    );
-  }
-
-  void _handleTabChange(int selected, AppConfigViewModel appConfigViewModel) {
-    appConfigViewModel.setSelectedTab(selected);
-  }
-
   @override
   Widget build(BuildContext context) {
-    // Listen only to necessary properties
-    final hasSelectedServer = context.select<ServersViewModel, bool>(
-      (sp) => sp.selectedServer != null,
-    );
-    final selectedTab = context.select<AppConfigViewModel, int>(
-      (acp) => acp.selectedTab,
-    );
-    // Determine the current tab index, mimicking _currentTabIndex logic
-    final currentTab = (!hasSelectedServer && selectedTab > 1)
-        ? 0
-        : selectedTab;
-    final screens = hasSelectedServer ? appScreens : appScreensNotSelected;
-    final currentPage = hasSelectedServer
-        ? pages[currentTab]
-        : pagesNotSelected[currentTab];
-
-    final width = MediaQuery.of(context).size.width;
-
-    return Scaffold(
-      body: width > ResponsiveConstants.large
-          ? Row(
-              children: [
-                CustomNavigationRail(
-                  screens: screens,
-                  selectedScreen: currentTab,
-                  onChange: (selected) {
-                    _handleTabChange(
-                      selected,
-                      context.read<AppConfigViewModel>(),
-                    );
-                  },
-                ),
-                Expanded(child: _buildPageTransitionSwitcher(currentPage)),
-              ],
-            )
-          : _buildPageTransitionSwitcher(currentPage),
-      bottomNavigationBar: width <= ResponsiveConstants.large
-          ? BottomNavBar(
-              screens: screens,
-              selectedScreen: currentTab,
-              onChange: (selected) {
-                _handleTabChange(selected, context.read<AppConfigViewModel>());
-              },
-            )
-          : null,
-    );
+    return widget.child;
   }
 }

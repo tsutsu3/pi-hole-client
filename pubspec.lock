@@ -488,15 +488,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
-  flutter_split_view:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: main
-      resolved-ref: "366ef1f9033e38e2956d73df23c4461db0fb5ae1"
-      url: "https://github.com/TerminalStudio/flutter_split_view.git"
-    source: git
-    version: "0.1.2"
   flutter_svg:
     dependency: "direct main"
     description:

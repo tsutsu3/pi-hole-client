@@ -27,9 +27,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       expect(find.text('Settings'), findsNWidgets(2)); //title and nav bar
 
       expect(find.text('App Settings'), findsOneWidget);
@@ -94,9 +94,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       expect(find.text('Settings'), findsNWidgets(2)); //title and nav bar
 
       expect(find.text('App Settings'), findsOneWidget);
@@ -158,11 +158,6 @@ void main() async {
       final githubSvg = SvgPicture.asset('assets/resources/github.svg');
       expect(find.svg(googlePlaySvg.bytesLoader), findsOneWidget);
       expect(find.svg(githubSvg.bytesLoader), findsOneWidget);
-
-      expect(
-        find.text('Select an option from the left column.'),
-        findsOneWidget,
-      );
     });
 
     // Theme navigation now uses go_router (context.pushNamed).
@@ -175,9 +170,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Theme'), findsOneWidget);
@@ -194,9 +189,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Language'), findsOneWidget);
@@ -212,9 +207,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Servers'), findsOneWidget);
@@ -233,9 +228,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Advanced settings'), findsNWidgets(2));
@@ -253,9 +248,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Pi-hole Server'), findsOneWidget);
@@ -271,9 +266,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Adlists'), findsOneWidget);
@@ -292,9 +287,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       await tester.pump();
 
       await tester.ensureVisible(find.text('Groups & Clients'));
@@ -320,9 +315,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Advanced settings'), findsNWidgets(2));
@@ -341,9 +336,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Application Detail'), findsOneWidget);
@@ -360,9 +355,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Privacy'), findsOneWidget);
@@ -379,9 +374,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Legal'), findsOneWidget);
@@ -398,9 +393,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       await tester.pump();
 
       await tester.ensureVisible(find.text('Licenses'));
@@ -436,9 +431,9 @@ void main() async {
             .setMockMethodCallHandler(urlLauncherChannel, null);
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       await tester.pump();
 
       final googlePlaySvg = SvgPicture.asset(
@@ -483,9 +478,9 @@ void main() async {
             .setMockMethodCallHandler(urlLauncherChannel, null);
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const SettingsWidget()));
 
-      expect(find.byType(Settings), findsOneWidget);
+      expect(find.byType(SettingsWidget), findsOneWidget);
       await tester.pump();
 
       final githubSvg = SvgPicture.asset('assets/resources/github.svg');

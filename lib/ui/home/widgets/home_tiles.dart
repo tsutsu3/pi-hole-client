@@ -5,9 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_tiles/home_tile.dart';
@@ -76,21 +74,14 @@ class HomeTiles extends StatelessWidget {
               },
               width: width,
               onTap: () {
-                final appConfigViewModel = context.read<AppConfigViewModel>();
                 final serverProvider = context.read<ServersViewModel>();
-                final width = MediaQuery.of(context).size.width;
-                appConfigViewModel.setSelectedTab(4);
+                final apiVersion = serverProvider.selectedServer?.apiVersion;
 
-                if (width > ResponsiveConstants.large) {
-                  appConfigViewModel.setSelectedSettingsScreen(screen: 6);
-                } else {
-                  final apiVersion = serverProvider.selectedServer?.apiVersion;
-                  context.pushNamed(Routes.settingsServerAdvanced);
-                  if (apiVersion == 'v6') {
-                    context.pushNamed(
-                      Routes.settingsServerAdvancedNetwork,
-                    );
-                  }
+                // Switch to settings branch, then push target
+                context.goNamed(Routes.settings);
+                context.pushNamed(Routes.settingsServerAdvanced);
+                if (apiVersion == 'v6') {
+                  context.pushNamed(Routes.settingsServerAdvancedNetwork);
                 }
               },
             ),
@@ -110,9 +101,8 @@ class HomeTiles extends StatelessWidget {
               width: width,
               onTap: () {
                 final logsViewModel = context.read<LogsViewModel>();
-                final appConfigViewModel = context.read<AppConfigViewModel>();
                 logsViewModel.setRequestStatus(RequestStatus.blocked);
-                appConfigViewModel.setSelectedTab(2);
+                context.goNamed(Routes.logs);
               },
             ),
             HomeTileItem(
@@ -129,9 +119,8 @@ class HomeTiles extends StatelessWidget {
               width: width,
               onTap: () {
                 final logsViewModel = context.read<LogsViewModel>();
-                final appConfigViewModel = context.read<AppConfigViewModel>();
                 logsViewModel.setRequestStatus(RequestStatus.all);
-                appConfigViewModel.setSelectedTab(2);
+                context.goNamed(Routes.logs);
               },
             ),
             HomeTileItem(
@@ -150,15 +139,9 @@ class HomeTiles extends StatelessWidget {
               },
               width: width,
               onTap: () {
-                final appConfigViewModel = context.read<AppConfigViewModel>();
-                final width = MediaQuery.of(context).size.width;
-                appConfigViewModel.setSelectedTab(4);
-
-                if (width > ResponsiveConstants.large) {
-                  appConfigViewModel.setSelectedSettingsScreen(screen: 5);
-                } else {
-                  context.pushNamed(Routes.settingsServerAdlists);
-                }
+                // Switch to settings branch, then push target
+                context.goNamed(Routes.settings);
+                context.pushNamed(Routes.settingsServerAdlists);
               },
             ),
           ],

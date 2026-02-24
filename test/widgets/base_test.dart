@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/ui/core/ui/layout/bottom_nav_bar.dart';
-import 'package:pi_hole_client/ui/core/ui/layout/navigation_rail.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/start_warning_modal.dart';
-import 'package:pi_hole_client/ui/home/home.dart';
 import 'package:pi_hole_client/ui/shell/base.dart';
 
 import './helpers.dart';
@@ -21,7 +18,7 @@ void main() async {
       testSetup.initializeMock(useApiGatewayVersion: 'v6');
     });
 
-    testWidgets('should show important info modal when firt time access', (
+    testWidgets('should show important info modal when first time access', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -35,7 +32,11 @@ void main() async {
       when(testSetup.mockServersViewModel.selectedServer).thenReturn(null);
       when(testSetup.mockConfigProvider.importantInfoReaden).thenReturn(false);
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Base()));
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(
+          const Base(child: SizedBox()),
+        ),
+      );
 
       expect(find.byType(Base), findsOneWidget);
       await tester.pumpAndSettle();
@@ -44,9 +45,7 @@ void main() async {
       expect(find.text('Getting Started'), findsOneWidget);
     });
 
-    testWidgets('should show mobile layout with no selected server', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('should render child widget', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -57,55 +56,15 @@ void main() async {
 
       when(testSetup.mockServersViewModel.selectedServer).thenReturn(null);
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Base()));
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(
+          const Base(child: Text('Test Child')),
+        ),
+      );
 
       expect(find.byType(Base), findsOneWidget);
       await tester.pump();
-      expect(find.byType(BottomNavBar), findsOneWidget);
-      expect(find.byIcon(Icons.link_rounded), findsOneWidget);
-      expect(find.text('Servers'), findsOneWidget);
-    });
-
-    testWidgets('should show tablet layout with no selected server', (
-      WidgetTester tester,
-    ) async {
-      tester.view.physicalSize = const Size(2560, 1600);
-      tester.view.devicePixelRatio = 1.6;
-
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
-
-      when(testSetup.mockServersViewModel.selectedServer).thenReturn(null);
-
-      await tester.pumpWidget(testSetup.buildTestWidget(const Base()));
-
-      expect(find.byType(Base), findsOneWidget);
-      await tester.pump();
-      expect(find.byType(CustomNavigationRail), findsOneWidget);
-      expect(find.byIcon(Icons.link_rounded), findsOneWidget);
-      expect(find.text('Servers'), findsOneWidget);
-    });
-
-    testWidgets('should show mobile layout with selected server', (
-      WidgetTester tester,
-    ) async {
-      tester.view.physicalSize = const Size(1080, 2400);
-      tester.view.devicePixelRatio = 2.0;
-
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
-
-      await tester.pumpWidget(testSetup.buildTestWidget(const Base()));
-
-      expect(find.byType(Base), findsOneWidget);
-      await tester.pump();
-      expect(find.byType(BottomNavBar), findsOneWidget);
-      expect(find.byIcon(Icons.link_rounded), findsNothing);
-      expect(find.byType(Home), findsOneWidget);
+      expect(find.text('Test Child'), findsOneWidget);
     });
   });
 }

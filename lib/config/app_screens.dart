@@ -27,7 +27,7 @@ final List<AppScreen> appScreens = [
   const AppScreen(
     icon: Icon(Icons.settings),
     name: 'settings',
-    widget: Settings(),
+    widget: SettingsWidget(),
   ),
 ];
 
@@ -40,6 +40,6 @@ final List<AppScreen> appScreensNotSelected = [
   const AppScreen(
     icon: Icon(Icons.settings),
     name: 'settings',
-    widget: Settings(),
+    widget: SettingsWidget(),
   ),
 ];

@@ -66,15 +66,6 @@ dependencies:
     git:
       url: https://github.com/google/flutter-desktop-embedding
       path: plugins/window_size
-  flutter_split_view:
-    git:
-      url: https://github.com/TerminalStudio/flutter_split_view.git
-      ref: main
-  # flutter_split_view: ^0.1.2
-  # flutter_split_view:
-  #   git:
-  #     url: https://github.com/JGeek00/flutter_split_view
-  #     ref: master-alt
   local_auth: ^3.0.0
   flutter_custom_tabs: ^2.4.0
   mobile_scanner: ^7.1.3
