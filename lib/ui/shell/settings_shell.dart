@@ -18,9 +18,24 @@ class SettingsShell extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
 
     if (width > ResponsiveConstants.large) {
+      // Remove horizontal safe-area padding for the master pane:
+      // the NavigationRail (left) and detail pane (right) handle their
+      // own insets, so SettingsWidget should not add extra padding.
+      final noHorizontalPadding = MediaQuery.of(
+        context,
+      ).padding.copyWith(left: 0, right: 0);
+
       return Row(
         children: [
-          const SizedBox(width: 300, child: SettingsWidget()),
+          SizedBox(
+            width: 300,
+            child: MediaQuery(
+              data: MediaQuery.of(
+                context,
+              ).copyWith(padding: noHorizontalPadding),
+              child: const SettingsWidget(),
+            ),
+          ),
           Expanded(child: child),
         ],
       );
