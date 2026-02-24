@@ -4,7 +4,6 @@ import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/servers.dart';
 import 'package:pi_hole_client/ui/settings/about/app_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';
@@ -13,26 +12,16 @@ import 'package:pi_hole_client/ui/settings/about/privacy_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/adlist_screen_factory.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/viewmodel/dhcp_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/viewmodel/interface_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/viewmodel/local_dns_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/viewmodel/sessions_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/server_info.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/server_info/viewmodel/server_info_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/dhcp_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/find_domains_in_lists_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/interface_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/local_dns_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/network_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/sessions_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/server_info/server_info_screen_factory.dart';
 import 'package:pi_hole_client/ui/shell/base.dart';
 import 'package:provider/provider.dart';
 
@@ -69,9 +58,8 @@ GoRouter createAppRouter({
         builder: (context, state) {
           final server = context.read<ServersViewModel>().selectedServer!;
           final bundle = context.read<RepositoryBundle?>();
-          return ServerInfoScreen(
-            viewModel: ServerInfoViewModel(ftlRepository: bundle!.ftl)
-              ..loadServerInfo.run(),
+          return createServerInfoScreen(
+            bundle: bundle!,
             serverAlias: server.alias,
             serverAddress: server.address,
           );
@@ -82,10 +70,7 @@ GoRouter createAppRouter({
         name: Routes.settingsServerAdvancedSessions,
         builder: (context, state) {
           final bundle = context.read<RepositoryBundle?>();
-          return SessionsScreen(
-            viewModel: SessionsViewModel(authRepository: bundle!.auth)
-              ..loadSessions.run(),
-          );
+          return createSessionsScreen(bundle!);
         },
       ),
       GoRoute(
@@ -93,12 +78,7 @@ GoRouter createAppRouter({
         name: Routes.settingsServerAdvancedDhcp,
         builder: (context, state) {
           final bundle = context.read<RepositoryBundle?>();
-          return DhcpScreen(
-            viewModel: DhcpViewModel(
-              dhcpRepository: bundle!.dhcp,
-              ftlRepository: bundle.ftl,
-            )..loadLeases.run(),
-          );
+          return createDhcpScreen(bundle!);
         },
       ),
       GoRoute(
@@ -106,12 +86,7 @@ GoRouter createAppRouter({
         name: Routes.settingsServerAdvancedLocalDns,
         builder: (context, state) {
           final bundle = context.read<RepositoryBundle?>();
-          return LocalDnsScreen(
-            viewModel: LocalDnsViewModel(
-              localDnsRepository: bundle!.localDns,
-              networkRepository: bundle.network,
-            )..loadRecords.run(),
-          );
+          return createLocalDnsScreen(bundle!);
         },
       ),
       GoRoute(
@@ -119,10 +94,7 @@ GoRouter createAppRouter({
         name: Routes.settingsServerAdvancedInterface,
         builder: (context, state) {
           final bundle = context.read<RepositoryBundle?>();
-          return InterfaceScreen(
-            viewModel: InterfaceViewModel(networkRepository: bundle!.network)
-              ..loadInterfaces.run(),
-          );
+          return createInterfaceScreen(bundle!);
         },
       ),
       GoRoute(
@@ -130,12 +102,7 @@ GoRouter createAppRouter({
         name: Routes.settingsServerAdvancedNetwork,
         builder: (context, state) {
           final bundle = context.read<RepositoryBundle?>();
-          return NetworkScreen(
-            viewModel: NetworkViewModel(
-              networkRepository: bundle!.network,
-              ftlRepository: bundle.ftl,
-            )..loadDevices.run(),
-          );
+          return createNetworkScreen(bundle!);
         },
       ),
       GoRoute(
@@ -143,21 +110,7 @@ GoRouter createAppRouter({
         name: Routes.settingsServerAdlists,
         builder: (context, state) {
           final bundle = context.read<RepositoryBundle?>();
-          return MultiProvider(
-            providers: [
-              ChangeNotifierProvider(
-                create: (_) =>
-                    AdlistsViewModel(adListRepository: bundle!.adlist)
-                      ..loadAdlists.run(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) =>
-                    GroupsViewModel(groupRepository: bundle!.group)
-                      ..loadGroups.run(),
-              ),
-            ],
-            child: const AdlistScreen(),
-          );
+          return createAdlistScreen(bundle!);
         },
       ),
       GoRoute(
@@ -165,22 +118,7 @@ GoRouter createAppRouter({
         name: Routes.settingsServerAdvancedFindDomainsInLists,
         builder: (context, state) {
           final bundle = context.read<RepositoryBundle?>();
-          return MultiProvider(
-            providers: [
-              ChangeNotifierProvider(
-                create: (_) => FindDomainsInListsViewModel(
-                  adListRepository: bundle!.adlist,
-                  domainRepository: bundle.domain,
-                ),
-              ),
-              ChangeNotifierProvider(
-                create: (_) =>
-                    GroupsViewModel(groupRepository: bundle!.group)
-                      ..loadGroups.run(),
-              ),
-            ],
-            child: const FindDomainsInListsScreen(),
-          );
+          return createFindDomainsInListsScreen(bundle!);
         },
       ),
       // ===== Settings > App =====
@@ -241,37 +179,7 @@ GoRouter createAppRouter({
         name: Routes.settingsServerGroupClient,
         builder: (context, state) {
           final bundle = context.read<RepositoryBundle?>();
-          return MultiProvider(
-            providers: [
-              ChangeNotifierProvider(
-                create: (_) =>
-                    ClientsViewModel(clientRepository: bundle!.client)
-                      ..loadClients.run(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) =>
-                    GroupsViewModel(groupRepository: bundle!.group)
-                      ..loadGroups.run(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) =>
-                    DomainsViewModel(domainRepository: bundle!.domain)
-                      ..loadDomains.run(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) =>
-                    AdlistsViewModel(adListRepository: bundle!.adlist)
-                      ..loadAdlists.run(),
-              ),
-              ChangeNotifierProvider(
-                create: (_) => LocalDnsViewModel(
-                  localDnsRepository: bundle!.localDns,
-                  networkRepository: bundle.network,
-                ),
-              ),
-            ],
-            child: const GroupClientScreen(),
-          );
+          return createGroupClientScreen(bundle!);
         },
       ),
     ],

@@ -13,10 +13,8 @@ import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/local_dns_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
-import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/servers.dart';
 import 'package:pi_hole_client/ui/settings/about/app_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';
@@ -25,16 +23,11 @@ import 'package:pi_hole_client/ui/settings/about/privacy_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/adlist_screen_factory.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/server_info.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/server_info/viewmodel/server_info_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/network_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/server_info/server_info_screen_factory.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:provider/provider.dart';
 
@@ -98,59 +91,13 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             case 5:
               final adlistBundle = context.read<RepositoryBundle?>();
               if (adlistBundle != null) {
-                splitView.setSecondary(
-                  MultiProvider(
-                    providers: [
-                      ChangeNotifierProvider(
-                        create: (_) => AdlistsViewModel(
-                          adListRepository: adlistBundle.adlist,
-                        )..loadAdlists.run(),
-                      ),
-                      ChangeNotifierProvider(
-                        create: (_) =>
-                            GroupsViewModel(groupRepository: adlistBundle.group)
-                              ..loadGroups.run(),
-                      ),
-                    ],
-                    child: const AdlistScreen(),
-                  ),
-                );
+                splitView.setSecondary(createAdlistScreen(adlistBundle));
               }
             case 11:
               final clientBundle = context.read<RepositoryBundle?>();
               if (clientBundle != null) {
                 splitView.setSecondary(
-                  MultiProvider(
-                    providers: [
-                      ChangeNotifierProvider(
-                        create: (_) => ClientsViewModel(
-                          clientRepository: clientBundle.client,
-                        )..loadClients.run(),
-                      ),
-                      ChangeNotifierProvider(
-                        create: (_) =>
-                            GroupsViewModel(groupRepository: clientBundle.group)
-                              ..loadGroups.run(),
-                      ),
-                      ChangeNotifierProvider(
-                        create: (_) => DomainsViewModel(
-                          domainRepository: clientBundle.domain,
-                        )..loadDomains.run(),
-                      ),
-                      ChangeNotifierProvider(
-                        create: (_) => AdlistsViewModel(
-                          adListRepository: clientBundle.adlist,
-                        )..loadAdlists.run(),
-                      ),
-                      ChangeNotifierProvider(
-                        create: (_) => LocalDnsViewModel(
-                          localDnsRepository: clientBundle.localDns,
-                          networkRepository: clientBundle.network,
-                        ),
-                      ),
-                    ],
-                    child: const GroupClientScreen(),
-                  ),
+                  createGroupClientScreen(clientBundle),
                 );
               }
             case 6:
@@ -162,14 +109,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               if (apiVersion == 'v6') {
                 final bundle = context.read<RepositoryBundle?>();
                 if (bundle != null) {
-                  splitView.push(
-                    NetworkScreen(
-                      viewModel: NetworkViewModel(
-                        networkRepository: bundle.network,
-                        ftlRepository: bundle.ftl,
-                      )..loadDevices.run(),
-                    ),
-                  );
+                  splitView.push(createNetworkScreen(bundle));
                 }
               }
           }
@@ -334,9 +274,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               final server = context.read<ServersViewModel>().selectedServer;
               if (server == null) return;
               SplitView.of(context).setSecondary(
-                ServerInfoScreen(
-                  viewModel: ServerInfoViewModel(ftlRepository: bundle.ftl)
-                    ..loadServerInfo.run(),
+                createServerInfoScreen(
+                  bundle: bundle,
                   serverAlias: server.alias,
                   serverAddress: server.address,
                 ),
@@ -355,21 +294,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               final bundle = context.read<RepositoryBundle?>();
               if (bundle == null) return;
               SplitView.of(context).setSecondary(
-                MultiProvider(
-                  providers: [
-                    ChangeNotifierProvider(
-                      create: (_) =>
-                          AdlistsViewModel(adListRepository: bundle.adlist)
-                            ..loadAdlists.run(),
-                    ),
-                    ChangeNotifierProvider(
-                      create: (_) =>
-                          GroupsViewModel(groupRepository: bundle.group)
-                            ..loadGroups.run(),
-                    ),
-                  ],
-                  child: const AdlistScreen(),
-                ),
+                createAdlistScreen(bundle),
               );
             },
           ),
@@ -385,37 +310,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               final bundle = context.read<RepositoryBundle?>();
               if (bundle == null) return;
               SplitView.of(context).setSecondary(
-                MultiProvider(
-                  providers: [
-                    ChangeNotifierProvider(
-                      create: (_) =>
-                          ClientsViewModel(clientRepository: bundle.client)
-                            ..loadClients.run(),
-                    ),
-                    ChangeNotifierProvider(
-                      create: (_) =>
-                          GroupsViewModel(groupRepository: bundle.group)
-                            ..loadGroups.run(),
-                    ),
-                    ChangeNotifierProvider(
-                      create: (_) => DomainsViewModel(
-                        domainRepository: bundle.domain,
-                      )..loadDomains.run(),
-                    ),
-                    ChangeNotifierProvider(
-                      create: (_) =>
-                          AdlistsViewModel(adListRepository: bundle.adlist)
-                            ..loadAdlists.run(),
-                    ),
-                    ChangeNotifierProvider(
-                      create: (_) => LocalDnsViewModel(
-                        localDnsRepository: bundle.localDns,
-                        networkRepository: bundle.network,
-                      ),
-                    ),
-                  ],
-                  child: const GroupClientScreen(),
-                ),
+                createGroupClientScreen(bundle),
               );
             },
           ),

@@ -12,19 +12,12 @@ import 'package:pi_hole_client/ui/core/ui/modals/confirmation_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/viewmodel/dhcp_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/viewmodel/interface_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/viewmodel/local_dns_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/viewmodel/network_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/viewmodel/sessions_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/dhcp_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/find_domains_in_lists_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/interface_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/local_dns_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/network_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/sessions_screen_factory.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -384,11 +377,7 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => SessionsScreen(
-                      viewModel: SessionsViewModel(
-                        authRepository: bundle.auth,
-                      )..loadSessions.run(),
-                    ),
+                    builder: (_) => createSessionsScreen(bundle),
                   ),
                 ),
               ),
@@ -399,12 +388,7 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => DhcpScreen(
-                      viewModel: DhcpViewModel(
-                        dhcpRepository: bundle.dhcp,
-                        ftlRepository: bundle.ftl,
-                      )..loadLeases.run(),
-                    ),
+                    builder: (_) => createDhcpScreen(bundle),
                   ),
                 ),
               ),
@@ -415,12 +399,7 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => LocalDnsScreen(
-                      viewModel: LocalDnsViewModel(
-                        localDnsRepository: bundle.localDns,
-                        networkRepository: bundle.network,
-                      )..loadRecords.run(),
-                    ),
+                    builder: (_) => createLocalDnsScreen(bundle),
                   ),
                 ),
               ),
@@ -434,22 +413,7 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => MultiProvider(
-                      providers: [
-                        ChangeNotifierProvider(
-                          create: (_) => FindDomainsInListsViewModel(
-                            adListRepository: bundle.adlist,
-                            domainRepository: bundle.domain,
-                          ),
-                        ),
-                        ChangeNotifierProvider(
-                          create: (_) =>
-                              GroupsViewModel(groupRepository: bundle.group)
-                                ..loadGroups.run(),
-                        ),
-                      ],
-                      child: const FindDomainsInListsScreen(),
-                    ),
+                    builder: (_) => createFindDomainsInListsScreen(bundle),
                   ),
                 ),
               ),
@@ -460,11 +424,7 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => InterfaceScreen(
-                      viewModel: InterfaceViewModel(
-                        networkRepository: bundle.network,
-                      )..loadInterfaces.run(),
-                    ),
+                    builder: (_) => createInterfaceScreen(bundle),
                   ),
                 ),
               ),
@@ -475,12 +435,7 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => NetworkScreen(
-                      viewModel: NetworkViewModel(
-                        networkRepository: bundle.network,
-                        ftlRepository: bundle.ftl,
-                      )..loadDevices.run(),
-                    ),
+                    builder: (_) => createNetworkScreen(bundle),
                   ),
                 ),
               ),
