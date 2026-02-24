@@ -19,7 +19,7 @@ import 'package:provider/provider.dart';
 /// The settings list widget.
 ///
 /// On mobile, shown full-screen via the `/settings` route.
-/// On desktop, shown as the master pane inside [SettingsShell].
+/// On desktop, shown as the master pane inside `SettingsShell`.
 class SettingsWidget extends StatelessWidget {
   const SettingsWidget({super.key});
 
@@ -100,8 +100,9 @@ class SettingsWidget extends StatelessWidget {
           CustomListTile(
             leadingIcon: Icons.settings_rounded,
             label: AppLocalizations.of(context)!.advancedSetup,
-            description:
-                AppLocalizations.of(context)!.advancedAppSetupDescription,
+            description: AppLocalizations.of(
+              context,
+            )!.advancedAppSetupDescription,
             onTap: () => navigateToSetting(Routes.settingsAppAdvanced),
           ),
         ],
@@ -133,15 +134,17 @@ class SettingsWidget extends StatelessWidget {
           CustomListTile(
             leadingIcon: Icons.group_rounded,
             label: AppLocalizations.of(context)!.groupsAndClients,
-            description:
-                AppLocalizations.of(context)!.groupsAndClientsDescription,
+            description: AppLocalizations.of(
+              context,
+            )!.groupsAndClientsDescription,
             onTap: () => navigateToSetting(Routes.settingsServerGroupClient),
           ),
           CustomListTile(
             leadingIcon: Icons.build_rounded,
             label: AppLocalizations.of(context)!.advancedSetup,
-            description:
-                AppLocalizations.of(context)!.advancedServerSetupDescription,
+            description: AppLocalizations.of(
+              context,
+            )!.advancedServerSetupDescription,
             onTap: () => navigateToSetting(Routes.settingsServerAdvanced),
           ),
         ],
@@ -216,43 +219,46 @@ class SettingsWidget extends StatelessWidget {
     }
 
     return Scaffold(
-      body: SafeArea(
-        child: NestedScrollView(
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              SliverOverlapAbsorber(
-                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                  context,
-                ),
-                sliver: SliverAppBar.medium(
-                  floating: true,
-                  centerTitle: false,
-                  forceElevated: innerBoxIsScrolled,
-                  title: Text(AppLocalizations.of(context)!.settings),
-                ),
-              ),
-            ];
-          },
-          body: SafeArea(
-            top: false,
-            bottom: false,
-            child: Builder(
-              builder: (context) => CustomScrollView(
-                slivers: [
-                  SliverOverlapInjector(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                      context,
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: width > ResponsiveConstants.large
+                  ? SliverAppBar(
+                      pinned: true,
+                      centerTitle: false,
+                      forceElevated: innerBoxIsScrolled,
+                      title: Text(AppLocalizations.of(context)!.settings),
+                    )
+                  : SliverAppBar.medium(
+                      floating: true,
+                      centerTitle: false,
+                      forceElevated: innerBoxIsScrolled,
+                      title: Text(AppLocalizations.of(context)!.settings),
                     ),
+            ),
+          ];
+        },
+        body: SafeArea(
+          top: false,
+          bottom: false,
+          child: Builder(
+            builder: (context) => CustomScrollView(
+              slivers: [
+                SliverOverlapInjector(
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                    context,
                   ),
-                  SliverList.list(
-                    children: [
-                      appSettings(context),
-                      serverSettings(context),
-                      aboutSettings(context),
-                    ],
-                  ),
-                ],
-              ),
+                ),
+                SliverList.list(
+                  children: [
+                    appSettings(context),
+                    serverSettings(context),
+                    aboutSettings(context),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
