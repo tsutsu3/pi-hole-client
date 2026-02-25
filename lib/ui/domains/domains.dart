@@ -45,14 +45,6 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
   void initState() {
     super.initState();
 
-    Future.microtask(() async {
-      widget.viewModel.loadDomains.run();
-
-      if (!mounted) return;
-      final groupsViewModel = context.read<GroupsViewModel>();
-      await groupsViewModel.loadGroups.runAsync();
-    });
-
     widget.viewModel.setSelectedTab(0);
     tabController = TabController(length: 2, vsync: this);
   }

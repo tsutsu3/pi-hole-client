@@ -12,10 +12,16 @@ import 'package:pi_hole_client/ui/logs/widgets/log_details_screen.dart';
 import 'package:pi_hole_client/ui/logs/widgets/logs_app_bar.dart';
 import 'package:pi_hole_client/ui/logs/widgets/logs_content_view.dart';
 import 'package:pi_hole_client/ui/logs/widgets/logs_filters_modal.dart';
-import 'package:provider/provider.dart';
 
 class Logs extends StatefulWidget {
-  const Logs({super.key});
+  const Logs({
+    required this.logsViewModel,
+    required this.appConfigViewModel,
+    super.key,
+  });
+
+  final LogsViewModel logsViewModel;
+  final AppConfigViewModel appConfigViewModel;
 
   @override
   State<Logs> createState() => _LogsState();
@@ -41,10 +47,10 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
 
     scrollController = ScrollController()..addListener(_scrollListener);
 
-    _appConfigViewModel = context.read<AppConfigViewModel>();
+    _appConfigViewModel = widget.appConfigViewModel;
     _appConfigViewModel.addListener(_onAppConfigChanged);
 
-    _logsViewModel = context.read<LogsViewModel>();
+    _logsViewModel = widget.logsViewModel;
 
     logActSvc = LogActionsService(
       logsViewModel: _logsViewModel,
@@ -114,7 +120,14 @@ class _LogsState extends State<Logs> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final logsViewModel = context.watch<LogsViewModel>();
+    return ListenableBuilder(
+      listenable: widget.logsViewModel,
+      builder: (context, _) => _buildContent(context),
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
+    final logsViewModel = widget.logsViewModel;
 
     final width = MediaQuery.of(context).size.width;
     final statusBarHeight = MediaQuery.of(context).viewPadding.top;

@@ -29,7 +29,10 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Logs()));
+      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+              logsViewModel: testSetup.mockLogsViewModel,
+              appConfigViewModel: testSetup.mockConfigProvider,
+            )));
 
       // Show logs screen
       expect(find.byType(Logs), findsOneWidget);
@@ -55,7 +58,10 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Logs()));
+      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+              logsViewModel: testSetup.mockLogsViewModel,
+              appConfigViewModel: testSetup.mockConfigProvider,
+            )));
 
       expect(find.byType(Logs), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
@@ -79,7 +85,10 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Logs()));
+      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+              logsViewModel: testSetup.mockLogsViewModel,
+              appConfigViewModel: testSetup.mockConfigProvider,
+            )));
 
       // Show logs screen with detail pane
       expect(find.byType(Logs), findsOneWidget);
@@ -107,7 +116,10 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Logs()));
+      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+              logsViewModel: testSetup.mockLogsViewModel,
+              appConfigViewModel: testSetup.mockConfigProvider,
+            )));
 
       expect(find.byType(Logs), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
@@ -139,7 +151,10 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Logs()));
+      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+              logsViewModel: testSetup.mockLogsViewModel,
+              appConfigViewModel: testSetup.mockConfigProvider,
+            )));
 
       // show logs screen
       expect(find.byType(Logs), findsOneWidget);
@@ -180,7 +195,10 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Logs()));
+      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+              logsViewModel: testSetup.mockLogsViewModel,
+              appConfigViewModel: testSetup.mockConfigProvider,
+            )));
 
       // show logs screen
       expect(find.byType(Logs), findsOneWidget);
@@ -221,7 +239,10 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Logs()));
+      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+              logsViewModel: testSetup.mockLogsViewModel,
+              appConfigViewModel: testSetup.mockConfigProvider,
+            )));
 
       // show logs screen
       expect(find.byType(Logs), findsOneWidget);
@@ -260,7 +281,10 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Logs()));
+      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+              logsViewModel: testSetup.mockLogsViewModel,
+              appConfigViewModel: testSetup.mockConfigProvider,
+            )));
 
       expect(find.byType(Logs), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
@@ -301,7 +325,10 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Logs()));
+      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+              logsViewModel: testSetup.mockLogsViewModel,
+              appConfigViewModel: testSetup.mockConfigProvider,
+            )));
 
       // Show logs screen
       expect(find.byType(Logs), findsOneWidget);
@@ -327,7 +354,10 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const Logs()));
+      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+              logsViewModel: testSetup.mockLogsViewModel,
+              appConfigViewModel: testSetup.mockConfigProvider,
+            )));
 
       expect(find.byType(Logs), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);

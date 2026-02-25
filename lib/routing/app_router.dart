@@ -5,9 +5,11 @@ import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/app_logs/app_logs.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/domains/domains_page.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/domains/domains_screen_factory.dart';
 import 'package:pi_hole_client/ui/home/home.dart';
 import 'package:pi_hole_client/ui/logs/logs.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/servers.dart';
 import 'package:pi_hole_client/ui/settings/about/app_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';
@@ -103,7 +105,11 @@ GoRouter createAppRouter({
                   GoRoute(
                     path: '/logs',
                     name: Routes.logs,
-                    builder: (context, state) => const Logs(),
+                    builder: (context, state) => Logs(
+                      logsViewModel: context.read<LogsViewModel>(),
+                      appConfigViewModel:
+                          context.read<AppConfigViewModel>(),
+                    ),
                   ),
                 ],
               ),
@@ -114,7 +120,14 @@ GoRouter createAppRouter({
                   GoRoute(
                     path: '/domains',
                     name: Routes.domains,
-                    builder: (context, state) => const DomainsPage(),
+                    builder: (context, state) {
+                      final bundle = context.watch<RepositoryBundle?>();
+                      if (bundle == null) return const SizedBox.shrink();
+                      return KeyedSubtree(
+                        key: ObjectKey(bundle),
+                        child: createDomainsScreen(bundle),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -330,9 +343,14 @@ class _HomeOrConnect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasServer = context.select<ServersViewModel, bool>(
-      (vm) => vm.selectedServer != null,
-    );
-    return hasServer ? const Home() : const ServersPage();
+    final serversViewModel = context.watch<ServersViewModel>();
+    if (serversViewModel.selectedServer != null) {
+      return Home(
+        serversViewModel: serversViewModel,
+        appConfigViewModel: context.read<AppConfigViewModel>(),
+        statusViewModel: context.read<StatusViewModel>(),
+      );
+    }
+    return const ServersPage();
   }
 }

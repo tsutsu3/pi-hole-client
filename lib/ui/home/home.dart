@@ -11,10 +11,17 @@ import 'package:pi_hole_client/ui/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_tiles.dart';
-import 'package:provider/provider.dart';
-
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({
+    required this.serversViewModel,
+    required this.appConfigViewModel,
+    required this.statusViewModel,
+    super.key,
+  });
+
+  final ServersViewModel serversViewModel;
+  final AppConfigViewModel appConfigViewModel;
+  final StatusViewModel statusViewModel;
 
   @override
   State<Home> createState() => _HomeState();
@@ -56,19 +63,21 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final serversViewModel = context.watch<ServersViewModel>();
-
-    final showingSnackbar = context.select<AppConfigViewModel, bool>(
-      (p) => p.showingSnackbar,
+    return ListenableBuilder(
+      listenable: Listenable.merge([
+        widget.serversViewModel,
+        widget.appConfigViewModel,
+        widget.statusViewModel,
+      ]),
+      builder: (context, _) => _buildContent(context),
     );
+  }
 
-    final statusLoading = context.select<StatusViewModel, LoadStatus>(
-      (provider) => provider.getStatusLoading,
-    );
-
-    final isConnectionAttemptFinished = context.select<StatusViewModel, bool>(
-      (p) => !p.isServerLoading,
-    );
+  Widget _buildContent(BuildContext context) {
+    final serversViewModel = widget.serversViewModel;
+    final showingSnackbar = widget.appConfigViewModel.showingSnackbar;
+    final statusLoading = widget.statusViewModel.getStatusLoading;
+    final isConnectionAttemptFinished = !widget.statusViewModel.isServerLoading;
 
     final width = MediaQuery.of(context).size.width;
 
