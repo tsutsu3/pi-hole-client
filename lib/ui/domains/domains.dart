@@ -12,28 +12,16 @@ import 'package:pi_hole_client/ui/domains/widgets/domains_list.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-class DomainLists extends StatelessWidget {
+class DomainLists extends StatefulWidget {
   const DomainLists({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final viewModel = Provider.of<DomainsViewModel>(context, listen: false);
-
-    return DomainListsWidget(viewModel: viewModel);
-  }
+  State<DomainLists> createState() => _DomainListsState();
 }
 
-class DomainListsWidget extends StatefulWidget {
-  const DomainListsWidget({required this.viewModel, super.key});
-
-  final DomainsViewModel viewModel;
-
-  @override
-  State<DomainListsWidget> createState() => _DomainListsWidgetState();
-}
-
-class _DomainListsWidgetState extends State<DomainListsWidget>
+class _DomainListsState extends State<DomainLists>
     with TickerProviderStateMixin {
+  bool _initialized = false;
   late TabController tabController;
   final ScrollController scrollController = ScrollController();
 
@@ -45,8 +33,16 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
   void initState() {
     super.initState();
 
-    widget.viewModel.setSelectedTab(0);
     tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_initialized) {
+      _initialized = true;
+      Provider.of<DomainsViewModel>(context, listen: false).setSelectedTab(0);
+    }
   }
 
   @override
