@@ -1,24 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/widgets/clients_filters_modal.dart';
 import 'package:pi_hole_client/ui/logs/widgets/logs_filters_modal.dart';
 import 'package:pi_hole_client/ui/logs/widgets/status_filters_modal.dart';
 
-import '../../helpers.dart';
+import '../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../../testing/fakes/repositories/local/fake_server_repository.dart';
+import '../../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
-  group('Query logs screen tests', () {
-    late TestSetupHelper testSetup;
+  group('Query logs filter modal tests', () {
+    late AppConfigViewModel appConfigViewModel;
+    late ServersViewModel serversViewModel;
+    late LogsViewModel logsViewModel;
 
     setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+      final serverRepo = FakeServerRepository();
+      appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
+      serversViewModel = ServersViewModel(serverRepo);
+      final servers = await serverRepo.fetchServers();
+      await serversViewModel.saveFromDb(servers.getOrThrow());
+      logsViewModel = LogsViewModel();
+      logsViewModel.setClients(['localhost', '192.168.100.2']);
     });
 
-    testWidgets('should show logs screen on mobile layout', (
+    testWidgets('should show logs filter modal', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -30,13 +41,16 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           LogsFiltersModal(
             statusBarHeight: 24.0,
             bottomNavBarHeight: 48.0,
             filterLogs: () {},
             window: true,
           ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
         ),
       );
 
@@ -49,22 +63,22 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(testSetup.mockLogsViewModel.startTime).thenReturn(null);
-      when(testSetup.mockLogsViewModel.endTime).thenReturn(null);
-
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           LogsFiltersModal(
             statusBarHeight: 24.0,
             bottomNavBarHeight: 48.0,
             filterLogs: () {},
             window: true,
           ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
         ),
       );
 
@@ -84,7 +98,7 @@ void main() async {
       expect(find.text('Select start time'), findsOneWidget);
       expect(find.text('OK'), findsOneWidget);
       await tester.tap(find.text('OK'));
-      when(testSetup.mockLogsViewModel.startTime).thenReturn(DateTime.now());
+      // Real LogsViewModel updates startTime via setStartTime() called by the modal
       await tester.pumpAndSettle();
 
       expect(find.text('Not selected'), findsOneWidget);
@@ -102,13 +116,16 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           LogsFiltersModal(
             statusBarHeight: 24.0,
             bottomNavBarHeight: 48.0,
             filterLogs: () {},
             window: true,
           ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
         ),
       );
 
@@ -137,13 +154,16 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           LogsFiltersModal(
             statusBarHeight: 24.0,
             bottomNavBarHeight: 48.0,
             filterLogs: () {},
             window: true,
           ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
         ),
       );
 

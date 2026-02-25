@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/widgets/status_filters_modal.dart';
 
-import '../../helpers.dart';
+import '../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../../testing/fakes/repositories/local/fake_server_repository.dart';
+import '../../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
-  group('Client filter modal tests', () {
-    late TestSetupHelper testSetup;
+  group('Status filter modal tests', () {
+    late AppConfigViewModel appConfigViewModel;
+    late ServersViewModel serversViewModel;
+    late LogsViewModel logsViewModel;
 
     setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+      final serverRepo = FakeServerRepository();
+      appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
+      serversViewModel = ServersViewModel(serverRepo);
+      final servers = await serverRepo.fetchServers();
+      await serversViewModel.saveFromDb(servers.getOrThrow());
+      logsViewModel = LogsViewModel();
     });
 
     testWidgets('should uncheck all filter', (WidgetTester tester) async {
@@ -25,13 +36,16 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           const StatusFiltersModal(
             statusBarHeight: 24,
             bottomNavBarHeight: 48,
             statusSelected: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
             window: false,
           ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
         ),
       );
 
@@ -47,7 +61,7 @@ void main() async {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('should check all clients', (WidgetTester tester) async {
+    testWidgets('should check all statuses', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -57,13 +71,16 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           const StatusFiltersModal(
             statusBarHeight: 24,
             bottomNavBarHeight: 48,
             statusSelected: [3, 4],
             window: false,
           ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
         ),
       );
 
