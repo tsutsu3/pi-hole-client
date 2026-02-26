@@ -4,7 +4,9 @@ import 'package:pi_hole_client/ui/core/model/app_screens.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/layout/bottom_nav_bar.dart';
 import 'package:pi_hole_client/ui/core/ui/layout/navigation_rail.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 /// The main application shell that provides NavigationRail (desktop)
@@ -49,6 +51,15 @@ class AppShell extends StatelessWidget {
 
     void onTabChanged(int displayedIdx) {
       final branchIdx = branchIndices[displayedIdx];
+
+      // Keep AppConfigViewModel.selectedTab in sync for live-log config
+      context.read<AppConfigViewModel>().setSelectedTab(branchIdx);
+
+      // Reset log selection when navigating away from logs
+      if (hasSelectedServer && branchIdx != logsIndex) {
+        context.read<LogsViewModel>().setSelectedLog(null);
+      }
+
       navigationShell.goBranch(
         branchIdx,
         initialLocation: branchIdx == navigationShell.currentIndex,

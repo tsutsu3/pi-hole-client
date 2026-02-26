@@ -51,7 +51,6 @@ void main() async {
     late AppConfigViewModel appConfigViewModel;
     late FakeServersViewModel serversViewModel;
     late FakeLogsViewModel logsViewModel;
-
     setUp(() {
       final repo = FakeAppConfigRepository()..importantInfoReadenValue = 1;
       appConfigViewModel = AppConfigViewModel(repo);

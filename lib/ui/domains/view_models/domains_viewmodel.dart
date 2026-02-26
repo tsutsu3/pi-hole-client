@@ -26,6 +26,7 @@ class DomainsViewModel extends ChangeNotifier {
   List<Domain> _filteredWhitelistDomains = [];
   List<Domain> _filteredBlacklistDomains = [];
   int? _selectedTab;
+  Domain? _selectedDomain;
   String _searchTerm = '';
   bool _searchMode = false;
   int? _groupFilter;
@@ -36,6 +37,7 @@ class DomainsViewModel extends ChangeNotifier {
   List<Domain> get filteredWhitelistDomains => _filteredWhitelistDomains;
   List<Domain> get filteredBlacklistDomains => _filteredBlacklistDomains;
   int? get selectedTab => _selectedTab;
+  Domain? get selectedDomain => _selectedDomain;
   String get searchTerm => _searchTerm;
   bool get searchMode => _searchMode;
   int? get groupFilter => _groupFilter;
@@ -115,6 +117,11 @@ class DomainsViewModel extends ChangeNotifier {
   // --- Filter methods ---
   void setSelectedTab(int? tab) {
     _selectedTab = tab;
+  }
+
+  void setSelectedDomain(Domain? domain) {
+    _selectedDomain = domain;
+    notifyListeners();
   }
 
   void setSearchMode(bool value) {

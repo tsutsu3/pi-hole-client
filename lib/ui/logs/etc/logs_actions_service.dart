@@ -69,13 +69,15 @@ class LogActionsService {
     if (!context.mounted) return;
 
     result.fold(
-      (_) => showSuccessSnackBar(
-        context: context,
-        appConfigViewModel: appConfigViewModel,
-        label: list == 'white'
-            ? loc.domainWhitelistAdded
-            : loc.domainBlacklistAdded,
-      ),
+      (_) {
+        showSuccessSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: list == 'white'
+              ? loc.domainWhitelistAdded
+              : loc.domainBlacklistAdded,
+        );
+      },
       (_) => showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
