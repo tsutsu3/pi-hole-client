@@ -39,6 +39,7 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
 
   late final AppConfigViewModel _appConfigViewModel;
   late final LogsViewModel _logsViewModel;
+  late int _lastKnownTab;
 
   @override
   void initState() {
@@ -48,6 +49,7 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
     scrollController = ScrollController()..addListener(_scrollListener);
 
     _appConfigViewModel = widget.appConfigViewModel;
+    _lastKnownTab = _appConfigViewModel.selectedTab;
     _appConfigViewModel.addListener(_onAppConfigChanged);
 
     _logsViewModel = widget.logsViewModel;
@@ -58,9 +60,7 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
       appConfigViewModel: _appConfigViewModel,
     );
 
-    _logsViewModel.initScreen(
-      logsPerQuery: _appConfigViewModel.logsPerQuery,
-    );
+    _logsViewModel.initScreen(logsPerQuery: _appConfigViewModel.logsPerQuery);
     _syncLiveConfig();
   }
 
@@ -96,6 +96,18 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
 
   void _onAppConfigChanged() {
     if (!mounted) return;
+
+    final currentTab = _appConfigViewModel.selectedTab;
+    if (currentTab != _lastKnownTab) {
+      final previousTab = _lastKnownTab;
+      _lastKnownTab = currentTab;
+
+      // Reload logs when returning to the logs tab
+      if (previousTab != _logsTabIndex && currentTab == _logsTabIndex) {
+        _logsViewModel.initializeLoad();
+      }
+    }
+
     _syncLiveConfig();
   }
 
