@@ -70,7 +70,11 @@ class AppShell extends StatelessWidget {
     // Hide it for sub-routes (e.g. /settings/app/theme) so they appear full-screen.
     final currentPath =
         GoRouterState.of(context).uri.path;
-    final showBottomNav = _branchRootPaths.contains(currentPath);
+    final detailOpen = context.select<AppConfigViewModel, bool>(
+      (vm) => vm.detailScreenOpen,
+    );
+    final showBottomNav =
+        _branchRootPaths.contains(currentPath) && !detailOpen;
 
     if (width > ResponsiveConstants.large) {
       // Desktop: NavigationRail + content

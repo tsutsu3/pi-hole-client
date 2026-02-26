@@ -138,6 +138,7 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
     void showLogDetails(Log log) {
       logsViewModel.setSelectedLog(log);
       if (width <= ResponsiveConstants.large) {
+        _appConfigViewModel.setDetailScreenOpen(true);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -146,7 +147,7 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
               whiteBlackList: logActSvc.whiteBlackList,
             ),
           ),
-        );
+        ).then((_) => _appConfigViewModel.setDetailScreenOpen(false));
       }
     }
 

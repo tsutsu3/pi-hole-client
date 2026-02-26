@@ -14,6 +14,7 @@ class AppConfigViewModel with ChangeNotifier {
   AppConfigViewModel(this._repository);
 
   bool _showingSnackbar = false;
+  bool _detailScreenOpen = false;
   int _selectedTab = 0;
   AndroidDeviceInfo? _androidDeviceInfo;
   IosDeviceInfo? _iosDeviceInfo;
@@ -174,6 +175,13 @@ class AppConfigViewModel with ChangeNotifier {
 
   void setShowingSnackbar(bool status) {
     _showingSnackbar = status;
+    notifyListeners();
+  }
+
+  bool get detailScreenOpen => _detailScreenOpen;
+
+  void setDetailScreenOpen(bool value) {
+    _detailScreenOpen = value;
     notifyListeners();
   }
 

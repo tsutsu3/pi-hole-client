@@ -210,6 +210,7 @@ class _DomainsListState extends State<DomainsList> {
                   widget.onDomainSelected(d);
                   if (MediaQuery.of(context).size.width <=
                       ResponsiveConstants.large) {
+                    appConfigViewModel.setDetailScreenOpen(true);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -223,7 +224,9 @@ class _DomainsListState extends State<DomainsList> {
                           ),
                         ),
                       ),
-                    );
+                    ).then((_) {
+                      appConfigViewModel.setDetailScreenOpen(false);
+                    });
                   }
                 },
                 colors: appConfigViewModel.colors,
