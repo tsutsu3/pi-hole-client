@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/config/app_screens.dart';
-import 'package:pi_hole_client/ui/core/responsive.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/layout/bottom_nav_bar.dart';
 import 'package:pi_hole_client/ui/core/ui/layout/navigation_rail.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';

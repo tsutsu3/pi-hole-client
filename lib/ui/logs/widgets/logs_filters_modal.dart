@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/ui/core/formats.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/responsive.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/formats.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/widgets/clients_filters_modal.dart';
 import 'package:pi_hole_client/ui/logs/widgets/status_filters_modal.dart';

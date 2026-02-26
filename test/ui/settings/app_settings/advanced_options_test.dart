@@ -6,9 +6,9 @@ import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v6_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/widgets/advanced_options_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/logs_quantity_load_screen.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/widgets/advanced_options_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';

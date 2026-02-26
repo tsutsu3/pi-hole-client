@@ -8,8 +8,8 @@ import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
-import 'package:pi_hole_client/ui/statistics/widgets/statistics_screen.dart';
 import 'package:pi_hole_client/ui/statistics/widgets/statistics_list.dart';
+import 'package:pi_hole_client/ui/statistics/widgets/statistics_screen.dart';
 import 'package:pi_hole_client/ui/statistics/widgets/statistics_triple_column.dart';
 import 'package:pie_chart/pie_chart.dart';
 

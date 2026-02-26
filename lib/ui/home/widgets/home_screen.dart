@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/ui/core/actions/refresh_server_status.dart';
 import 'package:pi_hole_client/ui/core/actions/server_management.dart';
-import 'package:pi_hole_client/ui/core/responsive.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';

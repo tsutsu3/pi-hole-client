@@ -2,11 +2,11 @@ import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface/widgets/interface_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface/view_models/interface_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface/widgets/address_detail_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface/widgets/interface_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface/widgets/more_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface/widgets/statistics_detail_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface/view_models/interface_viewmodel.dart';
 
 import '../../../../../../testing/fakes/repositories/api/fake_network_repository.dart';
 import '../../../../../../testing/test_app.dart';

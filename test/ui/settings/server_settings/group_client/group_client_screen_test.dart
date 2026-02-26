@@ -7,13 +7,13 @@ import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/group_client_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/add_client_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/add_group_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/client_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/clients_list.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/edit_client_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/edit_group_modal.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/group_client_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/group_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/groups_list.dart';
 

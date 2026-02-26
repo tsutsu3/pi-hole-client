@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info/view_models/server_info_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/server_info/widgets/server_info_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info/widgets/host_information_section.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info/widgets/performance_usage_section.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info/widgets/pihole_version_section.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info/widgets/server_connection_section.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/server_info/widgets/server_info_screen.dart';
 
 import '../../../../../testing/fakes/repositories/api/fake_ftl_repository.dart';
 import '../../../../../testing/test_app.dart';

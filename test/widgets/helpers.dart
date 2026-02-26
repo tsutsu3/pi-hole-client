@@ -43,9 +43,9 @@ import 'package:pi_hole_client/domain/model/metrics/queries.dart' as logs_model;
 import 'package:pi_hole_client/domain/model/network/network.dart'
     show DeviceOption;
 import 'package:pi_hole_client/domain/model/server/server.dart';
-import 'package:pi_hole_client/ui/core/globals.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/globals.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/local_dns_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';

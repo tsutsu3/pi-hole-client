@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network/widgets/network_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network/widgets/network_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network/view_models/network_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network/widgets/network_detail_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network/widgets/network_screen.dart';
 
 import '../../../../../../testing/fakes/repositories/api/fake_ftl_repository.dart';
 import '../../../../../../testing/fakes/repositories/api/fake_network_repository.dart';

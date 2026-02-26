@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/auth/auth.dart';
-import 'package:pi_hole_client/ui/core/formats.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/formats.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/utils/format.dart';
 
