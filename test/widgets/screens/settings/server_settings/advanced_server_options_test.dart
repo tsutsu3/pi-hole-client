@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options_screen.dart';
 import '../../../helpers.dart';
 
 void main() async {
@@ -28,10 +28,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Sessions'), findsOneWidget);
@@ -51,10 +51,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('DHCP'), findsOneWidget);
@@ -74,10 +74,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Local DNS'), findsOneWidget);
@@ -97,10 +97,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Interface'), findsOneWidget);
@@ -120,10 +120,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Network'), findsOneWidget);
@@ -141,10 +141,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Disable query logging'));
@@ -171,10 +171,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Enable query logging'));
@@ -201,10 +201,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Please try again later.'), findsOneWidget);
@@ -224,10 +224,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Disable query logging'));
@@ -255,10 +255,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Enable query logging'));
@@ -283,10 +283,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Restart DNS resolver'));
@@ -313,10 +313,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Restart DNS resolver'));
@@ -341,10 +341,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Flush network table'));
@@ -371,10 +371,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Flush network table'));
@@ -397,10 +397,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Flush logs (last 24 hours)'));
@@ -425,10 +425,10 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptions()),
+        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
       );
 
-      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Flush logs (last 24 hours)'));

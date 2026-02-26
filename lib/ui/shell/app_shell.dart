@@ -4,7 +4,7 @@ import 'package:pi_hole_client/config/app_screens.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/layout/bottom_nav_bar.dart';
 import 'package:pi_hole_client/ui/core/ui/layout/navigation_rail.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 /// The main application shell that provides NavigationRail (desktop)

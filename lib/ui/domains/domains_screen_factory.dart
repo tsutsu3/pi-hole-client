@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
-import 'package:pi_hole_client/ui/domains/domains.dart';
-import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
+import 'package:pi_hole_client/ui/domains/domains_screen.dart';
+import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/view_models/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 Widget createDomainsScreen(RepositoryBundle bundle) {
@@ -19,6 +19,6 @@ Widget createDomainsScreen(RepositoryBundle bundle) {
               ..loadGroups.run(),
       ),
     ],
-    child: const DomainLists(),
+    child: const DomainsScreen(),
   );
 }

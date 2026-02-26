@@ -4,8 +4,8 @@ import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 Future<void> enableServer(BuildContext context) async {

@@ -6,7 +6,7 @@ import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart'
     as domain_model;
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
-import 'package:pi_hole_client/ui/domains/domains.dart';
+import 'package:pi_hole_client/ui/domains/domains_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/edit_domain_modal.dart';
 
@@ -59,7 +59,7 @@ final _blackDomains = [
 void main() async {
   await initializeApp();
 
-  group('DomainLists Widget Tests', () {
+  group('DomainsScreen Widget Tests', () {
     late TestSetupHelper testSetup;
 
     setUp(() async {
@@ -89,10 +89,10 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+        await tester.pumpWidget(testSetup.buildTestWidget(const DomainsScreen()));
 
         // Show whiltelist domains screen
-        expect(find.byType(DomainLists), findsOneWidget);
+        expect(find.byType(DomainsScreen), findsOneWidget);
         await tester.pumpAndSettle();
         expect(find.text('white01.example.com'), findsOneWidget);
         expect(find.text('white02.example.com'), findsOneWidget);
@@ -121,7 +121,7 @@ void main() async {
         await tester.pumpAndSettle();
 
         // Show whiltelist domains screen
-        expect(find.byType(DomainLists), findsOneWidget);
+        expect(find.byType(DomainsScreen), findsOneWidget);
       },
     );
 
@@ -147,10 +147,10 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainsScreen()));
 
       // Show whiltelist domains screen
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
       await tester.pumpAndSettle();
       expect(find.text('white01.example.com'), findsOneWidget);
       expect(find.text('white02.example.com'), findsOneWidget);
@@ -177,7 +177,7 @@ void main() async {
       expect(find.text('Domain removed successfully'), findsWidgets);
 
       // Show whiltelist domains screen
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
     });
 
     testWidgets('should filter domains list by search term', (
@@ -206,9 +206,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainsScreen()));
 
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.byIcon(Icons.close_rounded), findsOneWidget);
@@ -227,10 +227,10 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainsScreen()));
 
       // Show whiltelist domains screen
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
       await tester.pumpAndSettle();
       expect(find.text('Domains'), findsOneWidget);
 
@@ -245,7 +245,7 @@ void main() async {
 
       // Show whiltelist domains screen
       expect(find.text('Domain added successfully'), findsWidgets);
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
     });
 
     testWidgets('should add a top TLD domain', (WidgetTester tester) async {
@@ -257,10 +257,10 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainsScreen()));
 
       // Show whiltelist domains screen
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
       await tester.pumpAndSettle();
       expect(find.text('Domains'), findsOneWidget);
 
@@ -279,7 +279,7 @@ void main() async {
 
       // Show whiltelist domains screen
       expect(find.text('Domain added successfully'), findsWidgets);
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
     });
 
     testWidgets('should add a top TLD domain with leading dot', (
@@ -293,10 +293,10 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainsScreen()));
 
       // Show whiltelist domains screen
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
       await tester.pumpAndSettle();
       expect(find.text('Domains'), findsOneWidget);
 
@@ -315,7 +315,7 @@ void main() async {
 
       // Show whiltelist domains screen
       expect(find.text('Domain added successfully'), findsWidgets);
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
     });
 
     testWidgets('should show error loading domains list', (
@@ -333,9 +333,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainsScreen()));
 
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
       expect(find.text("Domains list couldn't be loaded"), findsOneWidget);
 
       await tester.pumpAndSettle();
@@ -354,9 +354,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainsScreen()));
 
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
       expect(find.text('Loading domains...'), findsOneWidget);
 
       // Flush pending timers from MockCommand (needs positive duration
@@ -373,9 +373,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainsScreen()));
 
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
       await tester.pumpAndSettle();
 
       expect(find.text('example.com'), findsOneWidget);
@@ -400,9 +400,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainsScreen()));
 
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
       await tester.pumpAndSettle();
 
       expect(find.text('example.com'), findsOneWidget);
@@ -435,9 +435,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainsScreen()));
 
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
       await tester.pumpAndSettle();
 
       expect(find.text('example.com'), findsOneWidget);
@@ -478,9 +478,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainsScreen()));
 
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
       await tester.pumpAndSettle();
 
       expect(find.text('example.com'), findsOneWidget);
@@ -507,9 +507,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainsScreen()));
 
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
       await tester.pumpAndSettle();
 
       expect(find.text('example.com'), findsOneWidget);
@@ -544,9 +544,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainsScreen()));
 
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
       await tester.pumpAndSettle();
 
       expect(find.text('example.com'), findsOneWidget);
@@ -570,7 +570,7 @@ void main() async {
     });
   });
 
-  group('DomainLists Widget Tests (v5)', () {
+  group('DomainsScreen Widget Tests (v5)', () {
     late TestSetupHelper testSetup;
 
     setUp(() async {
@@ -587,9 +587,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainsScreen()));
 
-      expect(find.byType(DomainLists), findsOneWidget);
+      expect(find.byType(DomainsScreen), findsOneWidget);
       await tester.pumpAndSettle();
 
       expect(find.text('example.com'), findsOneWidget);

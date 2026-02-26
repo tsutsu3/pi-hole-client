@@ -4,8 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/mapper/v5/metrics_mapper.dart';
 import 'package:pi_hole_client/data/model/v5/over_time_data.dart' as v5_model;
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/clients/clients_last_hours_bar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/clients/clients_last_hours_line.dart';
@@ -13,7 +13,7 @@ import 'package:pi_hole_client/ui/home/widgets/home_charts/queries/queries_last_
 import 'package:pi_hole_client/ui/home/widgets/home_charts/queries/queries_last_hours_line.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/skeleton/bar_chart_skeleton.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/skeleton/line_chart_skeleton.dart';
-import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
 
 import '../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../../testing/fakes/repositories/local/fake_server_repository.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/ui/logs/logs.dart';
+import 'package:pi_hole_client/ui/logs/logs_screen.dart';
 import 'package:pi_hole_client/ui/logs/widgets/logs_filters_modal.dart';
 
 import '../../helpers.dart' show TestSetupHelper, initializeApp, testLogsList;
@@ -29,13 +29,13 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
               logsViewModel: testSetup.mockLogsViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
             )));
 
       // Show logs screen
-      expect(find.byType(Logs), findsOneWidget);
+      expect(find.byType(LogsScreen), findsOneWidget);
       await tester.pumpAndSettle();
       expect(find.text('Query logs'), findsOneWidget);
       expect(find.text('white.example.com'), findsWidgets);
@@ -58,12 +58,12 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
               logsViewModel: testSetup.mockLogsViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
             )));
 
-      expect(find.byType(Logs), findsOneWidget);
+      expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
       await tester.pumpAndSettle();
       expect(find.text("Logs couldn't be loaded"), findsWidgets);
@@ -85,13 +85,13 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
               logsViewModel: testSetup.mockLogsViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
             )));
 
       // Show logs screen with detail pane
-      expect(find.byType(Logs), findsOneWidget);
+      expect(find.byType(LogsScreen), findsOneWidget);
       await tester.pumpAndSettle();
       expect(find.text('Query logs'), findsOneWidget);
       expect(find.text('white.example.com'), findsWidgets);
@@ -104,7 +104,7 @@ void main() async {
 
       // Return to logs screen (Not raise Exception)
       expect(find.text('Domain added to blacklist.'), findsWidgets);
-      expect(find.byType(Logs), findsOneWidget);
+      expect(find.byType(LogsScreen), findsOneWidget);
     });
 
     testWidgets('should search logs', (WidgetTester tester) async {
@@ -116,12 +116,12 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
               logsViewModel: testSetup.mockLogsViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
             )));
 
-      expect(find.byType(Logs), findsOneWidget);
+      expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
       await tester.pumpAndSettle();
       expect(find.text('white.example.com'), findsWidgets);
@@ -151,13 +151,13 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
               logsViewModel: testSetup.mockLogsViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
             )));
 
       // show logs screen
-      expect(find.byType(Logs), findsOneWidget);
+      expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
       await tester.pumpAndSettle();
 
@@ -195,13 +195,13 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
               logsViewModel: testSetup.mockLogsViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
             )));
 
       // show logs screen
-      expect(find.byType(Logs), findsOneWidget);
+      expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
       await tester.pumpAndSettle();
 
@@ -239,13 +239,13 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
               logsViewModel: testSetup.mockLogsViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
             )));
 
       // show logs screen
-      expect(find.byType(Logs), findsOneWidget);
+      expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
       await tester.pumpAndSettle();
 
@@ -281,12 +281,12 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
               logsViewModel: testSetup.mockLogsViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
             )));
 
-      expect(find.byType(Logs), findsOneWidget);
+      expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
       await tester.pumpAndSettle();
 
@@ -301,7 +301,7 @@ void main() async {
       await tester.tap(find.text('From oldest to latest'));
       await tester.pumpAndSettle();
 
-      expect(find.byType(Logs), findsOneWidget);
+      expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.byType(PopupMenuItem), findsNothing);
     });
   });
@@ -325,13 +325,13 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
               logsViewModel: testSetup.mockLogsViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
             )));
 
       // Show logs screen
-      expect(find.byType(Logs), findsOneWidget);
+      expect(find.byType(LogsScreen), findsOneWidget);
       await tester.pumpAndSettle();
       expect(find.text('Query logs'), findsOneWidget);
       expect(find.text('white.example.com'), findsWidgets);
@@ -354,12 +354,12 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Logs(
+      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
               logsViewModel: testSetup.mockLogsViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
             )));
 
-      expect(find.byType(Logs), findsOneWidget);
+      expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
       await tester.pumpAndSettle();
 

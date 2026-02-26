@@ -3,8 +3,8 @@ import 'package:pi_hole_client/domain/model/metrics/queries.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
 
 /// A UI-coupled service that handles API actions related to log entries,
 /// specifically adding URLs to the whitelist or blacklist.

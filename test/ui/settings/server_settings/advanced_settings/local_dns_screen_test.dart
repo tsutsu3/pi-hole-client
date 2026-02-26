@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/viewmodel/local_dns_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/view_models/local_dns_viewmodel.dart';
 
 import '../../../../../testing/fakes/repositories/api/fake_local_dns_repository.dart';
 import '../../../../../testing/fakes/repositories/api/fake_network_repository.dart';

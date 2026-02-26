@@ -5,7 +5,7 @@ import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/dhcp_detail_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/viewmodel/dhcp_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/view_models/dhcp_viewmodel.dart';
 
 import '../../../../../testing/fakes/repositories/api/fake_dhcp_repository.dart';
 import '../../../../../testing/fakes/repositories/api/fake_ftl_repository.dart';

@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg_test/flutter_svg_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/settings.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/settings_screen.dart';
 
 import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../testing/fakes/repositories/local/fake_server_repository.dart';
@@ -40,14 +40,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       expect(find.text('Settings'), findsNWidgets(2)); //title and nav bar
 
       expect(find.text('App Settings'), findsOneWidget);
@@ -114,14 +114,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       expect(find.text('Settings'), findsOneWidget);
 
       expect(find.text('App Settings'), findsOneWidget);
@@ -197,14 +197,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Theme'), findsOneWidget);
@@ -223,14 +223,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Language'), findsOneWidget);
@@ -248,14 +248,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Servers'), findsOneWidget);
@@ -276,14 +276,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Advanced settings'), findsNWidgets(2));
@@ -303,14 +303,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Pi-hole Server'), findsOneWidget);
@@ -328,14 +328,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Adlists'), findsOneWidget);
@@ -356,14 +356,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
 
       await tester.ensureVisible(find.text('Groups & Clients'));
@@ -391,14 +391,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Advanced settings'), findsNWidgets(2));
@@ -419,14 +419,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Application Detail'), findsOneWidget);
@@ -445,14 +445,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Privacy'), findsOneWidget);
@@ -471,14 +471,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Legal'), findsOneWidget);
@@ -497,14 +497,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
 
       await tester.ensureVisible(find.text('Licenses'));
@@ -542,14 +542,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
 
       final googlePlaySvg = SvgPicture.asset(
@@ -596,14 +596,14 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const SettingsWidget(),
+          const SettingsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
         ),
       );
 
-      expect(find.byType(SettingsWidget), findsOneWidget);
+      expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
 
       final githubSvg = SvgPicture.asset('assets/resources/github.svg');

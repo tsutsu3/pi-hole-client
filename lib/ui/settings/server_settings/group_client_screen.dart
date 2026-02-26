@@ -6,17 +6,17 @@ import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/local_dns_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/local_dns_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/client_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/clients_list.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/group_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/groups_list.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/view_models/clients_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/view_models/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class GroupClientScreen extends StatelessWidget {

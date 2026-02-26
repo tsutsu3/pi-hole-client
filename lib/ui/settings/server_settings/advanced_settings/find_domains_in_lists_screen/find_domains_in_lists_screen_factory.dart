@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/view_models/find_domains_in_lists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/view_models/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 Widget createFindDomainsInListsScreen(RepositoryBundle bundle) {

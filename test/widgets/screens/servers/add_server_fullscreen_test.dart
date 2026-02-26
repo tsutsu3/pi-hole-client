@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/services/utils/exceptions.dart';
-import 'package:pi_hole_client/ui/servers/add_server_fullscreen.dart';
+import 'package:pi_hole_client/ui/servers/widgets/add_server_fullscreen.dart';
 
 import '../../helpers.dart';
 

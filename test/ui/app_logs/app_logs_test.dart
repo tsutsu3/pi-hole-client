@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/ui/app_logs/app_log_details_modal.dart';
-import 'package:pi_hole_client/ui/app_logs/app_logs.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/app_logs/app_logs_screen.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 
 import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../testing/test_app.dart';
@@ -19,7 +19,7 @@ void main() async {
       appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
     });
 
-    testWidgets('should show AppLogs screen with one log', (
+    testWidgets('should show AppLogsScreen screen with one log', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -56,12 +56,12 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AppLogs(),
+          const AppLogsScreen(),
           appConfigViewModel: appConfigViewModel,
         ),
       );
 
-      expect(find.byType(AppLogs), findsOneWidget);
+      expect(find.byType(AppLogsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Logs'), findsOneWidget);
@@ -111,12 +111,12 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AppLogs(),
+          const AppLogsScreen(),
           appConfigViewModel: appConfigViewModel,
         ),
       );
 
-      expect(find.byType(AppLogs), findsOneWidget);
+      expect(find.byType(AppLogsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Logs'), findsOneWidget);

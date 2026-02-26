@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
-import 'package:pi_hole_client/ui/settings/settings.dart';
+import 'package:pi_hole_client/ui/settings/settings_screen.dart';
 
 /// Shell for Settings routes that provides a master-detail layout on desktop.
 ///
 /// - Desktop (width > [ResponsiveConstants.large]):
-///   `Row[SettingsWidget (master) | child (detail)]`
+///   `Row[SettingsScreen (master) | child (detail)]`
 /// - Mobile: returns [child] directly (full-screen).
 class SettingsShell extends StatelessWidget {
   const SettingsShell({required this.child, super.key});
@@ -20,7 +20,7 @@ class SettingsShell extends StatelessWidget {
     if (width > ResponsiveConstants.large) {
       // Remove horizontal safe-area padding for the master pane:
       // the NavigationRail (left) and detail pane (right) handle their
-      // own insets, so SettingsWidget should not add extra padding.
+      // own insets, so SettingsScreen should not add extra padding.
       final noHorizontalPadding = MediaQuery.of(
         context,
       ).padding.copyWith(left: 0, right: 0);
@@ -33,7 +33,7 @@ class SettingsShell extends StatelessWidget {
               data: MediaQuery.of(
                 context,
               ).copyWith(padding: noHorizontalPadding),
-              child: const SettingsWidget(),
+              child: const SettingsScreen(),
             ),
           ),
           Expanded(child: child),
@@ -50,7 +50,7 @@ class SettingsShell extends StatelessWidget {
 ///
 /// - Desktop: placeholder text ("Select an option from the left column")
 ///   because SettingsShell already shows the settings list on the left.
-/// - Mobile: full settings list (SettingsWidget).
+/// - Mobile: full settings list (SettingsScreen).
 class SettingsDefaultPage extends StatelessWidget {
   const SettingsDefaultPage({super.key});
 
@@ -78,6 +78,6 @@ class SettingsDefaultPage extends StatelessWidget {
     }
 
     // Mobile: show the settings list
-    return const SettingsWidget();
+    return const SettingsScreen();
   }
 }

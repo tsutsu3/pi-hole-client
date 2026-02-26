@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlist_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/view_models/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 Widget createAdlistScreen(RepositoryBundle bundle) {

@@ -6,11 +6,11 @@ import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/local_dns_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/local_dns_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/add_client_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/client_tile.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/view_models/clients_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class ClientsList extends StatefulWidget {

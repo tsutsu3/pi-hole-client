@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/routing/routes.dart';
-import 'package:pi_hole_client/ui/app_logs/app_logs.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
+import 'package:pi_hole_client/ui/app_logs/app_logs_screen.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_options_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/chart_visualization_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/reset_screen.dart';
@@ -21,7 +21,7 @@ GoRouter _createTestRouter() {
       GoRoute(
         path: '/settings/app/advanced',
         name: Routes.settingsAppAdvanced,
-        builder: (_, _) => const AdvancedOptions(),
+        builder: (_, _) => const AdvancedOptionsScreen(),
       ),
       GoRoute(
         path: '/settings/app/advanced/chart-visualization',
@@ -31,7 +31,7 @@ GoRouter _createTestRouter() {
       GoRoute(
         path: '/settings/app/advanced/app-logs',
         name: Routes.settingsAppAdvancedAppLogs,
-        builder: (_, _) => const AppLogs(),
+        builder: (_, _) => const AppLogsScreen(),
       ),
     ],
   );
@@ -65,13 +65,13 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptions(),
+          const AdvancedOptionsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
         ),
       );
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       expect(find.text('Advanced settings'), findsOneWidget);
       expect(find.text('App unlock'), findsOneWidget);
 
@@ -99,13 +99,13 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptions(),
+          const AdvancedOptionsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
         ),
       );
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       expect(find.text('App unlock'), findsOneWidget);
       await tester.tap(find.text('App unlock'));
       await tester.pumpAndSettle();
@@ -126,13 +126,13 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptions(),
+          const AdvancedOptionsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
         ),
       );
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       expect(find.text('Use reduced data'), findsOneWidget);
       await tester.tap(find.text('Use reduced data'));
       await tester.pumpAndSettle();
@@ -152,13 +152,13 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptions(),
+          const AdvancedOptionsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
         ),
       );
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       expect(find.text('Hide zero values'), findsOneWidget);
       await tester.tap(find.text('Hide zero values'));
       await tester.pumpAndSettle();
@@ -178,13 +178,13 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptions(),
+          const AdvancedOptionsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
         ),
       );
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       expect(find.text('Show loading animation'), findsOneWidget);
       await tester.tap(find.text('Show loading animation'));
       await tester.pumpAndSettle();
@@ -211,7 +211,7 @@ void main() async {
         ),
       );
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       expect(find.text('Chart display mode'), findsOneWidget);
       await tester.tap(find.text('Chart display mode'));
       await tester.pumpAndSettle();
@@ -241,11 +241,11 @@ void main() async {
 
       await tester.scrollUntilVisible(find.text('App logs'), 100);
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       expect(find.text('App logs'), findsOneWidget);
       await tester.tap(find.text('App logs'));
       await tester.pumpAndSettle();
-      expect(find.byType(AppLogs), findsOneWidget);
+      expect(find.byType(AppLogsScreen), findsOneWidget);
       expect(find.text('Logs'), findsOneWidget);
     });
 
@@ -262,13 +262,13 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptions(),
+          const AdvancedOptionsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
         ),
       );
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       await tester.scrollUntilVisible(find.text('Reset application'), 100);
 
       expect(find.text('Reset application'), findsOneWidget);

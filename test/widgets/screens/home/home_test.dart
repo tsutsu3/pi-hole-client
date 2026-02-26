@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
-import 'package:pi_hole_client/ui/home/home.dart';
+import 'package:pi_hole_client/ui/home/home_screen.dart';
 import 'package:pi_hole_client/ui/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar/switch_server_modal.dart';
@@ -35,13 +35,13 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Home(
+      await tester.pumpWidget(testSetup.buildTestWidget(HomeScreen(
               serversViewModel: testSetup.mockServersViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
               statusViewModel: testSetup.mockStatusViewModel,
             )));
 
-      expect(find.byType(Home), findsOneWidget);
+      expect(find.byType(HomeScreen), findsOneWidget);
       await tester.pumpAndSettle(const Duration(seconds: 3));
 
       // Home App Bar
@@ -78,13 +78,13 @@ void main() async {
         testSetup.mockStatusViewModel.getStatusLoading,
       ).thenReturn(LoadStatus.loading);
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Home(
+      await tester.pumpWidget(testSetup.buildTestWidget(HomeScreen(
               serversViewModel: testSetup.mockServersViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
               statusViewModel: testSetup.mockStatusViewModel,
             )));
 
-      expect(find.byType(Home), findsOneWidget);
+      expect(find.byType(HomeScreen), findsOneWidget);
       await tester.pump(const Duration(milliseconds: 500));
 
       final shimmerText = find.descendant(
@@ -110,13 +110,13 @@ void main() async {
         testSetup.mockStatusViewModel.getStatusLoading,
       ).thenAnswer((_) => LoadStatus.error);
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Home(
+      await tester.pumpWidget(testSetup.buildTestWidget(HomeScreen(
               serversViewModel: testSetup.mockServersViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
               statusViewModel: testSetup.mockStatusViewModel,
             )));
 
-      expect(find.byType(Home), findsOneWidget);
+      expect(find.byType(HomeScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Error'), findsNWidgets(4));
@@ -133,13 +133,13 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        await tester.pumpWidget(testSetup.buildTestWidget(Home(
+        await tester.pumpWidget(testSetup.buildTestWidget(HomeScreen(
               serversViewModel: testSetup.mockServersViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
               statusViewModel: testSetup.mockStatusViewModel,
             )));
 
-        expect(find.byType(Home), findsOneWidget);
+        expect(find.byType(HomeScreen), findsOneWidget);
         await tester.pump();
         expect(find.byType(FloatingActionButton), findsOneWidget);
 
@@ -180,13 +180,13 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Home(
+      await tester.pumpWidget(testSetup.buildTestWidget(HomeScreen(
               serversViewModel: testSetup.mockServersViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
               statusViewModel: testSetup.mockStatusViewModel,
             )));
 
-      expect(find.byType(Home), findsOneWidget);
+      expect(find.byType(HomeScreen), findsOneWidget);
       await tester.pump();
       expect(find.byType(FloatingActionButton), findsOneWidget);
 
@@ -207,13 +207,13 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Home(
+      await tester.pumpWidget(testSetup.buildTestWidget(HomeScreen(
               serversViewModel: testSetup.mockServersViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
               statusViewModel: testSetup.mockStatusViewModel,
             )));
 
-      expect(find.byType(Home), findsOneWidget);
+      expect(find.byType(HomeScreen), findsOneWidget);
       expect(find.byType(HomeAppBar), findsOneWidget);
       await tester.pump();
 
@@ -237,13 +237,13 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Home(
+      await tester.pumpWidget(testSetup.buildTestWidget(HomeScreen(
               serversViewModel: testSetup.mockServersViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
               statusViewModel: testSetup.mockStatusViewModel,
             )));
 
-      expect(find.byType(Home), findsOneWidget);
+      expect(find.byType(HomeScreen), findsOneWidget);
       expect(find.byType(HomeAppBar), findsOneWidget);
       expect(find.byIcon(Icons.more_vert), findsOneWidget);
       await tester.pump();
@@ -271,13 +271,13 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        await tester.pumpWidget(testSetup.buildTestWidget(Home(
+        await tester.pumpWidget(testSetup.buildTestWidget(HomeScreen(
               serversViewModel: testSetup.mockServersViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
               statusViewModel: testSetup.mockStatusViewModel,
             )));
 
-        expect(find.byType(Home), findsOneWidget);
+        expect(find.byType(HomeScreen), findsOneWidget);
         expect(find.byType(HomeAppBar), findsOneWidget);
         expect(find.byIcon(Icons.more_vert), findsOneWidget);
         await tester.pump();
@@ -298,13 +298,13 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Home(
+      await tester.pumpWidget(testSetup.buildTestWidget(HomeScreen(
               serversViewModel: testSetup.mockServersViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
               statusViewModel: testSetup.mockStatusViewModel,
             )));
 
-      expect(find.byType(Home), findsOneWidget);
+      expect(find.byType(HomeScreen), findsOneWidget);
       expect(find.byType(HomeAppBar), findsOneWidget);
       expect(find.byIcon(Icons.more_vert), findsOneWidget);
       await tester.pump();
@@ -327,13 +327,13 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(Home(
+      await tester.pumpWidget(testSetup.buildTestWidget(HomeScreen(
               serversViewModel: testSetup.mockServersViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
               statusViewModel: testSetup.mockStatusViewModel,
             )));
 
-      expect(find.byType(Home), findsOneWidget);
+      expect(find.byType(HomeScreen), findsOneWidget);
       expect(find.byType(HomeAppBar), findsOneWidget);
       expect(find.byIcon(Icons.more_vert), findsOneWidget);
       await tester.pump();
@@ -362,13 +362,13 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        await tester.pumpWidget(testSetup.buildTestWidget(Home(
+        await tester.pumpWidget(testSetup.buildTestWidget(HomeScreen(
               serversViewModel: testSetup.mockServersViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
               statusViewModel: testSetup.mockStatusViewModel,
             )));
 
-        expect(find.byType(Home), findsOneWidget);
+        expect(find.byType(HomeScreen), findsOneWidget);
         await tester.pump();
 
         expect(find.text('Total queries'), findsOneWidget);
@@ -386,13 +386,13 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        await tester.pumpWidget(testSetup.buildTestWidget(Home(
+        await tester.pumpWidget(testSetup.buildTestWidget(HomeScreen(
               serversViewModel: testSetup.mockServersViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
               statusViewModel: testSetup.mockStatusViewModel,
             )));
 
-        expect(find.byType(Home), findsOneWidget);
+        expect(find.byType(HomeScreen), findsOneWidget);
         await tester.pump();
 
         await tester.tap(find.text('Queries blocked'));
@@ -417,13 +417,13 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        await tester.pumpWidget(testSetup.buildTestWidget(Home(
+        await tester.pumpWidget(testSetup.buildTestWidget(HomeScreen(
               serversViewModel: testSetup.mockServersViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
               statusViewModel: testSetup.mockStatusViewModel,
             )));
 
-        expect(find.byType(Home), findsOneWidget);
+        expect(find.byType(HomeScreen), findsOneWidget);
         await tester.pump();
 
         await tester.tap(find.text('Percentage blocked'));
@@ -448,13 +448,13 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        await tester.pumpWidget(testSetup.buildTestWidget(Home(
+        await tester.pumpWidget(testSetup.buildTestWidget(HomeScreen(
               serversViewModel: testSetup.mockServersViewModel,
               appConfigViewModel: testSetup.mockConfigProvider,
               statusViewModel: testSetup.mockStatusViewModel,
             )));
 
-        expect(find.byType(Home), findsOneWidget);
+        expect(find.byType(HomeScreen), findsOneWidget);
         await tester.pump();
 
         expect(find.text('Domains on Adlists'), findsOneWidget);

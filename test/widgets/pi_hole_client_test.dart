@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
-import 'package:pi_hole_client/ui/home/home.dart';
+import 'package:pi_hole_client/ui/home/home_screen.dart';
 import 'package:pi_hole_client/ui/shell/base.dart';
 
 import './helpers.dart';
@@ -37,7 +37,7 @@ void main() async {
       await tester.pumpAndSettle(const Duration(seconds: 3));
 
       expect(find.byType(Base), findsOneWidget);
-      expect(find.byType(Home), findsOneWidget);
+      expect(find.byType(HomeScreen), findsOneWidget);
     });
   });
 }

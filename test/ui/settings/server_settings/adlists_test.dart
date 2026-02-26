@@ -6,7 +6,7 @@ import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlist_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/add_adlist_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/adlist_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/adlists/edit_adlist_modal.dart';

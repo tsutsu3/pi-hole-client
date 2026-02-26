@@ -5,10 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/ui/core/globals.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
-import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 import 'fakes/repositories/local/fake_app_config_repository.dart';

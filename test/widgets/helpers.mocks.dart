@@ -38,23 +38,23 @@ import 'package:pi_hole_client/domain/model/metrics/queries.dart' as _i18;
 import 'package:pi_hole_client/domain/model/network/network.dart' as _i32;
 import 'package:pi_hole_client/domain/model/server/server.dart' as _i15;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart'
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart'
     as _i4;
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/gravity_update_viewmodel.dart'
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/gravity_update_viewmodel.dart'
     as _i37;
-import 'package:pi_hole_client/ui/core/viewmodel/local_dns_viewmodel.dart'
+import 'package:pi_hole_client/ui/core/view_models/local_dns_viewmodel.dart'
     as _i30;
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart'
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart'
     as _i14;
-import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart' as _i23;
-import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart'
+import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart' as _i23;
+import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart'
     as _i27;
-import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart' as _i17;
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart'
+import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart' as _i17;
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart'
     as _i35;
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart'
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/view_models/clients_viewmodel.dart'
     as _i28;
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart'
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/view_models/groups_viewmodel.dart'
     as _i33;
 import 'package:result_dart/result_dart.dart' as _i19;
 

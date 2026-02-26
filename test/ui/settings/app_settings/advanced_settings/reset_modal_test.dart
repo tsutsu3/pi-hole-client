@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_options_screen.dart';
 
 import '../../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../../../testing/fakes/repositories/local/fake_server_repository.dart';
@@ -37,7 +37,7 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptions(),
+          const AdvancedOptionsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
         ),
@@ -45,7 +45,7 @@ void main() async {
 
       await tester.scrollUntilVisible(find.text('Reset application'), 100);
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       expect(find.text('Reset application'), findsOneWidget);
 
       await tester.tap(find.text('Reset application'));
@@ -68,7 +68,7 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          Phoenix(child: const AdvancedOptions()),
+          Phoenix(child: const AdvancedOptionsScreen()),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
         ),
@@ -76,7 +76,7 @@ void main() async {
 
       await tester.scrollUntilVisible(find.text('Reset application'), 100);
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       expect(find.text('Reset application'), findsOneWidget);
 
       await tester.tap(find.text('Reset application'));

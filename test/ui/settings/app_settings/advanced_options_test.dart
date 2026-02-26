@@ -4,9 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v6_not_supported_screen.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_options_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +22,7 @@ GoRouter _createTestRouter() {
       GoRoute(
         path: '/settings/app/advanced',
         name: Routes.settingsAppAdvanced,
-        builder: (_, _) => const AdvancedOptions(),
+        builder: (_, _) => const AdvancedOptionsScreen(),
       ),
       GoRoute(
         path: '/settings/app/advanced/stats-refresh-time',
@@ -68,13 +68,13 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          Phoenix(child: const AdvancedOptions()),
+          Phoenix(child: const AdvancedOptionsScreen()),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
         ),
       );
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
 
       // Tap Reset application
       await tester.scrollUntilVisible(find.text('Reset application'), 100);
@@ -104,13 +104,13 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptions(),
+          const AdvancedOptionsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
         ),
       );
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
 
       // Tap App unlock
       await tester.tap(find.text('App unlock'));
@@ -140,7 +140,7 @@ void main() async {
         ),
       );
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Stats refresh interval'));
@@ -168,7 +168,7 @@ void main() async {
         ),
       );
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Logs quantity per request'));
@@ -220,7 +220,7 @@ void main() async {
         ),
       );
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       await tester.pump();
 
       await tester.tap(find.text('Logs quantity per request'));

@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/routing/routes.dart';
-import 'package:pi_hole_client/ui/app_logs/app_logs.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/app_logs/app_logs_screen.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/domains_screen_factory.dart';
-import 'package:pi_hole_client/ui/home/home.dart';
-import 'package:pi_hole_client/ui/logs/logs.dart';
-import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
-import 'package:pi_hole_client/ui/servers/servers.dart';
+import 'package:pi_hole_client/ui/home/home_screen.dart';
+import 'package:pi_hole_client/ui/logs/logs_screen.dart';
+import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
+import 'package:pi_hole_client/ui/servers/servers_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/app_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/licenses_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/privacy_screen.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_options_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/chart_visualization_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/log_refresh_interval_screen.dart';
@@ -23,7 +23,7 @@ import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/logs_q
 import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/adlist_screen_factory.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen/dhcp_screen_factory.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/find_domains_in_lists_screen_factory.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/interface_screen_factory.dart';
@@ -35,14 +35,14 @@ import 'package:pi_hole_client/ui/settings/server_settings/server_info/server_in
 import 'package:pi_hole_client/ui/shell/app_shell.dart';
 import 'package:pi_hole_client/ui/shell/base.dart';
 import 'package:pi_hole_client/ui/shell/settings_shell.dart';
-import 'package:pi_hole_client/ui/statistics/statistics.dart';
+import 'package:pi_hole_client/ui/statistics/statistics_screen.dart';
 import 'package:provider/provider.dart';
 
 /// Creates the application router configuration.
 ///
 /// ## Route structure
 ///
-/// ```
+/// ```txt
 /// ShellRoute (Base – lifecycle management)
 ///   └─ StatefulShellRoute.indexedStack (AppShell – NavigationRail / BottomNavBar)
 ///         ├─ Branch 0: /home, /connect
@@ -94,7 +94,7 @@ GoRouter createAppRouter({
                   GoRoute(
                     path: '/statistics',
                     name: Routes.statistics,
-                    builder: (context, state) => const Statistics(),
+                    builder: (context, state) => const StatisticsScreen(),
                   ),
                 ],
               ),
@@ -105,10 +105,9 @@ GoRouter createAppRouter({
                   GoRoute(
                     path: '/logs',
                     name: Routes.logs,
-                    builder: (context, state) => Logs(
+                    builder: (context, state) => LogsScreen(
                       logsViewModel: context.read<LogsViewModel>(),
-                      appConfigViewModel:
-                          context.read<AppConfigViewModel>(),
+                      appConfigViewModel: context.read<AppConfigViewModel>(),
                     ),
                   ),
                 ],
@@ -161,12 +160,13 @@ GoRouter createAppRouter({
                       GoRoute(
                         path: '/settings/app/servers',
                         name: Routes.settingsAppServers,
-                        builder: (context, state) => const ServersPage(),
+                        builder: (context, state) => const ServersScreen(),
                       ),
                       GoRoute(
                         path: '/settings/app/advanced',
                         name: Routes.settingsAppAdvanced,
-                        builder: (context, state) => const AdvancedOptions(),
+                        builder: (context, state) =>
+                            const AdvancedOptionsScreen(),
                       ),
 
                       // ── Settings > App > Advanced ──
@@ -191,21 +191,19 @@ GoRouter createAppRouter({
                       GoRoute(
                         path: '/settings/app/advanced/logs-quantity-load',
                         name: Routes.settingsAppAdvancedLogsQuantityLoad,
-                        builder: (context, state) {
-                          final apiVersion = context
+                        builder: (context, state) => LogsQuantityLoadScreen(
+                          apiVersion:
+                              context
                                   .read<ServersViewModel>()
                                   .selectedServer
                                   ?.apiVersion ??
-                              '';
-                          return LogsQuantityLoadScreen(
-                            apiVersion: apiVersion,
-                          );
-                        },
+                              '',
+                        ),
                       ),
                       GoRoute(
                         path: '/settings/app/advanced/app-logs',
                         name: Routes.settingsAppAdvancedAppLogs,
-                        builder: (context, state) => const AppLogs(),
+                        builder: (context, state) => const AppLogsScreen(),
                       ),
 
                       // ── Settings > Server ──
@@ -213,11 +211,11 @@ GoRouter createAppRouter({
                         path: '/settings/server/info',
                         name: Routes.settingsServerInfo,
                         builder: (context, state) {
-                          final server =
-                              context.read<ServersViewModel>().selectedServer!;
-                          final bundle = context.read<RepositoryBundle?>();
+                          final server = context
+                              .read<ServersViewModel>()
+                              .selectedServer!;
                           return createServerInfoScreen(
-                            bundle: bundle!,
+                            bundle: context.read<RepositoryBundle?>()!,
                             serverAlias: server.alias,
                             serverAddress: server.address,
                           );
@@ -226,88 +224,79 @@ GoRouter createAppRouter({
                       GoRoute(
                         path: '/settings/server/adlists',
                         name: Routes.settingsServerAdlists,
-                        builder: (context, state) {
-                          final bundle = context.read<RepositoryBundle?>();
-                          return createAdlistScreen(bundle!);
-                        },
+                        builder: (context, state) => createAdlistScreen(
+                          context.read<RepositoryBundle?>()!,
+                        ),
                       ),
                       GoRoute(
                         path: '/settings/server/group-client',
                         name: Routes.settingsServerGroupClient,
-                        builder: (context, state) {
-                          final bundle = context.read<RepositoryBundle?>();
-                          return createGroupClientScreen(bundle!);
-                        },
+                        builder: (context, state) => createGroupClientScreen(
+                          context.read<RepositoryBundle?>()!,
+                        ),
                       ),
                       GoRoute(
                         path: '/settings/server/advanced',
                         name: Routes.settingsServerAdvanced,
                         builder: (context, state) =>
-                            const AdvancedServerOptions(),
+                            const AdvancedServerOptionsScreen(),
                       ),
 
                       // ── Settings > Server > Advanced ──
                       GoRoute(
                         path: '/settings/server/advanced/sessions',
                         name: Routes.settingsServerAdvancedSessions,
-                        builder: (context, state) {
-                          final bundle = context.read<RepositoryBundle?>();
-                          return createSessionsScreen(bundle!);
-                        },
+                        builder: (context, state) => createSessionsScreen(
+                          context.read<RepositoryBundle?>()!,
+                        ),
                       ),
                       GoRoute(
                         path: '/settings/server/advanced/dhcp',
                         name: Routes.settingsServerAdvancedDhcp,
-                        builder: (context, state) {
-                          final bundle = context.read<RepositoryBundle?>();
-                          return createDhcpScreen(bundle!);
-                        },
+                        builder: (context, state) => createDhcpScreen(
+                          context.read<RepositoryBundle?>()!,
+                        ),
                       ),
                       GoRoute(
                         path: '/settings/server/advanced/local-dns',
                         name: Routes.settingsServerAdvancedLocalDns,
-                        builder: (context, state) {
-                          final bundle = context.read<RepositoryBundle?>();
-                          return createLocalDnsScreen(bundle!);
-                        },
+                        builder: (context, state) => createLocalDnsScreen(
+                          context.read<RepositoryBundle?>()!,
+                        ),
                       ),
                       GoRoute(
                         path: '/settings/server/advanced/find-domains-in-lists',
                         name: Routes.settingsServerAdvancedFindDomainsInLists,
-                        builder: (context, state) {
-                          final bundle = context.read<RepositoryBundle?>();
-                          return createFindDomainsInListsScreen(bundle!);
-                        },
+                        builder: (context, state) =>
+                            createFindDomainsInListsScreen(
+                              context.read<RepositoryBundle?>()!,
+                            ),
                       ),
                       GoRoute(
                         path: '/settings/server/advanced/interface',
                         name: Routes.settingsServerAdvancedInterface,
-                        builder: (context, state) {
-                          final bundle = context.read<RepositoryBundle?>();
-                          return createInterfaceScreen(bundle!);
-                        },
+                        builder: (context, state) => createInterfaceScreen(
+                          context.read<RepositoryBundle?>()!,
+                        ),
                       ),
                       GoRoute(
                         path: '/settings/server/advanced/network',
                         name: Routes.settingsServerAdvancedNetwork,
-                        builder: (context, state) {
-                          final bundle = context.read<RepositoryBundle?>();
-                          return createNetworkScreen(bundle!);
-                        },
+                        builder: (context, state) => createNetworkScreen(
+                          context.read<RepositoryBundle?>()!,
+                        ),
                       ),
 
                       // ── Settings > About ──
                       GoRoute(
                         path: '/settings/about/app-detail',
                         name: Routes.settingsAboutAppDetail,
-                        builder: (context, state) {
-                          final appConfigViewModel =
-                              context.read<AppConfigViewModel>();
-                          return AppDetailScreen(
-                            appVersion:
-                                appConfigViewModel.getAppInfo?.version,
-                          );
-                        },
+                        builder: (context, state) => AppDetailScreen(
+                          appVersion: context
+                              .read<AppConfigViewModel>()
+                              .getAppInfo
+                              ?.version,
+                        ),
                       ),
                       GoRoute(
                         path: '/settings/about/privacy',
@@ -336,7 +325,7 @@ GoRouter createAppRouter({
   );
 }
 
-/// Reactively switches between [Home] and [ServersPage] based on whether
+/// Reactively switches between [HomeScreen] and [ServersScreen] based on whether
 /// a server is selected. Used as the `/home` route builder.
 class _HomeOrConnect extends StatelessWidget {
   const _HomeOrConnect();
@@ -345,12 +334,12 @@ class _HomeOrConnect extends StatelessWidget {
   Widget build(BuildContext context) {
     final serversViewModel = context.watch<ServersViewModel>();
     if (serversViewModel.selectedServer != null) {
-      return Home(
+      return HomeScreen(
         serversViewModel: serversViewModel,
         appConfigViewModel: context.read<AppConfigViewModel>(),
         statusViewModel: context.read<StatusViewModel>(),
       );
     }
-    return const ServersPage();
+    return const ServersScreen();
   }
 }

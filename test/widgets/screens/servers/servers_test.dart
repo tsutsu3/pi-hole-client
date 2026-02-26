@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
-import 'package:pi_hole_client/ui/servers/add_server_fullscreen.dart';
-import 'package:pi_hole_client/ui/servers/delete_server_modal.dart';
-import 'package:pi_hole_client/ui/servers/servers.dart';
-import 'package:pi_hole_client/ui/servers/unverified_certificates_banner.dart';
+import 'package:pi_hole_client/ui/servers/servers_screen.dart';
+import 'package:pi_hole_client/ui/servers/widgets/add_server_fullscreen.dart';
+import 'package:pi_hole_client/ui/servers/widgets/delete_server_modal.dart';
+import 'package:pi_hole_client/ui/servers/widgets/unverified_certificates_banner.dart';
 
 import '../../helpers.dart';
 
@@ -29,9 +29,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersScreen()));
 
-      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.byType(ServersScreen), findsOneWidget);
       expect(find.text('Servers'), findsOneWidget);
 
       // show default server
@@ -50,9 +50,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersScreen()));
 
-      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.byType(ServersScreen), findsOneWidget);
       expect(find.text('Servers'), findsOneWidget);
 
       expect(find.text('test v6'), findsNothing);
@@ -74,9 +74,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersScreen()));
 
-      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.byType(ServersScreen), findsOneWidget);
       expect(find.text('Servers'), findsOneWidget);
 
       await tester.tap(find.byIcon(Icons.more_vert));
@@ -105,9 +105,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersScreen()));
 
-      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.byType(ServersScreen), findsOneWidget);
       expect(find.text('Servers'), findsOneWidget);
 
       await tester.tap(find.byIcon(Icons.more_vert));
@@ -130,9 +130,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersScreen()));
 
-      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.byType(ServersScreen), findsOneWidget);
       expect(find.text('Servers'), findsOneWidget);
 
       await tester.tap(find.byIcon(Icons.more_vert));
@@ -158,9 +158,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersScreen()));
 
-      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.byType(ServersScreen), findsOneWidget);
       expect(find.text('Servers'), findsOneWidget);
 
       await tester.tap(find.byType(FloatingActionButton));
@@ -200,9 +200,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersScreen()));
 
-      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.byType(ServersScreen), findsOneWidget);
       expect(find.byType(UnverifiedCertificatesBanner), findsOneWidget);
       expect(find.text('Servers'), findsOneWidget);
     });
@@ -232,7 +232,9 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(const ServersScreen()),
+        );
 
         expect(find.byType(UnverifiedCertificatesBanner), findsOneWidget);
 

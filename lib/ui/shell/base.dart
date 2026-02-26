@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/start_warning_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
@@ -15,7 +15,7 @@ import 'package:window_manager/window_manager.dart';
 /// window minimize/restore) and initial setup (server connection, auto-refresh).
 ///
 /// Used as the outermost `ShellRoute` builder in the router configuration.
-/// All navigation layout (NavigationRail, BottomNavBar) is handled by [AppShell].
+/// All navigation layout (NavigationRail, BottomNavBar) is handled by `AppShell`.
 class Base extends StatefulWidget {
   const Base({required this.child, super.key});
 

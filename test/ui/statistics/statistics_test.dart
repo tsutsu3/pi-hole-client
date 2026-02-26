@@ -5,12 +5,12 @@ import 'package:pi_hole_client/domain/model/metrics/summary.dart';
 import 'package:pi_hole_client/domain/model/metrics/top_clients.dart';
 import 'package:pi_hole_client/domain/model/metrics/top_domains.dart';
 import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
-import 'package:pi_hole_client/ui/statistics/statistics.dart';
-import 'package:pi_hole_client/ui/statistics/statistics_list.dart';
-import 'package:pi_hole_client/ui/statistics/statistics_triple_column.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
+import 'package:pi_hole_client/ui/statistics/statistics_screen.dart';
+import 'package:pi_hole_client/ui/statistics/widgets/statistics_list.dart';
+import 'package:pi_hole_client/ui/statistics/widgets/statistics_triple_column.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
@@ -56,7 +56,7 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const Statistics(),
+          const StatisticsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
@@ -64,7 +64,7 @@ void main() async {
         ),
       );
 
-      expect(find.byType(Statistics), findsOneWidget);
+      expect(find.byType(StatisticsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Statistics'), findsWidgets);
@@ -126,7 +126,7 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const Statistics(),
+          const StatisticsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
@@ -134,7 +134,7 @@ void main() async {
         ),
       );
 
-      expect(find.byType(Statistics), findsOneWidget);
+      expect(find.byType(StatisticsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Domains'), findsWidgets);
@@ -159,7 +159,7 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const Statistics(),
+          const StatisticsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
@@ -167,7 +167,7 @@ void main() async {
         ),
       );
 
-      expect(find.byType(Statistics), findsOneWidget);
+      expect(find.byType(StatisticsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Domains'), findsWidgets);
@@ -220,7 +220,7 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const Statistics(),
+          const StatisticsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
@@ -228,7 +228,7 @@ void main() async {
         ),
       );
 
-      expect(find.byType(Statistics), findsOneWidget);
+      expect(find.byType(StatisticsScreen), findsOneWidget);
       await tester.pump();
 
       expect(find.text('Statistics'), findsWidgets);
@@ -271,7 +271,7 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const Statistics(),
+          const StatisticsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
@@ -279,7 +279,7 @@ void main() async {
         ),
       );
 
-      expect(find.byType(Statistics), findsOneWidget);
+      expect(find.byType(StatisticsScreen), findsOneWidget);
       expect(find.byType(StatisticsTripleColumn), findsOneWidget);
       expect(find.text('Queries & servers'), findsWidgets);
       expect(find.text('Domains'), findsWidgets);
@@ -299,7 +299,7 @@ void main() async {
 
         await tester.pumpWidget(
           buildTestApp(
-            const Statistics(),
+            const StatisticsScreen(),
             appConfigViewModel: appConfigViewModel,
             serversViewModel: serversViewModel,
             statusViewModel: statusViewModel,
@@ -307,7 +307,7 @@ void main() async {
           ),
         );
 
-        expect(find.byType(Statistics), findsOneWidget);
+        expect(find.byType(StatisticsScreen), findsOneWidget);
         expect(find.byType(StatisticsTripleColumn), findsOneWidget);
         expect(find.byIcon(Icons.chevron_right), findsWidgets);
 
@@ -339,7 +339,7 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const Statistics(),
+          const StatisticsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
@@ -347,7 +347,7 @@ void main() async {
         ),
       );
 
-      expect(find.byType(Statistics), findsOneWidget);
+      expect(find.byType(StatisticsScreen), findsOneWidget);
       expect(find.byType(StatisticsTripleColumn), findsOneWidget);
       expect(find.text('Stats could not be loaded'), findsOneWidget);
       expect(find.text('Queries & servers'), findsNothing);
@@ -370,7 +370,7 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const Statistics(),
+          const StatisticsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
@@ -378,7 +378,7 @@ void main() async {
         ),
       );
 
-      expect(find.byType(Statistics), findsOneWidget);
+      expect(find.byType(StatisticsScreen), findsOneWidget);
       expect(find.byType(StatisticsTripleColumn), findsOneWidget);
       expect(find.text('Loading stats...'), findsOneWidget);
       expect(find.text('Queries & servers'), findsNothing);

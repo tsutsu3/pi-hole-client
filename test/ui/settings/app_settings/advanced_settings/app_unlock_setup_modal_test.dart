@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_options_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_lock/create_pass_code_modal.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_lock/remove_passcode_modal.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
@@ -41,13 +41,13 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptions(),
+          const AdvancedOptionsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
         ),
       );
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       expect(find.text('App unlock'), findsOneWidget);
 
       await tester.tap(find.text('App unlock'));
@@ -80,13 +80,13 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptions(),
+          const AdvancedOptionsScreen(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
         ),
       );
 
-      expect(find.byType(AdvancedOptions), findsOneWidget);
+      expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       expect(find.text('App unlock'), findsOneWidget);
 
       await tester.tap(find.text('App unlock'));

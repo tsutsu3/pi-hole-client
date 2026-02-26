@@ -5,7 +5,7 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/viewmodel/interface_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen/view_models/interface_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/net_interface/net_interface_section.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

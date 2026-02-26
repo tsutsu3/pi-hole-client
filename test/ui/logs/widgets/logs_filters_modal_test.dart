@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/widgets/clients_filters_modal.dart';
 import 'package:pi_hole_client/ui/logs/widgets/logs_filters_modal.dart';
 import 'package:pi_hole_client/ui/logs/widgets/status_filters_modal.dart';

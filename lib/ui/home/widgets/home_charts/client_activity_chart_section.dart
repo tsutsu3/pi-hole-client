@@ -7,13 +7,13 @@ import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_data_chart.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/clients/clients_last_hours_bar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/clients/clients_last_hours_line.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/skeleton/bar_chart_skeleton.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/skeleton/line_chart_skeleton.dart';
-import 'package:pi_hole_client/ui/statistics/no_data_chart.dart';
+import 'package:pi_hole_client/ui/statistics/widgets/no_data_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
