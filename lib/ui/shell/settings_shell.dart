@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/responsive.dart';
-import 'package:pi_hole_client/ui/settings/settings_screen.dart';
+import 'package:pi_hole_client/ui/settings/widgets/settings_screen.dart';
 
 /// Shell for Settings routes that provides a master-detail layout on desktop.
 ///

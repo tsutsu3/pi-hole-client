@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
-import 'package:pi_hole_client/ui/home/home_screen.dart';
+import 'package:pi_hole_client/ui/home/widgets/home_screen.dart';
 import 'package:pi_hole_client/ui/shell/base.dart';
 
 import './helpers.dart';

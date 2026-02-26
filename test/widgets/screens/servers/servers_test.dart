@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
-import 'package:pi_hole_client/ui/servers/servers_screen.dart';
+import 'package:pi_hole_client/ui/servers/widgets/servers_screen.dart';
 import 'package:pi_hole_client/ui/servers/widgets/add_server_fullscreen.dart';
 import 'package:pi_hole_client/ui/servers/widgets/delete_server_modal.dart';
 import 'package:pi_hole_client/ui/servers/widgets/unverified_certificates_banner.dart';

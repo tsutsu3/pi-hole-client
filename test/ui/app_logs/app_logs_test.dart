@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/domain/model/app/app_log.dart';
-import 'package:pi_hole_client/ui/app_logs/app_log_details_modal.dart';
-import 'package:pi_hole_client/ui/app_logs/app_logs_screen.dart';
+import 'package:pi_hole_client/ui/app_logs/widgets/app_log_details_modal.dart';
+import 'package:pi_hole_client/ui/app_logs/widgets/app_logs_screen.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 
 import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';

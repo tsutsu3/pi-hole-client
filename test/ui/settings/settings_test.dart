@@ -5,7 +5,7 @@ import 'package:flutter_svg_test/flutter_svg_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/settings_screen.dart';
+import 'package:pi_hole_client/ui/settings/widgets/settings_screen.dart';
 
 import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../testing/fakes/repositories/local/fake_server_repository.dart';

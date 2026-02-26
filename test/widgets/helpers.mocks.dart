@@ -52,9 +52,9 @@ import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart'
 import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart' as _i17;
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart'
     as _i35;
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/view_models/clients_viewmodel.dart'
+import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/clients_viewmodel.dart'
     as _i28;
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/view_models/groups_viewmodel.dart'
+import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart'
     as _i33;
 import 'package:result_dart/result_dart.dart' as _i19;
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/advanced_server_options_screen.dart';
 import '../../../helpers.dart';
 
 void main() async {

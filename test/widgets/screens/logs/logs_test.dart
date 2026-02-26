@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/ui/logs/logs_screen.dart';
+import 'package:pi_hole_client/ui/logs/widgets/logs_screen.dart';
 import 'package:pi_hole_client/ui/logs/widgets/logs_filters_modal.dart';
 
 import '../../helpers.dart' show TestSetupHelper, initializeApp, testLogsList;
