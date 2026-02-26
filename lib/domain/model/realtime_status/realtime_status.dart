@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/metrics/summary.dart';
 import 'package:pi_hole_client/domain/model/metrics/top_clients.dart';
 import 'package:pi_hole_client/domain/model/metrics/top_domains.dart';

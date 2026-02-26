@@ -2,7 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/config/query_types.dart';
+import 'package:pi_hole_client/domain/model/query_types.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';

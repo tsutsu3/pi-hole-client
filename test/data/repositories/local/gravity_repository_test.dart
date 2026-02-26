@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/local/gravity_db_data.dart';
 import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../../../../testing/fakes/services/fake_database_service.dart';

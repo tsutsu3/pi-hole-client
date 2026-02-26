@@ -1,9 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/mapper/v5/metrics_mapper.dart';
 import 'package:pi_hole_client/data/model/v5/over_time_data.dart' as v5_model;
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts.dart';

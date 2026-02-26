@@ -1,8 +1,8 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/local/app_db_data.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 
 import '../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';

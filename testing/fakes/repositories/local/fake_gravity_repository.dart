@@ -1,6 +1,6 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/local/gravity_db_data.dart';
 import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:result_dart/result_dart.dart';
 
 class FakeGravityRepository implements GravityRepository {

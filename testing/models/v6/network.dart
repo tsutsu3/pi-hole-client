@@ -1,8 +1,8 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v6/network/devices.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/network/interfaces.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/network/routes.dart' as srv;
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart' as repo;
 
 const kSrvGetNetworkDevices = srv.Devices(

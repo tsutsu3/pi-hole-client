@@ -1,4 +1,3 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v6/ftl/client.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/ftl/ftl.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/ftl/host.dart' as srv;
@@ -7,6 +6,7 @@ import 'package:pi_hole_client/data/model/v6/ftl/metrics.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/ftl/sensors.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/ftl/system.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/ftl/version.dart' as srv;
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/ftl/client.dart' as repo;
 import 'package:pi_hole_client/domain/model/ftl/ftl.dart' as repo;
 import 'package:pi_hole_client/domain/model/ftl/host.dart' as repo;

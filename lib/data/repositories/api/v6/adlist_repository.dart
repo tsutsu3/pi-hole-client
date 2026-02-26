@@ -1,10 +1,10 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/mapper/v6/adlist_mapper.dart';
 import 'package:pi_hole_client/data/mapper/v6/list_search_mapper.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/adlist_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/base_v6_sid_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/list/list_search_result.dart';
 import 'package:result_dart/result_dart.dart';

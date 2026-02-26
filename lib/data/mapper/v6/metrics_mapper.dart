@@ -1,7 +1,7 @@
-import 'package:pi_hole_client/config/enum_converters.dart';
 import 'package:pi_hole_client/data/model/v6/metrics/history.dart' as sh;
 import 'package:pi_hole_client/data/model/v6/metrics/query.dart' as sq;
 import 'package:pi_hole_client/data/model/v6/metrics/stats.dart' as ss;
+import 'package:pi_hole_client/domain/model/enum_converters.dart';
 import 'package:pi_hole_client/domain/model/metrics/clients.dart' as d;
 import 'package:pi_hole_client/domain/model/metrics/history.dart' as d;
 import 'package:pi_hole_client/domain/model/metrics/queries.dart' as d;

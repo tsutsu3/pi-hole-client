@@ -1,5 +1,5 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/metrics/queries.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 

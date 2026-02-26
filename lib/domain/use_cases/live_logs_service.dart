@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/metrics/queries.dart';
 import 'package:pi_hole_client/domain/use_cases/logs_pagination_service.dart';
 import 'package:pi_hole_client/utils/logger.dart';

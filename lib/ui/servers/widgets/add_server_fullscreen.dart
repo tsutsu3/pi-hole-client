@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
 import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
@@ -13,6 +12,7 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/urls.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/scan_token_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';

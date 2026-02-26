@@ -1,6 +1,6 @@
-import 'package:pi_hole_client/config/enum_converters.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v5/realtime_status.dart' as s;
+import 'package:pi_hole_client/domain/model/enum_converters.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/metrics/summary.dart' as d;
 import 'package:pi_hole_client/domain/model/metrics/top_clients.dart' as d;
 import 'package:pi_hole_client/domain/model/metrics/top_domains.dart' as d;

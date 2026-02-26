@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:pi_hole_client/config/enum_converters.dart';
-import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/query_types.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
+import 'package:pi_hole_client/domain/model/enum_converters.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/metrics/queries.dart';
+import 'package:pi_hole_client/domain/model/query_types.dart';
 import 'package:pi_hole_client/domain/use_cases/live_logs_service.dart';
 import 'package:pi_hole_client/domain/use_cases/logs_pagination_service.dart';
 import 'package:pi_hole_client/ui/logs/view_models/filters/filters_interface.dart';

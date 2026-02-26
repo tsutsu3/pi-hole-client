@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/ftl/metrics.dart';
 import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
 import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart';

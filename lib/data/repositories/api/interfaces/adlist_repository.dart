@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/list/list_search_result.dart';
 import 'package:result_dart/result_dart.dart';

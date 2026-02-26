@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/query_status.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/domain/model/query_status.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 
 /// Resolves a [QueryColorCategory] to the corresponding theme color from

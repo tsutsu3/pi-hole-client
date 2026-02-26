@@ -1,7 +1,7 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v6/metrics/history.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/metrics/query.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/metrics/stats.dart' as srv;
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/metrics/clients.dart' as repo;
 import 'package:pi_hole_client/domain/model/metrics/history.dart' as repo;
 import 'package:pi_hole_client/domain/model/metrics/queries.dart' as repo;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';

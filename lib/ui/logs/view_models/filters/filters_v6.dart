@@ -1,6 +1,6 @@
-import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/query_status.dart';
-import 'package:pi_hole_client/config/query_types.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/domain/model/query_status.dart';
+import 'package:pi_hole_client/domain/model/query_types.dart';
 import 'package:pi_hole_client/ui/logs/view_models/filters/filters_interface.dart';
 
 List<int> _indexesWhere(bool Function(QueryStatus) test) =>

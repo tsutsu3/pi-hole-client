@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/actions/refresh_server_status.dart';
 import 'package:pi_hole_client/ui/core/actions/server_management.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';

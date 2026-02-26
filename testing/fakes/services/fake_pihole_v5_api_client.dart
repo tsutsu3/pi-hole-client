@@ -1,4 +1,3 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v5/dns.dart';
 import 'package:pi_hole_client/data/model/v5/domains.dart';
 import 'package:pi_hole_client/data/model/v5/over_time_data.dart';
@@ -8,6 +7,7 @@ import 'package:pi_hole_client/data/model/v5/realtime_status.dart'
 import 'package:pi_hole_client/data/model/v5/summary_raw.dart';
 import 'package:pi_hole_client/data/model/v5/versions.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../../models/v5/domain.dart';

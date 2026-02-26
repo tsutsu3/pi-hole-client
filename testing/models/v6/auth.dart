@@ -1,7 +1,7 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v6/auth/auth.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/auth/sessions.dart' as srv;
 import 'package:pi_hole_client/domain/model/auth/auth.dart' as repo;
+import 'package:pi_hole_client/domain/model/enums.dart';
 
 // ===========================================================================
 // Service response data

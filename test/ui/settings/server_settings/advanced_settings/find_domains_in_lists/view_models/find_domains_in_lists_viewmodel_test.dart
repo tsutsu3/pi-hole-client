@@ -1,7 +1,7 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists/view_models/find_domains_in_lists_viewmodel.dart';
 

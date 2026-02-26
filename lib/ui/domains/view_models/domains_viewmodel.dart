@@ -1,8 +1,8 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 
 class DomainsViewModel extends ChangeNotifier {
   DomainsViewModel({required DomainRepository domainRepository})

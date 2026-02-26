@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/urls.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
@@ -10,6 +9,7 @@ import 'package:pi_hole_client/ui/core/l10n/languages.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/urls.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';

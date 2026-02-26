@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/list_tile_title.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/urls.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:provider/provider.dart';

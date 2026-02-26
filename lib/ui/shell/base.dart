@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/start_warning_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';

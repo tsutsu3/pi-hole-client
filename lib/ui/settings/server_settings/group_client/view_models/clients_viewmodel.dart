@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/client_repository.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 
 class ClientsViewModel extends ChangeNotifier {
   ClientsViewModel({required ClientRepository clientRepository})

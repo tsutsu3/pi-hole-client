@@ -1,7 +1,7 @@
-import 'package:pi_hole_client/config/enum_converters.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v6/lists/search.dart' as s;
 import 'package:pi_hole_client/domain/model/domain/domain.dart' as d;
+import 'package:pi_hole_client/domain/model/enum_converters.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart' as a;
 import 'package:pi_hole_client/domain/model/list/list_search_result.dart';
 import 'package:pi_hole_client/utils/punycode.dart';

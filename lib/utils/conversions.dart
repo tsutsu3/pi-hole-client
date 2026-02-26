@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 
 String getAdlistStatusType(int type) {
   switch (type) {

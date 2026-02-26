@@ -1,5 +1,5 @@
-import 'package:pi_hole_client/config/enum_converters.dart';
-import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/domain/model/enum_converters.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pihole_v6_api/pihole_v6_api.dart';
 

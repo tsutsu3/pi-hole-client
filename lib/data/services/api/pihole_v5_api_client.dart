@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v5/dns.dart';
 import 'package:pi_hole_client/data/model/v5/domains.dart';
 import 'package:pi_hole_client/data/model/v5/over_time_data.dart';
@@ -13,6 +12,7 @@ import 'package:pi_hole_client/data/model/v5/summary_raw.dart';
 import 'package:pi_hole_client/data/model/v5/versions.dart';
 import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:pi_hole_client/data/services/utils/safe_api_call.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/utils/misc.dart';
 import 'package:result_dart/result_dart.dart';
 

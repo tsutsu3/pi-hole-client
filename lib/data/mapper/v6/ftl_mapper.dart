@@ -1,4 +1,3 @@
-import 'package:pi_hole_client/config/enum_converters.dart';
 import 'package:pi_hole_client/data/model/v6/ftl/client.dart' as s;
 import 'package:pi_hole_client/data/model/v6/ftl/ftl.dart' as s;
 import 'package:pi_hole_client/data/model/v6/ftl/host.dart' as s;
@@ -7,6 +6,7 @@ import 'package:pi_hole_client/data/model/v6/ftl/metrics.dart' as s;
 import 'package:pi_hole_client/data/model/v6/ftl/sensors.dart' as s;
 import 'package:pi_hole_client/data/model/v6/ftl/system.dart' as s;
 import 'package:pi_hole_client/data/model/v6/ftl/version.dart' as s;
+import 'package:pi_hole_client/domain/model/enum_converters.dart';
 import 'package:pi_hole_client/domain/model/ftl/client.dart' as d;
 import 'package:pi_hole_client/domain/model/ftl/ftl.dart' as d;
 import 'package:pi_hole_client/domain/model/ftl/host.dart' as d;

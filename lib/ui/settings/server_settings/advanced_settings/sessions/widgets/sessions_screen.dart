@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/model/auth/auth.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';

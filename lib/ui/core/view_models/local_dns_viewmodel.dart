@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/local_dns_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/utils/logger.dart';

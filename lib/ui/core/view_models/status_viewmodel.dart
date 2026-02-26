@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/dns_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/exceptions.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/ftl/metrics.dart';
 import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
 import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart';

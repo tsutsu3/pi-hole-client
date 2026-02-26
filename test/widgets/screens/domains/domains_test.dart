@@ -2,9 +2,9 @@ import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart'
     as domain_model;
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domains_screen.dart';

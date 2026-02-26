@@ -1,4 +1,3 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v6/action/action.dart' show Action;
 import 'package:pi_hole_client/data/model/v6/auth/auth.dart' show Session;
 import 'package:pi_hole_client/data/model/v6/auth/sessions.dart'
@@ -39,6 +38,7 @@ import 'package:pi_hole_client/data/model/v6/network/devices.dart' show Devices;
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart' show Gateway;
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/data/services/utils/exceptions.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../../models/v6/actions.dart';

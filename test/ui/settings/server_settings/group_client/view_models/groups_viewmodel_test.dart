@@ -1,6 +1,6 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
 
 import '../../../../../../testing/fakes/repositories/api/fake_group_repository.dart';

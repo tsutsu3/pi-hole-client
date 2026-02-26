@@ -12,8 +12,8 @@ import 'package:flutter/material.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i6;
 import 'package:package_info_plus/package_info_plus.dart' as _i9;
-import 'package:pi_hole_client/config/enums.dart' as _i7;
-import 'package:pi_hole_client/config/query_status.dart' as _i16;
+import 'package:pi_hole_client/domain/model/enums.dart' as _i7;
+import 'package:pi_hole_client/domain/model/query_status.dart' as _i16;
 import 'package:pi_hole_client/data/model/local/app_db_data.dart' as _i12;
 import 'package:pi_hole_client/data/repositories/api/interfaces/actions_respository.dart'
     as _i39;
