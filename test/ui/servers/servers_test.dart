@@ -1,23 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/widgets/add_server_fullscreen.dart';
 import 'package:pi_hole_client/ui/servers/widgets/delete_server_modal.dart';
 import 'package:pi_hole_client/ui/servers/widgets/servers_screen.dart';
 import 'package:pi_hole_client/ui/servers/widgets/unverified_certificates_banner.dart';
 
-import '../../helpers.dart';
+import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
+import '../../../testing/fakes/viewmodels/fake_status_viewmodel.dart';
+import '../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('Servers Widget Tests', () {
-    late TestSetupHelper testSetup;
+    late FakeServersViewModel serversViewModel;
+    late FakeStatusViewModel statusViewModel;
+    late AppConfigViewModel appConfigViewModel;
 
-    setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+    const testServer = Server(
+      address: 'http://localhost:8081',
+      alias: 'test v6',
+      defaultServer: false,
+      apiVersion: 'v6',
+      allowSelfSignedCert: true,
+      ignoreCertificateErrors: false,
+    );
+
+    setUp(() {
+      final repo = FakeAppConfigRepository()..importantInfoReadenValue = 1;
+      appConfigViewModel = AppConfigViewModel(repo);
+      appConfigViewModel.saveFromDb(repo.appConfig.getOrThrow());
+
+      serversViewModel = FakeServersViewModel()
+        ..selectedServer = testServer
+        ..selectedServerEnabled = true
+        ..serversList = [testServer];
+
+      statusViewModel = FakeStatusViewModel();
     });
 
     testWidgets('should show servers page', (WidgetTester tester) async {
@@ -29,7 +51,15 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const ServersScreen()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const ServersScreen(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+        ),
+      );
 
       expect(find.byType(ServersScreen), findsOneWidget);
       expect(find.text('Servers'), findsOneWidget);
@@ -43,27 +73,28 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(testSetup.mockServersViewModel.getServersList).thenReturn([]);
+      serversViewModel.serversList = [];
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const ServersScreen()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const ServersScreen(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+        ),
+      );
 
       expect(find.byType(ServersScreen), findsOneWidget);
       expect(find.text('Servers'), findsOneWidget);
 
       expect(find.text('test v6'), findsNothing);
     });
-
-    // TODO: Re-implement connection test using the new
-    // RepositoryBundleFactory pattern. The connection flow now goes through
-    // ServerConnectionService -> RepositoryBundleFactory.create() which
-    // creates real repositories that require a valid SID in secure storage.
-    // This needs either a mock/fake RepositoryBundleFactory or integration
-    // with the fake repository bundle from the provider tree.
 
     testWidgets('should set default server', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -74,7 +105,15 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const ServersScreen()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const ServersScreen(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+        ),
+      );
 
       expect(find.byType(ServersScreen), findsOneWidget);
       expect(find.text('Servers'), findsOneWidget);
@@ -83,9 +122,6 @@ void main() async {
       await tester.pumpAndSettle();
 
       expect(find.text('Set as default connection'), findsOneWidget);
-      when(
-        testSetup.mockServersViewModel.setDefaultServer(any),
-      ).thenAnswer((_) async => true);
       await tester.tap(find.text('Set as default connection'));
       await tester.pumpAndSettle(const Duration(seconds: 1));
 
@@ -94,6 +130,7 @@ void main() async {
         find.text('Connection set as default successfully.'),
         findsOneWidget,
       );
+      expect(serversViewModel.setDefaultServerCallCount, 1);
     });
 
     testWidgets('should show edit server', (WidgetTester tester) async {
@@ -105,7 +142,15 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const ServersScreen()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const ServersScreen(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+        ),
+      );
 
       expect(find.byType(ServersScreen), findsOneWidget);
       expect(find.text('Servers'), findsOneWidget);
@@ -130,7 +175,15 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const ServersScreen()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const ServersScreen(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+        ),
+      );
 
       expect(find.byType(ServersScreen), findsOneWidget);
       expect(find.text('Servers'), findsOneWidget);
@@ -147,6 +200,8 @@ void main() async {
       await tester.pumpAndSettle();
       expect(find.byType(SnackBar), findsOneWidget);
       expect(find.text('Connection removed successfully'), findsOneWidget);
+      expect(serversViewModel.removeServerCallCount, 1);
+      expect(serversViewModel.lastRemovedServerAddress, testServer.address);
     });
 
     testWidgets('should show add server window', (WidgetTester tester) async {
@@ -158,7 +213,15 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const ServersScreen()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const ServersScreen(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+        ),
+      );
 
       expect(find.byType(ServersScreen), findsOneWidget);
       expect(find.text('Servers'), findsOneWidget);
@@ -170,18 +233,12 @@ void main() async {
       expect(find.byType(AddServerFullscreen), findsOneWidget);
     });
 
-    // TODO: Re-implement connection error test using the new
-    // RepositoryBundleFactory pattern instead of the removed gateway layer.
-    // The previous test relied on mockApiGatewayV6.loginQuery() which no
-    // longer exists after the gateway-to-repository migration.
-
     testWidgets('should show unverified certificates banner', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      // Mock unverified server
       const unverifiedServer = Server(
         address: 'https://localhost:8443',
         alias: 'unverified',
@@ -191,16 +248,22 @@ void main() async {
         ignoreCertificateErrors: false,
       );
 
-      when(
-        testSetup.mockServersViewModel.serversWithUnverifiedCertificates,
-      ).thenReturn([unverifiedServer]);
+      serversViewModel.serversWithUnverifiedCertificates = [unverifiedServer];
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const ServersScreen()));
+      await tester.pumpWidget(
+        buildTestApp(
+          const ServersScreen(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+        ),
+      );
 
       expect(find.byType(ServersScreen), findsOneWidget);
       expect(find.byType(UnverifiedCertificatesBanner), findsOneWidget);
@@ -213,7 +276,6 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        // Mock unverified server
         const unverifiedServer = Server(
           address: 'https://localhost:8443',
           alias: 'unverified',
@@ -223,9 +285,9 @@ void main() async {
           ignoreCertificateErrors: false,
         );
 
-        when(
-          testSetup.mockServersViewModel.serversWithUnverifiedCertificates,
-        ).thenReturn([unverifiedServer]);
+        serversViewModel.serversWithUnverifiedCertificates = [
+          unverifiedServer,
+        ];
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -233,7 +295,13 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(const ServersScreen()),
+          buildTestApp(
+            const ServersScreen(),
+            appConfigViewModel: appConfigViewModel,
+            serversViewModel: serversViewModel,
+            statusViewModel: statusViewModel,
+            repositoryBundle: createFakeRepositoryBundle(),
+          ),
         );
 
         expect(find.byType(UnverifiedCertificatesBanner), findsOneWidget);
@@ -243,9 +311,8 @@ void main() async {
         await tester.pumpAndSettle();
 
         // Verify that setUnverifiedBannerDismissed was called with true
-        verify(
-          testSetup.mockServersViewModel.setUnverifiedBannerDismissed(true),
-        ).called(1);
+        expect(serversViewModel.setUnverifiedBannerDismissedCallCount, 1);
+        expect(serversViewModel.lastUnverifiedBannerDismissedValue, true);
       },
     );
   });

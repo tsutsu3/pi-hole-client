@@ -1,37 +1,114 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists/view_models/find_domains_in_lists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists/widgets/find_domains_in_lists_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../../../testing/fakes/repositories/api/fake_actions_repository.dart';
 import '../../../../../../testing/fakes/repositories/api/fake_adlist_repository.dart';
-import '../../../../../widgets/helpers.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_auth_repository.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_client_repository.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_config_repository.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_dhcp_repository.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_dns_repository.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_domain_repository.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_ftl_repository.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_group_repository.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_local_dns_repository.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_metrics_repository.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_network_repository.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_realtime_status_repository.dart';
+import '../../../../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
+import '../../../../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('Find Domains In Lists Screen tests', () {
-    late TestSetupHelper testSetup;
+    late FakeAdlistRepository fakeAdlistRepository;
+    late FakeDomainRepository fakeDomainRepository;
+    late FakeGroupRepository fakeGroupRepository;
+    late FindDomainsInListsViewModel findDomainsInListsViewModel;
+    late GroupsViewModel groupsViewModel;
+    late FakeServersViewModel fakeServersViewModel;
 
     setUp(() async {
       Command.globalExceptionHandler = (_, _) {};
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+      fakeAdlistRepository = FakeAdlistRepository();
+      fakeDomainRepository = FakeDomainRepository();
+      fakeGroupRepository = FakeGroupRepository();
+      findDomainsInListsViewModel = FindDomainsInListsViewModel(
+        adListRepository: fakeAdlistRepository,
+        domainRepository: fakeDomainRepository,
+      );
+      groupsViewModel = GroupsViewModel(groupRepository: fakeGroupRepository);
+      fakeServersViewModel = FakeServersViewModel()
+        ..selectedServer = const Server(
+          address: 'http://localhost:8081',
+          alias: 'test v6',
+          defaultServer: false,
+          apiVersion: 'v6',
+          allowSelfSignedCert: true,
+          ignoreCertificateErrors: false,
+        );
     });
 
     tearDown(() {
-      testSetup.findDomainsInListsViewModel.dispose();
+      findDomainsInListsViewModel.dispose();
+      groupsViewModel.dispose();
       Command.globalExceptionHandler = null;
     });
+
+    Widget buildWidget() {
+      return buildTestApp(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<ServersViewModel>.value(
+              value: fakeServersViewModel,
+            ),
+            ChangeNotifierProvider<FindDomainsInListsViewModel>.value(
+              value: findDomainsInListsViewModel,
+            ),
+            ChangeNotifierProvider<GroupsViewModel>.value(
+              value: groupsViewModel,
+            ),
+            Provider<RepositoryBundle?>(
+              create: (_) => RepositoryBundle(
+                actions: FakeActionsRepository(),
+                adlist: fakeAdlistRepository,
+                auth: FakeAuthRepository(),
+                config: FakeConfigRepository(),
+                dhcp: FakeDhcpRepository(),
+                dns: FakeDnsRepository(),
+                domain: fakeDomainRepository,
+                ftl: FakeFtlRepository(),
+                localDns: FakeLocalDnsRepository(),
+                metrics: FakeMetricsRepository(),
+                network: FakeNetworkRepository(),
+                realtimeStatus: FakeRealTimeStatusRepository(),
+                client: FakeClientRepository(),
+                group: fakeGroupRepository,
+                serverAddress: 'http://localhost:8081',
+                apiVersion: 'v6',
+              ),
+            ),
+          ],
+          child: const FindDomainsInListsScreen(),
+        ),
+      );
+    }
 
     testWidgets('shows search form and hides results before search', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const FindDomainsInListsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
       await tester.pumpAndSettle();
 
       expect(find.text('Search domain'), findsOneWidget);
@@ -46,9 +123,7 @@ void main() async {
     testWidgets('shows snackbar when search term is empty', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const FindDomainsInListsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Search').last);
@@ -61,9 +136,7 @@ void main() async {
     testWidgets('shows snackbar when max results is invalid', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const FindDomainsInListsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
       await tester.pump();
 
       final textFields = find.byType(TextField);
@@ -84,11 +157,33 @@ void main() async {
     testWidgets('shows v5 not supported screen when api is v5', (
       WidgetTester tester,
     ) async {
-      final v5Setup = TestSetupHelper();
-      v5Setup.initializeMock();
+      final v5ServersViewModel = FakeServersViewModel()
+        ..selectedServer = const Server(
+          address: 'http://localhost:8080',
+          alias: 'test v5',
+          defaultServer: false,
+          apiVersion: 'v5',
+          allowSelfSignedCert: true,
+          ignoreCertificateErrors: false,
+        );
 
       await tester.pumpWidget(
-        v5Setup.buildTestWidget(const FindDomainsInListsScreen()),
+        buildTestApp(
+          MultiProvider(
+            providers: [
+              ChangeNotifierProvider<ServersViewModel>.value(
+                value: v5ServersViewModel,
+              ),
+              ChangeNotifierProvider<FindDomainsInListsViewModel>.value(
+                value: findDomainsInListsViewModel,
+              ),
+              ChangeNotifierProvider<GroupsViewModel>.value(
+                value: groupsViewModel,
+              ),
+            ],
+            child: const FindDomainsInListsScreen(),
+          ),
+        ),
       );
       await tester.pumpAndSettle();
 
@@ -98,9 +193,7 @@ void main() async {
     testWidgets('renders summary and results after successful search', (
       WidgetTester tester,
     ) async {
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const FindDomainsInListsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
       await tester.pump();
 
       final textFields = find.byType(TextField);
@@ -127,9 +220,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const FindDomainsInListsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
       await tester.pump();
 
       final textFields = find.byType(TextField);
@@ -150,13 +241,48 @@ void main() async {
       WidgetTester tester,
     ) async {
       final failingRepo = FakeAdlistRepository()..shouldFail = true;
-      testSetup.findDomainsInListsViewModel = FindDomainsInListsViewModel(
+      findDomainsInListsViewModel = FindDomainsInListsViewModel(
         adListRepository: failingRepo,
-        domainRepository: testSetup.fakeDomainRepository,
+        domainRepository: fakeDomainRepository,
       );
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(const FindDomainsInListsScreen()),
+        buildTestApp(
+          MultiProvider(
+            providers: [
+              ChangeNotifierProvider<ServersViewModel>.value(
+                value: fakeServersViewModel,
+              ),
+              ChangeNotifierProvider<FindDomainsInListsViewModel>.value(
+                value: findDomainsInListsViewModel,
+              ),
+              ChangeNotifierProvider<GroupsViewModel>.value(
+                value: groupsViewModel,
+              ),
+              Provider<RepositoryBundle?>(
+                create: (_) => RepositoryBundle(
+                  actions: FakeActionsRepository(),
+                  adlist: failingRepo,
+                  auth: FakeAuthRepository(),
+                  config: FakeConfigRepository(),
+                  dhcp: FakeDhcpRepository(),
+                  dns: FakeDnsRepository(),
+                  domain: fakeDomainRepository,
+                  ftl: FakeFtlRepository(),
+                  localDns: FakeLocalDnsRepository(),
+                  metrics: FakeMetricsRepository(),
+                  network: FakeNetworkRepository(),
+                  realtimeStatus: FakeRealTimeStatusRepository(),
+                  client: FakeClientRepository(),
+                  group: fakeGroupRepository,
+                  serverAddress: 'http://localhost:8081',
+                  apiVersion: 'v6',
+                ),
+              ),
+            ],
+            child: const FindDomainsInListsScreen(),
+          ),
+        ),
       );
       await tester.pump();
 

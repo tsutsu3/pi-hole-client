@@ -1,21 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/domain/model/metrics/queries.dart' as logs_model;
+import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/widgets/logs_filters_modal.dart';
 import 'package:pi_hole_client/ui/logs/widgets/logs_screen.dart';
 
-import '../../helpers.dart' show TestSetupHelper, initializeApp, testLogsList;
+import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../testing/fakes/viewmodels/fake_logs_viewmodel.dart';
+import '../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
+import '../../../testing/test_app.dart';
+
+const _serverV6 = Server(
+  address: 'http://localhost:8081',
+  alias: 'test v6',
+  defaultServer: false,
+  apiVersion: 'v6',
+  allowSelfSignedCert: true,
+  ignoreCertificateErrors: false,
+);
+
+const _serverV5 = Server(
+  address: 'http://localhost:8081',
+  alias: 'test v5',
+  defaultServer: false,
+  apiVersion: 'v5',
+  allowSelfSignedCert: true,
+  ignoreCertificateErrors: false,
+);
+
+final _testLogsList = [
+  logs_model.Log(
+    id: 1,
+    dateTime: DateTime.now().subtract(const Duration(minutes: 10)),
+    type: DnsRecordType.a,
+    url: 'white.example.com',
+    device: '192.168.100.2',
+    status: QueryStatusType.forwarded,
+    replyType: ReplyType.ip,
+    replyTime: 0.019,
+    answeredBy: 'localhost#5353',
+  ),
+];
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('Query logs screen tests', () {
-    late TestSetupHelper testSetup;
+    late AppConfigViewModel appConfigViewModel;
+    late FakeServersViewModel serversViewModel;
+    late FakeLogsViewModel logsViewModel;
 
-    setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+    setUp(() {
+      final repo = FakeAppConfigRepository()..importantInfoReadenValue = 1;
+      appConfigViewModel = AppConfigViewModel(repo);
+      appConfigViewModel.saveFromDb(repo.appConfig.getOrThrow());
+
+      serversViewModel = FakeServersViewModel()
+        ..selectedServer = _serverV6
+        ..selectedServerEnabled = true
+        ..serversList = [_serverV6];
+
+      logsViewModel = FakeLogsViewModel()
+        ..logsList = _testLogsList
+        ..logsListDisplay = _testLogsList
+        ..loadStatus = LoadStatus.loaded
+        ..screenActive = true
+        ..sortStatus = 0
+        ..searchText = ''
+        ..hasActiveChips = false
+        ..isFiltering = false
+        ..logsPerQuery = 2.0
+        ..statusSelected = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        ..defaultSelected = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        ..statusAllowedAndRetried = [3, 4, 13, 14, 15]
+        ..requestStatus = RequestStatus.all
+        ..selectedClients = ['192.168.100.2']
+        ..selectedDomain = 'white.example.com'
+        ..startTime = DateTime.now()
+        ..endTime = DateTime.now().add(const Duration(hours: 2))
+        ..totalClients = ['localhost', '192.168.100.2'];
     });
 
     testWidgets('should show logs screen on mobile layout', (
@@ -29,17 +94,27 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
-              logsViewModel: testSetup.mockLogsViewModel,
-              appConfigViewModel: testSetup.mockConfigProvider,
-            )));
+      await tester.pumpWidget(
+        buildTestApp(
+          LogsScreen(
+            logsViewModel: logsViewModel,
+            appConfigViewModel: appConfigViewModel,
+          ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       // Show logs screen
       expect(find.byType(LogsScreen), findsOneWidget);
       await tester.pumpAndSettle();
       expect(find.text('Query logs'), findsOneWidget);
       expect(find.text('white.example.com'), findsWidgets);
-      expect(find.text('Choose a query log to see its details.'), findsNothing);
+      expect(
+        find.text('Choose a query log to see its details.'),
+        findsNothing,
+      );
     });
 
     testWidgets('should show error message when logs could not be loaded', (
@@ -48,20 +123,26 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      // Override mock to simulate error state
-      when(testSetup.mockLogsViewModel.loadStatus)
-          .thenReturn(LoadStatus.error);
-      when(testSetup.mockLogsViewModel.logsListDisplay).thenReturn([]);
+      // Override to simulate error state
+      logsViewModel.loadStatus = LoadStatus.error;
+      logsViewModel.logsListDisplay = [];
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
-              logsViewModel: testSetup.mockLogsViewModel,
-              appConfigViewModel: testSetup.mockConfigProvider,
-            )));
+      await tester.pumpWidget(
+        buildTestApp(
+          LogsScreen(
+            logsViewModel: logsViewModel,
+            appConfigViewModel: appConfigViewModel,
+          ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
@@ -77,18 +158,24 @@ void main() async {
       tester.view.devicePixelRatio = 2.0;
 
       // Pre-select a log so that the detail pane is visible on tablet
-      final selectedLog = testLogsList.first;
-      when(testSetup.mockLogsViewModel.selectedLog).thenReturn(selectedLog);
+      logsViewModel.selectedLog = _testLogsList.first;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
-              logsViewModel: testSetup.mockLogsViewModel,
-              appConfigViewModel: testSetup.mockConfigProvider,
-            )));
+      await tester.pumpWidget(
+        buildTestApp(
+          LogsScreen(
+            logsViewModel: logsViewModel,
+            appConfigViewModel: appConfigViewModel,
+          ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       // Show logs screen with detail pane
       expect(find.byType(LogsScreen), findsOneWidget);
@@ -97,12 +184,13 @@ void main() async {
       expect(find.text('white.example.com'), findsWidgets);
       expect(find.text('Log details'), findsOneWidget);
 
-      // Tap blacklist button (isAllowedOrRetried returns true → shows blacklist button)
+      // Tap blacklist button (isAllowedOrRetried returns true -> shows
+      // blacklist button)
       expect(find.byIcon(Icons.gpp_bad_rounded), findsOneWidget);
       await tester.tap(find.byIcon(Icons.gpp_bad_rounded));
       await tester.pump(const Duration(milliseconds: 1000));
 
-      // Return to logs screen (Not raise Exception)
+      // Return to logs screen (not raise Exception)
       expect(find.text('Domain added to blacklist.'), findsWidgets);
       expect(find.byType(LogsScreen), findsOneWidget);
     });
@@ -116,18 +204,25 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
-              logsViewModel: testSetup.mockLogsViewModel,
-              appConfigViewModel: testSetup.mockConfigProvider,
-            )));
+      await tester.pumpWidget(
+        buildTestApp(
+          LogsScreen(
+            logsViewModel: logsViewModel,
+            appConfigViewModel: appConfigViewModel,
+          ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
       await tester.pumpAndSettle();
       expect(find.text('white.example.com'), findsWidgets);
 
-      // Simulate search filtering by re-stubbing logsListDisplay
-      when(testSetup.mockLogsViewModel.logsListDisplay).thenReturn([]);
+      // Simulate search filtering by setting logsListDisplay to empty
+      logsViewModel.logsListDisplay = [];
 
       expect(find.byIcon(Icons.search_rounded), findsOneWidget);
       await tester.tap(find.byIcon(Icons.search_rounded));
@@ -136,7 +231,8 @@ void main() async {
       await tester.enterText(find.byType(TextField), 'not.com');
       await tester.pumpAndSettle();
 
-      verify(testSetup.mockLogsViewModel.setSearchText('not.com')).called(1);
+      expect(logsViewModel.setSearchTextCallCount, 1);
+      expect(logsViewModel.lastSearchText, 'not.com');
       expect(find.text('white.example.com'), findsNothing);
     });
 
@@ -151,10 +247,17 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
-              logsViewModel: testSetup.mockLogsViewModel,
-              appConfigViewModel: testSetup.mockConfigProvider,
-            )));
+      await tester.pumpWidget(
+        buildTestApp(
+          LogsScreen(
+            logsViewModel: logsViewModel,
+            appConfigViewModel: appConfigViewModel,
+          ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       // show logs screen
       expect(find.byType(LogsScreen), findsOneWidget);
@@ -195,10 +298,17 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
-              logsViewModel: testSetup.mockLogsViewModel,
-              appConfigViewModel: testSetup.mockConfigProvider,
-            )));
+      await tester.pumpWidget(
+        buildTestApp(
+          LogsScreen(
+            logsViewModel: logsViewModel,
+            appConfigViewModel: appConfigViewModel,
+          ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       // show logs screen
       expect(find.byType(LogsScreen), findsOneWidget);
@@ -216,7 +326,7 @@ void main() async {
       expect(find.text('Blocked'), findsOneWidget);
       expect(find.text('Close'), findsOneWidget);
 
-      // tap Allowd filter
+      // tap Allowed filter
       await tester.tap(find.text('Allowed'));
       await tester.pumpAndSettle();
 
@@ -239,10 +349,17 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
-              logsViewModel: testSetup.mockLogsViewModel,
-              appConfigViewModel: testSetup.mockConfigProvider,
-            )));
+      await tester.pumpWidget(
+        buildTestApp(
+          LogsScreen(
+            logsViewModel: logsViewModel,
+            appConfigViewModel: appConfigViewModel,
+          ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       // show logs screen
       expect(find.byType(LogsScreen), findsOneWidget);
@@ -260,7 +377,7 @@ void main() async {
       expect(find.text('Blocked'), findsOneWidget);
       expect(find.text('Close'), findsOneWidget);
 
-      // tap Allowd filter
+      // tap Allowed filter
       await tester.tap(find.text('Allowed'));
       await tester.pumpAndSettle();
 
@@ -281,10 +398,17 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
-              logsViewModel: testSetup.mockLogsViewModel,
-              appConfigViewModel: testSetup.mockConfigProvider,
-            )));
+      await tester.pumpWidget(
+        buildTestApp(
+          LogsScreen(
+            logsViewModel: logsViewModel,
+            appConfigViewModel: appConfigViewModel,
+          ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
@@ -307,11 +431,39 @@ void main() async {
   });
 
   group('Query logs screen tests (v5)', () {
-    late TestSetupHelper testSetup;
+    late AppConfigViewModel appConfigViewModel;
+    late FakeServersViewModel serversViewModel;
+    late FakeLogsViewModel logsViewModel;
 
-    setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock();
+    setUp(() {
+      final repo = FakeAppConfigRepository()..importantInfoReadenValue = 1;
+      appConfigViewModel = AppConfigViewModel(repo);
+      appConfigViewModel.saveFromDb(repo.appConfig.getOrThrow());
+
+      serversViewModel = FakeServersViewModel()
+        ..selectedServer = _serverV5
+        ..selectedServerEnabled = true
+        ..serversList = [_serverV5];
+
+      logsViewModel = FakeLogsViewModel()
+        ..logsList = _testLogsList
+        ..logsListDisplay = _testLogsList
+        ..loadStatus = LoadStatus.loaded
+        ..screenActive = true
+        ..sortStatus = 0
+        ..searchText = ''
+        ..hasActiveChips = false
+        ..isFiltering = false
+        ..logsPerQuery = 2.0
+        ..statusSelected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14]
+        ..defaultSelected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14]
+        ..statusAllowedAndRetried = [2, 3, 12, 13, 14]
+        ..requestStatus = RequestStatus.all
+        ..selectedClients = ['192.168.100.2']
+        ..selectedDomain = 'white.example.com'
+        ..startTime = DateTime.now()
+        ..endTime = DateTime.now().add(const Duration(hours: 2))
+        ..totalClients = ['localhost', '192.168.100.2'];
     });
 
     testWidgets('should show logs screen on mobile layout', (
@@ -325,17 +477,27 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
-              logsViewModel: testSetup.mockLogsViewModel,
-              appConfigViewModel: testSetup.mockConfigProvider,
-            )));
+      await tester.pumpWidget(
+        buildTestApp(
+          LogsScreen(
+            logsViewModel: logsViewModel,
+            appConfigViewModel: appConfigViewModel,
+          ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       // Show logs screen
       expect(find.byType(LogsScreen), findsOneWidget);
       await tester.pumpAndSettle();
       expect(find.text('Query logs'), findsOneWidget);
       expect(find.text('white.example.com'), findsWidgets);
-      expect(find.text('Choose a query log to see its details.'), findsNothing);
+      expect(
+        find.text('Choose a query log to see its details.'),
+        findsNothing,
+      );
     });
 
     testWidgets('should show error message when logs could not be loaded', (
@@ -344,20 +506,26 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      // Override mock to simulate error state
-      when(testSetup.mockLogsViewModel.loadStatus)
-          .thenReturn(LoadStatus.error);
-      when(testSetup.mockLogsViewModel.logsListDisplay).thenReturn([]);
+      // Override to simulate error state
+      logsViewModel.loadStatus = LoadStatus.error;
+      logsViewModel.logsListDisplay = [];
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(LogsScreen(
-              logsViewModel: testSetup.mockLogsViewModel,
-              appConfigViewModel: testSetup.mockConfigProvider,
-            )));
+      await tester.pumpWidget(
+        buildTestApp(
+          LogsScreen(
+            logsViewModel: logsViewModel,
+            appConfigViewModel: appConfigViewModel,
+          ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
 
       expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);

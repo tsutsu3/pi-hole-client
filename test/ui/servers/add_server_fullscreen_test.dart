@@ -1,20 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/data/services/utils/exceptions.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/widgets/add_server_fullscreen.dart';
 
-import '../../helpers.dart';
+import '../../../testing/fakes/repositories/api/fake_dns_repository.dart';
+import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
+import '../../../testing/fakes/viewmodels/fake_status_viewmodel.dart';
+import '../../../testing/test_app.dart';
+
+const _serverV6 = Server(
+  address: 'http://localhost:8081',
+  alias: 'test v6',
+  defaultServer: false,
+  apiVersion: 'v6',
+  allowSelfSignedCert: true,
+  ignoreCertificateErrors: false,
+);
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('Add Server Full Screen Widget Tests', () {
-    late TestSetupHelper testSetup;
+    late FakeServersViewModel serversViewModel;
+    late FakeStatusViewModel statusViewModel;
+    late AppConfigViewModel appConfigViewModel;
+    late FakeDnsRepository fakeDnsRepository;
 
-    setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+    setUp(() {
+      final repo = FakeAppConfigRepository()..importantInfoReadenValue = 1;
+      appConfigViewModel = AppConfigViewModel(repo);
+      appConfigViewModel.saveFromDb(repo.appConfig.getOrThrow());
+
+      serversViewModel = FakeServersViewModel()
+        ..selectedServer = _serverV6
+        ..selectedServerEnabled = true;
+
+      statusViewModel = FakeStatusViewModel();
+      fakeDnsRepository = FakeDnsRepository();
     });
+
+    Widget buildWidget(Widget child) {
+      final bundle = createFakeRepositoryBundle(dns: fakeDnsRepository);
+      return buildTestApp(
+        child,
+        appConfigViewModel: appConfigViewModel,
+        serversViewModel: serversViewModel,
+        statusViewModel: statusViewModel,
+        repositoryBundle: bundle,
+        createRepositoryBundle: ({required server, required storage}) =>
+            createFakeRepositoryBundle(
+              dns: fakeDnsRepository,
+              serverAddress: server.address,
+              apiVersion: server.apiVersion,
+            ),
+        secureStorageService: SecureStorageService(),
+      );
+    }
 
     testWidgets('should show the page with window', (
       WidgetTester tester,
@@ -28,7 +73,7 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildWidget(
           const AddServerFullscreen(window: true, title: 'test'),
         ),
       );
@@ -51,7 +96,7 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildWidget(
           const AddServerFullscreen(window: false, title: 'test'),
         ),
       );
@@ -80,7 +125,7 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        testSetup.fakeDnsRepository
+        fakeDnsRepository
           ..shouldFail = true
           ..failureException = HttpStatusCodeException(503);
 
@@ -90,7 +135,7 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(
+          buildWidget(
             const AddServerFullscreen(window: false, title: 'test'),
           ),
         );
@@ -120,7 +165,7 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        testSetup.fakeDnsRepository
+        fakeDnsRepository
           ..shouldFail = true
           ..failureException = HttpStatusCodeException(504);
 
@@ -130,7 +175,7 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(
+          buildWidget(
             const AddServerFullscreen(window: false, title: 'test'),
           ),
         );
@@ -165,7 +210,7 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        testSetup.fakeDnsRepository
+        fakeDnsRepository
           ..shouldFail = true
           ..failureException = HttpStatusCodeException(500);
 
@@ -175,7 +220,7 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(
+          buildWidget(
             const AddServerFullscreen(window: false, title: 'test'),
           ),
         );
@@ -208,7 +253,7 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        testSetup.fakeDnsRepository
+        fakeDnsRepository
           ..shouldFail = true
           ..failureException = HttpStatusCodeException(401);
 
@@ -218,7 +263,7 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(
+          buildWidget(
             const AddServerFullscreen(window: false, title: 'test'),
           ),
         );
@@ -248,7 +293,7 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        testSetup.fakeDnsRepository
+        fakeDnsRepository
           ..shouldFail = true
           ..failureException = HttpStatusCodeException(495);
 
@@ -258,7 +303,7 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(
+          buildWidget(
             const AddServerFullscreen(window: false, title: 'test'),
           ),
         );
@@ -291,7 +336,7 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        testSetup.fakeDnsRepository
+        fakeDnsRepository
           ..shouldFail = true
           ..failureException = null; // Generic Exception → unknown error
 
@@ -301,7 +346,7 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(
+          buildWidget(
             const AddServerFullscreen(window: false, title: 'test'),
           ),
         );
@@ -337,7 +382,7 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildWidget(
           const AddServerFullscreen(window: false, title: 'test'),
         ),
       );
@@ -380,11 +425,11 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildWidget(
           const AddServerFullscreen(
             window: false,
             title: 'test',
-            server: serverV6,
+            server: _serverV6,
           ),
         ),
       );
@@ -410,7 +455,7 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        testSetup.fakeDnsRepository
+        fakeDnsRepository
           ..shouldFail = true
           ..failureException = HttpStatusCodeException(503);
 
@@ -420,11 +465,11 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(
+          buildWidget(
             const AddServerFullscreen(
               window: false,
               title: 'test',
-              server: serverV6,
+              server: _serverV6,
             ),
           ),
         );
@@ -451,7 +496,7 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        testSetup.fakeDnsRepository
+        fakeDnsRepository
           ..shouldFail = true
           ..failureException = HttpStatusCodeException(504);
 
@@ -461,11 +506,11 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(
+          buildWidget(
             const AddServerFullscreen(
               window: false,
               title: 'test',
-              server: serverV6,
+              server: _serverV6,
             ),
           ),
         );
@@ -497,7 +542,7 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        testSetup.fakeDnsRepository
+        fakeDnsRepository
           ..shouldFail = true
           ..failureException = HttpStatusCodeException(500);
 
@@ -507,11 +552,11 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(
+          buildWidget(
             const AddServerFullscreen(
               window: false,
               title: 'test',
-              server: serverV6,
+              server: _serverV6,
             ),
           ),
         );
@@ -541,7 +586,7 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        testSetup.fakeDnsRepository
+        fakeDnsRepository
           ..shouldFail = true
           ..failureException = HttpStatusCodeException(401);
 
@@ -551,11 +596,11 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(
+          buildWidget(
             const AddServerFullscreen(
               window: false,
               title: 'test',
-              server: serverV6,
+              server: _serverV6,
             ),
           ),
         );
@@ -582,7 +627,7 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        testSetup.fakeDnsRepository
+        fakeDnsRepository
           ..shouldFail = true
           ..failureException = HttpStatusCodeException(495);
 
@@ -592,11 +637,11 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(
+          buildWidget(
             const AddServerFullscreen(
               window: false,
               title: 'test',
-              server: serverV6,
+              server: _serverV6,
             ),
           ),
         );
@@ -626,7 +671,7 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        testSetup.fakeDnsRepository
+        fakeDnsRepository
           ..shouldFail = true
           ..failureException = null; // Generic Exception → unknown error
 
@@ -636,11 +681,11 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          testSetup.buildTestWidget(
+          buildWidget(
             const AddServerFullscreen(
               window: false,
               title: 'test',
-              server: serverV6,
+              server: _serverV6,
             ),
           ),
         );

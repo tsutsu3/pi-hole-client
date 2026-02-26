@@ -74,4 +74,18 @@ class FakeStatusViewModel extends StatusViewModel {
     _ftlDnsMetrics = value;
     notifyListeners();
   }
+
+  @override
+  void startAutoRefresh({
+    bool runImmediately = true,
+    bool isDelay = false,
+    bool showLoadingIndicator = true,
+  }) {
+    // No-op: prevent real timers from starting in tests.
+  }
+
+  @override
+  void stopAutoRefresh({bool showLoadingIndicator = true}) {
+    // No-op: prevent real timer cancellation in tests.
+  }
 }

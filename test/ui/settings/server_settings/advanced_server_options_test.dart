@@ -1,24 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/advanced_server_options_screen.dart';
-import '../../../helpers.dart';
+
+import '../../../../testing/fakes/repositories/api/fake_actions_repository.dart';
+import '../../../../testing/fakes/repositories/api/fake_config_repository.dart';
+import '../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
+import '../../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('Advanced Server Settings Screen tests', () {
-    late TestSetupHelper testSetup;
+    late FakeServersViewModel serversViewModel;
+    late FakeActionsRepository fakeActionsRepository;
+    late FakeConfigRepository fakeConfigRepository;
+    late AppConfigViewModel appConfigViewModel;
 
-    setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+    setUp(() {
+      final repo = FakeAppConfigRepository()..importantInfoReadenValue = 1;
+      appConfigViewModel = AppConfigViewModel(repo);
+      appConfigViewModel.saveFromDb(repo.appConfig.getOrThrow());
+
+      serversViewModel = FakeServersViewModel()
+        ..selectedServer = const Server(
+          address: 'http://localhost:8081',
+          alias: 'test v6',
+          defaultServer: false,
+          apiVersion: 'v6',
+          allowSelfSignedCert: true,
+          ignoreCertificateErrors: false,
+        )
+        ..selectedServerEnabled = true;
+
+      fakeActionsRepository = FakeActionsRepository();
+      fakeConfigRepository = FakeConfigRepository();
     });
 
-    // Sessions navigation now uses go_router (context.pushNamed).
-    // Full navigation is tested in session_screen_test.dart.
-    testWidgets('should show sessions tile', (
-      WidgetTester tester,
-    ) async {
+    Widget buildWidget() {
+      final bundle = createFakeRepositoryBundle(
+        actions: fakeActionsRepository,
+        config: fakeConfigRepository,
+      );
+      return buildTestApp(
+        const AdvancedServerOptionsScreen(),
+        appConfigViewModel: appConfigViewModel,
+        serversViewModel: serversViewModel,
+        repositoryBundle: bundle,
+      );
+    }
+
+    testWidgets('should show sessions tile', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -27,9 +61,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
@@ -37,11 +69,7 @@ void main() async {
       expect(find.text('Sessions'), findsOneWidget);
     });
 
-    // DHCP navigation now uses go_router (context.pushNamed).
-    // Full navigation is tested in dhcp_screen_test.dart.
-    testWidgets('should show dhcp tile', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('should show dhcp tile', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -50,9 +78,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
@@ -60,11 +86,7 @@ void main() async {
       expect(find.text('DHCP'), findsOneWidget);
     });
 
-    // Local DNS navigation now uses go_router (context.pushNamed).
-    // Full navigation is tested in local_dns_screen_test.dart.
-    testWidgets('should show local dns tile', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('should show local dns tile', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -73,9 +95,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
@@ -83,11 +103,7 @@ void main() async {
       expect(find.text('Local DNS'), findsOneWidget);
     });
 
-    // Interface navigation now uses go_router (context.pushNamed).
-    // Full navigation is tested in interface_screen_test.dart.
-    testWidgets('should show interface tile', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('should show interface tile', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -96,9 +112,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
@@ -106,11 +120,7 @@ void main() async {
       expect(find.text('Interface'), findsOneWidget);
     });
 
-    // Network navigation now uses go_router (context.pushNamed).
-    // Full navigation is tested in network_screen_test.dart.
-    testWidgets('should show network tile', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('should show network tile', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -119,9 +129,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
@@ -140,9 +148,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
@@ -163,16 +169,14 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      testSetup.fakeConfigRepository.queryLoggingValue = false;
+      fakeConfigRepository.queryLoggingValue = false;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
@@ -193,16 +197,14 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      testSetup.fakeConfigRepository.shouldFailFetch = true;
+      fakeConfigRepository.shouldFailFetch = true;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
@@ -216,16 +218,14 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      testSetup.fakeConfigRepository.shouldFailSet = true;
+      fakeConfigRepository.shouldFailSet = true;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
@@ -246,17 +246,15 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      testSetup.fakeConfigRepository.queryLoggingValue = false;
-      testSetup.fakeConfigRepository.shouldFailSet = true;
+      fakeConfigRepository.queryLoggingValue = false;
+      fakeConfigRepository.shouldFailSet = true;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
@@ -282,9 +280,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
@@ -305,16 +301,14 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      testSetup.fakeActionsRepository.shouldFail = true;
+      fakeActionsRepository.shouldFail = true;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
@@ -340,9 +334,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
@@ -363,16 +355,14 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      testSetup.fakeActionsRepository.shouldFail = true;
+      fakeActionsRepository.shouldFail = true;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
@@ -396,9 +386,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();
@@ -417,16 +405,14 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      testSetup.fakeActionsRepository.shouldFail = true;
+      fakeActionsRepository.shouldFail = true;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedServerOptionsScreen()),
-      );
+      await tester.pumpWidget(buildWidget());
 
       expect(find.byType(AdvancedServerOptionsScreen), findsOneWidget);
       await tester.pump();

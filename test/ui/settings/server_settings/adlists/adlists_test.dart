@@ -1,29 +1,204 @@
+import 'dart:async';
+
+import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/domain/model/ftl/message.dart';
+import 'package:pi_hole_client/domain/model/group/group.dart';
+import 'package:pi_hole_client/domain/model/list/adlist.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/add_adlist_modal.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/gravity_update_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/add_adlist_modal.dart'
+    hide ListType;
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/edit_adlist_modal.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
 import 'package:pi_hole_client/utils/format.dart';
+import 'package:provider/provider.dart';
+import 'package:result_dart/result_dart.dart';
 
-import '../../../../widgets/helpers.dart';
+import '../../../../../testing/fakes/repositories/api/fake_adlist_repository.dart';
+import '../../../../../testing/fakes/repositories/api/fake_group_repository.dart';
+import '../../../../../testing/fakes/viewmodels/fake_gravity_update_viewmodel.dart';
+import '../../../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
+import '../../../../../testing/test_app.dart';
+
+// ---------------------------------------------------------------------------
+// Test-specific fake adlist repository that returns data matching the old
+// mock expectations used by the widget tests.
+// ---------------------------------------------------------------------------
+class _TestAdlistRepository extends FakeAdlistRepository {
+  final _now = DateTime.fromMillisecondsSinceEpoch(1742739018 * 1000);
+  final _nowMod = DateTime.fromMillisecondsSinceEpoch(1742739030 * 1000);
+
+  @override
+  Future<Result<List<Adlist>>> fetchAdlists({
+    String? adlist,
+    ListType? type,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Force fetchAdlists failure'));
+    }
+    return Success([
+      Adlist(
+        address: 'https://hosts-file.net/ad_servers.txt',
+        comment: 'Some comment for this list',
+        groups: [0],
+        enabled: true,
+        id: 106,
+        type: ListType.block,
+        dateAdded: _now,
+        dateModified: _nowMod,
+        dateUpdated: DateTime.fromMillisecondsSinceEpoch(0),
+        number: 0,
+        invalidDomains: 0,
+        abpEntries: 0,
+        status: ListsStatus.unknown,
+      ),
+    ]);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Test-specific fake group repository that returns data matching the old
+// mock expectations.
+// ---------------------------------------------------------------------------
+class _TestGroupRepository extends FakeGroupRepository {
+  @override
+  Future<Result<List<Group>>> fetchGroups() async {
+    if (shouldFail) {
+      return Failure(Exception('Force fetchGroups failure'));
+    }
+    return Success([
+      Group(
+        id: 0,
+        name: 'Default',
+        comment: 'The default group',
+        enabled: true,
+        dateAdded: DateTime.fromMillisecondsSinceEpoch(1594670974 * 1000),
+        dateModified: DateTime.fromMillisecondsSinceEpoch(1611157897 * 1000),
+      ),
+      Group(
+        id: 5,
+        name: 'group1',
+        enabled: true,
+        dateAdded: DateTime.fromMillisecondsSinceEpoch(1604871899 * 1000),
+        dateModified: DateTime.fromMillisecondsSinceEpoch(1604871899 * 1000),
+      ),
+    ]);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// A fake adlist repository whose fetchAdlists never completes, keeping the
+// ViewModel in the "loading" state.
+// ---------------------------------------------------------------------------
+class _NeverCompleteAdlistRepository extends FakeAdlistRepository {
+  @override
+  Future<Result<List<Adlist>>> fetchAdlists({String? adlist, ListType? type}) {
+    return Completer<Result<List<Adlist>>>().future;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Shared test fixtures
+// ---------------------------------------------------------------------------
+const _serverV6 = Server(
+  address: 'http://localhost:8081',
+  alias: 'test v6',
+  defaultServer: false,
+  apiVersion: 'v6',
+  allowSelfSignedCert: true,
+  ignoreCertificateErrors: false,
+);
+
+const _serverV5 = Server(
+  address: 'http://localhost:8080',
+  alias: 'test v5',
+  defaultServer: false,
+  apiVersion: 'v5',
+  allowSelfSignedCert: true,
+  ignoreCertificateErrors: false,
+);
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('Adlists Screen Widget Tests', () {
-    late TestSetupHelper testSetup;
+    late _TestAdlistRepository fakeAdlistRepository;
+    late _TestGroupRepository fakeGroupRepository;
+    late FakeServersViewModel fakeServersViewModel;
+    late AdlistsViewModel adlistsViewModel;
+    late GroupsViewModel groupsViewModel;
+    late FakeGravityUpdateViewModel fakeGravityUpdateViewModel;
 
     setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+      Command.globalExceptionHandler = (_, _) {};
+
+      fakeAdlistRepository = _TestAdlistRepository();
+      fakeGroupRepository = _TestGroupRepository();
+
+      fakeServersViewModel = FakeServersViewModel()..selectedServer = _serverV6;
+      adlistsViewModel = AdlistsViewModel(
+        adListRepository: fakeAdlistRepository,
+      );
+      groupsViewModel = GroupsViewModel(groupRepository: fakeGroupRepository);
+      fakeGravityUpdateViewModel = FakeGravityUpdateViewModel()
+        ..logs = ['log1', 'log2']
+        ..messages = [
+          FtlMessage(
+            id: 5,
+            timestamp: DateTime.fromMillisecondsSinceEpoch(1743936482 * 1000),
+            message: 'List with ID 10 was inaccessible during last gravity run',
+            url: 'http://localhost:8989/test.txt',
+          ),
+        ]
+        ..startedAtTime = DateTime.fromMillisecondsSinceEpoch(1733465700 * 1000)
+        ..completedAtTime = DateTime.fromMillisecondsSinceEpoch(
+          1733465700 * 1000,
+        );
     });
+
+    tearDown(() {
+      adlistsViewModel.dispose();
+      groupsViewModel.dispose();
+      Command.globalExceptionHandler = null;
+    });
+
+    Widget buildAdlistWidget({
+      FakeServersViewModel? serversOverride,
+      AdlistsViewModel? adlistsOverride,
+      GroupsViewModel? groupsOverride,
+      FakeGravityUpdateViewModel? gravityOverride,
+    }) {
+      return buildTestApp(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<ServersViewModel>.value(
+              value: serversOverride ?? fakeServersViewModel,
+            ),
+            ChangeNotifierProvider<AdlistsViewModel>.value(
+              value: adlistsOverride ?? adlistsViewModel,
+            ),
+            ChangeNotifierProvider<GroupsViewModel>.value(
+              value: groupsOverride ?? groupsViewModel,
+            ),
+            ChangeNotifierProvider<GravityUpdateViewModel>.value(
+              value: gravityOverride ?? fakeGravityUpdateViewModel,
+            ),
+          ],
+          child: const AdlistScreen(),
+        ),
+      );
+    }
 
     testWidgets('should show screen with V6 server (tablet)', (
       WidgetTester tester,
@@ -36,9 +211,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pumpAndSettle();
@@ -56,16 +229,14 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      testSetup.initializeMock();
+      fakeServersViewModel.selectedServer = _serverV5;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pumpAndSettle();
@@ -82,16 +253,14 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(testSetup.mockServersViewModel.selectedServer).thenReturn(null);
+      fakeServersViewModel.selectedServer = null;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pumpAndSettle();
@@ -108,18 +277,14 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(
-          testSetup.mockAdlistsViewModel.loadingStatus,
-        ).thenReturn(LoadStatus.error);
+        fakeAdlistRepository.shouldFail = true;
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
           tester.view.resetDevicePixelRatio();
         });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(const AdlistScreen()),
-        );
+        await tester.pumpWidget(buildAdlistWidget());
 
         expect(find.byType(AdlistScreen), findsOneWidget);
         await tester.pump();
@@ -139,18 +304,17 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(
-          testSetup.mockAdlistsViewModel.loadingStatus,
-        ).thenReturn(LoadStatus.loading);
-
         addTearDown(() {
           tester.view.resetPhysicalSize();
           tester.view.resetDevicePixelRatio();
         });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(const AdlistScreen()),
+        // Build the widget but use a never-completing repo to keep loading
+        final slowVm = AdlistsViewModel(
+          adListRepository: _NeverCompleteAdlistRepository(),
         );
+
+        await tester.pumpWidget(buildAdlistWidget(adlistsOverride: slowVm));
         await tester.pump(const Duration(seconds: 1));
 
         expect(find.byType(AdlistScreen), findsOneWidget);
@@ -158,6 +322,10 @@ void main() async {
         expect(find.text('Allowlist'), findsOneWidget);
         expect(find.text('Blocklist'), findsOneWidget);
         expect(find.text('Loading list...'), findsOneWidget);
+
+        // Dispose the VM and pump to flush pending Command timers
+        slowVm.dispose();
+        await tester.pump(const Duration(milliseconds: 100));
       },
     );
 
@@ -172,9 +340,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -198,9 +364,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -224,21 +388,16 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      when(testSetup.mockAdlistsViewModel.searchMode).thenReturn(true);
+      adlistsViewModel.setSearchMode(true);
+      adlistsViewModel.onSearch('xxx');
 
-      when(
-        testSetup.mockAdlistsViewModel.searchTerm,
-      ).thenReturn('xxx');
-
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Blocklist'));
-      when(testSetup.mockAdlistsViewModel.searchMode).thenReturn(true);
+      adlistsViewModel.setSearchMode(true);
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.close_rounded), findsOneWidget);
@@ -255,9 +414,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -296,9 +453,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -338,9 +493,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -381,9 +534,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -414,9 +565,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -453,9 +602,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -488,17 +635,15 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(testSetup.mockGravityUpdateViewModel.logs).thenReturn([]);
-      when(testSetup.mockGravityUpdateViewModel.messages).thenReturn([]);
+      fakeGravityUpdateViewModel.logs = [];
+      fakeGravityUpdateViewModel.messages = [];
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -521,24 +666,16 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockGravityUpdateViewModel.status,
-      ).thenReturn(GravityStatus.running);
-
-      when(
-        testSetup.mockGravityUpdateViewModel.logs,
-      ).thenReturn(['Log1', 'Log2']);
-
-      when(testSetup.mockGravityUpdateViewModel.isLoaded).thenReturn(true);
+      fakeGravityUpdateViewModel.status = GravityStatus.running;
+      fakeGravityUpdateViewModel.logs = ['Log1', 'Log2'];
+      fakeGravityUpdateViewModel.isLoaded = true;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -570,24 +707,16 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockGravityUpdateViewModel.messages).thenReturn([]);
-
-        when(
-          testSetup.mockGravityUpdateViewModel.logs,
-        ).thenReturn(['Log1', 'Log2']);
-
-        when(
-          testSetup.mockGravityUpdateViewModel.status,
-        ).thenReturn(GravityStatus.error);
+        fakeGravityUpdateViewModel.messages = [];
+        fakeGravityUpdateViewModel.logs = ['Log1', 'Log2'];
+        fakeGravityUpdateViewModel.status = GravityStatus.error;
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
           tester.view.resetDevicePixelRatio();
         });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(const AdlistScreen()),
-        );
+        await tester.pumpWidget(buildAdlistWidget());
 
         expect(find.byType(AdlistScreen), findsOneWidget);
         await tester.pump();
@@ -595,15 +724,11 @@ void main() async {
         await tester.tap(find.text('Update Gravity'));
         await tester.pumpAndSettle();
         expect(find.text('Gravity update failed'), findsOneWidget);
-        // expect(
-        //   find.text('2024-12-06 15:15 (0.0 seconds)'),
-        //   findsOneWidget,
-        // );
         expect(
           find.text(
             formatWithDuration(
-              testSetup.mockGravityUpdateViewModel.startedAtTime,
-              testSetup.mockGravityUpdateViewModel.completedAtTime,
+              fakeGravityUpdateViewModel.startedAtTime,
+              fakeGravityUpdateViewModel.completedAtTime,
             ),
           ),
           findsOneWidget,
@@ -622,28 +747,18 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockGravityUpdateViewModel.logs,
-      ).thenReturn(['Log1', 'Log2', 'Done']);
-
-      when(
-        testSetup.mockGravityUpdateViewModel.status,
-      ).thenReturn(GravityStatus.success);
-
-      when(testSetup.mockGravityUpdateViewModel.isLoaded).thenReturn(true);
-
-      when(
-        testSetup.mockGravityUpdateViewModel.completedAtTime,
-      ).thenReturn(DateTime.fromMillisecondsSinceEpoch(1733465701 * 1000));
+      fakeGravityUpdateViewModel.logs = ['Log1', 'Log2', 'Done'];
+      fakeGravityUpdateViewModel.status = GravityStatus.success;
+      fakeGravityUpdateViewModel.isLoaded = true;
+      fakeGravityUpdateViewModel.completedAtTime =
+          DateTime.fromMillisecondsSinceEpoch(1733465701 * 1000);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -651,15 +766,11 @@ void main() async {
       await tester.tap(find.text('Update Gravity'));
       await tester.pumpAndSettle();
       expect(find.text('Gravity update completed'), findsOneWidget);
-      // expect(
-      //   find.text('2024-12-06 15:15 (1.0 seconds)'),
-      //   findsOneWidget,
-      // );
       expect(
         find.text(
           formatWithDuration(
-            testSetup.mockGravityUpdateViewModel.startedAtTime,
-            testSetup.mockGravityUpdateViewModel.completedAtTime,
+            fakeGravityUpdateViewModel.startedAtTime,
+            fakeGravityUpdateViewModel.completedAtTime,
           ),
         ),
         findsOneWidget,
@@ -680,24 +791,16 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockGravityUpdateViewModel.logs,
-      ).thenReturn(['Log1', 'Log2', 'Done']);
-
-      when(
-        testSetup.mockGravityUpdateViewModel.status,
-      ).thenReturn(GravityStatus.success);
-
-      when(testSetup.mockGravityUpdateViewModel.isLoaded).thenReturn(true);
+      fakeGravityUpdateViewModel.logs = ['Log1', 'Log2', 'Done'];
+      fakeGravityUpdateViewModel.status = GravityStatus.success;
+      fakeGravityUpdateViewModel.isLoaded = true;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -723,22 +826,17 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockGravityUpdateViewModel.status,
-      ).thenReturn(GravityStatus.idle);
-
-      when(testSetup.mockGravityUpdateViewModel.logs).thenReturn([]);
-      when(testSetup.mockGravityUpdateViewModel.messages).thenReturn([]);
-      when(testSetup.mockGravityUpdateViewModel.isLoaded).thenReturn(true);
+      fakeGravityUpdateViewModel.status = GravityStatus.idle;
+      fakeGravityUpdateViewModel.logs = [];
+      fakeGravityUpdateViewModel.messages = [];
+      fakeGravityUpdateViewModel.isLoaded = true;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -750,7 +848,7 @@ void main() async {
       await tester.tap(find.byIcon(Icons.rocket_launch_rounded).first);
       await tester.pumpAndSettle();
 
-      verify(testSetup.mockGravityUpdateViewModel.start()).called(1);
+      expect(fakeGravityUpdateViewModel.startCallCount, 1);
     });
 
     testWidgets('should delete message when swiped', (
@@ -759,32 +857,18 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(
-        testSetup.mockGravityUpdateViewModel.logs,
-      ).thenReturn(['Log1', 'Log2', 'Done']);
-
-      when(
-        testSetup.mockGravityUpdateViewModel.status,
-      ).thenReturn(GravityStatus.success);
-
-      when(testSetup.mockGravityUpdateViewModel.isLoaded).thenReturn(true);
-
-      when(
-        testSetup.mockGravityUpdateViewModel.completedAtTime,
-      ).thenReturn(DateTime.fromMillisecondsSinceEpoch(1733465701 * 1000));
-
-      when(
-        testSetup.mockGravityUpdateViewModel.removeMessage(any),
-      ).thenAnswer((_) async => true);
+      fakeGravityUpdateViewModel.logs = ['Log1', 'Log2', 'Done'];
+      fakeGravityUpdateViewModel.status = GravityStatus.success;
+      fakeGravityUpdateViewModel.isLoaded = true;
+      fakeGravityUpdateViewModel.completedAtTime =
+          DateTime.fromMillisecondsSinceEpoch(1733465701 * 1000);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdlistScreen()),
-      );
+      await tester.pumpWidget(buildAdlistWidget());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();

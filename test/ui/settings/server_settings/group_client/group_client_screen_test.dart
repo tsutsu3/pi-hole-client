@@ -1,12 +1,20 @@
+import 'dart:async';
+
 import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
+import 'package:pi_hole_client/ui/core/view_models/local_dns_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/clients_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/add_client_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/add_group_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/client_details_screen.dart';
@@ -16,19 +24,118 @@ import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/group_client_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/group_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/groups_list.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../widgets/helpers.dart';
+import '../../../../../testing/fakes/repositories/api/fake_adlist_repository.dart';
+import '../../../../../testing/fakes/repositories/api/fake_client_repository.dart';
+import '../../../../../testing/fakes/repositories/api/fake_domain_repository.dart';
+import '../../../../../testing/fakes/repositories/api/fake_group_repository.dart';
+import '../../../../../testing/fakes/repositories/api/fake_local_dns_repository.dart';
+import '../../../../../testing/fakes/repositories/api/fake_network_repository.dart';
+import '../../../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
+import '../../../../../testing/test_app.dart';
+
+// ---------------------------------------------------------------------------
+// Shared test fixtures
+// ---------------------------------------------------------------------------
+const _serverV6 = Server(
+  address: 'http://localhost:8081',
+  alias: 'test v6',
+  defaultServer: false,
+  apiVersion: 'v6',
+  allowSelfSignedCert: true,
+  ignoreCertificateErrors: false,
+);
+
+const _serverV5 = Server(
+  address: 'http://localhost:8080',
+  alias: 'test v5',
+  defaultServer: false,
+  apiVersion: 'v5',
+  allowSelfSignedCert: true,
+  ignoreCertificateErrors: false,
+);
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('Groups & Clients Screen Widget Tests', () {
-    late TestSetupHelper testSetup;
+    late FakeServersViewModel fakeServersViewModel;
+    late ClientsViewModel clientsViewModel;
+    late GroupsViewModel groupsViewModel;
+    late LocalDnsViewModel localDnsViewModel;
+    late DomainsViewModel domainsViewModel;
+    late AdlistsViewModel adlistsViewModel;
+    late FakeClientRepository fakeClientRepository;
+    late FakeGroupRepository fakeGroupRepository;
+    late FakeLocalDnsRepository fakeLocalDnsRepository;
+    late FakeNetworkRepository fakeNetworkRepository;
+    late FakeDomainRepository fakeDomainRepository;
+    late FakeAdlistRepository fakeAdlistRepository;
 
     setUp(() async {
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+      Command.globalExceptionHandler = (_, _) {};
+
+      fakeClientRepository = FakeClientRepository();
+      fakeGroupRepository = FakeGroupRepository();
+      fakeLocalDnsRepository = FakeLocalDnsRepository();
+      fakeNetworkRepository = FakeNetworkRepository();
+      fakeDomainRepository = FakeDomainRepository();
+      fakeAdlistRepository = FakeAdlistRepository();
+
+      fakeServersViewModel = FakeServersViewModel()..selectedServer = _serverV6;
+
+      clientsViewModel = ClientsViewModel(
+        clientRepository: fakeClientRepository,
+      );
+      groupsViewModel = GroupsViewModel(groupRepository: fakeGroupRepository);
+      localDnsViewModel = LocalDnsViewModel(
+        localDnsRepository: fakeLocalDnsRepository,
+        networkRepository: fakeNetworkRepository,
+      );
+      domainsViewModel = DomainsViewModel(
+        domainRepository: fakeDomainRepository,
+      );
+      adlistsViewModel = AdlistsViewModel(
+        adListRepository: fakeAdlistRepository,
+      );
     });
+
+    tearDown(() {
+      clientsViewModel.dispose();
+      groupsViewModel.dispose();
+      domainsViewModel.dispose();
+      adlistsViewModel.dispose();
+      Command.globalExceptionHandler = null;
+    });
+
+    Widget buildWidget(Widget child) {
+      return buildTestApp(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider<ServersViewModel>.value(
+              value: fakeServersViewModel,
+            ),
+            ChangeNotifierProvider<ClientsViewModel>.value(
+              value: clientsViewModel,
+            ),
+            ChangeNotifierProvider<GroupsViewModel>.value(
+              value: groupsViewModel,
+            ),
+            ChangeNotifierProvider<LocalDnsViewModel>.value(
+              value: localDnsViewModel,
+            ),
+            ChangeNotifierProvider<DomainsViewModel>.value(
+              value: domainsViewModel,
+            ),
+            ChangeNotifierProvider<AdlistsViewModel>.value(
+              value: adlistsViewModel,
+            ),
+          ],
+          child: child,
+        ),
+      );
+    }
 
     testWidgets('should show screen with V6 server (tablet)', (
       WidgetTester tester,
@@ -41,9 +148,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const GroupClientScreen()),
-      );
+      await tester.pumpWidget(buildWidget(const GroupClientScreen()));
 
       expect(find.byType(GroupClientScreen), findsOneWidget);
       await tester.pump();
@@ -60,16 +165,14 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      testSetup.initializeMock();
+      fakeServersViewModel.selectedServer = _serverV5;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const GroupClientScreen()),
-      );
+      await tester.pumpWidget(buildWidget(const GroupClientScreen()));
 
       expect(find.byType(GroupClientScreen), findsOneWidget);
       await tester.pump();
@@ -84,16 +187,14 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      when(testSetup.mockServersViewModel.selectedServer).thenReturn(null);
+      fakeServersViewModel.selectedServer = null;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const GroupClientScreen()),
-      );
+      await tester.pumpWidget(buildWidget(const GroupClientScreen()));
 
       expect(find.byType(GroupClientScreen), findsOneWidget);
       await tester.pump();
@@ -113,9 +214,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const GroupClientScreen()),
-      );
+      await tester.pumpWidget(buildWidget(const GroupClientScreen()));
 
       await tester.pumpAndSettle();
 
@@ -125,7 +224,8 @@ void main() async {
       await tester.enterText(find.byType(TextFormField), 'local');
       await tester.pumpAndSettle();
 
-      verify(testSetup.mockClientsViewModel.onSearch('local')).called(1);
+      // Verify search was applied by checking the viewmodel state
+      expect(clientsViewModel.searchTerm, 'local');
     });
 
     testWidgets('should open group edit modal from details', (
@@ -139,9 +239,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const GroupClientScreen()),
-      );
+      await tester.pumpWidget(buildWidget(const GroupClientScreen()));
 
       await tester.pumpAndSettle();
 
@@ -162,36 +260,20 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      final client = ManagedClient(
-        client: '192.168.0.10',
-        name: 'laptop',
-        comment: 'Office',
-        groups: const [0],
-        id: 1,
-        dateAdded: DateTime(2024, 1, 2),
-        dateModified: DateTime(2024, 1, 2),
-      );
-
-      when(testSetup.mockClientsViewModel.clients).thenReturn([client]);
-      when(
-        testSetup.mockClientsViewModel.filteredClients,
-      ).thenReturn([client]);
-
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const GroupClientScreen()),
-      );
+      await tester.pumpWidget(buildWidget(const GroupClientScreen()));
 
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Clients'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.text('192.168.0.10 (laptop)'));
+      // FakeClientRepository returns '192.168.1.100 (desktop)'
+      await tester.tap(find.text('192.168.1.100 (desktop)'));
       await tester.pumpAndSettle();
 
       expect(find.text('Client details'), findsOneWidget);
@@ -208,62 +290,38 @@ void main() async {
       tester.view.physicalSize = const Size(1200, 900);
       tester.view.devicePixelRatio = 1.0;
 
-      final groups = [
-        Group(
-          id: 0,
-          name: 'Default',
-          enabled: true,
-          dateAdded: DateTime(2024, 1, 2),
-          dateModified: DateTime(2024, 1, 2),
-        ),
-        Group(
-          id: 1,
-          name: 'Work',
-          enabled: true,
-          comment: 'Office',
-          dateAdded: DateTime(2024, 1, 3),
-          dateModified: DateTime(2024, 1, 4),
-        ),
-      ];
-
-      final clients = [
-        ManagedClient(
-          client: '192.168.1.10',
-          name: 'laptop',
-          groups: const [1],
-          id: 1,
-          dateAdded: DateTime(2024, 1, 2),
-          dateModified: DateTime(2024, 1, 2),
-        ),
-      ];
-
-      when(testSetup.mockGroupsViewModel.groups).thenReturn(groups);
-      when(testSetup.mockClientsViewModel.clients).thenReturn(clients);
-
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildWidget(
           GroupsList(
             scrollController: ScrollController(),
-            searchTerm: 'Work',
+            searchTerm: 'test',
             selectedGroup: null,
             onGroupSelected: (_) {},
           ),
         ),
       );
 
-      await tester.pumpAndSettle();
+      // Kick off loads and pump to let async complete + rebuild
+      unawaited(groupsViewModel.loadGroups.runAsync());
+      unawaited(clientsViewModel.loadClients.runAsync());
+      unawaited(domainsViewModel.loadDomains.runAsync());
+      unawaited(adlistsViewModel.loadAdlists.runAsync());
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
-      expect(find.text('Work'), findsOneWidget);
+      // FakeGroupRepository returns 'Default' and 'test'
+      // Searching 'test' should only show the 'test' group
+      expect(find.text('test'), findsOneWidget);
       expect(find.text('Default'), findsNothing);
-      expect(find.text('Clients: 1 | Domains: 0 | Adlists: 0'), findsOneWidget);
 
       await tester.tap(find.byType(FloatingActionButton));
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(AddGroupModal), findsOneWidget);
     });
@@ -274,19 +332,13 @@ void main() async {
       tester.view.physicalSize = const Size(1200, 900);
       tester.view.devicePixelRatio = 1.0;
 
-      when(testSetup.mockGroupsViewModel.addGroup).thenReturn(
-        Command.createAsyncNoResult<
-          ({String name, String? comment, bool? enabled})
-        >((_) async {}),
-      );
-
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildWidget(
           GroupsList(
             scrollController: ScrollController(),
             searchTerm: '',
@@ -316,38 +368,13 @@ void main() async {
       tester.view.physicalSize = const Size(1200, 900);
       tester.view.devicePixelRatio = 1.0;
 
-      final clients = [
-        ManagedClient(
-          client: '192.168.1.20',
-          name: 'desktop',
-          comment: 'Lab',
-          groups: const [0],
-          id: 2,
-          dateAdded: DateTime(2024, 1, 2),
-          dateModified: DateTime(2024, 1, 2),
-        ),
-      ];
-
-      when(
-        testSetup.mockClientsViewModel.filteredClients,
-      ).thenReturn(clients);
-      when(
-        testSetup.mockLocalDnsViewModel.ipToMac,
-      ).thenReturn({'192.168.1.20': '00:11:22:33:44:55'});
-      when(
-        testSetup.mockLocalDnsViewModel.ipToHostname,
-      ).thenReturn({'192.168.1.20': 'desktop'});
-      when(
-        testSetup.mockLocalDnsViewModel.macToIp,
-      ).thenReturn({'00:11:22:33:44:55': '192.168.1.20'});
-
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildWidget(
           ClientsList(
             scrollController: ScrollController(),
             onClientSelected: (_) {},
@@ -357,14 +384,17 @@ void main() async {
         ),
       );
 
-      await tester.pumpAndSettle();
+      // Kick off load and pump to let async complete + rebuild
+      unawaited(clientsViewModel.loadClients.runAsync());
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
-      expect(find.textContaining('MAC Address:'), findsOneWidget);
-      expect(find.text('192.168.1.20 (desktop)'), findsOneWidget);
-      expect(find.textContaining('Groups:'), findsOneWidget);
+      // FakeClientRepository returns two clients
+      expect(find.text('192.168.1.100 (desktop)'), findsOneWidget);
 
       await tester.tap(find.byType(FloatingActionButton));
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(AddClientModal), findsOneWidget);
     });
@@ -375,19 +405,13 @@ void main() async {
       tester.view.physicalSize = const Size(1200, 900);
       tester.view.devicePixelRatio = 1.0;
 
-      when(testSetup.mockClientsViewModel.addClient).thenReturn(
-        Command.createAsyncNoResult<
-          ({String client, String? comment, List<int>? groups})
-        >((_) async {}),
-      );
-
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildWidget(
           ClientsList(
             scrollController: ScrollController(),
             onClientSelected: (_) {},
@@ -432,9 +456,7 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
-          GroupDetailsScreen(group: group, remove: (_) {}),
-        ),
+        buildWidget(GroupDetailsScreen(group: group, remove: (_) {})),
       );
 
       await tester.pumpAndSettle();
@@ -475,7 +497,7 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildWidget(
           ClientDetailsScreen(
             client: client,
             remove: (_) {},

@@ -8,6 +8,9 @@ class FakeAppConfigRepository implements AppConfigRepository {
   bool shouldFailUpdate = false;
   bool shouldFailResetAppConfig = false;
 
+  /// Controls the `importantInfoReaden` value returned by [appConfig]/[fetchAppConfig].
+  int importantInfoReadenValue = 0;
+
   @override
   Result<AppDbData> get appConfig {
     if (shouldFailAppConfig) {
@@ -25,7 +28,7 @@ class FakeAppConfigRepository implements AppConfigRepository {
         isLivelogPaused: 1,
         passCode: null,
         useBiometricAuth: 0,
-        importantInfoReaden: 0,
+        importantInfoReaden: importantInfoReadenValue,
         hideZeroValues: 0,
         loadingAnimation: 0,
         statisticsVisualizationMode: 0,
@@ -53,7 +56,7 @@ class FakeAppConfigRepository implements AppConfigRepository {
         isLivelogPaused: 1,
         passCode: null,
         useBiometricAuth: 0,
-        importantInfoReaden: 0,
+        importantInfoReaden: importantInfoReadenValue,
         hideZeroValues: 0,
         loadingAnimation: 0,
         statisticsVisualizationMode: 0,

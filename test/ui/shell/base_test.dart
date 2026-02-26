@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/start_warning_modal.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/shell/base.dart';
 
-import './helpers.dart';
+import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
+import '../../../testing/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('Base Widget Tests', () {
-    late TestSetupHelper testSetup;
+    late FakeServersViewModel serversViewModel;
 
-    setUp(() async {
-      testSetup = TestSetupHelper();
-
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+    setUp(() {
+      serversViewModel = FakeServersViewModel();
     });
 
     testWidgets('should show important info modal when first time access', (
@@ -29,12 +29,14 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      when(testSetup.mockServersViewModel.selectedServer).thenReturn(null);
-      when(testSetup.mockConfigProvider.importantInfoReaden).thenReturn(false);
+      // importantInfoReaden defaults to 0 (false) in FakeAppConfigRepository
+      final appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           const Base(child: SizedBox()),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
         ),
       );
 
@@ -54,11 +56,16 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      when(testSetup.mockServersViewModel.selectedServer).thenReturn(null);
+      // Mark important info as already read so the modal is skipped
+      final repo = FakeAppConfigRepository()..importantInfoReadenValue = 1;
+      final appConfigViewModel = AppConfigViewModel(repo);
+      appConfigViewModel.saveFromDb(repo.appConfig.getOrThrow());
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
+        buildTestApp(
           const Base(child: Text('Test Child')),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
         ),
       );
 
