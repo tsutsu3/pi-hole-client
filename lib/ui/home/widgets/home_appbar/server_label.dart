@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
-import 'package:pi_hole_client/domain/use_cases/server_connection_service.dart';
+import 'package:pi_hole_client/ui/core/services/server_connection_service.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';

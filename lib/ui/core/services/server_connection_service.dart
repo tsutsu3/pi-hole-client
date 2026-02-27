@@ -23,6 +23,39 @@ import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
 import 'package:result_dart/result_dart.dart';
 
+/// UI-layer orchestrator that manages the full server connection flow.
+///
+/// Handles authentication, TLS certificate validation, and user-facing
+/// feedback (modals, snackbars, dialogs) for connecting to a Pi-hole server.
+///
+/// ## Responsibilities
+/// - Authenticate with the server (v5 token / v6 session)
+/// - Validate and optionally pin TLS certificates for self-signed HTTPS servers
+/// - Update [ServersViewModel] and [StatusViewModel] on success or failure
+/// - Show [ProcessModal] during connection, and error/caution snackbars on failure
+/// - Prompt the user to update the pinned certificate fingerprint when a mismatch
+///   is detected, then retry the connection automatically
+///
+/// ## Usage
+/// ```dart
+/// final service = ServerConnectionService(
+///   context: context,
+///   appConfigViewModel: appConfigViewModel,
+///   statusViewModel: statusViewModel,
+///   serversViewModel: serversViewModel,
+///   server: server,
+///   secureStorageService: secureStorageService,
+///   createBundle: createBundle,
+///   showModal: true,
+/// );
+/// await service.connect();
+/// ```
+///
+/// ## Notes
+/// - This class intentionally lives in `ui/core/services/` because it depends
+///   on [BuildContext] and UI widgets. It is **not** a domain use case.
+/// - The actual API calls (auth, DNS status) are delegated to repositories
+///   created by [createBundle].
 class ServerConnectionService {
   ServerConnectionService({
     required this.context,
