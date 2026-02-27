@@ -12,7 +12,6 @@ import 'package:flutter/material.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i6;
 import 'package:package_info_plus/package_info_plus.dart' as _i9;
-import 'package:pi_hole_client/data/model/local/app_db_data.dart' as _i12;
 import 'package:pi_hole_client/data/repositories/api/interfaces/actions_respository.dart'
     as _i39;
 import 'package:pi_hole_client/data/repositories/api/interfaces/dns_repository.dart'
@@ -25,6 +24,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_reposito
     as _i21;
 import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart'
     as _i24;
+import 'package:pi_hole_client/domain/model/app/app_config.dart' as _i12;
 import 'package:pi_hole_client/domain/model/app/app_log.dart' as _i8;
 import 'package:pi_hole_client/domain/model/client/managed_client.dart' as _i29;
 import 'package:pi_hole_client/domain/model/domain/domain.dart' as _i20;
@@ -33,7 +33,7 @@ import 'package:pi_hole_client/domain/model/ftl/message.dart' as _i38;
 import 'package:pi_hole_client/domain/model/group/group.dart' as _i34;
 import 'package:pi_hole_client/domain/model/list/adlist.dart' as _i36;
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart' as _i31;
-import 'package:pi_hole_client/domain/model/metrics/queries.dart' as _i18;
+import 'package:pi_hole_client/domain/model/metrics/queries.dart' as _i19;
 import 'package:pi_hole_client/domain/model/network/network.dart' as _i32;
 import 'package:pi_hole_client/domain/model/query_status.dart' as _i16;
 import 'package:pi_hole_client/domain/model/server/server.dart' as _i15;
@@ -48,7 +48,7 @@ import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart'
     as _i23;
 import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart'
     as _i27;
-import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart' as _i17;
+import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart' as _i18;
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart'
     as _i35;
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/gravity_update_viewmodel.dart'
@@ -57,7 +57,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_mod
     as _i28;
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart'
     as _i33;
-import 'package:result_dart/result_dart.dart' as _i19;
+import 'package:result_dart/result_dart.dart' as _i17;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -406,8 +406,8 @@ class MockAppConfigViewModel extends _i1.Mock
           as _i11.Future<bool>);
 
   @override
-  void saveFromDb(_i12.AppDbData? dbData) => super.noSuchMethod(
-    Invocation.method(#saveFromDb, [dbData]),
+  void saveFromDb(_i12.AppConfig? config) => super.noSuchMethod(
+    Invocation.method(#saveFromDb, [config]),
     returnValueForMissingStub: null,
   );
 
@@ -670,6 +670,42 @@ class MockServersViewModel extends _i1.Mock implements _i14.ServersViewModel {
           as _i11.Future<bool>);
 
   @override
+  _i11.Future<_i17.ResultDart<String, Exception>> fetchPassword(
+    String? address,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchPassword, [address]),
+            returnValue: _i11.Future<_i17.ResultDart<String, Exception>>.value(
+              _i6.dummyValue<_i17.ResultDart<String, Exception>>(
+                this,
+                Invocation.method(#fetchPassword, [address]),
+              ),
+            ),
+          )
+          as _i11.Future<_i17.ResultDart<String, Exception>>);
+
+  @override
+  _i11.Future<_i17.ResultDart<({String password, String token}), Exception>>
+  fetchCredentials(String? address) =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchCredentials, [address]),
+            returnValue:
+                _i11.Future<
+                  _i17.ResultDart<({String password, String token}), Exception>
+                >.value(
+                  _i6.dummyValue<
+                    _i17.ResultDart<
+                      ({String password, String token}),
+                      Exception
+                    >
+                  >(this, Invocation.method(#fetchCredentials, [address])),
+                ),
+          )
+          as _i11.Future<
+            _i17.ResultDart<({String password, String token}), Exception>
+          >);
+
+  @override
   void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
@@ -697,7 +733,7 @@ class MockServersViewModel extends _i1.Mock implements _i14.ServersViewModel {
 /// A class which mocks [LogsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLogsViewModel extends _i1.Mock implements _i17.LogsViewModel {
+class MockLogsViewModel extends _i1.Mock implements _i18.LogsViewModel {
   MockLogsViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -805,12 +841,12 @@ class MockLogsViewModel extends _i1.Mock implements _i17.LogsViewModel {
           as Set<_i7.QueryStatusType>);
 
   @override
-  List<_i18.Log> get logsList =>
+  List<_i19.Log> get logsList =>
       (super.noSuchMethod(
             Invocation.getter(#logsList),
-            returnValue: <_i18.Log>[],
+            returnValue: <_i19.Log>[],
           )
-          as List<_i18.Log>);
+          as List<_i19.Log>);
 
   @override
   _i7.LoadStatus get loadStatus =>
@@ -857,12 +893,12 @@ class MockLogsViewModel extends _i1.Mock implements _i17.LogsViewModel {
           as bool);
 
   @override
-  List<_i18.Log> get logsListDisplay =>
+  List<_i19.Log> get logsListDisplay =>
       (super.noSuchMethod(
             Invocation.getter(#logsListDisplay),
-            returnValue: <_i18.Log>[],
+            returnValue: <_i19.Log>[],
           )
-          as List<_i18.Log>);
+          as List<_i19.Log>);
 
   @override
   bool get hasActiveChips =>
@@ -890,7 +926,7 @@ class MockLogsViewModel extends _i1.Mock implements _i17.LogsViewModel {
   );
 
   @override
-  _i11.Future<_i19.ResultDart<_i20.Domain, Exception>> addDomainToList({
+  _i11.Future<_i17.ResultDart<_i20.Domain, Exception>> addDomainToList({
     required String? list,
     required String? domain,
   }) =>
@@ -900,8 +936,8 @@ class MockLogsViewModel extends _i1.Mock implements _i17.LogsViewModel {
               #domain: domain,
             }),
             returnValue:
-                _i11.Future<_i19.ResultDart<_i20.Domain, Exception>>.value(
-                  _i6.dummyValue<_i19.ResultDart<_i20.Domain, Exception>>(
+                _i11.Future<_i17.ResultDart<_i20.Domain, Exception>>.value(
+                  _i6.dummyValue<_i17.ResultDart<_i20.Domain, Exception>>(
                     this,
                     Invocation.method(#addDomainToList, [], {
                       #list: list,
@@ -910,7 +946,7 @@ class MockLogsViewModel extends _i1.Mock implements _i17.LogsViewModel {
                   ),
                 ),
           )
-          as _i11.Future<_i19.ResultDart<_i20.Domain, Exception>>);
+          as _i11.Future<_i17.ResultDart<_i20.Domain, Exception>>);
 
   @override
   void setStatusSelected(List<int>? values) => super.noSuchMethod(
@@ -1062,7 +1098,7 @@ class MockLogsViewModel extends _i1.Mock implements _i17.LogsViewModel {
           as _i11.Future<void>);
 
   @override
-  void setSelectedLog(_i18.Log? log) => super.noSuchMethod(
+  void setSelectedLog(_i19.Log? log) => super.noSuchMethod(
     Invocation.method(#setSelectedLog, [log]),
     returnValueForMissingStub: null,
   );
