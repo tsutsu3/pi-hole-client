@@ -106,7 +106,7 @@ void main() async {
 
     setUp(() async {
       final appConfigRepo = FakeAppConfigRepository()
-        ..importantInfoReadenValue = 1;
+        ..importantInfoReadenValue = true;
       appConfigViewModel = AppConfigViewModel(appConfigRepo);
       appConfigViewModel.saveFromDb(appConfigRepo.appConfig.getOrThrow());
 
@@ -697,7 +697,7 @@ void main() async {
 
     setUp(() async {
       final appConfigRepo = FakeAppConfigRepository()
-        ..importantInfoReadenValue = 1;
+        ..importantInfoReadenValue = true;
       appConfigViewModel = AppConfigViewModel(appConfigRepo);
       appConfigViewModel.saveFromDb(appConfigRepo.appConfig.getOrThrow());
 

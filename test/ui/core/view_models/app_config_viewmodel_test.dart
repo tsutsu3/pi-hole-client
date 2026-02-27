@@ -1,7 +1,7 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:pi_hole_client/data/model/local/app_db_data.dart';
+import 'package:pi_hole_client/domain/model/app/app_config.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 
@@ -164,26 +164,26 @@ void main() {
     test(
       'saveFromDb updates values from database and notifies listeners',
       () async {
-        final appDbData = AppDbData(
+        const appConfig = AppConfig(
           autoRefreshTime: 5,
-          theme: 1,
+          theme: AppThemeMode.light,
           language: 'ja',
-          reducedDataCharts: 1,
+          reducedDataCharts: true,
           logsPerQuery: 5,
           logAutoRefreshTime: 30,
-          liveLog: 0,
-          isLivelogPaused: 0,
+          liveLog: false,
+          isLivelogPaused: false,
+          useBiometricAuth: true,
+          importantInfoReaden: true,
+          hideZeroValues: true,
+          loadingAnimation: false,
+          statisticsVisualizationMode: StatisticsVisualizationMode.pieChart,
+          homeVisualizationMode: HomeVisualizationMode.bar,
+          sendCrashReports: true,
           passCode: '9999',
-          useBiometricAuth: 1,
-          importantInfoReaden: 1,
-          hideZeroValues: 1,
-          loadingAnimation: 0,
-          statisticsVisualizationMode: 1,
-          homeVisualizationMode: 1,
-          sendCrashReports: 1,
         );
 
-        appConfigViewModel.saveFromDb(appDbData);
+        appConfigViewModel.saveFromDb(appConfig);
         expect(appConfigViewModel.getAutoRefreshTime, 5);
         expect(appConfigViewModel.appThemeMode, AppThemeMode.light);
         expect(appConfigViewModel.selectedLanguage, 'ja');
@@ -207,24 +207,6 @@ void main() {
         );
         expect(appConfigViewModel.sendCrashReports, true);
         expect(listenerCalled, true);
-        expect(appDbData.toDict(), {
-          'autoRefreshTime': 5,
-          'theme': 1,
-          'language': 'ja',
-          'reducedDataCharts': 1,
-          'logsPerQuery': 5,
-          'logAutoRefreshTime': 30,
-          'liveLog': 0,
-          'isLivelogPaused': 0,
-          'passCode': '9999',
-          'useBiometricAuth': 1,
-          'importantInfoReaden': 1,
-          'hideZeroValues': 1,
-          'loadingAnimation': 0,
-          'statisticsVisualizationMode': 1,
-          'homeVisualizationMode': 1,
-          'sendCrashReports': 1,
-        });
       },
     );
 
@@ -250,8 +232,9 @@ void main() {
     });
 
     test('setSelectedTheme updates value and notifies listeners', () async {
-      final result =
-          await appConfigViewModel.setSelectedTheme(AppThemeMode.light);
+      final result = await appConfigViewModel.setSelectedTheme(
+        AppThemeMode.light,
+      );
       expect(result, true);
       expect(appConfigViewModel.appThemeMode, AppThemeMode.light);
       expect(listenerCalled, true);

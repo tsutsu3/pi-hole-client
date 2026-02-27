@@ -20,7 +20,7 @@ void main() async {
     late AppConfigViewModel appConfigViewModel;
 
     setUp(() {
-      final repo = FakeAppConfigRepository()..importantInfoReadenValue = 1;
+      final repo = FakeAppConfigRepository()..importantInfoReadenValue = true;
       appConfigViewModel = AppConfigViewModel(repo);
       appConfigViewModel.saveFromDb(repo.appConfig.getOrThrow());
 

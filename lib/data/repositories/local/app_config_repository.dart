@@ -1,8 +1,10 @@
+import 'package:pi_hole_client/data/mapper/local/app_config_mapper.dart';
 import 'package:pi_hole_client/data/model/local/app_db_data.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/data/services/utils/database_utils.dart';
+import 'package:pi_hole_client/domain/model/app/app_config.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -21,7 +23,7 @@ class AppConfigRepository {
   final DatabaseService _database;
   final SecureStorageService _secureStorage;
 
-  AppDbData? _appConfig;
+  AppConfig? _appConfig;
 
   /// Returns the current cached application configuration.
   ///
@@ -29,7 +31,7 @@ class AppConfigRepository {
   /// [fetchAppConfig]. If the configuration has not yet been fetched and cached,
   /// this returns a [Failure]. To ensure the config is available, call
   /// [fetchAppConfig] before accessing this getter.
-  Result<AppDbData> get appConfig {
+  Result<AppConfig> get appConfig {
     if (_appConfig == null) {
       return Failure(
         Exception('App config not loaded. Call fetchAppConfig() first.'),
@@ -48,25 +50,25 @@ class AppConfigRepository {
   /// or [Failure] with an [Exception] if any step fails.
   ///
   /// The configuration is cached in memory after the first successful load.
-  Future<Result<AppDbData>> fetchAppConfig() async {
+  Future<Result<AppConfig>> fetchAppConfig() async {
     try {
       await openDbIfNeeded(_database);
 
-      AppDbData appConfig;
+      AppDbData appDbData;
 
       final rows = await runWithRetry<Result<List<Map<String, dynamic>>>>(
         action: () => _database.rawQuery('SELECT * FROM appConfig'),
         onRetry: (attempt, error, _) =>
             logger.w('Attempt $attempt: Failed to read appConfig - $error'),
       );
-      appConfig = AppDbData.fromMap(rows.getOrThrow()[0]);
+      appDbData = AppDbData.fromMap(rows.getOrThrow()[0]);
 
       final passCode = await _secureStorage.getValue('passCode');
-      appConfig = AppDbData.withSecrets(appConfig, passCode.getOrNull());
+      appDbData = AppDbData.withSecrets(appDbData, passCode.getOrNull());
 
-      _appConfig = appConfig;
+      _appConfig = appDbData.toDomain();
 
-      return Success(appConfig);
+      return Success(_appConfig!);
     } catch (e, st) {
       logger.e('Failed to load app config: $e\n$st');
       return Failure(Exception('Failed to load app config: $e\n$st'));

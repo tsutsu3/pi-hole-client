@@ -57,7 +57,7 @@ void main() async {
       });
 
       // Mark important info as already read so the modal is skipped
-      final repo = FakeAppConfigRepository()..importantInfoReadenValue = 1;
+      final repo = FakeAppConfigRepository()..importantInfoReadenValue = true;
       final appConfigViewModel = AppConfigViewModel(repo);
       appConfigViewModel.saveFromDb(repo.appConfig.getOrThrow());
 

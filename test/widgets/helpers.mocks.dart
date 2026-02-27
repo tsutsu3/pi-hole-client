@@ -12,8 +12,6 @@ import 'package:flutter/material.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i6;
 import 'package:package_info_plus/package_info_plus.dart' as _i9;
-import 'package:pi_hole_client/domain/model/enums.dart' as _i7;
-import 'package:pi_hole_client/domain/model/query_status.dart' as _i16;
 import 'package:pi_hole_client/data/model/local/app_db_data.dart' as _i12;
 import 'package:pi_hole_client/data/repositories/api/interfaces/actions_respository.dart'
     as _i39;
@@ -30,28 +28,31 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_
 import 'package:pi_hole_client/domain/model/app/app_log.dart' as _i8;
 import 'package:pi_hole_client/domain/model/client/managed_client.dart' as _i29;
 import 'package:pi_hole_client/domain/model/domain/domain.dart' as _i20;
+import 'package:pi_hole_client/domain/model/enums.dart' as _i7;
 import 'package:pi_hole_client/domain/model/ftl/message.dart' as _i38;
 import 'package:pi_hole_client/domain/model/group/group.dart' as _i34;
 import 'package:pi_hole_client/domain/model/list/adlist.dart' as _i36;
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart' as _i31;
 import 'package:pi_hole_client/domain/model/metrics/queries.dart' as _i18;
 import 'package:pi_hole_client/domain/model/network/network.dart' as _i32;
+import 'package:pi_hole_client/domain/model/query_status.dart' as _i16;
 import 'package:pi_hole_client/domain/model/server/server.dart' as _i15;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart'
     as _i4;
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/gravity_update_viewmodel.dart'
-    as _i37;
 import 'package:pi_hole_client/ui/core/view_models/local_dns_viewmodel.dart'
     as _i30;
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart'
     as _i14;
-import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart' as _i23;
+import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart'
+    as _i23;
 import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart'
     as _i27;
 import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart' as _i17;
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart'
     as _i35;
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/gravity_update_viewmodel.dart'
+    as _i37;
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/clients_viewmodel.dart'
     as _i28;
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart'
@@ -260,6 +261,14 @@ class MockAppConfigViewModel extends _i1.Mock
           as bool);
 
   @override
+  bool get detailScreenOpen =>
+      (super.noSuchMethod(
+            Invocation.getter(#detailScreenOpen),
+            returnValue: false,
+          )
+          as bool);
+
+  @override
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
@@ -267,6 +276,12 @@ class MockAppConfigViewModel extends _i1.Mock
   @override
   void setShowingSnackbar(bool? status) => super.noSuchMethod(
     Invocation.method(#setShowingSnackbar, [status]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void setDetailScreenOpen(bool? value) => super.noSuchMethod(
+    Invocation.method(#setDetailScreenOpen, [value]),
     returnValueForMissingStub: null,
   );
 
@@ -317,16 +332,6 @@ class MockAppConfigViewModel extends _i1.Mock
     Invocation.method(#addLog, [log]),
     returnValueForMissingStub: null,
   );
-
-  @override
-  void setSelectedSettingsScreen({required int? screen, bool? notify}) =>
-      super.noSuchMethod(
-        Invocation.method(#setSelectedSettingsScreen, [], {
-          #screen: screen,
-          #notify: notify,
-        }),
-        returnValueForMissingStub: null,
-      );
 
   @override
   _i11.Future<bool> setUseBiometrics(bool? biometrics) =>
@@ -506,14 +511,6 @@ class MockServersViewModel extends _i1.Mock implements _i14.ServersViewModel {
   MockServersViewModel() {
     _i1.throwOnMissingStub(this);
   }
-
-  @override
-  _i2.AppColors get colors =>
-      (super.noSuchMethod(
-            Invocation.getter(#colors),
-            returnValue: _FakeAppColors_0(this, Invocation.getter(#colors)),
-          )
-          as _i2.AppColors);
 
   @override
   List<_i15.Server> get getServersList =>
@@ -706,6 +703,14 @@ class MockLogsViewModel extends _i1.Mock implements _i17.LogsViewModel {
   }
 
   @override
+  bool get domainListDirty =>
+      (super.noSuchMethod(
+            Invocation.getter(#domainListDirty),
+            returnValue: false,
+          )
+          as bool);
+
+  @override
   String get apiVersion =>
       (super.noSuchMethod(
             Invocation.getter(#apiVersion),
@@ -875,6 +880,12 @@ class MockLogsViewModel extends _i1.Mock implements _i17.LogsViewModel {
   @override
   void refreshClients() => super.noSuchMethod(
     Invocation.method(#refreshClients, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void clearDomainListDirty() => super.noSuchMethod(
+    Invocation.method(#clearDomainListDirty, []),
     returnValueForMissingStub: null,
   );
 
@@ -1381,6 +1392,12 @@ class MockDomainsViewModel extends _i1.Mock implements _i27.DomainsViewModel {
   @override
   void setSelectedTab(int? tab) => super.noSuchMethod(
     Invocation.method(#setSelectedTab, [tab]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void setSelectedDomain(_i20.Domain? domain) => super.noSuchMethod(
+    Invocation.method(#setSelectedDomain, [domain]),
     returnValueForMissingStub: null,
   );
 

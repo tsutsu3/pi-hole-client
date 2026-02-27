@@ -2,8 +2,8 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:pi_hole_client/data/model/local/app_db_data.dart';
 import 'package:pi_hole_client/data/repositories/local/app_config_repository.dart';
+import 'package:pi_hole_client/domain/model/app/app_config.dart';
 import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/l10n/languages.dart';
@@ -344,33 +344,25 @@ class AppConfigViewModel with ChangeNotifier {
     }
   }
 
-  void saveFromDb(AppDbData dbData) {
-    _autoRefreshTime = dbData.autoRefreshTime;
-    _selectedTheme = dbData.theme < AppThemeMode.values.length
-        ? AppThemeMode.values[dbData.theme]
-        : AppThemeMode.system;
-    _selectedLanguage = dbData.language;
-    _reducedDataCharts = dbData.reducedDataCharts;
-    _logsPerQuery = dbData.logsPerQuery;
-    _logAutoRefreshTime = dbData.logAutoRefreshTime;
-    _liveLog = dbData.liveLog == 1;
-    _isLivelogPaused = dbData.isLivelogPaused == 1;
-    _passCode = dbData.passCode;
-    _useBiometrics = dbData.useBiometricAuth;
-    _importantInfoReaden = dbData.importantInfoReaden;
-    _hideZeroValues = dbData.hideZeroValues;
-    _loadingAnimation = dbData.loadingAnimation;
-    _statisticsVisualizationMode =
-        dbData.statisticsVisualizationMode < StatisticsVisualizationMode.values.length
-            ? StatisticsVisualizationMode.values[dbData.statisticsVisualizationMode]
-            : StatisticsVisualizationMode.list;
-    _homeVisualizationMode =
-        dbData.homeVisualizationMode < HomeVisualizationMode.values.length
-            ? HomeVisualizationMode.values[dbData.homeVisualizationMode]
-            : HomeVisualizationMode.lineArea;
-    _sendCrashReports = dbData.sendCrashReports;
+  void saveFromDb(AppConfig config) {
+    _autoRefreshTime = config.autoRefreshTime;
+    _selectedTheme = config.theme;
+    _selectedLanguage = config.language;
+    _reducedDataCharts = config.reducedDataCharts ? 1 : 0;
+    _logsPerQuery = config.logsPerQuery;
+    _logAutoRefreshTime = config.logAutoRefreshTime;
+    _liveLog = config.liveLog;
+    _isLivelogPaused = config.isLivelogPaused;
+    _passCode = config.passCode;
+    _useBiometrics = config.useBiometricAuth ? 1 : 0;
+    _importantInfoReaden = config.importantInfoReaden ? 1 : 0;
+    _hideZeroValues = config.hideZeroValues ? 1 : 0;
+    _loadingAnimation = config.loadingAnimation ? 1 : 0;
+    _statisticsVisualizationMode = config.statisticsVisualizationMode;
+    _homeVisualizationMode = config.homeVisualizationMode;
+    _sendCrashReports = config.sendCrashReports ? 1 : 0;
 
-    if (dbData.passCode != null) {
+    if (config.passCode != null) {
       _appUnlocked = false;
     }
 

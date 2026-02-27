@@ -91,7 +91,7 @@ Future<void> initializeBiometrics(
         !available.contains(BiometricType.weak);
 
     if (noSupported &&
-        repository.appConfig.getOrThrow().useBiometricAuth == 1) {
+        (repository.appConfig.getOrNull()?.useBiometricAuth ?? false)) {
       logger.w('No usable biometrics available, disabling biometric auth.');
       await configProvider.setUseBiometrics(false);
     }
