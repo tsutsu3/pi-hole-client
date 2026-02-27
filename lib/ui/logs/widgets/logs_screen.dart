@@ -29,6 +29,10 @@ class LogsScreen extends StatefulWidget {
 
 class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
   bool showSearchBar = false;
+  // True while a pull-to-refresh gesture is in progress.
+  // Suppresses LinearProgressIndicator so the circular RefreshIndicator
+  // spinner is the only loading indicator during user-initiated refresh.
+  bool _isPullRefreshing = false;
 
   late LogActionsService logActSvc;
   late ScrollController scrollController;
@@ -253,14 +257,24 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
               loadStatus: logsViewModel.loadStatus,
               logs: logsListDisplay,
               isLoadingMore: logsViewModel.isLoadingMore,
+              // Hide LinearProgressIndicator while the user is actively
+              // pull-to-refreshing — the circular RefreshIndicator spinner
+              // already provides sufficient feedback in that case.
+              isRevalidating:
+                  logsViewModel.isRevalidating && !_isPullRefreshing,
               onRefresh: () async {
-                if (logsViewModel.isFiltering) {
-                  await logsViewModel.applyFilterAndLoad(
-                    inStartTime: logsViewModel.startTime,
-                    inEndTime: logsViewModel.endTime,
-                  );
-                } else {
-                  await logsViewModel.initializeLoad();
+                setState(() => _isPullRefreshing = true);
+                try {
+                  if (logsViewModel.isFiltering) {
+                    await logsViewModel.applyFilterAndLoad(
+                      inStartTime: logsViewModel.startTime,
+                      inEndTime: logsViewModel.endTime,
+                    );
+                  } else {
+                    await logsViewModel.initializeLoad();
+                  }
+                } finally {
+                  if (mounted) setState(() => _isPullRefreshing = false);
                 }
               },
               onLogTap: showLogDetails,

@@ -94,8 +94,11 @@ class LogsViewModel extends ChangeNotifier {
       return Failure(Exception('DomainRepository not available'));
     }
     final type = list == 'white' ? DomainType.allow : DomainType.deny;
-    final result =
-        await _domainRepository!.addDomain(type, DomainKind.exact, domain);
+    final result = await _domainRepository!.addDomain(
+      type,
+      DomainKind.exact,
+      domain,
+    );
     if (result.isSuccess()) _domainListDirty = true;
     return result;
   }
@@ -269,10 +272,13 @@ class LogsViewModel extends ChangeNotifier {
   bool _isOnLogsTab = false;
   int _logAutoRefreshTime = 5;
 
+  bool _isRevalidating = false;
+
   List<Log> get logsList => _logsList;
   LoadStatus get loadStatus => _loadStatus;
   int get sortStatus => _sortStatus;
   bool get isLoadingMore => _isLoadingMore;
+  bool get isRevalidating => _isRevalidating;
   Log? get selectedLog => _selectedLog;
   String get searchText => _searchText;
   double get logsPerQuery => _logsPerQuery;
@@ -344,27 +350,42 @@ class LogsViewModel extends ChangeNotifier {
     List<String>? topClientNames,
     VoidCallback? onRefreshClients,
   }) {
+    // Wire up the callback that triggers a client-list refresh from StatusViewModel.
     _onRefreshClients = onRefreshClients;
+
+    // Propagate the latest client list derived from StatusViewModel.
     if (topClientNames != null && topClientNames.isNotEmpty) {
       _filters.setClients(topClientNames);
     }
+
     if (domainRepository != null) {
       _domainRepository = domainRepository;
     }
+
+    // Swap the filter delegate when the API version changes (v5 <-> v6).
     final version = apiVersion ?? 'v5';
     if (version != _apiVersion) {
       _apiVersion = version;
       _filters = version == 'v6' ? FiltersV6() : FiltersV5();
     }
+
     final repositoryChanged =
         metricsRepository != null && metricsRepository != _repository;
     if (metricsRepository != null) {
       _repository = metricsRepository;
     }
+
+    // Also reset the filter delegate on server switch so stale client/domain
+    // selections from the previous server don't bleed into the new one.
     if (repositoryChanged) {
       _filters = version == 'v6' ? FiltersV6() : FiltersV5();
     }
+
+    // Server switch while the screen is visible: clear the log cache so
+    // initializeLoad() shows the full-screen spinner instead of stale logs,
+    // then reinitialize the pagination services and reload.
     if (repositoryChanged && _screenActive) {
+      _resetLogsCache();
       _paginationService = _paginationServiceFactory(repository: _repository!);
       _livePaginationService = _paginationServiceFactory(
         repository: _repository!,
@@ -422,28 +443,52 @@ class LogsViewModel extends ChangeNotifier {
 
   /// Performs a fresh load: resets the cache, fetches the first page of logs
   /// for the current time window, and starts the live-log timer.
+  ///
+  /// When cached logs exist, uses the Stale-While-Revalidate pattern: the
+  /// existing list is shown immediately while fresh data is fetched in the
+  /// background and then atomically swapped in. When no cache is available
+  /// (first load or server switch), the full-screen spinner is shown as usual.
   Future<void> initializeLoad() async {
     _stopLiveTimer();
-    _resetLogsCache();
     _isFiltering = false;
     _enableNextWindow = true;
-    _loadStatus = LoadStatus.loading;
-    notifyListeners();
+
+    final hasCache = _logsList.isNotEmpty;
+
+    // Notify listeners immediately
+    if (hasCache) {
+      _isRevalidating = true;
+      notifyListeners();
+    } else {
+      _resetLogsCache();
+      _loadStatus = LoadStatus.loading;
+      notifyListeners();
+    }
 
     final now = DateTime.now();
     final start = _getWindowStart(now);
     _paginationService!.reset(start, now);
 
-    await _enqueueLoad();
+    if (hasCache) {
+      await _collectAndReplace();
+      _isRevalidating = false;
 
-    if (_paginationService!.finished == LoadStatus.error) {
-      _loadStatus = LoadStatus.error;
+      if (_paginationService!.finished != LoadStatus.error) {
+        _loadStatus = LoadStatus.loaded;
+      }
       notifyListeners();
-      return;
-    }
+    } else {
+      await _enqueueLoad();
 
-    _loadStatus = LoadStatus.loaded;
-    notifyListeners();
+      if (_paginationService!.finished == LoadStatus.error) {
+        _loadStatus = LoadStatus.error;
+        notifyListeners();
+        return;
+      }
+
+      _loadStatus = LoadStatus.loaded;
+      notifyListeners();
+    }
 
     final endTime = _paginationService!.endTime ?? DateTime.now();
     _resetLiveBaseline(endTime: endTime);
@@ -498,6 +543,7 @@ class LogsViewModel extends ChangeNotifier {
   }
 
   Future<void> _enqueueLoad() async {
+    // Allow up to 3 consecutive empty windows before giving up.
     const maxEmptyWindows = 3;
 
     for (var emptyWindowCount = 0; emptyWindowCount < maxEmptyWindows;) {
@@ -526,6 +572,32 @@ class LogsViewModel extends ChangeNotifier {
     }
 
     logger.w('Max empty windows reached. Stop loading.');
+  }
+
+  /// SWR: collects fresh logs without touching the displayed list, then
+  /// atomically replaces [_logsList] and [_loadedLogKeys].
+  Future<void> _collectAndReplace() async {
+    // Allow up to 3 consecutive empty windows before giving up.
+    const maxEmptyWindows = 3;
+    final freshLogs = <Log>[];
+    final freshKeys = <String>{};
+
+    for (var emptyWindowCount = 0; emptyWindowCount < maxEmptyWindows;) {
+      final newLogs = await _loadNextWithWindowSupport();
+
+      for (final log in newLogs) {
+        final key = _logKey(log);
+        if (freshKeys.add(key)) freshLogs.add(log);
+      }
+
+      if (newLogs.isNotEmpty) break;
+      if (_isPaginationFinished) emptyWindowCount++;
+    }
+
+    _logsList = freshLogs;
+    _loadedLogKeys
+      ..clear()
+      ..addAll(freshKeys);
   }
 
   /// Triggered by the scroll listener to load the next page of logs.

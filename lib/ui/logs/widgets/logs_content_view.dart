@@ -25,6 +25,7 @@ class LogsContentView extends StatelessWidget {
     required this.loadStatus,
     required this.logs,
     required this.isLoadingMore,
+    required this.isRevalidating,
     required this.onRefresh,
     required this.onLogTap,
     required this.selectedLog,
@@ -36,6 +37,7 @@ class LogsContentView extends StatelessWidget {
   final LoadStatus loadStatus;
   final List<Log> logs;
   final bool isLoadingMore;
+  final bool isRevalidating;
   final Future<void> Function() onRefresh;
   final void Function(Log) onLogTap;
   final Log? selectedLog;
@@ -68,29 +70,36 @@ class LogsContentView extends StatelessWidget {
 
       // Show the list of logs when they are loaded
       case LoadStatus.loaded:
-        return RefreshIndicator(
-          onRefresh: onRefresh,
-          child: logs.isNotEmpty
-              ? ListView.builder(
-                  controller: scrollController,
-                  itemCount: isLoadingMore ? logs.length + 1 : logs.length,
-                  itemBuilder: (context, index) {
-                    if (isLoadingMore && index == logs.length) {
-                      // Show a loading indicator at the end of the list when loading more logs
-                      return const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20),
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    }
-                    final log = logs[index];
-                    return LogTile(
-                      log: logs[index],
-                      showLogDetails: onLogTap,
-                      isLogSelected: log == selectedLog,
-                    );
-                  },
-                )
-              : NoLogsMessage(logsPerQuery: logsPerQuery),
+        return Column(
+          children: [
+            if (isRevalidating) const LinearProgressIndicator(),
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: onRefresh,
+                child: logs.isNotEmpty
+                    ? ListView.builder(
+                        controller: scrollController,
+                        itemCount: isLoadingMore ? logs.length + 1 : logs.length,
+                        itemBuilder: (context, index) {
+                          if (isLoadingMore && index == logs.length) {
+                            // Show a loading indicator at the end of the list when loading more logs
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          }
+                          final log = logs[index];
+                          return LogTile(
+                            log: logs[index],
+                            showLogDetails: onLogTap,
+                            isLogSelected: log == selectedLog,
+                          );
+                        },
+                      )
+                    : NoLogsMessage(logsPerQuery: logsPerQuery),
+              ),
+            ),
+          ],
         );
 
       // Show an error message if logs could not be loaded
