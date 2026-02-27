@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/dhcp_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
 import 'package:pi_hole_client/domain/model/dhcp/dhcp.dart';
+import 'package:result_dart/result_dart.dart';
 
 class DhcpData {
   const DhcpData({required this.leases, required this.currentClientIp});
@@ -44,20 +45,28 @@ class DhcpViewModel extends ChangeNotifier {
       _dhcpRepository.fetchDhcpLeases(),
       _ftlRepository.fetchInfoClient(),
     ).wait;
-    final leases = leasesResult.getOrThrow();
-    final client = clientResult.getOrThrow();
-    _data = DhcpData(leases: leases, currentClientIp: client.addr);
+    if (leasesResult case Failure()) throw leasesResult.exceptionOrNull();
+    if (clientResult case Failure()) throw clientResult.exceptionOrNull();
+
+    _data = DhcpData(
+      leases: leasesResult.getOrNull()!,
+      currentClientIp: clientResult.getOrNull()!.addr,
+    );
     notifyListeners();
   }
 
   Future<void> _deleteLease(String ip) async {
     final result = await _dhcpRepository.deleteDhcpLeaseByIp(ip);
-    result.getOrThrow();
-    _data = DhcpData(
-      leases: _data.leases.where((l) => l.ip != ip).toList(),
-      currentClientIp: _data.currentClientIp,
-    );
-    notifyListeners();
+    switch (result) {
+      case Success():
+        _data = DhcpData(
+          leases: _data.leases.where((l) => l.ip != ip).toList(),
+          currentClientIp: _data.currentClientIp,
+        );
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   @override

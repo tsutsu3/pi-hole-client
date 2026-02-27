@@ -41,15 +41,37 @@ class RealtimeStatusUseCaseV6 implements RealtimeStatusUseCase {
         _metricsRepository.fetchStatsTopClientsBlocked(),
       ).wait;
 
+      if (statsSummary case Failure()) {
+        return Failure(statsSummary.exceptionOrNull());
+      }
+      if (blockingStatus case Failure()) {
+        return Failure(blockingStatus.exceptionOrNull());
+      }
+      if (upstreams case Failure()) {
+        return Failure(upstreams.exceptionOrNull());
+      }
+      if (topDomainsAllowed case Failure()) {
+        return Failure(topDomainsAllowed.exceptionOrNull());
+      }
+      if (topDomainsBlocked case Failure()) {
+        return Failure(topDomainsBlocked.exceptionOrNull());
+      }
+      if (topClientsAllowed case Failure()) {
+        return Failure(topClientsAllowed.exceptionOrNull());
+      }
+      if (topClientsBlocked case Failure()) {
+        return Failure(topClientsBlocked.exceptionOrNull());
+      }
+
       return Success(
         _convert(
-          statsSummary.getOrThrow(),
-          blockingStatus.getOrThrow(),
-          upstreams.getOrThrow(),
-          topDomainsAllowed.getOrThrow(),
-          topDomainsBlocked.getOrThrow(),
-          topClientsAllowed.getOrThrow(),
-          topClientsBlocked.getOrThrow(),
+          statsSummary.getOrNull()!,
+          blockingStatus.getOrNull()!,
+          upstreams.getOrNull()!,
+          topDomainsAllowed.getOrNull()!,
+          topDomainsBlocked.getOrNull()!,
+          topClientsAllowed.getOrNull()!,
+          topClientsBlocked.getOrNull()!,
         ),
       );
     } catch (e, st) {

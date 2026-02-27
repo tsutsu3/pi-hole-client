@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
+import 'package:result_dart/result_dart.dart';
 
 class NetworkData {
   const NetworkData({required this.devices, required this.currentClientIp});
@@ -44,20 +45,28 @@ class NetworkViewModel extends ChangeNotifier {
       _networkRepository.fetchDevices(),
       _ftlRepository.fetchInfoClient(),
     ).wait;
-    final devices = devicesResult.getOrThrow();
-    final client = clientResult.getOrThrow();
-    _data = NetworkData(devices: devices, currentClientIp: client.addr);
+    if (devicesResult case Failure()) throw devicesResult.exceptionOrNull();
+    if (clientResult case Failure()) throw clientResult.exceptionOrNull();
+
+    _data = NetworkData(
+      devices: devicesResult.getOrNull()!,
+      currentClientIp: clientResult.getOrNull()!.addr,
+    );
     notifyListeners();
   }
 
   Future<void> _deleteDevice(int deviceId) async {
     final result = await _networkRepository.deleteDevice(deviceId);
-    result.getOrThrow();
-    _data = NetworkData(
-      devices: _data.devices.where((d) => d.id != deviceId).toList(),
-      currentClientIp: _data.currentClientIp,
-    );
-    notifyListeners();
+    switch (result) {
+      case Success():
+        _data = NetworkData(
+          devices: _data.devices.where((d) => d.id != deviceId).toList(),
+          currentClientIp: _data.currentClientIp,
+        );
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   @override

@@ -6,6 +6,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/local_dns_reposi
 import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
+import 'package:result_dart/result_dart.dart';
 
 class LocalDnsData {
   const LocalDnsData({required this.records, required this.deviceOptions});
@@ -56,9 +57,12 @@ class LocalDnsViewModel extends ChangeNotifier {
       _localDnsRepository.fetchRecords(),
       _networkRepository.fetchDevices(),
     ).wait;
+    if (dnsResult case Failure()) throw dnsResult.exceptionOrNull();
+    if (devicesResult case Failure()) throw devicesResult.exceptionOrNull();
+
     _data = LocalDnsData(
-      records: dnsResult.getOrThrow(),
-      deviceOptions: _devicesToOptions(devicesResult.getOrThrow()),
+      records: dnsResult.getOrNull()!,
+      deviceOptions: _devicesToOptions(devicesResult.getOrNull()!),
     );
     notifyListeners();
   }
@@ -68,12 +72,16 @@ class LocalDnsViewModel extends ChangeNotifier {
       ip: record.ip,
       name: record.name,
     );
-    result.getOrThrow();
-    _data = LocalDnsData(
-      records: [..._data.records, record],
-      deviceOptions: _data.deviceOptions,
-    );
-    notifyListeners();
+    switch (result) {
+      case Success():
+        _data = LocalDnsData(
+          records: [..._data.records, record],
+          deviceOptions: _data.deviceOptions,
+        );
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   Future<void> _updateRecord(({LocalDns record, String oldIp}) params) async {
@@ -81,15 +89,19 @@ class LocalDnsViewModel extends ChangeNotifier {
       record: params.record,
       oldIp: params.oldIp,
     );
-    result.getOrThrow();
-    _data = LocalDnsData(
-      records: [
-        for (final r in _data.records)
-          if (r.ip == params.oldIp) params.record else r,
-      ],
-      deviceOptions: _data.deviceOptions,
-    );
-    notifyListeners();
+    switch (result) {
+      case Success():
+        _data = LocalDnsData(
+          records: [
+            for (final r in _data.records)
+              if (r.ip == params.oldIp) params.record else r,
+          ],
+          deviceOptions: _data.deviceOptions,
+        );
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   Future<void> _deleteRecord(LocalDns record) async {
@@ -97,12 +109,16 @@ class LocalDnsViewModel extends ChangeNotifier {
       ip: record.ip,
       name: record.name,
     );
-    result.getOrThrow();
-    _data = LocalDnsData(
-      records: _data.records.where((r) => r.ip != record.ip).toList(),
-      deviceOptions: _data.deviceOptions,
-    );
-    notifyListeners();
+    switch (result) {
+      case Success():
+        _data = LocalDnsData(
+          records: _data.records.where((r) => r.ip != record.ip).toList(),
+          deviceOptions: _data.deviceOptions,
+        );
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   List<DeviceOption> _devicesToOptions(List<Device> devices) {

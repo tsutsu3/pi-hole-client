@@ -59,8 +59,8 @@ class LocalDnsViewModel with ChangeNotifier {
       if (dnsResult.isSuccess() && devicesResult.isSuccess()) {
         _localDns
           ..clear()
-          ..addAll(dnsResult.getOrThrow() as List<LocalDns>);
-        final devices = devicesResult.getOrThrow() as List<Device>;
+          ..addAll(dnsResult.getOrNull()! as List<LocalDns>);
+        final devices = devicesResult.getOrNull()! as List<Device>;
         _deviceOptions
           ..clear()
           ..addAll(devicesToOptions(devices));

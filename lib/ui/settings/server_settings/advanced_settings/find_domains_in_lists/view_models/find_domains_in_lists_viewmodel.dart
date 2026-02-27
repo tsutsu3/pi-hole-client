@@ -5,22 +5,21 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repositor
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/list/list_search_result.dart';
+import 'package:result_dart/result_dart.dart';
 
 class FindDomainsInListsViewModel extends ChangeNotifier {
   FindDomainsInListsViewModel({
     required AdListRepository adListRepository,
     required DomainRepository domainRepository,
-  })  : _adListRepository = adListRepository,
-        _domainRepository = domainRepository;
+  }) : _adListRepository = adListRepository,
+       _domainRepository = domainRepository;
 
   final AdListRepository _adListRepository;
   final DomainRepository _domainRepository;
 
   // --- Commands ---
-  late final Command<
-          ({String domain, bool partial, int limit}),
-          void>
-      searchLists = Command.createAsyncNoResult(_searchLists);
+  late final Command<({String domain, bool partial, int limit}), void>
+  searchLists = Command.createAsyncNoResult(_searchLists);
   late final Command<Domain, void> deleteDomain =
       Command.createAsyncNoResult<Domain>(_deleteDomain);
   late final Command<Adlist, void> deleteAdlist =
@@ -55,11 +54,16 @@ class FindDomainsInListsViewModel extends ChangeNotifier {
       partial: params.partial,
       limit: params.limit,
     );
-    final data = result.getOrThrow();
-    _searchResult = data;
-    _domainResults = data.domains;
-    _gravityMatches = data.gravityMatches;
-    notifyListeners();
+    switch (result) {
+      case Success():
+        final data = result.getOrNull();
+        _searchResult = data;
+        _domainResults = data.domains;
+        _gravityMatches = data.gravityMatches;
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   void setSearchError(String message) {
@@ -71,28 +75,43 @@ class FindDomainsInListsViewModel extends ChangeNotifier {
   }
 
   Future<void> _deleteDomain(Domain domain) async {
-    (await _domainRepository.deleteDomain(
+    final result = await _domainRepository.deleteDomain(
       domain.type,
       domain.kind,
       domain.punyCode,
-    ))
-        .getOrThrow();
-    _domainResults = _domainResults.where((d) => d.id != domain.id).toList();
-    notifyListeners();
+    );
+    switch (result) {
+      case Success():
+        _domainResults = _domainResults
+            .where((d) => d.id != domain.id)
+            .toList();
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   Future<void> _deleteAdlist(Adlist adlist) async {
-    (await _adListRepository.deleteAdlist(adlist.address, adlist.type))
-        .getOrThrow();
-    _gravityMatches =
-        _gravityMatches.where((m) => m.adlist.id != adlist.id).toList();
-    notifyListeners();
+    final result = await _adListRepository.deleteAdlist(
+      adlist.address,
+      adlist.type,
+    );
+    switch (result) {
+      case Success():
+        _gravityMatches = _gravityMatches
+            .where((m) => m.adlist.id != adlist.id)
+            .toList();
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   // --- State mutation (details screen update callbacks) ---
   void updateDomainInResults(Domain updated) {
-    _domainResults =
-        _domainResults.map((d) => d.id == updated.id ? updated : d).toList();
+    _domainResults = _domainResults
+        .map((d) => d.id == updated.id ? updated : d)
+        .toList();
     notifyListeners();
   }
 

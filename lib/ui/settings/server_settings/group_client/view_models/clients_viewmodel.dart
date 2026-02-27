@@ -4,10 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/client_repository.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:result_dart/result_dart.dart';
 
 class ClientsViewModel extends ChangeNotifier {
   ClientsViewModel({required ClientRepository clientRepository})
-      : _clientRepository = clientRepository;
+    : _clientRepository = clientRepository;
 
   final ClientRepository _clientRepository;
 
@@ -17,12 +18,20 @@ class ClientsViewModel extends ChangeNotifier {
       MapEquality<int, String>();
 
   // --- Commands ---
-  late final Command<void, void> loadClients =
-      Command.createAsyncNoParam<void>(_loadClients, initialValue: null);
-  late final Command<({String client, String? comment, List<int>? groups}), void>
-      addClient = Command.createAsyncNoResult(_addClient);
-  late final Command<({String client, String? comment, List<int>? groups}), void>
-      updateClient = Command.createAsyncNoResult(_updateClient);
+  late final Command<void, void> loadClients = Command.createAsyncNoParam<void>(
+    _loadClients,
+    initialValue: null,
+  );
+  late final Command<
+    ({String client, String? comment, List<int>? groups}),
+    void
+  >
+  addClient = Command.createAsyncNoResult(_addClient);
+  late final Command<
+    ({String client, String? comment, List<int>? groups}),
+    void
+  >
+  updateClient = Command.createAsyncNoResult(_updateClient);
   late final Command<ManagedClient, void> deleteClient =
       Command.createAsyncNoResult<ManagedClient>(_deleteClient);
 
@@ -67,10 +76,15 @@ class ClientsViewModel extends ChangeNotifier {
 
   // --- Command implementations ---
   Future<void> _loadClients() async {
-    final clients = (await _clientRepository.fetchClients()).getOrThrow();
-    _clients = clients;
-    _applyFilters();
-    notifyListeners();
+    final result = await _clientRepository.fetchClients();
+    switch (result) {
+      case Success():
+        _clients = result.getOrNull();
+        _applyFilters();
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   Future<void> _addClient(
@@ -81,8 +95,12 @@ class ClientsViewModel extends ChangeNotifier {
       comment: params.comment,
       groups: params.groups ?? [0],
     );
-    result.getOrThrow();
-    await loadClients.runAsync();
+    switch (result) {
+      case Success():
+        await loadClients.runAsync();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   Future<void> _updateClient(
@@ -93,16 +111,24 @@ class ClientsViewModel extends ChangeNotifier {
       comment: params.comment,
       groups: params.groups ?? [0],
     );
-    result.getOrThrow();
-    await loadClients.runAsync();
+    switch (result) {
+      case Success():
+        await loadClients.runAsync();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   Future<void> _deleteClient(ManagedClient client) async {
     final result = await _clientRepository.deleteClient(client.client);
-    result.getOrThrow();
-    _clients = _clients.where((c) => c.id != client.id).toList();
-    _applyFilters();
-    notifyListeners();
+    switch (result) {
+      case Success():
+        _clients = _clients.where((c) => c.id != client.id).toList();
+        _applyFilters();
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   // --- Filter methods ---
@@ -130,10 +156,9 @@ class ClientsViewModel extends ChangeNotifier {
     final comment = (client.comment ?? '').toLowerCase();
     final clientId = client.client.toLowerCase();
     final mac = (_ipToMac[client.client] ?? '').toLowerCase();
-    final groupNames =
-        client.groups.map((id) => (_groupNames[id] ?? '').toLowerCase()).join(
-          ' ',
-        );
+    final groupNames = client.groups
+        .map((id) => (_groupNames[id] ?? '').toLowerCase())
+        .join(' ');
     return clientId.contains(term) ||
         name.contains(term) ||
         comment.contains(term) ||

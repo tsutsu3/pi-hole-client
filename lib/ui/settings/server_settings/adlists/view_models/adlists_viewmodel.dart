@@ -3,27 +3,32 @@ import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/adlist_repository.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
+import 'package:result_dart/result_dart.dart';
 
 class AdlistsViewModel extends ChangeNotifier {
   AdlistsViewModel({required AdListRepository adListRepository})
-      : _adListRepository = adListRepository;
+    : _adListRepository = adListRepository;
 
   final AdListRepository _adListRepository;
 
   // --- Commands ---
-  late final Command<void, void> loadAdlists =
-      Command.createAsyncNoParam<void>(_loadAdlists, initialValue: null);
+  late final Command<void, void> loadAdlists = Command.createAsyncNoParam<void>(
+    _loadAdlists,
+    initialValue: null,
+  );
   late final Command<Adlist, void> deleteAdlist =
       Command.createAsyncNoResult<Adlist>(_deleteAdlist);
   late final Command<
-      ({
-        String address,
-        ListType type,
-        List<int>? groups,
-        String? comment,
-        bool? enabled,
-      }),
-      void> addAdlist = Command.createAsyncNoResult(_addAdlist);
+    ({
+      String address,
+      ListType type,
+      List<int>? groups,
+      String? comment,
+      bool? enabled,
+    }),
+    void
+  >
+  addAdlist = Command.createAsyncNoResult(_addAdlist);
   late final Command<Adlist, void> updateAdlist =
       Command.createAsyncNoResult<Adlist>(_updateAdlist);
 
@@ -55,13 +60,21 @@ class AdlistsViewModel extends ChangeNotifier {
 
   // --- Command implementations ---
   Future<void> _loadAdlists() async {
-    final adlists = (await _adListRepository.fetchAdlists()).getOrThrow();
-    _whitelistAdlists =
-        adlists.where((a) => a.type == ListType.allow).toList();
-    _blacklistAdlists =
-        adlists.where((a) => a.type == ListType.block).toList();
-    _applyFilters();
-    notifyListeners();
+    final result = await _adListRepository.fetchAdlists();
+    switch (result) {
+      case Success():
+        final adlists = result.getOrNull();
+        _whitelistAdlists = adlists
+            .where((a) => a.type == ListType.allow)
+            .toList();
+        _blacklistAdlists = adlists
+            .where((a) => a.type == ListType.block)
+            .toList();
+        _applyFilters();
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   Future<void> _deleteAdlist(Adlist adlist) async {
@@ -69,8 +82,12 @@ class AdlistsViewModel extends ChangeNotifier {
       adlist.address,
       adlist.type,
     );
-    result.getOrThrow();
-    _removeAdlistFromList(adlist);
+    switch (result) {
+      case Success():
+        _removeAdlistFromList(adlist);
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   Future<void> _addAdlist(
@@ -80,7 +97,8 @@ class AdlistsViewModel extends ChangeNotifier {
       List<int>? groups,
       String? comment,
       bool? enabled,
-    }) params,
+    })
+    params,
   ) async {
     final result = await _adListRepository.addAdlist(
       params.address,
@@ -89,14 +107,19 @@ class AdlistsViewModel extends ChangeNotifier {
       comment: params.comment,
       enabled: params.enabled,
     );
-    final adlist = result.getOrThrow();
-    if (adlist.type == ListType.allow) {
-      _whitelistAdlists = [..._whitelistAdlists, adlist];
-    } else {
-      _blacklistAdlists = [..._blacklistAdlists, adlist];
+    switch (result) {
+      case Success():
+        final added = result.getOrNull();
+        if (added.type == ListType.allow) {
+          _whitelistAdlists = [..._whitelistAdlists, added];
+        } else {
+          _blacklistAdlists = [..._blacklistAdlists, added];
+        }
+        _applyFilters();
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
     }
-    _applyFilters();
-    notifyListeners();
   }
 
   Future<void> _updateAdlist(Adlist adlist) async {
@@ -107,23 +130,32 @@ class AdlistsViewModel extends ChangeNotifier {
       comment: adlist.comment,
       enabled: adlist.enabled,
     );
-    final updated = result.getOrThrow();
-    // Replace in-place and remove from the other list (handles type changes).
-    if (updated.type == ListType.allow) {
-      _whitelistAdlists = [
-        for (final a in _whitelistAdlists)
-          if (a.id == updated.id) updated else a,
-      ];
-      _blacklistAdlists = _blacklistAdlists.where((a) => a.id != updated.id).toList();
-    } else {
-      _blacklistAdlists = [
-        for (final a in _blacklistAdlists)
-          if (a.id == updated.id) updated else a,
-      ];
-      _whitelistAdlists = _whitelistAdlists.where((a) => a.id != updated.id).toList();
+    switch (result) {
+      case Success():
+        final updated = result.getOrNull();
+        // Replace in-place and remove from the other list (handles type changes).
+        if (updated.type == ListType.allow) {
+          _whitelistAdlists = [
+            for (final a in _whitelistAdlists)
+              if (a.id == updated.id) updated else a,
+          ];
+          _blacklistAdlists = _blacklistAdlists
+              .where((a) => a.id != updated.id)
+              .toList();
+        } else {
+          _blacklistAdlists = [
+            for (final a in _blacklistAdlists)
+              if (a.id == updated.id) updated else a,
+          ];
+          _whitelistAdlists = _whitelistAdlists
+              .where((a) => a.id != updated.id)
+              .toList();
+        }
+        _applyFilters();
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
     }
-    _applyFilters();
-    notifyListeners();
   }
 
   // --- Filter methods ---
@@ -171,15 +203,19 @@ class AdlistsViewModel extends ChangeNotifier {
 
   void _removeAdlistFromList(Adlist adlist) {
     if (adlist.type == ListType.allow) {
-      _whitelistAdlists =
-          _whitelistAdlists.where((a) => a.id != adlist.id).toList();
-      _filteredWhitelistAdlists =
-          _filteredWhitelistAdlists.where((a) => a.id != adlist.id).toList();
+      _whitelistAdlists = _whitelistAdlists
+          .where((a) => a.id != adlist.id)
+          .toList();
+      _filteredWhitelistAdlists = _filteredWhitelistAdlists
+          .where((a) => a.id != adlist.id)
+          .toList();
     } else {
-      _blacklistAdlists =
-          _blacklistAdlists.where((a) => a.id != adlist.id).toList();
-      _filteredBlacklistAdlists =
-          _filteredBlacklistAdlists.where((a) => a.id != adlist.id).toList();
+      _blacklistAdlists = _blacklistAdlists
+          .where((a) => a.id != adlist.id)
+          .toList();
+      _filteredBlacklistAdlists = _filteredBlacklistAdlists
+          .where((a) => a.id != adlist.id)
+          .toList();
     }
     notifyListeners();
   }

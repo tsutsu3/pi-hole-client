@@ -29,6 +29,7 @@ import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:result_dart/result_dart.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:vibration/vibration.dart';
@@ -334,8 +335,20 @@ void main() async {
   // 4. Load persisted data
   final appdata = await appConfigRepository.fetchAppConfig();
   final servers = await serverRepository.fetchServers();
-  configProvider.saveFromDb(appdata.getOrThrow());
-  await serversViewModel.saveFromDb(servers.getOrThrow());
+  switch (appdata) {
+    case Success():
+      configProvider.saveFromDb(appdata.getOrNull());
+    case Failure():
+      logger.e('Failed to load app config: ${appdata.exceptionOrNull()}');
+      throw appdata.exceptionOrNull();
+  }
+  switch (servers) {
+    case Success():
+      await serversViewModel.saveFromDb(servers.getOrNull());
+    case Failure():
+      logger.e('Failed to load servers: ${servers.exceptionOrNull()}');
+      throw servers.exceptionOrNull();
+  }
   await WidgetChannel.sendServersUpdated(serversViewModel.getServersList);
 
   // 5. Platform-specific setup

@@ -3,20 +3,23 @@ import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/group_repository.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
+import 'package:result_dart/result_dart.dart';
 
 class GroupsViewModel extends ChangeNotifier {
   GroupsViewModel({required GroupRepository groupRepository})
-      : _groupRepository = groupRepository;
+    : _groupRepository = groupRepository;
 
   final GroupRepository _groupRepository;
 
   // --- Commands ---
-  late final Command<void, void> loadGroups =
-      Command.createAsyncNoParam<void>(_loadGroups, initialValue: null);
+  late final Command<void, void> loadGroups = Command.createAsyncNoParam<void>(
+    _loadGroups,
+    initialValue: null,
+  );
   late final Command<({String name, String? comment, bool? enabled}), void>
-      addGroup = Command.createAsyncNoResult(_addGroup);
+  addGroup = Command.createAsyncNoResult(_addGroup);
   late final Command<({String name, String? comment, bool? enabled}), void>
-      updateGroup = Command.createAsyncNoResult(_updateGroup);
+  updateGroup = Command.createAsyncNoResult(_updateGroup);
   late final Command<Group, void> deleteGroup =
       Command.createAsyncNoResult<Group>(_deleteGroup);
 
@@ -44,10 +47,15 @@ class GroupsViewModel extends ChangeNotifier {
 
   // --- Command implementations ---
   Future<void> _loadGroups() async {
-    final groups = (await _groupRepository.fetchGroups()).getOrThrow();
-    _groups = groups;
-    _applyFilters();
-    notifyListeners();
+    final result = await _groupRepository.fetchGroups();
+    switch (result) {
+      case Success():
+        _groups = result.getOrNull();
+        _applyFilters();
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   Future<void> _addGroup(
@@ -58,8 +66,12 @@ class GroupsViewModel extends ChangeNotifier {
       comment: params.comment,
       enabled: params.enabled,
     );
-    result.getOrThrow();
-    await loadGroups.runAsync();
+    switch (result) {
+      case Success():
+        await loadGroups.runAsync();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   Future<void> _updateGroup(
@@ -70,16 +82,24 @@ class GroupsViewModel extends ChangeNotifier {
       comment: params.comment,
       enabled: params.enabled,
     );
-    result.getOrThrow();
-    await loadGroups.runAsync();
+    switch (result) {
+      case Success():
+        await loadGroups.runAsync();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   Future<void> _deleteGroup(Group group) async {
     final result = await _groupRepository.deleteGroup(group.name);
-    result.getOrThrow();
-    _groups = _groups.where((g) => g.id != group.id).toList();
-    _applyFilters();
-    notifyListeners();
+    switch (result) {
+      case Success():
+        _groups = _groups.where((g) => g.id != group.id).toList();
+        _applyFilters();
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
   }
 
   // --- Filter methods ---

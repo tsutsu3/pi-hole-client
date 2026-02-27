@@ -93,7 +93,7 @@ class ServerConnectionService {
       '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
       '-> ${server.address}(${server.alias})',
     );
-    _onSuccess(result.getOrThrow(), serverForLogin);
+    _onSuccess(result.getOrNull()!, serverForLogin);
   }
 
   void _startConnection() {
@@ -135,7 +135,7 @@ class ServerConnectionService {
       );
       final pw = await creds.password;
       if (pw.isSuccess()) {
-        final authResult = await bundle.auth.createSession(pw.getOrThrow());
+        final authResult = await bundle.auth.createSession(pw.getOrNull()!);
         if (authResult.isError()) {
           process?.close();
           return Failure(
