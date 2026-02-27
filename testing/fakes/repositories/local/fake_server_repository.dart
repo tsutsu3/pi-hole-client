@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -70,5 +70,17 @@ class FakeServerRepository implements ServerRepository {
   @override
   Future<Result<void>> deleteUnusedServerSecrets() async {
     return Success.unit();
+  }
+
+  @override
+  Future<Result<String>> fetchPassword(String address) async {
+    return const Success('');
+  }
+
+  @override
+  Future<Result<({String token, String password})>> fetchCredentials(
+    String address,
+  ) async {
+    return const Success((token: '', password: ''));
   }
 }

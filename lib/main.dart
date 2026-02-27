@@ -14,6 +14,8 @@ import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
 import 'package:pi_hole_client/data/repositories/local/app_config_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/app_config_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
@@ -316,11 +318,11 @@ void main() async {
   final dbService = DatabaseService();
   await dbService.open();
   final secureStorageService = SecureStorageService();
-  final appConfigRepository = AppConfigRepository(
+  final appConfigRepository = LocalAppConfigRepository(
     dbService,
     secureStorageService,
   );
-  final serverRepository = ServerRepository(dbService, secureStorageService);
+  final serverRepository = LocalServerRepository(dbService, secureStorageService);
 
   // 3. ViewModels
   final gravityRepository = GravityRepository(dbService);

@@ -1,3 +1,4 @@
+import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
@@ -16,9 +17,11 @@ import 'package:result_dart/result_dart.dart';
 ///
 /// Use this repository to perform persistence operations on server data, while keeping
 /// sensitive values securely stored outside of the main database.
-class ServerRepository {
-  ServerRepository(DatabaseService database, SecureStorageService secureStorage)
-    : _database = database,
+class LocalServerRepository implements ServerRepository {
+  LocalServerRepository(
+    DatabaseService database,
+    SecureStorageService secureStorage,
+  ) : _database = database,
       _secureStorage = secureStorage;
 
   final DatabaseService _database;
@@ -32,6 +35,7 @@ class ServerRepository {
   ///
   /// Returns a [Result] containing the list of [Server] on success,
   /// or a [Failure] if any error occurs during retrieval.
+  @override
   Future<Result<List<Server>>> fetchServers() async {
     try {
       await openDbIfNeeded(_database);
@@ -70,6 +74,7 @@ class ServerRepository {
   ///
   /// Returns a [Result] containing the number of rows inserted on success,
   /// or a [Failure] if the operation fails.
+  @override
   Future<Result<int>> insertServer(
     Server server, {
     String? token,
@@ -114,6 +119,7 @@ class ServerRepository {
   ///
   /// Returns a [Result] containing the number of rows updated on success,
   /// or a [Failure] if the operation fails.
+  @override
   Future<Result<int>> updateServer(
     Server server, {
     String? token,
@@ -160,6 +166,7 @@ class ServerRepository {
   /// from all entries, then sets the flag for the server matching the provided [url].
   ///
   /// Returns the total number of rows updated, or a failure if the update fails.
+  @override
   Future<Result<int>> updateDefaultServer(String url) async {
     try {
       await openDbIfNeeded(_database);
@@ -191,6 +198,7 @@ class ServerRepository {
   /// for the given [address], and deletes the corresponding row from the `servers` table.
   ///
   /// Returns the number of rows deleted, or a failure if the operation fails.
+  @override
   Future<Result<int>> deleteServer(String address) async {
     try {
       await openDbIfNeeded(_database);
@@ -218,6 +226,7 @@ class ServerRepository {
   /// on secure storage to delete all stored credentials.
   ///
   /// Returns the number of rows deleted, or a failure if the deletion fails.
+  @override
   Future<Result<int>> deleteAllServers() async {
     try {
       await openDbIfNeeded(_database);
@@ -237,6 +246,7 @@ class ServerRepository {
   /// If a matching record is found, returns `Success(true)`, otherwise `Success(false)`.
   ///
   /// If the operation fails, returns a [Failure] containing the exception.
+  @override
   Future<Result<bool>> doesServerExist(String url) async {
     try {
       await openDbIfNeeded(_database);
@@ -268,6 +278,7 @@ class ServerRepository {
   /// Also deletes deprecated basic auth keys unconditionally.
   ///
   /// Returns [Success.unit()] if cleanup succeeds, or a [Failure] if an error occurs.
+  @override
   Future<Result<void>> deleteUnusedServerSecrets() async {
     try {
       final servers = await fetchServers();
@@ -310,6 +321,34 @@ class ServerRepository {
       return Failure(
         Exception('Failed to delete unused server secrets: $e\n$st'),
       );
+    }
+  }
+
+  @override
+  Future<Result<String>> fetchPassword(String address) async {
+    try {
+      final result = await _secureStorage.getValue('${address}_password');
+      return Success(result.getOrElse((_) => ''));
+    } catch (e, st) {
+      logger.e('Failed to fetch password: $e\n$st');
+      return Failure(Exception('Failed to fetch password: $e\n$st'));
+    }
+  }
+
+  @override
+  Future<Result<({String token, String password})>> fetchCredentials(
+    String address,
+  ) async {
+    try {
+      final token = await _secureStorage.getValue('${address}_token');
+      final password = await _secureStorage.getValue('${address}_password');
+      return Success((
+        token: token.getOrElse((_) => ''),
+        password: password.getOrElse((_) => ''),
+      ));
+    } catch (e, st) {
+      logger.e('Failed to fetch credentials: $e\n$st');
+      return Failure(Exception('Failed to fetch credentials: $e\n$st'));
     }
   }
 }

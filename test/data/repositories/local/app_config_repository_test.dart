@@ -36,14 +36,14 @@ void main() {
   sqfliteTestInit();
 
   group('AppConfigRepository.getter', () {
-    late AppConfigRepository repository;
+    late LocalAppConfigRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = AppConfigRepository(dbService, ssSerivce);
+      repository = LocalAppConfigRepository(dbService, ssSerivce);
     });
 
     tearDown(() async {
@@ -74,14 +74,14 @@ void main() {
   });
 
   group('AppConfigRepository.fetchAppConfig', () {
-    late AppConfigRepository repository;
+    late LocalAppConfigRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = AppConfigRepository(dbService, ssSerivce);
+      repository = LocalAppConfigRepository(dbService, ssSerivce);
     });
 
     tearDown(() async {
@@ -129,14 +129,14 @@ void main() {
   });
 
   group('AppConfigRepository.updateMethods', () {
-    late AppConfigRepository repository;
+    late LocalAppConfigRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = AppConfigRepository(dbService, ssSerivce);
+      repository = LocalAppConfigRepository(dbService, ssSerivce);
     });
 
     tearDown(() async {
@@ -264,14 +264,14 @@ void main() {
   });
 
   group('AppConfigRepository.resetAppConfig', () {
-    late AppConfigRepository repository;
+    late LocalAppConfigRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = AppConfigRepository(dbService, ssSerivce);
+      repository = LocalAppConfigRepository(dbService, ssSerivce);
     });
 
     tearDown(() async {

@@ -54,14 +54,14 @@ void main() {
   sqfliteTestInit();
 
   group('ServerRepository.fetchServers', () {
-    late ServerRepository repository;
+    late LocalServerRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = ServerRepository(dbService, ssSerivce);
+      repository = LocalServerRepository(dbService, ssSerivce);
     });
 
     tearDown(() async {
@@ -100,7 +100,7 @@ void main() {
   });
 
   group('ServerRepository.insertServer', () {
-    late ServerRepository repository;
+    late LocalServerRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
     late SecureDataRepository secureDataRepository;
@@ -108,7 +108,7 @@ void main() {
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = ServerRepository(dbService, ssSerivce);
+      repository = LocalServerRepository(dbService, ssSerivce);
     });
 
     tearDown(() async {
@@ -174,14 +174,14 @@ void main() {
   });
 
   group('ServerRepository.updateServer', () {
-    late ServerRepository repository;
+    late LocalServerRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = ServerRepository(dbService, ssSerivce);
+      repository = LocalServerRepository(dbService, ssSerivce);
     });
 
     tearDown(() async {
@@ -245,14 +245,14 @@ void main() {
   });
 
   group('ServerRepository.updateDefaultServer', () {
-    late ServerRepository repository;
+    late LocalServerRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = ServerRepository(dbService, ssSerivce);
+      repository = LocalServerRepository(dbService, ssSerivce);
     });
 
     tearDown(() async {
@@ -303,7 +303,7 @@ void main() {
   });
 
   group('ServerRepository.deleteServer', () {
-    late ServerRepository repository;
+    late LocalServerRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
     late SecureDataRepository secureDataRepository;
@@ -311,7 +311,7 @@ void main() {
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = ServerRepository(dbService, ssSerivce);
+      repository = LocalServerRepository(dbService, ssSerivce);
       secureDataRepository = SecureDataRepository(ssSerivce, serverV6.address);
       await dbService.open();
     });
@@ -375,7 +375,7 @@ void main() {
   });
 
   group('ServerRepository.deleteAllServer', () {
-    late ServerRepository repository;
+    late LocalServerRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
     late SecureDataRepository secureDataRepository;
@@ -383,7 +383,7 @@ void main() {
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = ServerRepository(dbService, ssSerivce);
+      repository = LocalServerRepository(dbService, ssSerivce);
       secureDataRepository = SecureDataRepository(ssSerivce, serverV6.address);
     });
 
@@ -449,14 +449,14 @@ void main() {
   });
 
   group('ServerRepository.doesServerExist', () {
-    late ServerRepository repository;
+    late LocalServerRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = ServerRepository(dbService, ssSerivce);
+      repository = LocalServerRepository(dbService, ssSerivce);
     });
 
     tearDown(() async {
@@ -493,14 +493,14 @@ void main() {
   });
 
   group('ServerRepository.deleteUnusedServerSecrets', () {
-    late ServerRepository repository;
+    late LocalServerRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = ServerRepository(dbService, ssSerivce);
+      repository = LocalServerRepository(dbService, ssSerivce);
     });
 
     tearDown(() async {

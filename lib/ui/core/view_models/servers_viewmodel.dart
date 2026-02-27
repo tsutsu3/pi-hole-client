@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/domain/model/enum_converters.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/query_status.dart';
@@ -11,6 +11,7 @@ import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
+import 'package:result_dart/result_dart.dart';
 
 class ServersViewModel with ChangeNotifier {
   ServersViewModel(this._repository);
@@ -329,4 +330,11 @@ class ServersViewModel with ChangeNotifier {
     notifyListeners();
     return true;
   }
+
+  Future<Result<String>> fetchPassword(String address) =>
+      _repository.fetchPassword(address);
+
+  Future<Result<({String token, String password})>> fetchCredentials(
+    String address,
+  ) => _repository.fetchCredentials(address);
 }

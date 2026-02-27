@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/repositories/local/app_config_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/app_config_repository.dart';
 import 'package:pi_hole_client/domain/model/app/app_config.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:result_dart/result_dart.dart';
