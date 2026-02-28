@@ -3,7 +3,6 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.d
 import 'package:pi_hole_client/data/repositories/api/v5/base_v5_token_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/repositories/utils/constants.dart';
-import 'package:pi_hole_client/data/repositories/utils/exceptions.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
 import 'package:pi_hole_client/domain/model/ftl/client.dart';
 import 'package:pi_hole_client/domain/model/ftl/ftl.dart';
@@ -14,6 +13,7 @@ import 'package:pi_hole_client/domain/model/ftl/pihole_server.dart';
 import 'package:pi_hole_client/domain/model/ftl/sensor.dart';
 import 'package:pi_hole_client/domain/model/ftl/system.dart';
 import 'package:pi_hole_client/domain/model/ftl/version.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
 
 class FtlRepositoryV5 extends BaseV5TokenRepository implements FtlRepository {

@@ -37,8 +37,8 @@ import 'package:pi_hole_client/data/model/v6/metrics/stats.dart'
 import 'package:pi_hole_client/data/model/v6/network/devices.dart' show Devices;
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart' show Gateway;
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
-import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../../models/v6/actions.dart';
@@ -248,10 +248,7 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   }
 
   @override
-  Future<Result<Unit>> deleteGroups(
-    String sid, {
-    required String name,
-  }) async {
+  Future<Result<Unit>> deleteGroups(String sid, {required String name}) async {
     if (shouldFail) {
       return Failure(Exception('Forced deleteGroups failure'));
     }

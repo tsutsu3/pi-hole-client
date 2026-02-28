@@ -325,7 +325,7 @@ void main() async {
   final serverRepository = LocalServerRepository(dbService, secureStorageService);
 
   // 3. ViewModels
-  final gravityRepository = GravityRepository(dbService);
+  final gravityRepository = LocalGravityRepository(dbService);
   final serversViewModel = ServersViewModel(serverRepository);
   final configProvider = AppConfigViewModel(appConfigRepository);
   final statusViewModel = StatusViewModel();

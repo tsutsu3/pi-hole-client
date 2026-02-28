@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:pi_hole_client/data/repositories/utils/exceptions.dart';
+
 import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 
 /// An abstract base class that manages retrieval and caching of a V5 token
 /// using a [SessionCredentialService].

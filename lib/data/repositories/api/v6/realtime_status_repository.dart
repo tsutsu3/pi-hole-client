@@ -2,9 +2,9 @@
 import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/base_v6_sid_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/constants.dart';
-import 'package:pi_hole_client/data/repositories/utils/exceptions.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
 
 /// v6 implementation of [RealtimeStatusRepository].

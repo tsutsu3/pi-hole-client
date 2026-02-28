@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
-import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/widgets/add_server_fullscreen.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 
 import '../../../testing/fakes/repositories/api/fake_dns_repository.dart';
 import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
@@ -73,9 +73,7 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        buildWidget(
-          const AddServerFullscreen(window: true, title: 'test'),
-        ),
+        buildWidget(const AddServerFullscreen(window: true, title: 'test')),
       );
 
       expect(find.byType(AddServerFullscreen), findsOneWidget);
@@ -96,9 +94,7 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        buildWidget(
-          const AddServerFullscreen(window: false, title: 'test'),
-        ),
+        buildWidget(const AddServerFullscreen(window: false, title: 'test')),
       );
 
       expect(find.byType(AddServerFullscreen), findsOneWidget);
@@ -135,9 +131,7 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          buildWidget(
-            const AddServerFullscreen(window: false, title: 'test'),
-          ),
+          buildWidget(const AddServerFullscreen(window: false, title: 'test')),
         );
 
         expect(find.byType(AddServerFullscreen), findsOneWidget);
@@ -175,9 +169,7 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          buildWidget(
-            const AddServerFullscreen(window: false, title: 'test'),
-          ),
+          buildWidget(const AddServerFullscreen(window: false, title: 'test')),
         );
 
         expect(find.byType(AddServerFullscreen), findsOneWidget);
@@ -220,9 +212,7 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          buildWidget(
-            const AddServerFullscreen(window: false, title: 'test'),
-          ),
+          buildWidget(const AddServerFullscreen(window: false, title: 'test')),
         );
 
         expect(find.byType(AddServerFullscreen), findsOneWidget);
@@ -263,9 +253,7 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          buildWidget(
-            const AddServerFullscreen(window: false, title: 'test'),
-          ),
+          buildWidget(const AddServerFullscreen(window: false, title: 'test')),
         );
 
         expect(find.byType(AddServerFullscreen), findsOneWidget);
@@ -303,9 +291,7 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          buildWidget(
-            const AddServerFullscreen(window: false, title: 'test'),
-          ),
+          buildWidget(const AddServerFullscreen(window: false, title: 'test')),
         );
 
         expect(find.byType(AddServerFullscreen), findsOneWidget);
@@ -346,9 +332,7 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          buildWidget(
-            const AddServerFullscreen(window: false, title: 'test'),
-          ),
+          buildWidget(const AddServerFullscreen(window: false, title: 'test')),
         );
 
         expect(find.byType(AddServerFullscreen), findsOneWidget);
@@ -382,9 +366,7 @@ void main() async {
       });
 
       await tester.pumpWidget(
-        buildWidget(
-          const AddServerFullscreen(window: false, title: 'test'),
-        ),
+        buildWidget(const AddServerFullscreen(window: false, title: 'test')),
       );
 
       expect(find.byType(AddServerFullscreen), findsOneWidget);

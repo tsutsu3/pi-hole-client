@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:pi_hole_client/data/model/v6/config/config.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
-import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../../../../testing/helper/test_helper.dart';

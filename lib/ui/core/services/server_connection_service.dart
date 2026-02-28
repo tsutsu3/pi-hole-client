@@ -4,8 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
-import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
-import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:pi_hole_client/domain/model/dns/dns.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
@@ -19,8 +17,10 @@ import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/widgets/add_server_fullscreen.dart';
 import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
+import 'package:provider/provider.dart';
 import 'package:result_dart/result_dart.dart';
 
 /// UI-layer orchestrator that manages the full server connection flow.
@@ -63,7 +63,6 @@ class ServerConnectionService {
     required this.statusViewModel,
     required this.serversViewModel,
     required this.server,
-    required this.secureStorageService,
     required this.createBundle,
     this.useRootContextOnFailure = false,
     this.showModal = false,
@@ -74,7 +73,6 @@ class ServerConnectionService {
   final StatusViewModel statusViewModel;
   final ServersViewModel serversViewModel;
   final Server server;
-  final SecureStorageService secureStorageService;
   final CreateRepositoryBundle createBundle;
   final bool useRootContextOnFailure;
   final bool showModal;
@@ -157,18 +155,18 @@ class ServerConnectionService {
       process.open(AppLocalizations.of(context)!.connecting);
     }
 
+    final secureStorageService = context.read<SecureStorageService>();
     final bundle = createBundle(
       server: serverForLogin,
       storage: secureStorageService,
     );
     if (serverForLogin.apiVersion == 'v6') {
-      final creds = SessionCredentialService(
-        secureStorageService,
+      final creds = await serversViewModel.fetchCredentials(
         serverForLogin.address,
       );
-      final pw = await creds.password;
-      if (pw.isSuccess()) {
-        final authResult = await bundle.auth.createSession(pw.getOrNull()!);
+      final pw = creds.getOrNull()?.password ?? '';
+      if (pw.isNotEmpty) {
+        final authResult = await bundle.auth.createSession(pw);
         if (authResult.isError()) {
           process?.close();
           return Failure(
@@ -358,7 +356,6 @@ class ServerConnectionService {
             statusViewModel: statusViewModel,
             serversViewModel: serversViewModel,
             server: updated,
-            secureStorageService: secureStorageService,
             createBundle: createBundle,
             useRootContextOnFailure: useRootContextOnFailure,
             showModal: showModal,

@@ -10,9 +10,9 @@ import 'package:pi_hole_client/data/model/v5/queries.dart';
 import 'package:pi_hole_client/data/model/v5/realtime_status.dart';
 import 'package:pi_hole_client/data/model/v5/summary_raw.dart';
 import 'package:pi_hole_client/data/model/v5/versions.dart';
-import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:pi_hole_client/data/services/utils/safe_api_call.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/misc.dart';
 import 'package:result_dart/result_dart.dart';
 
