@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/actions_respository.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/adlist_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/auth_repository.dart';

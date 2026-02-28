@@ -74,7 +74,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/local_dns_reposi
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart';
-import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/actions_respository.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/adlist_repository.dart';

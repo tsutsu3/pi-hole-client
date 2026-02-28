@@ -3,7 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
@@ -77,29 +77,19 @@ Widget buildTestApp(
   return MultiProvider(
     providers: [
       ChangeNotifierProvider<AppConfigViewModel>.value(
-        value: appConfigViewModel ??
-            AppConfigViewModel(FakeAppConfigRepository()),
+        value:
+            appConfigViewModel ?? AppConfigViewModel(FakeAppConfigRepository()),
       ),
       if (serversViewModel != null)
-        ChangeNotifierProvider<ServersViewModel>.value(
-          value: serversViewModel,
-        ),
+        ChangeNotifierProvider<ServersViewModel>.value(value: serversViewModel),
       if (statusViewModel != null)
-        ChangeNotifierProvider<StatusViewModel>.value(
-          value: statusViewModel,
-        ),
+        ChangeNotifierProvider<StatusViewModel>.value(value: statusViewModel),
       if (logsViewModel != null)
-        ChangeNotifierProvider<LogsViewModel>.value(
-          value: logsViewModel,
-        ),
+        ChangeNotifierProvider<LogsViewModel>.value(value: logsViewModel),
       if (domainsViewModel != null)
-        ChangeNotifierProvider<DomainsViewModel>.value(
-          value: domainsViewModel,
-        ),
+        ChangeNotifierProvider<DomainsViewModel>.value(value: domainsViewModel),
       if (groupsViewModel != null)
-        ChangeNotifierProvider<GroupsViewModel>.value(
-          value: groupsViewModel,
-        ),
+        ChangeNotifierProvider<GroupsViewModel>.value(value: groupsViewModel),
       if (repositoryBundle != null)
         Provider<RepositoryBundle?>.value(value: repositoryBundle),
       if (createRepositoryBundle != null)
