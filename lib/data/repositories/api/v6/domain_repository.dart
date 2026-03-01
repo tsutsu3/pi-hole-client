@@ -25,7 +25,7 @@ class DomainRepositoryV6 extends BaseV6SidRepository
         final result = await _client.getDomains(sid);
         return result.map((e) => e.toDomainLists());
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 
@@ -52,7 +52,7 @@ class DomainRepositoryV6 extends BaseV6SidRepository
         );
         return result.map((e) => e.toSingleDomain());
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 
@@ -79,7 +79,7 @@ class DomainRepositoryV6 extends BaseV6SidRepository
         );
         return result.map((e) => e.toSingleDomain());
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 
@@ -100,7 +100,7 @@ class DomainRepositoryV6 extends BaseV6SidRepository
         );
         return result.map((_) => unit);
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 }

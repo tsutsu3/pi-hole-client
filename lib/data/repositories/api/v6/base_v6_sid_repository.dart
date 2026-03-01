@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
+import 'package:pi_hole_client/utils/logger.dart';
 
 /// An abstract base class that manages retrieval and caching of a V5 token
 /// using a [SessionCredentialService].
@@ -57,5 +58,22 @@ abstract class BaseV6SidRepository {
   /// Clears the cached V6 SID.
   Future<void> clearSid() async {
     _sid = null;
+  }
+
+  /// Clears the cached SID and triggers session renewal.
+  ///
+  /// Used as the `onRetry` callback in repositories so that an expired or
+  /// invalid session causes automatic re-authentication before the next
+  /// attempt. Renewal errors are silently swallowed so the calling retry
+  /// loop can surface the original failure instead.
+  Future<void> clearAndRenewSid() async {
+    _sid = null;
+    logger.d('[$runtimeType] Session expired, attempting renewal...');
+    try {
+      await _creds.renewSession();
+      logger.d('[$runtimeType] Session renewed successfully.');
+    } catch (e) {
+      logger.w('[$runtimeType] Session renewal failed: $e');
+    }
   }
 }

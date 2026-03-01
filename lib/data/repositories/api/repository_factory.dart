@@ -44,10 +44,19 @@ class RepositoryBundleFactory {
     switch (server.apiVersion) {
       case 'v6':
         final client = PiholeV6ApiClient(url: server.address);
+        final auth = AuthRepositoryV6(client: client, creds: creds);
+        // Register a renewal callback so that any v6 repository can trigger
+        // re-authentication transparently when a session expires (401/403).
+        creds.setRenewCallback(() async {
+          final pwResult = await creds.password;
+          final pw = pwResult.getOrNull() ?? '';
+          if (pw.isEmpty) return;
+          await auth.createSession(pw);
+        });
         return RepositoryBundle(
           actions: ActionsRepositoryV6(client: client, creds: creds),
           adlist: AdlistRepositoryV6(client: client, creds: creds),
-          auth: AuthRepositoryV6(client: client, creds: creds),
+          auth: auth,
           client: ClientRepositoryV6(client: client, creds: creds),
           config: ConfigRepositoryV6(client: client, creds: creds),
           dhcp: DhcpRepositoryV6(client: client, creds: creds),

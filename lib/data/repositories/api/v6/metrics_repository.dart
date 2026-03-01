@@ -31,7 +31,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
         final result = await _client.getHistory(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 
@@ -43,7 +43,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
         final result = await _client.getHistoryClient(sid, count: count);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 
@@ -69,7 +69,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
 
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 
@@ -81,7 +81,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
         final result = await _client.getStatsSummary(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 
@@ -93,7 +93,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
         final result = await _client.getStatsUpstreams(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 
@@ -111,7 +111,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
         );
         return result.map((e) => e.domains.map((d) => d.toDomain()).toList());
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 

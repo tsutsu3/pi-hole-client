@@ -81,4 +81,10 @@ class FakeSessionCredentialService implements SessionCredentialService {
     }
     return Success.unit();
   }
+
+  @override
+  void setRenewCallback(Future<void> Function() callback) {}
+
+  @override
+  Future<void> renewSession() async {}
 }
