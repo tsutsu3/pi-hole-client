@@ -8,7 +8,6 @@ import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/query_status.dart';
 import 'package:pi_hole_client/domain/model/query_types.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
-import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:result_dart/result_dart.dart';
@@ -16,7 +15,7 @@ import 'package:result_dart/result_dart.dart';
 class ServersViewModel with ChangeNotifier {
   ServersViewModel(this._repository);
 
-  AppConfigViewModel? _appConfigViewModel;
+  VoidCallback? _onServerSelected;
   final ServerRepository _repository;
   final List<QueryStatus> _queryStatusesV5 = queryStatusesV5;
   final List<QueryStatus> _queryStatusesV6 = queryStatusesV6;
@@ -31,7 +30,6 @@ class ServersViewModel with ChangeNotifier {
   Server? _connectingServer;
   bool _unverifiedBannerDismissed = false;
 
-  AppConfigViewModel? get appConfigViewModel => _appConfigViewModel;
 
   List<Server> get getServersList {
     return _serversList;
@@ -86,8 +84,8 @@ class ServersViewModel with ChangeNotifier {
     }
   }
 
-  void update(AppConfigViewModel? provider) {
-    _appConfigViewModel = provider;
+  void update(VoidCallback? onServerSelected) {
+    _onServerSelected = onServerSelected;
   }
 
   void setConnectingServer(Server server) {
@@ -292,7 +290,7 @@ class ServersViewModel with ChangeNotifier {
   void setselectedServer({required Server? server, bool? toHomeTab}) {
     _selectedServer = server;
     if (server == null) _selectedServerEnabled = null;
-    if (toHomeTab == true) _appConfigViewModel!.setSelectedTab(0);
+    if (toHomeTab == true) _onServerSelected?.call();
     notifyListeners();
   }
 

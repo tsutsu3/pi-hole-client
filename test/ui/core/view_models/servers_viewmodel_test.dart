@@ -1,23 +1,17 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/domain/model/query_types.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
-import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 
 import '../../../../testing/fakes/repositories/local/fake_server_repository.dart';
-import './servers_viewmodel_test.mocks.dart';
 
-@GenerateMocks([AppConfigViewModel])
 void main() async {
   await dotenv.load();
 
   group('ServersViewModel', () {
     late ServersViewModel serversViewModel;
     late FakeServerRepository repository;
-    late MockAppConfigViewModel mockAppConfigViewModel;
     late bool listenerCalled;
 
     const server = Server(
@@ -32,9 +26,6 @@ void main() async {
     setUp(() {
       repository = FakeServerRepository();
       serversViewModel = ServersViewModel(repository);
-
-      mockAppConfigViewModel = MockAppConfigViewModel();
-      when(mockAppConfigViewModel.setSelectedTab(any)).thenReturn(null);
 
       listenerCalled = false;
       serversViewModel.addListener(() {
@@ -51,10 +42,12 @@ void main() async {
       expect(listenerCalled, false);
     });
 
-    test('update sets AppConfigViewModel', () {
-      serversViewModel.update(mockAppConfigViewModel);
-      expect(serversViewModel.appConfigViewModel, mockAppConfigViewModel);
+    test('update stores the onServerSelected callback', () {
+      var callbackCalled = false;
+      serversViewModel.update(() { callbackCalled = true; });
       expect(listenerCalled, false);
+      serversViewModel.setselectedServer(server: server, toHomeTab: true);
+      expect(callbackCalled, true);
     });
 
     test('getQueryStatuses returns the correct query statuses', () {

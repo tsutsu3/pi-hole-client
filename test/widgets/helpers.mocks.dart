@@ -867,6 +867,14 @@ class MockLogsViewModel extends _i1.Mock implements _i18.LogsViewModel {
           as bool);
 
   @override
+  bool get isRevalidating =>
+      (super.noSuchMethod(
+            Invocation.getter(#isRevalidating),
+            returnValue: false,
+          )
+          as bool);
+
+  @override
   String get searchText =>
       (super.noSuchMethod(
             Invocation.getter(#searchText),

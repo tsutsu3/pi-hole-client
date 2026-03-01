@@ -238,7 +238,8 @@ List<SingleChildWidget> _createProviders({
     ChangeNotifierProvider(create: (_) => serversViewModel),
     ChangeNotifierProxyProvider<AppConfigViewModel, ServersViewModel>(
       create: (_) => serversViewModel,
-      update: (_, appConfig, servers) => servers!..update(appConfig),
+      update: (_, appConfig, servers) =>
+          servers!..update(() => appConfig.setSelectedTab(0)),
     ),
 
     // Layer 3.5: RepositoryBundle

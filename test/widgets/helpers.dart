@@ -1427,7 +1427,7 @@ class TestSetupHelper {
             ChangeNotifierProxyProvider<AppConfigViewModel, ServersViewModel>(
               create: (context) => mockServersViewModel,
               update: (context, appConfig, servers) =>
-                  servers!..update(appConfig),
+                  servers!..update(() => appConfig.setSelectedTab(0)),
             ),
             ChangeNotifierProvider<DomainsViewModel>.value(
               value: mockDomainsViewModel,
@@ -1562,7 +1562,8 @@ class TestSetupHelper {
         ),
         ChangeNotifierProxyProvider<AppConfigViewModel, ServersViewModel>(
           create: (context) => mockServersViewModel,
-          update: (context, appConfig, servers) => servers!..update(appConfig),
+          update: (context, appConfig, servers) =>
+              servers!..update(() => appConfig.setSelectedTab(0)),
         ),
         ChangeNotifierProvider<DomainsViewModel>.value(
           value: mockDomainsViewModel,

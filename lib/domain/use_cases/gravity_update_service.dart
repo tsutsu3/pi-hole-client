@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:pi_hole_client/data/model/local/gravity_db_data.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/actions_respository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/gravity_repository.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/ftl/message.dart';
+import 'package:pi_hole_client/domain/model/gravity/gravity_snapshot.dart';
 import 'package:result_dart/result_dart.dart';
 
 /// Orchestrates Pi-hole gravity database updates.
@@ -49,14 +49,7 @@ class GravityUpdateService {
 
     // Clear previous gravity data from the database
     await _repository.deleteGravityData(address);
-    await _repository.upsertGravityUpdate(
-      GravityUpdateData(
-        address: address,
-        startTime: startedAt,
-        endTime: startedAt,
-        status: status.index,
-      ),
-    );
+    await _repository.upsertGravityUpdate(address, startedAt, startedAt, status);
     onStarted(startedAt);
     onStatusChanged(status);
 
@@ -71,16 +64,15 @@ class GravityUpdateService {
               final baseIndex = logs.length;
               logs.addAll(data);
 
-              final logsToInsert = data.asMap().entries.map((entry) {
+              final entries = data.asMap().entries.map((entry) {
                 final index = baseIndex + entry.key;
-                return GravityLogData(
-                  address: address,
+                return (
                   line: index,
                   message: entry.value,
                   timestamp: DateTime.now(),
                 );
               }).toList();
-              await _repository.insertGravityLogs(logsToInsert);
+              await _repository.insertGravityLogs(address, entries);
               onLogsUpdated(logs);
             }
           },
@@ -88,12 +80,10 @@ class GravityUpdateService {
             status = GravityStatus.error;
             completedAt = DateTime.now();
             await _repository.upsertGravityUpdate(
-              GravityUpdateData(
-                address: address,
-                startTime: startedAt,
-                endTime: completedAt!,
-                status: status.index,
-              ),
+              address,
+              startedAt,
+              completedAt!,
+              status,
             );
             onStatusChanged(status);
             onCompleted(completedAt!);
@@ -105,12 +95,10 @@ class GravityUpdateService {
         status = GravityStatus.error;
         completedAt = DateTime.now();
         await _repository.upsertGravityUpdate(
-          GravityUpdateData(
-            address: address,
-            startTime: startedAt,
-            endTime: completedAt!,
-            status: status.index,
-          ),
+          address,
+          startedAt,
+          completedAt!,
+          status,
         );
         onStatusChanged(status);
         onCompleted(completedAt!);
@@ -121,12 +109,10 @@ class GravityUpdateService {
         status = GravityStatus.success;
         completedAt = DateTime.now();
         await _repository.upsertGravityUpdate(
-          GravityUpdateData(
-            address: address,
-            startTime: startedAt,
-            endTime: completedAt!,
-            status: status.index,
-          ),
+          address,
+          startedAt,
+          completedAt!,
+          status,
         );
 
         // Delay to ensure the messages are fetched after the update is complete
@@ -134,16 +120,7 @@ class GravityUpdateService {
         final msgsResult = await _ftlRepository.fetchInfoMessages();
         final messages = msgsResult.getOrElse((_) => []);
         if (messages.isNotEmpty) {
-          final messagesToInsert = messages.map((entry) {
-            return GravityMessageData(
-              id: entry.id,
-              address: address,
-              message: entry.message,
-              url: entry.url,
-              timestamp: entry.timestamp,
-            );
-          }).toList();
-          await _repository.insertGravityMessages(messagesToInsert);
+          await _repository.insertGravityMessages(address, messages);
           onMessagesUpdated(messages);
         }
         onStatusChanged(status);
@@ -170,40 +147,15 @@ class GravityUpdateService {
 
   /// Loads persisted gravity data (logs, messages, status) from the local
   /// database for the given server [address].
-  Future<Map<String, dynamic>> loadGravityData(String address) async {
+  Future<GravitySnapshot> loadGravityData(String address) async {
     final data = await _repository.fetchGravityData(address);
-    final gravityData = data.getOrNull();
-
-    final messages =
-        gravityData?.gravityMessages?.map((data) {
-          return FtlMessage(
-            id: data.id,
-            timestamp: data.timestamp,
-            message: data.message,
-            url: data.url,
-          );
-        }).toList() ??
-        [];
-
-    var logs = <String>[];
-    if (gravityData?.gravityLogs != null) {
-      final sortedLogs = gravityData!.gravityLogs!.toList()
-        ..sort((a, b) => a.line.compareTo(b.line));
-      logs = sortedLogs.map((e) => e.message).toList();
-    }
-    final status = gravityData?.gravityUpdate?.status != null
-        ? GravityStatus.values[gravityData!.gravityUpdate!.status]
-        : GravityStatus.idle;
-    final startedAt = gravityData?.gravityUpdate?.startTime;
-    final completedAt = gravityData?.gravityUpdate?.endTime;
-
-    return {
-      'messages': messages,
-      'logs': logs,
-      'status': status,
-      'startedAt': startedAt,
-      'completedAt': completedAt,
-    };
+    return data.getOrElse(
+      (_) => const GravitySnapshot(
+        status: GravityStatus.idle,
+        logs: [],
+        messages: [],
+      ),
+    );
   }
 
   /// Cancels the active gravity update stream subscription.

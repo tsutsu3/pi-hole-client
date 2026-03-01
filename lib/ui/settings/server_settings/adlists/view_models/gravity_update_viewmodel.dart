@@ -113,12 +113,12 @@ class GravityUpdateViewModel with ChangeNotifier {
     }
     if (_loaded) return;
     final address = _serverAddress ?? '';
-    final data = await _service!.loadGravityData(address);
-    _messages = data['messages'];
-    _logs = data['logs'];
-    _status = data['status'];
-    _startedAt = data['startedAt'];
-    _completedAt = data['completedAt'];
+    final snapshot = await _service!.loadGravityData(address);
+    _messages = snapshot.messages.toList();
+    _logs = snapshot.logs.toList();
+    _status = snapshot.status;
+    _startedAt = snapshot.startedAt;
+    _completedAt = snapshot.completedAt;
 
     // When the status is running, it means app force killed or the app was
     // terminated while the gravity update was in progress.

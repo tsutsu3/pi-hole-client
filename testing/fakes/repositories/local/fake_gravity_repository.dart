@@ -1,6 +1,8 @@
 import 'package:pi_hole_client/data/model/local/gravity_db_data.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/gravity_repository.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/domain/model/ftl/message.dart';
+import 'package:pi_hole_client/domain/model/gravity/gravity_snapshot.dart';
 import 'package:result_dart/result_dart.dart';
 
 class FakeGravityRepository implements GravityRepository {
@@ -24,7 +26,10 @@ class FakeGravityRepository implements GravityRepository {
 
   @override
   Future<Result<int>> upsertGravityUpdate(
-    GravityUpdateData gravityUpdateData,
+    String address,
+    DateTime startTime,
+    DateTime endTime,
+    GravityStatus status,
   ) async {
     return const Success(1);
   }
@@ -48,7 +53,8 @@ class FakeGravityRepository implements GravityRepository {
 
   @override
   Future<Result<int>> insertGravityLogs(
-    List<GravityLogData> gravityLogsDataList,
+    String address,
+    List<({int line, String message, DateTime timestamp})> entries,
   ) async {
     return const Success(10);
   }
@@ -75,7 +81,8 @@ class FakeGravityRepository implements GravityRepository {
 
   @override
   Future<Result<int>> insertGravityMessages(
-    List<GravityMessageData> messagesList,
+    String address,
+    List<FtlMessage> messages,
   ) async {
     return const Success(10);
   }
@@ -91,32 +98,21 @@ class FakeGravityRepository implements GravityRepository {
   }
 
   @override
-  Future<Result<GravityData>> fetchGravityData(String address) async {
+  Future<Result<GravitySnapshot>> fetchGravityData(String address) async {
     return Success(
-      GravityData(
-        gravityUpdate: GravityUpdateData(
-          address: address,
-          startTime: _start,
-          endTime: _end,
-          status: status.index,
-        ),
-        gravityLogs: [
-          GravityLogData(
-            address: address,
-            line: 1,
-            message: 'Test log',
-            timestamp: _timestamp,
-          ),
-        ],
-        gravityMessages: [
-          GravityMessageData(
+      GravitySnapshot(
+        status: status,
+        logs: ['Test log'],
+        messages: [
+          FtlMessage(
             id: 1,
-            address: address,
+            timestamp: _timestamp,
             message: 'Test message',
             url: 'https://example.com',
-            timestamp: _timestamp,
           ),
         ],
+        startedAt: _start,
+        completedAt: _end,
       ),
     );
   }
