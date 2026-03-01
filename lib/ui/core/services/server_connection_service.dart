@@ -159,6 +159,13 @@ class ServerConnectionService {
       );
       final pw = creds.getOrNull()?.password ?? '';
       if (pw.isNotEmpty) {
+        // Try existing session first to avoid creating unnecessary sessions.
+        final preCheck = await bundle.dns.fetchBlockingStatus();
+        if (preCheck.isSuccess()) {
+          process?.close();
+          return preCheck;
+        }
+        // Session is missing or expired — re-authenticate.
         final authResult = await bundle.auth.createSession(pw);
         if (authResult.isError()) {
           process?.close();
