@@ -335,4 +335,16 @@ class ServersViewModel with ChangeNotifier {
   Future<Result<({String token, String password})>> fetchCredentials(
     String address,
   ) => _repository.fetchCredentials(address);
+
+  Future<Result<void>> savePassword(String address, String password) =>
+      _repository.savePassword(address, password);
+
+  Future<Result<void>> saveToken(String address, String token) =>
+      _repository.saveToken(address, token);
+
+  Future<Result<void>> deletePassword(String address) =>
+      _repository.deletePassword(address);
+
+  Future<Result<void>> deleteToken(String address) =>
+      _repository.deleteToken(address);
 }

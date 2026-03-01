@@ -226,7 +226,11 @@ List<SingleChildWidget> _createProviders({
     Provider<DatabaseService>(create: (_) => dbService),
     Provider<SecureStorageService>(create: (_) => secureStorageService),
     Provider<CreateRepositoryBundle>(
-      create: (_) => RepositoryBundleFactory.create,
+      create: (context) {
+        final storage = context.read<SecureStorageService>();
+        return ({required Server server}) =>
+            RepositoryBundleFactory.create(server: server, storage: storage);
+      },
     ),
 
     // Layer 2: Repositories

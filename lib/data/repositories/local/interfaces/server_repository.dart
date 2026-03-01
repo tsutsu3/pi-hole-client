@@ -30,4 +30,9 @@ abstract interface class ServerRepository {
   Future<Result<({String token, String password})>> fetchCredentials(
     String address,
   );
+
+  Future<Result<void>> savePassword(String address, String password);
+  Future<Result<void>> saveToken(String address, String token);
+  Future<Result<void>> deletePassword(String address);
+  Future<Result<void>> deleteToken(String address);
 }

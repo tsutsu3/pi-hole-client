@@ -351,4 +351,48 @@ class LocalServerRepository implements ServerRepository {
       return Failure(Exception('Failed to fetch credentials: $e\n$st'));
     }
   }
+
+  @override
+  Future<Result<void>> savePassword(String address, String password) async {
+    try {
+      await _secureStorage.saveValue('${address}_password', password);
+      return Success.unit();
+    } catch (e, st) {
+      logger.e('Failed to save password: $e\n$st');
+      return Failure(Exception('Failed to save password: $e\n$st'));
+    }
+  }
+
+  @override
+  Future<Result<void>> saveToken(String address, String token) async {
+    try {
+      await _secureStorage.saveValue('${address}_token', token);
+      return Success.unit();
+    } catch (e, st) {
+      logger.e('Failed to save token: $e\n$st');
+      return Failure(Exception('Failed to save token: $e\n$st'));
+    }
+  }
+
+  @override
+  Future<Result<void>> deletePassword(String address) async {
+    try {
+      await _secureStorage.deleteValue('${address}_password');
+      return Success.unit();
+    } catch (e, st) {
+      logger.e('Failed to delete password: $e\n$st');
+      return Failure(Exception('Failed to delete password: $e\n$st'));
+    }
+  }
+
+  @override
+  Future<Result<void>> deleteToken(String address) async {
+    try {
+      await _secureStorage.deleteValue('${address}_token');
+      return Success.unit();
+    } catch (e, st) {
+      logger.e('Failed to delete token: $e\n$st');
+      return Failure(Exception('Failed to delete token: $e\n$st'));
+    }
+  }
 }

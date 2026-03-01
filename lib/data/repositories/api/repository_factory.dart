@@ -34,14 +34,6 @@ import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 
-/// Function signature for creating a [RepositoryBundle].
-///
-/// Used to make the factory injectable for testing.
-typedef CreateRepositoryBundle = RepositoryBundle Function({
-  required Server server,
-  required SecureStorageService storage,
-});
-
 class RepositoryBundleFactory {
   static RepositoryBundle create({
     required Server server,

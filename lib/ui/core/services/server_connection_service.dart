@@ -2,8 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
-import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/dns/dns.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
@@ -20,7 +19,6 @@ import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dar
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
-import 'package:provider/provider.dart';
 import 'package:result_dart/result_dart.dart';
 
 /// UI-layer orchestrator that manages the full server connection flow.
@@ -44,7 +42,6 @@ import 'package:result_dart/result_dart.dart';
 ///   statusViewModel: statusViewModel,
 ///   serversViewModel: serversViewModel,
 ///   server: server,
-///   secureStorageService: secureStorageService,
 ///   createBundle: createBundle,
 ///   showModal: true,
 /// );
@@ -155,11 +152,7 @@ class ServerConnectionService {
       process.open(AppLocalizations.of(context)!.connecting);
     }
 
-    final secureStorageService = context.read<SecureStorageService>();
-    final bundle = createBundle(
-      server: serverForLogin,
-      storage: secureStorageService,
-    );
+    final bundle = createBundle(server: serverForLogin);
     if (serverForLogin.apiVersion == 'v6') {
       final creds = await serversViewModel.fetchCredentials(
         serverForLogin.address,

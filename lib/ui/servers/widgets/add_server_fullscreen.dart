@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
-import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
-import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/api_versions.dart';
 import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
@@ -183,19 +181,18 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   Future<void> _loadSecrets() async {
     if (widget.server != null) {
       try {
-        final sm = SecureDataRepository(
-          SecureStorageService(),
+        final serversViewModel = context.read<ServersViewModel>();
+        final result = await serversViewModel.fetchCredentials(
           widget.server!.address,
         );
-        final password = await sm.password;
-        final token = await sm.token;
+        final creds = result.getOrNull();
 
         if (mounted) {
           setState(() {
-            passwordFieldController.text = password.getOrNull() ?? '';
-            tokenFieldController.text = token.getOrNull() ?? '';
-            initToken = token.getOrNull() ?? '';
-            initPassword = password.getOrNull() ?? '';
+            passwordFieldController.text = creds?.password ?? '';
+            tokenFieldController.text = creds?.token ?? '';
+            initToken = creds?.token ?? '';
+            initPassword = creds?.password ?? '';
           });
         }
       } catch (e) {
@@ -222,12 +219,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   Future<void> _restoreSecrets() async {
     if (widget.server != null) {
-      final sm = SecureDataRepository(
-        SecureStorageService(),
-        widget.server!.address,
-      );
-      await sm.savePassword(initPassword!);
-      await sm.saveToken(initToken!);
+      final serversViewModel = context.read<ServersViewModel>();
+      await serversViewModel.savePassword(widget.server!.address, initPassword!);
+      await serversViewModel.saveToken(widget.server!.address, initToken!);
     }
   }
 
@@ -430,7 +424,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       final exists = await serversViewModel.checkUrlExists(url);
 
       if (!context.mounted) return;
-      final secureStorage = context.read<SecureStorageService>();
       final createBundle = context.read<CreateRepositoryBundle>();
 
       if (exists['result'] == 'success' && exists['exists'] == true) {
@@ -460,12 +453,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           ignoreCertificateErrors: ignoreCertificateErrors,
           pinnedCertificateSha256: pinnedCertificateSha256,
         );
-        final connectSm = SecureDataRepository(
-          SecureStorageService(),
-          url,
-        );
-        await connectSm.savePassword(passwordFieldController.text);
-        await connectSm.saveToken(tokenFieldController.text);
+        await serversViewModel.savePassword(url, passwordFieldController.text);
+        await serversViewModel.saveToken(url, tokenFieldController.text);
 
         serverObj =
             await validateAndUpdateServerCertificate(
@@ -478,10 +467,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             ) ??
             serverObj;
 
-        final bundle = createBundle(
-          server: serverObj,
-          storage: secureStorage,
-        );
+        final bundle = createBundle(server: serverObj);
         if (serverObj.apiVersion == 'v6') {
           final authResult = await bundle.auth.createSession(
             passwordFieldController.text,
@@ -492,8 +478,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 isConnecting = false;
                 _restoreSecrets();
               });
-              await connectSm.deletePassword();
-              await connectSm.deleteToken();
+              await serversViewModel.deletePassword(url);
+              await serversViewModel.deleteToken(url);
               if (!context.mounted) return;
               handleApiErrorResult(
                 context: context,
@@ -525,8 +511,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               _restoreSecrets();
             });
 
-            await connectSm.deletePassword();
-            await connectSm.deleteToken();
+            await serversViewModel.deletePassword(url);
+            await serversViewModel.deleteToken(url);
             if (!context.mounted) return;
 
             handleApiErrorResult(
@@ -544,7 +530,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
     Future<void> save() async {
       FocusManager.instance.primaryFocus?.unfocus();
-      final saveSecureStorage = context.read<SecureStorageService>();
       final saveCreateBundle = context.read<CreateRepositoryBundle>();
       setState(() {
         errorUrl = null;
@@ -563,12 +548,14 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         ignoreCertificateErrors: ignoreCertificateErrors,
         pinnedCertificateSha256: pinnedCertificateSha256,
       );
-      final saveSm = SecureDataRepository(
-        SecureStorageService(),
+      await serversViewModel.savePassword(
         widget.server!.address,
+        passwordFieldController.text,
       );
-      await saveSm.savePassword(passwordFieldController.text);
-      await saveSm.saveToken(tokenFieldController.text);
+      await serversViewModel.saveToken(
+        widget.server!.address,
+        tokenFieldController.text,
+      );
       if (serversViewModel.selectedServer != null) {
         statusViewModel.stopAutoRefresh();
       }
@@ -592,10 +579,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       serverObj = updatedServer;
 
-      final bundle = saveCreateBundle(
-        server: serverObj,
-        storage: saveSecureStorage,
-      );
+      final bundle = saveCreateBundle(server: serverObj);
       if (serverObj.apiVersion == 'v6') {
         final authResult = await bundle.auth.createSession(
           passwordFieldController.text,

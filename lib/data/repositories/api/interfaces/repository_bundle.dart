@@ -12,6 +12,14 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/local_dns_reposi
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
+
+/// Function signature for creating a [RepositoryBundle].
+///
+/// Used to make the factory injectable for testing.
+typedef CreateRepositoryBundle = RepositoryBundle Function({
+  required Server server,
+});
 
 class RepositoryBundle {
   const RepositoryBundle({

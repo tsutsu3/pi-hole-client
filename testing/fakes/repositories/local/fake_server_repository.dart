@@ -83,4 +83,24 @@ class FakeServerRepository implements ServerRepository {
   ) async {
     return const Success((token: '', password: ''));
   }
+
+  @override
+  Future<Result<void>> savePassword(String address, String password) async {
+    return Success.unit();
+  }
+
+  @override
+  Future<Result<void>> saveToken(String address, String token) async {
+    return Success.unit();
+  }
+
+  @override
+  Future<Result<void>> deletePassword(String address) async {
+    return Success.unit();
+  }
+
+  @override
+  Future<Result<void>> deleteToken(String address) async {
+    return Success.unit();
+  }
 }

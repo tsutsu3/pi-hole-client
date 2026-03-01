@@ -28,7 +28,6 @@ import 'package:pi_hole_client/data/model/v6/metrics/query.dart';
 import 'package:pi_hole_client/data/model/v6/network/devices.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
-import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
@@ -1457,7 +1456,7 @@ class TestSetupHelper {
             ),
             Provider<CreateRepositoryBundle>(
               create: (_) =>
-                  ({required server, required storage}) => RepositoryBundle(
+                  ({required server}) => RepositoryBundle(
                     actions: fakeActionsRepository,
                     adlist: fakeAdlistRepository,
                     auth: FakeAuthRepository(),
@@ -1593,7 +1592,7 @@ class TestSetupHelper {
         ),
         Provider<CreateRepositoryBundle>(
           create: (_) =>
-              ({required server, required storage}) => RepositoryBundle(
+              ({required server}) => RepositoryBundle(
                 actions: fakeActionsRepository,
                 adlist: fakeAdlistRepository,
                 auth: FakeAuthRepository(),
