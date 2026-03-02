@@ -19,6 +19,9 @@ class SessionCredentialService {
   final SecureStorageService _storage;
   final String _address;
 
+  /// The server address this service is scoped to.
+  String get address => _address;
+
   Future<void> Function()? _renewCallback;
 
   /// Registers a callback that performs session renewal (re-authentication).

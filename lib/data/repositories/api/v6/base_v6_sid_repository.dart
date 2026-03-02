@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
+import 'package:pi_hole_client/utils/widget_channel.dart';
 
 /// An abstract base class that manages retrieval and caching of a V5 token
 /// using a [SessionCredentialService].
@@ -74,6 +75,7 @@ abstract class BaseV6SidRepository {
       logger.d('[$runtimeType] Session renewed successfully.');
     } catch (e) {
       logger.w('[$runtimeType] Session renewal failed: $e');
+      await WidgetChannel.sendSidInvalidated(serverAddress: _creds.address);
     }
   }
 }

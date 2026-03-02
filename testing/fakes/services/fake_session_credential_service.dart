@@ -11,6 +11,9 @@ class FakeSessionCredentialService implements SessionCredentialService {
   String addressSid = 'sid123';
 
   @override
+  String get address => 'fake_address';
+
+  @override
   Future<Result<String>> get password async {
     if (shouldFailRead) {
       return Failure(Exception('Forced read failure'));
