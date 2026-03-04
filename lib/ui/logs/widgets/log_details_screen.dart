@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/metrics/queries.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/formats.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/urls.dart';
 import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
@@ -90,27 +89,29 @@ class LogDetailsScreen extends StatelessWidget {
       body: SafeArea(
         child: ListView(
           children: [
-            CustomListTile(
-              leadingIcon: Icons.link,
-              label: AppLocalizations.of(context)!.url,
-              description: log.url,
+            ListTile(
+              leading: const Icon(Icons.link),
+              title: Text(AppLocalizations.of(context)!.url),
+              subtitle: Text(log.url),
             ),
-            CustomListTile(
-              leadingIcon: Icons.http_rounded,
-              label: AppLocalizations.of(context)!.type,
-              description: log.type.name.toUpperCase(),
+            ListTile(
+              leading: const Icon(Icons.http_rounded),
+              title: Text(AppLocalizations.of(context)!.type),
+              subtitle: Text(log.type.name.toUpperCase()),
             ),
-            CustomListTile(
-              leadingIcon: Icons.phone_android_rounded,
-              label: AppLocalizations.of(context)!.device,
-              description: log.device,
+            ListTile(
+              leading: const Icon(Icons.phone_android_rounded),
+              title: Text(AppLocalizations.of(context)!.device),
+              subtitle: Text(log.device),
             ),
-            CustomListTile(
-              leadingIcon: Icons.access_time_outlined,
-              label: AppLocalizations.of(context)!.time,
-              description: formatTimestamp(
-                log.dateTime,
-                kUnifiedDateTimeLogFormat,
+            ListTile(
+              leading: const Icon(Icons.access_time_outlined),
+              title: Text(AppLocalizations.of(context)!.time),
+              subtitle: Text(
+                formatTimestamp(
+                  log.dateTime,
+                  kUnifiedDateTimeLogFormat,
+                ),
               ),
             ),
             if (log.status != null)
@@ -121,16 +122,17 @@ class LogDetailsScreen extends StatelessWidget {
               ),
             if (log.status == QueryStatusType.forwarded &&
                 log.answeredBy != null)
-              CustomListTile(
-                leadingIcon: Icons.domain,
-                label: AppLocalizations.of(context)!.answeredBy,
-                description: log.answeredBy,
+              ListTile(
+                leading: const Icon(Icons.domain),
+                title: Text(AppLocalizations.of(context)!.answeredBy),
+                subtitle: Text(log.answeredBy!),
               ),
-            CustomListTile(
-              leadingIcon: Icons.system_update_alt_outlined,
-              label: AppLocalizations.of(context)!.reply,
-              description:
-                  '${log.replyType?.name.toUpperCase() ?? 'N/A'} (${prettyReplyTimeWithUnit(log.replyTime)})',
+            ListTile(
+              leading: const Icon(Icons.system_update_alt_outlined),
+              title: Text(AppLocalizations.of(context)!.reply),
+              subtitle: Text(
+                '${log.replyType?.name.toUpperCase() ?? 'N/A'} (${prettyReplyTimeWithUnit(log.replyTime)})',
+              ),
             ),
           ],
         ),

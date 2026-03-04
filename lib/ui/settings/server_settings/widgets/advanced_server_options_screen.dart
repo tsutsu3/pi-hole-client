@@ -5,7 +5,6 @@ import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_button_list_tile.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
@@ -22,10 +21,12 @@ class AdvancedServerOptionsScreen extends StatefulWidget {
   const AdvancedServerOptionsScreen({super.key});
 
   @override
-  State<AdvancedServerOptionsScreen> createState() => _AdvancedServerOptionsScreenState();
+  State<AdvancedServerOptionsScreen> createState() =>
+      _AdvancedServerOptionsScreenState();
 }
 
-class _AdvancedServerOptionsScreenState extends State<AdvancedServerOptionsScreen> {
+class _AdvancedServerOptionsScreenState
+    extends State<AdvancedServerOptionsScreen> {
   RepositoryBundle? _bundle;
   RepositoryBundle? _previousBundle;
   bool? isLoggingEnabled;
@@ -249,176 +250,169 @@ class _AdvancedServerOptionsScreenState extends State<AdvancedServerOptionsScree
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.advancedSetup)),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16),
-          child: ListView(
-            children: [
-              SectionLabel(label: AppLocalizations.of(context)!.actions),
-              Skeletonizer(
-                enabled: isLoading,
-                effect: ShimmerEffect(
-                  baseColor: Theme.of(context).colorScheme.secondaryContainer,
-                  highlightColor: Theme.of(context).colorScheme.surface,
-                ),
-                child: loggingEnabled == null
-                    ? CustomButtonListTile(
-                        leadingIcon: Icons.notifications_rounded,
-                        label: AppLocalizations.of(context)!.tryAgainLater,
-                        color: isLoading
-                            ? Theme.of(context).colorScheme.secondaryContainer
-                            : Theme.of(context).colorScheme.onSurfaceVariant,
-                      )
-                    : CustomButtonListTile(
-                        leadingIcon: loggingEnabled
-                            ? Icons.stop_rounded
-                            : Icons.play_arrow_rounded,
-                        label: loggingEnabled
-                            ? AppLocalizations.of(context)!.disableQueryLogging
-                            : AppLocalizations.of(context)!.enableQueryLogging,
-                        color: isLoading
-                            ? Theme.of(context).colorScheme.secondaryContainer
-                            : loggingEnabled
-                            ? theme.queryOrange
-                            : theme.queryBlue,
-                        onTap: () => showDialog(
-                          context: context,
-                          useRootNavigator: false,
-                          builder: (context) => ConfirmationModal(
-                            icon: loggingEnabled
-                                ? Icons.stop_rounded
-                                : Icons.play_arrow_rounded,
-                            title: loggingEnabled
-                                ? AppLocalizations.of(
-                                    context,
-                                  )!.disableQueryLogging
-                                : AppLocalizations.of(
-                                    context,
-                                  )!.enableQueryLogging,
-                            message: AppLocalizations.of(
-                              context,
-                            )!.queryLoggingSwitchWarning,
-                            onConfirm: onEnableQueryLogging,
-                            confirmButtonText: loggingEnabled
-                                ? AppLocalizations.of(context)!.disable
-                                : AppLocalizations.of(context)!.enable,
-                            confirmButtonColor: loggingEnabled
-                                ? theme.queryOrange
-                                : theme.queryBlue,
-                          ),
-                          barrierDismissible: false,
+        child: ListView(
+          children: [
+            SectionLabel(label: AppLocalizations.of(context)!.actions),
+            Skeletonizer(
+              enabled: isLoading,
+              effect: ShimmerEffect(
+                baseColor: Theme.of(context).colorScheme.secondaryContainer,
+                highlightColor: Theme.of(context).colorScheme.surface,
+              ),
+              child: loggingEnabled == null
+                  ? CustomButtonListTile(
+                      leadingIcon: Icons.notifications_rounded,
+                      label: AppLocalizations.of(context)!.tryAgainLater,
+                      color: isLoading
+                          ? Theme.of(context).colorScheme.secondaryContainer
+                          : Theme.of(context).colorScheme.onSurfaceVariant,
+                    )
+                  : CustomButtonListTile(
+                      leadingIcon: loggingEnabled
+                          ? Icons.stop_rounded
+                          : Icons.play_arrow_rounded,
+                      label: loggingEnabled
+                          ? AppLocalizations.of(context)!.disableQueryLogging
+                          : AppLocalizations.of(context)!.enableQueryLogging,
+                      color: isLoading
+                          ? Theme.of(context).colorScheme.secondaryContainer
+                          : loggingEnabled
+                          ? theme.queryOrange
+                          : theme.queryBlue,
+                      onTap: () => showDialog(
+                        context: context,
+                        useRootNavigator: false,
+                        builder: (context) => ConfirmationModal(
+                          icon: loggingEnabled
+                              ? Icons.stop_rounded
+                              : Icons.play_arrow_rounded,
+                          title: loggingEnabled
+                              ? AppLocalizations.of(
+                                  context,
+                                )!.disableQueryLogging
+                              : AppLocalizations.of(
+                                  context,
+                                )!.enableQueryLogging,
+                          message: AppLocalizations.of(
+                            context,
+                          )!.queryLoggingSwitchWarning,
+                          onConfirm: onEnableQueryLogging,
+                          confirmButtonText: loggingEnabled
+                              ? AppLocalizations.of(context)!.disable
+                              : AppLocalizations.of(context)!.enable,
+                          confirmButtonColor: loggingEnabled
+                              ? theme.queryOrange
+                              : theme.queryBlue,
                         ),
+                        barrierDismissible: false,
                       ),
-              ),
-              CustomButtonListTile(
-                leadingIcon: Icons.restart_alt_rounded,
-                label: AppLocalizations.of(context)!.restartDnsResolver,
-                color: theme.queryOrange,
-                onTap: () => showDialog(
-                  context: context,
-                  useRootNavigator: false,
-                  builder: (context) => ConfirmationModal(
-                    icon: Icons.restart_alt_rounded,
-                    title: AppLocalizations.of(context)!.restartDnsResolver,
-                    message: AppLocalizations.of(context)!.dnsRestartWarning,
-                    onConfirm: onRestartDns,
-                    confirmButtonText: AppLocalizations.of(context)!.restart,
-                    confirmButtonColor: theme.queryOrange,
-                  ),
-                  barrierDismissible: false,
+                    ),
+            ),
+            CustomButtonListTile(
+              leadingIcon: Icons.restart_alt_rounded,
+              label: AppLocalizations.of(context)!.restartDnsResolver,
+              color: theme.queryOrange,
+              onTap: () => showDialog(
+                context: context,
+                useRootNavigator: false,
+                builder: (context) => ConfirmationModal(
+                  icon: Icons.restart_alt_rounded,
+                  title: AppLocalizations.of(context)!.restartDnsResolver,
+                  message: AppLocalizations.of(context)!.dnsRestartWarning,
+                  onConfirm: onRestartDns,
+                  confirmButtonText: AppLocalizations.of(context)!.restart,
+                  confirmButtonColor: theme.queryOrange,
                 ),
+                barrierDismissible: false,
               ),
-              CustomButtonListTile(
-                leadingIcon: Icons.delete_rounded,
-                label: AppLocalizations.of(context)!.flushNetworkTable,
-                color: theme.queryRed,
-                onTap: () => showDialog(
-                  context: context,
-                  useRootNavigator: false,
-                  builder: (context) => ConfirmationModal(
-                    icon: Icons.delete_rounded,
-                    title: AppLocalizations.of(context)!.flushNetworkTable,
-                    message: AppLocalizations.of(
-                      context,
-                    )!.flushNetworkTableWarning,
-                    onConfirm: onFlushArp,
-                    confirmButtonText: AppLocalizations.of(context)!.flush,
-                    confirmButtonColor: theme.queryRed,
-                  ),
-                  barrierDismissible: false,
+            ),
+            CustomButtonListTile(
+              leadingIcon: Icons.delete_rounded,
+              label: AppLocalizations.of(context)!.flushNetworkTable,
+              color: theme.queryRed,
+              onTap: () => showDialog(
+                context: context,
+                useRootNavigator: false,
+                builder: (context) => ConfirmationModal(
+                  icon: Icons.delete_rounded,
+                  title: AppLocalizations.of(context)!.flushNetworkTable,
+                  message: AppLocalizations.of(
+                    context,
+                  )!.flushNetworkTableWarning,
+                  onConfirm: onFlushArp,
+                  confirmButtonText: AppLocalizations.of(context)!.flush,
+                  confirmButtonColor: theme.queryRed,
                 ),
+                barrierDismissible: false,
               ),
-              CustomButtonListTile(
-                leadingIcon: Icons.delete_rounded,
-                label: AppLocalizations.of(context)!.flushLogs24h,
-                color: theme.queryRed,
-                onTap: () => showDialog(
-                  context: context,
-                  useRootNavigator: false,
-                  builder: (context) => ConfirmationModal(
-                    icon: Icons.delete_rounded,
-                    title: AppLocalizations.of(context)!.flushLogs,
-                    message: AppLocalizations.of(context)!.flushLogsWarning,
-                    onConfirm: onFlushLogs,
-                    confirmButtonText: AppLocalizations.of(context)!.flush,
-                    confirmButtonColor: theme.queryRed,
-                  ),
-                  barrierDismissible: false,
+            ),
+            CustomButtonListTile(
+              leadingIcon: Icons.delete_rounded,
+              label: AppLocalizations.of(context)!.flushLogs24h,
+              color: theme.queryRed,
+              onTap: () => showDialog(
+                context: context,
+                useRootNavigator: false,
+                builder: (context) => ConfirmationModal(
+                  icon: Icons.delete_rounded,
+                  title: AppLocalizations.of(context)!.flushLogs,
+                  message: AppLocalizations.of(context)!.flushLogsWarning,
+                  onConfirm: onFlushLogs,
+                  confirmButtonText: AppLocalizations.of(context)!.flush,
+                  confirmButtonColor: theme.queryRed,
                 ),
+                barrierDismissible: false,
               ),
-              SectionLabel(label: AppLocalizations.of(context)!.system),
-              CustomListTile(
-                leadingIcon: Icons.devices_rounded,
-                label: AppLocalizations.of(context)!.sessions,
-                description: AppLocalizations.of(context)!.sessionsDescription,
-                onTap: () => context.pushNamed(
-                  Routes.settingsServerAdvancedSessions,
-                ),
+            ),
+            SectionLabel(label: AppLocalizations.of(context)!.system),
+            ListTile(
+              leading: const Icon(Icons.devices_rounded),
+              title: Text(AppLocalizations.of(context)!.sessions),
+              subtitle: Text(AppLocalizations.of(context)!.sessionsDescription),
+              onTap: () =>
+                  context.pushNamed(Routes.settingsServerAdvancedSessions),
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings_ethernet_rounded),
+              title: Text(AppLocalizations.of(context)!.dhcp),
+              subtitle: Text(AppLocalizations.of(context)!.dhcpDescription),
+              onTap: () => context.pushNamed(Routes.settingsServerAdvancedDhcp),
+            ),
+            ListTile(
+              leading: const Icon(Icons.dns_rounded),
+              title: Text(AppLocalizations.of(context)!.localDns),
+              subtitle: Text(AppLocalizations.of(context)!.localDnsDescription),
+              onTap: () =>
+                  context.pushNamed(Routes.settingsServerAdvancedLocalDns),
+            ),
+            SectionLabel(label: AppLocalizations.of(context)!.tools),
+            ListTile(
+              leading: const Icon(Icons.manage_search_rounded),
+              title: Text(AppLocalizations.of(context)!.findDomainsInLists),
+              subtitle: Text(
+                AppLocalizations.of(context)!.findDomainsInListsDescription,
               ),
-              CustomListTile(
-                leadingIcon: Icons.settings_ethernet_rounded,
-                label: AppLocalizations.of(context)!.dhcp,
-                description: AppLocalizations.of(context)!.dhcpDescription,
-                onTap: () => context.pushNamed(
-                  Routes.settingsServerAdvancedDhcp,
-                ),
+              onTap: () => context.pushNamed(
+                Routes.settingsServerAdvancedFindDomainsInLists,
               ),
-              CustomListTile(
-                leadingIcon: Icons.dns_rounded,
-                label: AppLocalizations.of(context)!.localDns,
-                description: AppLocalizations.of(context)!.localDnsDescription,
-                onTap: () => context.pushNamed(
-                  Routes.settingsServerAdvancedLocalDns,
-                ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.wifi_rounded),
+              title: Text(AppLocalizations.of(context)!.interface),
+              subtitle: Text(
+                AppLocalizations.of(context)!.interfaceDescription,
               ),
-              SectionLabel(label: AppLocalizations.of(context)!.tools),
-              CustomListTile(
-                leadingIcon: Icons.manage_search_rounded,
-                label: AppLocalizations.of(context)!.findDomainsInLists,
-                description: AppLocalizations.of(
-                  context,
-                )!.findDomainsInListsDescription,
-                onTap: () => context.pushNamed(
-                  Routes.settingsServerAdvancedFindDomainsInLists,
-                ),
-              ),
-              CustomListTile(
-                leadingIcon: Icons.wifi_rounded,
-                label: AppLocalizations.of(context)!.interface,
-                description: AppLocalizations.of(context)!.interfaceDescription,
-                onTap: () => context.pushNamed(
-                  Routes.settingsServerAdvancedInterface,
-                ),
-              ),
-              CustomListTile(
-                leadingIcon: Icons.lan_rounded,
-                label: AppLocalizations.of(context)!.network,
-                description: AppLocalizations.of(context)!.networkDescription,
-                onTap: () => context.pushNamed(
-                  Routes.settingsServerAdvancedNetwork,
-                ),
-              ),
-            ],
-          ),
+              onTap: () =>
+                  context.pushNamed(Routes.settingsServerAdvancedInterface),
+            ),
+            ListTile(
+              leading: const Icon(Icons.lan_rounded),
+              title: Text(AppLocalizations.of(context)!.network),
+              subtitle: Text(AppLocalizations.of(context)!.networkDescription),
+              onTap: () =>
+                  context.pushNamed(Routes.settingsServerAdvancedNetwork),
+            ),
+          ],
         ),
       ),
     );

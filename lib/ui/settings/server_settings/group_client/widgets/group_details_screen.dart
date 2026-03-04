@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/formats.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
@@ -96,12 +95,14 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
           padding: const EdgeInsets.all(16),
           children: [
             SectionLabel(label: AppLocalizations.of(context)!.groupSettings),
-            CustomListTile(
-              leadingIcon: Icons.check_rounded,
-              label: AppLocalizations.of(context)!.status,
-              description: _group.enabled
-                  ? AppLocalizations.of(context)!.enabled
-                  : AppLocalizations.of(context)!.disabled,
+            ListTile(
+              leading: const Icon(Icons.check_rounded),
+              title: Text(AppLocalizations.of(context)!.status),
+              subtitle: Text(
+                _group.enabled
+                    ? AppLocalizations.of(context)!.enabled
+                    : AppLocalizations.of(context)!.disabled,
+              ),
               onTap: () => onEditGroup((
                 name: _group.name,
                 comment: _group.comment,
@@ -116,22 +117,24 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                 )),
               ),
             ),
-            CustomListTile(
-              leadingIcon: Icons.group_rounded,
-              label: AppLocalizations.of(context)!.groupName,
-              description: _group.name,
+            ListTile(
+              leading: const Icon(Icons.group_rounded),
+              title: Text(AppLocalizations.of(context)!.groupName),
+              subtitle: Text(_group.name),
               trailing: Icon(
                 Icons.edit_rounded,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
               onTap: openEditGroupModal,
             ),
-            CustomListTile(
-              leadingIcon: Icons.comment_rounded,
-              label: AppLocalizations.of(context)!.comment,
-              description: _group.comment == null || _group.comment!.isEmpty
-                  ? AppLocalizations.of(context)!.noComment
-                  : _group.comment!,
+            ListTile(
+              leading: const Icon(Icons.comment_rounded),
+              title: Text(AppLocalizations.of(context)!.comment),
+              subtitle: Text(
+                _group.comment == null || _group.comment!.isEmpty
+                    ? AppLocalizations.of(context)!.noComment
+                    : _group.comment!,
+              ),
               trailing: Icon(
                 Icons.edit_rounded,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -139,25 +142,23 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
               onTap: openEditGroupModal,
             ),
             SectionLabel(label: AppLocalizations.of(context)!.groupInfo),
-            CustomListTile(
-              leadingIcon: Icons.label_outline_rounded,
-              label: AppLocalizations.of(context)!.id,
-              description: _group.id.toString(),
+            ListTile(
+              leading: const Icon(Icons.label_outline_rounded),
+              title: Text(AppLocalizations.of(context)!.id),
+              subtitle: Text(_group.id.toString()),
             ),
-            CustomListTile(
-              leadingIcon: Icons.event_available_rounded,
-              label: AppLocalizations.of(context)!.dateAdded,
-              description: formatTimestamp(
-                _group.dateAdded,
-                kUnifiedDateTimeFormat,
+            ListTile(
+              leading: const Icon(Icons.event_available_rounded),
+              title: Text(AppLocalizations.of(context)!.dateAdded),
+              subtitle: Text(
+                formatTimestamp(_group.dateAdded, kUnifiedDateTimeFormat),
               ),
             ),
-            CustomListTile(
-              leadingIcon: Icons.edit_calendar_rounded,
-              label: AppLocalizations.of(context)!.dateModified,
-              description: formatTimestamp(
-                _group.dateModified,
-                kUnifiedDateTimeFormat,
+            ListTile(
+              leading: const Icon(Icons.edit_calendar_rounded),
+              title: Text(AppLocalizations.of(context)!.dateModified),
+              subtitle: Text(
+                formatTimestamp(_group.dateModified, kUnifiedDateTimeFormat),
               ),
             ),
             SectionLabel(label: AppLocalizations.of(context)!.groupMembers),
@@ -321,10 +322,10 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     required int count,
     VoidCallback? onTap,
   }) {
-    return CustomListTile(
-      leadingIcon: icon,
-      label: label,
-      description: count.toString(),
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(label),
+      subtitle: Text(count.toString()),
       onTap: onTap,
       trailing: onTap != null
           ? Icon(

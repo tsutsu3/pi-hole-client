@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/formats.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
@@ -98,37 +97,39 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
           padding: const EdgeInsets.all(16),
           children: [
             SectionLabel(label: AppLocalizations.of(context)!.clientSettings),
-            CustomListTile(
-              leadingIcon: Icons.devices_rounded,
-              label: AppLocalizations.of(context)!.macAddress,
-              description: getMacAddress() ?? '-',
+            ListTile(
+              leading: const Icon(Icons.devices_rounded),
+              title: Text(AppLocalizations.of(context)!.macAddress),
+              subtitle: Text(getMacAddress() ?? '-'),
             ),
-            CustomListTile(
-              leadingIcon: Icons.location_on_rounded,
-              label: AppLocalizations.of(context)!.ipAddress,
-              description: getIpAddress() ?? '-',
+            ListTile(
+              leading: const Icon(Icons.location_on_rounded),
+              title: Text(AppLocalizations.of(context)!.ipAddress),
+              subtitle: Text(getIpAddress() ?? '-'),
             ),
-            CustomListTile(
-              leadingIcon: Icons.computer_rounded,
-              label: AppLocalizations.of(context)!.hostname,
-              description: getHostname(),
+            ListTile(
+              leading: const Icon(Icons.computer_rounded),
+              title: Text(AppLocalizations.of(context)!.hostname),
+              subtitle: Text(getHostname()),
             ),
-            CustomListTile(
-              leadingIcon: Icons.group_rounded,
-              label: AppLocalizations.of(context)!.groups,
-              description: getGroupNames().join(', '),
+            ListTile(
+              leading: const Icon(Icons.group_rounded),
+              title: Text(AppLocalizations.of(context)!.groups),
+              subtitle: Text(getGroupNames().join(', ')),
               trailing: Icon(
                 Icons.edit_rounded,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
               onTap: openGroupsModal,
             ),
-            CustomListTile(
-              leadingIcon: Icons.comment_rounded,
-              label: AppLocalizations.of(context)!.comment,
-              description: _client.comment == null || _client.comment!.isEmpty
-                  ? AppLocalizations.of(context)!.noComment
-                  : _client.comment!,
+            ListTile(
+              leading: const Icon(Icons.comment_rounded),
+              title: Text(AppLocalizations.of(context)!.comment),
+              subtitle: Text(
+                _client.comment == null || _client.comment!.isEmpty
+                    ? AppLocalizations.of(context)!.noComment
+                    : _client.comment!,
+              ),
               trailing: Icon(
                 Icons.edit_rounded,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -136,25 +137,29 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
               onTap: openCommentModal,
             ),
             SectionLabel(label: AppLocalizations.of(context)!.clientInfo),
-            CustomListTile(
-              leadingIcon: Icons.label_outline_rounded,
-              label: AppLocalizations.of(context)!.id,
-              description: _client.id.toString(),
+            ListTile(
+              leading: const Icon(Icons.label_outline_rounded),
+              title: Text(AppLocalizations.of(context)!.id),
+              subtitle: Text(_client.id.toString()),
             ),
-            CustomListTile(
-              leadingIcon: Icons.event_available_rounded,
-              label: AppLocalizations.of(context)!.dateAdded,
-              description: formatTimestamp(
-                _client.dateAdded,
-                kUnifiedDateTimeFormat,
+            ListTile(
+              leading: const Icon(Icons.event_available_rounded),
+              title: Text(AppLocalizations.of(context)!.dateAdded),
+              subtitle: Text(
+                formatTimestamp(
+                  _client.dateAdded,
+                  kUnifiedDateTimeFormat,
+                ),
               ),
             ),
-            CustomListTile(
-              leadingIcon: Icons.edit_calendar_rounded,
-              label: AppLocalizations.of(context)!.dateModified,
-              description: formatTimestamp(
-                _client.dateModified,
-                kUnifiedDateTimeFormat,
+            ListTile(
+              leading: const Icon(Icons.edit_calendar_rounded),
+              title: Text(AppLocalizations.of(context)!.dateModified),
+              subtitle: Text(
+                formatTimestamp(
+                  _client.dateModified,
+                  kUnifiedDateTimeFormat,
+                ),
               ),
             ),
           ],

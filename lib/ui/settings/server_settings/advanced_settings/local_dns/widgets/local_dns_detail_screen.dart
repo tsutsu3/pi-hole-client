@@ -91,20 +91,20 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SectionLabel(label: locale.localDnsInformation),
-              CustomListTile(
-                leadingIcon: Icons.computer_rounded,
-                label: locale.hostname,
-                description: _localDns.name,
+              ListTile(
+                leading: const Icon(Icons.computer_rounded),
+                title: Text(locale.hostname),
+                subtitle: Text(_localDns.name),
                 trailing: Icon(
                   Icons.edit_rounded,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
                 onTap: openHostNameModal,
               ),
-              CustomListTile(
-                leadingIcon: Icons.location_on_rounded,
-                label: locale.ipAddress,
-                description: _localDns.ip,
+              ListTile(
+                leading: const Icon(Icons.location_on_rounded),
+                title: Text(locale.ipAddress),
+                subtitle: Text(_localDns.ip),
                 trailing: Icon(
                   Icons.edit_rounded,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -112,17 +112,19 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
                 onTap: openIpModal,
               ),
               SectionLabel(label: locale.additionalInformation),
-              CustomListTile(
-                leadingIcon: Icons.access_time_rounded,
-                label: locale.vendor,
-                description: (currentOption?.macVendor.isNotEmpty ?? false)
-                    ? currentOption!.macVendor
-                    : locale.unknown,
+              ListTile(
+                leading: const Icon(Icons.access_time_rounded),
+                title: Text(locale.vendor),
+                subtitle: Text(
+                  (currentOption?.macVendor.isNotEmpty ?? false)
+                      ? currentOption!.macVendor
+                      : locale.unknown,
+                ),
               ),
-              CustomListTile(
-                leadingIcon: Icons.info_rounded,
-                label: locale.macAddress,
-                description: currentOption?.hwaddr ?? locale.unknown,
+              ListTile(
+                leading: const Icon(Icons.info_rounded),
+                title: Text(locale.macAddress),
+                subtitle: Text(currentOption?.hwaddr ?? locale.unknown),
               ),
             ],
           ),

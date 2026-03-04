@@ -3,7 +3,6 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
@@ -73,7 +72,9 @@ class AdvancedOptionsScreen extends StatelessWidget {
     }
 
     Future<void> updateShowLoadingAnimation(bool newStatus) async {
-      final result = await appConfigViewModel.setShowLoadingAnimation(newStatus);
+      final result = await appConfigViewModel.setShowLoadingAnimation(
+        newStatus,
+      );
       if (!context.mounted) return;
 
       if (result == true) {
@@ -195,174 +196,116 @@ class AdvancedOptionsScreen extends StatelessWidget {
         child: ListView(
           children: [
             SectionLabel(label: AppLocalizations.of(context)!.security),
-            CustomListTile(
-              leadingIcon: Icons.fingerprint_rounded,
-              label: AppLocalizations.of(context)!.appUnlock,
-              description: AppLocalizations.of(context)!.appUnlockDescription,
-              onTap: openAppUnlockModal,
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 10,
-                left: 20,
-                right: 10,
+            ListTile(
+              leading: const Icon(Icons.fingerprint_rounded),
+              title: Text(AppLocalizations.of(context)!.appUnlock),
+              subtitle: Text(
+                AppLocalizations.of(context)!.appUnlockDescription,
               ),
+              onTap: openAppUnlockModal,
             ),
             SectionLabel(label: AppLocalizations.of(context)!.charts),
-            CustomListTile(
-              leadingIcon: Icons.stacked_line_chart_rounded,
-              label: AppLocalizations.of(context)!.reducedDataCharts,
-              description: AppLocalizations.of(
-                context,
-              )!.reducedDataChartsDescription,
+            ListTile(
+              leading: const Icon(Icons.stacked_line_chart_rounded),
+              title: Text(AppLocalizations.of(context)!.reducedDataCharts),
+              subtitle: Text(
+                AppLocalizations.of(context)!.reducedDataChartsDescription,
+              ),
               onTap: () =>
                   updateUseReducedData(!appConfigViewModel.reducedDataCharts),
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 10,
-                left: 20,
-                right: 10,
-              ),
               trailing: Switch(
                 value: appConfigViewModel.reducedDataCharts,
                 onChanged: updateUseReducedData,
               ),
             ),
-            CustomListTile(
-              leadingIcon: Icons.exposure_zero_rounded,
-              label: AppLocalizations.of(context)!.hideZeroValues,
-              description: AppLocalizations.of(
-                context,
-              )!.hideZeroValuesDescription,
+            ListTile(
+              leading: const Icon(Icons.exposure_zero_rounded),
+              title: Text(AppLocalizations.of(context)!.hideZeroValues),
+              subtitle: Text(
+                AppLocalizations.of(context)!.hideZeroValuesDescription,
+              ),
               onTap: () =>
                   updateHideZeroValues(!appConfigViewModel.hideZeroValues),
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 10,
-                left: 20,
-                right: 10,
-              ),
               trailing: Switch(
                 value: appConfigViewModel.hideZeroValues,
                 onChanged: updateHideZeroValues,
               ),
             ),
-            CustomListTile(
-              leadingIcon: Icons.animation_rounded,
-              label: AppLocalizations.of(context)!.showLoadingAnimation,
-              description: AppLocalizations.of(
-                context,
-              )!.showLoadingAnimationDescription,
+            ListTile(
+              leading: const Icon(Icons.animation_rounded),
+              title: Text(AppLocalizations.of(context)!.showLoadingAnimation),
+              subtitle: Text(
+                AppLocalizations.of(context)!.showLoadingAnimationDescription,
+              ),
               onTap: () => updateShowLoadingAnimation(
                 !appConfigViewModel.loadingAnimation,
-              ),
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 10,
-                left: 20,
-                right: 10,
               ),
               trailing: Switch(
                 value: appConfigViewModel.loadingAnimation,
                 onChanged: updateShowLoadingAnimation,
               ),
             ),
-            CustomListTile(
-              leadingIcon: Icons.pie_chart_rounded,
-              label: AppLocalizations.of(context)!.chartDisplayModeTitle,
-              description: AppLocalizations.of(
-                context,
-              )!.chartDisplayModeSubtitle,
+            ListTile(
+              leading: const Icon(Icons.pie_chart_rounded),
+              title: Text(AppLocalizations.of(context)!.chartDisplayModeTitle),
+              subtitle: Text(
+                AppLocalizations.of(context)!.chartDisplayModeSubtitle,
+              ),
               onTap: () => context.pushNamed(
                 Routes.settingsAppAdvancedChartVisualization,
               ),
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 10,
-                left: 20,
-                right: 10,
-              ),
             ),
             SectionLabel(label: AppLocalizations.of(context)!.performance),
-            CustomListTile(
-              leadingIcon: Icons.update,
-              label: AppLocalizations.of(context)!.autoRefreshTime,
-              description:
-                  '${appConfigViewModel.getAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
-              onTap: () => context.pushNamed(
-                Routes.settingsAppAdvancedStatsRefreshTime,
+            ListTile(
+              leading: const Icon(Icons.update),
+              title: Text(AppLocalizations.of(context)!.autoRefreshTime),
+              subtitle: Text(
+                '${appConfigViewModel.getAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
               ),
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 10,
-                left: 20,
-                right: 10,
-              ),
+              onTap: () =>
+                  context.pushNamed(Routes.settingsAppAdvancedStatsRefreshTime),
             ),
-            CustomListTile(
-              leadingIcon: Icons.timer_outlined,
-              label: AppLocalizations.of(context)!.liveLog,
-              description: AppLocalizations.of(context)!.liveLogDescription,
+            ListTile(
+              leading: const Icon(Icons.timer_outlined),
+              title: Text(AppLocalizations.of(context)!.liveLog),
+              subtitle: Text(AppLocalizations.of(context)!.liveLogDescription),
               onTap: () => updateLiveLog(!appConfigViewModel.liveLog),
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 10,
-                left: 20,
-                right: 10,
-              ),
               trailing: Switch(
                 value: appConfigViewModel.liveLog,
                 onChanged: updateLiveLog,
               ),
             ),
-            CustomListTile(
-              leadingIcon: Icons.update,
-              label: AppLocalizations.of(context)!.logAutoRefreshTime,
-              description:
-                  '${appConfigViewModel.logAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
+            ListTile(
+              leading: const Icon(Icons.update),
+              title: Text(AppLocalizations.of(context)!.logAutoRefreshTime),
+              subtitle: Text(
+                '${appConfigViewModel.logAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
+              ),
               onTap: () => context.pushNamed(
                 Routes.settingsAppAdvancedLogRefreshInterval,
               ),
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 10,
-                left: 20,
-                right: 10,
-              ),
             ),
-            CustomListTile(
-              leadingIcon: Icons.list_rounded,
-              label: AppLocalizations.of(context)!.logsQuantityPerLoad,
-              description: logDescription,
-              onTap: () => context.pushNamed(
-                Routes.settingsAppAdvancedLogsQuantityLoad,
-              ),
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 10,
-                left: 20,
-                right: 10,
-              ),
+            ListTile(
+              leading: const Icon(Icons.list_rounded),
+              title: Text(AppLocalizations.of(context)!.logsQuantityPerLoad),
+              subtitle: Text(logDescription),
+              onTap: () =>
+                  context.pushNamed(Routes.settingsAppAdvancedLogsQuantityLoad),
             ),
             SectionLabel(label: AppLocalizations.of(context)!.others),
-            CustomListTile(
-              leadingIcon: Icons.list,
-              label: AppLocalizations.of(context)!.appLogs,
-              description: AppLocalizations.of(context)!.errorsApp,
-              onTap: () => context.pushNamed(
-                Routes.settingsAppAdvancedAppLogs,
-              ),
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 10,
-                left: 20,
-                right: 10,
-              ),
+            ListTile(
+              leading: const Icon(Icons.list),
+              title: Text(AppLocalizations.of(context)!.appLogs),
+              subtitle: Text(AppLocalizations.of(context)!.errorsApp),
+              onTap: () => context.pushNamed(Routes.settingsAppAdvancedAppLogs),
             ),
-            CustomListTile(
-              leadingIcon: Icons.delete,
-              label: AppLocalizations.of(context)!.resetApplication,
-              description: AppLocalizations.of(context)!.erasesAppData,
-              color: appConfigViewModel.colors.commonRed ?? Colors.red,
+            ListTile(
+              leading: const Icon(Icons.delete),
+              title: Text(AppLocalizations.of(context)!.resetApplication),
+              subtitle: Text(AppLocalizations.of(context)!.erasesAppData),
+              subtitleTextStyle: TextStyle(
+                color: appConfigViewModel.colors.commonRed ?? Colors.red,
+              ),
               onTap: () => {
                 Navigator.push(
                   context,
@@ -372,12 +315,6 @@ class AdvancedOptionsScreen extends StatelessWidget {
                   ),
                 ),
               },
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 10,
-                left: 20,
-                right: 10,
-              ),
             ),
           ],
         ),
