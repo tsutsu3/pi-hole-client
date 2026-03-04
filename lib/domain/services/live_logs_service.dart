@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/metrics/queries.dart';
-import 'package:pi_hole_client/domain/use_cases/logs_pagination_service.dart';
+import 'package:pi_hole_client/domain/services/logs_pagination_service.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
 /// A service for fetching live log differences in a specific time window.

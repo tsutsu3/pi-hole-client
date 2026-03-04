@@ -4,7 +4,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.d
 import 'package:pi_hole_client/data/repositories/local/interfaces/gravity_repository.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/ftl/message.dart';
-import 'package:pi_hole_client/domain/use_cases/gravity_update_service.dart';
+import 'package:pi_hole_client/domain/services/gravity_update_service.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
 /// ViewModel for the Gravity Update screen.
