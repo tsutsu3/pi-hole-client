@@ -19,6 +19,7 @@ import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dar
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
+import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:result_dart/result_dart.dart';
 
 /// UI-layer orchestrator that manages the full server connection flow.
@@ -121,7 +122,7 @@ class ServerConnectionService {
       '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
       '-> ${server.address}(${server.alias})',
     );
-    _onSuccess(result.getOrNull()!, serverForLogin);
+    await _onSuccess(result.getOrNull()!, serverForLogin);
   }
 
   void _startConnection() {
@@ -180,7 +181,7 @@ class ServerConnectionService {
     return result;
   }
 
-  void _onSuccess(Blocking blocking, Server connectedServer) {
+  Future<void> _onSuccess(Blocking blocking, Server connectedServer) async {
     if (serversViewModel.selectedServer == null &&
         appConfigViewModel.selectedTab == 1) {
       appConfigViewModel.setSelectedTab(4);
@@ -189,6 +190,9 @@ class ServerConnectionService {
     serversViewModel.setselectedServer(server: connectedServer);
     serversViewModel.updateselectedServerStatus(
       blocking.status == DnsBlockingStatus.enabled,
+    );
+    await WidgetChannel.sendBlockingUpdated(
+      serverAddress: connectedServer.address,
     );
 
     statusViewModel.setServerStatus(LoadStatus.loaded);

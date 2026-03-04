@@ -8,6 +8,7 @@ import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
+import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 
@@ -141,6 +142,7 @@ class _BaseState extends State<Base>
     serversViewModel.updateselectedServerStatus(
       result.getOrNull()?.status == DnsBlockingStatus.enabled,
     );
+    await WidgetChannel.sendBlockingUpdated(serverAddress: server.address);
   }
 
   /// Stop auto-refresh

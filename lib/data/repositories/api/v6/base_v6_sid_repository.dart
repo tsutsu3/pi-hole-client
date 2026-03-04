@@ -20,6 +20,9 @@ abstract class BaseV6SidRepository {
 
   final SessionCredentialService _creds;
 
+  /// The server address this repository is scoped to.
+  String get serverAddress => _creds.address;
+
   String? _sid;
   Future<String>? _loadingSid;
 
@@ -41,6 +44,13 @@ abstract class BaseV6SidRepository {
       if (r.isError()) throw SidNotFoundException();
       _sid = r.getOrThrow();
       c.complete(_sid!);
+      // Notify the home widget that a valid SID is available.
+      // This covers the case where the app reconnects using a cached SID
+      // (createSession is skipped), preventing a permanent AUTH_REQUIRED state.
+      await WidgetChannel.sendSidUpdated(
+        serverAddress: serverAddress,
+        sid: _sid!,
+      );
       return _sid!;
     } catch (e) {
       c.completeError(e);

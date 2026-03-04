@@ -4,6 +4,7 @@ import 'package:pi_hole_client/data/repositories/api/v6/base_v6_sid_repository.d
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/domain/model/auth/auth.dart';
+import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:result_dart/result_dart.dart';
 
 class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
@@ -24,6 +25,10 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
         final value = auth.getOrNull();
         if (value != null && value.valid) {
           await saveSid(value.sid);
+          await WidgetChannel.sendSidUpdated(
+            serverAddress: serverAddress,
+            sid: value.sid,
+          );
         }
         return auth;
       },
