@@ -82,4 +82,23 @@ class WidgetChannel {
       logger.w('Widget blockingUpdated failed: $e');
     }
   }
+
+  /// Schedules a widget refresh after [delaySeconds] seconds.
+  ///
+  /// Used after a timed disable so the widget reflects the server auto
+  /// re-enabling blocking once the timer expires, even if the app is closed.
+  static Future<void> scheduleBlockingRefresh({
+    required String serverAddress,
+    required int delaySeconds,
+  }) async {
+    if (!_isSupported()) return;
+    try {
+      await _channel.invokeMethod('scheduleBlockingRefresh', {
+        'serverId': serverAddress,
+        'delaySeconds': delaySeconds,
+      });
+    } catch (e) {
+      logger.w('Widget scheduleBlockingRefresh failed: $e');
+    }
+  }
 }

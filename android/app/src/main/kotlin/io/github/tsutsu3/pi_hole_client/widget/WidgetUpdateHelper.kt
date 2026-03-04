@@ -224,4 +224,76 @@ object WidgetUpdateHelper {
     fun scheduleTogglePeriodicUpdate(context: Context) {
         schedulePeriodicUpdate<ToggleWidgetWorker>(context, "pihole_toggle_widget_periodic")
     }
+
+    /**
+     * Schedules a one-shot refresh for all widgets bound to [serverId] after
+     * [delaySeconds] seconds.
+     *
+     * Used when the app sets a timed disable on Pi-hole so the widget reflects
+     * the automatic re-enable once the timer expires, even if the app is closed.
+     */
+    fun scheduleDelayedRefresh(context: Context, serverId: String, delaySeconds: Long) {
+        val manager = AppWidgetManager.getInstance(context)
+        val prefs = WidgetPrefs.getInstance(context)
+
+        val statsIds = manager.getAppWidgetIds(
+            ComponentName(context, PiHoleWidgetProvider::class.java),
+        )
+        prefs.getWidgetIdsForServer(statsIds, serverId).forEach { widgetId ->
+            val request = OneTimeWorkRequestBuilder<PiHoleWidgetWorker>()
+                .setInputData(
+                    workDataOf(
+                        AppWidgetManager.EXTRA_APPWIDGET_ID to widgetId,
+                        WidgetConstants.EXTRA_ACTION to WidgetConstants.ACTION_REFRESH,
+                    ),
+                )
+                .setInitialDelay(delaySeconds, TimeUnit.SECONDS)
+                .build()
+            WorkManager.getInstance(context).enqueueUniqueWork(
+                "pihole_widget_delayed_$widgetId",
+                ExistingWorkPolicy.REPLACE,
+                request,
+            )
+        }
+
+        val toggleIds = manager.getAppWidgetIds(
+            ComponentName(context, ToggleWidgetProvider::class.java),
+        )
+        prefs.getWidgetIdsForServer(toggleIds, serverId).forEach { widgetId ->
+            val request = OneTimeWorkRequestBuilder<ToggleWidgetWorker>()
+                .setInputData(
+                    workDataOf(
+                        AppWidgetManager.EXTRA_APPWIDGET_ID to widgetId,
+                        WidgetConstants.EXTRA_ACTION to WidgetConstants.ACTION_REFRESH,
+                    ),
+                )
+                .setInitialDelay(delaySeconds, TimeUnit.SECONDS)
+                .build()
+            WorkManager.getInstance(context).enqueueUniqueWork(
+                "pihole_toggle_delayed_$widgetId",
+                ExistingWorkPolicy.REPLACE,
+                request,
+            )
+        }
+
+        val compactIds = manager.getAppWidgetIds(
+            ComponentName(context, CompactWidgetProvider::class.java),
+        )
+        prefs.getWidgetIdsForServer(compactIds, serverId).forEach { widgetId ->
+            val request = OneTimeWorkRequestBuilder<PiHoleWidgetWorker>()
+                .setInputData(
+                    workDataOf(
+                        AppWidgetManager.EXTRA_APPWIDGET_ID to widgetId,
+                        WidgetConstants.EXTRA_ACTION to WidgetConstants.ACTION_REFRESH,
+                    ),
+                )
+                .setInitialDelay(delaySeconds, TimeUnit.SECONDS)
+                .build()
+            WorkManager.getInstance(context).enqueueUniqueWork(
+                "pihole_compact_delayed_$widgetId",
+                ExistingWorkPolicy.REPLACE,
+                request,
+            )
+        }
+    }
 }

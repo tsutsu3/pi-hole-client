@@ -6,6 +6,7 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
 
 Future<void> enableServer(BuildContext context) async {
@@ -16,6 +17,8 @@ Future<void> enableServer(BuildContext context) async {
   );
   final bundle = Provider.of<RepositoryBundle?>(context, listen: false);
   if (bundle == null) return;
+
+  final serverAddress = serversViewModel.selectedServer?.address;
 
   final process = ProcessModal(context: context);
   process.open(AppLocalizations.of(context)!.enablingServer);
@@ -43,6 +46,10 @@ Future<void> enableServer(BuildContext context) async {
       );
     },
   );
+
+  if (result.isSuccess() && serverAddress != null) {
+    await WidgetChannel.sendBlockingUpdated(serverAddress: serverAddress);
+  }
 }
 
 Future<void> disableServer(int time, BuildContext context) async {
@@ -53,6 +60,8 @@ Future<void> disableServer(int time, BuildContext context) async {
   );
   final bundle = Provider.of<RepositoryBundle?>(context, listen: false);
   if (bundle == null) return;
+
+  final serverAddress = serversViewModel.selectedServer?.address;
 
   final process = ProcessModal(context: context);
   process.open(AppLocalizations.of(context)!.disablingServer);
@@ -78,4 +87,14 @@ Future<void> disableServer(int time, BuildContext context) async {
       );
     },
   );
+
+  if (result.isSuccess() && serverAddress != null) {
+    await WidgetChannel.sendBlockingUpdated(serverAddress: serverAddress);
+    if (time > 0) {
+      await WidgetChannel.scheduleBlockingRefresh(
+        serverAddress: serverAddress,
+        delaySeconds: time,
+      );
+    }
+  }
 }

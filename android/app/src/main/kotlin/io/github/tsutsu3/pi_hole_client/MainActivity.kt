@@ -76,6 +76,15 @@ class MainActivity : FlutterFragmentActivity() {
                     result.success(null)
                 }
 
+                "scheduleBlockingRefresh" -> {
+                    val serverId = requireServerId(call, result) ?: return@setMethodCallHandler
+                    val delaySeconds = call.argument<Int>("delaySeconds") ?: 0
+                    if (delaySeconds > 0) {
+                        WidgetUpdateHelper.scheduleDelayedRefresh(this, serverId, delaySeconds.toLong())
+                    }
+                    result.success(null)
+                }
+
                 else -> result.notImplemented()
             }
         }
