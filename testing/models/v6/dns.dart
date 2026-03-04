@@ -1,6 +1,6 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v6/dns/dns.dart' as srv;
 import 'package:pi_hole_client/domain/model/dns/dns.dart' as repo;
+import 'package:pi_hole_client/domain/model/enums.dart';
 
 final kSrvGetDnsBlocking = srv.Blocking(
   blocking: 'enabled',

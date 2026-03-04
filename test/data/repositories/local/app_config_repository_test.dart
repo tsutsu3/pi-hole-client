@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/local/app_config_repository.dart';
-import 'package:result_dart/result_dart.dart';
+import 'package:pi_hole_client/domain/model/app/app_config.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../../../../testing/fakes/services/fake_database_service.dart';
@@ -11,38 +12,38 @@ void sqfliteTestInit() {
   databaseFactory = databaseFactoryFfi;
 }
 
+const defaultAppConfig = AppConfig(
+  autoRefreshTime: 5,
+  theme: AppThemeMode.system,
+  language: 'en',
+  reducedDataCharts: false,
+  logsPerQuery: 2.0,
+  logAutoRefreshTime: 5,
+  liveLog: true,
+  isLivelogPaused: true,
+  useBiometricAuth: false,
+  importantInfoReaden: false,
+  hideZeroValues: false,
+  loadingAnimation: false,
+  statisticsVisualizationMode: StatisticsVisualizationMode.list,
+  homeVisualizationMode: HomeVisualizationMode.lineArea,
+  sendCrashReports: false,
+);
+
 void main() {
   const dbName = inMemoryDatabasePath;
-  const appConfigMap = {
-    'autoRefreshTime': 5,
-    'theme': 0,
-    'language': 'en',
-    'reducedDataCharts': 0,
-    'logsPerQuery': 2.0,
-    'logAutoRefreshTime': 5,
-    'liveLog': 1,
-    'isLivelogPaused': 1,
-    'passCode': null,
-    'useBiometricAuth': 0,
-    'importantInfoReaden': 0,
-    'hideZeroValues': 0,
-    'loadingAnimation': 0,
-    'statisticsVisualizationMode': 0,
-    'homeVisualizationMode': 0,
-    'sendCrashReports': 0,
-  };
 
   sqfliteTestInit();
 
   group('AppConfigRepository.getter', () {
-    late AppConfigRepository repository;
+    late LocalAppConfigRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = AppConfigRepository(dbService, ssSerivce);
+      repository = LocalAppConfigRepository(dbService, ssSerivce);
     });
 
     tearDown(() async {
@@ -57,7 +58,7 @@ void main() {
 
       final result = repository.appConfig;
       expect(result.isSuccess(), true);
-      expect(result.getOrNull()?.toDict(), appConfigMap);
+      expect(result.getOrNull(), defaultAppConfig);
     });
 
     test('returns Failure if not loaded', () async {
@@ -73,14 +74,14 @@ void main() {
   });
 
   group('AppConfigRepository.fetchAppConfig', () {
-    late AppConfigRepository repository;
+    late LocalAppConfigRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = AppConfigRepository(dbService, ssSerivce);
+      repository = LocalAppConfigRepository(dbService, ssSerivce);
     });
 
     tearDown(() async {
@@ -93,9 +94,9 @@ void main() {
     test('loads and caches config when passcode is not set', () async {
       final result = await repository.fetchAppConfig();
       expect(result.isSuccess(), true);
-      expect(result.getOrNull()?.toDict(), appConfigMap);
+      expect(result.getOrNull(), defaultAppConfig);
       expect(repository.appConfig.isSuccess(), true);
-      expect(repository.appConfig.getOrNull()?.toDict(), appConfigMap);
+      expect(repository.appConfig.getOrNull(), defaultAppConfig);
     });
 
     test(
@@ -105,15 +106,12 @@ void main() {
 
         final result = await repository.fetchAppConfig();
         expect(result.isSuccess(), true);
-        expect(result.getOrNull()?.toDict(), {
-          ...appConfigMap,
-          'passCode': '1234',
-        });
+        expect(result.getOrNull(), defaultAppConfig.copyWith(passCode: '1234'));
         expect(repository.appConfig.isSuccess(), true);
-        expect(repository.appConfig.getOrNull()?.toDict(), {
-          ...appConfigMap,
-          'passCode': '1234',
-        });
+        expect(
+          repository.appConfig.getOrNull(),
+          defaultAppConfig.copyWith(passCode: '1234'),
+        );
       },
     );
 
@@ -131,14 +129,14 @@ void main() {
   });
 
   group('AppConfigRepository.updateMethods', () {
-    late AppConfigRepository repository;
+    late LocalAppConfigRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = AppConfigRepository(dbService, ssSerivce);
+      repository = LocalAppConfigRepository(dbService, ssSerivce);
     });
 
     tearDown(() async {
@@ -161,7 +159,7 @@ void main() {
       expect(result.isSuccess(), true);
       final data = await repository.fetchAppConfig();
       expect(data.isSuccess(), true);
-      expect(data.getOrNull()?.theme, 1);
+      expect(data.getOrNull()?.theme, AppThemeMode.light);
     });
 
     test('updates language in database', () async {
@@ -177,7 +175,7 @@ void main() {
       expect(result.isSuccess(), true);
       final data = await repository.fetchAppConfig();
       expect(data.isSuccess(), true);
-      expect(data.getOrNull()?.reducedDataCharts, 1);
+      expect(data.getOrNull()?.reducedDataCharts, true);
     });
 
     test('updates logsPerQuery in database', () async {
@@ -193,7 +191,7 @@ void main() {
       expect(result.isSuccess(), true);
       final data = await repository.fetchAppConfig();
       expect(data.isSuccess(), true);
-      expect(data.getOrNull()?.useBiometricAuth, 1);
+      expect(data.getOrNull()?.useBiometricAuth, true);
     });
 
     test('updates importantInfoReaden in database', () async {
@@ -201,7 +199,7 @@ void main() {
       expect(result.isSuccess(), true);
       final data = await repository.fetchAppConfig();
       expect(data.isSuccess(), true);
-      expect(data.getOrNull()?.importantInfoReaden, 1);
+      expect(data.getOrNull()?.importantInfoReaden, true);
     });
 
     test('updates hideZeroValues in database', () async {
@@ -209,7 +207,7 @@ void main() {
       expect(result.isSuccess(), true);
       final data = await repository.fetchAppConfig();
       expect(data.isSuccess(), true);
-      expect(data.getOrNull()?.hideZeroValues, 1);
+      expect(data.getOrNull()?.hideZeroValues, true);
     });
 
     test('updates loadingAnimation in database', () async {
@@ -217,7 +215,7 @@ void main() {
       expect(result.isSuccess(), true);
       final data = await repository.fetchAppConfig();
       expect(data.isSuccess(), true);
-      expect(data.getOrNull()?.loadingAnimation, 1);
+      expect(data.getOrNull()?.loadingAnimation, true);
     });
 
     test('updates statisticsVisualizationMode in database', () async {
@@ -225,7 +223,10 @@ void main() {
       expect(result.isSuccess(), true);
       final data = await repository.fetchAppConfig();
       expect(data.isSuccess(), true);
-      expect(data.getOrNull()?.statisticsVisualizationMode, 1);
+      expect(
+        data.getOrNull()?.statisticsVisualizationMode,
+        StatisticsVisualizationMode.pieChart,
+      );
     });
 
     test('updates sendCrashReports in database', () async {
@@ -233,13 +234,13 @@ void main() {
       expect(result.isSuccess(), true);
       final data = await repository.fetchAppConfig();
       expect(data.isSuccess(), true);
-      expect(data.getOrNull()?.sendCrashReports, 1);
+      expect(data.getOrNull()?.sendCrashReports, true);
     });
 
     test('updates passCode in secure storage', () async {
       final result = await repository.updatePassCode('1234');
       expect(result.isSuccess(), true);
-      expect(await ssSerivce.getValue('passCode').getOrNull(), '1234');
+      expect((await ssSerivce.getValue('passCode')).getOrNull(), '1234');
     });
 
     test('deletes passCode from secure storage when value is null', () async {
@@ -247,7 +248,7 @@ void main() {
 
       final result = await repository.updatePassCode(null);
       expect(result.isSuccess(), true);
-      expect(await ssSerivce.getValue('passCode').isError(), true);
+      expect((await ssSerivce.getValue('passCode')).isError(), true);
     });
 
     test('returns Failure when unexpected error', () async {
@@ -263,14 +264,14 @@ void main() {
   });
 
   group('AppConfigRepository.resetAppConfig', () {
-    late AppConfigRepository repository;
+    late LocalAppConfigRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
       ssSerivce = FakeSecureStorageService();
-      repository = AppConfigRepository(dbService, ssSerivce);
+      repository = LocalAppConfigRepository(dbService, ssSerivce);
     });
 
     tearDown(() async {
@@ -289,8 +290,8 @@ void main() {
 
       final data = await repository.fetchAppConfig();
       expect(data.isSuccess(), true);
-      expect(data.getOrNull()?.toDict(), appConfigMap);
-      expect(await ssSerivce.getValue('passCode').isError(), true);
+      expect(data.getOrNull(), defaultAppConfig);
+      expect((await ssSerivce.getValue('passCode')).isError(), true);
     });
 
     test('returns Failure when unexpected error', () async {

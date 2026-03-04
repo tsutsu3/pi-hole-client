@@ -12,8 +12,8 @@ import 'package:result_dart/result_dart.dart';
 /// api.setApiKey('x_header_sid', sid);
 /// ```
 ///
-/// In Phase 3, Repositories will depend on this service to access the
-/// Pi-hole v6 API. Domain model mapping will be added at that stage.
+/// Repositories depend on this service to access the Pi-hole v6 API.
+/// Domain model mapping is handled in the repository layer.
 class PiholeV6Service {
   PiholeV6Service({required PiholeV6Api api}) : _api = api;
 
@@ -37,9 +37,7 @@ class PiholeV6Service {
   // Authentication
   // ==========================================================================
 
-  Future<Result<GetAuth200Response>> postAuth({
-    required String password,
-  }) {
+  Future<Result<GetAuth200Response>> postAuth({required String password}) {
     return safeDioCall(() async {
       final response = await _authApi.addAuth(
         password: Password(password: password),
@@ -185,9 +183,7 @@ class PiholeV6Service {
     SetBlockingRequest? request,
   }) {
     return safeDioCall(() async {
-      final response = await _dnsApi.setBlocking(
-        setBlockingRequest: request,
-      );
+      final response = await _dnsApi.setBlocking(setBlockingRequest: request);
       return response.requireData;
     });
   }
@@ -203,18 +199,14 @@ class PiholeV6Service {
     });
   }
 
-  Future<Result<GetGroups200Response>> getGroups({
-    required String name,
-  }) {
+  Future<Result<GetGroups200Response>> getGroups({required String name}) {
     return safeDioCall(() async {
       final response = await _groupApi.getGroups(name: name);
       return response.requireData;
     });
   }
 
-  Future<Result<ReplaceGroup200Response>> addGroup({
-    GroupsPost? body,
-  }) {
+  Future<Result<ReplaceGroup200Response>> addGroup({GroupsPost? body}) {
     return safeDioCall(() async {
       final response = await _groupApi.addGroup(groupsPost: body);
       return response.requireData;
@@ -318,11 +310,7 @@ class PiholeV6Service {
     required String domain,
   }) {
     return safeDioCall(() async {
-      await _domainApi.deleteDomain(
-        type: type,
-        kind: kind,
-        domain: domain,
-      );
+      await _domainApi.deleteDomain(type: type, kind: kind, domain: domain);
       return unit;
     });
   }
@@ -331,9 +319,7 @@ class PiholeV6Service {
   // Lists (Adlists/Subscriptions)
   // ==========================================================================
 
-  Future<Result<GetLists200Response>> getAllLists({
-    String? type,
-  }) {
+  Future<Result<GetLists200Response>> getAllLists({String? type}) {
     return safeDioCall(() async {
       final response = await _listApi.getAllLists(type: type);
       return response.requireData;
@@ -411,18 +397,14 @@ class PiholeV6Service {
     });
   }
 
-  Future<Result<GetClients200Response>> getClients({
-    required String client,
-  }) {
+  Future<Result<GetClients200Response>> getClients({required String client}) {
     return safeDioCall(() async {
       final response = await _clientApi.getClients(client: client);
       return response.requireData;
     });
   }
 
-  Future<Result<ReplaceClient200Response>> addClient({
-    AddClientRequest? body,
-  }) {
+  Future<Result<ReplaceClient200Response>> addClient({AddClientRequest? body}) {
     return safeDioCall(() async {
       final response = await _clientApi.addClient(addClientRequest: body);
       return response.requireData;
@@ -534,9 +516,7 @@ class PiholeV6Service {
     });
   }
 
-  Future<Result<GetGateway200Response>> getNetworkGateway({
-    bool? detailed,
-  }) {
+  Future<Result<GetGateway200Response>> getNetworkGateway({bool? detailed}) {
     return safeDioCall(() async {
       final response = await _networkApi.getGateway(detailed: detailed);
       return response.requireData;
@@ -549,7 +529,7 @@ class PiholeV6Service {
 
   Future<Result<ActionRestartdns200Response>> actionFlushArp() {
     return safeDioCall(() async {
-      // ignore: deprecated_member_use
+      // ignore: deprecated_member_use_from_same_package
       final response = await _actionsApi.actionFlusharp();
       return response.requireData;
     });

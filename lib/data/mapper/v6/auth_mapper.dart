@@ -1,7 +1,7 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v6/auth/auth.dart' as s;
 import 'package:pi_hole_client/data/model/v6/auth/sessions.dart' as s;
 import 'package:pi_hole_client/domain/model/auth/auth.dart' as d;
+import 'package:pi_hole_client/domain/model/enums.dart';
 
 extension SessionMapper on s.Session {
   d.Auth toDomain() {

@@ -64,6 +64,7 @@ class CustomNavigationRail extends StatelessWidget {
                       ),
                     )
                     .toList(),
+                minWidth: 56,
                 labelType: NavigationRailLabelType.all,
                 useIndicator: true,
                 groupAlignment: 0,

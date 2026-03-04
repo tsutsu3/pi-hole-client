@@ -235,5 +235,5 @@ analyzer:
   exclude:
     - test/**/*.mocks.dart
     - lib/**/*.g.dart
-    - lib/ui/settings/about/about.dart
+    - lib/ui/settings/about/widgets/about.dart
     - lib/data/services/api/generated/**

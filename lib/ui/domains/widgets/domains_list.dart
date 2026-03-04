@@ -2,20 +2,19 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/add_domain_modal.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_tile.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class DomainsList extends StatefulWidget {
@@ -70,7 +69,6 @@ class _DomainsListState extends State<DomainsList> {
 
   @override
   Widget build(BuildContext context) {
-    final serversViewModel = Provider.of<ServersViewModel>(context);
     final viewModel = Provider.of<DomainsViewModel>(context);
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
     final groups = context.watch<GroupsViewModel>().groupItems;
@@ -212,6 +210,7 @@ class _DomainsListState extends State<DomainsList> {
                   widget.onDomainSelected(d);
                   if (MediaQuery.of(context).size.width <=
                       ResponsiveConstants.large) {
+                    appConfigViewModel.setDetailScreenOpen(true);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -221,14 +220,16 @@ class _DomainsListState extends State<DomainsList> {
                             domain: d,
                             remove: removeDomain,
                             groups: groups,
-                            colors: serversViewModel.colors,
+                            colors: appConfigViewModel.colors,
                           ),
                         ),
                       ),
-                    );
+                    ).then((_) {
+                      appConfigViewModel.setDetailScreenOpen(false);
+                    });
                   }
                 },
-                colors: serversViewModel.colors,
+                colors: appConfigViewModel.colors,
               ),
             );
           },

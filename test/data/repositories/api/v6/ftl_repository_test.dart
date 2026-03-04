@@ -43,6 +43,12 @@ void main() {
       expect(result.getOrNull(), kRepoFetchFtlInfo);
     });
 
+    test('should fetch info ftl successfully (FTL >= 6.3)', () async {
+      client.shouldGetInfoFtlV63 = true;
+      final result = await repository.fetchInfoFtl();
+      expect(result.getOrNull(), kRepoFetchFtlInfo);
+    });
+
     test('should fail when fetching info ftl fails', () async {
       client.shouldFail = true;
 

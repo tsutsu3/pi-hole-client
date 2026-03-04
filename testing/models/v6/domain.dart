@@ -1,6 +1,6 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v6/domains/domains.dart' as srv;
 import 'package:pi_hole_client/domain/model/domain/domain.dart' as repo;
+import 'package:pi_hole_client/domain/model/enums.dart';
 
 const kSrvGetDomains = srv.Domains(
   domains: [

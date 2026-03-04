@@ -1,5 +1,6 @@
-import 'package:pi_hole_client/data/repositories/local/app_config_repository.dart';
-import 'package:pi_hole_client/domain/models_old/database.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/app_config_repository.dart';
+import 'package:pi_hole_client/domain/model/app/app_config.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:result_dart/result_dart.dart';
 
 class FakeAppConfigRepository implements AppConfigRepository {
@@ -8,59 +9,42 @@ class FakeAppConfigRepository implements AppConfigRepository {
   bool shouldFailUpdate = false;
   bool shouldFailResetAppConfig = false;
 
+  /// Controls the `importantInfoReaden` value returned by [appConfig]/[fetchAppConfig].
+  bool importantInfoReadenValue = false;
+
+  AppConfig _defaultConfig() => AppConfig(
+    autoRefreshTime: 5,
+    theme: AppThemeMode.system,
+    language: 'en',
+    reducedDataCharts: false,
+    logsPerQuery: 2,
+    logAutoRefreshTime: 5,
+    liveLog: true,
+    isLivelogPaused: true,
+    useBiometricAuth: false,
+    importantInfoReaden: importantInfoReadenValue,
+    hideZeroValues: false,
+    loadingAnimation: false,
+    statisticsVisualizationMode: StatisticsVisualizationMode.list,
+    homeVisualizationMode: HomeVisualizationMode.lineArea,
+    sendCrashReports: false,
+  );
+
   @override
-  Result<AppDbData> get appConfig {
+  Result<AppConfig> get appConfig {
     if (shouldFailAppConfig) {
       return Failure(Exception('Simulated appConfig error'));
     }
-    return Success(
-      AppDbData(
-        autoRefreshTime: 5,
-        theme: 0,
-        language: 'en',
-        reducedDataCharts: 0,
-        logsPerQuery: 2,
-        logAutoRefreshTime: 5,
-        liveLog: 1,
-        isLivelogPaused: 1,
-        passCode: null,
-        useBiometricAuth: 0,
-        importantInfoReaden: 0,
-        hideZeroValues: 0,
-        loadingAnimation: 0,
-        statisticsVisualizationMode: 0,
-        homeVisualizationMode: 0,
-        sendCrashReports: 0,
-      ),
-    );
+    return Success(_defaultConfig());
   }
 
   @override
-  Future<Result<AppDbData>> fetchAppConfig() async {
+  Future<Result<AppConfig>> fetchAppConfig() async {
     if (shouldFailAppConfig) {
       return Failure(Exception('Simulated fetchAppConfig error'));
     }
 
-    return Success(
-      AppDbData(
-        autoRefreshTime: 5,
-        theme: 0,
-        language: 'en',
-        reducedDataCharts: 0,
-        logsPerQuery: 2,
-        logAutoRefreshTime: 5,
-        liveLog: 1,
-        isLivelogPaused: 1,
-        passCode: null,
-        useBiometricAuth: 0,
-        importantInfoReaden: 0,
-        hideZeroValues: 0,
-        loadingAnimation: 0,
-        statisticsVisualizationMode: 0,
-        homeVisualizationMode: 0,
-        sendCrashReports: 0,
-      ),
-    );
+    return Success(_defaultConfig());
   }
 
   @override

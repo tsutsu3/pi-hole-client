@@ -4,6 +4,7 @@ import 'package:pi_hole_client/data/repositories/api/v6/base_v6_sid_repository.d
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/domain/model/auth/auth.dart';
+import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:result_dart/result_dart.dart';
 
 class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
@@ -20,7 +21,16 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
     return runWithResultRetry<Auth>(
       action: () async {
         final result = await _client.postAuth(password: password);
-        return result.map((e) => e.toDomain());
+        final auth = result.map((e) => e.toDomain());
+        final value = auth.getOrNull();
+        if (value != null && value.valid) {
+          await saveSid(value.sid);
+          await WidgetChannel.sendSidUpdated(
+            serverAddress: serverAddress,
+            sid: value.sid,
+          );
+        }
+        return auth;
       },
       onRetry: (_) => clearSid(),
     );
@@ -34,7 +44,7 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
         final result = await _client.deleteAuth(sid);
         return result.map((_) => unit);
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 
@@ -46,7 +56,7 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
         final result = await _client.getAuthSessions(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 
@@ -58,7 +68,7 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
         final result = await _client.deleteAuthSession(sid, id: id);
         return result.map((_) => unit);
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 }

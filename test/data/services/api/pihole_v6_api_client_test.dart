@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v6/config/config.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
-import 'package:pi_hole_client/data/services/utils/exceptions.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../../../../testing/helper/test_helper.dart';
@@ -2894,6 +2894,7 @@ void main() {
       final response = http.Response(jsonEncode(data), 200);
       mockPost(mockClient, url, response);
 
+      // ignore: deprecated_member_use_from_same_package
       final result = await apiClient.postActionFlushArp(sid);
 
       expectSuccess(result, data);
@@ -2911,6 +2912,7 @@ void main() {
       final response = http.Response(jsonEncode(data), 401);
       mockPost(mockClient, url, response);
 
+      // ignore: deprecated_member_use_from_same_package
       final result = await apiClient.postActionFlushArp(sid);
 
       expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');

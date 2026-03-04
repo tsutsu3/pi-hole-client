@@ -1,5 +1,5 @@
-import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/data/model/v6/lists/lists.dart' as s;
+import 'package:pi_hole_client/domain/model/enum_converters.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart' as d;
 
 extension ListsMapper on s.Lists {

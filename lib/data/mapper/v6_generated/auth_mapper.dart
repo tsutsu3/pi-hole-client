@@ -1,5 +1,5 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/model/auth/auth.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pihole_v6_api/pihole_v6_api.dart';
 
 /// Maps [SessionSession] (OpenAPI-generated) to [Auth] (domain model).

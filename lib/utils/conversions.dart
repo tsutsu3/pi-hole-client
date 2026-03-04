@@ -1,25 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/models_old/domain.dart';
-
-String getDomainType(int type) {
-  switch (type) {
-    case 0:
-      return 'Whitelist';
-
-    case 1:
-      return 'Blacklist';
-
-    case 2:
-      return 'Whitelist Regex';
-
-    case 3:
-      return 'Blacklist Regex';
-
-    default:
-      return '';
-  }
-}
+import 'package:pi_hole_client/domain/model/enums.dart';
 
 String getAdlistStatusType(int type) {
   switch (type) {
@@ -41,10 +21,6 @@ String getAdlistStatusType(int type) {
     default:
       return '';
   }
-}
-
-List<Domain> parseDomainList(List<Map<String, dynamic>> jsonList) {
-  return jsonList.map(Domain.fromJson).toList();
 }
 
 bool? convertFromIntToBool(int value) {

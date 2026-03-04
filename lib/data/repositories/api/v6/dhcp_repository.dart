@@ -23,7 +23,7 @@ class DhcpRepositoryV6 extends BaseV6SidRepository implements DhcpRepository {
         final result = await _client.getDhcpLeases(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 
@@ -35,7 +35,7 @@ class DhcpRepositoryV6 extends BaseV6SidRepository implements DhcpRepository {
         final result = await _client.deleteDhcpLeases(sid, ip: ip);
         return result.map((_) => unit);
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 }

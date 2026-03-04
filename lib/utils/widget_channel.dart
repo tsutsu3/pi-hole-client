@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
 class WidgetChannel {
@@ -10,13 +10,13 @@ class WidgetChannel {
   static bool _isSupported() => Platform.isAndroid;
 
   static Future<void> sendSidUpdated({
-    required Server server,
+    required String serverAddress,
     required String sid,
   }) async {
     if (!_isSupported()) return;
     try {
       await _channel.invokeMethod('sidUpdated', {
-        'serverId': server.address,
+        'serverId': serverAddress,
         'sid': sid,
         'timestamp': DateTime.now().toIso8601String(),
       });
@@ -25,11 +25,13 @@ class WidgetChannel {
     }
   }
 
-  static Future<void> sendSidInvalidated({required Server server}) async {
+  static Future<void> sendSidInvalidated({
+    required String serverAddress,
+  }) async {
     if (!_isSupported()) return;
     try {
       await _channel.invokeMethod('sidInvalidated', {
-        'serverId': server.address,
+        'serverId': serverAddress,
       });
     } catch (e) {
       logger.w('Widget sidInvalidated failed: $e');
@@ -67,11 +69,13 @@ class WidgetChannel {
     }
   }
 
-  static Future<void> sendBlockingUpdated({required Server server}) async {
+  static Future<void> sendBlockingUpdated({
+    required String serverAddress,
+  }) async {
     if (!_isSupported()) return;
     try {
       await _channel.invokeMethod('blockingUpdated', {
-        'serverId': server.address,
+        'serverId': serverAddress,
         'timestamp': DateTime.now().toIso8601String(),
       });
     } catch (e) {

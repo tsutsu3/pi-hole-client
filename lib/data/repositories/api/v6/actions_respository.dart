@@ -2,7 +2,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/actions_resposit
 import 'package:pi_hole_client/data/repositories/api/v6/base_v6_sid_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
-import 'package:pi_hole_client/data/services/utils/exceptions.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -32,13 +32,14 @@ class ActionsRepositoryV6 extends BaseV6SidRepository
         final error = networkResult.exceptionOrNull();
         if (error is HttpStatusCodeException && error.statusCode == 404) {
           logger.w('flush/network not found, falling back to flush/arp');
+          // ignore: deprecated_member_use_from_same_package
           final arpResult = await _client.postActionFlushArp(sid);
           return arpResult.map((_) => unit);
         }
 
         return networkResult.map((_) => unit);
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 
@@ -50,7 +51,7 @@ class ActionsRepositoryV6 extends BaseV6SidRepository
         final result = await _client.postActionFlushLogs(sid);
         return result.map((_) => unit);
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 
@@ -63,7 +64,7 @@ class ActionsRepositoryV6 extends BaseV6SidRepository
       },
       maxRetries: 1,
       delay: const Duration(milliseconds: 10),
-      onRetry: (attempt, error, st) => clearSid(),
+      onRetry: (attempt, error, st) => clearAndRenewSid(),
     );
 
     yield* stream;
@@ -77,7 +78,7 @@ class ActionsRepositoryV6 extends BaseV6SidRepository
         final result = await _client.postActionRestartDns(sid);
         return result.map((_) => unit);
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 }

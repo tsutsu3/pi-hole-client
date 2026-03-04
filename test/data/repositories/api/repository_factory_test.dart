@@ -4,8 +4,7 @@ import 'package:pi_hole_client/data/repositories/api/v5/auth_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/auth_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/ftl_repository.dart';
-import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 
 import '../../../../testing/fakes/services/fake_secure_storage_service.dart';
 
@@ -24,7 +23,6 @@ void main() {
       apiVersion: apiVersion,
       allowSelfSignedCert: false,
       ignoreCertificateErrors: false,
-      sm: SecureDataRepository(fakeStorage, address),
     );
   }
 

@@ -31,7 +31,7 @@ class NetworkRepositoryV6 extends BaseV6SidRepository
         );
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 
@@ -46,7 +46,7 @@ class NetworkRepositoryV6 extends BaseV6SidRepository
         );
         return result.map((_) => unit);
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 
@@ -61,7 +61,7 @@ class NetworkRepositoryV6 extends BaseV6SidRepository
         );
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearSid(),
+      onRetry: (_) => clearAndRenewSid(),
     );
   }
 }

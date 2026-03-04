@@ -1,8 +1,11 @@
+import 'package:pi_hole_client/data/mapper/local/app_config_mapper.dart';
+import 'package:pi_hole_client/data/model/local/app_db_data.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/app_config_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/data/services/utils/database_utils.dart';
-import 'package:pi_hole_client/domain/models_old/database.dart';
+import 'package:pi_hole_client/domain/model/app/app_config.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -11,8 +14,8 @@ import 'package:result_dart/result_dart.dart';
 /// This repository handles reading and writing app settings stored in
 /// SQLite and secure storage. It supports partial field updates and
 /// restoring default values.
-class AppConfigRepository {
-  AppConfigRepository(
+class LocalAppConfigRepository implements AppConfigRepository {
+  LocalAppConfigRepository(
     DatabaseService database,
     SecureStorageService secureStorage,
   ) : _database = database,
@@ -21,7 +24,7 @@ class AppConfigRepository {
   final DatabaseService _database;
   final SecureStorageService _secureStorage;
 
-  AppDbData? _appConfig;
+  AppConfig? _appConfig;
 
   /// Returns the current cached application configuration.
   ///
@@ -29,7 +32,8 @@ class AppConfigRepository {
   /// [fetchAppConfig]. If the configuration has not yet been fetched and cached,
   /// this returns a [Failure]. To ensure the config is available, call
   /// [fetchAppConfig] before accessing this getter.
-  Result<AppDbData> get appConfig {
+  @override
+  Result<AppConfig> get appConfig {
     if (_appConfig == null) {
       return Failure(
         Exception('App config not loaded. Call fetchAppConfig() first.'),
@@ -48,25 +52,26 @@ class AppConfigRepository {
   /// or [Failure] with an [Exception] if any step fails.
   ///
   /// The configuration is cached in memory after the first successful load.
-  Future<Result<AppDbData>> fetchAppConfig() async {
+  @override
+  Future<Result<AppConfig>> fetchAppConfig() async {
     try {
       await openDbIfNeeded(_database);
 
-      AppDbData appConfig;
+      AppDbData appDbData;
 
       final rows = await runWithRetry<Result<List<Map<String, dynamic>>>>(
         action: () => _database.rawQuery('SELECT * FROM appConfig'),
         onRetry: (attempt, error, _) =>
             logger.w('Attempt $attempt: Failed to read appConfig - $error'),
       );
-      appConfig = AppDbData.fromMap(rows.getOrThrow()[0]);
+      appDbData = AppDbData.fromMap(rows.getOrThrow()[0]);
 
       final passCode = await _secureStorage.getValue('passCode');
-      appConfig = AppDbData.withSecrets(appConfig, passCode.getOrNull());
+      appDbData = AppDbData.withSecrets(appDbData, passCode.getOrNull());
 
-      _appConfig = appConfig;
+      _appConfig = appDbData.toDomain();
 
-      return Success(appConfig);
+      return Success(_appConfig!);
     } catch (e, st) {
       logger.e('Failed to load app config: $e\n$st');
       return Failure(Exception('Failed to load app config: $e\n$st'));
@@ -74,6 +79,7 @@ class AppConfigRepository {
   }
 
   /// Updates the auto-refresh interval in seconds.
+  @override
   Future<Result<void>> updateAutoRefreshTime(int time) async {
     return _updateConfigValue(column: 'autoRefreshTime', value: time);
   }
@@ -84,14 +90,17 @@ class AppConfigRepository {
   /// - `0`: Follow system theme
   /// - `1`: Light mode
   /// - `2`: Dark mode
+  @override
   Future<Result<void>> updateTheme(int theme) async {
     return _updateConfigValue(column: 'theme', value: theme);
   }
 
+  @override
   Future<Result<void>> updateLanguage(String language) async {
     return _updateConfigValue(column: 'language', value: language);
   }
 
+  @override
   Future<Result<void>> updateReducedDataCharts(bool enabled) async {
     return _updateConfigValue(
       column: 'reducedDataCharts',
@@ -105,10 +114,12 @@ class AppConfigRepository {
   /// querying logs. For example:
   /// - `0.5` means 30 minutes
   /// - `1.0` means 1 hour
+  @override
   Future<Result<void>> updateLogsPerQuery(double logsPerQuery) async {
     return _updateConfigValue(column: 'logsPerQuery', value: logsPerQuery);
   }
 
+  @override
   Future<Result<void>> updateUseBiometricAuth(bool useBiometricAuth) async {
     return _updateConfigValue(
       column: 'useBiometricAuth',
@@ -116,6 +127,7 @@ class AppConfigRepository {
     );
   }
 
+  @override
   Future<Result<void>> updateImportantInfoReaden(bool readen) async {
     return _updateConfigValue(
       column: 'importantInfoReaden',
@@ -123,6 +135,7 @@ class AppConfigRepository {
     );
   }
 
+  @override
   Future<Result<void>> updateHideZeroValues(bool hideZeroValues) async {
     return _updateConfigValue(
       column: 'hideZeroValues',
@@ -130,6 +143,7 @@ class AppConfigRepository {
     );
   }
 
+  @override
   Future<Result<void>> updateLoadingAnimation(bool loadingAnimation) async {
     return _updateConfigValue(
       column: 'loadingAnimation',
@@ -142,6 +156,7 @@ class AppConfigRepository {
   /// The [mode] parameter controls how statistics are displayed:
   /// - `0`: List view
   /// - `1`: Pie chart view
+  @override
   Future<Result<void>> updateStatisticsVisualizationMode(int mode) async {
     return _updateConfigValue(
       column: 'statisticsVisualizationMode',
@@ -154,10 +169,12 @@ class AppConfigRepository {
   /// The [mode] parameter defines the chart type:
   /// - `0`: Line + Area chart
   /// - `1`: Bar chart
+  @override
   Future<Result<void>> updateHomeVisualizationMode(int mode) async {
     return _updateConfigValue(column: 'homeVisualizationMode', value: mode);
   }
 
+  @override
   Future<Result<void>> updateSendCrashReports(bool sendCrashReports) async {
     return _updateConfigValue(
       column: 'sendCrashReports',
@@ -165,18 +182,22 @@ class AppConfigRepository {
     );
   }
 
+  @override
   Future<Result<void>> updatePassCode(String? passCode) async {
     return _updateSecretConfigValue(key: 'passCode', value: passCode);
   }
 
+  @override
   Future<Result<void>> updateLogAutoRefreshTime(int seconds) async {
     return _updateConfigValue(column: 'logAutoRefreshTime', value: seconds);
   }
 
+  @override
   Future<Result<void>> updateLiveLog(bool liveLog) async {
     return _updateConfigValue(column: 'liveLog', value: liveLog ? 1 : 0);
   }
 
+  @override
   Future<Result<void>> updateIsLivelogPaused(bool isLivelogPaused) async {
     return _updateConfigValue(
       column: 'isLivelogPaused',
@@ -191,6 +212,7 @@ class AppConfigRepository {
   ///
   /// Returns a [Result] that completes with [Success.unit] on success,
   /// or [Failure] if the update fails.
+  @override
   Future<Result<int>> resetAppConfig() async {
     try {
       await openDbIfNeeded(_database);

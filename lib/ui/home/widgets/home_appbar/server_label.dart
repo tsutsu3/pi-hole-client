@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/domain/use_cases/server_connection_service.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+
+import 'package:pi_hole_client/ui/core/services/server_connection_service.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar/switch_server_modal.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -100,6 +102,7 @@ class ServerLabel extends StatelessWidget {
             statusViewModel: statusViewModel,
             serversViewModel: serversViewModel,
             server: server,
+            createBundle: context.read<CreateRepositoryBundle>(),
           );
 
           await service.connect();

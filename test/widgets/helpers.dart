@@ -9,11 +9,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/config/query_types.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_v5.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart';
 import 'package:pi_hole_client/data/mapper/v5/metrics_mapper.dart';
 import 'package:pi_hole_client/data/model/v5/over_time_data.dart' as v5_model;
 import 'package:pi_hole_client/data/model/v6/auth/sessions.dart';
@@ -32,9 +27,12 @@ import 'package:pi_hole_client/data/model/v6/lists/lists.dart' show Lists;
 import 'package:pi_hole_client/data/model/v6/metrics/query.dart';
 import 'package:pi_hole_client/data/model/v6/network/devices.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
-import 'package:pi_hole_client/data/repositories/api/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
+import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart' as domain_model;
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/ftl/message.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
@@ -42,40 +40,22 @@ import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/metrics/queries.dart' as logs_model;
 import 'package:pi_hole_client/domain/model/network/network.dart'
     show DeviceOption;
-import 'package:pi_hole_client/domain/models_old/app_log.dart';
-import 'package:pi_hole_client/domain/models_old/client.dart';
-import 'package:pi_hole_client/domain/models_old/config.dart';
-import 'package:pi_hole_client/domain/models_old/devices.dart';
-import 'package:pi_hole_client/domain/models_old/dhcp.dart';
-import 'package:pi_hole_client/domain/models_old/domain.dart';
-import 'package:pi_hole_client/domain/models_old/gateway.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/host.dart';
-import 'package:pi_hole_client/domain/models_old/log.dart';
-import 'package:pi_hole_client/domain/models_old/metrics.dart';
-import 'package:pi_hole_client/domain/models_old/overtime_data.dart'
-    as legacy_ot;
-import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
-import 'package:pi_hole_client/domain/models_old/sensors.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
-import 'package:pi_hole_client/domain/models_old/sessions.dart';
-import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
-import 'package:pi_hole_client/domain/models_old/system.dart';
-import 'package:pi_hole_client/domain/models_old/version.dart';
-import 'package:pi_hole_client/ui/core/globals.dart';
+import 'package:pi_hole_client/domain/model/query_types.dart';
+import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/gravity_update_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
-import 'package:pi_hole_client/ui/domains/viewmodel/domains_viewmodel.dart';
-import 'package:pi_hole_client/ui/logs/viewmodel/logs_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/viewmodel/adlists_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen/viewmodel/find_domains_in_lists_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/clients_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/viewmodel/groups_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/globals.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/local_dns_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/gravity_update_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists/view_models/find_domains_in_lists_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/clients_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -97,74 +77,23 @@ import '../../testing/models/v5/realtime_status.dart' as rt_fixture;
 import '../../testing/models/v6/ftl.dart' as ftl_fixture;
 import './helpers.mocks.dart';
 
-final serverV5 = Server(
+const serverV5 = Server(
   address: 'http://localhost:8080',
   alias: 'test v5',
   defaultServer: false,
   apiVersion: 'v5',
-  enabled: false,
   allowSelfSignedCert: true,
   ignoreCertificateErrors: false,
 );
 
-final serverV6 = Server(
+const serverV6 = Server(
   address: 'http://localhost:8081',
   alias: 'test v6',
   defaultServer: false,
   apiVersion: 'v6',
-  enabled: true,
   allowSelfSignedCert: true,
   ignoreCertificateErrors: false,
 );
-
-final domains = [
-  Domain(
-    id: 1,
-    type: 0,
-    domain: 'example.com',
-    enabled: 1,
-    dateAdded: DateTime.now(),
-    dateModified: DateTime.now(),
-    comment: null,
-    groups: [0],
-  ),
-];
-
-final blackDomains = [
-  Domain(
-    id: 3,
-    type: 1,
-    domain: 'black01.example.com',
-    enabled: 1,
-    dateAdded: DateTime.now(),
-    dateModified: DateTime.now(),
-    comment: null,
-    groups: [0],
-  ),
-];
-
-final whiteDomains = [
-  Domain(
-    id: 1,
-    type: 1,
-    domain: 'white01.example.com',
-    enabled: 1,
-    dateAdded: DateTime.now(),
-    dateModified: DateTime.now(),
-    comment: null,
-    groups: [0],
-  ),
-  Domain(
-    id: 2,
-    type: 1,
-    domain: 'white02.example.com',
-    enabled: 1,
-    dateAdded: DateTime.now(),
-    dateModified: DateTime.now(),
-    comment: null,
-    groups: [0],
-  ),
-];
 
 final newModelDomains = [
   domain_model.Domain(
@@ -667,82 +596,6 @@ final _overtimeRawData = {
 final overtimeData = v5_model.OverTimeData.fromJson(
   _overtimeRawData,
 ).toDomain();
-final legacyOvertimeData = legacy_ot.OverTimeData.fromJson(_overtimeRawData);
-
-final realtimeStatus = RealtimeStatus.fromJson({
-  'domains_being_blocked': 121860,
-  'dns_queries_today': 16,
-  'ads_blocked_today': 1,
-  'ads_percentage_today': 6.25,
-  'unique_domains': 11,
-  'queries_forwarded': 9,
-  'queries_cached': 6,
-  'clients_ever_seen': 2,
-  'unique_clients': 2,
-  'dns_queries_all_types': 16,
-  'reply_UNKNOWN': 0,
-  'reply_NODATA': 0,
-  'reply_NXDOMAIN': 3,
-  'reply_CNAME': 0,
-  'reply_IP': 10,
-  'reply_DOMAIN': 3,
-  'reply_RRNAME': 0,
-  'reply_SERVFAIL': 0,
-  'reply_REFUSED': 0,
-  'reply_NOTIMP': 0,
-  'reply_OTHER': 0,
-  'reply_DNSSEC': 0,
-  'reply_NONE': 0,
-  'reply_BLOB': 0,
-  'dns_queries_all_replies': 16,
-  'privacy_level': 0,
-  'status': 'enabled',
-  'gravity_last_updated': {
-    'file_exists': true,
-    'absolute': 1732972589,
-    'relative': {'days': 5, 'hours': 18, 'minutes': 14},
-  },
-  'top_queries': {
-    '1.0.26.172.in-addr.arpa': 3,
-    '8.8.8.8.in-addr.arpa': 3,
-    'github.com': 2,
-    'gitlab.com': 1,
-    'sample.com': 1,
-    'test.com': 1,
-    'google.com': 1,
-    'google.co.jp': 1,
-    'yahoo.co.jp': 1,
-    'fix.test.com': 1,
-  },
-  'top_ads': {'test.com': 1},
-  'top_sources': {'172.26.0.1': 10, 'localhost|127.0.0.1': 6},
-  'top_sources_blocked': {'172.26.0.1': 1},
-  'forward_destinations': {
-    'blocked|blocked': 6.25,
-    'cached|cached': 37.5,
-    'other|other': 0,
-    'dns.google#53|8.8.8.8#53': 56.25,
-  },
-  'querytypes': {
-    'A (IPv4)': 62.5,
-    'AAAA (IPv6)': 0,
-    'ANY': 0,
-    'SRV': 0,
-    'SOA': 0,
-    'PTR': 37.5,
-    'TXT': 0,
-    'NAPTR': 0,
-    'MX': 0,
-    'DS': 0,
-    'RRSIG': 0,
-    'DNSKEY': 0,
-    'NS': 0,
-    'OTHER': 0,
-    'SVCB': 0,
-    'HTTPS': 0,
-  },
-});
-
 final host = InfoHost.fromJson({
   'host': {
     'uname': {
@@ -1456,25 +1309,10 @@ Future<void> initializeApp() async {
 /// Example:
 /// ```dart
 /// setUp(() {
-///   // If you need to override the default mock behavior
-///   final customApiGateway = MockApiGatewayV6();
-///
-///   testSetup = TestSetupHelper(
-///     server: server,
-///     queries: queries,
-///     customApiGatewayV6: customApiGateway,
-///   );
+///   testSetup = TestSetupHelper();
 ///
 ///   // Initialize the mocks
-///   testSetup.initializeMocks();
-///
-///   // Override the default mock behavior
-///   when(customApiGateway.fetchLogs(any, any)).thenAnswer((_) async {
-///     return FetchLogsResponse(
-///       result: APiResponseType.success,
-///       data: [],
-///     );
-///   });
+///   testSetup.initializeMock();
 /// });
 /// });
 @GenerateMocks([
@@ -1484,9 +1322,7 @@ Future<void> initializeApp() async {
   StatusViewModel,
   DomainsViewModel,
   ClientsViewModel,
-  LocalDnsProvider,
-  ApiGatewayV5,
-  ApiGatewayV6,
+  LocalDnsViewModel,
   GroupsViewModel,
   AdlistsViewModel,
   GravityUpdateViewModel,
@@ -1502,9 +1338,7 @@ class TestSetupHelper {
     MockGroupsViewModel? customGroupsViewModel,
     MockAdlistsViewModel? customAdlistsViewModel,
     MockGravityUpdateViewModel? customGravityUpdateViewModel,
-    MockLocalDnsProvider? customLocalDnsProvider,
-    MockApiGatewayV5? customApiGatewayV5,
-    MockApiGatewayV6? customApiGatewayV6,
+    MockLocalDnsViewModel? customLocalDnsViewModel,
   }) {
     mockConfigProvider = customConfigProvider ?? MockAppConfigViewModel();
     mockServersViewModel = customServersViewModel ?? MockServersViewModel();
@@ -1516,14 +1350,12 @@ class TestSetupHelper {
     mockAdlistsViewModel = customAdlistsViewModel ?? MockAdlistsViewModel();
     mockGravityUpdateViewModel =
         customGravityUpdateViewModel ?? MockGravityUpdateViewModel();
-    mockLocalDnsProvider = customLocalDnsProvider ?? MockLocalDnsProvider();
-
-    mockApiGatewayV5 = customApiGatewayV5 ?? MockApiGatewayV5();
-    mockApiGatewayV6 = customApiGatewayV6 ?? MockApiGatewayV6();
+    mockLocalDnsViewModel = customLocalDnsViewModel ?? MockLocalDnsViewModel();
 
     fakeActionsRepository = FakeActionsRepository();
     fakeAdlistRepository = FakeAdlistRepository();
     fakeConfigRepository = FakeConfigRepository();
+    fakeDnsRepository = FakeDnsRepository();
     fakeDomainRepository = FakeDomainRepository();
     findDomainsInListsViewModel = FindDomainsInListsViewModel(
       adListRepository: fakeAdlistRepository,
@@ -1540,14 +1372,12 @@ class TestSetupHelper {
   late MockGroupsViewModel mockGroupsViewModel;
   late MockAdlistsViewModel mockAdlistsViewModel;
   late MockGravityUpdateViewModel mockGravityUpdateViewModel;
-  late MockLocalDnsProvider mockLocalDnsProvider;
-
-  late MockApiGatewayV5 mockApiGatewayV5;
-  late MockApiGatewayV6 mockApiGatewayV6;
+  late MockLocalDnsViewModel mockLocalDnsViewModel;
 
   late FakeActionsRepository fakeActionsRepository;
   late FakeAdlistRepository fakeAdlistRepository;
   late FakeConfigRepository fakeConfigRepository;
+  late FakeDnsRepository fakeDnsRepository;
   late FakeDomainRepository fakeDomainRepository;
   late FindDomainsInListsViewModel findDomainsInListsViewModel;
 
@@ -1560,10 +1390,8 @@ class TestSetupHelper {
     _initClientsViewModelMock(useApiGatewayVersion);
     _initGroupsViewModelMock(useApiGatewayVersion);
     _initAdlistsViewModelMock(useApiGatewayVersion);
-    _initLocalDnsProviderMock(useApiGatewayVersion);
+    _initLocalDnsViewModelMock(useApiGatewayVersion);
     _initGravityUpdateViewModelMock(useApiGatewayVersion);
-    _initApiGatewayV5Mock();
-    _initApiGatewayV6Mock();
   }
 
   /// Build the test widget with the given setup helper.
@@ -1598,7 +1426,7 @@ class TestSetupHelper {
             ChangeNotifierProxyProvider<AppConfigViewModel, ServersViewModel>(
               create: (context) => mockServersViewModel,
               update: (context, appConfig, servers) =>
-                  servers!..update(appConfig),
+                  servers!..update(() => appConfig.setSelectedTab(0)),
             ),
             ChangeNotifierProvider<DomainsViewModel>.value(
               value: mockDomainsViewModel,
@@ -1613,7 +1441,7 @@ class TestSetupHelper {
                 auth: FakeAuthRepository(),
                 config: fakeConfigRepository,
                 dhcp: FakeDhcpRepository(),
-                dns: FakeDnsRepository(),
+                dns: fakeDnsRepository,
                 domain: fakeDomainRepository,
                 ftl: FakeFtlRepository(),
                 localDns: FakeLocalDnsRepository(),
@@ -1625,6 +1453,27 @@ class TestSetupHelper {
                 serverAddress: 'http://localhost:8081',
                 apiVersion: 'v6',
               ),
+            ),
+            Provider<CreateRepositoryBundle>(
+              create: (_) =>
+                  ({required server}) => RepositoryBundle(
+                    actions: fakeActionsRepository,
+                    adlist: fakeAdlistRepository,
+                    auth: FakeAuthRepository(),
+                    config: fakeConfigRepository,
+                    dhcp: FakeDhcpRepository(),
+                    dns: fakeDnsRepository,
+                    domain: fakeDomainRepository,
+                    ftl: FakeFtlRepository(),
+                    localDns: FakeLocalDnsRepository(),
+                    metrics: FakeMetricsRepository(),
+                    network: FakeNetworkRepository(),
+                    realtimeStatus: FakeRealTimeStatusRepository(),
+                    client: FakeClientRepository(),
+                    group: FakeGroupRepository(),
+                    serverAddress: server.address,
+                    apiVersion: server.apiVersion,
+                  ),
             ),
             ChangeNotifierProxyProvider2<
               RepositoryBundle?,
@@ -1663,8 +1512,11 @@ class TestSetupHelper {
                     serverAddress: serversViewModel.selectedServer?.address,
                   ),
             ),
-            ChangeNotifierProvider<LocalDnsProvider>.value(
-              value: mockLocalDnsProvider,
+            ChangeNotifierProvider<LocalDnsViewModel>.value(
+              value: mockLocalDnsViewModel,
+            ),
+            Provider<SecureStorageService>(
+              create: (_) => SecureStorageService(),
             ),
           ],
           child: Phoenix(
@@ -1709,7 +1561,8 @@ class TestSetupHelper {
         ),
         ChangeNotifierProxyProvider<AppConfigViewModel, ServersViewModel>(
           create: (context) => mockServersViewModel,
-          update: (context, appConfig, servers) => servers!..update(appConfig),
+          update: (context, appConfig, servers) =>
+              servers!..update(() => appConfig.setSelectedTab(0)),
         ),
         ChangeNotifierProvider<DomainsViewModel>.value(
           value: mockDomainsViewModel,
@@ -1724,7 +1577,7 @@ class TestSetupHelper {
             auth: FakeAuthRepository(),
             config: fakeConfigRepository,
             dhcp: FakeDhcpRepository(),
-            dns: FakeDnsRepository(),
+            dns: fakeDnsRepository,
             domain: fakeDomainRepository,
             ftl: FakeFtlRepository(),
             localDns: FakeLocalDnsRepository(),
@@ -1736,6 +1589,27 @@ class TestSetupHelper {
             serverAddress: 'http://localhost:8081',
             apiVersion: 'v6',
           ),
+        ),
+        Provider<CreateRepositoryBundle>(
+          create: (_) =>
+              ({required server}) => RepositoryBundle(
+                actions: fakeActionsRepository,
+                adlist: fakeAdlistRepository,
+                auth: FakeAuthRepository(),
+                config: fakeConfigRepository,
+                dhcp: FakeDhcpRepository(),
+                dns: fakeDnsRepository,
+                domain: fakeDomainRepository,
+                ftl: FakeFtlRepository(),
+                localDns: FakeLocalDnsRepository(),
+                metrics: FakeMetricsRepository(),
+                network: FakeNetworkRepository(),
+                realtimeStatus: FakeRealTimeStatusRepository(),
+                client: FakeClientRepository(),
+                group: FakeGroupRepository(),
+                serverAddress: server.address,
+                apiVersion: server.apiVersion,
+              ),
         ),
         ChangeNotifierProxyProvider2<
           RepositoryBundle?,
@@ -1774,9 +1648,10 @@ class TestSetupHelper {
                 serverAddress: serversViewModel.selectedServer?.address,
               ),
         ),
-        ChangeNotifierProvider<LocalDnsProvider>.value(
-          value: mockLocalDnsProvider,
+        ChangeNotifierProvider<LocalDnsViewModel>.value(
+          value: mockLocalDnsViewModel,
         ),
+        Provider<SecureStorageService>(create: (_) => SecureStorageService()),
       ],
       child: child,
     );
@@ -1816,7 +1691,6 @@ class TestSetupHelper {
     when(mockConfigProvider.appThemeMode).thenReturn(AppThemeMode.system);
     when(mockConfigProvider.selectedLanguage).thenReturn('en');
     when(mockConfigProvider.getAutoRefreshTime).thenReturn(5);
-    when(mockConfigProvider.selectedSettingsScreen).thenReturn(null);
     when(mockConfigProvider.selectedLanguageNumber).thenReturn(0);
     when(mockConfigProvider.getAppInfo).thenReturn(
       PackageInfo(
@@ -1861,15 +1735,10 @@ class TestSetupHelper {
   }
 
   void _initServerProviderMock(String useApiGatewayVersion) {
-    when(mockServersViewModel.selectedApiGateway).thenReturn(
-      useApiGatewayVersion == 'v5'
-          ? mockApiGatewayV5 as ApiGateway
-          : mockApiGatewayV6 as ApiGateway,
-    );
     when(
       mockServersViewModel.selectedServer,
     ).thenReturn(useApiGatewayVersion == 'v5' ? serverV5 : serverV6);
-    when(mockServersViewModel.colors).thenReturn(lightAppColors);
+    when(mockServersViewModel.selectedServerEnabled).thenReturn(true);
     when(
       mockServersViewModel.numShown,
     ).thenReturn(useApiGatewayVersion == 'v5' ? 12 : 14);
@@ -1886,20 +1755,9 @@ class TestSetupHelper {
     ).thenAnswer((_) async => {'result': 'success', 'exists': false});
     when(mockServersViewModel.addServer(any)).thenAnswer((_) async => true);
     when(mockServersViewModel.editServer(any)).thenAnswer((_) async => true);
-    when(mockServersViewModel.loadApiGateway(any)).thenReturn(
-      useApiGatewayVersion == 'v5'
-          ? mockApiGatewayV5 as ApiGateway
-          : mockApiGatewayV6 as ApiGateway,
-    );
-    when(mockServersViewModel.createApiGateway(any)).thenReturn(
-      useApiGatewayVersion == 'v5'
-          ? mockApiGatewayV5 as ApiGateway
-          : mockApiGatewayV6 as ApiGateway,
-    );
     when(
       mockServersViewModel.getServersList,
     ).thenReturn(useApiGatewayVersion == 'v5' ? [serverV5] : [serverV6]);
-    when(mockServersViewModel.colors).thenReturn(lightAppColors);
     when(mockServersViewModel.queryStatuses).thenReturn(
       useApiGatewayVersion == 'v5' ? queryStatusesV5 : queryStatusesV6,
     );
@@ -2233,370 +2091,39 @@ class TestSetupHelper {
     when(mockGravityUpdateViewModel.reset()).thenReturn(null);
   }
 
-  void _initLocalDnsProviderMock(String useApiGatewayVersion) {
-    when(mockLocalDnsProvider.localDns).thenReturn([localDns]);
-    when(mockLocalDnsProvider.deviceOptions).thenReturn([deviceOption]);
+  void _initLocalDnsViewModelMock(String useApiGatewayVersion) {
+    when(mockLocalDnsViewModel.localDns).thenReturn([localDns]);
+    when(mockLocalDnsViewModel.deviceOptions).thenReturn([deviceOption]);
     when(
-      mockLocalDnsProvider.ipToMac,
+      mockLocalDnsViewModel.ipToMac,
     ).thenReturn({deviceOption.ip: deviceOption.hwaddr});
-    when(mockLocalDnsProvider.ipToHostname).thenReturn({});
+    when(mockLocalDnsViewModel.ipToHostname).thenReturn({});
     when(
-      mockLocalDnsProvider.macToIp,
+      mockLocalDnsViewModel.macToIp,
     ).thenReturn({deviceOption.hwaddr: deviceOption.ip});
-    when(mockLocalDnsProvider.loadingStatus).thenReturn(LoadStatus.loaded);
+    when(mockLocalDnsViewModel.loadingStatus).thenReturn(LoadStatus.loaded);
 
     when(
-      mockLocalDnsProvider.setLoadingStatus(any),
+      mockLocalDnsViewModel.setLoadingStatus(any),
     ).thenAnswer((_) async => ());
 
-    when(mockLocalDnsProvider.load()).thenAnswer((_) async => ());
+    when(mockLocalDnsViewModel.load()).thenAnswer((_) async => ());
 
-    when(mockLocalDnsProvider.addLocalDns(any)).thenAnswer((_) async => true);
+    when(mockLocalDnsViewModel.addLocalDns(any)).thenAnswer((_) async => true);
 
     when(
-      mockLocalDnsProvider.updateLocalDns(
+      mockLocalDnsViewModel.updateLocalDns(
         oldIp: anyNamed('oldIp'),
         item: anyNamed('item'),
       ),
     ).thenAnswer((_) async => true);
 
     when(
-      mockLocalDnsProvider.removeLocalDns(any),
+      mockLocalDnsViewModel.removeLocalDns(any),
     ).thenAnswer((_) async => true);
 
     when(
-      mockLocalDnsProvider.devicesInfoToOptions(any),
+      mockLocalDnsViewModel.devicesToOptions(any),
     ).thenReturn([deviceOption]);
-  }
-
-  void _initApiGatewayV5Mock() {
-    when(mockApiGatewayV5.loginQuery()).thenAnswer(
-      (_) async => LoginQueryResponse(
-        result: APiResponseType.success,
-        status: 'enabled',
-        sid: 'sid123',
-      ),
-    );
-
-    when(mockApiGatewayV5.enableServerRequest()).thenAnswer((_) async {
-      return EnableServerResponse(result: APiResponseType.success);
-    });
-
-    when(mockApiGatewayV5.fetchAllServerInfo()).thenAnswer((_) async {
-      return PiHoleServerInfoResponse(
-        result: APiResponseType.success,
-        version: VersionInfo.fromJson({
-          'core_update': false,
-          'web_update': false,
-          'FTL_update': false,
-          'docker_update': true,
-          'core_current': 'v5.18.3',
-          'web_current': 'v5.21',
-          'FTL_current': 'v5.25.2',
-          'docker_current': '2024.07.0',
-          'core_latest': 'v6.0.5',
-          'web_latest': 'v6.0.2',
-          'FTL_latest': 'v6.0.4',
-          'docker_latest': '2025.03.0',
-          'core_branch': 'master',
-          'web_branch': 'master',
-          'FTL_branch': 'master',
-        }),
-      );
-    });
-
-    when(mockApiGatewayV5.server).thenReturn(serverV5);
-
-    when(mockApiGatewayV5.updateDomain(body: anyNamed('body'))).thenAnswer(
-      (_) async =>
-          DomainResponse(result: APiResponseType.success, data: domains[0]),
-    );
-
-    when(
-      mockApiGatewayV5.fetchLogs(
-        any,
-        any,
-        size: anyNamed('size'),
-        cursor: anyNamed('cursor'),
-      ),
-    ).thenAnswer((_) async {
-      return FetchLogsResponse(
-        result: APiResponseType.success,
-        data: LogsInfo.fromV6(queries),
-      );
-    });
-  }
-
-  void _initApiGatewayV6Mock() {
-    when(mockApiGatewayV6.getDomainLists()).thenAnswer(
-      (_) async => GetDomainLists(
-        result: APiResponseType.success,
-        data: DomainListResult(
-          whitelist: domains,
-          whitelistRegex: [],
-          blacklist: domains,
-          blacklistRegex: [],
-        ),
-      ),
-    );
-
-    when(mockApiGatewayV6.removeDomainFromList(any)).thenAnswer((_) async {
-      return RemoveDomainFromListResponse(result: APiResponseType.success);
-    });
-
-    when(mockApiGatewayV6.addDomainToList(any)).thenAnswer((_) async {
-      return AddDomainToListResponse(result: APiResponseType.success);
-    });
-
-    when(
-      mockApiGatewayV6.fetchLogs(
-        any,
-        any,
-        size: anyNamed('size'),
-        cursor: anyNamed('cursor'),
-      ),
-    ).thenAnswer((_) async {
-      return FetchLogsResponse(
-        result: APiResponseType.success,
-        data: LogsInfo.fromV6(queries),
-      );
-    });
-
-    when(mockApiGatewayV6.setWhiteBlacklist(any, any)).thenAnswer((_) async {
-      return SetWhiteBlacklistResponse(
-        result: APiResponseType.success,
-        data: DomainResult(success: true, message: 'Added white.example.com'),
-      );
-    });
-
-    when(mockApiGatewayV6.enableServerRequest()).thenAnswer((_) async {
-      return EnableServerResponse(result: APiResponseType.success);
-    });
-
-    when(mockApiGatewayV6.disableServerRequest(any)).thenAnswer((_) async {
-      return DisableServerResponse(result: APiResponseType.success);
-    });
-
-    when(mockApiGatewayV6.loginQuery()).thenAnswer(
-      (_) async => LoginQueryResponse(
-        result: APiResponseType.success,
-        status: 'enabled',
-        sid: 'sid123',
-      ),
-    );
-
-    when(mockApiGatewayV6.loginQuery(refresh: true)).thenAnswer(
-      (_) async => LoginQueryResponse(
-        result: APiResponseType.success,
-        status: 'enabled',
-        sid: 'sid123',
-      ),
-    );
-
-    when(
-      mockApiGatewayV6.realtimeStatus(clientCount: anyNamed('clientCount')),
-    ).thenAnswer(
-      (_) async => RealtimeStatusResponse(
-        result: APiResponseType.success,
-        data: realtimeStatus,
-      ),
-    );
-
-    when(mockApiGatewayV6.fetchOverTimeData()).thenAnswer(
-      (_) async => FetchOverTimeDataResponse(
-        result: APiResponseType.success,
-        data: legacy_ot.OverTimeData.fromJson(_overtimeRawData),
-      ),
-    );
-
-    when(mockApiGatewayV6.fetchAllServerInfo()).thenAnswer(
-      (_) async => PiHoleServerInfoResponse(
-        result: APiResponseType.success,
-        version: VersionInfo.fromV6(version),
-        host: HostInfo.fromV6(host),
-        sensors: SensorsInfo.fromV6(sensors),
-        system: SystemInfo.fromV6(system),
-      ),
-    );
-
-    when(mockApiGatewayV6.server).thenReturn(serverV6);
-
-    when(
-      mockApiGatewayV6.updateSubscription(body: anyNamed('body')),
-    ).thenAnswer(
-      (_) async => SubscriptionsResponse(
-        result: APiResponseType.success,
-        data: SubscriptionsInfo.fromV6(subscriptions),
-      ),
-    );
-
-    when(
-      mockApiGatewayV6.createSubscription(body: anyNamed('body')),
-    ).thenAnswer(
-      (_) async => SubscriptionsResponse(
-        result: APiResponseType.success,
-        data: SubscriptionsInfo.fromV6(subscriptions),
-      ),
-    );
-
-    when(
-      mockApiGatewayV6.removeSubscription(
-        url: anyNamed('url'),
-        stype: anyNamed('stype'),
-      ),
-    ).thenAnswer(
-      (_) async => RemoveSubscriptionResponse(result: APiResponseType.success),
-    );
-
-    when(mockApiGatewayV6.updateDomain(body: anyNamed('body'))).thenAnswer(
-      (_) async =>
-          DomainResponse(result: APiResponseType.success, data: domains[0]),
-    );
-
-    when(mockApiGatewayV6.getMetrics()).thenAnswer(
-      (_) async => MetricsResponse(
-        result: APiResponseType.success,
-        data: MetricsInfo.fromV6(metrics),
-      ),
-    );
-
-    when(mockApiGatewayV6.getGateway(isDetailed: true)).thenAnswer(
-      (_) async => GatewayResponse(
-        result: APiResponseType.success,
-        data: GatewayInfo.fromV6(gateway),
-      ),
-    );
-
-    when(
-      mockApiGatewayV6.getConfiguration(element: anyNamed('element')),
-    ).thenAnswer(
-      (_) async => ConfigurationResponse(
-        result: APiResponseType.success,
-        data: ConfigInfo.fromV6(configDns),
-      ),
-    );
-
-    when(
-      mockApiGatewayV6.deleteConfiguration(
-        element: anyNamed('element'),
-        value: anyNamed('value'),
-      ),
-    ).thenAnswer(
-      (_) async => DeleteConfigResponse(result: APiResponseType.success),
-    );
-
-    when(mockApiGatewayV6.patchConfiguration(any)).thenAnswer(
-      (_) async => ConfigurationResponse(
-        result: APiResponseType.success,
-        data: ConfigInfo.fromV6(configDns),
-      ),
-    );
-
-    when(
-      mockApiGatewayV6.putConfiguration(
-        element: anyNamed('element'),
-        value: anyNamed('value'),
-      ),
-    ).thenAnswer(
-      (_) async => PutConfigResponse(result: APiResponseType.success),
-    );
-
-    when(mockApiGatewayV6.patchDnsQueryLoggingConfig(any)).thenAnswer(
-      (_) async => ConfigurationResponse(
-        result: APiResponseType.success,
-        data: ConfigInfo.fromV6(configDns),
-      ),
-    );
-
-    when(mockApiGatewayV6.getLocalDns()).thenAnswer(
-      (_) async =>
-          LocalDnsResponse(result: APiResponseType.success, data: [localDns]),
-    );
-
-    when(
-      mockApiGatewayV6.addLocalDns(ip: anyNamed('ip'), name: anyNamed('name')),
-    ).thenAnswer(
-      (_) async => AddLocalDnsResponse(result: APiResponseType.success),
-    );
-
-    when(
-      mockApiGatewayV6.updateLocalDns(
-        ip: anyNamed('ip'),
-        name: anyNamed('name'),
-        oldIp: anyNamed('oldIp'),
-      ),
-    ).thenAnswer(
-      (_) async =>
-          LocalDnsResponse(result: APiResponseType.success, data: [localDns]),
-    );
-
-    when(
-      mockApiGatewayV6.deleteLocalDns(
-        ip: anyNamed('ip'),
-        name: anyNamed('name'),
-      ),
-    ).thenAnswer(
-      (_) async => DeleteLocalDnsResponse(result: APiResponseType.success),
-    );
-
-    when(mockApiGatewayV6.flushArp()).thenAnswer(
-      (_) async =>
-          ActionResponse(result: APiResponseType.success, data: 'success'),
-    );
-
-    when(mockApiGatewayV6.flushNetwork()).thenAnswer(
-      (_) async =>
-          ActionResponse(result: APiResponseType.success, data: 'success'),
-    );
-
-    when(mockApiGatewayV6.flushLogs()).thenAnswer(
-      (_) async =>
-          ActionResponse(result: APiResponseType.success, data: 'success'),
-    );
-
-    when(mockApiGatewayV6.restartDns()).thenAnswer(
-      (_) async =>
-          ActionResponse(result: APiResponseType.success, data: 'success'),
-    );
-
-    when(mockApiGatewayV6.getSessions()).thenAnswer(
-      (_) async => SessionsResponse(
-        result: APiResponseType.success,
-        data: SessionsInfo.fromV6(sessions),
-      ),
-    );
-
-    when(mockApiGatewayV6.deleteSession(any)).thenAnswer(
-      (_) async => DeleteSessionResponse(result: APiResponseType.success),
-    );
-
-    when(mockApiGatewayV6.getClient()).thenAnswer(
-      (_) async => ClientResponse(
-        result: APiResponseType.success,
-        data: ClientInfo.fromV6(client),
-      ),
-    );
-
-    when(mockApiGatewayV6.getDevices()).thenAnswer(
-      (_) async => DevicesResponse(
-        result: APiResponseType.success,
-        data: DevicesInfo.fromV6(devices),
-      ),
-    );
-
-    when(mockApiGatewayV6.deleteDevice(any)).thenAnswer(
-      (_) async => DeleteDeviceResponse(result: APiResponseType.success),
-    );
-
-    when(mockApiGatewayV6.getDhcps()).thenAnswer(
-      (_) async => DhcpResponse(
-        result: APiResponseType.success,
-        data: DhcpsInfo.fromV6(dhcp),
-      ),
-    );
-
-    when(mockApiGatewayV6.deleteDhcp(any)).thenAnswer(
-      (_) async => DeleteDhcpResponse(result: APiResponseType.success),
-    );
   }
 }

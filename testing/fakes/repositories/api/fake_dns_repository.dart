@@ -7,10 +7,15 @@ import '../../../models/v6/dns.dart';
 class FakeDnsRepository implements DnsRepository {
   bool shouldFail = false;
 
+  /// Custom exception to return on failure. If null, a generic Exception is used.
+  Exception? failureException;
+
   @override
   Future<Result<Blocking>> fetchBlockingStatus() async {
     if (shouldFail) {
-      return Failure(Exception('Force fetchBlockingStatus failure'));
+      return Failure(
+        failureException ?? Exception('Force fetchBlockingStatus failure'),
+      );
     }
     return Success(kRepoFetchDnsBlocking);
   }
@@ -18,7 +23,9 @@ class FakeDnsRepository implements DnsRepository {
   @override
   Future<Result<Blocking>> enableBlocking() async {
     if (shouldFail) {
-      return Failure(Exception('Force enableBlocking failure'));
+      return Failure(
+        failureException ?? Exception('Force enableBlocking failure'),
+      );
     }
     return Success(kRepoEnableDnsBlocking);
   }
@@ -26,7 +33,9 @@ class FakeDnsRepository implements DnsRepository {
   @override
   Future<Result<Blocking>> disableBlocking(int timer) async {
     if (shouldFail) {
-      return Failure(Exception('Force disableBlocking failure'));
+      return Failure(
+        failureException ?? Exception('Force disableBlocking failure'),
+      );
     }
     return Success(kRepoDisableDnsBlocking.copyWith(timer: timer));
   }

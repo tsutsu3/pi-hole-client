@@ -1,8 +1,8 @@
-import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/data/model/v6/network/devices.dart' as s;
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart' as s;
 import 'package:pi_hole_client/data/model/v6/network/interfaces.dart' as s;
 import 'package:pi_hole_client/data/model/v6/network/routes.dart' as s;
+import 'package:pi_hole_client/domain/model/enum_converters.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart' as d;
 
 extension DevicesMapper on s.Devices {

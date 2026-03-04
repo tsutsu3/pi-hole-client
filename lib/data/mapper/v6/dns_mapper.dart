@@ -1,6 +1,6 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v6/dns/dns.dart' as s;
 import 'package:pi_hole_client/domain/model/dns/dns.dart' as d;
+import 'package:pi_hole_client/domain/model/enums.dart';
 
 extension BlockingMapper on s.Blocking {
   d.Blocking toDomain() {

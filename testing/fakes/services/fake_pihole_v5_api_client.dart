@@ -1,12 +1,13 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v5/dns.dart';
 import 'package:pi_hole_client/data/model/v5/domains.dart';
 import 'package:pi_hole_client/data/model/v5/over_time_data.dart';
 import 'package:pi_hole_client/data/model/v5/queries.dart';
-import 'package:pi_hole_client/data/model/v5/realtime_status.dart';
+import 'package:pi_hole_client/data/model/v5/realtime_status.dart'
+    hide GravityLastUpdated, GravityRelativeTime;
 import 'package:pi_hole_client/data/model/v5/summary_raw.dart';
 import 'package:pi_hole_client/data/model/v5/versions.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../../models/v5/domain.dart';
@@ -23,7 +24,45 @@ class FakePiholeV5ApiClient implements PiholeV5ApiClient {
 
   @override
   Future<Result<SummaryRaw>> getSummaryRaw(String token) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Failed to fetch summary'));
+    }
+    return const Success(
+      SummaryRaw(
+        domainsBeingBlocked: 100,
+        dnsQueriesToday: 50,
+        adsBlockedToday: 10,
+        adsPercentageToday: 20.0,
+        uniqueDomains: 30,
+        queriesForwarded: 20,
+        queriesCached: 10,
+        clientsEverSeen: 5,
+        uniqueClients: 3,
+        dnsQueriesAllTypes: 50,
+        replyUnknown: 0,
+        replyNodata: 0,
+        replyNxDomain: 0,
+        replyCname: 0,
+        replyIp: 0,
+        replyDomain: 0,
+        replyRrname: 0,
+        replyServfail: 0,
+        replyRefused: 0,
+        replyNotimp: 0,
+        replyOther: 0,
+        replyDnssec: 0,
+        replyNone: 0,
+        replyBlob: 0,
+        dnsQueriesAllReplies: 50,
+        privacyLevel: 0,
+        status: 'enabled',
+        gravityLastUpdated: GravityLastUpdated(
+          fileExists: true,
+          absolute: 1700000000,
+          relative: GravityRelativeTime(days: 0, hours: 1, minutes: 30),
+        ),
+      ),
+    );
   }
 
   @override
@@ -32,7 +71,10 @@ class FakePiholeV5ApiClient implements PiholeV5ApiClient {
     required bool enabled,
     int? timer,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Failed to set DNS blocking'));
+    }
+    return Success(Blocking(status: enabled ? 'enabled' : 'disabled'));
   }
 
   @override

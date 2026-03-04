@@ -1,7 +1,7 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v6/metrics/history.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/metrics/query.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/metrics/stats.dart' as srv;
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/metrics/clients.dart' as repo;
 import 'package:pi_hole_client/domain/model/metrics/history.dart' as repo;
 import 'package:pi_hole_client/domain/model/metrics/queries.dart' as repo;
@@ -257,7 +257,7 @@ final kRepoFetchHistoryClient = repo.Clients(
   clients: const [
     repo.Client(name: 'localhost', ip: '127.0.0.1', total: 13428),
     repo.Client(name: 'ip6-localnet', ip: '::1', total: 2100),
-    repo.Client(name: '', ip: '192.168.1.1', total: 254), // TODO: name null, not empty
+    repo.Client(ip: '192.168.1.1', total: 254),
     repo.Client(name: 'pi.hole', ip: '::', total: 29),
     repo.Client(name: 'other clients', ip: '0.0.0.0', total: 14),
   ],
@@ -423,7 +423,7 @@ final kRepoFetchOverTime = repo.OverTime(
   clients: const [
     repo.Client(ip: '127.0.0.1', name: 'localhost', total: 13428),
     repo.Client(ip: '::1', name: 'ip6-localnet', total: 2100),
-    repo.Client(ip: '192.168.1.1', name: '', total: 254), // TODO: name null
+    repo.Client(ip: '192.168.1.1', total: 254),
     repo.Client(ip: '::', name: 'pi.hole', total: 29),
     repo.Client(ip: '0.0.0.0', name: 'other clients', total: 14),
   ],

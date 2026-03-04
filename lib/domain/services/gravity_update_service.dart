@@ -1,0 +1,166 @@
+import 'dart:async';
+
+import 'package:pi_hole_client/data/repositories/api/interfaces/actions_respository.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/gravity_repository.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/domain/model/ftl/message.dart';
+import 'package:pi_hole_client/domain/model/gravity/gravity_snapshot.dart';
+import 'package:result_dart/result_dart.dart';
+
+/// Orchestrates Pi-hole gravity database updates.
+///
+/// Manages the full lifecycle of a gravity update: streaming log output from
+/// the API, persisting progress to the local database, and fetching
+/// post-update info messages. Depends on [ActionsRepository] for the update
+/// stream, [FtlRepository] for info messages, and [GravityRepository] for
+/// local persistence.
+class GravityUpdateService {
+  GravityUpdateService({
+    required GravityRepository repository,
+    required ActionsRepository actionsRepository,
+    required FtlRepository ftlRepository,
+  }) : _repository = repository,
+       _actionsRepository = actionsRepository,
+       _ftlRepository = ftlRepository;
+
+  final GravityRepository _repository;
+  final ActionsRepository _actionsRepository;
+  final FtlRepository _ftlRepository;
+
+  StreamSubscription<Result<List<String>>>? _subscription;
+
+  /// Starts a gravity update and streams progress via callbacks.
+  ///
+  /// Clears previous data for [address], then listens to the update stream.
+  /// On completion, fetches info messages from the API and persists them.
+  Future<void> startUpdate({
+    required String address,
+    required void Function(List<String> logs) onLogsUpdated,
+    required void Function(GravityStatus status) onStatusChanged,
+    required void Function(DateTime startTime) onStarted,
+    required void Function(DateTime completeTime) onCompleted,
+    required void Function(List<FtlMessage> messages) onMessagesUpdated,
+  }) async {
+    final logs = <String>[];
+    final startedAt = DateTime.now();
+    var status = GravityStatus.running;
+    DateTime? completedAt;
+
+    // Clear previous gravity data from the database
+    await _repository.deleteGravityData(address);
+    await _repository.upsertGravityUpdate(address, startedAt, startedAt, status);
+    onStarted(startedAt);
+    onStatusChanged(status);
+
+    // Start the gravity update process
+    final stream = _actionsRepository.updateGravity();
+
+    _subscription = stream.listen(
+      (result) async {
+        await result.fold(
+          (data) async {
+            if (data.isNotEmpty) {
+              final baseIndex = logs.length;
+              logs.addAll(data);
+
+              final entries = data.asMap().entries.map((entry) {
+                final index = baseIndex + entry.key;
+                return (
+                  line: index,
+                  message: entry.value,
+                  timestamp: DateTime.now(),
+                );
+              }).toList();
+              await _repository.insertGravityLogs(address, entries);
+              onLogsUpdated(logs);
+            }
+          },
+          (error) async {
+            status = GravityStatus.error;
+            completedAt = DateTime.now();
+            await _repository.upsertGravityUpdate(
+              address,
+              startedAt,
+              completedAt!,
+              status,
+            );
+            onStatusChanged(status);
+            onCompleted(completedAt!);
+            await _subscription?.cancel();
+          },
+        );
+      },
+      onError: (error) async {
+        status = GravityStatus.error;
+        completedAt = DateTime.now();
+        await _repository.upsertGravityUpdate(
+          address,
+          startedAt,
+          completedAt!,
+          status,
+        );
+        onStatusChanged(status);
+        onCompleted(completedAt!);
+      },
+      onDone: () async {
+        if (status == GravityStatus.error) return;
+
+        status = GravityStatus.success;
+        completedAt = DateTime.now();
+        await _repository.upsertGravityUpdate(
+          address,
+          startedAt,
+          completedAt!,
+          status,
+        );
+
+        // Delay to ensure the messages are fetched after the update is complete
+        await Future.delayed(const Duration(milliseconds: 500));
+        final msgsResult = await _ftlRepository.fetchInfoMessages();
+        final messages = msgsResult.getOrElse((_) => []);
+        if (messages.isNotEmpty) {
+          await _repository.insertGravityMessages(address, messages);
+          onMessagesUpdated(messages);
+        }
+        onStatusChanged(status);
+        onCompleted(completedAt!);
+      },
+      cancelOnError: true,
+    );
+  }
+
+  /// Removes an info message from both the API and local database.
+  ///
+  /// Returns `true` if both deletions succeed, `false` otherwise.
+  Future<bool> removeMessage(String address, int id) async {
+    final resp = await _ftlRepository.deleteInfoMessage(id);
+    if (resp.isError()) {
+      return false;
+    }
+    final respDeleteMsg = await _repository.deleteGravityMessage(address, id);
+    if (respDeleteMsg.isError()) {
+      return false;
+    }
+    return true;
+  }
+
+  /// Loads persisted gravity data (logs, messages, status) from the local
+  /// database for the given server [address].
+  Future<GravitySnapshot> loadGravityData(String address) async {
+    final data = await _repository.fetchGravityData(address);
+    return data.getOrElse(
+      (_) => const GravitySnapshot(
+        status: GravityStatus.idle,
+        logs: [],
+        messages: [],
+      ),
+    );
+  }
+
+  /// Cancels the active gravity update stream subscription.
+  void cancelUpdate() {
+    _subscription?.cancel();
+    _subscription = null;
+  }
+}

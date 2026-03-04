@@ -1,7 +1,10 @@
-import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/model/local/gravity_db_data.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/gravity_repository.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/utils/database_utils.dart';
-import 'package:pi_hole_client/domain/models_old/database.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/domain/model/ftl/message.dart';
+import 'package:pi_hole_client/domain/model/gravity/gravity_snapshot.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:result_dart/result_dart.dart';
 import 'package:sqflite/sqflite.dart';
@@ -11,8 +14,8 @@ import 'package:sqflite/sqflite.dart';
 /// This repository manages CRUD operations for gravity updates, logs,
 /// and messages. It encapsulates all persistence logic related to
 /// gravity execution results per server.
-class GravityRepository {
-  GravityRepository(DatabaseService database) : _database = database;
+class LocalGravityRepository implements GravityRepository {
+  LocalGravityRepository(DatabaseService database) : _database = database;
 
   final DatabaseService _database;
 
@@ -23,6 +26,7 @@ class GravityRepository {
   /// with an empty address, zero timestamps, and an idle status.
   ///
   /// Returns a [Success] with the result or a [Failure] if the query fails.
+  @override
   Future<Result<GravityUpdateData>> fetchGravityUpdate(String address) async {
     try {
       await openDbIfNeeded(_database);
@@ -59,17 +63,21 @@ class GravityRepository {
   /// Otherwise, a new entry is inserted.
   ///
   /// Returns the number of affected rows or a [Failure] if the operation fails.
+  @override
   Future<Result<int>> upsertGravityUpdate(
-    GravityUpdateData gravityUpdateData,
+    String address,
+    DateTime startTime,
+    DateTime endTime,
+    GravityStatus status,
   ) async {
     try {
       await openDbIfNeeded(_database);
 
       return await _database.insert('gravity_updates', {
-        'address': gravityUpdateData.address,
-        'start_time': gravityUpdateData.startTime.toUtc().toIso8601String(),
-        'end_time': gravityUpdateData.endTime.toUtc().toIso8601String(),
-        'status': gravityUpdateData.status,
+        'address': address,
+        'start_time': startTime.toUtc().toIso8601String(),
+        'end_time': endTime.toUtc().toIso8601String(),
+        'status': status.index,
       }, conflictAlgorithm: ConflictAlgorithm.replace);
     } catch (e, st) {
       logger.e('Failed to upsert gravity update: $e\n$st');
@@ -83,6 +91,7 @@ class GravityRepository {
   /// matches the provided value.
   ///
   /// Returns the number of deleted rows or a [Failure] if the operation fails.
+  @override
   Future<Result<int>> deleteGravityUpdate(String address) async {
     try {
       await openDbIfNeeded(_database);
@@ -105,6 +114,7 @@ class GravityRepository {
   /// is returned.
   ///
   /// Returns a [Success] with the list of logs, or a [Failure] if the query fails.
+  @override
   Future<Result<List<GravityLogData>>> fetchGravityLogs(String address) async {
     try {
       await openDbIfNeeded(_database);
@@ -128,26 +138,28 @@ class GravityRepository {
 
   /// Inserts multiple gravity log entries into the database.
   ///
-  /// Executes a transaction that adds all [gravityLogsDataList] entries
+  /// Executes a transaction that adds all [entries]
   /// to the `gravity_logs` table. The logs are inserted one by one,
   /// and the total number of inserted rows is returned.
   ///
   /// Returns a [Success] with the number of inserted rows,
   /// or a [Failure] if the operation fails.
+  @override
   Future<Result<int>> insertGravityLogs(
-    List<GravityLogData> gravityLogsDataList,
+    String address,
+    List<({int line, String message, DateTime timestamp})> entries,
   ) async {
     try {
       await openDbIfNeeded(_database);
 
       return await _database.transaction<int>((txn) async {
         var total = 0;
-        for (final log in gravityLogsDataList) {
+        for (final entry in entries) {
           final count = await txn.insert('gravity_logs', {
-            'address': log.address,
-            'line': log.line,
-            'message': log.message,
-            'timestamp': log.timestamp.toUtc().toIso8601String(),
+            'address': address,
+            'line': entry.line,
+            'message': entry.message,
+            'timestamp': entry.timestamp.toUtc().toIso8601String(),
           });
           total += count;
         }
@@ -166,6 +178,7 @@ class GravityRepository {
   ///
   /// Returns a [Success] with the number of deleted rows, or a [Failure]
   /// if the deletion fails.
+  @override
   Future<Result<int>> deleteGravityLogs(String address) async {
     try {
       await openDbIfNeeded(_database);
@@ -187,6 +200,7 @@ class GravityRepository {
   /// list of [GravityMessageData]. Returns an empty list if no records are found.
   ///
   /// Returns a [Success] with the list of messages, or a [Failure] if the query fails.
+  @override
   Future<Result<List<GravityMessageData>>> fetchGravityMessages(
     String address,
   ) async {
@@ -213,22 +227,24 @@ class GravityRepository {
 
   /// Inserts multiple gravity message records into the database.
   ///
-  /// Runs a transaction to add all entries from [messagesList] into the
+  /// Runs a transaction to add all entries from [messages] into the
   /// `gravity_messages` table. Each entry is inserted one by one.
   ///
   /// Returns a [Success] with the number of inserted rows,
   /// or a [Failure] if the operation fails.
+  @override
   Future<Result<int>> insertGravityMessages(
-    List<GravityMessageData> messagesList,
+    String address,
+    List<FtlMessage> messages,
   ) async {
     try {
       await openDbIfNeeded(_database);
 
       return await _database.transaction<int>((txn) async {
         var total = 0;
-        for (final msg in messagesList) {
+        for (final msg in messages) {
           final count = await txn.insert('gravity_messages', {
-            'address': msg.address,
+            'address': address,
             'message_id': msg.id,
             'message': msg.message,
             'url': msg.url,
@@ -251,6 +267,7 @@ class GravityRepository {
   ///
   /// Returns a [Success] with the number of deleted rows,
   /// or a [Failure] if the operation fails.
+  @override
   Future<Result<int>> deleteGravityMessages(String address) async {
     try {
       await openDbIfNeeded(_database);
@@ -273,6 +290,7 @@ class GravityRepository {
   ///
   /// Returns a [Success] containing the number of rows deleted,
   /// or a [Failure] if the deletion fails.
+  @override
   Future<Result<int>> deleteGravityMessage(String address, int id) async {
     try {
       await openDbIfNeeded(_database);
@@ -295,17 +313,42 @@ class GravityRepository {
   ///
   /// Returns a [Success] containing the combined [GravityData], or a [Failure]
   /// if any of the underlying queries fail.
-  Future<Result<GravityData>> fetchGravityData(String address) async {
+  @override
+  Future<Result<GravitySnapshot>> fetchGravityData(String address) async {
     try {
       final gravityUpdateData = await fetchGravityUpdate(address);
       final gravityLogsData = await fetchGravityLogs(address);
       final gravityMessagesData = await fetchGravityMessages(address);
 
+      final update = gravityUpdateData.getOrThrow();
+      final rawLogs = gravityLogsData.getOrThrow();
+      final rawMessages = gravityMessagesData.getOrThrow();
+
+      final sortedLogs = rawLogs.toList()
+        ..sort((a, b) => a.line.compareTo(b.line));
+
+      final messages = rawMessages
+          .map(
+            (m) => FtlMessage(
+              id: m.id,
+              timestamp: m.timestamp,
+              message: m.message,
+              url: m.url,
+            ),
+          )
+          .toList();
+
+      final status = update.address.isEmpty
+          ? GravityStatus.idle
+          : GravityStatus.values[update.status];
+
       return Success(
-        GravityData(
-          gravityUpdate: gravityUpdateData.getOrThrow(),
-          gravityLogs: gravityLogsData.getOrThrow(),
-          gravityMessages: gravityMessagesData.getOrThrow(),
+        GravitySnapshot(
+          status: status,
+          logs: sortedLogs.map((e) => e.message).toList(),
+          messages: messages,
+          startedAt: update.address.isEmpty ? null : update.startTime,
+          completedAt: update.address.isEmpty ? null : update.endTime,
         ),
       );
     } catch (e, st) {
@@ -321,6 +364,7 @@ class GravityRepository {
   ///
   /// Returns a [Success] with the total number of deleted rows,
   /// or a [Failure] if the operation fails.
+  @override
   Future<Result<int>> deleteGravityData(String address) async {
     try {
       await openDbIfNeeded(_database);
@@ -356,6 +400,7 @@ class GravityRepository {
   ///
   /// Returns a [Success] with the total number of deleted rows,
   /// or a [Failure] if the operation fails.
+  @override
   Future<Result<int>> deleteAllGravityData() async {
     try {
       await openDbIfNeeded(_database);

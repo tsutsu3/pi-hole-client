@@ -1,4 +1,3 @@
-import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v6/ftl/client.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/ftl/ftl.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/ftl/host.dart' as srv;
@@ -7,6 +6,7 @@ import 'package:pi_hole_client/data/model/v6/ftl/metrics.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/ftl/sensors.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/ftl/system.dart' as srv;
 import 'package:pi_hole_client/data/model/v6/ftl/version.dart' as srv;
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/ftl/client.dart' as repo;
 import 'package:pi_hole_client/domain/model/ftl/ftl.dart' as repo;
 import 'package:pi_hole_client/domain/model/ftl/host.dart' as repo;
@@ -84,7 +84,61 @@ const kSrvGetInfoFtl = srv.InfoFtl(
   took: 0.003,
 );
 
-// TODO: FTL v6.3+ models
+// FTL >= v6.3
+const kSrvGetInfoFtlV63 = srv.InfoFtl(
+  ftl: srv.Ftl(
+    database: srv.Database(
+      gravity: 67906,
+      groups: 6,
+      lists: 1,
+      clients: 5,
+      domains: srv.Domains(
+        allowed: srv.IntOrPair.pairValue(srv.CountPair(total: 10, enabled: 8)),
+        denied: srv.IntOrPair.pairValue(srv.CountPair(total: 3, enabled: 2)),
+      ),
+      regex: srv.Regex(
+        allowed: srv.IntOrPair.pairValue(srv.CountPair(total: 2, enabled: 1)),
+        denied: srv.IntOrPair.pairValue(srv.CountPair(total: 1, enabled: 1)),
+      ),
+    ),
+    privacyLevel: 0,
+    pid: 1234,
+    uptime: 12345,
+    memPercentage: 0.1,
+    cpuPercentage: 1.2,
+    allowDestructive: true,
+    clients: srv.Clients(total: 10, active: 8),
+    dnsmasq: srv.Dnsmasq(
+      dnsCacheInserted: 8,
+      dnsCacheLiveFreed: 0,
+      dnsQueriesForwarded: 2,
+      dnsAuthAnswered: 0,
+      dnsLocalAnswered: 74,
+      dnsStaleAnswered: 0,
+      dnsUnanswered: 0,
+      bootp: 0,
+      pxe: 0,
+      dhcpAck: 0,
+      dhcpDecline: 0,
+      dhcpDiscover: 0,
+      dhcpInform: 0,
+      dhcpNak: 0,
+      dhcpOffer: 0,
+      dhcpRelease: 0,
+      dhcpRequest: 0,
+      noAnswer: 0,
+      leasesAllocated4: 0,
+      leasesPruned4: 0,
+      leasesAllocated6: 0,
+      leasesPruned6: 0,
+      tcpConnections: 0,
+      dnssecMaxCryptoUse: 0,
+      dnssecMaxSigFail: 0,
+      dnssecMaxWork: 0,
+    ),
+  ),
+  took: 0.003,
+);
 
 const kSrvGetInfoHost = srv.InfoHost(
   host: srv.HostData(

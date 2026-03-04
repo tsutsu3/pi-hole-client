@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/ui/helpers/color_helpers.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 /// A widget that displays an icon representing the current ad-block server status.
@@ -14,7 +14,7 @@ import 'package:provider/provider.dart';
 /// - If the server is not connected, a grey shield icon is shown.
 ///
 /// This widget uses [StatusViewModel] to determine the server connection status,
-/// and [ServersViewModel] to access the selected server's enabled state and color theme.
+/// and [ServersViewModel] to access the selected server's enabled state.
 class AdBlockStatusIcon extends StatelessWidget {
   const AdBlockStatusIcon({super.key});
 
@@ -24,10 +24,12 @@ class AdBlockStatusIcon extends StatelessWidget {
       (p) => p.getServerStatus,
     );
 
-    final colors = context.select<ServersViewModel, AppColors>((p) => p.colors);
+    final colors = context.select<AppConfigViewModel, AppColors>(
+      (p) => p.colors,
+    );
 
     final enableSelectedServer = context.select<ServersViewModel, bool>(
-      (p) => p.selectedServer?.enabled ?? false,
+      (p) => p.selectedServerEnabled ?? false,
     );
 
     IconData iconData;
@@ -39,16 +41,16 @@ class AdBlockStatusIcon extends StatelessWidget {
             ? Icons.gpp_good_rounded
             : Icons.gpp_bad_rounded;
         iconColor = enableSelectedServer
-            ? convertColor(colors, Colors.green)
-            : convertColor(colors, Colors.red);
+            ? colors.commonGreen ?? Colors.green
+            : colors.commonRed ?? Colors.red;
 
       case LoadStatus.loading:
         iconData = Icons.shield_rounded;
-        iconColor = convertColor(colors, Colors.grey);
+        iconColor = colors.queryGrey ?? Colors.grey;
 
       case LoadStatus.error:
         iconData = Icons.gpp_maybe_rounded;
-        iconColor = convertColor(colors, Colors.orange);
+        iconColor = colors.queryOrange ?? Colors.orange;
     }
 
     return Icon(iconData, size: 30, color: iconColor);

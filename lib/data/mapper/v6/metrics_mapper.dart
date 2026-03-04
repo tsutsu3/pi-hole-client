@@ -1,7 +1,7 @@
-import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/data/model/v6/metrics/history.dart' as sh;
 import 'package:pi_hole_client/data/model/v6/metrics/query.dart' as sq;
 import 'package:pi_hole_client/data/model/v6/metrics/stats.dart' as ss;
+import 'package:pi_hole_client/domain/model/enum_converters.dart';
 import 'package:pi_hole_client/domain/model/metrics/clients.dart' as d;
 import 'package:pi_hole_client/domain/model/metrics/history.dart' as d;
 import 'package:pi_hole_client/domain/model/metrics/queries.dart' as d;
@@ -159,8 +159,7 @@ extension HistoryClientsMapper on sh.HistoryClients {
   d.Clients toDomain() {
     final orderedClients = clients.entries.map((e) {
       final ip = e.key;
-      final name = e.value.name ?? '';
-      return d.Client(name: name, ip: ip, total: e.value.total);
+      return d.Client(name: e.value.name, ip: ip, total: e.value.total);
     }).toList();
 
     final overTime = <d.ClientOverTimeEntry>[];

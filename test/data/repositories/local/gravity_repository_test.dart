@@ -1,7 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/model/local/gravity_db_data.dart';
 import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
-import 'package:pi_hole_client/domain/models_old/database.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/gravity_repository.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/domain/model/ftl/message.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../../../../testing/fakes/services/fake_database_service.dart';
@@ -56,7 +58,7 @@ void main() {
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
-      repository = GravityRepository(dbService);
+      repository = LocalGravityRepository(dbService);
       await dbService.open();
       await dbService.insert('servers', serverV6);
     });
@@ -73,7 +75,11 @@ void main() {
 
       final result = await repository.fetchGravityUpdate(address);
       expect(result.isSuccess(), true);
-      expect(result.getOrNull()!.toDict(), gravityUpdateData.toDict());
+      final fetchedUpdate = result.getOrNull()!;
+      expect(fetchedUpdate.address, gravityUpdateData.address);
+      expect(fetchedUpdate.startTime, gravityUpdateData.startTime);
+      expect(fetchedUpdate.endTime, gravityUpdateData.endTime);
+      expect(fetchedUpdate.status, gravityUpdateData.status);
     });
 
     test('fetch gravity update data when it does not exist', () async {
@@ -99,7 +105,7 @@ void main() {
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
-      repository = GravityRepository(dbService);
+      repository = LocalGravityRepository(dbService);
       await dbService.open();
       await dbService.insert('servers', serverV6);
     });
@@ -112,11 +118,20 @@ void main() {
     });
 
     test('upsert gravity update data when it does not exist', () async {
-      final result = await repository.upsertGravityUpdate(gravityUpdateData);
+      final result = await repository.upsertGravityUpdate(
+        gravityUpdateData.address,
+        gravityUpdateData.startTime,
+        gravityUpdateData.endTime,
+        GravityStatus.values[gravityUpdateData.status],
+      );
       expect(result.isSuccess(), true);
 
       final fetchedResult = await repository.fetchGravityUpdate(address);
-      expect(fetchedResult.getOrNull()!.toDict(), gravityUpdateData.toDict());
+      final fetchedUpsert = fetchedResult.getOrNull()!;
+      expect(fetchedUpsert.address, gravityUpdateData.address);
+      expect(fetchedUpsert.startTime, gravityUpdateData.startTime);
+      expect(fetchedUpsert.endTime, gravityUpdateData.endTime);
+      expect(fetchedUpsert.status, gravityUpdateData.status);
     });
 
     test('upsert gravity update data when it exists', () async {
@@ -125,16 +140,30 @@ void main() {
       final updatedData = gravityUpdateData.copyWith(
         status: GravityStatus.running.index,
       );
-      final result = await repository.upsertGravityUpdate(updatedData);
+      final result = await repository.upsertGravityUpdate(
+        updatedData.address,
+        updatedData.startTime,
+        updatedData.endTime,
+        GravityStatus.values[updatedData.status],
+      );
       expect(result.isSuccess(), true);
 
       final fetchedResult = await repository.fetchGravityUpdate(address);
-      expect(fetchedResult.getOrNull()!.toDict(), updatedData.toDict());
+      final fetchedUpdated = fetchedResult.getOrNull()!;
+      expect(fetchedUpdated.address, updatedData.address);
+      expect(fetchedUpdated.startTime, updatedData.startTime);
+      expect(fetchedUpdated.endTime, updatedData.endTime);
+      expect(fetchedUpdated.status, updatedData.status);
     });
 
     test('returns Failure when unexpected error', () async {
       dbService.shouldThrowOnInsert = true;
-      final result = await repository.upsertGravityUpdate(gravityUpdateData);
+      final result = await repository.upsertGravityUpdate(
+        gravityUpdateData.address,
+        gravityUpdateData.startTime,
+        gravityUpdateData.endTime,
+        GravityStatus.values[gravityUpdateData.status],
+      );
       expect(result.isError(), true);
       expect(
         result.exceptionOrNull().toString(),
@@ -149,7 +178,7 @@ void main() {
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
-      repository = GravityRepository(dbService);
+      repository = LocalGravityRepository(dbService);
       await dbService.open();
       await dbService.insert('servers', serverV6);
     });
@@ -196,7 +225,7 @@ void main() {
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
-      repository = GravityRepository(dbService);
+      repository = LocalGravityRepository(dbService);
       await dbService.open();
       await dbService.insert('servers', serverV6);
     });
@@ -214,7 +243,11 @@ void main() {
       final result = await repository.fetchGravityLogs(address);
       expect(result.isSuccess(), true);
       expect(result.getOrNull()!.length, 1);
-      expect(result.getOrNull()![0].toDict(), gravityLogsData.toDict());
+      final fetchedLog = result.getOrNull()![0];
+      expect(fetchedLog.address, gravityLogsData.address);
+      expect(fetchedLog.line, gravityLogsData.line);
+      expect(fetchedLog.message, gravityLogsData.message);
+      expect(fetchedLog.timestamp, gravityLogsData.timestamp);
     });
 
     test('fetch gravity logs when they do not exist', () async {
@@ -240,7 +273,7 @@ void main() {
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
-      repository = GravityRepository(dbService);
+      repository = LocalGravityRepository(dbService);
       await dbService.open();
       await dbService.insert('servers', serverV6);
     });
@@ -253,28 +286,48 @@ void main() {
     });
 
     test('insert gravity logs when they do not exist', () async {
-      final result = await repository.insertGravityLogs([gravityLogsData]);
+      final result = await repository.insertGravityLogs(address, [
+        (line: gravityLogsData.line, message: gravityLogsData.message, timestamp: gravityLogsData.timestamp),
+      ]);
       expect(result.isSuccess(), true);
 
       final fetchedResult = await repository.fetchGravityLogs(address);
       expect(fetchedResult.getOrNull()!.length, 1);
-      expect(fetchedResult.getOrNull()![0].toDict(), gravityLogsData.toDict());
+      final fetchedLog0 = fetchedResult.getOrNull()![0];
+      expect(fetchedLog0.address, gravityLogsData.address);
+      expect(fetchedLog0.line, gravityLogsData.line);
+      expect(fetchedLog0.message, gravityLogsData.message);
+      expect(fetchedLog0.timestamp, gravityLogsData.timestamp);
     });
 
     test('insert gravity logs when they exist', () async {
-      await repository.insertGravityLogs([gravityLogsData]);
-      final result = await repository.insertGravityLogs([gravityLogsData]);
+      await repository.insertGravityLogs(address, [
+        (line: gravityLogsData.line, message: gravityLogsData.message, timestamp: gravityLogsData.timestamp),
+      ]);
+      final result = await repository.insertGravityLogs(address, [
+        (line: gravityLogsData.line, message: gravityLogsData.message, timestamp: gravityLogsData.timestamp),
+      ]);
       expect(result.isSuccess(), true);
 
       final fetchedResult = await repository.fetchGravityLogs(address);
       expect(fetchedResult.getOrNull()!.length, 2);
-      expect(fetchedResult.getOrNull()![0].toDict(), gravityLogsData.toDict());
-      expect(fetchedResult.getOrNull()![1].toDict(), gravityLogsData.toDict());
+      final fetchedLogFirst = fetchedResult.getOrNull()![0];
+      expect(fetchedLogFirst.address, gravityLogsData.address);
+      expect(fetchedLogFirst.line, gravityLogsData.line);
+      expect(fetchedLogFirst.message, gravityLogsData.message);
+      expect(fetchedLogFirst.timestamp, gravityLogsData.timestamp);
+      final fetchedLogSecond = fetchedResult.getOrNull()![1];
+      expect(fetchedLogSecond.address, gravityLogsData.address);
+      expect(fetchedLogSecond.line, gravityLogsData.line);
+      expect(fetchedLogSecond.message, gravityLogsData.message);
+      expect(fetchedLogSecond.timestamp, gravityLogsData.timestamp);
     });
 
     test('returns Failure when unexpected error', () async {
       dbService.shouldThrowOnTransaction = true;
-      final result = await repository.insertGravityLogs([gravityLogsData]);
+      final result = await repository.insertGravityLogs(address, [
+        (line: gravityLogsData.line, message: gravityLogsData.message, timestamp: gravityLogsData.timestamp),
+      ]);
       expect(result.isError(), true);
       expect(
         result.exceptionOrNull().toString(),
@@ -289,7 +342,7 @@ void main() {
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
-      repository = GravityRepository(dbService);
+      repository = LocalGravityRepository(dbService);
       await dbService.open();
       await dbService.insert('servers', serverV6);
     });
@@ -336,7 +389,7 @@ void main() {
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
-      repository = GravityRepository(dbService);
+      repository = LocalGravityRepository(dbService);
       await dbService.open();
       await dbService.insert('servers', serverV6);
     });
@@ -354,7 +407,12 @@ void main() {
       final result = await repository.fetchGravityMessages(address);
       expect(result.isSuccess(), true);
       expect(result.getOrNull()!.length, 1);
-      expect(result.getOrNull()![0].toDict(), gravityMessagesData.toDict());
+      final fetchedMsg = result.getOrNull()![0];
+      expect(fetchedMsg.id, gravityMessagesData.id);
+      expect(fetchedMsg.address, gravityMessagesData.address);
+      expect(fetchedMsg.message, gravityMessagesData.message);
+      expect(fetchedMsg.url, gravityMessagesData.url);
+      expect(fetchedMsg.timestamp, gravityMessagesData.timestamp);
     });
 
     test('fetch gravity messages when they do not exist', () async {
@@ -380,7 +438,7 @@ void main() {
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
-      repository = GravityRepository(dbService);
+      repository = LocalGravityRepository(dbService);
       await dbService.open();
       await dbService.insert('servers', serverV6);
     });
@@ -393,42 +451,70 @@ void main() {
     });
 
     test('insert gravity messages when they do not exist', () async {
-      final result = await repository.insertGravityMessages([
-        gravityMessagesData,
+      final result = await repository.insertGravityMessages(address, [
+        FtlMessage(
+          id: gravityMessagesData.id,
+          timestamp: gravityMessagesData.timestamp,
+          message: gravityMessagesData.message,
+          url: gravityMessagesData.url,
+        ),
       ]);
       expect(result.isSuccess(), true);
 
       final fetchedResult = await repository.fetchGravityMessages(address);
       expect(fetchedResult.getOrNull()!.length, 1);
-      expect(
-        fetchedResult.getOrNull()![0].toDict(),
-        gravityMessagesData.toDict(),
-      );
+      final fetched0 = fetchedResult.getOrNull()![0];
+      expect(fetched0.id, gravityMessagesData.id);
+      expect(fetched0.address, gravityMessagesData.address);
+      expect(fetched0.message, gravityMessagesData.message);
+      expect(fetched0.url, gravityMessagesData.url);
+      expect(fetched0.timestamp, gravityMessagesData.timestamp);
     });
 
     test('insert gravity messages when they exist', () async {
-      await repository.insertGravityMessages([gravityMessagesData]);
-      final result = await repository.insertGravityMessages([
-        gravityMessagesData,
+      await repository.insertGravityMessages(address, [
+        FtlMessage(
+          id: gravityMessagesData.id,
+          timestamp: gravityMessagesData.timestamp,
+          message: gravityMessagesData.message,
+          url: gravityMessagesData.url,
+        ),
+      ]);
+      final result = await repository.insertGravityMessages(address, [
+        FtlMessage(
+          id: gravityMessagesData.id,
+          timestamp: gravityMessagesData.timestamp,
+          message: gravityMessagesData.message,
+          url: gravityMessagesData.url,
+        ),
       ]);
       expect(result.isSuccess(), true);
 
       final fetchedResult = await repository.fetchGravityMessages(address);
       expect(fetchedResult.getOrNull()!.length, 2);
-      expect(
-        fetchedResult.getOrNull()![0].toDict(),
-        gravityMessagesData.toDict(),
-      );
-      expect(
-        fetchedResult.getOrNull()![1].toDict(),
-        gravityMessagesData.toDict(),
-      );
+      final fetchedFirst = fetchedResult.getOrNull()![0];
+      expect(fetchedFirst.id, gravityMessagesData.id);
+      expect(fetchedFirst.address, gravityMessagesData.address);
+      expect(fetchedFirst.message, gravityMessagesData.message);
+      expect(fetchedFirst.url, gravityMessagesData.url);
+      expect(fetchedFirst.timestamp, gravityMessagesData.timestamp);
+      final fetchedSecond = fetchedResult.getOrNull()![1];
+      expect(fetchedSecond.id, gravityMessagesData.id);
+      expect(fetchedSecond.address, gravityMessagesData.address);
+      expect(fetchedSecond.message, gravityMessagesData.message);
+      expect(fetchedSecond.url, gravityMessagesData.url);
+      expect(fetchedSecond.timestamp, gravityMessagesData.timestamp);
     });
 
     test('returns Failure when unexpected error', () async {
       dbService.shouldThrowOnTransaction = true;
-      final result = await repository.insertGravityMessages([
-        gravityMessagesData,
+      final result = await repository.insertGravityMessages(address, [
+        FtlMessage(
+          id: gravityMessagesData.id,
+          timestamp: gravityMessagesData.timestamp,
+          message: gravityMessagesData.message,
+          url: gravityMessagesData.url,
+        ),
       ]);
       expect(result.isError(), true);
       expect(
@@ -444,7 +530,7 @@ void main() {
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
-      repository = GravityRepository(dbService);
+      repository = LocalGravityRepository(dbService);
       await dbService.open();
       await dbService.insert('servers', serverV6);
     });
@@ -491,7 +577,7 @@ void main() {
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
-      repository = GravityRepository(dbService);
+      repository = LocalGravityRepository(dbService);
       await dbService.open();
       await dbService.insert('servers', serverV6);
     });
@@ -538,7 +624,7 @@ void main() {
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
-      repository = GravityRepository(dbService);
+      repository = LocalGravityRepository(dbService);
       await dbService.open();
       await dbService.insert('servers', serverV6);
     });
@@ -557,28 +643,29 @@ void main() {
 
       final result = await repository.fetchGravityData(address);
       expect(result.isSuccess(), true);
-      expect(
-        result.getOrNull()!.gravityUpdate?.toDict(),
-        gravityUpdateData.toDict(),
-      );
-      expect(result.getOrNull()!.gravityLogs?.length, 1);
-      expect(
-        result.getOrNull()!.gravityLogs?[0].toDict(),
-        gravityLogsData.toDict(),
-      );
-      expect(result.getOrNull()!.gravityMessages?.length, 1);
-      expect(
-        result.getOrNull()!.gravityMessages?[0].toDict(),
-        gravityMessagesData.toDict(),
-      );
+      final snapshot = result.getOrNull()!;
+      expect(snapshot.startedAt, gravityUpdateData.startTime);
+      expect(snapshot.completedAt, gravityUpdateData.endTime);
+      expect(snapshot.status, GravityStatus.values[gravityUpdateData.status]);
+      expect(snapshot.logs.length, 1);
+      expect(snapshot.logs[0], gravityLogsData.message);
+      expect(snapshot.messages.length, 1);
+      final fetchedMsg = snapshot.messages[0];
+      expect(fetchedMsg.id, gravityMessagesData.id);
+      expect(fetchedMsg.message, gravityMessagesData.message);
+      expect(fetchedMsg.url, gravityMessagesData.url);
+      expect(fetchedMsg.timestamp, gravityMessagesData.timestamp);
     });
 
     test('fetch all gravity data when it does not exist', () async {
       final result = await repository.fetchGravityData(address);
       expect(result.isSuccess(), true);
-      expect(result.getOrNull()!.gravityUpdate?.isInitial(), true);
-      expect(result.getOrNull()!.gravityLogs, isEmpty);
-      expect(result.getOrNull()!.gravityMessages, isEmpty);
+      final snapshot = result.getOrNull()!;
+      expect(snapshot.status, GravityStatus.idle);
+      expect(snapshot.logs, isEmpty);
+      expect(snapshot.messages, isEmpty);
+      expect(snapshot.startedAt, isNull);
+      expect(snapshot.completedAt, isNull);
     });
 
     test('returns Failure when unexpected error', () async {
@@ -598,7 +685,7 @@ void main() {
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
-      repository = GravityRepository(dbService);
+      repository = LocalGravityRepository(dbService);
       await dbService.open();
       await dbService.insert('servers', serverV6);
     });
@@ -619,9 +706,9 @@ void main() {
       expect(result.isSuccess(), true);
 
       final fetchedResult = await repository.fetchGravityData(address);
-      expect(fetchedResult.getOrNull()!.gravityUpdate?.isInitial(), true);
-      expect(fetchedResult.getOrNull()!.gravityLogs, isEmpty);
-      expect(fetchedResult.getOrNull()!.gravityMessages, isEmpty);
+      expect(fetchedResult.getOrNull()!.status, GravityStatus.idle);
+      expect(fetchedResult.getOrNull()!.logs, isEmpty);
+      expect(fetchedResult.getOrNull()!.messages, isEmpty);
     });
 
     test('delete all gravity data when it does not exist', () async {
@@ -629,9 +716,9 @@ void main() {
       expect(result.isSuccess(), true);
 
       final fetchedResult = await repository.fetchGravityData(address);
-      expect(fetchedResult.getOrNull()!.gravityUpdate?.isInitial(), true);
-      expect(fetchedResult.getOrNull()!.gravityLogs, isEmpty);
-      expect(fetchedResult.getOrNull()!.gravityMessages, isEmpty);
+      expect(fetchedResult.getOrNull()!.status, GravityStatus.idle);
+      expect(fetchedResult.getOrNull()!.logs, isEmpty);
+      expect(fetchedResult.getOrNull()!.messages, isEmpty);
     });
 
     test('returns Failure when unexpected error', () async {
@@ -651,7 +738,7 @@ void main() {
 
     setUp(() async {
       dbService = FakeDatabaseService(path: dbName);
-      repository = GravityRepository(dbService);
+      repository = LocalGravityRepository(dbService);
       await dbService.open();
       await dbService.insert('servers', serverV6);
     });
@@ -672,9 +759,9 @@ void main() {
       expect(result.isSuccess(), true);
 
       final fetchedResult = await repository.fetchGravityData(address);
-      expect(fetchedResult.getOrNull()!.gravityUpdate?.isInitial(), true);
-      expect(fetchedResult.getOrNull()!.gravityLogs, isEmpty);
-      expect(fetchedResult.getOrNull()!.gravityMessages, isEmpty);
+      expect(fetchedResult.getOrNull()!.status, GravityStatus.idle);
+      expect(fetchedResult.getOrNull()!.logs, isEmpty);
+      expect(fetchedResult.getOrNull()!.messages, isEmpty);
     });
 
     test('delete all gravity data when it does not exist', () async {
@@ -682,9 +769,9 @@ void main() {
       expect(result.isSuccess(), true);
 
       final fetchedResult = await repository.fetchGravityData(address);
-      expect(fetchedResult.getOrNull()!.gravityUpdate?.isInitial(), true);
-      expect(fetchedResult.getOrNull()!.gravityLogs, isEmpty);
-      expect(fetchedResult.getOrNull()!.gravityMessages, isEmpty);
+      expect(fetchedResult.getOrNull()!.status, GravityStatus.idle);
+      expect(fetchedResult.getOrNull()!.logs, isEmpty);
+      expect(fetchedResult.getOrNull()!.messages, isEmpty);
     });
 
     test('returns Failure when unexpected error', () async {
