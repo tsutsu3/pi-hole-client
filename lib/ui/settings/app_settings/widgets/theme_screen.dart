@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_radio.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/colors.dart';
 import 'package:provider/provider.dart';
@@ -14,31 +13,16 @@ class ThemeScreen extends StatelessWidget {
     required IconData icon,
     required String text,
     required AppThemeMode value,
-    required AppConfigViewModel appConfigViewModel,
   }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () {
-          appConfigViewModel.setSelectedTheme(value);
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: ListTile(
-            leading: Icon(icon),
-            title: Text(
-              text,
-              style: TextStyle(
-                fontWeight: FontWeight.normal,
-                color: getListTextColor(context),
-              ),
-            ),
-            trailing: CustomRadio(
-              value: value.index,
-              groupValue: appConfigViewModel.appThemeMode.index,
-              backgroundColor: Theme.of(context).dialogTheme.backgroundColor!,
-            ),
-          ),
+    return RadioListTile<AppThemeMode>(
+      value: value,
+      secondary: Icon(icon),
+      controlAffinity: ListTileControlAffinity.trailing,
+      title: Text(
+        text,
+        style: TextStyle(
+          fontWeight: FontWeight.normal,
+          color: getListTextColor(context),
         ),
       ),
     );
@@ -57,31 +41,32 @@ class ThemeScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(title: Text(AppLocalizations.of(context)!.theme)),
-        body: SafeArea(
-          child: ListView(
-            children: [
-              _buildThemeRow(
-                context,
-                icon: Icons.phone_android_rounded,
-                text: AppLocalizations.of(context)!.systemTheme,
-                value: AppThemeMode.system,
-                appConfigViewModel: appConfigViewModel,
-              ),
-              _buildThemeRow(
-                context,
-                icon: Icons.light_mode_rounded,
-                text: AppLocalizations.of(context)!.light,
-                value: AppThemeMode.light,
-                appConfigViewModel: appConfigViewModel,
-              ),
-              _buildThemeRow(
-                context,
-                icon: Icons.dark_mode_rounded,
-                text: AppLocalizations.of(context)!.dark,
-                value: AppThemeMode.dark,
-                appConfigViewModel: appConfigViewModel,
-              ),
-            ],
+        body: RadioGroup<AppThemeMode>(
+          groupValue: appConfigViewModel.appThemeMode,
+          onChanged: (v) => appConfigViewModel.setSelectedTheme(v!),
+          child: SafeArea(
+            child: ListView(
+              children: [
+                _buildThemeRow(
+                  context,
+                  icon: Icons.phone_android_rounded,
+                  text: AppLocalizations.of(context)!.systemTheme,
+                  value: AppThemeMode.system,
+                ),
+                _buildThemeRow(
+                  context,
+                  icon: Icons.light_mode_rounded,
+                  text: AppLocalizations.of(context)!.light,
+                  value: AppThemeMode.light,
+                ),
+                _buildThemeRow(
+                  context,
+                  icon: Icons.dark_mode_rounded,
+                  text: AppLocalizations.of(context)!.dark,
+                  value: AppThemeMode.dark,
+                ),
+              ],
+            ),
           ),
         ),
       ),

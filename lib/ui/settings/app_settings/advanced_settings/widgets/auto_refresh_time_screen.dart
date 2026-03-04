@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_radio_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -140,21 +139,21 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
     return Scaffold(
       appBar: AppBar(title: Text(loc.autoRefreshTime)),
       body: SafeArea(
-        child: ListView(
-          children: [
-            const SizedBox(height: 16),
-            ...RefreshOption.all.asMap().entries.map((entry) {
-              final idx = entry.key;
-              final option = entry.value;
-              return CustomRadioListTile(
-                groupValue: selectedIndex,
-                value: idx,
-                radioBackgroundColor: Theme.of(context).colorScheme.surface,
-                title: option.labelBuilder(loc),
-                onChanged: _updateRadioValue,
-              );
-            }),
-            if (showCustomInput)
+        child: RadioGroup<int>(
+          groupValue: selectedIndex,
+          onChanged: (v) => _updateRadioValue(v!),
+          child: ListView(
+            children: [
+              const SizedBox(height: 16),
+              ...RefreshOption.all.asMap().entries.map((entry) {
+                final idx = entry.key;
+                final option = entry.value;
+                return RadioListTile<int>(
+                  value: idx,
+                  title: Text(option.labelBuilder(loc)),
+                );
+              }),
+              if (showCustomInput)
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: TextField(
@@ -186,7 +185,8 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
                   ),
                 ),
               ),
-          ],
+            ],
+          ),
         ),
       ),
     );

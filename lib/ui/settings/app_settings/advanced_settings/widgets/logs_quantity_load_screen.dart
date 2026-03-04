@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_radio_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v6_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
@@ -101,21 +100,20 @@ class LogsQuantityLoadScreen extends StatelessWidget {
                 builder: (context, logsPerQuery, child) {
                   final selectedOption = LogOption.indexFromTime(logsPerQuery);
 
-                  return ListView(
-                    children: [
-                      _buildWarningCard(context, loc),
-                      ...List.generate(LogOption.all.length, (i) {
-                        return CustomRadioListTile(
-                          groupValue: selectedOption,
-                          value: i,
-                          title: LogOption.all[i].labelBuilder(loc),
-                          radioBackgroundColor: Theme.of(
-                            context,
-                          ).colorScheme.surface,
-                          onChanged: (val) => _onChange(context, val),
-                        );
-                      }),
-                    ],
+                  return RadioGroup<int>(
+                    groupValue: selectedOption,
+                    onChanged: (val) => _onChange(context, val!),
+                    child: ListView(
+                      children: [
+                        _buildWarningCard(context, loc),
+                        ...List.generate(LogOption.all.length, (i) {
+                          return RadioListTile<int>(
+                            value: i,
+                            title: Text(LogOption.all[i].labelBuilder(loc)),
+                          );
+                        }),
+                      ],
+                    ),
                   );
                 },
               ),

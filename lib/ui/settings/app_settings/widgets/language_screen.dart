@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/l10n/languages.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_radio.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/colors.dart';
 import 'package:provider/provider.dart';
@@ -26,37 +25,31 @@ class LanguageScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(title: Text(AppLocalizations.of(context)!.language)),
-        body: SafeArea(
-          child: ListView(
-            children: sortedLanguageOptions.map((languageOption) {
-              return Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    appConfigViewModel.setSelectedLanguage(languageOption.key);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: ListTile(
-                      title: Text(
-                        languageOption.displayName,
-                        style: TextStyle(
-                          fontWeight: FontWeight.normal,
-                          color: getListTextColor(context),
-                        ),
-                      ),
-                      trailing: CustomRadio(
-                        value: languageOption.index,
-                        groupValue: appConfigViewModel.selectedLanguageNumber,
-                        backgroundColor: Theme.of(
-                          context,
-                        ).dialogTheme.backgroundColor!,
-                      ),
+        body: RadioGroup<int>(
+          groupValue: appConfigViewModel.selectedLanguageNumber,
+          onChanged: (v) {
+            if (v != null) {
+              final option =
+                  sortedLanguageOptions.firstWhere((opt) => opt.index == v);
+              appConfigViewModel.setSelectedLanguage(option.key);
+            }
+          },
+          child: SafeArea(
+            child: ListView(
+              children: sortedLanguageOptions.map((languageOption) {
+                return RadioListTile<int>(
+                  value: languageOption.index,
+                  controlAffinity: ListTileControlAffinity.trailing,
+                  title: Text(
+                    languageOption.displayName,
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color: getListTextColor(context),
                     ),
                   ),
-                ),
-              );
-            }).toList(),
+                );
+              }).toList(),
+            ),
           ),
         ),
       ),

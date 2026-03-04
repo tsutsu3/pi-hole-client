@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_radio.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/widgets/log_refresh_button.dart';
 import 'package:provider/provider.dart';
@@ -115,20 +114,28 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
           itemBuilder: (context) => [
             PopupMenuItem(
               value: 0,
-              child: _buildSortOption(
-                context,
-                icon: Icons.arrow_downward_rounded,
-                label: AppLocalizations.of(context)!.fromLatestToOldest,
-                value: 0,
+              child: RadioGroup<int>(
+                groupValue: sortStatus,
+                onChanged: (_) {},
+                child: _buildSortOption(
+                  context,
+                  icon: Icons.arrow_downward_rounded,
+                  label: AppLocalizations.of(context)!.fromLatestToOldest,
+                  value: 0,
+                ),
               ),
             ),
             PopupMenuItem(
               value: 1,
-              child: _buildSortOption(
-                context,
-                icon: Icons.arrow_upward_rounded,
-                label: AppLocalizations.of(context)!.fromOldestToLatest,
-                value: 1,
+              child: RadioGroup<int>(
+                groupValue: sortStatus,
+                onChanged: (_) {},
+                child: _buildSortOption(
+                  context,
+                  icon: Icons.arrow_upward_rounded,
+                  label: AppLocalizations.of(context)!.fromOldestToLatest,
+                  value: 1,
+                ),
               ),
             ),
           ],
@@ -210,7 +217,7 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   /// Builds a sort option widget consisting of an icon, label, and a custom radio button.
   ///
-  /// Displays the provided [icon] and [label] in a row, followed by a [CustomRadio] widget
+  /// Displays the provided [icon] and [label] in a row, followed by a [Radio] widget
   /// that indicates the current sort selection. The [value] parameter represents the value
   /// associated with this sort option, and [sortStatus] is used to determine the selected state.
   ///
@@ -236,10 +243,10 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
             ],
           ),
         ),
-        CustomRadio(
-          value: value,
-          groupValue: sortStatus,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        IgnorePointer(
+          child: Radio<int>(
+            value: value,
+          ),
         ),
       ],
     );

@@ -427,6 +427,42 @@ void main() async {
       expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.byType(PopupMenuItem), findsNothing);
     });
+
+    testWidgets('should change sort when tapping radio button', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(
+        buildTestApp(
+          LogsScreen(
+            logsViewModel: logsViewModel,
+            appConfigViewModel: appConfigViewModel,
+          ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          logsViewModel: logsViewModel,
+        ),
+      );
+
+      expect(find.byIcon(Icons.sort_rounded), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.sort_rounded));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(Radio<int>), findsNWidgets(2));
+      await tester.tap(find.byType(Radio<int>).last, warnIfMissed: false);
+      await tester.pumpAndSettle();
+
+      expect(logsViewModel.updateSortStatusCallCount, 1);
+      expect(logsViewModel.lastSortStatus, 1);
+      expect(find.byType(PopupMenuItem), findsNothing);
+    });
   });
 
   group('Query logs screen tests (v5)', () {

@@ -546,8 +546,6 @@ import 'package:pi_hole_client/ui/core/ui/components.dart';
 import 'package:pi_hole_client/ui/core/ui/components/adaptive_trailing_text.dart';
 import 'package:pi_hole_client/ui/core/ui/components/auto_complate_field.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_button_list_tile.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_radio.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_radio_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_data_chart.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
