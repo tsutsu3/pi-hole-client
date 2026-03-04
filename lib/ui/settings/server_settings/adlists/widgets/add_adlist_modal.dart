@@ -192,9 +192,13 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
                     onTap: () => setState(() => status = !status),
                     trailing: Switch(
                       value: status,
-                      onChanged: (value) => {setState(() => status = value)},
+                      onChanged: (value) => setState(() => status = value),
                     ),
-                    contentPadding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+                    contentPadding: const EdgeInsets.only(
+                      top: 8,
+                      bottom: 8,
+                      left: 8,
+                    ),
                   ),
                 ],
               ),

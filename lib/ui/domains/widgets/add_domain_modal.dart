@@ -12,7 +12,7 @@ class AddDomainModal extends StatefulWidget {
 
   final String selectedlist;
   final void Function(DomainType type, DomainKind kind, String domain)
-      addDomain;
+  addDomain;
   final bool window;
 
   @override
@@ -155,7 +155,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
                     onTap: () => setState(() => wildcard = !wildcard),
                     trailing: Switch(
                       value: wildcard,
-                      onChanged: (value) => {setState(() => wildcard = value)},
+                      onChanged: (value) => setState(() => wildcard = value),
                     ),
                     contentPadding: const EdgeInsets.all(8),
                   ),
@@ -178,16 +178,15 @@ class _AddDomainModalState extends State<AddDomainModal> {
                 TextButton(
                   onPressed: allDataValid == true
                       ? () {
-                          final type =
-                              selectedType == ListType.whitelist
-                                  ? DomainType.allow
-                                  : DomainType.deny;
-                          final kind =
-                              wildcard ? DomainKind.regex : DomainKind.exact;
-                          final domain =
-                              wildcard
-                                  ? applyWildcard()
-                                  : domainController.text;
+                          final type = selectedType == ListType.whitelist
+                              ? DomainType.allow
+                              : DomainType.deny;
+                          final kind = wildcard
+                              ? DomainKind.regex
+                              : DomainKind.exact;
+                          final domain = wildcard
+                              ? applyWildcard()
+                              : domainController.text;
                           widget.addDomain(type, kind, domain);
                           Navigator.maybePop(context);
                         }
