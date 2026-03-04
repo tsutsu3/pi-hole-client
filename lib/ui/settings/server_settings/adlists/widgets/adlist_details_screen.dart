@@ -3,7 +3,6 @@ import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/formats.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
@@ -96,25 +95,29 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
           padding: const EdgeInsets.all(16),
           children: [
             SectionLabel(label: AppLocalizations.of(context)!.adlistSettings),
-            CustomListTile(
-              leadingIcon: Icons.public_rounded,
-              label: AppLocalizations.of(context)!.adlistAddress,
-              description: _adlist.address,
+            ListTile(
+              leading: const Icon(Icons.public_rounded),
+              title: Text(AppLocalizations.of(context)!.adlistAddress),
+              subtitle: Text(_adlist.address),
             ),
-            CustomListTile(
-              leadingIcon: Icons.category_rounded,
-              label: AppLocalizations.of(context)!.type,
-              description: typeLabel,
-              color: _adlist.type == ListType.block
-                  ? Theme.of(context).extension<AppColors>()!.commonRed
-                  : Theme.of(context).extension<AppColors>()!.commonGreen,
+            ListTile(
+              leading: const Icon(Icons.category_rounded),
+              title: Text(AppLocalizations.of(context)!.type),
+              subtitle: Text(typeLabel),
+              subtitleTextStyle: TextStyle(
+                color: _adlist.type == ListType.block
+                    ? Theme.of(context).extension<AppColors>()!.commonRed
+                    : Theme.of(context).extension<AppColors>()!.commonGreen,
+              ),
             ),
-            CustomListTile(
-              leadingIcon: Icons.check_rounded,
-              label: AppLocalizations.of(context)!.status,
-              description: _adlist.enabled
-                  ? AppLocalizations.of(context)!.enabled
-                  : AppLocalizations.of(context)!.disabled,
+            ListTile(
+              leading: const Icon(Icons.check_rounded),
+              title: Text(AppLocalizations.of(context)!.status),
+              subtitle: Text(
+                _adlist.enabled
+                    ? AppLocalizations.of(context)!.enabled
+                    : AppLocalizations.of(context)!.disabled,
+              ),
               onTap: () {
                 onEditAdlist(_adlist.copyWith(enabled: !_adlist.enabled));
               },
@@ -125,22 +128,24 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
                 },
               ),
             ),
-            CustomListTile(
-              leadingIcon: Icons.group_rounded,
-              label: AppLocalizations.of(context)!.groups,
-              description: getGroupNames().join(', '),
+            ListTile(
+              leading: const Icon(Icons.group_rounded),
+              title: Text(AppLocalizations.of(context)!.groups),
+              subtitle: Text(getGroupNames().join(', ')),
               trailing: Icon(
                 Icons.edit_rounded,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
               onTap: openGroupsModal,
             ),
-            CustomListTile(
-              leadingIcon: Icons.comment_rounded,
-              label: AppLocalizations.of(context)!.comment,
-              description: _adlist.comment == null || _adlist.comment!.isEmpty
-                  ? AppLocalizations.of(context)!.noComment
-                  : _adlist.comment,
+            ListTile(
+              leading: const Icon(Icons.comment_rounded),
+              title: Text(AppLocalizations.of(context)!.comment),
+              subtitle: Text(
+                _adlist.comment == null || _adlist.comment!.isEmpty
+                    ? AppLocalizations.of(context)!.noComment
+                    : _adlist.comment!,
+              ),
               trailing: Icon(
                 Icons.edit_rounded,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -148,50 +153,45 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
               onTap: openCommentModal,
             ),
             SectionLabel(label: AppLocalizations.of(context)!.adlistInfo),
-            CustomListTile(
-              leadingIcon: Icons.label_outline_rounded,
-              label: AppLocalizations.of(context)!.id,
-              description: _adlist.id.toString(),
+            ListTile(
+              leading: const Icon(Icons.label_outline_rounded),
+              title: Text(AppLocalizations.of(context)!.id),
+              subtitle: Text(_adlist.id.toString()),
             ),
-            CustomListTile(
-              leadingIcon: Icons.monitor_heart_outlined,
-              label: AppLocalizations.of(context)!.adlistStatus,
-              description: getAdlistStatusType(
-                _adlist.status.index,
+            ListTile(
+              leading: const Icon(Icons.monitor_heart_outlined),
+              title: Text(AppLocalizations.of(context)!.adlistStatus),
+              subtitle: Text(getAdlistStatusType(_adlist.status.index)),
+            ),
+            ListTile(
+              leading: const Icon(Icons.domain_add_rounded),
+              title: Text(AppLocalizations.of(context)!.domains),
+              subtitle: Text(_adlist.number.toString()),
+            ),
+            ListTile(
+              leading: const Icon(Icons.domain_disabled_rounded),
+              title: Text(AppLocalizations.of(context)!.domainsInvalid),
+              subtitle: Text(_adlist.invalidDomains.toString()),
+            ),
+            ListTile(
+              leading: const Icon(Icons.event_available_rounded),
+              title: Text(AppLocalizations.of(context)!.dateAdded),
+              subtitle: Text(
+                formatTimestamp(_adlist.dateAdded, kUnifiedDateTimeFormat),
               ),
             ),
-            CustomListTile(
-              leadingIcon: Icons.domain_add_rounded,
-              label: AppLocalizations.of(context)!.domains,
-              description: _adlist.number.toString(),
-            ),
-            CustomListTile(
-              leadingIcon: Icons.domain_disabled_rounded,
-              label: AppLocalizations.of(context)!.domainsInvalid,
-              description: _adlist.invalidDomains.toString(),
-            ),
-            CustomListTile(
-              leadingIcon: Icons.event_available_rounded,
-              label: AppLocalizations.of(context)!.dateAdded,
-              description: formatTimestamp(
-                _adlist.dateAdded,
-                kUnifiedDateTimeFormat,
+            ListTile(
+              leading: const Icon(Icons.edit_calendar_rounded),
+              title: Text(AppLocalizations.of(context)!.dateModified),
+              subtitle: Text(
+                formatTimestamp(_adlist.dateModified, kUnifiedDateTimeFormat),
               ),
             ),
-            CustomListTile(
-              leadingIcon: Icons.edit_calendar_rounded,
-              label: AppLocalizations.of(context)!.dateModified,
-              description: formatTimestamp(
-                _adlist.dateModified,
-                kUnifiedDateTimeFormat,
-              ),
-            ),
-            CustomListTile(
-              leadingIcon: Icons.event_repeat_rounded,
-              label: AppLocalizations.of(context)!.dateUpdated,
-              description: formatTimestamp(
-                _adlist.dateUpdated,
-                kUnifiedDateTimeFormat,
+            ListTile(
+              leading: const Icon(Icons.event_repeat_rounded),
+              title: Text(AppLocalizations.of(context)!.dateUpdated),
+              subtitle: Text(
+                formatTimestamp(_adlist.dateUpdated, kUnifiedDateTimeFormat),
               ),
             ),
           ],

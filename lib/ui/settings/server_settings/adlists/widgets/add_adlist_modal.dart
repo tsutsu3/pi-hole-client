@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 
 class AddAdlistModal extends StatefulWidget {
@@ -187,15 +186,19 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
                     initiallySelectedItems: selectedGroups,
                   ),
                   const Padding(padding: EdgeInsets.all(8)),
-                  CustomListTile(
-                    leadingIcon: Icons.check_rounded,
-                    label: AppLocalizations.of(context)!.status,
+                  ListTile(
+                    leading: const Icon(Icons.check_rounded),
+                    title: Text(AppLocalizations.of(context)!.status),
                     onTap: () => setState(() => status = !status),
                     trailing: Switch(
                       value: status,
-                      onChanged: (value) => {setState(() => status = value)},
+                      onChanged: (value) => setState(() => status = value),
                     ),
-                    padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+                    contentPadding: const EdgeInsets.only(
+                      top: 8,
+                      bottom: 8,
+                      left: 8,
+                    ),
                   ),
                 ],
               ),

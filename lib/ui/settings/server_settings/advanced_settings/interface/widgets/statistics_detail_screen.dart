@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 
 class StatisticsDetailScreen extends StatelessWidget {
@@ -20,57 +19,57 @@ class StatisticsDetailScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           children: [
             SectionLabel(label: locale.rxInfo),
-            CustomListTile(
-              leadingIcon: Icons.move_to_inbox,
-              label: locale.rxBytes,
-              description: '${stats.rxBytes.value} ${stats.rxBytes.unit}',
+            ListTile(
+              leading: const Icon(Icons.move_to_inbox),
+              title: Text(locale.rxBytes),
+              subtitle: Text('${stats.rxBytes.value} ${stats.rxBytes.unit}'),
             ),
-            CustomListTile(
-              leadingIcon: Icons.move_to_inbox,
-              label: locale.rxPackets,
-              description: stats.rxPackets.toString(),
+            ListTile(
+              leading: const Icon(Icons.move_to_inbox),
+              title: Text(locale.rxPackets),
+              subtitle: Text(stats.rxPackets.toString()),
             ),
-            CustomListTile(
-              leadingIcon: Icons.download_rounded,
-              label: locale.rxErrors,
-              description: stats.rxErrors.toString(),
+            ListTile(
+              leading: const Icon(Icons.download_rounded),
+              title: Text(locale.rxErrors),
+              subtitle: Text(stats.rxErrors.toString()),
             ),
-            CustomListTile(
-              leadingIcon: Icons.download_rounded,
-              label: locale.rxDropped,
-              description: stats.rxDropped.toString(),
+            ListTile(
+              leading: const Icon(Icons.download_rounded),
+              title: Text(locale.rxDropped),
+              subtitle: Text(stats.rxDropped.toString()),
             ),
             SectionLabel(label: locale.txInfo),
-            CustomListTile(
-              leadingIcon: Icons.outbox_rounded,
-              label: locale.txBytes,
-              description: '${stats.txBytes.value} ${stats.txBytes.unit}',
+            ListTile(
+              leading: const Icon(Icons.outbox_rounded),
+              title: Text(locale.txBytes),
+              subtitle: Text('${stats.txBytes.value} ${stats.txBytes.unit}'),
             ),
-            CustomListTile(
-              leadingIcon: Icons.outbox_rounded,
-              label: locale.txPackets,
-              description: stats.txPackets.toString(),
+            ListTile(
+              leading: const Icon(Icons.outbox_rounded),
+              title: Text(locale.txPackets),
+              subtitle: Text(stats.txPackets.toString()),
             ),
-            CustomListTile(
-              leadingIcon: Icons.upload_rounded,
-              label: locale.txErrors,
-              description: stats.txErrors.toString(),
+            ListTile(
+              leading: const Icon(Icons.upload_rounded),
+              title: Text(locale.txErrors),
+              subtitle: Text(stats.txErrors.toString()),
             ),
-            CustomListTile(
-              leadingIcon: Icons.upload_rounded,
-              label: locale.txDropped,
-              description: stats.txDropped.toString(),
+            ListTile(
+              leading: const Icon(Icons.upload_rounded),
+              title: Text(locale.txDropped),
+              subtitle: Text(stats.txDropped.toString()),
             ),
             SectionLabel(label: locale.others),
-            CustomListTile(
-              leadingIcon: Icons.podcasts_rounded,
-              label: locale.multicast,
-              description: stats.multicast.toString(),
+            ListTile(
+              leading: const Icon(Icons.podcasts_rounded),
+              title: Text(locale.multicast),
+              subtitle: Text(stats.multicast.toString()),
             ),
-            CustomListTile(
-              leadingIcon: Icons.sync_alt_rounded,
-              label: locale.collisions,
-              description: stats.collisions.toString(),
+            ListTile(
+              leading: const Icon(Icons.sync_alt_rounded),
+              title: Text(locale.collisions),
+              subtitle: Text(stats.collisions.toString()),
             ),
           ],
         ),

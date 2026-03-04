@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/formats.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
@@ -51,50 +50,53 @@ class NetworkDetailScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SectionLabel(label: locale.deviceInfo),
-              CustomListTile(
-                leadingIcon: Icons.memory_rounded,
-                label: locale.macAddress,
-                description: device.hwaddr,
+              ListTile(
+                leading: const Icon(Icons.memory_rounded),
+                title: Text(locale.macAddress),
+                subtitle: Text(device.hwaddr),
               ),
-              CustomListTile(
-                leadingIcon: Icons.business_rounded,
-                label: locale.vendor,
-                description: device.macVendor == '' || device.macVendor == null
-                    ? locale.unknown
-                    : device.macVendor!,
+              ListTile(
+                leading: const Icon(Icons.business_rounded),
+                title: Text(locale.vendor),
+                subtitle: Text(
+                  device.macVendor == '' || device.macVendor == null
+                      ? locale.unknown
+                      : device.macVendor!,
+                ),
               ),
-              CustomListTile(
-                leadingIcon: Icons.device_hub_rounded,
-                label: locale.interface,
-                description: device.interface,
+              ListTile(
+                leading: const Icon(Icons.device_hub_rounded),
+                title: Text(locale.interface),
+                subtitle: Text(device.interface),
               ),
-              CustomListTile(
-                leadingIcon: Icons.confirmation_number_rounded,
-                label: locale.id,
-                description: device.id.toString(),
+              ListTile(
+                leading: const Icon(Icons.confirmation_number_rounded),
+                title: Text(locale.id),
+                subtitle: Text(device.id.toString()),
               ),
               const SizedBox(height: 16),
               SectionLabel(label: locale.activity),
-              CustomListTile(
-                leadingIcon: Icons.query_stats_rounded,
-                label: locale.lastQuery,
-                description: _buildLastQueryValue(locale),
+              ListTile(
+                leading: const Icon(Icons.query_stats_rounded),
+                title: Text(locale.lastQuery),
+                subtitle: Text(_buildLastQueryValue(locale)),
               ),
-              CustomListTile(
-                leadingIcon: Icons.bar_chart_rounded,
-                label: locale.queryCount,
-                description: device.numQueries.toString(),
+              ListTile(
+                leading: const Icon(Icons.bar_chart_rounded),
+                title: Text(locale.queryCount),
+                subtitle: Text(device.numQueries.toString()),
               ),
-              CustomListTile(
-                leadingIcon: Icons.calendar_today_rounded,
-                label: locale.firstSeen,
-                description:
-                    device.firstSeen == DateTime.fromMillisecondsSinceEpoch(0)
-                    ? locale.never
-                    : formatTimestamp(
-                        device.firstSeen,
-                        kUnifiedDateTimeLogFormat,
-                      ),
+              ListTile(
+                leading: const Icon(Icons.calendar_today_rounded),
+                title: Text(locale.firstSeen),
+                subtitle: Text(
+                  device.firstSeen == DateTime.fromMillisecondsSinceEpoch(0)
+                      ? locale.never
+                      : formatTimestamp(
+                          device.firstSeen,
+                          kUnifiedDateTimeLogFormat,
+                        ),
+                ),
               ),
               const SizedBox(height: 16),
               SectionLabel(label: locale.ipAddresses),
@@ -108,31 +110,33 @@ class NetworkDetailScreen extends StatelessWidget {
                           context,
                         ).copyWith(dividerColor: Colors.transparent),
                         child: ExpansionTile(
-                          title: CustomListTile(
-                            leadingIcon: Icons.location_on_outlined,
-                            label: ip.ip,
-                            description: ip.name ?? locale.unknown,
+                          title: ListTile(
+                            leading: const Icon(Icons.location_on_outlined),
+                            title: Text(ip.ip),
+                            subtitle: Text(ip.name ?? locale.unknown),
                           ),
                           initiallyExpanded: device.ips.length == 1,
                           tilePadding: const EdgeInsets.only(right: 16),
                           childrenPadding: const EdgeInsets.only(left: 16.0),
                           children: [
-                            CustomListTile(
-                              leadingIcon: Icons.language_rounded,
-                              label: locale.ipAddress,
-                              description: ip.ip,
+                            ListTile(
+                              leading: const Icon(Icons.language_rounded),
+                              title: Text(locale.ipAddress),
+                              subtitle: Text(ip.ip),
                             ),
-                            CustomListTile(
-                              leadingIcon: Icons.label_rounded,
-                              label: locale.hostname,
-                              description: ip.name ?? locale.unknown,
+                            ListTile(
+                              leading: const Icon(Icons.label_rounded),
+                              title: Text(locale.hostname),
+                              subtitle: Text(ip.name ?? locale.unknown),
                             ),
-                            CustomListTile(
-                              leadingIcon: Icons.access_time_rounded,
-                              label: locale.lastSeen,
-                              description: formatTimestamp(
-                                ip.lastSeen,
-                                kUnifiedDateTimeLogFormat,
+                            ListTile(
+                              leading: const Icon(Icons.access_time_rounded),
+                              title: Text(locale.lastSeen),
+                              subtitle: Text(
+                                formatTimestamp(
+                                  ip.lastSeen,
+                                  kUnifiedDateTimeLogFormat,
+                                ),
                               ),
                             ),
                           ],

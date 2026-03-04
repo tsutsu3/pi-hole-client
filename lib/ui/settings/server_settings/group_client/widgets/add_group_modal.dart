@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 
 class AddGroupModal extends StatefulWidget {
   const AddGroupModal({
@@ -73,15 +72,15 @@ class _AddGroupModalState extends State<AddGroupModal> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  CustomListTile(
-                    leadingIcon: Icons.check_rounded,
-                    label: AppLocalizations.of(context)!.status,
+                  ListTile(
+                    leading: const Icon(Icons.check_rounded),
+                    title: Text(AppLocalizations.of(context)!.status),
                     onTap: () => setState(() => enabled = !enabled),
                     trailing: Switch(
                       value: enabled,
                       onChanged: (value) => setState(() => enabled = value),
                     ),
-                    padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+                    contentPadding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
                   ),
                 ],
               ),

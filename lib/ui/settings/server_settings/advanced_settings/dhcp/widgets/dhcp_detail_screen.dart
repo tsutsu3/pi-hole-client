@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/dhcp/dhcp.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/formats.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
@@ -51,32 +50,32 @@ class DhcpDetailScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SectionLabel(label: locale.clientInformation),
-              CustomListTile(
-                leadingIcon: Icons.computer_rounded,
-                label: locale.hostname,
-                description: lease.name,
+              ListTile(
+                leading: const Icon(Icons.computer_rounded),
+                title: Text(locale.hostname),
+                subtitle: Text(lease.name),
               ),
-              CustomListTile(
-                leadingIcon: Icons.memory_rounded,
-                label: locale.macAddress,
-                description: lease.hwaddr,
+              ListTile(
+                leading: const Icon(Icons.memory_rounded),
+                title: Text(locale.macAddress),
+                subtitle: Text(lease.hwaddr),
               ),
-              CustomListTile(
-                leadingIcon: Icons.tag_rounded,
-                label: locale.clientId,
-                description: lease.clientid,
+              ListTile(
+                leading: const Icon(Icons.tag_rounded),
+                title: Text(locale.clientId),
+                subtitle: Text(lease.clientid),
               ),
               const SizedBox(height: 16),
               SectionLabel(label: locale.leaseInfo),
-              CustomListTile(
-                leadingIcon: Icons.location_on_rounded,
-                label: locale.ipAddress,
-                description: lease.ip,
+              ListTile(
+                leading: const Icon(Icons.location_on_rounded),
+                title: Text(locale.ipAddress),
+                subtitle: Text(lease.ip),
               ),
-              CustomListTile(
-                leadingIcon: Icons.event_busy_rounded,
-                label: locale.expire,
-                description: _buildLastQueryValue(locale),
+              ListTile(
+                leading: const Icon(Icons.event_busy_rounded),
+                title: Text(locale.expire),
+                subtitle: Text(_buildLastQueryValue(locale)),
               ),
             ],
           ),

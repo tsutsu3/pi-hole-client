@@ -3,7 +3,6 @@ import 'package:pi_hole_client/domain/model/api_versions.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/color_helpers.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/formats.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
@@ -100,32 +99,35 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
       body: SafeArea(
         child: ListView(
           children: [
-            CustomListTile(
-              leadingIcon: Icons.domain,
-              label: AppLocalizations.of(context)!.domain,
-              description: widget.domain.name,
+            ListTile(
+              leading: const Icon(Icons.domain),
+              title: Text(AppLocalizations.of(context)!.domain),
+              subtitle: Text(widget.domain.name),
             ),
-            CustomListTile(
-              leadingIcon: Icons.category_rounded,
-              label: AppLocalizations.of(context)!.type,
-              description: getDomainTypeLabel(
-                widget.domain.type,
-                widget.domain.kind,
+            ListTile(
+              leading: const Icon(Icons.category_rounded),
+              title: Text(AppLocalizations.of(context)!.type),
+              subtitle: Text(
+                getDomainTypeLabel(widget.domain.type, widget.domain.kind),
               ),
-              color: widget.colors != null
-                  ? domainTypeColor(
-                      widget.colors!,
-                      widget.domain.type,
-                      widget.domain.kind,
+              subtitleTextStyle: widget.colors != null
+                  ? TextStyle(
+                      color: domainTypeColor(
+                        widget.colors!,
+                        widget.domain.type,
+                        widget.domain.kind,
+                      ),
                     )
                   : null,
             ),
-            CustomListTile(
-              leadingIcon: Icons.check,
-              label: AppLocalizations.of(context)!.status,
-              description: widget.domain.enabled
-                  ? AppLocalizations.of(context)!.enabled
-                  : AppLocalizations.of(context)!.disabled,
+            ListTile(
+              leading: const Icon(Icons.check),
+              title: Text(AppLocalizations.of(context)!.status),
+              subtitle: Text(
+                widget.domain.enabled
+                    ? AppLocalizations.of(context)!.enabled
+                    : AppLocalizations.of(context)!.disabled,
+              ),
               trailing: isV5
                   ? null
                   : Switch(
@@ -143,24 +145,24 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
                     },
             ),
             if (!isV5)
-              CustomListTile(
-                leadingIcon: Icons.group_rounded,
-                label: AppLocalizations.of(context)!.groups,
-                description: getGroupNames().join(', '),
-                trailing: isV5
-                    ? null
-                    : Icon(
-                        Icons.edit_rounded,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                onTap: isV5 ? null : openGroupsModal,
+              ListTile(
+                leading: const Icon(Icons.group_rounded),
+                title: Text(AppLocalizations.of(context)!.groups),
+                subtitle: Text(getGroupNames().join(', ')),
+                trailing: Icon(
+                  Icons.edit_rounded,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                onTap: openGroupsModal,
               ),
-            CustomListTile(
-              leadingIcon: Icons.comment_rounded,
-              label: AppLocalizations.of(context)!.comment,
-              description: _domain.comment == '' || _domain.comment == null
-                  ? AppLocalizations.of(context)!.noComment
-                  : _domain.comment,
+            ListTile(
+              leading: const Icon(Icons.comment_rounded),
+              title: Text(AppLocalizations.of(context)!.comment),
+              subtitle: Text(
+                _domain.comment == '' || _domain.comment == null
+                    ? AppLocalizations.of(context)!.noComment
+                    : _domain.comment!,
+              ),
               trailing: isV5
                   ? null
                   : Icon(
@@ -169,20 +171,18 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
                     ),
               onTap: isV5 ? null : openCommentModal,
             ),
-            CustomListTile(
-              leadingIcon: Icons.event_available_rounded,
-              label: AppLocalizations.of(context)!.dateAdded,
-              description: formatTimestamp(
-                _domain.dateAdded,
-                kUnifiedDateFormat,
+            ListTile(
+              leading: const Icon(Icons.event_available_rounded),
+              title: Text(AppLocalizations.of(context)!.dateAdded),
+              subtitle: Text(
+                formatTimestamp(_domain.dateAdded, kUnifiedDateFormat),
               ),
             ),
-            CustomListTile(
-              leadingIcon: Icons.edit_calendar_rounded,
-              label: AppLocalizations.of(context)!.dateModified,
-              description: formatTimestamp(
-                _domain.dateModified,
-                kUnifiedDateFormat,
+            ListTile(
+              leading: const Icon(Icons.edit_calendar_rounded),
+              title: Text(AppLocalizations.of(context)!.dateModified),
+              subtitle: Text(
+                formatTimestamp(_domain.dateModified, kUnifiedDateFormat),
               ),
             ),
           ],

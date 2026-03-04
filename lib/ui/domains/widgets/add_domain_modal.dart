@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 
 class AddDomainModal extends StatefulWidget {
   const AddDomainModal({
@@ -13,7 +12,7 @@ class AddDomainModal extends StatefulWidget {
 
   final String selectedlist;
   final void Function(DomainType type, DomainKind kind, String domain)
-      addDomain;
+  addDomain;
   final bool window;
 
   @override
@@ -151,14 +150,14 @@ class _AddDomainModalState extends State<AddDomainModal> {
                     ),
                   ),
                   const Padding(padding: EdgeInsets.all(8)),
-                  CustomListTile(
-                    label: AppLocalizations.of(context)!.addAsWildcard,
+                  ListTile(
+                    title: Text(AppLocalizations.of(context)!.addAsWildcard),
                     onTap: () => setState(() => wildcard = !wildcard),
                     trailing: Switch(
                       value: wildcard,
-                      onChanged: (value) => {setState(() => wildcard = value)},
+                      onChanged: (value) => setState(() => wildcard = value),
                     ),
-                    padding: const EdgeInsets.all(8),
+                    contentPadding: const EdgeInsets.all(8),
                   ),
                 ],
               ),
@@ -179,16 +178,15 @@ class _AddDomainModalState extends State<AddDomainModal> {
                 TextButton(
                   onPressed: allDataValid == true
                       ? () {
-                          final type =
-                              selectedType == ListType.whitelist
-                                  ? DomainType.allow
-                                  : DomainType.deny;
-                          final kind =
-                              wildcard ? DomainKind.regex : DomainKind.exact;
-                          final domain =
-                              wildcard
-                                  ? applyWildcard()
-                                  : domainController.text;
+                          final type = selectedType == ListType.whitelist
+                              ? DomainType.allow
+                              : DomainType.deny;
+                          final kind = wildcard
+                              ? DomainKind.regex
+                              : DomainKind.exact;
+                          final domain = wildcard
+                              ? applyWildcard()
+                              : domainController.text;
                           widget.addDomain(type, kind, domain);
                           Navigator.maybePop(context);
                         }

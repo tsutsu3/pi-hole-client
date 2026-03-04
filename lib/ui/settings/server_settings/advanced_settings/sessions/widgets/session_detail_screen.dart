@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/auth/auth.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/formats.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
@@ -52,70 +51,76 @@ class SessionDetailScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SectionLabel(label: locale.sessionStatus),
-              CustomListTile(
-                leadingIcon: Icons.tag_rounded,
-                label: locale.id,
-                description: session.id.toString(),
+              ListTile(
+                leading: const Icon(Icons.tag_rounded),
+                title: Text(locale.id),
+                subtitle: Text(session.id.toString()),
               ),
-              CustomListTile(
-                leadingIcon: Icons.check_rounded,
-                label: locale.sessionValid,
-                description: session.isValid.toString(),
+              ListTile(
+                leading: const Icon(Icons.check_rounded),
+                title: Text(locale.sessionValid),
+                subtitle: Text(session.isValid.toString()),
               ),
-              CustomListTile(
-                leadingIcon: Icons.my_location_rounded,
-                label: locale.sessionCurrent,
-                description: session.isCurrentSession.toString(),
+              ListTile(
+                leading: const Icon(Icons.my_location_rounded),
+                title: Text(locale.sessionCurrent),
+                subtitle: Text(session.isCurrentSession.toString()),
               ),
-              CustomListTile(
-                leadingIcon: Icons.event_busy_rounded,
-                label: locale.validUntil,
-                description: formatTimestamp(
-                  session.validUntil,
-                  kUnifiedDateTimeLogFormat,
+              ListTile(
+                leading: const Icon(Icons.event_busy_rounded),
+                title: Text(locale.validUntil),
+                subtitle: Text(
+                  formatTimestamp(
+                    session.validUntil,
+                    kUnifiedDateTimeLogFormat,
+                  ),
                 ),
               ),
               SectionLabel(label: locale.clientInformation),
-              CustomListTile(
-                leadingIcon: Icons.location_on_rounded,
-                label: locale.clientIp,
-                description: session.clientIp,
+              ListTile(
+                leading: const Icon(Icons.location_on_rounded),
+                title: Text(locale.clientIp),
+                subtitle: Text(session.clientIp),
               ),
-              CustomListTile(
-                leadingIcon: Icons.lock_rounded,
-                label: locale.tlsStatus,
-                description: session.tlsStatus.name,
+              ListTile(
+                leading: const Icon(Icons.lock_rounded),
+                title: Text(locale.tlsStatus),
+                subtitle: Text(session.tlsStatus.name),
               ),
-              CustomListTile(
-                leadingIcon: Icons.settings_applications,
-                label: locale.usedAppPassword,
-                description: session.isApp.toString(),
+              ListTile(
+                leading: const Icon(Icons.settings_applications),
+                title: Text(locale.usedAppPassword),
+                subtitle: Text(session.isApp.toString()),
               ),
-              CustomListTile(
-                leadingIcon: Icons.code_rounded,
-                label: locale.usedCLIPassword,
-                description: session.isCli.toString(),
+              ListTile(
+                leading: const Icon(Icons.code_rounded),
+                title: Text(locale.usedCLIPassword),
+                subtitle: Text(session.isCli.toString()),
               ),
               SectionLabel(label: locale.activityLog),
-              CustomListTile(
-                leadingIcon: Icons.smart_toy_outlined,
-                label: locale.userAgent,
-                description: session.userAgent ?? locale.unknown,
+              ListTile(
+                leading: const Icon(Icons.smart_toy_outlined),
+                title: Text(locale.userAgent),
+                subtitle: Text(session.userAgent ?? locale.unknown),
               ),
-              CustomListTile(
-                leadingIcon: Icons.event_available_rounded,
-                label: locale.loginTime,
-                description: formatTimestamp(
-                  session.loginAt,
-                  kUnifiedDateTimeLogFormat,
+              ListTile(
+                leading: const Icon(Icons.event_available_rounded),
+                title: Text(locale.loginTime),
+                subtitle: Text(
+                  formatTimestamp(
+                    session.loginAt,
+                    kUnifiedDateTimeLogFormat,
+                  ),
                 ),
               ),
-              CustomListTile(
-                leadingIcon: Icons.event_repeat_rounded,
-                label: locale.lastActive,
-                description: formatTimestamp(
-                  session.lastActive,
-                  kUnifiedDateTimeLogFormat,
+              ListTile(
+                leading: const Icon(Icons.event_repeat_rounded),
+                title: Text(locale.lastActive),
+                subtitle: Text(
+                  formatTimestamp(
+                    session.lastActive,
+                    kUnifiedDateTimeLogFormat,
+                  ),
                 ),
               ),
             ],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/formats.dart';
 import 'package:pi_hole_client/utils/format.dart';
@@ -45,56 +44,64 @@ class AddressDetailScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SectionLabel(label: locale.addressDetails),
-              CustomListTile(
-                leadingIcon: Icons.location_on_rounded,
-                label: locale.local,
-                description: address.local ?? locale.unknown,
+              ListTile(
+                leading: const Icon(Icons.location_on_rounded),
+                title: Text(locale.local),
+                subtitle: Text(address.local ?? locale.unknown),
               ),
-              CustomListTile(
-                leadingIcon: Icons.location_on_rounded,
-                label: locale.broadcast,
-                description: address.broadcast ?? 'N/A',
+              ListTile(
+                leading: const Icon(Icons.location_on_rounded),
+                title: Text(locale.broadcast),
+                subtitle: Text(address.broadcast ?? 'N/A'),
               ),
-              CustomListTile(
-                leadingIcon: Icons.location_on_outlined,
-                label: locale.scope,
-                description: address.scope,
+              ListTile(
+                leading: const Icon(Icons.location_on_outlined),
+                title: Text(locale.scope),
+                subtitle: Text(address.scope),
               ),
-              CustomListTile(
-                leadingIcon: Icons.location_on_outlined,
-                label: locale.flags,
-                description: address.flags.join(', '),
+              ListTile(
+                leading: const Icon(Icons.location_on_outlined),
+                title: Text(locale.flags),
+                subtitle: Text(address.flags.join(', ')),
               ),
               SectionLabel(label: locale.lifetimes),
-              CustomListTile(
-                leadingIcon: Icons.access_time_outlined,
-                label: locale.preferredLifetime,
-                description: address.prefered == 4294967295
-                    ? locale.forever
-                    : address.prefered.toString(),
-              ),
-              CustomListTile(
-                leadingIcon: Icons.access_time_outlined,
-                label: locale.validLifetime,
-                description: address.valid == 4294967295
-                    ? locale.forever
-                    : address.valid.toString(),
-              ),
-              SectionLabel(label: locale.timestamps),
-              CustomListTile(
-                leadingIcon: Icons.event_available_rounded,
-                label: locale.created,
-                description: formatUnixTime(
-                  address.cstamp.round(),
-                  kUnifiedDateTimeLogFormat,
+              ListTile(
+                leading: const Icon(Icons.access_time_outlined),
+                title: Text(locale.preferredLifetime),
+                subtitle: Text(
+                  address.prefered == 4294967295
+                      ? locale.forever
+                      : address.prefered.toString(),
                 ),
               ),
-              CustomListTile(
-                leadingIcon: Icons.event_repeat_rounded,
-                label: locale.lastUpdated,
-                description: formatUnixTime(
-                  address.tstamp.round(),
-                  kUnifiedDateTimeLogFormat,
+              ListTile(
+                leading: const Icon(Icons.access_time_outlined),
+                title: Text(locale.validLifetime),
+                subtitle: Text(
+                  address.valid == 4294967295
+                      ? locale.forever
+                      : address.valid.toString(),
+                ),
+              ),
+              SectionLabel(label: locale.timestamps),
+              ListTile(
+                leading: const Icon(Icons.event_available_rounded),
+                title: Text(locale.created),
+                subtitle: Text(
+                  formatUnixTime(
+                    address.cstamp.round(),
+                    kUnifiedDateTimeLogFormat,
+                  ),
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.event_repeat_rounded),
+                title: Text(locale.lastUpdated),
+                subtitle: Text(
+                  formatUnixTime(
+                    address.tstamp.round(),
+                    kUnifiedDateTimeLogFormat,
+                  ),
                 ),
               ),
             ],
