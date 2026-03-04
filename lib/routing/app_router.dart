@@ -67,6 +67,9 @@ GoRouter createAppRouter({
     navigatorKey: navigatorKey,
     initialLocation: '/home',
     observers: observers ?? [],
+    // Glance widget taps send `glance-action://` URIs.
+    // If GoRouter receives one with no matching route, redirect to /home.
+    onException: (_, state, router) => router.go('/home'),
     routes: [
       // Outermost shell: lifecycle management (auto-refresh, window events)
       ShellRoute(
