@@ -18,8 +18,7 @@ Widget createGroupClientScreen(RepositoryBundle bundle) {
       ),
       ChangeNotifierProvider(
         create: (_) =>
-            GroupsViewModel(groupRepository: bundle.group)
-              ..loadGroups.run(),
+            GroupsViewModel(groupRepository: bundle.group)..loadGroups.run(),
       ),
       ChangeNotifierProvider(
         create: (_) =>

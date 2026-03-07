@@ -39,10 +39,8 @@ sealed class FtlDatabase with _$FtlDatabase {
 
 @freezed
 sealed class FtlClients with _$FtlClients {
-  const factory FtlClients({
-    required int total,
-    required int active,
-  }) = _FtlClients;
+  const factory FtlClients({required int total, required int active}) =
+      _FtlClients;
 
   factory FtlClients.fromJson(Map<String, dynamic> json) =>
       _$FtlClientsFromJson(json);

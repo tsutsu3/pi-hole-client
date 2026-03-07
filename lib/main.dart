@@ -327,7 +327,10 @@ void main() async {
     dbService,
     secureStorageService,
   );
-  final serverRepository = LocalServerRepository(dbService, secureStorageService);
+  final serverRepository = LocalServerRepository(
+    dbService,
+    secureStorageService,
+  );
 
   // 3. ViewModels
   final gravityRepository = LocalGravityRepository(dbService);

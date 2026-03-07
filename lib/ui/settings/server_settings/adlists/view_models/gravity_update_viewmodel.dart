@@ -15,7 +15,7 @@ import 'package:pi_hole_client/utils/logger.dart';
 /// across navigation.
 class GravityUpdateViewModel with ChangeNotifier {
   GravityUpdateViewModel({required GravityRepository repository})
-      : _repository = repository;
+    : _repository = repository;
 
   final GravityRepository _repository;
   String? _serverAddress;

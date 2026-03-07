@@ -35,10 +35,8 @@ extension SessionsListSessionsInnerMapper on SessionsListSessionsInner {
       isApp: app ?? false,
       isCli: cli ?? false,
       loginAt: DateTime.fromMillisecondsSinceEpoch((loginAt ?? 0) * 1000),
-      lastActive:
-          DateTime.fromMillisecondsSinceEpoch((lastActive ?? 0) * 1000),
-      validUntil:
-          DateTime.fromMillisecondsSinceEpoch((validUntil ?? 0) * 1000),
+      lastActive: DateTime.fromMillisecondsSinceEpoch((lastActive ?? 0) * 1000),
+      validUntil: DateTime.fromMillisecondsSinceEpoch((validUntil ?? 0) * 1000),
       clientIp: remoteAddr ?? '',
       userAgent: userAgent,
     );

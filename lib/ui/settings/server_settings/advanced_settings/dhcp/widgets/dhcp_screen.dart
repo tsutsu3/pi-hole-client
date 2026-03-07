@@ -112,8 +112,7 @@ class _DhcpScreenState extends State<DhcpScreen> {
                           baseColor: Theme.of(
                             context,
                           ).colorScheme.secondaryContainer,
-                          highlightColor:
-                              Theme.of(context).colorScheme.surface,
+                          highlightColor: Theme.of(context).colorScheme.surface,
                         ),
                         child: DhcpListView(
                           leases: _fakeLeases,

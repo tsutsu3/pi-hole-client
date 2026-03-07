@@ -15,9 +15,7 @@ void main() {
     setUp(() {
       Command.globalExceptionHandler = (_, _) {};
       fakeNetworkRepository = FakeNetworkRepository();
-      viewModel = InterfaceViewModel(
-        networkRepository: fakeNetworkRepository,
-      );
+      viewModel = InterfaceViewModel(networkRepository: fakeNetworkRepository);
     });
 
     tearDown(() {

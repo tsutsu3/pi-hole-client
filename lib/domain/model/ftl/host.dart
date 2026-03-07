@@ -38,11 +38,8 @@ sealed class DmiInfo with _$DmiInfo {
 
 @freezed
 sealed class DmiBios with _$DmiBios {
-  const factory DmiBios({
-    String? vendor,
-    String? version,
-    String? date,
-  }) = _DmiBios;
+  const factory DmiBios({String? vendor, String? version, String? date}) =
+      _DmiBios;
 
   factory DmiBios.fromJson(Map<String, dynamic> json) =>
       _$DmiBiosFromJson(json);
@@ -50,11 +47,8 @@ sealed class DmiBios with _$DmiBios {
 
 @freezed
 sealed class DmiBoard with _$DmiBoard {
-  const factory DmiBoard({
-    String? name,
-    String? vendor,
-    String? version,
-  }) = _DmiBoard;
+  const factory DmiBoard({String? name, String? vendor, String? version}) =
+      _DmiBoard;
 
   factory DmiBoard.fromJson(Map<String, dynamic> json) =>
       _$DmiBoardFromJson(json);
@@ -62,11 +56,8 @@ sealed class DmiBoard with _$DmiBoard {
 
 @freezed
 sealed class DmiProduct with _$DmiProduct {
-  const factory DmiProduct({
-    String? name,
-    String? family,
-    String? version,
-  }) = _DmiProduct;
+  const factory DmiProduct({String? name, String? family, String? version}) =
+      _DmiProduct;
 
   factory DmiProduct.fromJson(Map<String, dynamic> json) =>
       _$DmiProductFromJson(json);
@@ -74,11 +65,7 @@ sealed class DmiProduct with _$DmiProduct {
 
 @freezed
 sealed class DmiSys with _$DmiSys {
-  const factory DmiSys({
-    String? vendor,
-    String? version,
-  }) = _DmiSys;
+  const factory DmiSys({String? vendor, String? version}) = _DmiSys;
 
-  factory DmiSys.fromJson(Map<String, dynamic> json) =>
-      _$DmiSysFromJson(json);
+  factory DmiSys.fromJson(Map<String, dynamic> json) => _$DmiSysFromJson(json);
 }

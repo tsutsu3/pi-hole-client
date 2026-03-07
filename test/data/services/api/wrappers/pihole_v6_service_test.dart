@@ -460,10 +460,7 @@ void main() {
 
         expect(result.isSuccess(), true);
         verify(
-          mockGroupApi.replaceGroup(
-            name: 'mygroup',
-            groupsPut: null,
-          ),
+          mockGroupApi.replaceGroup(name: 'mygroup', groupsPut: null),
         ).called(1);
       });
     });
@@ -571,10 +568,7 @@ void main() {
           ),
         ).thenAnswer((_) async => dioResponse(mockResponse));
 
-        final result = await service.addDomain(
-          type: 'allow',
-          kind: 'exact',
-        );
+        final result = await service.addDomain(type: 'allow', kind: 'exact');
 
         expect(result.isSuccess(), true);
       });
@@ -669,10 +663,7 @@ void main() {
       test('returns Success with specific list', () async {
         final mockResponse = GetLists200Response();
         when(
-          mockListApi.getLists(
-            list: anyNamed('list'),
-            type: anyNamed('type'),
-          ),
+          mockListApi.getLists(list: anyNamed('list'), type: anyNamed('type')),
         ).thenAnswer((_) async => dioResponse(mockResponse));
 
         final result = await service.getLists(list: 'https://example.com/list');
@@ -815,7 +806,9 @@ void main() {
       test('returns Success with created client', () async {
         final mockResponse = ReplaceClient200Response();
         when(
-          mockClientApi.addClient(addClientRequest: anyNamed('addClientRequest')),
+          mockClientApi.addClient(
+            addClientRequest: anyNamed('addClientRequest'),
+          ),
         ).thenAnswer((_) async => dioResponse(mockResponse));
 
         final result = await service.addClient();
@@ -1138,10 +1131,7 @@ void main() {
 
         expect(result.isSuccess(), true);
         verify(
-          mockConfigApi.patchConfig(
-            getConfig200Response: null,
-            restart: true,
-          ),
+          mockConfigApi.patchConfig(getConfig200Response: null, restart: true),
         ).called(1);
       });
     });

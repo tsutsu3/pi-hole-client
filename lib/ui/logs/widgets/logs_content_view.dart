@@ -79,7 +79,9 @@ class LogsContentView extends StatelessWidget {
                 child: logs.isNotEmpty
                     ? ListView.builder(
                         controller: scrollController,
-                        itemCount: isLoadingMore ? logs.length + 1 : logs.length,
+                        itemCount: isLoadingMore
+                            ? logs.length + 1
+                            : logs.length,
                         itemBuilder: (context, index) {
                           if (isLoadingMore && index == logs.length) {
                             // Show a loading indicator at the end of the list when loading more logs

@@ -8,7 +8,9 @@ void main() async {
   await initTestApp();
 
   group('GroupFilterModal', () {
-    testWidgets('should display modal with groups', (WidgetTester tester) async {
+    testWidgets('should display modal with groups', (
+      WidgetTester tester,
+    ) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -22,11 +24,7 @@ void main() async {
       await tester.pumpWidget(
         buildTestApp(
           GroupFilterModal(
-            groups: const {
-              0: 'Default',
-              1: 'Group A',
-              2: 'Group B',
-            },
+            groups: const {0: 'Default', 1: 'Group A', 2: 'Group B'},
             selectedGroupId: null,
             onApply: (groupId) {
               appliedGroupId = groupId;
@@ -55,8 +53,9 @@ void main() async {
       expect(appliedGroupId, 1);
     });
 
-    testWidgets('should display modal as dialog window',
-        (WidgetTester tester) async {
+    testWidgets('should display modal as dialog window', (
+      WidgetTester tester,
+    ) async {
       tester.view.physicalSize = const Size(1920, 1080);
       tester.view.devicePixelRatio = 1.0;
 
@@ -68,10 +67,7 @@ void main() async {
       await tester.pumpWidget(
         buildTestApp(
           GroupFilterModal(
-            groups: const {
-              0: 'Default',
-              1: 'Group A',
-            },
+            groups: const {0: 'Default', 1: 'Group A'},
             selectedGroupId: 0,
             onApply: (_) {},
             window: true,
@@ -84,8 +80,9 @@ void main() async {
       expect(find.text('Groups'), findsOneWidget);
     });
 
-    testWidgets('should reset selection when Reset is tapped',
-        (WidgetTester tester) async {
+    testWidgets('should reset selection when Reset is tapped', (
+      WidgetTester tester,
+    ) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -99,10 +96,7 @@ void main() async {
       await tester.pumpWidget(
         buildTestApp(
           GroupFilterModal(
-            groups: const {
-              0: 'Default',
-              1: 'Group A',
-            },
+            groups: const {0: 'Default', 1: 'Group A'},
             selectedGroupId: 1,
             onApply: (groupId) {
               appliedGroupId = groupId;
@@ -121,8 +115,9 @@ void main() async {
       expect(appliedGroupId, null);
     });
 
-    testWidgets('should show modal via showGroupFilterModal on mobile',
-        (WidgetTester tester) async {
+    testWidgets('should show modal via showGroupFilterModal on mobile', (
+      WidgetTester tester,
+    ) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -159,8 +154,9 @@ void main() async {
       expect(find.text('Test Group'), findsOneWidget);
     });
 
-    testWidgets('should show dialog via showGroupFilterModal on desktop',
-        (WidgetTester tester) async {
+    testWidgets('should show dialog via showGroupFilterModal on desktop', (
+      WidgetTester tester,
+    ) async {
       tester.view.physicalSize = const Size(1920, 1080);
       tester.view.devicePixelRatio = 1.0;
 

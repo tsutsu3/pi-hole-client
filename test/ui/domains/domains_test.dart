@@ -52,20 +52,22 @@ class _ConfigurableFakeDomainRepository extends FakeDomainRepository {
     }
     return Success(
       DomainLists(
-        allowExact: customAllowExact ?? [
-          Domain(
-            id: 1,
-            name: 'example.com',
-            punyCode: 'example.com',
-            type: DomainType.allow,
-            kind: DomainKind.exact,
-            comment: null,
-            groups: [0],
-            enabled: true,
-            dateAdded: _now,
-            dateModified: _now,
-          ),
-        ],
+        allowExact:
+            customAllowExact ??
+            [
+              Domain(
+                id: 1,
+                name: 'example.com',
+                punyCode: 'example.com',
+                type: DomainType.allow,
+                kind: DomainKind.exact,
+                comment: null,
+                groups: [0],
+                enabled: true,
+                dateAdded: _now,
+                dateModified: _now,
+              ),
+            ],
         allowRegex: [],
         denyExact: [],
         denyRegex: [],
@@ -437,9 +439,7 @@ void main() async {
 
       final domainRepo = FakeDomainRepository()..shouldFail = true;
       domainsViewModel = DomainsViewModel(domainRepository: domainRepo);
-      groupsViewModel = GroupsViewModel(
-        groupRepository: FakeGroupRepository(),
-      );
+      groupsViewModel = GroupsViewModel(groupRepository: FakeGroupRepository());
 
       await tester.pumpWidget(buildApp());
 
@@ -471,9 +471,7 @@ void main() async {
       // Use a slow repository so we can observe the loading indicator.
       final domainRepo = _SlowFakeDomainRepository();
       domainsViewModel = DomainsViewModel(domainRepository: domainRepo);
-      groupsViewModel = GroupsViewModel(
-        groupRepository: FakeGroupRepository(),
-      );
+      groupsViewModel = GroupsViewModel(groupRepository: FakeGroupRepository());
 
       await tester.pumpWidget(buildApp());
 
@@ -709,9 +707,7 @@ void main() async {
       domainsViewModel = DomainsViewModel(
         domainRepository: FakeDomainRepository(),
       );
-      groupsViewModel = GroupsViewModel(
-        groupRepository: FakeGroupRepository(),
-      );
+      groupsViewModel = GroupsViewModel(groupRepository: FakeGroupRepository());
     });
 
     testWidgets('should not be editable with v5', (WidgetTester tester) async {

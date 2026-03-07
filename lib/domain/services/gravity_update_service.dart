@@ -49,7 +49,12 @@ class GravityUpdateService {
 
     // Clear previous gravity data from the database
     await _repository.deleteGravityData(address);
-    await _repository.upsertGravityUpdate(address, startedAt, startedAt, status);
+    await _repository.upsertGravityUpdate(
+      address,
+      startedAt,
+      startedAt,
+      status,
+    );
     onStarted(startedAt);
     onStatusChanged(status);
 

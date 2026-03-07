@@ -54,54 +54,53 @@ void main() async {
       logsViewModel = FakeLogsViewModel();
     });
 
-    testWidgets(
-      'should home screen be rendered (all graphs are rendered)',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 1.0;
+    testWidgets('should home screen be rendered (all graphs are rendered)', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 1.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          buildTestApp(
-            HomeScreen(
-              serversViewModel: serversViewModel,
-              appConfigViewModel: appConfigViewModel,
-              statusViewModel: statusViewModel,
-            ),
-            appConfigViewModel: appConfigViewModel,
+      await tester.pumpWidget(
+        buildTestApp(
+          HomeScreen(
             serversViewModel: serversViewModel,
+            appConfigViewModel: appConfigViewModel,
             statusViewModel: statusViewModel,
-            logsViewModel: logsViewModel,
-            repositoryBundle: createFakeRepositoryBundle(),
           ),
-        );
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+        ),
+      );
 
-        expect(find.byType(HomeScreen), findsOneWidget);
-        await tester.pumpAndSettle(const Duration(seconds: 3));
+      expect(find.byType(HomeScreen), findsOneWidget);
+      await tester.pumpAndSettle(const Duration(seconds: 3));
 
-        // Home App Bar
-        expect(find.byIcon(Icons.gpp_good_rounded), findsOneWidget);
-        expect(find.byIcon(Icons.more_vert), findsOneWidget);
-        expect(find.text('test v6'), findsWidgets);
-        expect(find.text('http://localhost:8081'), findsWidgets);
+      // Home App Bar
+      expect(find.byIcon(Icons.gpp_good_rounded), findsOneWidget);
+      expect(find.byIcon(Icons.more_vert), findsOneWidget);
+      expect(find.text('test v6'), findsWidgets);
+      expect(find.text('http://localhost:8081'), findsWidgets);
 
-        // titles
-        expect(find.text('Total queries'), findsOneWidget);
-        expect(find.text('Queries blocked'), findsOneWidget);
-        expect(find.text('Percentage blocked'), findsOneWidget);
-        expect(find.text('Domains on Adlists'), findsOneWidget);
+      // titles
+      expect(find.text('Total queries'), findsOneWidget);
+      expect(find.text('Queries blocked'), findsOneWidget);
+      expect(find.text('Percentage blocked'), findsOneWidget);
+      expect(find.text('Domains on Adlists'), findsOneWidget);
 
-        // queries graph
-        expect(find.text('Total queries last 24 hours'), findsOneWidget);
+      // queries graph
+      expect(find.text('Total queries last 24 hours'), findsOneWidget);
 
-        // clients graph
-        expect(find.text('Client activity last 24 hours'), findsOneWidget);
-      },
-    );
+      // clients graph
+      expect(find.text('Client activity last 24 hours'), findsOneWidget);
+    });
 
     testWidgets('should home screen be rendered (loading state)', (
       WidgetTester tester,
@@ -221,50 +220,47 @@ void main() async {
       },
     );
 
-    testWidgets(
-      'should show enabled snackbar when enable button is pressed',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
-
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
-
-        serversViewModel.selectedServerEnabled = false;
-
-        await tester.pumpWidget(
-          buildTestApp(
-            HomeScreen(
-              serversViewModel: serversViewModel,
-              appConfigViewModel: appConfigViewModel,
-              statusViewModel: statusViewModel,
-            ),
-            appConfigViewModel: appConfigViewModel,
-            serversViewModel: serversViewModel,
-            statusViewModel: statusViewModel,
-            logsViewModel: logsViewModel,
-            repositoryBundle: createFakeRepositoryBundle(),
-          ),
-        );
-
-        expect(find.byType(HomeScreen), findsOneWidget);
-        await tester.pump();
-        expect(find.byType(FloatingActionButton), findsOneWidget);
-
-        await tester.tap(find.byType(FloatingActionButton));
-        await tester.pumpAndSettle(const Duration(seconds: 3));
-
-        expect(find.byType(DisableModal), findsNothing);
-        expect(find.byType(SnackBar), findsOneWidget);
-        expect(find.text('Server enabled successfully.'), findsOneWidget);
-      },
-    );
-
-    testWidgets('should show switch server modal', (
+    testWidgets('should show enabled snackbar when enable button is pressed', (
       WidgetTester tester,
     ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      serversViewModel.selectedServerEnabled = false;
+
+      await tester.pumpWidget(
+        buildTestApp(
+          HomeScreen(
+            serversViewModel: serversViewModel,
+            appConfigViewModel: appConfigViewModel,
+            statusViewModel: statusViewModel,
+          ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+        ),
+      );
+
+      expect(find.byType(HomeScreen), findsOneWidget);
+      await tester.pump();
+      expect(find.byType(FloatingActionButton), findsOneWidget);
+
+      await tester.tap(find.byType(FloatingActionButton));
+      await tester.pumpAndSettle(const Duration(seconds: 3));
+
+      expect(find.byType(DisableModal), findsNothing);
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(find.text('Server enabled successfully.'), findsOneWidget);
+    });
+
+    testWidgets('should show switch server modal', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -456,38 +452,37 @@ void main() async {
 
     // Network navigation now uses go_router (context.pushNamed).
     // Full navigation is tested in network_screen_test.dart.
-    testWidgets(
-      'should navigate when tapping on "Total queries" tile',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should navigate when tapping on "Total queries" tile', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          buildTestApp(
-            HomeScreen(
-              serversViewModel: serversViewModel,
-              appConfigViewModel: appConfigViewModel,
-              statusViewModel: statusViewModel,
-            ),
-            appConfigViewModel: appConfigViewModel,
+      await tester.pumpWidget(
+        buildTestApp(
+          HomeScreen(
             serversViewModel: serversViewModel,
+            appConfigViewModel: appConfigViewModel,
             statusViewModel: statusViewModel,
-            logsViewModel: logsViewModel,
-            repositoryBundle: createFakeRepositoryBundle(),
           ),
-        );
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+        ),
+      );
 
-        expect(find.byType(HomeScreen), findsOneWidget);
-        await tester.pump();
+      expect(find.byType(HomeScreen), findsOneWidget);
+      await tester.pump();
 
-        expect(find.text('Total queries'), findsOneWidget);
-      },
-    );
+      expect(find.text('Total queries'), findsOneWidget);
+    });
 
     testWidgets(
       'should show logs page with filter when tapping on "Queries blocked" tile',
@@ -567,38 +562,37 @@ void main() async {
       },
     );
 
-    testWidgets(
-      'should show "Domains on Adlists" tile',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show "Domains on Adlists" tile', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          buildTestApp(
-            HomeScreen(
-              serversViewModel: serversViewModel,
-              appConfigViewModel: appConfigViewModel,
-              statusViewModel: statusViewModel,
-            ),
-            appConfigViewModel: appConfigViewModel,
+      await tester.pumpWidget(
+        buildTestApp(
+          HomeScreen(
             serversViewModel: serversViewModel,
+            appConfigViewModel: appConfigViewModel,
             statusViewModel: statusViewModel,
-            logsViewModel: logsViewModel,
-            repositoryBundle: createFakeRepositoryBundle(),
           ),
-        );
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+        ),
+      );
 
-        expect(find.byType(HomeScreen), findsOneWidget);
-        await tester.pump();
+      expect(find.byType(HomeScreen), findsOneWidget);
+      await tester.pump();
 
-        expect(find.text('Domains on Adlists'), findsOneWidget);
-        expect(find.byIcon(Icons.list), findsOneWidget);
-      },
-    );
+      expect(find.text('Domains on Adlists'), findsOneWidget);
+      expect(find.byIcon(Icons.list), findsOneWidget);
+    });
   });
 }

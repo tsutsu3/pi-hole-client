@@ -87,9 +87,7 @@ void main() async {
       provideDummy<Result<List<LocalDns>>>(const Success([]));
       provideDummy<Result<Unit>>(const Success(unit));
       provideDummy<Result<List<Device>>>(const Success([]));
-      provideDummy<Result<Gateways>>(
-        const Success(Gateways(gateways: [])),
-      );
+      provideDummy<Result<Gateways>>(const Success(Gateways(gateways: [])));
 
       mockLocalDnsRepository = MockLocalDnsRepository();
       mockNetworkRepository = MockNetworkRepository();
@@ -123,9 +121,8 @@ void main() async {
 
     test('load() updates local DNS and notifies listeners', () async {
       when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
-        (_) async => const Success(
-          [LocalDns(ip: '192.168.1.2', name: 'device')],
-        ),
+        (_) async =>
+            const Success([LocalDns(ip: '192.168.1.2', name: 'device')]),
       );
       when(
         mockNetworkRepository.fetchDevices(
@@ -200,12 +197,10 @@ void main() async {
       expect(listenerCalled, true);
     });
 
-    test('updateLocalDns() updates local DNS and notifies listeners',
-        () async {
+    test('updateLocalDns() updates local DNS and notifies listeners', () async {
       when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
-        (_) async => const Success(
-          [LocalDns(ip: '192.168.1.2', name: 'device')],
-        ),
+        (_) async =>
+            const Success([LocalDns(ip: '192.168.1.2', name: 'device')]),
       );
       when(
         mockNetworkRepository.fetchDevices(
@@ -238,9 +233,8 @@ void main() async {
 
     test('updateLocalDns() failed', () async {
       when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
-        (_) async => const Success(
-          [LocalDns(ip: '192.168.1.2', name: 'device')],
-        ),
+        (_) async =>
+            const Success([LocalDns(ip: '192.168.1.2', name: 'device')]),
       );
       when(
         mockNetworkRepository.fetchDevices(
@@ -273,9 +267,8 @@ void main() async {
 
     test('removeLocalDns() loads local DNS and notifies listeners', () async {
       when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
-        (_) async => const Success(
-          [LocalDns(ip: '192.168.1.2', name: 'device')],
-        ),
+        (_) async =>
+            const Success([LocalDns(ip: '192.168.1.2', name: 'device')]),
       );
       when(
         mockNetworkRepository.fetchDevices(
@@ -286,10 +279,7 @@ void main() async {
       await localDnsProvider.load();
 
       when(
-        mockLocalDnsRepository.deleteRecord(
-          ip: '192.168.1.2',
-          name: 'device',
-        ),
+        mockLocalDnsRepository.deleteRecord(ip: '192.168.1.2', name: 'device'),
       ).thenAnswer((_) async => const Success(unit));
 
       final resp = await localDnsProvider.removeLocalDns(
@@ -303,9 +293,8 @@ void main() async {
 
     test('removeLocalDns() failed', () async {
       when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
-        (_) async => const Success(
-          [LocalDns(ip: '192.168.1.2', name: 'device')],
-        ),
+        (_) async =>
+            const Success([LocalDns(ip: '192.168.1.2', name: 'device')]),
       );
       when(
         mockNetworkRepository.fetchDevices(
@@ -316,10 +305,7 @@ void main() async {
       await localDnsProvider.load();
 
       when(
-        mockLocalDnsRepository.deleteRecord(
-          ip: '192.168.1.2',
-          name: 'device',
-        ),
+        mockLocalDnsRepository.deleteRecord(ip: '192.168.1.2', name: 'device'),
       ).thenAnswer((_) async => Failure(Exception('Failed to delete')));
 
       final resp = await localDnsProvider.removeLocalDns(

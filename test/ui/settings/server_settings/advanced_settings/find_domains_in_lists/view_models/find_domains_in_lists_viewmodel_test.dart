@@ -47,9 +47,11 @@ void main() {
     });
 
     test('searchLists populates results on success', () async {
-      await viewModel.searchLists.runAsync(
-        (domain: 'example.com', partial: true, limit: 20),
-      );
+      await viewModel.searchLists.runAsync((
+        domain: 'example.com',
+        partial: true,
+        limit: 20,
+      ));
 
       expect(viewModel.searchResult, isNotNull);
       expect(viewModel.gravityMatches.length, 1);
@@ -62,18 +64,22 @@ void main() {
     test('searchLists throws on failure', () async {
       fakeAdlistRepository.shouldFail = true;
       try {
-        await viewModel.searchLists.runAsync(
-          (domain: 'example.com', partial: true, limit: 20),
-        );
+        await viewModel.searchLists.runAsync((
+          domain: 'example.com',
+          partial: true,
+          limit: 20,
+        ));
       } catch (_) {}
 
       expect(viewModel.searchLists.errors.value, isNotNull);
     });
 
     test('setSearchError sets error and clears results', () async {
-      await viewModel.searchLists.runAsync(
-        (domain: 'example.com', partial: true, limit: 20),
-      );
+      await viewModel.searchLists.runAsync((
+        domain: 'example.com',
+        partial: true,
+        limit: 20,
+      ));
       listenerCalled = false;
 
       viewModel.setSearchError('Something went wrong');
@@ -86,9 +92,11 @@ void main() {
     });
 
     test('deleteDomain removes domain from results', () async {
-      await viewModel.searchLists.runAsync(
-        (domain: 'example.com', partial: true, limit: 20),
-      );
+      await viewModel.searchLists.runAsync((
+        domain: 'example.com',
+        partial: true,
+        limit: 20,
+      ));
 
       // Manually set domain results for this test
       final domain = Domain(
@@ -112,9 +120,11 @@ void main() {
     });
 
     test('deleteAdlist removes adlist from gravityMatches', () async {
-      await viewModel.searchLists.runAsync(
-        (domain: 'example.com', partial: true, limit: 20),
-      );
+      await viewModel.searchLists.runAsync((
+        domain: 'example.com',
+        partial: true,
+        limit: 20,
+      ));
 
       expect(viewModel.gravityMatches.length, 1);
       final adlist = viewModel.gravityMatches.first.adlist;
@@ -127,9 +137,11 @@ void main() {
     });
 
     test('deleteAdlist throws on failure', () async {
-      await viewModel.searchLists.runAsync(
-        (domain: 'example.com', partial: true, limit: 20),
-      );
+      await viewModel.searchLists.runAsync((
+        domain: 'example.com',
+        partial: true,
+        limit: 20,
+      ));
       final adlist = viewModel.gravityMatches.first.adlist;
 
       fakeAdlistRepository.shouldFail = true;
@@ -143,9 +155,11 @@ void main() {
     });
 
     test('updateDomainInResults replaces matching domain', () async {
-      await viewModel.searchLists.runAsync(
-        (domain: 'example.com', partial: true, limit: 20),
-      );
+      await viewModel.searchLists.runAsync((
+        domain: 'example.com',
+        partial: true,
+        limit: 20,
+      ));
 
       // Fake repo returns empty domains, so add one manually via search
       // that includes domains. Instead, test the mutation method directly.
@@ -170,9 +184,11 @@ void main() {
     });
 
     test('updateAdlistInResults replaces matching adlist', () async {
-      await viewModel.searchLists.runAsync(
-        (domain: 'example.com', partial: true, limit: 20),
-      );
+      await viewModel.searchLists.runAsync((
+        domain: 'example.com',
+        partial: true,
+        limit: 20,
+      ));
 
       final original = viewModel.gravityMatches.first.adlist;
       final updated = Adlist(
@@ -204,9 +220,11 @@ void main() {
     test('hasSearched is true after search', () async {
       expect(viewModel.hasSearched, false);
 
-      await viewModel.searchLists.runAsync(
-        (domain: 'test.com', partial: false, limit: 10),
-      );
+      await viewModel.searchLists.runAsync((
+        domain: 'test.com',
+        partial: false,
+        limit: 10,
+      ));
 
       expect(viewModel.hasSearched, true);
     });

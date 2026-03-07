@@ -139,9 +139,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
               onTap: isV5
                   ? null
                   : () {
-                      onEditDomain(
-                        _domain.copyWith(enabled: !_domain.enabled),
-                      );
+                      onEditDomain(_domain.copyWith(enabled: !_domain.enabled));
                     },
             ),
             if (!isV5)

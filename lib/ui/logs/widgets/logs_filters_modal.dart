@@ -356,8 +356,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                                 ),
                                                 const SizedBox(height: 5),
                                                 Text(
-                                                  logsViewModel.endTime !=
-                                                          null
+                                                  logsViewModel.endTime != null
                                                       ? formatTimestamp(
                                                           logsViewModel
                                                               .endTime!,
@@ -519,9 +518,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                       const SizedBox(height: 5),
                                       Text(
                                         statusText(
-                                          logsViewModel
-                                              .selectedClients
-                                              .length,
+                                          logsViewModel.selectedClients.length,
                                           logsViewModel.totalClients.length,
                                         ),
                                         style: TextStyle(

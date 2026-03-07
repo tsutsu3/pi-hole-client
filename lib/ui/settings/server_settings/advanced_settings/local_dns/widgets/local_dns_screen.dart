@@ -35,8 +35,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
   Future<bool> _onAddLocalDns(Map<String, dynamic> value) async {
     final locale = AppLocalizations.of(context)!;
     final appConfigViewModel = context.read<AppConfigViewModel>();
-    final process = ProcessModal(context: context)
-      ..open(locale.localDnsAdding);
+    final process = ProcessModal(context: context)..open(locale.localDnsAdding);
 
     try {
       await widget.viewModel.addRecord.runAsync(
@@ -68,9 +67,10 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
     final process = ProcessModal(context: context)..open(locale.updating);
 
     try {
-      await widget.viewModel.updateRecord.runAsync(
-        (record: updated, oldIp: oldIp),
-      );
+      await widget.viewModel.updateRecord.runAsync((
+        record: updated,
+        oldIp: oldIp,
+      ));
       if (!mounted) return false;
       process.close();
       showSuccessSnackBar(
@@ -199,8 +199,9 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
                               baseColor: Theme.of(
                                 context,
                               ).colorScheme.secondaryContainer,
-                              highlightColor:
-                                  Theme.of(context).colorScheme.surface,
+                              highlightColor: Theme.of(
+                                context,
+                              ).colorScheme.surface,
                             ),
                             child: LocalDnsListView(
                               localDnsInfo: _fakeLocalDnsInfo,
@@ -228,8 +229,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
                                 builder: (_) => LocalDnsDetailScreen(
                                   localDns: localDns,
                                   devices: data.deviceOptions,
-                                  onDelete: (ld) async =>
-                                      _onRemoveLocalDns(ld),
+                                  onDelete: (ld) async => _onRemoveLocalDns(ld),
                                   onUpdate: _onUpdateLocalDns,
                                 ),
                               ),

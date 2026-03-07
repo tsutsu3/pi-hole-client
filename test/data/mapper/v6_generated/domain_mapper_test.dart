@@ -169,17 +169,11 @@ void main() {
 
   group('GetDomainsInnerTypeEnumMapper', () {
     test('maps allow', () {
-      expect(
-        GetDomainsInnerTypeEnum.allow.toDomainType(),
-        DomainType.allow,
-      );
+      expect(GetDomainsInnerTypeEnum.allow.toDomainType(), DomainType.allow);
     });
 
     test('maps deny', () {
-      expect(
-        GetDomainsInnerTypeEnum.deny.toDomainType(),
-        DomainType.deny,
-      );
+      expect(GetDomainsInnerTypeEnum.deny.toDomainType(), DomainType.deny);
     });
 
     test('maps null to allow', () {
@@ -190,17 +184,11 @@ void main() {
 
   group('GetDomainsInnerKindEnumMapper', () {
     test('maps exact', () {
-      expect(
-        GetDomainsInnerKindEnum.exact.toDomainKind(),
-        DomainKind.exact,
-      );
+      expect(GetDomainsInnerKindEnum.exact.toDomainKind(), DomainKind.exact);
     });
 
     test('maps regex', () {
-      expect(
-        GetDomainsInnerKindEnum.regex.toDomainKind(),
-        DomainKind.regex,
-      );
+      expect(GetDomainsInnerKindEnum.regex.toDomainKind(), DomainKind.regex);
     });
 
     test('maps null to exact', () {

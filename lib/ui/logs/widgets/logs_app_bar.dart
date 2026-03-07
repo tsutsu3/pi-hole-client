@@ -82,7 +82,9 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
     final isLivelogPaused = context.select<AppConfigViewModel, bool>(
       (p) => p.isLivelogPaused,
     );
-    final isLiveLog = context.select<AppConfigViewModel, bool>((p) => p.liveLog);
+    final isLiveLog = context.select<AppConfigViewModel, bool>(
+      (p) => p.liveLog,
+    );
 
     return AppBar(
       title: Column(
@@ -243,11 +245,7 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
             ],
           ),
         ),
-        IgnorePointer(
-          child: Radio<int>(
-            value: value,
-          ),
-        ),
+        IgnorePointer(child: Radio<int>(value: value)),
       ],
     );
   }

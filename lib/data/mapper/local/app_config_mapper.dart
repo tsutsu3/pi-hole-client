@@ -20,12 +20,12 @@ extension AppDbDataMapper on AppDbData {
     loadingAnimation: loadingAnimation == 1,
     statisticsVisualizationMode:
         statisticsVisualizationMode < StatisticsVisualizationMode.values.length
-            ? StatisticsVisualizationMode.values[statisticsVisualizationMode]
-            : StatisticsVisualizationMode.list,
+        ? StatisticsVisualizationMode.values[statisticsVisualizationMode]
+        : StatisticsVisualizationMode.list,
     homeVisualizationMode:
         homeVisualizationMode < HomeVisualizationMode.values.length
-            ? HomeVisualizationMode.values[homeVisualizationMode]
-            : HomeVisualizationMode.lineArea,
+        ? HomeVisualizationMode.values[homeVisualizationMode]
+        : HomeVisualizationMode.lineArea,
     sendCrashReports: sendCrashReports == 1,
     passCode: passCode,
   );

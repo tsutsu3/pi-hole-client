@@ -29,8 +29,9 @@ class LanguageScreen extends StatelessWidget {
           groupValue: appConfigViewModel.selectedLanguageNumber,
           onChanged: (v) {
             if (v != null) {
-              final option =
-                  sortedLanguageOptions.firstWhere((opt) => opt.index == v);
+              final option = sortedLanguageOptions.firstWhere(
+                (opt) => opt.index == v,
+              );
               appConfigViewModel.setSelectedLanguage(option.key);
             }
           },

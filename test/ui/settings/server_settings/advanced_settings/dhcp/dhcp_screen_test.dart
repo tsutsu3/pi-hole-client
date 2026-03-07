@@ -35,9 +35,7 @@ void main() async {
     });
 
     Widget buildDhcpWidget() {
-      return buildTestApp(
-        DhcpScreen(viewModel: viewModel..loadLeases.run()),
-      );
+      return buildTestApp(DhcpScreen(viewModel: viewModel..loadLeases.run()));
     }
 
     testWidgets('should show error screen when fetching leases fails', (
@@ -60,9 +58,7 @@ void main() async {
         await Future<void>.delayed(const Duration(milliseconds: 500));
       });
 
-      await tester.pumpWidget(
-        buildTestApp(DhcpScreen(viewModel: viewModel)),
-      );
+      await tester.pumpWidget(buildTestApp(DhcpScreen(viewModel: viewModel)));
       await tester.pumpAndSettle();
 
       expect(find.byType(DhcpScreen), findsOneWidget);

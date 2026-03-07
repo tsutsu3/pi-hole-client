@@ -171,8 +171,9 @@ class _InterfaceScreenState extends State<InterfaceScreen> {
                       padding: const EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children:
-                            interfaces.map(NetInterfaceSection.new).toList(),
+                        children: interfaces
+                            .map(NetInterfaceSection.new)
+                            .toList(),
                       ),
                     );
                   },

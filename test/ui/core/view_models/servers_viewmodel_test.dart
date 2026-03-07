@@ -44,7 +44,9 @@ void main() async {
 
     test('update stores the onServerSelected callback', () {
       var callbackCalled = false;
-      serversViewModel.update(() { callbackCalled = true; });
+      serversViewModel.update(() {
+        callbackCalled = true;
+      });
       expect(listenerCalled, false);
       serversViewModel.setselectedServer(server: server, toHomeTab: true);
       expect(callbackCalled, true);

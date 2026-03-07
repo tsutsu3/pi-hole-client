@@ -68,13 +68,11 @@ class AppShell extends StatelessWidget {
 
     // Determine whether to show BottomNavBar on mobile.
     // Hide it for sub-routes (e.g. /settings/app/theme) so they appear full-screen.
-    final currentPath =
-        GoRouterState.of(context).uri.path;
+    final currentPath = GoRouterState.of(context).uri.path;
     final detailOpen = context.select<AppConfigViewModel, bool>(
       (vm) => vm.detailScreenOpen,
     );
-    final showBottomNav =
-        _branchRootPaths.contains(currentPath) && !detailOpen;
+    final showBottomNav = _branchRootPaths.contains(currentPath) && !detailOpen;
 
     if (width > ResponsiveConstants.large) {
       // Desktop: NavigationRail + content

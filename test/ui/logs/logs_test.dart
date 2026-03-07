@@ -110,10 +110,7 @@ void main() async {
       await tester.pumpAndSettle();
       expect(find.text('Query logs'), findsOneWidget);
       expect(find.text('white.example.com'), findsWidgets);
-      expect(
-        find.text('Choose a query log to see its details.'),
-        findsNothing,
-      );
+      expect(find.text('Choose a query log to see its details.'), findsNothing);
     });
 
     testWidgets('should show error message when logs could not be loaded', (
@@ -529,10 +526,7 @@ void main() async {
       await tester.pumpAndSettle();
       expect(find.text('Query logs'), findsOneWidget);
       expect(find.text('white.example.com'), findsWidgets);
-      expect(
-        find.text('Choose a query log to see its details.'),
-        findsNothing,
-      );
+      expect(find.text('Choose a query log to see its details.'), findsNothing);
     });
 
     testWidgets('should show error message when logs could not be loaded', (

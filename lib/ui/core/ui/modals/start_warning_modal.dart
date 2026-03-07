@@ -9,7 +9,9 @@ import 'package:provider/provider.dart';
 class StartInfoModal extends StatelessWidget {
   const StartInfoModal({super.key});
 
-  Future<bool> getSendCrashReports(AppConfigViewModel appConfigViewModel) async {
+  Future<bool> getSendCrashReports(
+    AppConfigViewModel appConfigViewModel,
+  ) async {
     return appConfigViewModel.sendCrashReports;
   }
 

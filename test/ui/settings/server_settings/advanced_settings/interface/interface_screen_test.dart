@@ -21,9 +21,7 @@ void main() async {
     setUp(() {
       Command.globalExceptionHandler = (_, _) {};
       fakeNetworkRepository = FakeNetworkRepository();
-      viewModel = InterfaceViewModel(
-        networkRepository: fakeNetworkRepository,
-      );
+      viewModel = InterfaceViewModel(networkRepository: fakeNetworkRepository);
     });
 
     tearDown(() {
@@ -98,9 +96,7 @@ void main() async {
       await tester.pumpAndSettle();
 
       await tester.tap(
-        find.text(
-          'Address: inet 192.168.0.22 / 24 (IPv4 private)',
-        ),
+        find.text('Address: inet 192.168.0.22 / 24 (IPv4 private)'),
       );
       await tester.pumpAndSettle();
 

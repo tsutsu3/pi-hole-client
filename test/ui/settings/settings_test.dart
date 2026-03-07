@@ -290,9 +290,7 @@ void main() async {
       expect(find.text('Access advanced app settings'), findsOneWidget);
     });
 
-    testWidgets('should show Pi-hole server tile', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('should show Pi-hole server tile', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
@@ -370,10 +368,7 @@ void main() async {
       await tester.pumpAndSettle();
 
       expect(find.text('Groups & Clients'), findsOneWidget);
-      expect(
-        find.text('Manage groups and client assignments'),
-        findsOneWidget,
-      );
+      expect(find.text('Manage groups and client assignments'), findsOneWidget);
       expect(find.byIcon(Icons.group_rounded), findsOneWidget);
     });
 

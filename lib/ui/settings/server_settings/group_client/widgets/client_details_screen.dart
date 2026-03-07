@@ -146,20 +146,14 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
               leading: const Icon(Icons.event_available_rounded),
               title: Text(AppLocalizations.of(context)!.dateAdded),
               subtitle: Text(
-                formatTimestamp(
-                  _client.dateAdded,
-                  kUnifiedDateTimeFormat,
-                ),
+                formatTimestamp(_client.dateAdded, kUnifiedDateTimeFormat),
               ),
             ),
             ListTile(
               leading: const Icon(Icons.edit_calendar_rounded),
               title: Text(AppLocalizations.of(context)!.dateModified),
               subtitle: Text(
-                formatTimestamp(
-                  _client.dateModified,
-                  kUnifiedDateTimeFormat,
-                ),
+                formatTimestamp(_client.dateModified, kUnifiedDateTimeFormat),
               ),
             ),
           ],
@@ -269,9 +263,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
     }
   }
 
-  Future<void> onEditClient(
-    ({String? comment, List<int> groups}) value,
-  ) async {
+  Future<void> onEditClient(({String? comment, List<int> groups}) value) async {
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.clientUpdating);
 

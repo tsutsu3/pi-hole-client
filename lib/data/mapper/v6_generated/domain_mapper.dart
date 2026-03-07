@@ -15,8 +15,9 @@ extension GetDomainsInnerMapper on GetDomainsInner {
       groups: groups ?? [0],
       enabled: enabled ?? true,
       dateAdded: DateTime.fromMillisecondsSinceEpoch((dateAdded ?? 0) * 1000),
-      dateModified:
-          DateTime.fromMillisecondsSinceEpoch((dateModified ?? 0) * 1000),
+      dateModified: DateTime.fromMillisecondsSinceEpoch(
+        (dateModified ?? 0) * 1000,
+      ),
     );
   }
 }

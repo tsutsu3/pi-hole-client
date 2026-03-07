@@ -149,15 +149,17 @@ void main() {
         expect(viewModel.filteredWhitelistDomains.length, 2);
       });
 
-      test('setGroupFilter with non-existent group returns empty list',
-          () async {
-        await viewModel.loadDomains.runAsync();
+      test(
+        'setGroupFilter with non-existent group returns empty list',
+        () async {
+          await viewModel.loadDomains.runAsync();
 
-        viewModel.setGroupFilter(999);
+          viewModel.setGroupFilter(999);
 
-        expect(viewModel.filteredWhitelistDomains.length, 0);
-        expect(viewModel.filteredBlacklistDomains.length, 0);
-      });
+          expect(viewModel.filteredWhitelistDomains.length, 0);
+          expect(viewModel.filteredBlacklistDomains.length, 0);
+        },
+      );
     });
   });
 }

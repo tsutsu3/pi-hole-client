@@ -161,9 +161,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
             SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                context,
-              ),
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               sliver: SliverAppBar(
                 title: Text(AppLocalizations.of(context)!.statistics),
                 pinned: true,

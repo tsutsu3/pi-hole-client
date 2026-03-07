@@ -67,7 +67,8 @@ class HomeTiles extends StatelessWidget {
               valueSelector: (context) {
                 return context.select<StatusViewModel, String>(
                   (provider) => intFormat(
-                    provider.getRealtimeStatus?.summary.dnsQueriesToday ?? _fakeTotal,
+                    provider.getRealtimeStatus?.summary.dnsQueriesToday ??
+                        _fakeTotal,
                     locale,
                   ),
                 );
@@ -93,7 +94,8 @@ class HomeTiles extends StatelessWidget {
               valueSelector: (context) {
                 return context.select<StatusViewModel, String>(
                   (provider) => intFormat(
-                    provider.getRealtimeStatus?.summary.adsBlockedToday ?? _fakeblocked,
+                    provider.getRealtimeStatus?.summary.adsBlockedToday ??
+                        _fakeblocked,
                     locale,
                   ),
                 );

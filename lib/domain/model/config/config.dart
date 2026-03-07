@@ -16,6 +16,5 @@ sealed class Config with _$Config {
     // MiscConfig? misc,
   }) = _Config;
 
-  factory Config.fromJson(Map<String, dynamic> json) =>
-      _$ConfigFromJson(json);
+  factory Config.fromJson(Map<String, dynamic> json) => _$ConfigFromJson(json);
 }

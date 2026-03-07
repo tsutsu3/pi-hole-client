@@ -45,8 +45,7 @@ class ResultsSection extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    if (meta == null ||
-        (domainResults.isEmpty && adlistResults.isEmpty)) {
+    if (meta == null || (domainResults.isEmpty && adlistResults.isEmpty)) {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(16),

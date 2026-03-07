@@ -219,9 +219,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       context,
       MaterialPageRoute(
         builder: (_) => ChangeNotifierProvider(
-          create: (_) => DomainsViewModel(
-            domainRepository: bundle!.domain,
-          ),
+          create: (_) => DomainsViewModel(domainRepository: bundle!.domain),
           child: DomainDetailsScreen(
             domain: domain,
             groups: groups,
@@ -258,9 +256,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       context,
       MaterialPageRoute(
         builder: (_) => ChangeNotifierProvider(
-          create: (_) => AdlistsViewModel(
-            adListRepository: bundle!.adlist,
-          ),
+          create: (_) => AdlistsViewModel(adListRepository: bundle!.adlist),
           child: AdlistDetailsScreen(
             adlist: adlist,
             groups: groups,

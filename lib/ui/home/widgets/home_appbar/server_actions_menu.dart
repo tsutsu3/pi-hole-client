@@ -101,11 +101,7 @@ class ServerActionsMenu extends StatelessWidget {
     if (isConnected) {
       return [
         PopupMenuItem(
-          onTap: () => _refresh(
-            context,
-            appConfigViewModel,
-            statusViewModel,
-          ),
+          onTap: () => _refresh(context, appConfigViewModel, statusViewModel),
           child: _menuItem(
             Icons.refresh,
             AppLocalizations.of(context)!.refresh,
@@ -131,11 +127,7 @@ class ServerActionsMenu extends StatelessWidget {
 
     return [
       PopupMenuItem(
-        onTap: () => _refresh(
-          context,
-          appConfigViewModel,
-          statusViewModel,
-        ),
+        onTap: () => _refresh(context, appConfigViewModel, statusViewModel),
         child: _menuItem(
           Icons.refresh_rounded,
           AppLocalizations.of(context)!.tryReconnect,

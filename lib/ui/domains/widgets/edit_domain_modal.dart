@@ -165,9 +165,7 @@ class _EditDomainModalState extends State<EditDomainModal> {
                             }
                             if (widget.keyItem == 'groups') {
                               widget.onConfirm(
-                                widget.domain.copyWith(
-                                  groups: selectedGroups,
-                                ),
+                                widget.domain.copyWith(groups: selectedGroups),
                               );
                             }
                             Navigator.maybePop(context);

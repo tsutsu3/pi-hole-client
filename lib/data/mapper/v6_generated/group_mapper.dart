@@ -9,8 +9,9 @@ extension GroupsGetGroupsInnerMapper on GroupsGetGroupsInner {
       name: name ?? '',
       enabled: enabled ?? true,
       dateAdded: DateTime.fromMillisecondsSinceEpoch((dateAdded ?? 0) * 1000),
-      dateModified:
-          DateTime.fromMillisecondsSinceEpoch((dateModified ?? 0) * 1000),
+      dateModified: DateTime.fromMillisecondsSinceEpoch(
+        (dateModified ?? 0) * 1000,
+      ),
       comment: comment,
     );
   }

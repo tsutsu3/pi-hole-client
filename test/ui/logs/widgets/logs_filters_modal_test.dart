@@ -29,9 +29,7 @@ void main() async {
       logsViewModel.setClients(['localhost', '192.168.100.2']);
     });
 
-    testWidgets('should show logs filter modal', (
-      WidgetTester tester,
-    ) async {
+    testWidgets('should show logs filter modal', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 

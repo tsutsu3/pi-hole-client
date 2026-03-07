@@ -47,8 +47,7 @@ abstract class Routes {
   // ===== Settings > Server sub-routes =====
   static const settingsServerInfo = 'settings/server/info';
   static const settingsServerAdlists = 'settings/server/adlists';
-  static const settingsServerAdlistsDetails =
-      'settings/server/adlists/details';
+  static const settingsServerAdlistsDetails = 'settings/server/adlists/details';
   static const settingsServerGroupClient = 'settings/server/group-client';
   static const settingsServerGroupDetails =
       'settings/server/group-client/group-details';

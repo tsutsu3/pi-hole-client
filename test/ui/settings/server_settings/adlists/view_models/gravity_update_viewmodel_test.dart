@@ -34,9 +34,7 @@ void main() async {
       fakeActionsRepository = FakeActionsRepository();
       fakeFtlRepository = FakeFtlRepository();
 
-      gravityUpdateViewModel = GravityUpdateViewModel(
-        repository: repository,
-      );
+      gravityUpdateViewModel = GravityUpdateViewModel(repository: repository);
       gravityUpdateViewModel.update(
         actionsRepository: fakeActionsRepository,
         ftlRepository: fakeFtlRepository,

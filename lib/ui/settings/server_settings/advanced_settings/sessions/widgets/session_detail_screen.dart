@@ -107,10 +107,7 @@ class SessionDetailScreen extends StatelessWidget {
                 leading: const Icon(Icons.event_available_rounded),
                 title: Text(locale.loginTime),
                 subtitle: Text(
-                  formatTimestamp(
-                    session.loginAt,
-                    kUnifiedDateTimeLogFormat,
-                  ),
+                  formatTimestamp(session.loginAt, kUnifiedDateTimeLogFormat),
                 ),
               ),
               ListTile(

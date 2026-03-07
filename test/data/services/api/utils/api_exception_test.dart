@@ -11,10 +11,7 @@ void main() {
           response: Response(
             statusCode: 401,
             data: {
-              'error': {
-                'key': 'unauthorized',
-                'message': 'Session is invalid',
-              },
+              'error': {'key': 'unauthorized', 'message': 'Session is invalid'},
             },
             requestOptions: RequestOptions(),
           ),

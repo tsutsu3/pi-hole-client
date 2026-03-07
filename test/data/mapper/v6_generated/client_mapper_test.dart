@@ -55,10 +55,7 @@ void main() {
       expect(piholeClient.groups, [0]);
       expect(piholeClient.comment, isNull);
       expect(piholeClient.dateAdded, DateTime.fromMillisecondsSinceEpoch(0));
-      expect(
-        piholeClient.dateModified,
-        DateTime.fromMillisecondsSinceEpoch(0),
-      );
+      expect(piholeClient.dateModified, DateTime.fromMillisecondsSinceEpoch(0));
     });
   });
 

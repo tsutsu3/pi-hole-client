@@ -80,7 +80,11 @@ class _AddGroupModalState extends State<AddGroupModal> {
                       value: enabled,
                       onChanged: (value) => setState(() => enabled = value),
                     ),
-                    contentPadding: const EdgeInsets.only(top: 8, bottom: 8, left: 8),
+                    contentPadding: const EdgeInsets.only(
+                      top: 8,
+                      bottom: 8,
+                      left: 8,
+                    ),
                   ),
                 ],
               ),

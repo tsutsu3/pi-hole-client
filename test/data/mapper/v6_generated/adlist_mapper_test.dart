@@ -49,9 +49,7 @@ void main() {
     });
 
     test('maps allow list type', () {
-      final inner = ListsGetListsInner(
-        type: ListsGetListsInnerTypeEnum.allow,
-      );
+      final inner = ListsGetListsInner(type: ListsGetListsInnerTypeEnum.allow);
 
       final adlist = inner.toDomain();
 
@@ -94,14 +92,8 @@ void main() {
     test('toDomainList maps all entries', () {
       final response = GetLists200Response(
         lists: [
-          ListsGetListsInner(
-            id: 1,
-            address: 'https://a.com/list.txt',
-          ),
-          ListsGetListsInner(
-            id: 2,
-            address: 'https://b.com/list.txt',
-          ),
+          ListsGetListsInner(id: 1, address: 'https://a.com/list.txt'),
+          ListsGetListsInner(id: 2, address: 'https://b.com/list.txt'),
         ],
       );
 
@@ -123,17 +115,11 @@ void main() {
 
   group('ListsGetListsInnerTypeEnumMapper', () {
     test('maps allow', () {
-      expect(
-        ListsGetListsInnerTypeEnum.allow.toListType(),
-        ListType.allow,
-      );
+      expect(ListsGetListsInnerTypeEnum.allow.toListType(), ListType.allow);
     });
 
     test('maps block', () {
-      expect(
-        ListsGetListsInnerTypeEnum.block.toListType(),
-        ListType.block,
-      );
+      expect(ListsGetListsInnerTypeEnum.block.toListType(), ListType.block);
     });
 
     test('maps null to unknown', () {

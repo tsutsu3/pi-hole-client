@@ -11,17 +11,16 @@ extension ClientsMapper on s.Clients {
         comment: client.comment,
         groups: client.groups,
         dateAdded: DateTime.fromMillisecondsSinceEpoch(client.dateAdded * 1000),
-        dateModified:
-            DateTime.fromMillisecondsSinceEpoch(client.dateModified * 1000),
+        dateModified: DateTime.fromMillisecondsSinceEpoch(
+          client.dateModified * 1000,
+        ),
       );
     }).toList();
   }
 
   d.ManagedClient toSingleDomain() {
     if (clients.length != 1) {
-      throw Exception(
-        'Expected exactly one client, but got ${clients.length}',
-      );
+      throw Exception('Expected exactly one client, but got ${clients.length}');
     }
     return toDomain().first;
   }
