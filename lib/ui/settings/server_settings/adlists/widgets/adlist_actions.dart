@@ -38,5 +38,7 @@ Future<void> deleteAdlist({
       appConfigViewModel: appConfigViewModel,
       label: AppLocalizations.of(context)!.adlistDeleteError,
     );
+  } finally {
+    process.close();
   }
 }
