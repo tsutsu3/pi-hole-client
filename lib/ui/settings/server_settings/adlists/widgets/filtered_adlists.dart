@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
-import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
-import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/gravity_update_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_actions.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlists_list.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlists_scaffold.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/icon_tab.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -82,170 +83,78 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
     final groups = context.watch<GroupsViewModel>().groupItems;
 
-    Future<void> removeAdlist(Adlist adlist) async {
-      final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.deleting);
-
-      try {
-        await viewModel.deleteAdlist.runAsync(adlist);
-
-        if (!context.mounted) return;
-        process.close();
-
-        await Navigator.maybePop(context);
-
-        if (!context.mounted) return;
-        showSuccessSnackBar(
+    void remove(Adlist adlist) => deleteAdlist(
           context: context,
+          viewModel: viewModel,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.adlistRemoved,
+          adlist: adlist,
         );
-      } catch (_) {
-        if (!context.mounted) return;
-        process.close();
 
-        showErrorSnackBar(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.adlistDeleteError,
-        );
-      }
-    }
-
-    Tab buildIconTab(IconData icon, String label) {
-      return Tab(
-        child: Row(
-          children: [Icon(icon), const SizedBox(width: 4), Text(label)],
-        ),
-      );
-    }
-
-    Widget scaffold({void Function(Adlist)? onTap}) {
-      return DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            title: viewModel.searchMode
-                ? TextFormField(
-                    initialValue: viewModel.searchTerm,
-                    onChanged: viewModel.onSearch,
-                    decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context)!.adlistsSearch,
-                      hintStyle: const TextStyle(fontWeight: FontWeight.w400),
-                      border: InputBorder.none,
-                      prefixIcon: Icon(
-                        Icons.search_rounded,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  )
-                : Text(AppLocalizations.of(context)!.adlists),
-            actions: [
-              if (!viewModel.searchMode)
-                IconButton(
-                  onPressed: () => viewModel.setSearchMode(true),
-                  icon: const Icon(Icons.search_rounded),
-                ),
-              if (viewModel.searchMode)
-                IconButton(
-                  onPressed: () => setState(() {
-                    viewModel.setSearchMode(false);
-                    searchController.text = '';
-                    viewModel.onSearch('');
-                  }),
-                  icon: const Icon(Icons.close_rounded),
-                ),
-              const SizedBox(width: 10),
-            ],
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(96),
-              child: Column(
-                children: [
-                  Container(
-                    width: double.maxFinite,
-                    height: 50,
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        const SizedBox(width: 16),
-                        Chip(
-                          label: Text(
-                            '${AppLocalizations.of(context)!.groups}: ${widget.groupName}',
-                          ),
-                          deleteIcon: const Icon(Icons.close, size: 18),
-                          onDeleted: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                        const SizedBox(width: 16),
-                      ],
-                    ),
-                  ),
-                  TabBar(
-                    tabAlignment: TabAlignment.start,
-                    isScrollable: true,
-                    controller: tabController,
-                    onTap: viewModel.setSelectedTab,
-                    tabs: [
-                      buildIconTab(
-                        Icons.check_circle_rounded,
-                        AppLocalizations.of(context)!.allowList,
-                      ),
-                      buildIconTab(
-                        Icons.block_rounded,
-                        AppLocalizations.of(context)!.blockList,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+    AdlistsScaffold buildScaffold({void Function(Adlist)? onTap}) {
+      return AdlistsScaffold(
+        tabController: tabController,
+        tabs: [
+          IconTab(
+            icon: Icons.check_circle_rounded,
+            label: AppLocalizations.of(context)!.allowList,
           ),
-          body: TabBarView(
-            controller: tabController,
-            children: [
-              AdlistsList(
-                type: 'whitelist',
-                scrollController: scrollController,
-                onAdlistSelected: (d) {
-                  if (onTap != null) {
-                    onTap(d);
-                  } else {
-                    setState(() => selectedAdlist = d);
-                  }
-                },
-                selectedAdlist: selectedAdlist,
-              ),
-              AdlistsList(
-                type: 'blacklist',
-                scrollController: scrollController,
-                onAdlistSelected: (d) {
-                  if (onTap != null) {
-                    onTap(d);
-                  } else {
-                    setState(() => selectedAdlist = d);
-                  }
-                },
-                selectedAdlist: selectedAdlist,
-              ),
-            ],
+          IconTab(
+            icon: Icons.block_rounded,
+            label: AppLocalizations.of(context)!.blockList,
           ),
+        ],
+        tabChildren: [
+          AdlistsList(
+            type: 'whitelist',
+            scrollController: scrollController,
+            onAdlistSelected: (d) {
+              if (onTap != null) {
+                onTap(d);
+              } else {
+                setState(() => selectedAdlist = d);
+              }
+            },
+            selectedAdlist: selectedAdlist,
+          ),
+          AdlistsList(
+            type: 'blacklist',
+            scrollController: scrollController,
+            onAdlistSelected: (d) {
+              if (onTap != null) {
+                onTap(d);
+              } else {
+                setState(() => selectedAdlist = d);
+              }
+            },
+            selectedAdlist: selectedAdlist,
+          ),
+        ],
+        groupChip: Chip(
+          label: Text(
+            '${AppLocalizations.of(context)!.groups}: ${widget.groupName}',
+          ),
+          deleteIcon: const Icon(Icons.close, size: 18),
+          onDeleted: () => Navigator.pop(context),
         ),
+        onSearchClose: () => setState(() {
+          viewModel.setSearchMode(false);
+          searchController.text = '';
+          viewModel.onSearch('');
+        }),
       );
     }
 
     if (MediaQuery.of(context).size.width > ResponsiveConstants.xxLarge) {
       return Row(
         children: [
-          Expanded(child: scaffold()),
+          Expanded(child: buildScaffold()),
           Expanded(
             child: selectedAdlist != null
                 ? AdlistDetailsScreen(
                     adlist: selectedAdlist!,
                     remove: (adlist) {
                       setState(() => selectedAdlist = null);
-                      removeAdlist(adlist);
+                      remove(adlist);
                     },
                     groups: groups,
                     colors: appConfigViewModel.colors,
@@ -273,7 +182,7 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
         ],
       );
     } else if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
-      return scaffold(
+      return buildScaffold(
         onTap: (adlist) {
           Navigator.push(
             context,
@@ -282,7 +191,7 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
                 adlist: adlist,
                 remove: (s) {
                   setState(() => selectedAdlist = null);
-                  removeAdlist(s);
+                  remove(s);
                 },
                 groups: groups,
                 colors: appConfigViewModel.colors,
@@ -292,7 +201,7 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
         },
       );
     } else {
-      return scaffold();
+      return buildScaffold();
     }
   }
 }
