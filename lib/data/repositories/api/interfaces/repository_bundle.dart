@@ -17,9 +17,8 @@ import 'package:pi_hole_client/domain/model/server/server.dart';
 /// Function signature for creating a [RepositoryBundle].
 ///
 /// Used to make the factory injectable for testing.
-typedef CreateRepositoryBundle = RepositoryBundle Function({
-  required Server server,
-});
+typedef CreateRepositoryBundle =
+    RepositoryBundle Function({required Server server});
 
 class RepositoryBundle {
   const RepositoryBundle({

@@ -287,7 +287,11 @@ void main() {
 
     test('insert gravity logs when they do not exist', () async {
       final result = await repository.insertGravityLogs(address, [
-        (line: gravityLogsData.line, message: gravityLogsData.message, timestamp: gravityLogsData.timestamp),
+        (
+          line: gravityLogsData.line,
+          message: gravityLogsData.message,
+          timestamp: gravityLogsData.timestamp,
+        ),
       ]);
       expect(result.isSuccess(), true);
 
@@ -302,10 +306,18 @@ void main() {
 
     test('insert gravity logs when they exist', () async {
       await repository.insertGravityLogs(address, [
-        (line: gravityLogsData.line, message: gravityLogsData.message, timestamp: gravityLogsData.timestamp),
+        (
+          line: gravityLogsData.line,
+          message: gravityLogsData.message,
+          timestamp: gravityLogsData.timestamp,
+        ),
       ]);
       final result = await repository.insertGravityLogs(address, [
-        (line: gravityLogsData.line, message: gravityLogsData.message, timestamp: gravityLogsData.timestamp),
+        (
+          line: gravityLogsData.line,
+          message: gravityLogsData.message,
+          timestamp: gravityLogsData.timestamp,
+        ),
       ]);
       expect(result.isSuccess(), true);
 
@@ -326,7 +338,11 @@ void main() {
     test('returns Failure when unexpected error', () async {
       dbService.shouldThrowOnTransaction = true;
       final result = await repository.insertGravityLogs(address, [
-        (line: gravityLogsData.line, message: gravityLogsData.message, timestamp: gravityLogsData.timestamp),
+        (
+          line: gravityLogsData.line,
+          message: gravityLogsData.message,
+          timestamp: gravityLogsData.timestamp,
+        ),
       ]);
       expect(result.isError(), true);
       expect(

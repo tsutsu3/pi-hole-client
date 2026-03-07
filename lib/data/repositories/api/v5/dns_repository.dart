@@ -20,10 +20,8 @@ class DnsRepositoryV5 extends BaseV5TokenRepository implements DnsRepository {
     final token = await getToken();
     final result = await _client.getSummaryRaw(token);
     return result.map(
-      (summary) => Blocking(
-        status: convertBlockingStatus(summary.status),
-        timer: null,
-      ),
+      (summary) =>
+          Blocking(status: convertBlockingStatus(summary.status), timer: null),
     );
   }
 

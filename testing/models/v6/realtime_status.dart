@@ -36,10 +36,7 @@ final kRepoFetchRealTimeStatus = repo.RealtimeStatus(
       total: 7497,
     ),
     queryTypes: const [
-      repo.QueryTypeStat(
-        type: DnsRecordType.a,
-        percentage: 18.527183034125006,
-      ),
+      repo.QueryTypeStat(type: DnsRecordType.a, percentage: 18.527183034125006),
       repo.QueryTypeStat(
         type: DnsRecordType.aaaa,
         percentage: 0.6255403549814372,
@@ -68,10 +65,7 @@ final kRepoFetchRealTimeStatus = repo.RealtimeStatus(
         type: DnsRecordType.naptr,
         percentage: 1.7596501042567259,
       ),
-      repo.QueryTypeStat(
-        type: DnsRecordType.mx,
-        percentage: 2.324162131922901,
-      ),
+      repo.QueryTypeStat(type: DnsRecordType.mx, percentage: 2.324162131922901),
       repo.QueryTypeStat(
         type: DnsRecordType.ds,
         percentage: 2.3190764379799624,
@@ -84,10 +78,7 @@ final kRepoFetchRealTimeStatus = repo.RealtimeStatus(
         type: DnsRecordType.dnskey,
         percentage: 0.2797131668616183,
       ),
-      repo.QueryTypeStat(
-        type: DnsRecordType.ns,
-        percentage: 4.41438234247063,
-      ),
+      repo.QueryTypeStat(type: DnsRecordType.ns, percentage: 4.41438234247063),
       repo.QueryTypeStat(
         type: DnsRecordType.svcb,
         percentage: 3.2802725931953414,
@@ -117,9 +108,15 @@ final kRepoFetchRealTimeStatus = repo.RealtimeStatus(
   ),
   forwardDestinations: const [
     repo.DestinationStat(
-        destination: 'blocklist|blocklist', percentage: 0.0, count: 0),
+      destination: 'blocklist|blocklist',
+      percentage: 0.0,
+      count: 0,
+    ),
     repo.DestinationStat(
-        destination: 'cache|cache', percentage: 20.0, count: 2),
+      destination: 'cache|cache',
+      percentage: 20.0,
+      count: 2,
+    ),
     repo.DestinationStat(
       destination: 'dns.google#53|8.8.8.8#53',
       percentage: 80.0,

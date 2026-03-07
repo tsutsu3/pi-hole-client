@@ -27,21 +27,14 @@ class AdlistResultsList extends StatelessWidget {
       separatorBuilder: (_, _) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final group = results[index];
-        return AdlistResultCard(
-          group: group,
-          onTap: () => onTap(group.adlist),
-        );
+        return AdlistResultCard(group: group, onTap: () => onTap(group.adlist));
       },
     );
   }
 }
 
 class AdlistResultCard extends StatelessWidget {
-  const AdlistResultCard({
-    required this.group,
-    required this.onTap,
-    super.key,
-  });
+  const AdlistResultCard({required this.group, required this.onTap, super.key});
 
   final AdlistSearchGroup group;
   final VoidCallback onTap;
@@ -134,9 +127,7 @@ class AdlistResultCard extends StatelessWidget {
                 children: [
                   MatchingList(
                     matches: group.matchingDomains,
-                    storageKey: PageStorageKey<String>(
-                      'matching-${adlist.id}',
-                    ),
+                    storageKey: PageStorageKey<String>('matching-${adlist.id}'),
                   ),
                 ],
               ),

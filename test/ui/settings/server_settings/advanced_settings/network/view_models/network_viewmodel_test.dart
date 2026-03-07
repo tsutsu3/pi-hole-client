@@ -35,10 +35,7 @@ void main() {
 
       expect(viewModel.data.devices, equals(kRepoFetchDevices));
       expect(viewModel.data.devices.length, 2);
-      expect(
-        viewModel.data.currentClientIp,
-        equals(kRepoFetchFtlClient.addr),
-      );
+      expect(viewModel.data.currentClientIp, equals(kRepoFetchFtlClient.addr));
     });
 
     test('loadDevices failure sets error', () async {

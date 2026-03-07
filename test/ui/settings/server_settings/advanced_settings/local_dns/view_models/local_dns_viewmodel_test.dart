@@ -84,19 +84,23 @@ void main() {
     test('updateRecord success replaces record locally', () async {
       await viewModel.loadRecords.runAsync();
 
-      await viewModel.updateRecord.runAsync(
-        (
-          record: const LocalDns(ip: '192.168.1.200', name: 'updated'),
-          oldIp: '192.168.1.100',
-        ),
-      );
+      await viewModel.updateRecord.runAsync((
+        record: const LocalDns(ip: '192.168.1.200', name: 'updated'),
+        oldIp: '192.168.1.100',
+      ));
 
       expect(fakeLocalDnsRepository.updateRecordCallCount, 1);
       // No re-fetch — local state update only
       expect(fakeLocalDnsRepository.fetchRecordsCallCount, 1);
       expect(viewModel.data.records.length, 3);
-      expect(viewModel.data.records.any((r) => r.ip == '192.168.1.100'), isFalse);
-      expect(viewModel.data.records.any((r) => r.ip == '192.168.1.200'), isTrue);
+      expect(
+        viewModel.data.records.any((r) => r.ip == '192.168.1.100'),
+        isFalse,
+      );
+      expect(
+        viewModel.data.records.any((r) => r.ip == '192.168.1.200'),
+        isTrue,
+      );
     });
 
     test('deleteRecord success removes record locally', () async {
@@ -110,7 +114,10 @@ void main() {
       // No re-fetch — local state update only
       expect(fakeLocalDnsRepository.fetchRecordsCallCount, 1);
       expect(viewModel.data.records.length, 2);
-      expect(viewModel.data.records.any((r) => r.ip == '192.168.1.100'), isFalse);
+      expect(
+        viewModel.data.records.any((r) => r.ip == '192.168.1.100'),
+        isFalse,
+      );
     });
 
     test('deleteRecord failure sets error', () async {

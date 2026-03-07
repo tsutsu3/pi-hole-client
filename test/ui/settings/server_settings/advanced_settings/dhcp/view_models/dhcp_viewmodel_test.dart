@@ -35,10 +35,7 @@ void main() {
 
       expect(viewModel.data.leases, equals(kRepoFetchDhcpLeases));
       expect(viewModel.data.leases.length, 1);
-      expect(
-        viewModel.data.currentClientIp,
-        equals(kRepoFetchFtlClient.addr),
-      );
+      expect(viewModel.data.currentClientIp, equals(kRepoFetchFtlClient.addr));
     });
 
     test('loadLeases failure sets error', () async {

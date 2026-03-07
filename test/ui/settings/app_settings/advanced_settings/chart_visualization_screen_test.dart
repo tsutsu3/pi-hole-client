@@ -20,9 +20,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(const ChartVisualizationScreen()),
-      );
+      await tester.pumpWidget(buildTestApp(const ChartVisualizationScreen()));
 
       expect(find.byType(ChartVisualizationScreen), findsOneWidget);
       expect(find.text('Chart display mode'), findsOneWidget);

@@ -17,13 +17,15 @@ class AppLogsScreen extends StatelessWidget {
 
     Future<void> copyLogsClipboard() async {
       final logsString = appConfigViewModel.logs
-          .map((log) => {
-                'type': log.type,
-                'dateTime': log.dateTime.toString(),
-                'message': log.message,
-                'statusCode': log.statusCode.toString(),
-                'resBody': log.resBody.toString(),
-              })
+          .map(
+            (log) => {
+              'type': log.type,
+              'dateTime': log.dateTime.toString(),
+              'message': log.message,
+              'statusCode': log.statusCode.toString(),
+              'resBody': log.resBody.toString(),
+            },
+          )
           .toList();
       await Clipboard.setData(ClipboardData(text: jsonEncode(logsString)));
 

@@ -154,37 +154,37 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
                 );
               }),
               if (showCustomInput)
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: TextField(
-                  controller: customTimeController,
-                  focusNode: customFocusNode,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  onChanged: _validateCustom,
-                  onSubmitted: (value) {
-                    if (customValid) {
-                      _save();
-                      FocusScope.of(context).unfocus();
-                    }
-                  },
-                  onEditingComplete: () {
-                    if (customValid) {
-                      FocusScope.of(context).unfocus();
-                    }
-                  },
-                  decoration: InputDecoration(
-                    errorText:
-                        !customValid && customTimeController.text.isNotEmpty
-                        ? loc.valueNotValid
-                        : null,
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: TextField(
+                    controller: customTimeController,
+                    focusNode: customFocusNode,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    onChanged: _validateCustom,
+                    onSubmitted: (value) {
+                      if (customValid) {
+                        _save();
+                        FocusScope.of(context).unfocus();
+                      }
+                    },
+                    onEditingComplete: () {
+                      if (customValid) {
+                        FocusScope.of(context).unfocus();
+                      }
+                    },
+                    decoration: InputDecoration(
+                      errorText:
+                          !customValid && customTimeController.text.isNotEmpty
+                          ? loc.valueNotValid
+                          : null,
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      labelText: loc.customSeconds,
                     ),
-                    labelText: loc.customSeconds,
                   ),
                 ),
-              ),
             ],
           ),
         ),

@@ -108,10 +108,7 @@ class LogDetailsScreen extends StatelessWidget {
               leading: const Icon(Icons.access_time_outlined),
               title: Text(AppLocalizations.of(context)!.time),
               subtitle: Text(
-                formatTimestamp(
-                  log.dateTime,
-                  kUnifiedDateTimeLogFormat,
-                ),
+                formatTimestamp(log.dateTime, kUnifiedDateTimeLogFormat),
               ),
             ),
             if (log.status != null)

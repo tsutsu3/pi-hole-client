@@ -122,8 +122,7 @@ class _NetworkScreenState extends State<NetworkScreen> {
                           baseColor: Theme.of(
                             context,
                           ).colorScheme.secondaryContainer,
-                          highlightColor:
-                              Theme.of(context).colorScheme.surface,
+                          highlightColor: Theme.of(context).colorScheme.surface,
                         ),
                         child: NetworkListView(
                           devices: _fakeDevices,

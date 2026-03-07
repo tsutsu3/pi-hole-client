@@ -427,8 +427,9 @@ class AppConfigViewModel with ChangeNotifier {
   Future<bool> setStatisticsVisualizationMode(
     StatisticsVisualizationMode value,
   ) async {
-    final updated =
-        await _repository.updateStatisticsVisualizationMode(value.index);
+    final updated = await _repository.updateStatisticsVisualizationMode(
+      value.index,
+    );
     if (updated.isSuccess()) {
       _statisticsVisualizationMode = value;
       notifyListeners();
@@ -439,8 +440,7 @@ class AppConfigViewModel with ChangeNotifier {
   }
 
   Future<bool> setHomeVisualizationMode(HomeVisualizationMode value) async {
-    final updated =
-        await _repository.updateHomeVisualizationMode(value.index);
+    final updated = await _repository.updateHomeVisualizationMode(value.index);
     if (updated.isSuccess()) {
       _homeVisualizationMode = value;
       notifyListeners();

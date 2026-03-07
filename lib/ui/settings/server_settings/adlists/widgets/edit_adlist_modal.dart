@@ -165,9 +165,7 @@ class _EditAdlistModalState extends State<EditAdlistModal> {
                             }
                             if (widget.keyItem == 'groups') {
                               widget.onConfirm(
-                                widget.adlist.copyWith(
-                                  groups: selectedGroups,
-                                ),
+                                widget.adlist.copyWith(groups: selectedGroups),
                               );
                             }
                             Navigator.maybePop(context);

@@ -119,8 +119,10 @@ void main() {
 
       // Local state update — no re-fetch
       expect(viewModel.whitelistAdlists.length, initialCount + 1);
-      expect(viewModel.whitelistAdlists.last.address,
-          'https://new.example.com/hosts');
+      expect(
+        viewModel.whitelistAdlists.last.address,
+        'https://new.example.com/hosts',
+      );
     });
 
     test('updateAdlist replaces adlist locally', () async {
@@ -179,15 +181,17 @@ void main() {
         expect(viewModel.filteredBlacklistAdlists.length, 2);
       });
 
-      test('setGroupFilter with non-existent group returns empty list',
-          () async {
-        await viewModel.loadAdlists.runAsync();
+      test(
+        'setGroupFilter with non-existent group returns empty list',
+        () async {
+          await viewModel.loadAdlists.runAsync();
 
-        viewModel.setGroupFilter(999);
+          viewModel.setGroupFilter(999);
 
-        expect(viewModel.filteredWhitelistAdlists.length, 0);
-        expect(viewModel.filteredBlacklistAdlists.length, 0);
-      });
+          expect(viewModel.filteredWhitelistAdlists.length, 0);
+          expect(viewModel.filteredBlacklistAdlists.length, 0);
+        },
+      );
 
       test('group filter by group 1 filters correctly', () async {
         await viewModel.loadAdlists.runAsync();

@@ -39,7 +39,8 @@ class QueriesSkeleton extends StatelessWidget {
             width: double.maxFinite,
             height: 350,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: appConfigViewModel.homeVisualizationMode ==
+            child:
+                appConfigViewModel.homeVisualizationMode ==
                     HomeVisualizationMode.lineArea
                 ? LineChartSkeleton(
                     selectedTheme: appConfigViewModel.selectedTheme,

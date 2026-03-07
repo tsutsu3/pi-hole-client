@@ -30,7 +30,6 @@ class ServersViewModel with ChangeNotifier {
   Server? _connectingServer;
   bool _unverifiedBannerDismissed = false;
 
-
   List<Server> get getServersList {
     return _serversList;
   }

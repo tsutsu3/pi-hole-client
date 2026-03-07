@@ -87,7 +87,6 @@ enum GraphSection { homeView, statsView }
 enum StatisticsVisualizationMode {
   /// Display statistics as a vertical list.
   list, // index 0
-
   /// Display statistics as a pie chart.
   pieChart, // index 1
 }
@@ -98,7 +97,6 @@ enum StatisticsVisualizationMode {
 enum HomeVisualizationMode {
   /// Display queries/clients as a line + area chart.
   lineArea, // index 0
-
   /// Display queries/clients as a bar chart.
   bar, // index 1
 }
@@ -109,10 +107,8 @@ enum HomeVisualizationMode {
 enum AppThemeMode {
   /// Follow the system theme (resolved at runtime).
   system, // index 0
-
   /// Always use light mode.
   light, // index 1
-
   /// Always use dark mode.
   dark, // index 2
 }

@@ -103,7 +103,9 @@ class ClientActivityChartSection extends StatelessWidget {
                 width: double.maxFinite,
                 height: 350,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: appConfigViewModel.homeVisualizationMode == HomeVisualizationMode.lineArea
+                child:
+                    appConfigViewModel.homeVisualizationMode ==
+                        HomeVisualizationMode.lineArea
                     ? LineChartSkeleton(
                         selectedTheme: appConfigViewModel.selectedTheme,
                         nums: 3,
@@ -254,7 +256,8 @@ class ClientActivityChartSection extends StatelessWidget {
     OverTime? overtimeData,
     List<String> clientsListIps,
   ) {
-    if (appConfigViewModel.homeVisualizationMode == HomeVisualizationMode.lineArea) {
+    if (appConfigViewModel.homeVisualizationMode ==
+        HomeVisualizationMode.lineArea) {
       return ClientsLastHoursLine(
         realtimeListIps: clientsListIps,
         data: overtimeData!,

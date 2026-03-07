@@ -20,7 +20,6 @@ Color domainTypeColor(AppColors colors, DomainType type, DomainKind kind) {
     (DomainType.allow, DomainKind.exact) => colors.queryGreen ?? Colors.green,
     (DomainType.deny, DomainKind.exact) => colors.queryRed ?? Colors.red,
     (DomainType.allow, DomainKind.regex) => colors.queryBlue ?? Colors.blue,
-    (DomainType.deny, DomainKind.regex) =>
-      colors.queryOrange ?? Colors.orange,
+    (DomainType.deny, DomainKind.regex) => colors.queryOrange ?? Colors.orange,
   };
 }

@@ -108,8 +108,8 @@ class StatisticsListContent extends StatelessWidget {
       (p) => p.totalClients,
     );
 
-    final visualizationMode =
-        context.select<AppConfigViewModel, StatisticsVisualizationMode>(
+    final visualizationMode = context
+        .select<AppConfigViewModel, StatisticsVisualizationMode>(
           (p) => p.statisticsVisualizationMode,
         );
 
@@ -241,14 +241,16 @@ class StatisticsListContent extends StatelessWidget {
     if (type == 'domains') {
       final topQueries = realtimeStatus != null
           ? Map.fromEntries(
-              realtimeStatus.topDomains.topQueries
-                  .map((q) => MapEntry(q.domain, q.count)),
+              realtimeStatus.topDomains.topQueries.map(
+                (q) => MapEntry(q.domain, q.count),
+              ),
             )
           : <String, int>{};
       final topAds = realtimeStatus != null
           ? Map.fromEntries(
-              realtimeStatus.topDomains.topAds
-                  .map((q) => MapEntry(q.domain, q.count)),
+              realtimeStatus.topDomains.topAds.map(
+                (q) => MapEntry(q.domain, q.count),
+              ),
             )
           : <String, int>{};
 

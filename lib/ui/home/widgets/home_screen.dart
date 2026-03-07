@@ -11,6 +11,7 @@ import 'package:pi_hole_client/ui/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_tiles.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     required this.serversViewModel,

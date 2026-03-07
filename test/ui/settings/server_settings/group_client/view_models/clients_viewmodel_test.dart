@@ -96,33 +96,37 @@ void main() {
       expect(listenerCalled, true);
     });
 
-    test('onSearch filters clients by MAC address via ipToMac lookup',
-        () async {
-      await viewModel.loadClients.runAsync();
-      viewModel.updateMacLookup({'192.168.1.100': 'aa:bb:cc:dd:ee:ff'});
-      listenerCalled = false;
+    test(
+      'onSearch filters clients by MAC address via ipToMac lookup',
+      () async {
+        await viewModel.loadClients.runAsync();
+        viewModel.updateMacLookup({'192.168.1.100': 'aa:bb:cc:dd:ee:ff'});
+        listenerCalled = false;
 
-      viewModel.onSearch('aa:bb:cc');
-      expect(viewModel.filteredClients.length, 1);
-      expect(viewModel.filteredClients.first.client, '192.168.1.100');
-      expect(listenerCalled, true);
-    });
+        viewModel.onSearch('aa:bb:cc');
+        expect(viewModel.filteredClients.length, 1);
+        expect(viewModel.filteredClients.first.client, '192.168.1.100');
+        expect(listenerCalled, true);
+      },
+    );
 
-    test('onSearch filters clients by group name via groupNames lookup',
-        () async {
-      await viewModel.loadClients.runAsync();
-      viewModel.updateGroupLookup({0: 'Default', 5: 'test'});
-      listenerCalled = false;
+    test(
+      'onSearch filters clients by group name via groupNames lookup',
+      () async {
+        await viewModel.loadClients.runAsync();
+        viewModel.updateGroupLookup({0: 'Default', 5: 'test'});
+        listenerCalled = false;
 
-      viewModel.onSearch('test');
-      // Both clients match: client 1 has name 'desktop' (no match) but
-      // client 2 has group 5 => 'test' (matches)
-      // client 2 also has name 'laptop' (no match on 'test')
-      // Actually, client 2 has groups [0, 5], group 5 name = 'test'
-      expect(viewModel.filteredClients.length, 1);
-      expect(viewModel.filteredClients.first.id, 2);
-      expect(listenerCalled, true);
-    });
+        viewModel.onSearch('test');
+        // Both clients match: client 1 has name 'desktop' (no match) but
+        // client 2 has group 5 => 'test' (matches)
+        // client 2 also has name 'laptop' (no match on 'test')
+        // Actually, client 2 has groups [0, 5], group 5 name = 'test'
+        expect(viewModel.filteredClients.length, 1);
+        expect(viewModel.filteredClients.first.id, 2);
+        expect(listenerCalled, true);
+      },
+    );
 
     test('deleteClient removes client from the list', () async {
       await viewModel.loadClients.runAsync();

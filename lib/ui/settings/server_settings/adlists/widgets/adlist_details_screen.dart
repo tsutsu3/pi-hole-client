@@ -34,8 +34,7 @@ class AdlistDetailsScreen extends StatefulWidget {
   final AppColors? colors;
 
   @override
-  State<AdlistDetailsScreen> createState() =>
-      _AdlistDetailsScreenState();
+  State<AdlistDetailsScreen> createState() => _AdlistDetailsScreenState();
 }
 
 class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {

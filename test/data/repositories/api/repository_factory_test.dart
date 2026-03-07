@@ -15,7 +15,10 @@ void main() {
     fakeStorage = FakeSecureStorageService();
   });
 
-  Server createServer({required String apiVersion, String address = 'http://localhost'}) {
+  Server createServer({
+    required String apiVersion,
+    String address = 'http://localhost',
+  }) {
     return Server(
       address: address,
       alias: 'test',
@@ -60,7 +63,10 @@ void main() {
 
   test('preserves server address in bundle', () {
     final bundle = RepositoryBundleFactory.create(
-      server: createServer(apiVersion: 'v6', address: 'http://192.168.1.100:8080'),
+      server: createServer(
+        apiVersion: 'v6',
+        address: 'http://192.168.1.100:8080',
+      ),
       storage: fakeStorage,
     );
 

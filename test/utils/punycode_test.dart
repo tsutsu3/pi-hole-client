@@ -16,10 +16,7 @@ void main() {
     });
 
     test('decodes mixed labels', () {
-      expect(
-        decodePunycode('xn--48j8cuc4a.example.com'),
-        'さんぷる.example.com',
-      );
+      expect(decodePunycode('xn--48j8cuc4a.example.com'), 'さんぷる.example.com');
     });
 
     test('returns empty string unchanged', () {

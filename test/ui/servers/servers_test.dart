@@ -285,9 +285,7 @@ void main() async {
           ignoreCertificateErrors: false,
         );
 
-        serversViewModel.serversWithUnverifiedCertificates = [
-          unverifiedServer,
-        ];
+        serversViewModel.serversWithUnverifiedCertificates = [unverifiedServer];
 
         addTearDown(() {
           tester.view.resetPhysicalSize();

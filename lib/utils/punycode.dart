@@ -122,7 +122,7 @@ String _decode(String input) {
     // Inner loop: decode a single variable-length integer.
     // Each digit contributes to the value `i` with increasing weight.
     // The loop terminates when a digit is less than the threshold `t`.
-    for (var k = _base;; k += _base) {
+    for (var k = _base; ; k += _base) {
       if (pos >= input.length) {
         throw const FormatException('Invalid punycode: unexpected end');
       }
@@ -132,9 +132,7 @@ String _decode(String input) {
 
       // Threshold clamping (RFC 3492, Section 6.2):
       // t = tMin if k <= bias, tMax if k >= bias + tMax, else k - bias
-      final t = k <= bias
-          ? _tMin
-          : (k >= bias + _tMax ? _tMax : k - bias);
+      final t = k <= bias ? _tMin : (k >= bias + _tMax ? _tMax : k - bias);
 
       if (digit < t) break; // this digit terminates the integer
       w *= _base - t;

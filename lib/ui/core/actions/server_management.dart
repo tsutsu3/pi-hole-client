@@ -10,7 +10,10 @@ import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
 
 Future<void> enableServer(BuildContext context) async {
-  final serversViewModel = Provider.of<ServersViewModel>(context, listen: false);
+  final serversViewModel = Provider.of<ServersViewModel>(
+    context,
+    listen: false,
+  );
   final appConfigViewModel = Provider.of<AppConfigViewModel>(
     context,
     listen: false,
@@ -53,7 +56,10 @@ Future<void> enableServer(BuildContext context) async {
 }
 
 Future<void> disableServer(int time, BuildContext context) async {
-  final serversViewModel = Provider.of<ServersViewModel>(context, listen: false);
+  final serversViewModel = Provider.of<ServersViewModel>(
+    context,
+    listen: false,
+  );
   final appConfigViewModel = Provider.of<AppConfigViewModel>(
     context,
     listen: false,

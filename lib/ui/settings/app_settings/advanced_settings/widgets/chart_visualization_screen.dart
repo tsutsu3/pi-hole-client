@@ -12,11 +12,7 @@ class ChartVisualizationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
-    Widget homeItem(
-      String title,
-      IconData icon,
-      HomeVisualizationMode value,
-    ) {
+    Widget homeItem(String title, IconData icon, HomeVisualizationMode value) {
       final isSelected = value == appConfigViewModel.homeVisualizationMode;
       return _ChartModeItem(
         title: title,
@@ -159,9 +155,7 @@ class _ChartModeItem extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: isSelected
                               ? Theme.of(context).colorScheme.primary
-                              : Theme.of(
-                                  context,
-                                ).colorScheme.onSurfaceVariant,
+                              : Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ],

@@ -11,7 +11,8 @@ class EditGroupModal extends StatefulWidget {
   });
 
   final Group group;
-  final void Function(({String name, String? comment, bool? enabled})) onConfirm;
+  final void Function(({String name, String? comment, bool? enabled}))
+  onConfirm;
   final bool window;
 
   @override

@@ -31,11 +31,7 @@ import 'package:pi_hole_client/utils/format.dart';
 /// ```
 /// {@end-tool}
 class SessionListView extends StatelessWidget {
-  const SessionListView({
-    required this.sessions,
-    this.onSessionTap,
-    super.key,
-  });
+  const SessionListView({required this.sessions, this.onSessionTap, super.key});
 
   final List<AuthSession> sessions;
   final void Function(AuthSession)? onSessionTap;

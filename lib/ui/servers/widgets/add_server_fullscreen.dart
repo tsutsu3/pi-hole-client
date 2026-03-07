@@ -220,7 +220,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   Future<void> _restoreSecrets() async {
     if (widget.server != null) {
       final serversViewModel = context.read<ServersViewModel>();
-      await serversViewModel.savePassword(widget.server!.address, initPassword!);
+      await serversViewModel.savePassword(
+        widget.server!.address,
+        initPassword!,
+      );
       await serversViewModel.saveToken(widget.server!.address, initToken!);
     }
   }
@@ -254,9 +257,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           case 495:
             label = loc.sslErrorLong;
           case 401:
-            label = version == 'v6'
-                ? loc.passwordNotValid
-                : loc.tokenNotValid;
+            label = version == 'v6' ? loc.passwordNotValid : loc.tokenNotValid;
           default:
             label = loc.cantReachServer;
         }
