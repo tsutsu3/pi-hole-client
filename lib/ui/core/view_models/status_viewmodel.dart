@@ -14,6 +14,7 @@ import 'package:pi_hole_client/domain/use_cases/realtime_status/realtime_status_
 import 'package:pi_hole_client/domain/use_cases/realtime_status/realtime_status_usecase_v6.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
+import 'package:pi_hole_client/utils/widget_channel.dart';
 
 /// ViewModel for the Home and Statistics screens.
 ///
@@ -419,6 +420,8 @@ class StatusViewModel with ChangeNotifier {
       final useCase = _createRealtimeStatusUseCase();
       if (useCase == null) return;
 
+      // Capture blocking status before fetch to detect changes.
+      final prevBlockingStatus = _realtimeStatus?.status;
       final result = await useCase.fetchRealtimeStatus();
 
       if (_selectedServerAddress != selectedUrlBefore) {
@@ -442,6 +445,16 @@ class StatusViewModel with ChangeNotifier {
           if (_serverStatus != LoadStatus.loaded) {
             _serverStatus = LoadStatus.loaded;
             notifyListeners();
+          }
+
+          // When blocking status changes during auto-refresh (e.g. a timed
+          // disable expired while the app was in the foreground), notify the
+          // home widget so it reflects the new state immediately.
+          if (status.status != prevBlockingStatus &&
+              _selectedServerAddress != null) {
+            WidgetChannel.sendBlockingUpdated(
+              serverAddress: _selectedServerAddress!,
+            );
           }
         },
         (error) {
