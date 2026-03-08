@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/dhcp/dhcp.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
@@ -7,7 +9,6 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp/view_models/dhcp_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp/widgets/dhcp_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp/widgets/dhcp_disabled_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp/widgets/dhcp_list_view.dart';
 import 'package:provider/provider.dart';
@@ -47,8 +48,7 @@ class _DhcpScreenState extends State<DhcpScreen> {
       await widget.viewModel.deleteLease.runAsync(lease.ip);
       if (!mounted) return;
       process.close();
-      // TODO: migrate to context.pop() when detail screen uses go_router
-      await Navigator.maybePop(context);
+      context.pop();
 
       if (!mounted) return;
       showSuccessSnackBar(
@@ -134,15 +134,9 @@ class _DhcpScreenState extends State<DhcpScreen> {
                       leases: dhcpData.leases,
                       currentClientIp: dhcpData.currentClientIp,
                       onLeaseTap: (lease) {
-                        // TODO: migrate to go_router named route
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DhcpDetailScreen(
-                              lease: lease,
-                              onDelete: _removeLease,
-                            ),
-                          ),
+                        context.pushNamed(
+                          Routes.settingsServerAdvancedDhcpDetails,
+                          extra: (lease, _removeLease),
                         );
                       },
                     );

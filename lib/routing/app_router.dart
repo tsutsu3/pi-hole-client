@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/domain/model/auth/auth.dart';
+import 'package:pi_hole_client/domain/model/dhcp/dhcp.dart';
+import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/app_logs/widgets/app_logs_screen.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
@@ -23,11 +26,14 @@ import 'package:pi_hole_client/ui/settings/app_settings/widgets/advanced_options
 import 'package:pi_hole_client/ui/settings/app_settings/widgets/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/widgets/theme_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp/widgets/dhcp_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp/widgets/dhcp_screen_factory.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists/widgets/find_domains_in_lists_screen_factory.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface/widgets/interface_screen_factory.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns/widgets/local_dns_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network/widgets/network_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network/widgets/network_screen_factory.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions/widgets/session_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions/widgets/sessions_screen_factory.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/group_client_screen_factory.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info/widgets/server_info_screen_factory.dart';
@@ -252,6 +258,20 @@ GoRouter createAppRouter({
                         builder: (context, state) => createSessionsScreen(
                           context.read<RepositoryBundle?>()!,
                         ),
+                        routes: [
+                          GoRoute(
+                            path: 'details',
+                            name: Routes.settingsServerAdvancedSessionsDetails,
+                            builder: (context, state) {
+                              final extra = state.extra!
+                                  as (AuthSession, void Function(AuthSession));
+                              return SessionDetailScreen(
+                                session: extra.$1,
+                                onDelete: extra.$2,
+                              );
+                            },
+                          ),
+                        ],
                       ),
                       GoRoute(
                         path: '/settings/server/advanced/dhcp',
@@ -259,6 +279,20 @@ GoRouter createAppRouter({
                         builder: (context, state) => createDhcpScreen(
                           context.read<RepositoryBundle?>()!,
                         ),
+                        routes: [
+                          GoRoute(
+                            path: 'details',
+                            name: Routes.settingsServerAdvancedDhcpDetails,
+                            builder: (context, state) {
+                              final extra = state.extra!
+                                  as (DhcpLease, void Function(DhcpLease));
+                              return DhcpDetailScreen(
+                                lease: extra.$1,
+                                onDelete: extra.$2,
+                              );
+                            },
+                          ),
+                        ],
                       ),
                       GoRoute(
                         path: '/settings/server/advanced/local-dns',
@@ -288,6 +322,20 @@ GoRouter createAppRouter({
                         builder: (context, state) => createNetworkScreen(
                           context.read<RepositoryBundle?>()!,
                         ),
+                        routes: [
+                          GoRoute(
+                            path: 'details',
+                            name: Routes.settingsServerAdvancedNetworkDetails,
+                            builder: (context, state) {
+                              final extra = state.extra!
+                                  as (Device, void Function(Device));
+                              return NetworkDetailScreen(
+                                device: extra.$1,
+                                onDelete: extra.$2,
+                              );
+                            },
+                          ),
+                        ],
                       ),
 
                       // ── Settings > About ──
