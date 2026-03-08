@@ -268,6 +268,7 @@ class _DomainsListState extends State<DomainsList> {
           ),
           loadStatus: viewModel.loadingStatus,
           onRefresh: () async => viewModel.loadDomains.runAsync(),
+          bottomSpaceHeight: 80,
         ),
         SafeArea(
           child: Stack(
