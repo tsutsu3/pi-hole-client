@@ -75,8 +75,7 @@ class AdlistsScaffold extends StatelessWidget {
                 onPressed: onSearchClose,
                 icon: const Icon(Icons.close_rounded),
               ),
-            if (!viewModel.searchMode && extraActions != null)
-              ...extraActions!,
+            if (!viewModel.searchMode && extraActions != null) ...extraActions!,
             const SizedBox(width: 10),
           ],
           bottom: PreferredSize(
@@ -108,10 +107,7 @@ class AdlistsScaffold extends StatelessWidget {
             ),
           ),
         ),
-        body: TabBarView(
-          controller: tabController,
-          children: tabChildren,
-        ),
+        body: TabBarView(controller: tabController, children: tabChildren),
       ),
     );
   }
