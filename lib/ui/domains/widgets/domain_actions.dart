@@ -18,7 +18,6 @@ Future<void> deleteDomain({
   try {
     await viewModel.deleteDomain.runAsync(domain);
     if (!context.mounted) return;
-    process.close();
 
     showSuccessSnackBar(
       context: context,
@@ -27,12 +26,13 @@ Future<void> deleteDomain({
     );
   } catch (_) {
     if (!context.mounted) return;
-    process.close();
 
     showErrorSnackBar(
       context: context,
       appConfigViewModel: appConfigViewModel,
       label: AppLocalizations.of(context)!.errorRemovingDomain,
     );
+  } finally {
+    process.close();
   }
 }
