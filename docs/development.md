@@ -54,8 +54,13 @@ Run the following command before any build.
 First, install the required dependencies:
 
 ```bash
-sudo apt install libcurl4-openssl-dev libsecret-1-dev libjsoncpp-dev
+sudo apt install libcurl4-openssl-dev libsecret-1-dev libjsoncpp-dev \
+  libsqlite3-dev lld
 ```
+
+> [!NOTE]
+> `libsqlite3-dev` is required by `sqflite_ffi` (SQLite support on desktop).
+> `lld` is required as the linker for the Flutter Linux build toolchain.
 
 Then, follow these steps to build the Linux executable:
 
