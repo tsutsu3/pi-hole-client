@@ -554,8 +554,8 @@ class MockServersViewModel extends _i1.Mock implements _i14.ServersViewModel {
           as bool);
 
   @override
-  void update(_i4.AppConfigViewModel? provider) => super.noSuchMethod(
-    Invocation.method(#update, [provider]),
+  void update(_i13.VoidCallback? onServerSelected) => super.noSuchMethod(
+    Invocation.method(#update, [onServerSelected]),
     returnValueForMissingStub: null,
   );
 
@@ -704,6 +704,66 @@ class MockServersViewModel extends _i1.Mock implements _i14.ServersViewModel {
           as _i11.Future<
             _i17.ResultDart<({String password, String token}), Exception>
           >);
+
+  @override
+  _i11.Future<_i17.ResultDart<void, Exception>> savePassword(
+    String? address,
+    String? password,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#savePassword, [address, password]),
+            returnValue: _i11.Future<_i17.ResultDart<void, Exception>>.value(
+              _i6.dummyValue<_i17.ResultDart<void, Exception>>(
+                this,
+                Invocation.method(#savePassword, [address, password]),
+              ),
+            ),
+          )
+          as _i11.Future<_i17.ResultDart<void, Exception>>);
+
+  @override
+  _i11.Future<_i17.ResultDart<void, Exception>> saveToken(
+    String? address,
+    String? token,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#saveToken, [address, token]),
+            returnValue: _i11.Future<_i17.ResultDart<void, Exception>>.value(
+              _i6.dummyValue<_i17.ResultDart<void, Exception>>(
+                this,
+                Invocation.method(#saveToken, [address, token]),
+              ),
+            ),
+          )
+          as _i11.Future<_i17.ResultDart<void, Exception>>);
+
+  @override
+  _i11.Future<_i17.ResultDart<void, Exception>> deletePassword(
+    String? address,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#deletePassword, [address]),
+            returnValue: _i11.Future<_i17.ResultDart<void, Exception>>.value(
+              _i6.dummyValue<_i17.ResultDart<void, Exception>>(
+                this,
+                Invocation.method(#deletePassword, [address]),
+              ),
+            ),
+          )
+          as _i11.Future<_i17.ResultDart<void, Exception>>);
+
+  @override
+  _i11.Future<_i17.ResultDart<void, Exception>> deleteToken(String? address) =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteToken, [address]),
+            returnValue: _i11.Future<_i17.ResultDart<void, Exception>>.value(
+              _i6.dummyValue<_i17.ResultDart<void, Exception>>(
+                this,
+                Invocation.method(#deleteToken, [address]),
+              ),
+            ),
+          )
+          as _i11.Future<_i17.ResultDart<void, Exception>>);
 
   @override
   void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
