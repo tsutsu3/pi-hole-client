@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
-import 'package:pi_hole_client/ui/servers/widgets/servers_screen.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:provider/provider.dart';
 
@@ -166,15 +167,10 @@ class ServerActionsMenu extends StatelessWidget {
     }
   }
 
-  /// Navigates to the [ServersScreen] screen, allowing the user to change the current server.
-  ///
-  /// This function pushes a new route onto the navigation stack, displaying the [ServersScreen].
+  /// Navigates to the [Routes.settingsAppServers] screen, allowing the user to change the current server.
   ///
   /// [context] - The build context used to navigate to the new page.
   void _changeServer(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ServersScreen()),
-    );
+    context.pushNamed(Routes.settingsAppServers);
   }
 }
