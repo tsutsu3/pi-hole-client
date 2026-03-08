@@ -9,9 +9,7 @@ class IconTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tab(
-      child: Row(
-        children: [Icon(icon), const SizedBox(width: 4), Text(label)],
-      ),
+      child: Row(children: [Icon(icon), const SizedBox(width: 4), Text(label)]),
     );
   }
 }

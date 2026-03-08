@@ -97,11 +97,11 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
     final groups = context.watch<GroupsViewModel>().groupItems;
 
     void remove(Adlist adlist) => deleteAdlist(
-          context: context,
-          viewModel: viewModel,
-          appConfigViewModel: appConfigViewModel,
-          adlist: adlist,
-        );
+      context: context,
+      viewModel: viewModel,
+      appConfigViewModel: appConfigViewModel,
+      adlist: adlist,
+    );
 
     AdlistsScaffold buildScaffold({void Function(Adlist)? onTap}) {
       return AdlistsScaffold(

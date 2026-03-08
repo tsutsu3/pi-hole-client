@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/icon_tab.dart';
+import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-/// Shared scaffold for adlists screens.
+/// Shared scaffold for domains screens.
 ///
 /// Handles the common AppBar (with search toggle), optional group-filter chip
 /// row, and TabBar/TabBarView structure.  The caller is responsible for
 /// building the [tabs] and [tabChildren] lists and for passing [groupChip]
 /// and [extraActions] when needed.
-class AdlistsScaffold extends StatelessWidget {
-  const AdlistsScaffold({
+class DomainsScaffold extends StatelessWidget {
+  const DomainsScaffold({
     required this.tabController,
     required this.tabs,
     required this.tabChildren,
@@ -23,27 +22,26 @@ class AdlistsScaffold extends StatelessWidget {
 
   final TabController tabController;
 
-  /// Tab labels — one [Widget] per tab (typically [IconTab]).
+  /// Tab labels — one [Widget] per tab.
   final List<Widget> tabs;
 
   /// Content for each tab inside [TabBarView].
   final List<Widget> tabChildren;
 
   /// Called when the user dismisses the search bar.
-  /// Typically clears the search controller and resets view-model state.
   final VoidCallback onSearchClose;
 
   /// Optional chip shown in the AppBar bottom area (e.g. active group filter).
-  /// When non-null the bottom area is 96 px tall; otherwise 46 px.
+  /// When non-null the bottom area is 98 px tall; otherwise 46 px.
   final Widget? groupChip;
 
   /// Extra action buttons shown in the AppBar when *not* in search mode
-  /// (e.g. the group-filter icon button).  Placed before the trailing spacer.
+  /// (e.g. the group-filter icon button). Placed before the trailing spacer.
   final List<Widget>? extraActions;
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<AdlistsViewModel>(context);
+    final viewModel = Provider.of<DomainsViewModel>(context);
 
     return DefaultTabController(
       length: tabs.length,
@@ -54,7 +52,7 @@ class AdlistsScaffold extends StatelessWidget {
                   initialValue: viewModel.searchTerm,
                   onChanged: viewModel.onSearch,
                   decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.adlistsSearch,
+                    hintText: AppLocalizations.of(context)!.domainsSearch,
                     hintStyle: const TextStyle(fontWeight: FontWeight.w400),
                     border: InputBorder.none,
                     prefixIcon: Icon(
@@ -63,7 +61,7 @@ class AdlistsScaffold extends StatelessWidget {
                     ),
                   ),
                 )
-              : Text(AppLocalizations.of(context)!.adlists),
+              : Text(AppLocalizations.of(context)!.domains),
           actions: [
             if (!viewModel.searchMode)
               IconButton(
@@ -79,13 +77,13 @@ class AdlistsScaffold extends StatelessWidget {
             const SizedBox(width: 10),
           ],
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(groupChip != null ? 96 : 46),
+            preferredSize: Size.fromHeight(groupChip != null ? 98 : 46),
             child: Column(
               children: [
                 if (groupChip != null)
                   Container(
                     width: double.maxFinite,
-                    height: 50,
+                    height: 52,
                     padding: const EdgeInsets.only(bottom: 10),
                     child: ListView(
                       scrollDirection: Axis.horizontal,
@@ -97,8 +95,6 @@ class AdlistsScaffold extends StatelessWidget {
                     ),
                   ),
                 TabBar(
-                  tabAlignment: TabAlignment.start,
-                  isScrollable: true,
                   controller: tabController,
                   onTap: viewModel.setSelectedTab,
                   tabs: tabs,
