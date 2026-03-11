@@ -21,16 +21,14 @@ class LicensesScreen extends StatelessWidget {
         } else if (snapshot.hasData) {
           final packageInfo = snapshot.data!;
           return Scaffold(
-            body: SafeArea(
-              child: LicensePage(
-                applicationVersion: packageInfo.version,
-                applicationIcon: Image.asset(
-                  'assets/icon/pi-hole-client-symbol-large.png',
-                  width: 48,
-                  height: 48,
-                ),
-                applicationLegalese: '© ${DateTime.now().year} tsutsu3',
+            body: LicensePage(
+              applicationVersion: packageInfo.version,
+              applicationIcon: Image.asset(
+                'assets/icon/pi-hole-client-symbol-large.png',
+                width: 48,
+                height: 48,
               ),
+              applicationLegalese: '© ${DateTime.now().year} tsutsu3',
             ),
           );
         } else {
