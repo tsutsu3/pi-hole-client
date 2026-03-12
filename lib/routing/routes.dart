@@ -15,6 +15,9 @@ abstract class Routes {
   static const domains = 'domains';
   static const settings = 'settings';
 
+  // ===== Standalone routes (no shell) =====
+  static const servers = 'servers';
+
   // ===== Logs sub-routes =====
   static const logsDetails = 'logs/details';
 

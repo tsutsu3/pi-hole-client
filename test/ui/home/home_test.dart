@@ -434,8 +434,8 @@ void main() async {
             ),
           ),
           GoRoute(
-            path: '/settings/app/servers',
-            name: Routes.settingsAppServers,
+            path: '/servers',
+            name: Routes.servers,
             builder: (context, state) => const ServersScreen(),
           ),
         ],

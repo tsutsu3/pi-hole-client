@@ -171,6 +171,6 @@ class ServerActionsMenu extends StatelessWidget {
   ///
   /// [context] - The build context used to navigate to the new page.
   void _changeServer(BuildContext context) {
-    context.pushNamed(Routes.settingsAppServers);
+    context.pushNamed(Routes.servers);
   }
 }

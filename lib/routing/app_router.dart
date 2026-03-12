@@ -652,6 +652,13 @@ GoRouter createAppRouter({
           ),
         ],
       ),
+
+      // ── Standalone: Servers (no shell – used from home "Change server") ──
+      GoRoute(
+        path: '/servers',
+        name: Routes.servers,
+        builder: (context, state) => const ServersScreen(),
+      ),
     ],
   );
 }
