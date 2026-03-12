@@ -27,7 +27,7 @@ void main() async {
       await serversViewModel.saveFromDb(servers.getOrThrow());
     });
 
-    GoRouter _createTestRouter({bool withPhoenix = false}) {
+    GoRouter createTestRouter({bool withPhoenix = false}) {
       return GoRouter(
         initialLocation: '/settings/app/advanced',
         routes: [
@@ -66,7 +66,7 @@ void main() async {
           const SizedBox.shrink(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
-          router: _createTestRouter(),
+          router: createTestRouter(),
         ),
       );
 
@@ -98,7 +98,7 @@ void main() async {
           const SizedBox.shrink(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
-          router: _createTestRouter(withPhoenix: true),
+          router: createTestRouter(withPhoenix: true),
         ),
       );
 
