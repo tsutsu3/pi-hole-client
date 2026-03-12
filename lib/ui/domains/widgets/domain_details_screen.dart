@@ -102,20 +102,18 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
             ListTile(
               leading: const Icon(Icons.domain),
               title: Text(AppLocalizations.of(context)!.domain),
-              subtitle: Text(widget.domain.name),
+              subtitle: Text(_domain.name),
             ),
             ListTile(
               leading: const Icon(Icons.category_rounded),
               title: Text(AppLocalizations.of(context)!.type),
-              subtitle: Text(
-                getDomainTypeLabel(widget.domain.type, widget.domain.kind),
-              ),
+              subtitle: Text(getDomainTypeLabel(_domain.type, _domain.kind)),
               subtitleTextStyle: widget.colors != null
                   ? TextStyle(
                       color: domainTypeColor(
                         widget.colors!,
-                        widget.domain.type,
-                        widget.domain.kind,
+                        _domain.type,
+                        _domain.kind,
                       ),
                     )
                   : null,
@@ -124,7 +122,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
               leading: const Icon(Icons.check),
               title: Text(AppLocalizations.of(context)!.status),
               subtitle: Text(
-                widget.domain.enabled
+                _domain.enabled
                     ? AppLocalizations.of(context)!.enabled
                     : AppLocalizations.of(context)!.disabled,
               ),

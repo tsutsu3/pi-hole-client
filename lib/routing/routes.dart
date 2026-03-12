@@ -69,6 +69,10 @@ abstract class Routes {
       'settings/server/advanced/local-dns/details';
   static const settingsServerAdvancedFindDomainsInLists =
       'settings/server/advanced/find-domains-in-lists';
+  static const settingsServerAdvancedFindDomainsInListsDomainDetails =
+      'settings/server/advanced/find-domains-in-lists/domain-details';
+  static const settingsServerAdvancedFindDomainsInListsAdlistDetails =
+      'settings/server/advanced/find-domains-in-lists/adlist-details';
   static const settingsServerAdvancedInterface =
       'settings/server/advanced/interface';
   static const settingsServerAdvancedInterfaceAddress =

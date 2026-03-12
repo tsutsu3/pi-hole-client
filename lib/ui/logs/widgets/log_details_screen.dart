@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/metrics/queries.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
@@ -55,7 +56,7 @@ class LogDetailsScreen extends StatelessWidget {
       if (logsViewModel.isAllowedOrRetried(log.status)) {
         return IconButton(
           onPressed: () {
-            Navigator.maybePop(context);
+            if (context.canPop()) context.pop();
             whiteBlackList('black', log);
           },
           icon: const Icon(Icons.gpp_bad_rounded),
@@ -64,7 +65,7 @@ class LogDetailsScreen extends StatelessWidget {
       } else {
         return IconButton(
           onPressed: () {
-            Navigator.maybePop(context);
+            if (context.canPop()) context.pop();
             whiteBlackList('white', log);
           },
           icon: const Icon(Icons.verified_user_rounded),

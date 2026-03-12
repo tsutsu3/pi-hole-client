@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/adaptive_trailing_text.dart';
 import 'package:pi_hole_client/ui/core/ui/components/list_tile_title.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface/widgets/address_detail_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface/widgets/more_detail_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface/widgets/statistics_detail_screen.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class NetInterfaceSection extends StatelessWidget {
@@ -59,12 +58,9 @@ class NetInterfaceSection extends StatelessWidget {
               title: listTileTitle(title, colorScheme: colorScheme),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) =>
-                        AddressDetailScreen(address: address, title: title),
-                  ),
+                context.pushNamed(
+                  Routes.settingsServerAdvancedInterfaceAddress,
+                  extra: (address, title),
                 );
               },
             );
@@ -81,11 +77,9 @@ class NetInterfaceSection extends StatelessWidget {
         ),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => StatisticsDetailScreen(stats: interface.stats),
-            ),
+          context.pushNamed(
+            Routes.settingsServerAdvancedInterfaceStatistics,
+            extra: interface.stats,
           );
         },
       );
@@ -99,11 +93,9 @@ class NetInterfaceSection extends StatelessWidget {
         ),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => MoreDetailsScreen(interfaceData: interface),
-            ),
+          context.pushNamed(
+            Routes.settingsServerAdvancedInterfaceMore,
+            extra: interface,
           );
         },
       );

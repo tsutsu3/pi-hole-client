@@ -11,7 +11,6 @@ import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/app_unlock_setup_modal.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/enter_passcode_modal.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/reset_screen.dart';
 import 'package:provider/provider.dart';
 
 class AdvancedOptionsScreen extends StatelessWidget {
@@ -306,15 +305,10 @@ class AdvancedOptionsScreen extends StatelessWidget {
               subtitleTextStyle: TextStyle(
                 color: appConfigViewModel.colors.commonRed ?? Colors.red,
               ),
-              onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ResetScreen(onConfirm: deleteApplicationData),
-                  ),
-                ),
-              },
+              onTap: () => context.pushNamed(
+                Routes.settingsAppAdvancedReset,
+                extra: deleteApplicationData,
+              ),
             ),
           ],
         ),

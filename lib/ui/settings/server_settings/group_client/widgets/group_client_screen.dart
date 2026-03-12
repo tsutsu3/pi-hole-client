@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
@@ -346,26 +348,15 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
   }
 
   void _pushGroupDetails(BuildContext context, Group group) {
-    final groupsVM = context.read<GroupsViewModel>();
-    final clientsVM = context.read<ClientsViewModel>();
-    final domainsVM = context.read<DomainsViewModel>();
-    final adlistsVM = context.read<AdlistsViewModel>();
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => MultiProvider(
-          providers: [
-            ChangeNotifierProvider.value(value: groupsVM),
-            ChangeNotifierProvider.value(value: clientsVM),
-            ChangeNotifierProvider.value(value: domainsVM),
-            ChangeNotifierProvider.value(value: adlistsVM),
-          ],
-          child: GroupDetailsScreen(
-            group: group,
-            remove: (g) => setState(() => selectedGroup = null),
-          ),
-        ),
+    context.pushNamed(
+      Routes.settingsServerGroupDetails,
+      extra: (
+        group,
+        (Group g) => setState(() => selectedGroup = null),
+        context.read<GroupsViewModel>(),
+        context.read<ClientsViewModel>(),
+        context.read<DomainsViewModel>(),
+        context.read<AdlistsViewModel>(),
       ),
     );
   }
@@ -379,23 +370,17 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
     required Map<String, String> ipToHostname,
     required Map<String, String> macToIp,
   }) {
-    final clientsVM = context.read<ClientsViewModel>();
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ChangeNotifierProvider.value(
-          value: clientsVM,
-          child: ClientDetailsScreen(
-            client: client,
-            remove: (c) => setState(() => selectedClient = null),
-            groups: groups,
-            colors: colors,
-            ipToMac: ipToMac,
-            ipToHostname: ipToHostname,
-            macToIp: macToIp,
-          ),
-        ),
+    context.pushNamed(
+      Routes.settingsServerClientDetails,
+      extra: (
+        client,
+        (ManagedClient c) => setState(() => selectedClient = null),
+        groups,
+        colors,
+        ipToMac,
+        ipToHostname,
+        macToIp,
+        context.read<ClientsViewModel>(),
       ),
     );
   }
