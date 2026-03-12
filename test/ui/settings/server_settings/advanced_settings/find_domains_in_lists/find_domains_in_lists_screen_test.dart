@@ -1,10 +1,15 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/routing/routes.dart';
+import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists/view_models/find_domains_in_lists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists/widgets/find_domains_in_lists_screen.dart';
@@ -220,7 +225,82 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildWidget());
+      final router = GoRouter(
+        initialLocation: '/find-domains',
+        routes: [
+          GoRoute(
+            path: '/find-domains',
+            builder: (context, state) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider<ServersViewModel>.value(
+                  value: fakeServersViewModel,
+                ),
+                ChangeNotifierProvider<FindDomainsInListsViewModel>.value(
+                  value: findDomainsInListsViewModel,
+                ),
+                ChangeNotifierProvider<GroupsViewModel>.value(
+                  value: groupsViewModel,
+                ),
+                Provider<RepositoryBundle?>(
+                  create: (_) => RepositoryBundle(
+                    actions: FakeActionsRepository(),
+                    adlist: fakeAdlistRepository,
+                    auth: FakeAuthRepository(),
+                    config: FakeConfigRepository(),
+                    dhcp: FakeDhcpRepository(),
+                    dns: FakeDnsRepository(),
+                    domain: fakeDomainRepository,
+                    ftl: FakeFtlRepository(),
+                    localDns: FakeLocalDnsRepository(),
+                    metrics: FakeMetricsRepository(),
+                    network: FakeNetworkRepository(),
+                    realtimeStatus: FakeRealTimeStatusRepository(),
+                    client: FakeClientRepository(),
+                    group: fakeGroupRepository,
+                    serverAddress: 'http://localhost:8081',
+                    apiVersion: 'v6',
+                  ),
+                ),
+              ],
+              child: const FindDomainsInListsScreen(),
+            ),
+            routes: [
+              GoRoute(
+                path: 'adlist-details',
+                name: Routes
+                    .settingsServerAdvancedFindDomainsInListsAdlistDetails,
+                builder: (context, state) {
+                  final extra =
+                      state.extra!
+                          as (
+                            Adlist,
+                            Map<int, String>,
+                            AppColors,
+                            void Function(Adlist)?,
+                            void Function(Adlist),
+                          );
+                  return ChangeNotifierProvider(
+                    create: (_) => AdlistsViewModel(
+                      adListRepository: fakeAdlistRepository,
+                    ),
+                    child: AdlistDetailsScreen(
+                      adlist: extra.$1,
+                      groups: extra.$2,
+                      colors: extra.$3,
+                      onUpdated: extra.$4,
+                      remove: extra.$5,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(
+        buildTestApp(const SizedBox.shrink(), router: router),
+      );
       await tester.pump();
 
       final textFields = find.byType(TextField);

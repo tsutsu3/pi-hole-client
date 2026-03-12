@@ -3,11 +3,14 @@ import 'dart:async';
 import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/ftl/message.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/routing/routes.dart';
+import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
@@ -200,6 +203,71 @@ void main() async {
       );
     }
 
+    Widget buildAdlistWidgetWithRouter({
+      FakeServersViewModel? serversOverride,
+      AdlistsViewModel? adlistsOverride,
+      GroupsViewModel? groupsOverride,
+      FakeGravityUpdateViewModel? gravityOverride,
+    }) {
+      final effectiveServers = serversOverride ?? fakeServersViewModel;
+      final effectiveAdlists = adlistsOverride ?? adlistsViewModel;
+      final effectiveGroups = groupsOverride ?? groupsViewModel;
+      final effectiveGravity = gravityOverride ?? fakeGravityUpdateViewModel;
+
+      final router = GoRouter(
+        initialLocation: '/adlists',
+        routes: [
+          GoRoute(
+            path: '/adlists',
+            builder: (context, state) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider<ServersViewModel>.value(
+                  value: effectiveServers,
+                ),
+                ChangeNotifierProvider<AdlistsViewModel>.value(
+                  value: effectiveAdlists,
+                ),
+                ChangeNotifierProvider<GroupsViewModel>.value(
+                  value: effectiveGroups,
+                ),
+                ChangeNotifierProvider<GravityUpdateViewModel>.value(
+                  value: effectiveGravity,
+                ),
+              ],
+              child: const AdlistScreen(),
+            ),
+            routes: [
+              GoRoute(
+                path: 'details',
+                name: Routes.settingsServerAdlistsDetails,
+                builder: (context, state) {
+                  final extra =
+                      state.extra!
+                          as (
+                            Adlist,
+                            void Function(Adlist),
+                            Map<int, String>,
+                            AppColors?,
+                            AdlistsViewModel,
+                          );
+                  return ChangeNotifierProvider.value(
+                    value: extra.$5,
+                    child: AdlistDetailsScreen(
+                      adlist: extra.$1,
+                      remove: extra.$2,
+                      groups: extra.$3,
+                      colors: extra.$4,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+      return buildTestApp(const SizedBox.shrink(), router: router);
+    }
+
     testWidgets('should show screen with V6 server (tablet)', (
       WidgetTester tester,
     ) async {
@@ -364,7 +432,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildAdlistWidget());
+      await tester.pumpWidget(buildAdlistWidgetWithRouter());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -453,7 +521,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildAdlistWidget());
+      await tester.pumpWidget(buildAdlistWidgetWithRouter());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -493,7 +561,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildAdlistWidget());
+      await tester.pumpWidget(buildAdlistWidgetWithRouter());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -534,7 +602,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildAdlistWidget());
+      await tester.pumpWidget(buildAdlistWidgetWithRouter());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();
@@ -565,7 +633,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildAdlistWidget());
+      await tester.pumpWidget(buildAdlistWidgetWithRouter());
 
       expect(find.byType(AdlistScreen), findsOneWidget);
       await tester.pump();

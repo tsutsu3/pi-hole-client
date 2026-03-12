@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/reset_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/widgets/advanced_options_screen.dart';
 
 import '../../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
@@ -24,6 +27,29 @@ void main() async {
       await serversViewModel.saveFromDb(servers.getOrThrow());
     });
 
+    GoRouter _createTestRouter({bool withPhoenix = false}) {
+      return GoRouter(
+        initialLocation: '/settings/app/advanced',
+        routes: [
+          GoRoute(
+            path: '/settings/app/advanced',
+            name: Routes.settingsAppAdvanced,
+            builder: (context, state) => withPhoenix
+                ? Phoenix(child: const AdvancedOptionsScreen())
+                : const AdvancedOptionsScreen(),
+          ),
+          GoRoute(
+            path: '/settings/app/advanced/reset',
+            name: Routes.settingsAppAdvancedReset,
+            builder: (context, state) {
+              final onConfirm = state.extra! as Future<void> Function();
+              return ResetScreen(onConfirm: onConfirm);
+            },
+          ),
+        ],
+      );
+    }
+
     testWidgets('should cancel the reset application action', (
       WidgetTester tester,
     ) async {
@@ -37,9 +63,10 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptionsScreen(),
+          const SizedBox.shrink(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
+          router: _createTestRouter(),
         ),
       );
 
@@ -68,9 +95,10 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          Phoenix(child: const AdvancedOptionsScreen()),
+          const SizedBox.shrink(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
+          router: _createTestRouter(withPhoenix: true),
         ),
       );
 

@@ -8,6 +8,7 @@ import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/logs_quantity_load_screen.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/reset_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/widgets/advanced_options_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -66,11 +67,32 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
+      final router = GoRouter(
+        initialLocation: '/settings/app/advanced',
+        routes: [
+          GoRoute(
+            path: '/settings/app/advanced',
+            name: Routes.settingsAppAdvanced,
+            builder: (context, state) =>
+                Phoenix(child: const AdvancedOptionsScreen()),
+          ),
+          GoRoute(
+            path: '/settings/app/advanced/reset',
+            name: Routes.settingsAppAdvancedReset,
+            builder: (context, state) {
+              final onConfirm = state.extra! as Future<void> Function();
+              return ResetScreen(onConfirm: onConfirm);
+            },
+          ),
+        ],
+      );
+
       await tester.pumpWidget(
         buildTestApp(
-          Phoenix(child: const AdvancedOptionsScreen()),
+          const SizedBox.shrink(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
+          router: router,
         ),
       );
 

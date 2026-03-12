@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/metrics/queries.dart' as logs_model;
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
+import 'package:pi_hole_client/ui/logs/widgets/log_details_screen.dart';
 import 'package:pi_hole_client/ui/logs/widgets/logs_filters_modal.dart';
 import 'package:pi_hole_client/ui/logs/widgets/logs_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../testing/fakes/viewmodels/fake_logs_viewmodel.dart';
@@ -161,15 +166,54 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
+      final router = GoRouter(
+        initialLocation: '/logs',
+        routes: [
+          GoRoute(
+            path: '/logs',
+            builder: (context, state) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider<LogsViewModel>.value(
+                  value: logsViewModel,
+                ),
+              ],
+              child: LogsScreen(
+                logsViewModel: logsViewModel,
+                appConfigViewModel: appConfigViewModel,
+              ),
+            ),
+            routes: [
+              GoRoute(
+                path: 'details',
+                name: Routes.logsDetails,
+                builder: (context, state) {
+                  final extra =
+                      state.extra!
+                          as (
+                            logs_model.Log,
+                            void Function(String, logs_model.Log),
+                          );
+                  return ChangeNotifierProvider.value(
+                    value: logsViewModel,
+                    child: LogDetailsScreen(
+                      log: extra.$1,
+                      whiteBlackList: extra.$2,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+
       await tester.pumpWidget(
         buildTestApp(
-          LogsScreen(
-            logsViewModel: logsViewModel,
-            appConfigViewModel: appConfigViewModel,
-          ),
+          const SizedBox.shrink(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           logsViewModel: logsViewModel,
+          router: router,
         ),
       );
 
