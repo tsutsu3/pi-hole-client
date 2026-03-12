@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
@@ -217,21 +220,17 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
       // 2 columns layout
       return buildScaffold(
         onTap: (adlist) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => ChangeNotifierProvider.value(
-                value: viewModel,
-                child: AdlistDetailsScreen(
-                  adlist: adlist,
-                  remove: (s) {
-                    setState(() => selectedAdlist = null);
-                    remove(s);
-                  },
-                  groups: groups,
-                  colors: appConfigViewModel.colors,
-                ),
-              ),
+          context.pushNamed(
+            Routes.settingsServerAdlistsDetails,
+            extra: AdlistDetailsExtra(
+              adlist: adlist,
+              remove: (Adlist s) {
+                setState(() => selectedAdlist = null);
+                remove(s);
+              },
+              groups: groups,
+              colors: appConfigViewModel.colors,
+              viewModel: context.read<AdlistsViewModel>(),
             ),
           );
         },

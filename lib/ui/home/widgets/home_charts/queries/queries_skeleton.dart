@@ -20,6 +20,10 @@ class QueriesSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final visualizationMode = context
+        .select<AppConfigViewModel, HomeVisualizationMode>(
+          (vm) => vm.homeVisualizationMode,
+        );
     final appConfigViewModel = context.read<AppConfigViewModel>();
 
     return Skeletonizer(
@@ -39,9 +43,7 @@ class QueriesSkeleton extends StatelessWidget {
             width: double.maxFinite,
             height: 350,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child:
-                appConfigViewModel.homeVisualizationMode ==
-                    HomeVisualizationMode.lineArea
+            child: visualizationMode == HomeVisualizationMode.lineArea
                 ? LineChartSkeleton(
                     selectedTheme: appConfigViewModel.selectedTheme,
                     showAnimation: appConfigViewModel.loadingAnimation,

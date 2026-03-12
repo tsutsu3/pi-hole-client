@@ -13,6 +13,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Flow;
 import 'package:flutter/scheduler.dart';
+import 'package:go_router/go_router.dart';
 
 /// The amount of vertical space to separate chunks of text.
 const double _textVerticalSeparation = 18.0;
@@ -917,12 +918,8 @@ class _MasterDetailFlowState extends State<_MasterDetailFlow>
       builder: (BuildContext c) {
         return BlockSemantics(
           child: _MasterPage(
-            leading: Navigator.of(context).canPop()
-                ? BackButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  )
+            leading: context.canPop()
+                ? BackButton(onPressed: context.pop)
                 : null,
             title: widget.title,
             masterViewBuilder: widget.masterViewBuilder,

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
@@ -134,7 +137,7 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
             '${AppLocalizations.of(context)!.groups}: ${widget.groupName}',
           ),
           deleteIcon: const Icon(Icons.close, size: 18),
-          onDeleted: () => Navigator.pop(context),
+          onDeleted: () => context.pop(),
         ),
         onSearchClose: () => setState(() {
           viewModel.setSearchMode(false);
@@ -184,18 +187,17 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
     } else if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
       return buildScaffold(
         onTap: (adlist) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => AdlistDetailsScreen(
-                adlist: adlist,
-                remove: (s) {
-                  setState(() => selectedAdlist = null);
-                  remove(s);
-                },
-                groups: groups,
-                colors: appConfigViewModel.colors,
-              ),
+          context.pushNamed(
+            Routes.settingsServerAdlistsDetails,
+            extra: AdlistDetailsExtra(
+              adlist: adlist,
+              remove: (Adlist s) {
+                setState(() => selectedAdlist = null);
+                remove(s);
+              },
+              groups: groups,
+              colors: appConfigViewModel.colors,
+              viewModel: _viewModel,
             ),
           );
         },

@@ -1,6 +1,10 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pi_hole_client/domain/model/network/network.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface/view_models/interface_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface/widgets/address_detail_screen.dart';
@@ -33,6 +37,49 @@ void main() async {
       return buildTestApp(
         InterfaceScreen(viewModel: viewModel..loadInterfaces.run()),
       );
+    }
+
+    Widget buildInterfaceWidgetWithRouter() {
+      final router = GoRouter(
+        initialLocation: '/interface',
+        routes: [
+          GoRoute(
+            path: '/interface',
+            builder: (context, state) =>
+                InterfaceScreen(viewModel: viewModel..loadInterfaces.run()),
+            routes: [
+              GoRoute(
+                path: 'address',
+                name: Routes.settingsServerAdvancedInterfaceAddress,
+                builder: (context, state) {
+                  final extra = state.extra! as InterfaceAddressExtra;
+                  return AddressDetailScreen(
+                    address: extra.address,
+                    title: extra.title,
+                  );
+                },
+              ),
+              GoRoute(
+                path: 'statistics',
+                name: Routes.settingsServerAdvancedInterfaceStatistics,
+                builder: (context, state) {
+                  final stats = state.extra! as InterfaceStats;
+                  return StatisticsDetailScreen(stats: stats);
+                },
+              ),
+              GoRoute(
+                path: 'more',
+                name: Routes.settingsServerAdvancedInterfaceMore,
+                builder: (context, state) {
+                  final interface = state.extra! as NetInterface;
+                  return MoreDetailsScreen(interfaceData: interface);
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+      return buildTestApp(const SizedBox.shrink(), router: router);
     }
 
     testWidgets('should show error screen when fetching interfaces fails', (
@@ -89,7 +136,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildInterfaceWidget());
+      await tester.pumpWidget(buildInterfaceWidgetWithRouter());
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Addresses').first);
@@ -114,7 +161,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildInterfaceWidget());
+      await tester.pumpWidget(buildInterfaceWidgetWithRouter());
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Statistics').first);
@@ -134,7 +181,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildInterfaceWidget());
+      await tester.pumpWidget(buildInterfaceWidgetWithRouter());
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('More Details').first);

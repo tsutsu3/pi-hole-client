@@ -33,6 +33,14 @@ GoRouter _createTestRouter() {
         name: Routes.settingsAppAdvancedAppLogs,
         builder: (_, _) => const AppLogsScreen(),
       ),
+      GoRoute(
+        path: '/settings/app/advanced/reset',
+        name: Routes.settingsAppAdvancedReset,
+        builder: (context, state) {
+          final onConfirm = state.extra! as Future<void> Function();
+          return ResetScreen(onConfirm: onConfirm);
+        },
+      ),
     ],
   );
 }
@@ -262,9 +270,10 @@ void main() async {
 
       await tester.pumpWidget(
         buildTestApp(
-          const AdvancedOptionsScreen(),
+          const SizedBox.shrink(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
+          router: _createTestRouter(),
         ),
       );
 

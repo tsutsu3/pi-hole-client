@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/list/list_search_result.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
@@ -11,10 +13,6 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
-import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists/view_models/find_domains_in_lists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists/widgets/models.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists/widgets/results_section.dart';
@@ -214,25 +212,19 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     required FindDomainsInListsViewModel viewModel,
     required AppConfigViewModel appConfigViewModel,
   }) async {
-    final bundle = context.read<RepositoryBundle?>();
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ChangeNotifierProvider(
-          create: (_) => DomainsViewModel(domainRepository: bundle!.domain),
-          child: DomainDetailsScreen(
-            domain: domain,
-            groups: groups,
-            colors: colors,
-            onUpdated: (updated) {
-              _pendingDomainUpdate = updated;
-            },
-            remove: (selected) => _removeDomain(
-              selected,
-              viewModel: viewModel,
-              appConfigViewModel: appConfigViewModel,
-            ),
-          ),
+    await context.pushNamed(
+      Routes.settingsServerAdvancedFindDomainsInListsDomainDetails,
+      extra: FindDomainDetailsExtra(
+        domain: domain,
+        groups: groups,
+        colors: colors,
+        onUpdated: (Domain updated) {
+          _pendingDomainUpdate = updated;
+        },
+        remove: (Domain selected) => _removeDomain(
+          selected,
+          viewModel: viewModel,
+          appConfigViewModel: appConfigViewModel,
         ),
       ),
     );
@@ -251,25 +243,19 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     required FindDomainsInListsViewModel viewModel,
     required AppConfigViewModel appConfigViewModel,
   }) async {
-    final bundle = context.read<RepositoryBundle?>();
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ChangeNotifierProvider(
-          create: (_) => AdlistsViewModel(adListRepository: bundle!.adlist),
-          child: AdlistDetailsScreen(
-            adlist: adlist,
-            groups: groups,
-            colors: colors,
-            onUpdated: (updated) {
-              _pendingAdlistUpdate = updated;
-            },
-            remove: (selected) => _removeAdlist(
-              selected,
-              viewModel: viewModel,
-              appConfigViewModel: appConfigViewModel,
-            ),
-          ),
+    await context.pushNamed(
+      Routes.settingsServerAdvancedFindDomainsInListsAdlistDetails,
+      extra: FindAdlistDetailsExtra(
+        adlist: adlist,
+        groups: groups,
+        colors: colors,
+        onUpdated: (Adlist updated) {
+          _pendingAdlistUpdate = updated;
+        },
+        remove: (Adlist selected) => _removeAdlist(
+          selected,
+          viewModel: viewModel,
+          appConfigViewModel: appConfigViewModel,
         ),
       ),
     );
@@ -295,7 +281,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       if (!mounted) return;
       process.close();
 
-      await Navigator.maybePop(context);
+      context.pop();
       if (!mounted) return;
       showSuccessSnackBar(
         context: context,
@@ -328,7 +314,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       if (!mounted) return;
       process.close();
 
-      await Navigator.maybePop(context);
+      context.pop();
       if (!mounted) return;
       showSuccessSnackBar(
         context: context,

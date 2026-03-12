@@ -1,6 +1,9 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions/view_models/sessions_viewmodel.dart';
@@ -32,6 +35,33 @@ void main() async {
       return buildTestApp(
         SessionsScreen(viewModel: viewModel..loadSessions.run()),
       );
+    }
+
+    Widget buildSessionsWidgetWithRouter() {
+      final router = GoRouter(
+        initialLocation: '/sessions',
+        routes: [
+          GoRoute(
+            path: '/sessions',
+            builder: (context, state) =>
+                SessionsScreen(viewModel: viewModel..loadSessions.run()),
+            routes: [
+              GoRoute(
+                path: 'details',
+                name: Routes.settingsServerAdvancedSessionsDetails,
+                builder: (context, state) {
+                  final extra = state.extra! as SessionDetailsExtra;
+                  return SessionDetailScreen(
+                    session: extra.session,
+                    onDelete: extra.onDelete,
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+      return buildTestApp(const SizedBox.shrink(), router: router);
     }
 
     testWidgets('should show error screen when fetching sessions fails', (
@@ -74,7 +104,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildSessionsWidget());
+      await tester.pumpWidget(buildSessionsWidgetWithRouter());
       await tester.pumpAndSettle();
 
       expect(find.byType(SessionsScreen), findsOneWidget);
@@ -115,7 +145,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildSessionsWidget());
+      await tester.pumpWidget(buildSessionsWidgetWithRouter());
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('192.168.0.30'));
@@ -148,7 +178,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildSessionsWidget());
+      await tester.pumpWidget(buildSessionsWidgetWithRouter());
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('192.168.0.30'));

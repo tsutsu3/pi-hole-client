@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
@@ -11,7 +14,6 @@ import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/add_adlist_modal.dart'
     hide ListType;
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_tile.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -86,7 +88,7 @@ class _AdlistsListState extends State<AdlistsList> {
         if (!context.mounted) return;
         process.close();
 
-        await Navigator.maybePop(context);
+        context.pop();
 
         if (!context.mounted) return;
         showSuccessSnackBar(
@@ -213,18 +215,14 @@ class _AdlistsListState extends State<AdlistsList> {
                   widget.onAdlistSelected(d);
                   if (MediaQuery.of(context).size.width <=
                       ResponsiveConstants.large) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => ChangeNotifierProvider.value(
-                          value: viewModel,
-                          child: AdlistDetailsScreen(
-                            adlist: d,
-                            remove: removeAdlist,
-                            colors: appConfigViewModel.colors,
-                            groups: groups,
-                          ),
-                        ),
+                    context.pushNamed(
+                      Routes.settingsServerAdlistsDetails,
+                      extra: AdlistDetailsExtra(
+                        adlist: d,
+                        remove: removeAdlist,
+                        groups: groups,
+                        colors: appConfigViewModel.colors,
+                        viewModel: viewModel,
                       ),
                     );
                   }

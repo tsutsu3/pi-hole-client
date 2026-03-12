@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
@@ -8,7 +11,6 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network/view_models/network_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network/widgets/network_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network/widgets/network_list_view.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -57,8 +59,7 @@ class _NetworkScreenState extends State<NetworkScreen> {
       await widget.viewModel.deleteDevice.runAsync(device.id);
       if (!mounted) return;
       process.close();
-      // TODO: migrate to context.pop() when detail screen uses go_router
-      await Navigator.maybePop(context);
+      context.pop();
 
       if (!mounted) return;
       showSuccessSnackBar(
@@ -144,14 +145,11 @@ class _NetworkScreenState extends State<NetworkScreen> {
                       devices: networkData.devices,
                       currentClientIp: networkData.currentClientIp,
                       onDeviceTap: (device) {
-                        // TODO: migrate to go_router named route
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => NetworkDetailScreen(
-                              device: device,
-                              onDelete: _removeDevice,
-                            ),
+                        context.pushNamed(
+                          Routes.settingsServerAdvancedNetworkDetails,
+                          extra: NetworkDetailsExtra(
+                            device: device,
+                            onDelete: _removeDevice,
                           ),
                         );
                       },

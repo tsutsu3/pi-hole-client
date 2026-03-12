@@ -12,22 +12,24 @@ class QueriesGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigViewModel = context.read<AppConfigViewModel>();
+    final visualizationMode = context
+        .select<AppConfigViewModel, HomeVisualizationMode>(
+          (vm) => vm.homeVisualizationMode,
+        );
+    final reducedData = context.select<AppConfigViewModel, bool>(
+      (vm) => vm.reducedDataCharts,
+    );
     final overtimeData = context.select<StatusViewModel, OverTime?>(
       (provider) => provider.getOvertimeData,
     );
 
-    if (appConfigViewModel.homeVisualizationMode ==
-        HomeVisualizationMode.lineArea) {
+    if (visualizationMode == HomeVisualizationMode.lineArea) {
       return QueriesLastHoursLine(
         data: overtimeData!,
-        reducedData: appConfigViewModel.reducedDataCharts,
+        reducedData: reducedData,
       );
     } else {
-      return QueriesLastHoursBar(
-        data: overtimeData!,
-        reducedData: appConfigViewModel.reducedDataCharts,
-      );
+      return QueriesLastHoursBar(data: overtimeData!, reducedData: reducedData);
     }
   }
 }

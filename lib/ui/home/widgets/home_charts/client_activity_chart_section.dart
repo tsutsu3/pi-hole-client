@@ -25,6 +25,16 @@ class ClientActivityChartSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appConfigViewModel = context.read<AppConfigViewModel>();
+    final visualizationMode = context
+        .select<AppConfigViewModel, HomeVisualizationMode>(
+          (vm) => vm.homeVisualizationMode,
+        );
+    final reducedData = context.select<AppConfigViewModel, bool>(
+      (vm) => vm.reducedDataCharts,
+    );
+    final hideZeroValues = context.select<AppConfigViewModel, bool>(
+      (vm) => vm.hideZeroValues,
+    );
 
     final overTimeDataLoadStatus = context.select<StatusViewModel, LoadStatus>(
       (provider) => provider.getOvertimeDataLoadStatus,
@@ -46,6 +56,7 @@ class ClientActivityChartSection extends StatelessWidget {
         child = _buildSkeleton(
           context,
           appConfigViewModel,
+          visualizationMode,
           overtimeData,
           clientsListIps,
         );
@@ -53,7 +64,9 @@ class ClientActivityChartSection extends StatelessWidget {
         child = _hasData(overtimeData)
             ? _buildLoadedContent(
                 context,
-                appConfigViewModel,
+                visualizationMode,
+                reducedData,
+                hideZeroValues,
                 overtimeData,
                 clientsListIps,
               )
@@ -75,6 +88,7 @@ class ClientActivityChartSection extends StatelessWidget {
   Widget _buildSkeleton(
     BuildContext context,
     AppConfigViewModel appConfigViewModel,
+    HomeVisualizationMode visualizationMode,
     OverTime? overtimeData,
     List<String> clientsListIps,
   ) {
@@ -103,9 +117,7 @@ class ClientActivityChartSection extends StatelessWidget {
                 width: double.maxFinite,
                 height: 350,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child:
-                    appConfigViewModel.homeVisualizationMode ==
-                        HomeVisualizationMode.lineArea
+                child: visualizationMode == HomeVisualizationMode.lineArea
                     ? LineChartSkeleton(
                         selectedTheme: appConfigViewModel.selectedTheme,
                         nums: 3,
@@ -132,7 +144,9 @@ class ClientActivityChartSection extends StatelessWidget {
 
   Widget _buildLoadedContent(
     BuildContext context,
-    AppConfigViewModel appConfigViewModel,
+    HomeVisualizationMode visualizationMode,
+    bool reducedData,
+    bool hideZeroValues,
     OverTime? overtimeData,
     List<String> clientsListIps,
   ) {
@@ -148,7 +162,9 @@ class ClientActivityChartSection extends StatelessWidget {
               height: 350,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: _buildClientsGraph(
-                appConfigViewModel,
+                visualizationMode,
+                reducedData,
+                hideZeroValues,
                 overtimeData,
                 clientsListIps,
               ),
@@ -252,24 +268,25 @@ class ClientActivityChartSection extends StatelessWidget {
   }
 
   Widget _buildClientsGraph(
-    AppConfigViewModel appConfigViewModel,
+    HomeVisualizationMode visualizationMode,
+    bool reducedData,
+    bool hideZeroValues,
     OverTime? overtimeData,
     List<String> clientsListIps,
   ) {
-    if (appConfigViewModel.homeVisualizationMode ==
-        HomeVisualizationMode.lineArea) {
+    if (visualizationMode == HomeVisualizationMode.lineArea) {
       return ClientsLastHoursLine(
         realtimeListIps: clientsListIps,
         data: overtimeData!,
-        reducedData: appConfigViewModel.reducedDataCharts,
-        hideZeroValues: appConfigViewModel.hideZeroValues,
+        reducedData: reducedData,
+        hideZeroValues: hideZeroValues,
       );
     } else {
       return ClientsLastHoursBar(
         realtimeListIps: clientsListIps,
         data: overtimeData!,
-        reducedData: appConfigViewModel.reducedDataCharts,
-        hideZeroValues: appConfigViewModel.hideZeroValues,
+        reducedData: reducedData,
+        hideZeroValues: hideZeroValues,
       );
     }
   }

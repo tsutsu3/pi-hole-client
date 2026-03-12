@@ -1686,5 +1686,81 @@ void main() async {
       expect(find.text('Client activity last 24 hours'), findsOneWidget);
       expect(find.text('No data'), findsNWidgets(2));
     });
+
+    testWidgets(
+      'should switch chart from line to bar immediately when visualization mode changes',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 1.0;
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        // Start with line mode (default)
+        await tester.pumpWidget(
+          buildTestApp(
+            const HomeCharts(),
+            appConfigViewModel: appConfigViewModel,
+            serversViewModel: serversViewModel,
+            statusViewModel: statusViewModel,
+            logsViewModel: logsViewModel,
+          ),
+        );
+        await tester.pump();
+
+        expect(find.byType(QueriesLastHoursLine), findsOneWidget);
+        expect(find.byType(QueriesLastHoursBar), findsNothing);
+
+        // Change visualization mode to bar — no rebuild/reload should be needed
+        await appConfigViewModel.setHomeVisualizationMode(
+          HomeVisualizationMode.bar,
+        );
+        await tester.pump();
+
+        expect(find.byType(QueriesLastHoursBar), findsOneWidget);
+        expect(find.byType(QueriesLastHoursLine), findsNothing);
+      },
+    );
+
+    testWidgets(
+      'should switch skeleton from line to bar immediately when visualization mode changes',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 1.0;
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        statusViewModel.overtimeDataLoading = LoadStatus.loading;
+
+        // Start with line mode (default)
+        await tester.pumpWidget(
+          buildTestApp(
+            const HomeCharts(),
+            appConfigViewModel: appConfigViewModel,
+            serversViewModel: serversViewModel,
+            statusViewModel: statusViewModel,
+            logsViewModel: logsViewModel,
+          ),
+        );
+        await tester.pump();
+
+        expect(find.byType(LineChartSkeleton), findsNWidgets(2));
+        expect(find.byType(BarChartSkeleton), findsNothing);
+
+        // Change visualization mode to bar — skeleton must update immediately
+        await appConfigViewModel.setHomeVisualizationMode(
+          HomeVisualizationMode.bar,
+        );
+        await tester.pump();
+
+        expect(find.byType(BarChartSkeleton), findsNWidgets(2));
+        expect(find.byType(LineChartSkeleton), findsNothing);
+      },
+    );
   });
 }

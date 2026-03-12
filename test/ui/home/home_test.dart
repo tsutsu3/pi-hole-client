@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar/switch_server_modal.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_screen.dart';
+import 'package:pi_hole_client/ui/servers/widgets/servers_screen.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
@@ -419,18 +422,34 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
+      final router = GoRouter(
+        routes: [
+          GoRoute(
+            path: '/',
+            name: Routes.home,
+            builder: (context, state) => HomeScreen(
+              serversViewModel: serversViewModel,
+              appConfigViewModel: appConfigViewModel,
+              statusViewModel: statusViewModel,
+            ),
+          ),
+          GoRoute(
+            path: '/servers',
+            name: Routes.servers,
+            builder: (context, state) => const ServersScreen(),
+          ),
+        ],
+      );
+
       await tester.pumpWidget(
         buildTestApp(
-          HomeScreen(
-            serversViewModel: serversViewModel,
-            appConfigViewModel: appConfigViewModel,
-            statusViewModel: statusViewModel,
-          ),
+          const SizedBox.shrink(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
           logsViewModel: logsViewModel,
           repositoryBundle: createFakeRepositoryBundle(),
+          router: router,
         ),
       );
 

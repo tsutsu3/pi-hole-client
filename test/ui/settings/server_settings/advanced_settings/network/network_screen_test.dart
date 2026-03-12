@@ -1,6 +1,9 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network/view_models/network_viewmodel.dart';
@@ -38,6 +41,33 @@ void main() async {
       return buildTestApp(
         NetworkScreen(viewModel: viewModel..loadDevices.run()),
       );
+    }
+
+    Widget buildNetworkWidgetWithRouter() {
+      final router = GoRouter(
+        initialLocation: '/network',
+        routes: [
+          GoRoute(
+            path: '/network',
+            builder: (context, state) =>
+                NetworkScreen(viewModel: viewModel..loadDevices.run()),
+            routes: [
+              GoRoute(
+                path: 'details',
+                name: Routes.settingsServerAdvancedNetworkDetails,
+                builder: (context, state) {
+                  final extra = state.extra! as NetworkDetailsExtra;
+                  return NetworkDetailScreen(
+                    device: extra.device,
+                    onDelete: extra.onDelete,
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+      return buildTestApp(const SizedBox.shrink(), router: router);
     }
 
     testWidgets('should show error screen when fetching devices fails', (
@@ -80,7 +110,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildNetworkWidget());
+      await tester.pumpWidget(buildNetworkWidgetWithRouter());
       await tester.pumpAndSettle();
 
       expect(find.byType(NetworkScreen), findsOneWidget);
@@ -121,7 +151,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildNetworkWidget());
+      await tester.pumpWidget(buildNetworkWidgetWithRouter());
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('192.168.1.51 (ubuntu-server)'));
@@ -154,7 +184,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildNetworkWidget());
+      await tester.pumpWidget(buildNetworkWidgetWithRouter());
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('192.168.1.51 (ubuntu-server)'));

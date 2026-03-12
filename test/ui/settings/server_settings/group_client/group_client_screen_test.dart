@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
@@ -239,8 +242,70 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildWidget(const GroupClientScreen()));
+      final router = GoRouter(
+        initialLocation: '/group-client',
+        routes: [
+          GoRoute(
+            path: '/group-client',
+            builder: (context, state) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider<ServersViewModel>.value(
+                  value: fakeServersViewModel,
+                ),
+                ChangeNotifierProvider<ClientsViewModel>.value(
+                  value: clientsViewModel,
+                ),
+                ChangeNotifierProvider<GroupsViewModel>.value(
+                  value: groupsViewModel,
+                ),
+                ChangeNotifierProvider<LocalDnsViewModel>.value(
+                  value: localDnsViewModel,
+                ),
+                ChangeNotifierProvider<DomainsViewModel>.value(
+                  value: domainsViewModel,
+                ),
+                ChangeNotifierProvider<AdlistsViewModel>.value(
+                  value: adlistsViewModel,
+                ),
+              ],
+              child: const GroupClientScreen(),
+            ),
+            routes: [
+              GoRoute(
+                path: 'group-details',
+                name: Routes.settingsServerGroupDetails,
+                builder: (context, state) {
+                  final extra = state.extra! as GroupDetailsExtra;
+                  return MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider.value(
+                        value: extra.groupsViewModel,
+                      ),
+                      ChangeNotifierProvider.value(
+                        value: extra.clientsViewModel,
+                      ),
+                      ChangeNotifierProvider.value(
+                        value: extra.domainsViewModel,
+                      ),
+                      ChangeNotifierProvider.value(
+                        value: extra.adlistsViewModel,
+                      ),
+                    ],
+                    child: GroupDetailsScreen(
+                      group: extra.group,
+                      remove: extra.remove,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      );
 
+      await tester.pumpWidget(
+        buildTestApp(const SizedBox.shrink(), router: router),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Default'));
@@ -265,8 +330,61 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(buildWidget(const GroupClientScreen()));
+      final router = GoRouter(
+        initialLocation: '/group-client',
+        routes: [
+          GoRoute(
+            path: '/group-client',
+            builder: (context, state) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider<ServersViewModel>.value(
+                  value: fakeServersViewModel,
+                ),
+                ChangeNotifierProvider<ClientsViewModel>.value(
+                  value: clientsViewModel,
+                ),
+                ChangeNotifierProvider<GroupsViewModel>.value(
+                  value: groupsViewModel,
+                ),
+                ChangeNotifierProvider<LocalDnsViewModel>.value(
+                  value: localDnsViewModel,
+                ),
+                ChangeNotifierProvider<DomainsViewModel>.value(
+                  value: domainsViewModel,
+                ),
+                ChangeNotifierProvider<AdlistsViewModel>.value(
+                  value: adlistsViewModel,
+                ),
+              ],
+              child: const GroupClientScreen(),
+            ),
+            routes: [
+              GoRoute(
+                path: 'client-details',
+                name: Routes.settingsServerClientDetails,
+                builder: (context, state) {
+                  final extra = state.extra! as ClientDetailsExtra;
+                  return ChangeNotifierProvider.value(
+                    value: extra.viewModel,
+                    child: ClientDetailsScreen(
+                      client: extra.client,
+                      remove: extra.remove,
+                      groups: extra.groups,
+                      ipToMac: extra.ipToMac,
+                      ipToHostname: extra.ipToHostname,
+                      macToIp: extra.macToIp,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      );
 
+      await tester.pumpWidget(
+        buildTestApp(const SizedBox.shrink(), router: router),
+      );
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Clients'));
@@ -527,5 +645,244 @@ void main() async {
       await tester.pumpAndSettle();
       expect(find.byType(EditClientModal), findsWidgets);
     });
+
+    testWidgets(
+      'GroupDetailsScreen toggles status and shows success snackbar',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1200, 900);
+        tester.view.devicePixelRatio = 1.0;
+
+        final group = Group(
+          id: 0,
+          name: 'Default',
+          enabled: true,
+          comment: 'The default group',
+          dateAdded: DateTime(2024, 1, 1),
+          dateModified: DateTime(2024, 1, 1),
+        );
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          buildWidget(GroupDetailsScreen(group: group, remove: (_) {})),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.text('Enabled'), findsOneWidget);
+        await tester.tap(find.byType(Switch));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(find.text('Group updated successfully'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'GroupDetailsScreen toggles status and shows error snackbar on failure',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1200, 900);
+        tester.view.devicePixelRatio = 1.0;
+
+        fakeGroupRepository.shouldFail = true;
+
+        final group = Group(
+          id: 0,
+          name: 'Default',
+          enabled: true,
+          dateAdded: DateTime(2024, 1, 1),
+          dateModified: DateTime(2024, 1, 1),
+        );
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          buildWidget(GroupDetailsScreen(group: group, remove: (_) {})),
+        );
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.byType(Switch));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(find.text('Failed to update the group'), findsOneWidget);
+      },
+    );
+
+    testWidgets('GroupDetailsScreen deletes group and shows success snackbar', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1200, 900);
+      tester.view.devicePixelRatio = 1.0;
+
+      final group = Group(
+        id: 0,
+        name: 'Default',
+        enabled: true,
+        dateAdded: DateTime(2024, 1, 1),
+        dateModified: DateTime(2024, 1, 1),
+      );
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(
+        buildWidget(GroupDetailsScreen(group: group, remove: (_) {})),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byIcon(Icons.delete_rounded));
+      await tester.pumpAndSettle();
+      expect(find.byType(DeleteModal), findsOneWidget);
+
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(find.text('Group removed successfully'), findsOneWidget);
+    });
+
+    testWidgets(
+      'ClientDetailsScreen edits comment and shows success snackbar',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1200, 900);
+        tester.view.devicePixelRatio = 1.0;
+
+        final client = ManagedClient(
+          client: '192.168.1.100',
+          name: 'desktop',
+          groups: const [0],
+          id: 1,
+          comment: 'Main desktop',
+          dateAdded: DateTime(2024, 1, 1),
+          dateModified: DateTime(2024, 1, 1),
+        );
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          buildWidget(
+            ClientDetailsScreen(
+              client: client,
+              remove: (_) {},
+              groups: const {0: 'Default'},
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('Comment'));
+        await tester.pumpAndSettle();
+        expect(find.byType(EditClientModal), findsOneWidget);
+
+        await tester.enterText(find.byType(TextField), 'new comment');
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Edit'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(find.text('Client updated successfully'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'ClientDetailsScreen edits comment and shows error snackbar on failure',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1200, 900);
+        tester.view.devicePixelRatio = 1.0;
+
+        fakeClientRepository.shouldFail = true;
+
+        final client = ManagedClient(
+          client: '192.168.1.100',
+          name: 'desktop',
+          groups: const [0],
+          id: 1,
+          dateAdded: DateTime(2024, 1, 1),
+          dateModified: DateTime(2024, 1, 1),
+        );
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          buildWidget(
+            ClientDetailsScreen(
+              client: client,
+              remove: (_) {},
+              groups: const {0: 'Default'},
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('Comment'));
+        await tester.pumpAndSettle();
+        expect(find.byType(EditClientModal), findsOneWidget);
+
+        await tester.enterText(find.byType(TextField), 'new comment');
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Edit'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(find.text('Failed to update the client'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'ClientDetailsScreen deletes client and shows success snackbar',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1200, 900);
+        tester.view.devicePixelRatio = 1.0;
+
+        final client = ManagedClient(
+          client: '192.168.1.100',
+          name: 'desktop',
+          groups: const [0],
+          id: 1,
+          dateAdded: DateTime(2024, 1, 1),
+          dateModified: DateTime(2024, 1, 1),
+        );
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          buildWidget(
+            ClientDetailsScreen(
+              client: client,
+              remove: (_) {},
+              groups: const {0: 'Default'},
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.byIcon(Icons.delete_rounded));
+        await tester.pumpAndSettle();
+        expect(find.byType(DeleteModal), findsOneWidget);
+
+        await tester.tap(find.text('Delete'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(find.text('Client removed successfully'), findsOneWidget);
+      },
+    );
   });
 }

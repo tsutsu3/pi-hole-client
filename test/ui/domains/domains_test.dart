@@ -1,16 +1,21 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domains_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/edit_domain_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
+import 'package:provider/provider.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../../../testing/fakes/repositories/api/fake_domain_repository.dart';
@@ -138,9 +143,70 @@ void main() async {
       );
     }
 
+    Widget buildAppWithRouter() {
+      final router = GoRouter(
+        initialLocation: '/domains',
+        routes: [
+          GoRoute(
+            path: '/domains',
+            builder: (context, state) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider<ServersViewModel>.value(
+                  value: serversViewModel,
+                ),
+                ChangeNotifierProvider<AppConfigViewModel>.value(
+                  value: appConfigViewModel,
+                ),
+                ChangeNotifierProvider<DomainsViewModel>.value(
+                  value: domainsViewModel,
+                ),
+                ChangeNotifierProvider<GroupsViewModel>.value(
+                  value: groupsViewModel,
+                ),
+              ],
+              child: const DomainsScreen(),
+            ),
+            routes: [
+              GoRoute(
+                path: 'details',
+                name: Routes.domainsDetails,
+                builder: (context, state) {
+                  final extra = state.extra! as DomainDetailsExtra;
+                  return ChangeNotifierProvider.value(
+                    value: extra.viewModel,
+                    child: DomainDetailsScreen(
+                      domain: extra.domain,
+                      remove: extra.remove,
+                      groups: extra.groups,
+                      colors: extra.colors,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+      return buildTestApp(
+        const SizedBox.shrink(),
+        appConfigViewModel: appConfigViewModel,
+        serversViewModel: serversViewModel,
+        domainsViewModel: domainsViewModel,
+        groupsViewModel: groupsViewModel,
+        router: router,
+      );
+    }
+
     /// Pumps the widget, triggers data loading, and settles.
     Future<void> pumpAndLoad(WidgetTester tester) async {
       await tester.pumpWidget(buildApp());
+      await _pumpAndLoad(tester, domainsViewModel, groupsViewModel);
+      await tester.pumpAndSettle();
+    }
+
+    /// Pumps the router-based widget, triggers data loading, and settles.
+    Future<void> pumpAndLoadWithRouter(WidgetTester tester) async {
+      await tester.pumpWidget(buildAppWithRouter());
       await _pumpAndLoad(tester, domainsViewModel, groupsViewModel);
       await tester.pumpAndSettle();
     }
@@ -264,7 +330,7 @@ void main() async {
         ),
       );
 
-      await pumpAndLoad(tester);
+      await pumpAndLoadWithRouter(tester);
 
       // Show whitelist domains screen
       expect(find.byType(DomainsScreen), findsOneWidget);
@@ -504,7 +570,7 @@ void main() async {
       });
 
       createViewModels();
-      await pumpAndLoad(tester);
+      await pumpAndLoadWithRouter(tester);
 
       expect(find.text('example.com'), findsOneWidget);
       await tester.tap(find.text('example.com'));
@@ -529,7 +595,7 @@ void main() async {
       });
 
       createViewModels();
-      await pumpAndLoad(tester);
+      await pumpAndLoadWithRouter(tester);
 
       expect(find.text('example.com'), findsOneWidget);
       await tester.tap(find.text('example.com'));
@@ -562,7 +628,7 @@ void main() async {
       });
 
       createViewModels();
-      await pumpAndLoad(tester);
+      await pumpAndLoadWithRouter(tester);
 
       expect(find.text('example.com'), findsOneWidget);
       await tester.tap(find.text('example.com'));
@@ -599,7 +665,7 @@ void main() async {
       // Use a repository that succeeds on load but will fail on update
       final domainRepo = FakeDomainRepository();
       createViewModels(domainRepository: domainRepo);
-      await pumpAndLoad(tester);
+      await pumpAndLoadWithRouter(tester);
 
       expect(find.text('example.com'), findsOneWidget);
       await tester.tap(find.text('example.com'));
@@ -719,13 +785,58 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
+      final router = GoRouter(
+        initialLocation: '/domains',
+        routes: [
+          GoRoute(
+            path: '/domains',
+            builder: (context, state) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider<ServersViewModel>.value(
+                  value: serversViewModel,
+                ),
+                ChangeNotifierProvider<AppConfigViewModel>.value(
+                  value: appConfigViewModel,
+                ),
+                ChangeNotifierProvider<DomainsViewModel>.value(
+                  value: domainsViewModel,
+                ),
+                ChangeNotifierProvider<GroupsViewModel>.value(
+                  value: groupsViewModel,
+                ),
+              ],
+              child: const DomainsScreen(),
+            ),
+            routes: [
+              GoRoute(
+                path: 'details',
+                name: Routes.domainsDetails,
+                builder: (context, state) {
+                  final extra = state.extra! as DomainDetailsExtra;
+                  return ChangeNotifierProvider.value(
+                    value: extra.viewModel,
+                    child: DomainDetailsScreen(
+                      domain: extra.domain,
+                      remove: extra.remove,
+                      groups: extra.groups,
+                      colors: extra.colors,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+
       await tester.pumpWidget(
         buildTestApp(
-          const DomainsScreen(),
+          const SizedBox.shrink(),
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           domainsViewModel: domainsViewModel,
           groupsViewModel: groupsViewModel,
+          router: router,
         ),
       );
 
