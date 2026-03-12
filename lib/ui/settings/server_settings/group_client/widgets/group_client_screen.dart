@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -350,13 +351,13 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
   void _pushGroupDetails(BuildContext context, Group group) {
     context.pushNamed(
       Routes.settingsServerGroupDetails,
-      extra: (
-        group,
-        (Group g) => setState(() => selectedGroup = null),
-        context.read<GroupsViewModel>(),
-        context.read<ClientsViewModel>(),
-        context.read<DomainsViewModel>(),
-        context.read<AdlistsViewModel>(),
+      extra: GroupDetailsExtra(
+        group: group,
+        remove: (Group g) => setState(() => selectedGroup = null),
+        groupsViewModel: context.read<GroupsViewModel>(),
+        clientsViewModel: context.read<ClientsViewModel>(),
+        domainsViewModel: context.read<DomainsViewModel>(),
+        adlistsViewModel: context.read<AdlistsViewModel>(),
       ),
     );
   }
@@ -372,15 +373,15 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
   }) {
     context.pushNamed(
       Routes.settingsServerClientDetails,
-      extra: (
-        client,
-        (ManagedClient c) => setState(() => selectedClient = null),
-        groups,
-        colors,
-        ipToMac,
-        ipToHostname,
-        macToIp,
-        context.read<ClientsViewModel>(),
+      extra: ClientDetailsExtra(
+        client: client,
+        remove: (ManagedClient c) => setState(() => selectedClient = null),
+        groups: groups,
+        colors: colors,
+        ipToMac: ipToMac,
+        ipToHostname: ipToHostname,
+        macToIp: macToIp,
+        viewModel: context.read<ClientsViewModel>(),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/metrics/queries.dart' as logs_model;
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
@@ -187,17 +188,12 @@ void main() async {
                 path: 'details',
                 name: Routes.logsDetails,
                 builder: (context, state) {
-                  final extra =
-                      state.extra!
-                          as (
-                            logs_model.Log,
-                            void Function(String, logs_model.Log),
-                          );
+                  final extra = state.extra! as LogDetailsExtra;
                   return ChangeNotifierProvider.value(
                     value: logsViewModel,
                     child: LogDetailsScreen(
-                      log: extra.$1,
-                      whiteBlackList: extra.$2,
+                      log: extra.log,
+                      whiteBlackList: extra.whiteBlackList,
                     ),
                   );
                 },

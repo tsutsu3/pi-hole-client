@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/metrics/queries.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
@@ -160,7 +161,10 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
         context
             .pushNamed(
               Routes.logsDetails,
-              extra: (log, logActSvc.whiteBlackList),
+              extra: LogDetailsExtra(
+                log: log,
+                whiteBlackList: logActSvc.whiteBlackList,
+              ),
             )
             .then((_) => _appConfigViewModel.setDetailScreenOpen(false));
       }

@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
-import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
-import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
@@ -270,25 +269,17 @@ void main() async {
                 name: Routes
                     .settingsServerAdvancedFindDomainsInListsAdlistDetails,
                 builder: (context, state) {
-                  final extra =
-                      state.extra!
-                          as (
-                            Adlist,
-                            Map<int, String>,
-                            AppColors,
-                            void Function(Adlist)?,
-                            void Function(Adlist),
-                          );
+                  final extra = state.extra! as FindAdlistDetailsExtra;
                   return ChangeNotifierProvider(
                     create: (_) => AdlistsViewModel(
                       adListRepository: fakeAdlistRepository,
                     ),
                     child: AdlistDetailsScreen(
-                      adlist: extra.$1,
-                      groups: extra.$2,
-                      colors: extra.$3,
-                      onUpdated: extra.$4,
-                      remove: extra.$5,
+                      adlist: extra.adlist,
+                      groups: extra.groups,
+                      colors: extra.colors,
+                      onUpdated: extra.onUpdated,
+                      remove: extra.remove,
                     ),
                   );
                 },

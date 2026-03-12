@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
@@ -226,11 +227,12 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
                           onDeviceTap: (localDns) {
                             context.pushNamed(
                               Routes.settingsServerAdvancedLocalDnsDetails,
-                              extra: (
-                                localDns,
-                                data.deviceOptions,
-                                (LocalDns ld) async => _onRemoveLocalDns(ld),
-                                _onUpdateLocalDns,
+                              extra: LocalDnsDetailsExtra(
+                                localDns: localDns,
+                                devices: data.deviceOptions,
+                                onDelete: (LocalDns ld) async =>
+                                    _onRemoveLocalDns(ld),
+                                onUpdate: _onUpdateLocalDns,
                               ),
                             );
                           },

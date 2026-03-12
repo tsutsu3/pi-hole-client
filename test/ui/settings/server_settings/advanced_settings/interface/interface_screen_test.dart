@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface/view_models/interface_viewmodel.dart';
@@ -51,10 +52,10 @@ void main() async {
                 path: 'address',
                 name: Routes.settingsServerAdvancedInterfaceAddress,
                 builder: (context, state) {
-                  final extra = state.extra! as (InterfaceAddress, String);
+                  final extra = state.extra! as InterfaceAddressExtra;
                   return AddressDetailScreen(
-                    address: extra.$1,
-                    title: extra.$2,
+                    address: extra.address,
+                    title: extra.title,
                   );
                 },
               ),

@@ -2,7 +2,7 @@ import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pi_hole_client/domain/model/network/network.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
@@ -56,10 +56,10 @@ void main() async {
                 path: 'details',
                 name: Routes.settingsServerAdvancedNetworkDetails,
                 builder: (context, state) {
-                  final extra = state.extra! as (Device, void Function(Device));
+                  final extra = state.extra! as NetworkDetailsExtra;
                   return NetworkDetailScreen(
-                    device: extra.$1,
-                    onDelete: extra.$2,
+                    device: extra.device,
+                    onDelete: extra.onDelete,
                   );
                 },
               ),

@@ -2,7 +2,7 @@ import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pi_hole_client/domain/model/dhcp/dhcp.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
@@ -54,9 +54,11 @@ void main() async {
                 path: 'details',
                 name: Routes.settingsServerAdvancedDhcpDetails,
                 builder: (context, state) {
-                  final extra =
-                      state.extra! as (DhcpLease, void Function(DhcpLease));
-                  return DhcpDetailScreen(lease: extra.$1, onDelete: extra.$2);
+                  final extra = state.extra! as DhcpDetailsExtra;
+                  return DhcpDetailScreen(
+                    lease: extra.lease,
+                    onDelete: extra.onDelete,
+                  );
                 },
               ),
             ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/dhcp/dhcp.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
@@ -136,7 +137,10 @@ class _DhcpScreenState extends State<DhcpScreen> {
                       onLeaseTap: (lease) {
                         context.pushNamed(
                           Routes.settingsServerAdvancedDhcpDetails,
-                          extra: (lease, _removeLease),
+                          extra: DhcpDetailsExtra(
+                            lease: lease,
+                            onDelete: _removeLease,
+                          ),
                         );
                       },
                     );

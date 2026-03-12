@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
@@ -213,12 +214,12 @@ class _DomainsListState extends State<DomainsList> {
                     context
                         .pushNamed(
                           Routes.domainsDetails,
-                          extra: (
-                            d,
-                            removeDomain,
-                            groups,
-                            appConfigViewModel.colors,
-                            viewModel,
+                          extra: DomainDetailsExtra(
+                            domain: d,
+                            remove: removeDomain,
+                            groups: groups,
+                            colors: appConfigViewModel.colors,
+                            viewModel: viewModel,
                           ),
                         )
                         .then((_) {

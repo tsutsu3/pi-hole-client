@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
-import 'package:pi_hole_client/domain/model/auth/auth.dart';
-import 'package:pi_hole_client/domain/model/client/managed_client.dart';
-import 'package:pi_hole_client/domain/model/dhcp/dhcp.dart';
-import 'package:pi_hole_client/domain/model/domain/domain.dart';
-import 'package:pi_hole_client/domain/model/group/group.dart';
-import 'package:pi_hole_client/domain/model/list/adlist.dart';
-import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
-import 'package:pi_hole_client/domain/model/metrics/queries.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/app_logs/widgets/app_logs_screen.dart';
-import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
@@ -52,8 +44,6 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/net
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network/widgets/network_screen_factory.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions/widgets/session_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions/widgets/sessions_screen_factory.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/clients_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/client_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/group_client_screen_factory.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/group_details_screen.dart';
@@ -144,13 +134,12 @@ GoRouter createAppRouter({
                         path: 'details',
                         name: Routes.logsDetails,
                         builder: (context, state) {
-                          final extra =
-                              state.extra! as (Log, void Function(String, Log));
+                          final extra = state.extra! as LogDetailsExtra;
                           return ChangeNotifierProvider.value(
                             value: context.read<LogsViewModel>(),
                             child: LogDetailsScreen(
-                              log: extra.$1,
-                              whiteBlackList: extra.$2,
+                              log: extra.log,
+                              whiteBlackList: extra.whiteBlackList,
                             ),
                           );
                         },
@@ -179,22 +168,14 @@ GoRouter createAppRouter({
                         path: 'details',
                         name: Routes.domainsDetails,
                         builder: (context, state) {
-                          final extra =
-                              state.extra!
-                                  as (
-                                    Domain,
-                                    void Function(Domain),
-                                    Map<int, String>,
-                                    AppColors?,
-                                    DomainsViewModel,
-                                  );
+                          final extra = state.extra! as DomainDetailsExtra;
                           return ChangeNotifierProvider.value(
-                            value: extra.$5,
+                            value: extra.viewModel,
                             child: DomainDetailsScreen(
-                              domain: extra.$1,
-                              remove: extra.$2,
-                              groups: extra.$3,
-                              colors: extra.$4,
+                              domain: extra.domain,
+                              remove: extra.remove,
+                              groups: extra.groups,
+                              colors: extra.colors,
                             ),
                           );
                         },
@@ -314,22 +295,14 @@ GoRouter createAppRouter({
                             path: 'details',
                             name: Routes.settingsServerAdlistsDetails,
                             builder: (context, state) {
-                              final extra =
-                                  state.extra!
-                                      as (
-                                        Adlist,
-                                        void Function(Adlist),
-                                        Map<int, String>,
-                                        AppColors?,
-                                        AdlistsViewModel,
-                                      );
+                              final extra = state.extra! as AdlistDetailsExtra;
                               return ChangeNotifierProvider.value(
-                                value: extra.$5,
+                                value: extra.viewModel,
                                 child: AdlistDetailsScreen(
-                                  adlist: extra.$1,
-                                  remove: extra.$2,
-                                  groups: extra.$3,
-                                  colors: extra.$4,
+                                  adlist: extra.adlist,
+                                  remove: extra.remove,
+                                  groups: extra.groups,
+                                  colors: extra.colors,
                                 ),
                               );
                             },
@@ -347,26 +320,25 @@ GoRouter createAppRouter({
                             path: 'group-details',
                             name: Routes.settingsServerGroupDetails,
                             builder: (context, state) {
-                              final extra =
-                                  state.extra!
-                                      as (
-                                        Group,
-                                        void Function(Group),
-                                        GroupsViewModel,
-                                        ClientsViewModel,
-                                        DomainsViewModel,
-                                        AdlistsViewModel,
-                                      );
+                              final extra = state.extra! as GroupDetailsExtra;
                               return MultiProvider(
                                 providers: [
-                                  ChangeNotifierProvider.value(value: extra.$3),
-                                  ChangeNotifierProvider.value(value: extra.$4),
-                                  ChangeNotifierProvider.value(value: extra.$5),
-                                  ChangeNotifierProvider.value(value: extra.$6),
+                                  ChangeNotifierProvider.value(
+                                    value: extra.groupsViewModel,
+                                  ),
+                                  ChangeNotifierProvider.value(
+                                    value: extra.clientsViewModel,
+                                  ),
+                                  ChangeNotifierProvider.value(
+                                    value: extra.domainsViewModel,
+                                  ),
+                                  ChangeNotifierProvider.value(
+                                    value: extra.adlistsViewModel,
+                                  ),
                                 ],
                                 child: GroupDetailsScreen(
-                                  group: extra.$1,
-                                  remove: extra.$2,
+                                  group: extra.group,
+                                  remove: extra.remove,
                                 ),
                               );
                             },
@@ -375,28 +347,17 @@ GoRouter createAppRouter({
                             path: 'client-details',
                             name: Routes.settingsServerClientDetails,
                             builder: (context, state) {
-                              final extra =
-                                  state.extra!
-                                      as (
-                                        ManagedClient,
-                                        void Function(ManagedClient),
-                                        Map<int, String>,
-                                        AppColors?,
-                                        Map<String, String>,
-                                        Map<String, String>,
-                                        Map<String, String>,
-                                        ClientsViewModel,
-                                      );
+                              final extra = state.extra! as ClientDetailsExtra;
                               return ChangeNotifierProvider.value(
-                                value: extra.$8,
+                                value: extra.viewModel,
                                 child: ClientDetailsScreen(
-                                  client: extra.$1,
-                                  remove: extra.$2,
-                                  groups: extra.$3,
-                                  colors: extra.$4,
-                                  ipToMac: extra.$5,
-                                  ipToHostname: extra.$6,
-                                  macToIp: extra.$7,
+                                  client: extra.client,
+                                  remove: extra.remove,
+                                  groups: extra.groups,
+                                  colors: extra.colors,
+                                  ipToMac: extra.ipToMac,
+                                  ipToHostname: extra.ipToHostname,
+                                  macToIp: extra.macToIp,
                                 ),
                               );
                             },
@@ -422,15 +383,10 @@ GoRouter createAppRouter({
                             path: 'details',
                             name: Routes.settingsServerAdvancedSessionsDetails,
                             builder: (context, state) {
-                              final extra =
-                                  state.extra!
-                                      as (
-                                        AuthSession,
-                                        void Function(AuthSession),
-                                      );
+                              final extra = state.extra! as SessionDetailsExtra;
                               return SessionDetailScreen(
-                                session: extra.$1,
-                                onDelete: extra.$2,
+                                session: extra.session,
+                                onDelete: extra.onDelete,
                               );
                             },
                           ),
@@ -447,12 +403,10 @@ GoRouter createAppRouter({
                             path: 'details',
                             name: Routes.settingsServerAdvancedDhcpDetails,
                             builder: (context, state) {
-                              final extra =
-                                  state.extra!
-                                      as (DhcpLease, void Function(DhcpLease));
+                              final extra = state.extra! as DhcpDetailsExtra;
                               return DhcpDetailScreen(
-                                lease: extra.$1,
-                                onDelete: extra.$2,
+                                lease: extra.lease,
+                                onDelete: extra.onDelete,
                               );
                             },
                           ),
@@ -470,18 +424,12 @@ GoRouter createAppRouter({
                             name: Routes.settingsServerAdvancedLocalDnsDetails,
                             builder: (context, state) {
                               final extra =
-                                  state.extra!
-                                      as (
-                                        LocalDns,
-                                        List<DeviceOption>?,
-                                        Future<bool> Function(LocalDns),
-                                        Future<bool> Function(LocalDns, String),
-                                      );
+                                  state.extra! as LocalDnsDetailsExtra;
                               return LocalDnsDetailScreen(
-                                localDns: extra.$1,
-                                devices: extra.$2,
-                                onDelete: extra.$3,
-                                onUpdate: extra.$4,
+                                localDns: extra.localDns,
+                                devices: extra.devices,
+                                onDelete: extra.onDelete,
+                                onUpdate: extra.onUpdate,
                               );
                             },
                           ),
@@ -501,25 +449,18 @@ GoRouter createAppRouter({
                                 .settingsServerAdvancedFindDomainsInListsDomainDetails,
                             builder: (context, state) {
                               final extra =
-                                  state.extra!
-                                      as (
-                                        Domain,
-                                        Map<int, String>,
-                                        AppColors,
-                                        void Function(Domain)?,
-                                        void Function(Domain),
-                                      );
+                                  state.extra! as FindDomainDetailsExtra;
                               final bundle = context.read<RepositoryBundle?>();
                               return ChangeNotifierProvider(
                                 create: (_) => DomainsViewModel(
                                   domainRepository: bundle!.domain,
                                 ),
                                 child: DomainDetailsScreen(
-                                  domain: extra.$1,
-                                  groups: extra.$2,
-                                  colors: extra.$3,
-                                  onUpdated: extra.$4,
-                                  remove: extra.$5,
+                                  domain: extra.domain,
+                                  groups: extra.groups,
+                                  colors: extra.colors,
+                                  onUpdated: extra.onUpdated,
+                                  remove: extra.remove,
                                 ),
                               );
                             },
@@ -530,25 +471,18 @@ GoRouter createAppRouter({
                                 .settingsServerAdvancedFindDomainsInListsAdlistDetails,
                             builder: (context, state) {
                               final extra =
-                                  state.extra!
-                                      as (
-                                        Adlist,
-                                        Map<int, String>,
-                                        AppColors,
-                                        void Function(Adlist)?,
-                                        void Function(Adlist),
-                                      );
+                                  state.extra! as FindAdlistDetailsExtra;
                               final bundle = context.read<RepositoryBundle?>();
                               return ChangeNotifierProvider(
                                 create: (_) => AdlistsViewModel(
                                   adListRepository: bundle!.adlist,
                                 ),
                                 child: AdlistDetailsScreen(
-                                  adlist: extra.$1,
-                                  groups: extra.$2,
-                                  colors: extra.$3,
-                                  onUpdated: extra.$4,
-                                  remove: extra.$5,
+                                  adlist: extra.adlist,
+                                  groups: extra.groups,
+                                  colors: extra.colors,
+                                  onUpdated: extra.onUpdated,
+                                  remove: extra.remove,
                                 ),
                               );
                             },
@@ -567,10 +501,10 @@ GoRouter createAppRouter({
                             name: Routes.settingsServerAdvancedInterfaceAddress,
                             builder: (context, state) {
                               final extra =
-                                  state.extra! as (InterfaceAddress, String);
+                                  state.extra! as InterfaceAddressExtra;
                               return AddressDetailScreen(
-                                address: extra.$1,
-                                title: extra.$2,
+                                address: extra.address,
+                                title: extra.title,
                               );
                             },
                           ),
@@ -606,12 +540,10 @@ GoRouter createAppRouter({
                             path: 'details',
                             name: Routes.settingsServerAdvancedNetworkDetails,
                             builder: (context, state) {
-                              final extra =
-                                  state.extra!
-                                      as (Device, void Function(Device));
+                              final extra = state.extra! as NetworkDetailsExtra;
                               return NetworkDetailScreen(
-                                device: extra.$1,
-                                onDelete: extra.$2,
+                                device: extra.device,
+                                onDelete: extra.onDelete,
                               );
                             },
                           ),

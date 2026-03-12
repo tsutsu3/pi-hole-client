@@ -9,8 +9,8 @@ import 'package:pi_hole_client/domain/model/ftl/message.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
-import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
@@ -241,22 +241,14 @@ void main() async {
                 path: 'details',
                 name: Routes.settingsServerAdlistsDetails,
                 builder: (context, state) {
-                  final extra =
-                      state.extra!
-                          as (
-                            Adlist,
-                            void Function(Adlist),
-                            Map<int, String>,
-                            AppColors?,
-                            AdlistsViewModel,
-                          );
+                  final extra = state.extra! as AdlistDetailsExtra;
                   return ChangeNotifierProvider.value(
-                    value: extra.$5,
+                    value: extra.viewModel,
                     child: AdlistDetailsScreen(
-                      adlist: extra.$1,
-                      remove: extra.$2,
-                      groups: extra.$3,
-                      colors: extra.$4,
+                      adlist: extra.adlist,
+                      remove: extra.remove,
+                      groups: extra.groups,
+                      colors: extra.colors,
                     ),
                   );
                 },

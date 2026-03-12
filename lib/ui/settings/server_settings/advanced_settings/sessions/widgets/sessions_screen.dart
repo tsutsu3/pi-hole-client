@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/auth/auth.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
@@ -141,7 +142,10 @@ class _SessionsScreenState extends State<SessionsScreen> {
                       onSessionTap: (session) {
                         context.pushNamed(
                           Routes.settingsServerAdvancedSessionsDetails,
-                          extra: (session, _removeSession),
+                          extra: SessionDetailsExtra(
+                            session: session,
+                            onDelete: _removeSession,
+                          ),
                         );
                       },
                     );

@@ -2,7 +2,7 @@ import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pi_hole_client/domain/model/auth/auth.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
@@ -50,11 +50,10 @@ void main() async {
                 path: 'details',
                 name: Routes.settingsServerAdvancedSessionsDetails,
                 builder: (context, state) {
-                  final extra =
-                      state.extra! as (AuthSession, void Function(AuthSession));
+                  final extra = state.extra! as SessionDetailsExtra;
                   return SessionDetailScreen(
-                    session: extra.$1,
-                    onDelete: extra.$2,
+                    session: extra.session,
+                    onDelete: extra.onDelete,
                   );
                 },
               ),

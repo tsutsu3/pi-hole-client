@@ -5,8 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
-import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
@@ -171,22 +171,14 @@ void main() async {
                 path: 'details',
                 name: Routes.domainsDetails,
                 builder: (context, state) {
-                  final extra =
-                      state.extra!
-                          as (
-                            Domain,
-                            void Function(Domain),
-                            Map<int, String>,
-                            AppColors?,
-                            DomainsViewModel,
-                          );
+                  final extra = state.extra! as DomainDetailsExtra;
                   return ChangeNotifierProvider.value(
-                    value: extra.$5,
+                    value: extra.viewModel,
                     child: DomainDetailsScreen(
-                      domain: extra.$1,
-                      remove: extra.$2,
-                      groups: extra.$3,
-                      colors: extra.$4,
+                      domain: extra.domain,
+                      remove: extra.remove,
+                      groups: extra.groups,
+                      colors: extra.colors,
                     ),
                   );
                 },
@@ -820,22 +812,14 @@ void main() async {
                 path: 'details',
                 name: Routes.domainsDetails,
                 builder: (context, state) {
-                  final extra =
-                      state.extra!
-                          as (
-                            Domain,
-                            void Function(Domain),
-                            Map<int, String>,
-                            AppColors?,
-                            DomainsViewModel,
-                          );
+                  final extra = state.extra! as DomainDetailsExtra;
                   return ChangeNotifierProvider.value(
-                    value: extra.$5,
+                    value: extra.viewModel,
                     child: DomainDetailsScreen(
-                      domain: extra.$1,
-                      remove: extra.$2,
-                      groups: extra.$3,
-                      colors: extra.$4,
+                      domain: extra.domain,
+                      remove: extra.remove,
+                      groups: extra.groups,
+                      colors: extra.colors,
                     ),
                   );
                 },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
@@ -188,15 +189,15 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
         onTap: (adlist) {
           context.pushNamed(
             Routes.settingsServerAdlistsDetails,
-            extra: (
-              adlist,
-              (Adlist s) {
+            extra: AdlistDetailsExtra(
+              adlist: adlist,
+              remove: (Adlist s) {
                 setState(() => selectedAdlist = null);
                 remove(s);
               },
-              groups,
-              appConfigViewModel.colors,
-              _viewModel,
+              groups: groups,
+              colors: appConfigViewModel.colors,
+              viewModel: _viewModel,
             ),
           );
         },

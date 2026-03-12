@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
@@ -274,26 +275,25 @@ void main() async {
                 path: 'group-details',
                 name: Routes.settingsServerGroupDetails,
                 builder: (context, state) {
-                  final extra =
-                      state.extra!
-                          as (
-                            Group,
-                            void Function(Group),
-                            GroupsViewModel,
-                            ClientsViewModel,
-                            DomainsViewModel,
-                            AdlistsViewModel,
-                          );
+                  final extra = state.extra! as GroupDetailsExtra;
                   return MultiProvider(
                     providers: [
-                      ChangeNotifierProvider.value(value: extra.$3),
-                      ChangeNotifierProvider.value(value: extra.$4),
-                      ChangeNotifierProvider.value(value: extra.$5),
-                      ChangeNotifierProvider.value(value: extra.$6),
+                      ChangeNotifierProvider.value(
+                        value: extra.groupsViewModel,
+                      ),
+                      ChangeNotifierProvider.value(
+                        value: extra.clientsViewModel,
+                      ),
+                      ChangeNotifierProvider.value(
+                        value: extra.domainsViewModel,
+                      ),
+                      ChangeNotifierProvider.value(
+                        value: extra.adlistsViewModel,
+                      ),
                     ],
                     child: GroupDetailsScreen(
-                      group: extra.$1,
-                      remove: extra.$2,
+                      group: extra.group,
+                      remove: extra.remove,
                     ),
                   );
                 },
@@ -363,27 +363,16 @@ void main() async {
                 path: 'client-details',
                 name: Routes.settingsServerClientDetails,
                 builder: (context, state) {
-                  final extra =
-                      state.extra!
-                          as (
-                            ManagedClient,
-                            void Function(ManagedClient),
-                            Map<int, String>,
-                            dynamic,
-                            Map<String, String>,
-                            Map<String, String>,
-                            Map<String, String>,
-                            ClientsViewModel,
-                          );
+                  final extra = state.extra! as ClientDetailsExtra;
                   return ChangeNotifierProvider.value(
-                    value: extra.$8,
+                    value: extra.viewModel,
                     child: ClientDetailsScreen(
-                      client: extra.$1,
-                      remove: extra.$2,
-                      groups: extra.$3,
-                      ipToMac: extra.$5,
-                      ipToHostname: extra.$6,
-                      macToIp: extra.$7,
+                      client: extra.client,
+                      remove: extra.remove,
+                      groups: extra.groups,
+                      ipToMac: extra.ipToMac,
+                      ipToHostname: extra.ipToHostname,
+                      macToIp: extra.macToIp,
                     ),
                   );
                 },

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/list/list_search_result.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -213,14 +214,14 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
   }) async {
     await context.pushNamed(
       Routes.settingsServerAdvancedFindDomainsInListsDomainDetails,
-      extra: (
-        domain,
-        groups,
-        colors,
-        (Domain updated) {
+      extra: FindDomainDetailsExtra(
+        domain: domain,
+        groups: groups,
+        colors: colors,
+        onUpdated: (Domain updated) {
           _pendingDomainUpdate = updated;
         },
-        (Domain selected) => _removeDomain(
+        remove: (Domain selected) => _removeDomain(
           selected,
           viewModel: viewModel,
           appConfigViewModel: appConfigViewModel,
@@ -244,14 +245,14 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
   }) async {
     await context.pushNamed(
       Routes.settingsServerAdvancedFindDomainsInListsAdlistDetails,
-      extra: (
-        adlist,
-        groups,
-        colors,
-        (Adlist updated) {
+      extra: FindAdlistDetailsExtra(
+        adlist: adlist,
+        groups: groups,
+        colors: colors,
+        onUpdated: (Adlist updated) {
           _pendingAdlistUpdate = updated;
         },
-        (Adlist selected) => _removeAdlist(
+        remove: (Adlist selected) => _removeAdlist(
           selected,
           viewModel: viewModel,
           appConfigViewModel: appConfigViewModel,
