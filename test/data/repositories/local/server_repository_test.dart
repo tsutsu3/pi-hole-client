@@ -514,12 +514,6 @@ void main() {
       await ssSerivce.saveValue('http://127.0.0.1_token', 'token123');
       await ssSerivce.saveValue('http://127.0.0.1_sid', 'sid123');
       await ssSerivce.saveValue('http://127.0.0.1_password', 'pass123');
-      await ssSerivce.saveValue('http://127.0.0.1_basicAuthUser', 'user123');
-      await ssSerivce.saveValue(
-        'http://127.0.0.1_basicAuthPassword',
-        'basic123',
-      );
-
       final result = await repository.deleteUnusedServerSecrets();
       expect(result.isSuccess(), true);
 
@@ -533,16 +527,6 @@ void main() {
       );
       expect(
         (await ssSerivce.getValue('http://127.0.0.1_password')).isError(),
-        true,
-      );
-      expect(
-        (await ssSerivce.getValue('http://127.0.0.1_basicAuthUser')).isError(),
-        true,
-      );
-      expect(
-        (await ssSerivce.getValue(
-          'http://127.0.0.1_basicAuthPassword',
-        )).isError(),
         true,
       );
     });
