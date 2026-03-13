@@ -275,8 +275,6 @@ class LocalServerRepository implements ServerRepository {
   /// passwords, or session IDs. Secure keys are removed only if the corresponding
   /// server no longer exists in the database.
   ///
-  /// Also deletes deprecated basic auth keys unconditionally.
-  ///
   /// Returns [Success.unit()] if cleanup succeeds, or a [Failure] if an error occurs.
   @override
   Future<Result<void>> deleteUnusedServerSecrets() async {
