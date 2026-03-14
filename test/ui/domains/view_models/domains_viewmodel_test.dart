@@ -118,6 +118,49 @@ void main() {
       expect(viewModel.whitelistDomains.first.comment, 'updated comment');
     });
 
+    test('addDomain appends to blacklist for deny type', () async {
+      await viewModel.loadDomains.runAsync();
+      final initialCount = viewModel.blacklistDomains.length;
+
+      await viewModel.addDomain.runAsync((
+        type: DomainType.deny,
+        kind: DomainKind.exact,
+        domain: 'evil.example.com',
+      ));
+
+      expect(viewModel.blacklistDomains.length, initialCount + 1);
+      expect(viewModel.blacklistDomains.last.name, 'evil.example.com');
+    });
+
+    test('deleteDomain removes domain from blacklist', () async {
+      await viewModel.loadDomains.runAsync();
+      final domain = viewModel.blacklistDomains.first;
+      listenerCalled = false;
+
+      await viewModel.deleteDomain.runAsync(domain);
+      expect(
+        viewModel.blacklistDomains.where((d) => d.id == domain.id),
+        isEmpty,
+      );
+      expect(listenerCalled, true);
+    });
+
+    test('setSelectedDomain stores domain and notifies', () async {
+      await viewModel.loadDomains.runAsync();
+      final domain = viewModel.whitelistDomains.first;
+      listenerCalled = false;
+
+      viewModel.setSelectedDomain(domain);
+
+      expect(viewModel.selectedDomain, equals(domain));
+      expect(listenerCalled, true);
+    });
+
+    test('setSelectedDomain(null) clears selection', () {
+      viewModel.setSelectedDomain(null);
+      expect(viewModel.selectedDomain, isNull);
+    });
+
     group('Group Filter', () {
       test('setGroupFilter updates groupFilter and filters domains', () async {
         await viewModel.loadDomains.runAsync();
