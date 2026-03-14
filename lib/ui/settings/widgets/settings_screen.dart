@@ -36,7 +36,7 @@ class SettingsScreen extends StatelessWidget {
     /// Navigate to a settings sub-route.
     ///
     /// On desktop, resets the stack to `/settings` first, then pushes the
-    /// target. This clears any intermediate pages (e.g. Advanced → Sessions)
+    /// target. This clears any intermediate pages (e.g. Advanced -> Sessions)
     /// so that back always returns to the settings list.
     /// On mobile, simply pushes a full-screen page.
     void navigateToSetting(String routeName) {

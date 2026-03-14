@@ -22,7 +22,7 @@ import 'package:pi_hole_client/utils/widget_channel.dart';
 /// overtime charts, FTL metrics) and exposes the cached results to the UI.
 ///
 /// Replaces the former `StatusUpdateService` + dumb `StatusViewModel` pair.
-/// All timer/fetch logic now lives here; ViewModel→ViewModel communication
+/// All timer/fetch logic now lives here; ViewModel->ViewModel communication
 /// is eliminated via value + callback injection through [update].
 class StatusViewModel with ChangeNotifier {
   // ---------------------------------------------------------------------------

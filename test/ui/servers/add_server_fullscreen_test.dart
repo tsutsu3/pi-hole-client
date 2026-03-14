@@ -324,7 +324,7 @@ void main() async {
 
         fakeDnsRepository
           ..shouldFail = true
-          ..failureException = null; // Generic Exception → unknown error
+          ..failureException = null; // Generic Exception -> unknown error
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
@@ -655,7 +655,7 @@ void main() async {
 
         fakeDnsRepository
           ..shouldFail = true
-          ..failureException = null; // Generic Exception → unknown error
+          ..failureException = null; // Generic Exception -> unknown error
 
         addTearDown(() {
           tester.view.resetPhysicalSize();

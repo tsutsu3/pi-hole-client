@@ -149,19 +149,52 @@ void main() {
       expect(convertQueryStatusTypeV6('CACHE'), QueryStatusType.cache);
       expect(convertQueryStatusTypeV6('REGEX'), QueryStatusType.regex);
       expect(convertQueryStatusTypeV6('DENYLIST'), QueryStatusType.denylist);
-      expect(convertQueryStatusTypeV6('GRAVITY_CNAME'), QueryStatusType.gravityCname);
-      expect(convertQueryStatusTypeV6('REGEX_CNAME'), QueryStatusType.regexCname);
-      expect(convertQueryStatusTypeV6('DENYLIST_CNAME'), QueryStatusType.denylistCname);
-      expect(convertQueryStatusTypeV6('EXTERNAL_BLOCKED_IP'), QueryStatusType.externalBlockedIp);
-      expect(convertQueryStatusTypeV6('EXTERNAL_BLOCKED_NULL'), QueryStatusType.externalBlockedNull);
-      expect(convertQueryStatusTypeV6('EXTERNAL_BLOCKED_NXRA'), QueryStatusType.externalBlockedNxra);
-      expect(convertQueryStatusTypeV6('EXTERNAL_BLOCKED_EDE15'), QueryStatusType.externalBlockedEde15);
+      expect(
+        convertQueryStatusTypeV6('GRAVITY_CNAME'),
+        QueryStatusType.gravityCname,
+      );
+      expect(
+        convertQueryStatusTypeV6('REGEX_CNAME'),
+        QueryStatusType.regexCname,
+      );
+      expect(
+        convertQueryStatusTypeV6('DENYLIST_CNAME'),
+        QueryStatusType.denylistCname,
+      );
+      expect(
+        convertQueryStatusTypeV6('EXTERNAL_BLOCKED_IP'),
+        QueryStatusType.externalBlockedIp,
+      );
+      expect(
+        convertQueryStatusTypeV6('EXTERNAL_BLOCKED_NULL'),
+        QueryStatusType.externalBlockedNull,
+      );
+      expect(
+        convertQueryStatusTypeV6('EXTERNAL_BLOCKED_NXRA'),
+        QueryStatusType.externalBlockedNxra,
+      );
+      expect(
+        convertQueryStatusTypeV6('EXTERNAL_BLOCKED_EDE15'),
+        QueryStatusType.externalBlockedEde15,
+      );
       expect(convertQueryStatusTypeV6('RETRIED'), QueryStatusType.retried);
-      expect(convertQueryStatusTypeV6('RETRIED_DNSSEC'), QueryStatusType.retriedDnssec);
-      expect(convertQueryStatusTypeV6('IN_PROGRESS'), QueryStatusType.inProgress);
+      expect(
+        convertQueryStatusTypeV6('RETRIED_DNSSEC'),
+        QueryStatusType.retriedDnssec,
+      );
+      expect(
+        convertQueryStatusTypeV6('IN_PROGRESS'),
+        QueryStatusType.inProgress,
+      );
       expect(convertQueryStatusTypeV6('DBBUSY'), QueryStatusType.dbBusy);
-      expect(convertQueryStatusTypeV6('SPECIAL_DOMAIN'), QueryStatusType.specialDomain);
-      expect(convertQueryStatusTypeV6('CACHE_STALE'), QueryStatusType.cacheStale);
+      expect(
+        convertQueryStatusTypeV6('SPECIAL_DOMAIN'),
+        QueryStatusType.specialDomain,
+      );
+      expect(
+        convertQueryStatusTypeV6('CACHE_STALE'),
+        QueryStatusType.cacheStale,
+      );
       expect(convertQueryStatusTypeV6('UNKNOWN'), QueryStatusType.unknown);
     });
 
@@ -233,29 +266,29 @@ void main() {
   // Extension: DomainType.toV5DomainType + V5DomainType roundtrip
   // -------------------------------------------------------------------------
 
-  group('DomainType → V5DomainType roundtrip', () {
-    test('allow+exact → white → allow+exact', () {
+  group('DomainType -> V5DomainType roundtrip', () {
+    test('allow+exact -> white -> allow+exact', () {
       final v5 = DomainType.allow.toV5DomainType(DomainKind.exact);
       expect(v5, V5DomainType.white);
       expect(v5.toDomainType(), DomainType.allow);
       expect(v5.toDomainKind(), DomainKind.exact);
     });
 
-    test('allow+regex → regex_white → allow+regex', () {
+    test('allow+regex -> regex_white -> allow+regex', () {
       final v5 = DomainType.allow.toV5DomainType(DomainKind.regex);
       expect(v5, V5DomainType.regex_white);
       expect(v5.toDomainType(), DomainType.allow);
       expect(v5.toDomainKind(), DomainKind.regex);
     });
 
-    test('deny+exact → black → deny+exact', () {
+    test('deny+exact -> black -> deny+exact', () {
       final v5 = DomainType.deny.toV5DomainType(DomainKind.exact);
       expect(v5, V5DomainType.black);
       expect(v5.toDomainType(), DomainType.deny);
       expect(v5.toDomainKind(), DomainKind.exact);
     });
 
-    test('deny+regex → regex_black → deny+regex', () {
+    test('deny+regex -> regex_black -> deny+regex', () {
       final v5 = DomainType.deny.toV5DomainType(DomainKind.regex);
       expect(v5, V5DomainType.regex_black);
       expect(v5.toDomainType(), DomainType.deny);

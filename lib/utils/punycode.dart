@@ -21,9 +21,9 @@ library;
 /// ensuring this function never throws.
 ///
 /// ```dart
-/// decodePunycode('xn--48j8cuc4a.com');  // → 'さんぷる.com'
-/// decodePunycode('example.com');         // → 'example.com' (unchanged)
-/// decodePunycode('xn--!!!.com');         // → 'xn--!!!.com' (invalid, unchanged)
+/// decodePunycode('xn--48j8cuc4a.com');  // -> 'さんぷる.com'
+/// decodePunycode('example.com');         // -> 'example.com' (unchanged)
+/// decodePunycode('xn--!!!.com');         // -> 'xn--!!!.com' (invalid, unchanged)
 /// ```
 String decodePunycode(String domain) {
   try {
@@ -157,8 +157,8 @@ String _decode(String input) {
 /// Converts a Punycode-encoded ASCII character to its digit value.
 ///
 /// Mapping (case-insensitive):
-/// - `a`–`z` (or `A`–`Z`) → 0–25
-/// - `0`–`9` → 26–35
+/// - `a`–`z` (or `A`–`Z`) -> 0–25
+/// - `0`–`9` -> 26–35
 ///
 /// Throws [FormatException] if [codeUnit] is not a valid Punycode digit.
 int _digitValue(int codeUnit) {

@@ -110,16 +110,12 @@ void main() {
 
   group('LogsPaginationService – initial state', () {
     test('finished starts as loading', () {
-      final svc = LogsPaginationService(
-        repository: _FakeMetricsRepository([]),
-      );
+      final svc = LogsPaginationService(repository: _FakeMetricsRepository([]));
       expect(svc.finished, LoadStatus.loading);
     });
 
     test('throws ArgumentError when time is not set before load', () async {
-      final svc = LogsPaginationService(
-        repository: _FakeMetricsRepository([]),
-      );
+      final svc = LogsPaginationService(repository: _FakeMetricsRepository([]));
       await expectLater(svc.loadNextPage(), throwsArgumentError);
     });
   });
@@ -141,8 +137,9 @@ void main() {
 
     test('subsequent call after finished returns empty list', () async {
       final svc = LogsPaginationService(
-        repository:
-            _FakeMetricsRepository([Success(_v5Logs([_log(1)]))]),
+        repository: _FakeMetricsRepository([
+          Success(_v5Logs([_log(1)])),
+        ]),
       );
       svc.reset(start, end);
       await svc.loadNextPage();
@@ -195,29 +192,27 @@ void main() {
       expect(repo.lastCursor, 99);
     });
 
-    test('empty V6 response (recordsFiltered == 0) transitions to loaded', () async {
-      final svc = LogsPaginationService(
-        repository: _FakeMetricsRepository([
-          const Success(
-            Logs(
-              logs: [],
-              cursor: 42,
-              recordsTotal: 0,
-              recordsFiltered: 0,
+    test(
+      'empty V6 response (recordsFiltered == 0) transitions to loaded',
+      () async {
+        final svc = LogsPaginationService(
+          repository: _FakeMetricsRepository([
+            const Success(
+              Logs(logs: [], cursor: 42, recordsTotal: 0, recordsFiltered: 0),
             ),
-          ),
-        ]),
-      );
-      svc.reset(start, end);
+          ]),
+        );
+        svc.reset(start, end);
 
-      final result = await svc.loadNextPage();
-      expect(result, isEmpty);
-      expect(svc.finished, LoadStatus.loaded);
-    });
+        final result = await svc.loadNextPage();
+        expect(result, isEmpty);
+        expect(svc.finished, LoadStatus.loaded);
+      },
+    );
 
     test('reset clears cursor and offset for a fresh cycle', () async {
-      // pageSize=2: page1 is full (2 logs) → stays loading
-      //             page2 is partial (1 log) → transitions to loaded
+      // pageSize=2: page1 is full (2 logs) -> stays loading
+      //             page2 is partial (1 log) -> transitions to loaded
       const pageSize = 2;
       final repo = _FakeMetricsRepository([
         Success(_v6Logs([_log(1), _log(2)], cursor: 10, recordsFiltered: 3)),
@@ -229,7 +224,7 @@ void main() {
 
       svc.reset(start, end);
       await svc.loadNextPage(); // page1: full
-      await svc.loadNextPage(); // page2: partial → loaded
+      await svc.loadNextPage(); // page2: partial -> loaded
       expect(svc.finished, LoadStatus.loaded);
 
       // Reset for a new window.
@@ -259,18 +254,21 @@ void main() {
       expect(svc.finished, LoadStatus.loaded);
     });
 
-    test('all retries exhausted transitions to error and returns empty', () async {
-      final svc = LogsPaginationService(
-        repository: _FakeMetricsRepository([
-          Failure(Exception('error')),
-          Failure(Exception('error again')),
-        ]),
-      );
-      svc.reset(start, end);
+    test(
+      'all retries exhausted transitions to error and returns empty',
+      () async {
+        final svc = LogsPaginationService(
+          repository: _FakeMetricsRepository([
+            Failure(Exception('error')),
+            Failure(Exception('error again')),
+          ]),
+        );
+        svc.reset(start, end);
 
-      final result = await svc.loadNextPage();
-      expect(result, isEmpty);
-      expect(svc.finished, LoadStatus.error);
-    });
+        final result = await svc.loadNextPage();
+        expect(result, isEmpty);
+        expect(svc.finished, LoadStatus.error);
+      },
+    );
   });
 }

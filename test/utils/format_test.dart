@@ -52,12 +52,12 @@ void main() {
     });
 
     test('handles carriage return overwrite (shorter overwrites partial)', () {
-      // 'AB\rC' → 'C' overwrites only 1 char of 'AB' → 'CB'
+      // 'AB\rC' -> 'C' overwrites only 1 char of 'AB' -> 'CB'
       expect(normalizeLogOutput('AB\rC'), equals('CB'));
     });
 
     test('handles carriage return overwrite (longer replaces fully)', () {
-      // 'A\rBCD' → 'BCD' (longer) replaces 'A' completely
+      // 'A\rBCD' -> 'BCD' (longer) replaces 'A' completely
       expect(normalizeLogOutput('A\rBCD'), equals('BCD'));
     });
 
