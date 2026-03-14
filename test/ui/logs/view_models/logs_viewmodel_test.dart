@@ -435,6 +435,23 @@ void main() {
       expect(vm.logsList.length, equals(1));
       vm.dispose();
     });
+
+    test(
+      'loading -> loaded: deduplicates logs without id using composite key',
+      () async {
+        // id == null => _logKey falls back to dateTime|type|url|device key.
+        final log = _allowedLog(url: 'dup.com', device: '10.0.0.1');
+        // Same log provided twice — composite-key dedup should keep only one entry.
+        final vm = _buildVm(logs: [log, log]);
+
+        expect(vm.loadStatus, LoadStatus.loading);
+        await _initAndLoad(vm);
+
+        expect(vm.loadStatus, LoadStatus.loaded);
+        expect(vm.logsList.length, equals(1));
+        vm.dispose();
+      },
+    );
   });
 
   // -------------------------------------------------------------------------
