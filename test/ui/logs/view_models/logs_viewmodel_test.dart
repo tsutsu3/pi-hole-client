@@ -26,8 +26,7 @@ class _StubMetricsRepository implements MetricsRepository {
     int? length = 100,
     int? cursor,
     int? start,
-  }) =>
-      throw UnimplementedError();
+  }) => throw UnimplementedError();
 
   @override
   Future<Result<History>> fetchHistory() => throw UnimplementedError();
@@ -46,26 +45,22 @@ class _StubMetricsRepository implements MetricsRepository {
   @override
   Future<Result<List<QueryStat>>> fetchStatsTopDomainsBlocked({
     int? count = 10,
-  }) =>
-      throw UnimplementedError();
+  }) => throw UnimplementedError();
 
   @override
   Future<Result<List<QueryStat>>> fetchStatsTopDomainsAllowed({
     int? count = 10,
-  }) =>
-      throw UnimplementedError();
+  }) => throw UnimplementedError();
 
   @override
   Future<Result<List<SourceStat>>> fetchStatsTopClientsBlocked({
     int? count = 10,
-  }) =>
-      throw UnimplementedError();
+  }) => throw UnimplementedError();
 
   @override
   Future<Result<List<SourceStat>>> fetchStatsTopClientsAllowed({
     int? count = 10,
-  }) =>
-      throw UnimplementedError();
+  }) => throw UnimplementedError();
 
   @override
   Future<Result<OverTime>> fetchOverTime({int? count = 10}) =>
@@ -76,7 +71,7 @@ class _StubMetricsRepository implements MetricsRepository {
 /// call and [LoadStatus.loaded] thereafter.
 class _ControlledPaginationService extends LogsPaginationService {
   _ControlledPaginationService(this._logs)
-      : super(repository: _StubMetricsRepository());
+    : super(repository: _StubMetricsRepository());
 
   final List<Log> _logs;
   bool _done = false;
@@ -118,32 +113,30 @@ Log _allowedLog({
   required String device,
   DateTime? dateTime,
   int? id,
-}) =>
-    Log(
-      dateTime: dateTime ?? DateTime(2024, 1, 1, 12, 0),
-      type: DnsRecordType.a,
-      url: url,
-      device: device,
-      replyTime: 0.001,
-      status: QueryStatusType.forwarded, // V5 index=2, allowed
-      id: id,
-    );
+}) => Log(
+  dateTime: dateTime ?? DateTime(2024, 1, 1, 12, 0),
+  type: DnsRecordType.a,
+  url: url,
+  device: device,
+  replyTime: 0.001,
+  status: QueryStatusType.forwarded, // V5 index=2, allowed
+  id: id,
+);
 
 Log _blockedLog({
   required String url,
   required String device,
   DateTime? dateTime,
   int? id,
-}) =>
-    Log(
-      dateTime: dateTime ?? DateTime(2024, 1, 1, 12, 0),
-      type: DnsRecordType.a,
-      url: url,
-      device: device,
-      replyTime: 0.001,
-      status: QueryStatusType.gravity, // V5 index=1, blocked
-      id: id,
-    );
+}) => Log(
+  dateTime: dateTime ?? DateTime(2024, 1, 1, 12, 0),
+  type: DnsRecordType.a,
+  url: url,
+  device: device,
+  replyTime: 0.001,
+  status: QueryStatusType.gravity, // V5 index=1, blocked
+  id: id,
+);
 
 // ---------------------------------------------------------------------------
 // Helper: configure the VM with a fake repository and an injected factory.
@@ -159,9 +152,9 @@ LogsViewModel _buildVm({
       overrideFactory ??
       (failLoad
           ? ({required MetricsRepository repository}) =>
-              _ErrorPaginationService()
+                _ErrorPaginationService()
           : ({required MetricsRepository repository}) =>
-              _ControlledPaginationService(logs ?? const []));
+                _ControlledPaginationService(logs ?? const []));
 
   final vm = LogsViewModel(paginationServiceFactory: factory);
   vm.update(
@@ -178,7 +171,7 @@ LogsViewModel _buildVm({
 /// before the first use (done via setUpAll in the load/filter groups).
 Future<void> _initAndLoad(LogsViewModel vm) async {
   vm.initScreen(logsPerQuery: 2.0); // creates services, schedules (unfired)
-  await vm.initializeLoad();        // direct call — no pump needed
+  await vm.initializeLoad(); // direct call — no pump needed
 }
 
 // ---------------------------------------------------------------------------
@@ -247,21 +240,25 @@ void main() {
       expect(vm.requestStatus, RequestStatus.all);
     });
 
-    test('setRequestStatus(blocked) sets requestStatus and narrows statusSelected',
-        () {
-      final allCount = vm.statusSelected.length;
-      vm.setRequestStatus(RequestStatus.blocked);
-      expect(vm.requestStatus, RequestStatus.blocked);
-      expect(vm.statusSelected.length, lessThan(allCount));
-    });
+    test(
+      'setRequestStatus(blocked) sets requestStatus and narrows statusSelected',
+      () {
+        final allCount = vm.statusSelected.length;
+        vm.setRequestStatus(RequestStatus.blocked);
+        expect(vm.requestStatus, RequestStatus.blocked);
+        expect(vm.statusSelected.length, lessThan(allCount));
+      },
+    );
 
-    test('setRequestStatus(allowed) sets requestStatus and narrows statusSelected',
-        () {
-      final allCount = vm.statusSelected.length;
-      vm.setRequestStatus(RequestStatus.allowed);
-      expect(vm.requestStatus, RequestStatus.allowed);
-      expect(vm.statusSelected.length, lessThan(allCount));
-    });
+    test(
+      'setRequestStatus(allowed) sets requestStatus and narrows statusSelected',
+      () {
+        final allCount = vm.statusSelected.length;
+        vm.setRequestStatus(RequestStatus.allowed);
+        expect(vm.requestStatus, RequestStatus.allowed);
+        expect(vm.statusSelected.length, lessThan(allCount));
+      },
+    );
 
     test('setRequestStatus(all) restores all statuses', () {
       vm.setRequestStatus(RequestStatus.blocked);
@@ -289,28 +286,28 @@ void main() {
     setUp(() => vm = _buildVm());
     tearDown(() => vm.dispose());
 
-    test('selectedStatusTypes is non-empty by default (all shown statuses)', () {
-      expect(vm.selectedStatusTypes, isNotEmpty);
-    });
+    test(
+      'selectedStatusTypes is non-empty by default (all shown statuses)',
+      () {
+        expect(vm.selectedStatusTypes, isNotEmpty);
+      },
+    );
 
-    test('selectedStatusTypes contains forwarded when allowed filter active', () {
-      vm.setRequestStatus(RequestStatus.allowed);
-      expect(
-        vm.selectedStatusTypes,
-        contains(QueryStatusType.forwarded),
-      );
-      expect(
-        vm.selectedStatusTypes,
-        isNot(contains(QueryStatusType.gravity)),
-      );
-    });
+    test(
+      'selectedStatusTypes contains forwarded when allowed filter active',
+      () {
+        vm.setRequestStatus(RequestStatus.allowed);
+        expect(vm.selectedStatusTypes, contains(QueryStatusType.forwarded));
+        expect(
+          vm.selectedStatusTypes,
+          isNot(contains(QueryStatusType.gravity)),
+        );
+      },
+    );
 
     test('selectedStatusTypes contains gravity when blocked filter active', () {
       vm.setRequestStatus(RequestStatus.blocked);
-      expect(
-        vm.selectedStatusTypes,
-        contains(QueryStatusType.gravity),
-      );
+      expect(vm.selectedStatusTypes, contains(QueryStatusType.gravity));
       expect(
         vm.selectedStatusTypes,
         isNot(contains(QueryStatusType.forwarded)),
@@ -387,11 +384,8 @@ void main() {
       vm.setRequestStatus(RequestStatus.blocked);
       expect(vm.requestStatus, RequestStatus.blocked);
 
-      // Switch to v6 → filter delegate is replaced.
-      vm.update(
-        metricsRepository: _StubMetricsRepository(),
-        apiVersion: 'v6',
-      );
+      // Switch to v6 -> filter delegate is replaced.
+      vm.update(metricsRepository: _StubMetricsRepository(), apiVersion: 'v6');
       expect(vm.apiVersion, equals('v6'));
       expect(vm.requestStatus, equals(RequestStatus.all));
       vm.dispose();
@@ -403,10 +397,11 @@ void main() {
   // -------------------------------------------------------------------------
 
   group('LogsViewModel – initScreen load lifecycle', () {
-    test('loads logs and transitions to loaded status', () async {
+    test('loading -> loaded: logs are populated', () async {
       final log = _allowedLog(url: 'example.com', device: '10.0.0.1', id: 1);
       final vm = _buildVm(logs: [log]);
 
+      expect(vm.loadStatus, LoadStatus.loading);
       await _initAndLoad(vm);
 
       expect(vm.loadStatus, LoadStatus.loaded);
@@ -414,23 +409,29 @@ void main() {
       vm.dispose();
     });
 
-    test('sets loadStatus to error when pagination fails', () async {
-      final vm = _buildVm(failLoad: true);
+    test(
+      'loading -> error: pagination failure sets loadStatus to error',
+      () async {
+        final vm = _buildVm(failLoad: true);
 
-      await _initAndLoad(vm);
+        expect(vm.loadStatus, LoadStatus.loading);
+        await _initAndLoad(vm);
 
-      expect(vm.loadStatus, LoadStatus.error);
-      expect(vm.logsList, isEmpty);
-      vm.dispose();
-    });
+        expect(vm.loadStatus, LoadStatus.error);
+        expect(vm.logsList, isEmpty);
+        vm.dispose();
+      },
+    );
 
-    test('deduplicates logs with the same id', () async {
+    test('loading -> loaded: deduplicates logs with the same id', () async {
       final log = _allowedLog(url: 'dup.com', device: '10.0.0.1', id: 42);
       // Same log provided twice — dedup by id should keep only one entry.
       final vm = _buildVm(logs: [log, log]);
 
+      expect(vm.loadStatus, LoadStatus.loading);
       await _initAndLoad(vm);
 
+      expect(vm.loadStatus, LoadStatus.loaded);
       expect(vm.logsList.length, equals(1));
       vm.dispose();
     });

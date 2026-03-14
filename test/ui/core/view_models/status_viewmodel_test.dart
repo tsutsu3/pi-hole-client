@@ -81,7 +81,7 @@ void main() {
         selectedServerAlias: 'Server B',
       );
 
-      // Server address changed → state should reset to loading.
+      // Server address changed -> state should reset to loading.
       expect(statusViewModel.getServerStatus, LoadStatus.loading);
       expect(statusViewModel.getRealtimeStatus, null);
       expect(statusViewModel.getOvertimeData, null);
@@ -102,7 +102,7 @@ void main() {
         selectedServerAlias: 'Server A',
       );
 
-      // Same server → state should be preserved.
+      // Same server -> state should be preserved.
       expect(statusViewModel.getServerStatus, LoadStatus.loaded);
       expect(listenerCalled, false);
     });
@@ -126,38 +126,47 @@ void main() {
 
     tearDown(() => vm.dispose());
 
-    test('returns true and sets serverStatus to loaded', () async {
+    test('loading -> loaded: returns true and sets serverStatus', () async {
+      expect(vm.getServerStatus, LoadStatus.loading);
       final ok = await vm.refreshOnce();
       expect(ok, isTrue);
       expect(vm.getServerStatus, LoadStatus.loaded);
     });
 
-    test('realtimeStatus is populated after successful fetch', () async {
+    test('loading -> loaded: realtimeStatus is populated', () async {
+      expect(vm.getServerStatus, LoadStatus.loading);
       await vm.refreshOnce();
       expect(vm.getRealtimeStatus, isNotNull);
     });
 
-    test('overtimeData is populated after successful fetch', () async {
+    test('loading -> loaded: overtimeData is populated', () async {
+      expect(vm.getServerStatus, LoadStatus.loading);
       await vm.refreshOnce();
       expect(vm.getOvertimeData, isNotNull);
     });
 
-    test('ftlDnsMetrics is populated after successful fetch', () async {
+    test('loading -> loaded: ftlDnsMetrics is populated', () async {
+      expect(vm.getServerStatus, LoadStatus.loading);
       await vm.refreshOnce();
       expect(vm.getFtlDnsMetrics, isNotNull);
     });
 
-    test('statusLoading transitions to loaded', () async {
+    test('loading -> loaded: statusLoading transitions to loaded', () async {
+      expect(vm.getStatusLoading, LoadStatus.loading);
       await vm.refreshOnce();
       expect(vm.getStatusLoading, LoadStatus.loaded);
     });
 
-    test('topClientNames reflects fetched realtime status', () async {
-      await vm.refreshOnce();
-      // kRepoFetchRealTimeStatus has sources: '172.26.0.1' and
-      // 'localhost|127.0.0.1'; split('|').first gives hostname or IP.
-      expect(vm.topClientNames, containsAll(['172.26.0.1', 'localhost']));
-    });
+    test(
+      'loading -> loaded: topClientNames reflects fetched realtime status',
+      () async {
+        expect(vm.getServerStatus, LoadStatus.loading);
+        await vm.refreshOnce();
+        // kRepoFetchRealTimeStatus has sources: '172.26.0.1' and
+        // 'localhost|127.0.0.1'; split('|').first gives hostname or IP.
+        expect(vm.topClientNames, containsAll(['172.26.0.1', 'localhost']));
+      },
+    );
   });
 
   group('StatusViewModel – refreshOnce() V5 failure', () {
@@ -165,30 +174,38 @@ void main() {
 
     tearDown(() => vm.dispose());
 
-    test('returns false and sets serverStatus to error when status fetch fails',
-        () async {
-      vm = StatusViewModel();
-      final failingRepo = FakeRealTimeStatusRepository()..shouldFail = true;
-      _setup(vm, realtimeStatusRepository: failingRepo);
+    test(
+      'loading -> error: status fetch failure sets serverStatus to error',
+      () async {
+        vm = StatusViewModel();
+        final failingRepo = FakeRealTimeStatusRepository()..shouldFail = true;
+        _setup(vm, realtimeStatusRepository: failingRepo);
 
-      final ok = await vm.refreshOnce();
-      expect(ok, isFalse);
-      expect(vm.getServerStatus, LoadStatus.error);
-    });
+        expect(vm.getServerStatus, LoadStatus.loading);
+        final ok = await vm.refreshOnce();
+        expect(ok, isFalse);
+        expect(vm.getServerStatus, LoadStatus.error);
+      },
+    );
 
-    test('returns false when overtime fetch fails', () async {
-      vm = StatusViewModel();
-      final failingMetrics = FakeMetricsRepository()..shouldFail = true;
-      _setup(vm, metricsRepository: failingMetrics);
+    test(
+      'loading -> error: overtime fetch failure sets serverStatus to error',
+      () async {
+        vm = StatusViewModel();
+        final failingMetrics = FakeMetricsRepository()..shouldFail = true;
+        _setup(vm, metricsRepository: failingMetrics);
 
-      final ok = await vm.refreshOnce();
-      expect(ok, isFalse);
-      expect(vm.getServerStatus, LoadStatus.error);
-    });
+        expect(vm.getServerStatus, LoadStatus.loading);
+        final ok = await vm.refreshOnce();
+        expect(ok, isFalse);
+        expect(vm.getServerStatus, LoadStatus.error);
+      },
+    );
 
     test('returns false when no server address is set', () async {
       vm = StatusViewModel();
       // Do not call _setup — no server address.
+      expect(vm.getServerStatus, LoadStatus.loading);
       final ok = await vm.refreshOnce();
       expect(ok, isFalse);
     });
@@ -204,21 +221,27 @@ void main() {
 
     tearDown(() => vm.dispose());
 
-    test('succeeds using V6 repositories', () async {
+    test('loading -> loaded: V6 success populates realtimeStatus', () async {
+      expect(vm.getServerStatus, LoadStatus.loading);
       final ok = await vm.refreshOnce();
       expect(ok, isTrue);
       expect(vm.getServerStatus, LoadStatus.loaded);
       expect(vm.getRealtimeStatus, isNotNull);
     });
 
-    test('returns false when V6 metrics repository fails', () async {
-      vm = StatusViewModel();
-      final failingMetrics = FakeMetricsRepository()..shouldFail = true;
-      _setup(vm, apiVersion: 'v6', metricsRepository: failingMetrics);
+    test(
+      'loading -> error: V6 metrics failure sets serverStatus to error',
+      () async {
+        vm = StatusViewModel();
+        final failingMetrics = FakeMetricsRepository()..shouldFail = true;
+        _setup(vm, apiVersion: 'v6', metricsRepository: failingMetrics);
 
-      final ok = await vm.refreshOnce();
-      expect(ok, isFalse);
-    });
+        expect(vm.getServerStatus, LoadStatus.loading);
+        final ok = await vm.refreshOnce();
+        expect(ok, isFalse);
+        expect(vm.getServerStatus, LoadStatus.error);
+      },
+    );
   });
 
   // ---------------------------------------------------------------------------
@@ -276,18 +299,21 @@ void main() {
 
     tearDown(() => vm.dispose());
 
-    test('changing autoRefreshTime while running restarts auto-refresh', () async {
-      vm = StatusViewModel();
-      _setup(vm, autoRefreshTime: 5);
-      vm.startAutoRefresh(runImmediately: false);
-      expect(vm.isAutoRefreshRunning, isTrue);
+    test(
+      'changing autoRefreshTime while running restarts auto-refresh',
+      () async {
+        vm = StatusViewModel();
+        _setup(vm, autoRefreshTime: 5);
+        vm.startAutoRefresh(runImmediately: false);
+        expect(vm.isAutoRefreshRunning, isTrue);
 
-      // Change the refresh interval — should stop and reschedule.
-      _setup(vm, autoRefreshTime: 10);
-      // After microtask the timers are restarted.
-      await Future<void>.microtask(() {});
+        // Change the refresh interval — should stop and reschedule.
+        _setup(vm, autoRefreshTime: 10);
+        // After microtask the timers are restarted.
+        await Future<void>.microtask(() {});
 
-      expect(vm.isAutoRefreshRunning, isTrue);
-    });
+        expect(vm.isAutoRefreshRunning, isTrue);
+      },
+    );
   });
 }
