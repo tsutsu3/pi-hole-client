@@ -32,5 +32,41 @@ void main() async {
       }
       expect(find.byIcon(Icons.backspace), findsOneWidget);
     });
+
+    testWidgets('shows compact layout when height is small', (tester) async {
+      // Height 600 logical px -> height - 180 = 420 < 426 -> compact Row branch
+      tester.view.physicalSize = const Size(1080, 600);
+      tester.view.devicePixelRatio = 1.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(buildTestApp(const Unlock()));
+      await tester.pump();
+
+      expect(find.byIcon(Icons.lock_open_rounded), findsOneWidget);
+      expect(find.text('Enter code to unlock'), findsOneWidget);
+    });
+
+    testWidgets('shows large-screen layout when width exceeds medium', (
+      tester,
+    ) async {
+      // 2560x1600 DPR 2.0 -> logical 1280x800 (>700 medium)
+      tester.view.physicalSize = const Size(2560, 1600);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(buildTestApp(const Unlock()));
+      await tester.pump();
+
+      expect(find.byType(Unlock), findsOneWidget);
+      expect(find.byIcon(Icons.lock_open_rounded), findsOneWidget);
+    });
   });
 }

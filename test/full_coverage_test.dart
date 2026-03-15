@@ -521,6 +521,7 @@ import 'package:pi_hole_client/domain/use_cases/usecase_factory.dart';
 import 'package:pi_hole_client/main.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
 import 'package:pi_hole_client/routing/app_router.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/app_logs/widgets/app_log_details_modal.dart';
 import 'package:pi_hole_client/ui/app_logs/widgets/app_logs_screen.dart';
