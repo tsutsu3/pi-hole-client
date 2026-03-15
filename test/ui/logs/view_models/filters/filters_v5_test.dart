@@ -162,13 +162,15 @@ void main() {
       },
     );
 
-    test('setClients preserves existing selectedClients on subsequent calls',
-        () {
-      f.setClients(['a', 'b']);
-      f.setSelectedClients(['a']);
-      f.setClients(['a', 'b', 'c']); // update total but selected stays
-      expect(f.selectedClients, equals(['a']));
-    });
+    test(
+      'setClients preserves existing selectedClients on subsequent calls',
+      () {
+        f.setClients(['a', 'b']);
+        f.setSelectedClients(['a']);
+        f.setClients(['a', 'b', 'c']); // update total but selected stays
+        expect(f.selectedClients, equals(['a']));
+      },
+    );
 
     test('setSelectedClients updates the selection', () {
       f.setClients(['a', 'b', 'c']);
