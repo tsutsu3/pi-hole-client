@@ -56,6 +56,7 @@ void main() {
         await viewModel.loadGroups.runAsync();
       } catch (_) {}
       expect(viewModel.loadingStatus, LoadStatus.error);
+      expect(listenerCalled, true);
     });
 
     test('groupItems returns correct map', () async {
@@ -131,11 +132,13 @@ void main() {
       final group = viewModel.groups.last;
 
       fakeGroupRepository.shouldFail = true;
+      listenerCalled = false;
       try {
         await viewModel.deleteGroup.runAsync(group);
       } catch (_) {}
 
       expect(viewModel.deleteGroup.errors.value, isNotNull);
+      expect(listenerCalled, true);
     });
   });
 }

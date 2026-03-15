@@ -58,9 +58,7 @@ void main() async {
       await tester.pumpWidget(
         buildTestApp(
           CustomNavigationRail(
-            screens: const [
-              AppScreen(icon: Icon(Icons.link), name: 'connect'),
-            ],
+            screens: const [AppScreen(icon: Icon(Icons.link), name: 'connect')],
             selectedScreen: 0,
             onChange: (_) {},
           ),
@@ -74,9 +72,7 @@ void main() async {
       await tester.pumpWidget(
         buildTestApp(
           CustomNavigationRail(
-            screens: const [
-              AppScreen(icon: Icon(Icons.help), name: 'unknown'),
-            ],
+            screens: const [AppScreen(icon: Icon(Icons.help), name: 'unknown')],
             selectedScreen: 0,
             onChange: (_) {},
           ),

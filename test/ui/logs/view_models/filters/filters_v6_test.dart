@@ -145,19 +145,24 @@ void main() {
 
     setUp(() => f = FiltersV6());
 
-    test('setClients sets totalClients and initializes selectedClients when empty',
-        () {
-      f.setClients(['a', 'b', 'c']);
-      expect(f.totalClients, equals(['a', 'b', 'c']));
-      expect(f.selectedClients, equals(['a', 'b', 'c']));
-    });
+    test(
+      'setClients sets totalClients and initializes selectedClients when empty',
+      () {
+        f.setClients(['a', 'b', 'c']);
+        expect(f.totalClients, equals(['a', 'b', 'c']));
+        expect(f.selectedClients, equals(['a', 'b', 'c']));
+      },
+    );
 
-    test('setClients preserves existing selectedClients on subsequent calls', () {
-      f.setClients(['a', 'b']);
-      f.setSelectedClients(['a']);
-      f.setClients(['a', 'b', 'c']); // update total but selected stays
-      expect(f.selectedClients, equals(['a']));
-    });
+    test(
+      'setClients preserves existing selectedClients on subsequent calls',
+      () {
+        f.setClients(['a', 'b']);
+        f.setSelectedClients(['a']);
+        f.setClients(['a', 'b', 'c']); // update total but selected stays
+        expect(f.selectedClients, equals(['a']));
+      },
+    );
 
     test('setSelectedClients updates the selection', () {
       f.setClients(['a', 'b', 'c']);

@@ -645,45 +645,46 @@ void main() {
       overrideFactory: ({required MetricsRepository repository}) => service,
     );
 
-    test('with time range: logs are loaded and loadStatus becomes loaded',
-        () async {
-      final vm = buildTrackedVm();
-      await _initAndLoad(vm);
+    test(
+      'with time range: logs are loaded and loadStatus becomes loaded',
+      () async {
+        final vm = buildTrackedVm();
+        await _initAndLoad(vm);
 
-      // After init, the service has already been called once. Reset tracking.
-      final callsBefore = service.loadNextPageCallCount;
+        // After init, the service has already been called once. Reset tracking.
+        final callsBefore = service.loadNextPageCallCount;
 
-      await vm.applyFilterAndLoad(
-        inStartTime: DateTime(2024, 1, 1, 10, 0),
-        inEndTime: DateTime(2024, 1, 1, 12, 0),
-      );
+        await vm.applyFilterAndLoad(
+          inStartTime: DateTime(2024, 1, 1, 10, 0),
+          inEndTime: DateTime(2024, 1, 1, 12, 0),
+        );
 
-      expect(vm.loadStatus, LoadStatus.loaded);
-      // loadNextPage must have been called exactly once more for the range.
-      expect(
-        service.loadNextPageCallCount,
-        equals(callsBefore + 1),
-      );
-      // Logs from the page are in the list.
-      expect(vm.logsList, isNotEmpty);
-      vm.dispose();
-    });
+        expect(vm.loadStatus, LoadStatus.loaded);
+        // loadNextPage must have been called exactly once more for the range.
+        expect(service.loadNextPageCallCount, equals(callsBefore + 1));
+        // Logs from the page are in the list.
+        expect(vm.logsList, isNotEmpty);
+        vm.dispose();
+      },
+    );
 
-    test('with time range: pagination service is reset with the given window',
-        () async {
-      final vm = buildTrackedVm();
-      await _initAndLoad(vm);
+    test(
+      'with time range: pagination service is reset with the given window',
+      () async {
+        final vm = buildTrackedVm();
+        await _initAndLoad(vm);
 
-      final resetsBefore = service.resetCallCount;
-      final start = DateTime(2024, 1, 1, 10, 0);
-      final end = DateTime(2024, 1, 1, 12, 0);
+        final resetsBefore = service.resetCallCount;
+        final start = DateTime(2024, 1, 1, 10, 0);
+        final end = DateTime(2024, 1, 1, 12, 0);
 
-      await vm.applyFilterAndLoad(inStartTime: start, inEndTime: end);
+        await vm.applyFilterAndLoad(inStartTime: start, inEndTime: end);
 
-      // reset() must have been called once more with the supplied window.
-      expect(service.resetCallCount, equals(resetsBefore + 1));
-      vm.dispose();
-    });
+        // reset() must have been called once more with the supplied window.
+        expect(service.resetCallCount, equals(resetsBefore + 1));
+        vm.dispose();
+      },
+    );
 
     test('without time range: loadNextPage is not called again', () async {
       final vm = buildTrackedVm();

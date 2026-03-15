@@ -79,22 +79,21 @@ void main() async {
       expect(find.byType(Chip), findsOneWidget);
     });
 
-    testWidgets(
-      'status chip calls resetStatus and onResetFilters on delete',
-      (WidgetTester tester) async {
-        viewModel.setRequestStatus(RequestStatus.blocked);
-        var resetFiltersCalled = false;
+    testWidgets('status chip calls resetStatus and onResetFilters on delete', (
+      WidgetTester tester,
+    ) async {
+      viewModel.setRequestStatus(RequestStatus.blocked);
+      var resetFiltersCalled = false;
 
-        await tester.pumpWidget(
-          buildChips(onResetFilters: () => resetFiltersCalled = true),
-        );
+      await tester.pumpWidget(
+        buildChips(onResetFilters: () => resetFiltersCalled = true),
+      );
 
-        await tester.tap(find.byIcon(Icons.cancel).first);
-        await tester.pump();
+      await tester.tap(find.byIcon(Icons.cancel).first);
+      await tester.pump();
 
-        expect(resetFiltersCalled, true);
-      },
-    );
+      expect(resetFiltersCalled, true);
+    });
 
     testWidgets('shows client chip when client subset selected', (
       WidgetTester tester,
