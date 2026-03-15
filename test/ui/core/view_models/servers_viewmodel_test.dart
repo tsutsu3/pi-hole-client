@@ -1,5 +1,6 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/query_types.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
@@ -209,6 +210,153 @@ void main() async {
 
       expect(serversViewModel.connectingServer, null);
       expect(listenerCalled, false);
+    });
+
+    test('setUnverifiedBannerDismissed updates and notifies listeners', () {
+      serversViewModel.setUnverifiedBannerDismissed(true);
+
+      expect(serversViewModel.unverifiedBannerDismissed, true);
+      expect(listenerCalled, true);
+    });
+
+    test('serversWithUnverifiedCertificates returns servers with self-signed',
+        () async {
+      const unverifiedServer = Server(
+        address: 'https://pi.hole',
+        alias: 'Unverified',
+        defaultServer: false,
+        apiVersion: 'v6',
+        allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
+      );
+      await serversViewModel.addServer(unverifiedServer);
+      listenerCalled = false;
+
+      final unverified = serversViewModel.serversWithUnverifiedCertificates;
+
+      expect(unverified.any((s) => s.address == unverifiedServer.address), isTrue);
+    });
+
+    test('numShown returns non-negative value', () async {
+      await serversViewModel.addServer(server);
+
+      expect(serversViewModel.numShown, greaterThanOrEqualTo(0));
+    });
+
+    test('addServer with default=true selects the server', () async {
+      const defaultSrv = Server(
+        address: 'http://localhost:9090',
+        alias: 'default',
+        defaultServer: true,
+        apiVersion: 'v6',
+        allowSelfSignedCert: false,
+        ignoreCertificateErrors: false,
+      );
+      await serversViewModel.addServer(defaultSrv);
+
+      expect(
+        serversViewModel.getServersList.any((s) => s.address == defaultSrv.address),
+        isTrue,
+      );
+    });
+
+    test('update stores the onServerSelected callback', () {
+      var callbackFired = false;
+      serversViewModel.update(() => callbackFired = true);
+      expect(callbackFired, false); // stored, not yet invoked
+    });
+
+    group('v5 server branches', () {
+      const serverV5 = Server(
+        address: 'http://localhost:9091',
+        alias: 'test v5',
+        defaultServer: false,
+        apiVersion: 'v5',
+        allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
+      );
+
+      test('queryStatuses returns v5 list for v5 server', () {
+        serversViewModel.addServer(serverV5);
+        serversViewModel.setselectedServer(server: serverV5);
+
+        expect(serversViewModel.queryStatuses, queryStatusesV5);
+      });
+
+      test('numShown returns count for v5 server', () {
+        serversViewModel.addServer(serverV5);
+        serversViewModel.setselectedServer(server: serverV5);
+
+        expect(serversViewModel.numShown, greaterThanOrEqualTo(0));
+      });
+
+      test('getQueryStatus returns correct status for v5 server', () {
+        serversViewModel.addServer(serverV5);
+        serversViewModel.setselectedServer(server: serverV5);
+
+        final result = serversViewModel.getQueryStatus('1');
+        expect(result?.key, queryStatusesV5[0].key);
+      });
+
+      test('findQueryStatus returns correct status for v5 server', () {
+        serversViewModel.addServer(serverV5);
+        serversViewModel.setselectedServer(server: serverV5);
+
+        final result = serversViewModel.findQueryStatus('1');
+        expect(result?.key, queryStatusesV5[0].key);
+      });
+    });
+
+    test('getQueryStatusByType returns correct status for v6 server', () {
+      serversViewModel.addServer(server);
+      serversViewModel.setselectedServer(server: server);
+
+      final result = serversViewModel.getQueryStatusByType(QueryStatusType.gravity);
+      expect(result, isNotNull);
+    });
+
+    test(
+      'serversWithUnverifiedCertificates includes server with empty pinnedCertificateSha256',
+      () async {
+        const serverWithEmptyPin = Server(
+          address: 'https://pi.hole',
+          alias: 'empty pin',
+          defaultServer: false,
+          apiVersion: 'v6',
+          allowSelfSignedCert: true,
+          ignoreCertificateErrors: false,
+          pinnedCertificateSha256: '',
+        );
+        await serversViewModel.addServer(serverWithEmptyPin);
+
+        final unverified = serversViewModel.serversWithUnverifiedCertificates;
+        expect(
+          unverified.any((s) => s.address == serverWithEmptyPin.address),
+          isTrue,
+        );
+      },
+    );
+
+    test('editServer updates selectedServer when addresses match', () async {
+      await serversViewModel.addServer(server);
+      serversViewModel.setselectedServer(server: server);
+
+      final updatedServer = server.copyWith(alias: 'Updated Alias');
+      final result = await serversViewModel.editServer(updatedServer);
+
+      expect(result, true);
+      expect(serversViewModel.selectedServer?.alias, 'Updated Alias');
+    });
+
+    test('editServer with defaultServer=true sets default and notifies', () async {
+      await serversViewModel.addServer(server);
+      serversViewModel.setselectedServer(server: server);
+
+      final updatedServer = server.copyWith(defaultServer: true);
+      final result = await serversViewModel.editServer(updatedServer);
+
+      expect(result, true);
+      expect(listenerCalled, true);
     });
   });
 }

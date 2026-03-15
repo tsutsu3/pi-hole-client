@@ -106,6 +106,81 @@ void main() async {
 
       expect(find.textContaining('Invalid hostname'), findsOneWidget);
     });
+
+    testWidgets('shows error for invalid IP', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          AddLocalDnsModal(
+            addLocalDns: (_) {},
+            window: false,
+            devices: _testDevices,
+          ),
+        ),
+      );
+
+      await tester.enterText(
+        find.widgetWithText(TextField, 'IP Address'),
+        'not-an-ip',
+      );
+      await tester.pump();
+
+      expect(find.textContaining('Invalid IP Address'), findsOneWidget);
+    });
+
+    testWidgets('Add button submits with valid data', (
+      WidgetTester tester,
+    ) async {
+      Map<String, dynamic>? submitted;
+
+      await tester.pumpWidget(
+        buildTestApp(
+          AddLocalDnsModal(
+            addLocalDns: (data) => submitted = data,
+            window: false,
+            devices: _testDevices,
+          ),
+        ),
+      );
+
+      await tester.enterText(
+        find.widgetWithText(TextField, 'Hostname'),
+        'myhost.local',
+      );
+      await tester.pump();
+      await tester.enterText(
+        find.widgetWithText(TextField, 'IP Address'),
+        '192.168.1.50',
+      );
+      await tester.pump();
+
+      await tester.tap(find.widgetWithText(TextButton, 'Add'));
+      await tester.pump();
+
+      expect(submitted, isNotNull);
+      expect(submitted!['name'], 'myhost.local');
+      expect(submitted!['ip'], '192.168.1.50');
+    });
+
+    testWidgets('Cancel button closes without submitting', (
+      WidgetTester tester,
+    ) async {
+      var submitted = false;
+
+      await tester.pumpWidget(
+        buildTestApp(
+          AddLocalDnsModal(
+            addLocalDns: (_) => submitted = true,
+            window: false,
+            devices: _testDevices,
+          ),
+        ),
+      );
+
+      await tester.tap(find.widgetWithText(TextButton, 'Cancel'));
+      await tester.pump();
+
+      expect(submitted, isFalse);
+    });
   });
 
   group('EditLocalDnsModal (name)', () {
@@ -324,6 +399,154 @@ void main() async {
       await tester.pumpAndSettle();
 
       expect(find.text('Delete Local DNS'), findsOneWidget);
+    });
+
+    testWidgets('confirms delete and calls onDelete', (
+      WidgetTester tester,
+    ) async {
+      var deleted = false;
+
+      await tester.pumpWidget(
+        buildTestApp(
+          LocalDnsDetailScreen(
+            localDns: _testDns,
+            onDelete: (_) async {
+              deleted = true;
+              return true;
+            },
+            onUpdate: (_, _) async => true,
+          ),
+        ),
+      );
+
+      await tester.tap(find.byIcon(Icons.delete_rounded));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+
+      expect(deleted, isTrue);
+    });
+
+    testWidgets('opens edit hostname modal when hostname tile is tapped', (
+      WidgetTester tester,
+    ) async {
+      // Use small screen so modalBottomSheet is shown (width < 700)
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(
+        buildTestApp(
+          LocalDnsDetailScreen(
+            localDns: _testDns,
+            onDelete: (_) async => true,
+            onUpdate: (_, _) async => true,
+            devices: _testDevices,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      // Tap the Hostname ListTile to open edit modal
+      await tester.tap(find.text('Hostname'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(EditLocalDnsModal), findsOneWidget);
+    });
+
+    testWidgets('updates DNS entry after editing hostname', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      var updated = false;
+
+      await tester.pumpWidget(
+        buildTestApp(
+          LocalDnsDetailScreen(
+            localDns: _testDns,
+            onDelete: (_) async => true,
+            onUpdate: (_, _) async {
+              updated = true;
+              return true;
+            },
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Hostname'));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(
+        find.widgetWithText(TextField, 'Hostname'),
+        'new.hostname',
+      );
+      await tester.pump();
+
+      await tester.tap(find.widgetWithText(TextButton, 'Edit'));
+      await tester.pumpAndSettle();
+
+      expect(updated, isTrue);
+    });
+
+    testWidgets('opens edit IP modal when IP tile is tapped', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(
+        buildTestApp(
+          LocalDnsDetailScreen(
+            localDns: _testDns,
+            onDelete: (_) async => true,
+            onUpdate: (_, _) async => true,
+            devices: _testDevices,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('IP Address'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(EditLocalDnsModal), findsOneWidget);
+    });
+
+    testWidgets('delete failure does not navigate away', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          LocalDnsDetailScreen(
+            localDns: _testDns,
+            onDelete: (_) async => false,
+            onUpdate: (_, _) async => true,
+          ),
+        ),
+      );
+
+      await tester.tap(find.byIcon(Icons.delete_rounded));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('pi.hole'), findsOneWidget);
     });
   });
 }

@@ -132,7 +132,10 @@ class _FakeActionsRepository implements ActionsRepository {
 }
 
 class _FakeFtlRepository implements FtlRepository {
-  _FakeFtlRepository({this.messages = const [], this.deleteMessageFails = false});
+  _FakeFtlRepository({
+    this.messages = const [],
+    this.deleteMessageFails = false,
+  });
 
   final List<FtlMessage> messages;
   final bool deleteMessageFails;
@@ -215,14 +218,16 @@ void main() {
       GravityStatus? firstStatus;
       var startedCalled = false;
 
-      unawaited(service.startUpdate(
-        address: 'pi.hole',
-        onLogsUpdated: (_) {},
-        onStatusChanged: (s) => firstStatus ??= s,
-        onStarted: (_) => startedCalled = true,
-        onCompleted: (_) {},
-        onMessagesUpdated: (_) {},
-      ));
+      unawaited(
+        service.startUpdate(
+          address: 'pi.hole',
+          onLogsUpdated: (_) {},
+          onStatusChanged: (s) => firstStatus ??= s,
+          onStarted: (_) => startedCalled = true,
+          onCompleted: (_) {},
+          onMessagesUpdated: (_) {},
+        ),
+      );
 
       // Pump the event queue so async awaits inside startUpdate complete.
       await pumpEventQueue();
@@ -241,14 +246,16 @@ void main() {
       final service = _buildService(stream: controller.stream);
 
       final receivedLogs = <List<String>>[];
-      unawaited(service.startUpdate(
-        address: 'pi.hole',
-        onLogsUpdated: (logs) => receivedLogs.add(List.of(logs)),
-        onStatusChanged: (_) {},
-        onStarted: (_) {},
-        onCompleted: (_) {},
-        onMessagesUpdated: (_) {},
-      ));
+      unawaited(
+        service.startUpdate(
+          address: 'pi.hole',
+          onLogsUpdated: (logs) => receivedLogs.add(List.of(logs)),
+          onStatusChanged: (_) {},
+          onStarted: (_) {},
+          onCompleted: (_) {},
+          onMessagesUpdated: (_) {},
+        ),
+      );
 
       controller.add(const Success(['line1', 'line2']));
       controller.add(const Success(['line3']));
@@ -270,16 +277,18 @@ void main() {
 
         GravityStatus? finalStatus;
         final completer = Completer<void>();
-        unawaited(service.startUpdate(
-          address: 'pi.hole',
-          onLogsUpdated: (_) {},
-          onStatusChanged: (s) => finalStatus = s,
-          onStarted: (_) {},
-          onCompleted: (_) => completer.complete(),
-          onMessagesUpdated: (_) {},
-        ));
+        unawaited(
+          service.startUpdate(
+            address: 'pi.hole',
+            onLogsUpdated: (_) {},
+            onStatusChanged: (s) => finalStatus = s,
+            onStarted: (_) {},
+            onCompleted: (_) => completer.complete(),
+            onMessagesUpdated: (_) {},
+          ),
+        );
 
-        // Closing the stream triggers onDone → success path.
+        // Closing the stream triggers onDone -> success path.
         await controller.close();
         await completer.future.timeout(const Duration(seconds: 3));
 
@@ -287,37 +296,41 @@ void main() {
       },
     );
 
-    test('insertGravityMessages called when fetchInfoMessages returns data',
-        () async {
-      final controller = StreamController<Result<List<String>>>();
-      final gravityRepo = _FakeGravityRepository();
-      final msg = FtlMessage(
-        id: 1,
-        timestamp: DateTime(2024),
-        message: 'test',
-        url: 'example.com',
-      );
-      final service = GravityUpdateService(
-        repository: gravityRepo,
-        actionsRepository: _FakeActionsRepository(controller.stream),
-        ftlRepository: _FakeFtlRepository(messages: [msg]),
-      );
+    test(
+      'insertGravityMessages called when fetchInfoMessages returns data',
+      () async {
+        final controller = StreamController<Result<List<String>>>();
+        final gravityRepo = _FakeGravityRepository();
+        final msg = FtlMessage(
+          id: 1,
+          timestamp: DateTime(2024),
+          message: 'test',
+          url: 'example.com',
+        );
+        final service = GravityUpdateService(
+          repository: gravityRepo,
+          actionsRepository: _FakeActionsRepository(controller.stream),
+          ftlRepository: _FakeFtlRepository(messages: [msg]),
+        );
 
-      final completer = Completer<void>();
-      unawaited(service.startUpdate(
-        address: 'pi.hole',
-        onLogsUpdated: (_) {},
-        onStatusChanged: (_) {},
-        onStarted: (_) {},
-        onCompleted: (_) => completer.complete(),
-        onMessagesUpdated: (_) {},
-      ));
+        final completer = Completer<void>();
+        unawaited(
+          service.startUpdate(
+            address: 'pi.hole',
+            onLogsUpdated: (_) {},
+            onStatusChanged: (_) {},
+            onStarted: (_) {},
+            onCompleted: (_) => completer.complete(),
+            onMessagesUpdated: (_) {},
+          ),
+        );
 
-      await controller.close();
-      await completer.future.timeout(const Duration(seconds: 3));
+        await controller.close();
+        await completer.future.timeout(const Duration(seconds: 3));
 
-      expect(gravityRepo.insertGravityMessagesCalls, equals(1));
-    });
+        expect(gravityRepo.insertGravityMessagesCalls, equals(1));
+      },
+    );
   });
 
   // -------------------------------------------------------------------------
@@ -331,14 +344,16 @@ void main() {
 
       GravityStatus? finalStatus;
       final completer = Completer<void>();
-      unawaited(service.startUpdate(
-        address: 'pi.hole',
-        onLogsUpdated: (_) {},
-        onStatusChanged: (s) => finalStatus = s,
-        onStarted: (_) {},
-        onCompleted: (_) => completer.complete(),
-        onMessagesUpdated: (_) {},
-      ));
+      unawaited(
+        service.startUpdate(
+          address: 'pi.hole',
+          onLogsUpdated: (_) {},
+          onStatusChanged: (s) => finalStatus = s,
+          onStarted: (_) {},
+          onCompleted: (_) => completer.complete(),
+          onMessagesUpdated: (_) {},
+        ),
+      );
 
       controller.add(Failure(Exception('gravity failed')));
       await completer.future.timeout(const Duration(seconds: 2));
@@ -353,14 +368,16 @@ void main() {
 
       GravityStatus? finalStatus;
       final completer = Completer<void>();
-      unawaited(service.startUpdate(
-        address: 'pi.hole',
-        onLogsUpdated: (_) {},
-        onStatusChanged: (s) => finalStatus = s,
-        onStarted: (_) {},
-        onCompleted: (_) => completer.complete(),
-        onMessagesUpdated: (_) {},
-      ));
+      unawaited(
+        service.startUpdate(
+          address: 'pi.hole',
+          onLogsUpdated: (_) {},
+          onStatusChanged: (s) => finalStatus = s,
+          onStarted: (_) {},
+          onCompleted: (_) => completer.complete(),
+          onMessagesUpdated: (_) {},
+        ),
+      );
 
       controller.addError(Exception('unexpected error'));
       await completer.future.timeout(const Duration(seconds: 2));
@@ -429,8 +446,7 @@ void main() {
         logs: ['line1'],
         messages: [],
       );
-      final gravityRepo = _FakeGravityRepository()
-        ..snapshotToReturn = expected;
+      final gravityRepo = _FakeGravityRepository()..snapshotToReturn = expected;
       final service = GravityUpdateService(
         repository: gravityRepo,
         actionsRepository: _FakeActionsRepository(const Stream.empty()),
@@ -469,14 +485,16 @@ void main() {
       final service = _buildService(stream: controller.stream);
 
       var logUpdateCount = 0;
-      unawaited(service.startUpdate(
-        address: 'pi.hole',
-        onLogsUpdated: (_) => logUpdateCount++,
-        onStatusChanged: (_) {},
-        onStarted: (_) {},
-        onCompleted: (_) {},
-        onMessagesUpdated: (_) {},
-      ));
+      unawaited(
+        service.startUpdate(
+          address: 'pi.hole',
+          onLogsUpdated: (_) => logUpdateCount++,
+          onStatusChanged: (_) {},
+          onStarted: (_) {},
+          onCompleted: (_) {},
+          onMessagesUpdated: (_) {},
+        ),
+      );
 
       controller.add(const Success(['line1']));
       await Future.delayed(const Duration(milliseconds: 50));

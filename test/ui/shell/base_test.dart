@@ -47,6 +47,69 @@ void main() async {
       expect(find.text('Getting Started'), findsOneWidget);
     });
 
+    testWidgets('StartInfoModal close button dismisses modal', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      final appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
+
+      await tester.pumpWidget(
+        buildTestApp(
+          const Base(child: SizedBox()),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
+      );
+
+      await tester.pumpAndSettle();
+      expect(find.byType(StartInfoModal), findsOneWidget);
+
+      await tester.tap(find.text('Close'));
+      await tester.pumpAndSettle();
+
+      expect(appConfigViewModel.importantInfoReaden, true);
+    });
+
+    testWidgets('StartInfoModal crash report switch can be toggled', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      final appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
+
+      await tester.pumpWidget(
+        buildTestApp(
+          const Base(child: SizedBox()),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+        ),
+      );
+
+      await tester.pumpAndSettle();
+      expect(find.byType(StartInfoModal), findsOneWidget);
+
+      final switchFinder = find.byType(Switch);
+      expect(switchFinder, findsOneWidget);
+
+      await tester.tap(switchFinder);
+      await tester.pumpAndSettle();
+
+      expect(appConfigViewModel.sendCrashReports, true);
+    });
+
     testWidgets('should render child widget', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;

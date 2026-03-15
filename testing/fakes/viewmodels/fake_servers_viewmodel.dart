@@ -20,6 +20,10 @@ class FakeServersViewModel extends ServersViewModel {
   bool _unverifiedBannerDismissed = false;
   Server? _connectingServer;
 
+  // Failure mode controls
+  bool shouldFailSetDefaultServer = false;
+  bool shouldFailRemoveServer = false;
+
   // Call tracking for verification
   int setDefaultServerCallCount = 0;
   Server? lastSetDefaultServer;
@@ -118,13 +122,14 @@ class FakeServersViewModel extends ServersViewModel {
   Future<bool> setDefaultServer(Server server) async {
     setDefaultServerCallCount++;
     lastSetDefaultServer = server;
-    return true;
+    return !shouldFailSetDefaultServer;
   }
 
   @override
   Future<bool> removeServer(String serverAddress) async {
     removeServerCallCount++;
     lastRemovedServerAddress = serverAddress;
+    if (shouldFailRemoveServer) return false;
     _serversList = _serversList
         .where((s) => s.address != serverAddress)
         .toList();
