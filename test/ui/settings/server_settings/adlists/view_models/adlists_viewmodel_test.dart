@@ -66,6 +66,7 @@ void main() {
         await viewModel.loadAdlists.runAsync();
       } catch (_) {}
       expect(viewModel.loadingStatus, LoadStatus.error);
+      expect(listenerCalled, true);
     });
 
     test('onSearch filters adlists based on search term', () async {
@@ -142,12 +143,14 @@ void main() {
       final adlist = viewModel.blacklistAdlists.first;
 
       fakeAdlistRepository.shouldFail = true;
+      listenerCalled = false;
       try {
         await viewModel.deleteAdlist.runAsync(adlist);
       } catch (_) {}
 
       // deleteAdlist failure should throw
       expect(viewModel.deleteAdlist.errors.value, isNotNull);
+      expect(listenerCalled, true);
     });
 
     group('Group Filter', () {

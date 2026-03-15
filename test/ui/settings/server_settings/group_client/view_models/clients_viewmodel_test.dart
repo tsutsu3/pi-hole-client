@@ -55,6 +55,7 @@ void main() {
         await viewModel.loadClients.runAsync();
       } catch (_) {}
       expect(viewModel.loadingStatus, LoadStatus.error);
+      expect(listenerCalled, true);
     });
 
     test('onSearch filters clients by client id', () async {
@@ -167,11 +168,13 @@ void main() {
       final client = viewModel.clients.first;
 
       fakeClientRepository.shouldFail = true;
+      listenerCalled = false;
       try {
         await viewModel.deleteClient.runAsync(client);
       } catch (_) {}
 
       expect(viewModel.deleteClient.errors.value, isNotNull);
+      expect(listenerCalled, true);
     });
 
     test('updateMacLookup does not notify when unchanged', () async {

@@ -7,17 +7,31 @@ import 'package:result_dart/result_dart.dart';
 
 class AdlistsViewModel extends ChangeNotifier {
   AdlistsViewModel({required AdListRepository adListRepository})
-    : _adListRepository = adListRepository;
+    : _adListRepository = adListRepository {
+    loadAdlists = Command.createAsyncNoParam<void>(
+      _loadAdlists,
+      initialValue: null,
+    );
+    deleteAdlist = Command.createAsyncNoResult<Adlist>(_deleteAdlist);
+    addAdlist = Command.createAsyncNoResult(_addAdlist);
+    updateAdlist = Command.createAsyncNoResult<Adlist>(_updateAdlist);
+
+    loadAdlists.addListener(notifyListeners);
+    loadAdlists.isRunning.addListener(notifyListeners);
+    loadAdlists.errors.addListener(notifyListeners);
+    deleteAdlist.addListener(notifyListeners);
+    deleteAdlist.errors.addListener(notifyListeners);
+    addAdlist.addListener(notifyListeners);
+    addAdlist.errors.addListener(notifyListeners);
+    updateAdlist.addListener(notifyListeners);
+    updateAdlist.errors.addListener(notifyListeners);
+  }
 
   final AdListRepository _adListRepository;
 
   // --- Commands ---
-  late final Command<void, void> loadAdlists = Command.createAsyncNoParam<void>(
-    _loadAdlists,
-    initialValue: null,
-  );
-  late final Command<Adlist, void> deleteAdlist =
-      Command.createAsyncNoResult<Adlist>(_deleteAdlist);
+  late final Command<void, void> loadAdlists;
+  late final Command<Adlist, void> deleteAdlist;
   late final Command<
     ({
       String address,
@@ -28,9 +42,8 @@ class AdlistsViewModel extends ChangeNotifier {
     }),
     void
   >
-  addAdlist = Command.createAsyncNoResult(_addAdlist);
-  late final Command<Adlist, void> updateAdlist =
-      Command.createAsyncNoResult<Adlist>(_updateAdlist);
+  addAdlist;
+  late final Command<Adlist, void> updateAdlist;
 
   // --- State ---
   List<Adlist> _whitelistAdlists = [];
@@ -222,6 +235,15 @@ class AdlistsViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
+    loadAdlists.removeListener(notifyListeners);
+    loadAdlists.isRunning.removeListener(notifyListeners);
+    loadAdlists.errors.removeListener(notifyListeners);
+    deleteAdlist.removeListener(notifyListeners);
+    deleteAdlist.errors.removeListener(notifyListeners);
+    addAdlist.removeListener(notifyListeners);
+    addAdlist.errors.removeListener(notifyListeners);
+    updateAdlist.removeListener(notifyListeners);
+    updateAdlist.errors.removeListener(notifyListeners);
     loadAdlists.dispose();
     deleteAdlist.dispose();
     addAdlist.dispose();

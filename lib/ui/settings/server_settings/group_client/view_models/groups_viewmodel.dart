@@ -7,21 +7,35 @@ import 'package:result_dart/result_dart.dart';
 
 class GroupsViewModel extends ChangeNotifier {
   GroupsViewModel({required GroupRepository groupRepository})
-    : _groupRepository = groupRepository;
+    : _groupRepository = groupRepository {
+    loadGroups = Command.createAsyncNoParam<void>(
+      _loadGroups,
+      initialValue: null,
+    );
+    addGroup = Command.createAsyncNoResult(_addGroup);
+    updateGroup = Command.createAsyncNoResult(_updateGroup);
+    deleteGroup = Command.createAsyncNoResult<Group>(_deleteGroup);
+
+    loadGroups.addListener(notifyListeners);
+    loadGroups.isRunning.addListener(notifyListeners);
+    loadGroups.errors.addListener(notifyListeners);
+    addGroup.addListener(notifyListeners);
+    addGroup.errors.addListener(notifyListeners);
+    updateGroup.addListener(notifyListeners);
+    updateGroup.errors.addListener(notifyListeners);
+    deleteGroup.addListener(notifyListeners);
+    deleteGroup.errors.addListener(notifyListeners);
+  }
 
   final GroupRepository _groupRepository;
 
   // --- Commands ---
-  late final Command<void, void> loadGroups = Command.createAsyncNoParam<void>(
-    _loadGroups,
-    initialValue: null,
-  );
+  late final Command<void, void> loadGroups;
   late final Command<({String name, String? comment, bool? enabled}), void>
-  addGroup = Command.createAsyncNoResult(_addGroup);
+  addGroup;
   late final Command<({String name, String? comment, bool? enabled}), void>
-  updateGroup = Command.createAsyncNoResult(_updateGroup);
-  late final Command<Group, void> deleteGroup =
-      Command.createAsyncNoResult<Group>(_deleteGroup);
+  updateGroup;
+  late final Command<Group, void> deleteGroup;
 
   // --- State ---
   List<Group> _groups = [];
@@ -125,6 +139,15 @@ class GroupsViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
+    loadGroups.removeListener(notifyListeners);
+    loadGroups.isRunning.removeListener(notifyListeners);
+    loadGroups.errors.removeListener(notifyListeners);
+    addGroup.removeListener(notifyListeners);
+    addGroup.errors.removeListener(notifyListeners);
+    updateGroup.removeListener(notifyListeners);
+    updateGroup.errors.removeListener(notifyListeners);
+    deleteGroup.removeListener(notifyListeners);
+    deleteGroup.errors.removeListener(notifyListeners);
     loadGroups.dispose();
     addGroup.dispose();
     updateGroup.dispose();

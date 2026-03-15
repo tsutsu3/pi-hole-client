@@ -12,18 +12,28 @@ class FindDomainsInListsViewModel extends ChangeNotifier {
     required AdListRepository adListRepository,
     required DomainRepository domainRepository,
   }) : _adListRepository = adListRepository,
-       _domainRepository = domainRepository;
+       _domainRepository = domainRepository {
+    searchLists = Command.createAsyncNoResult(_searchLists);
+    deleteDomain = Command.createAsyncNoResult<Domain>(_deleteDomain);
+    deleteAdlist = Command.createAsyncNoResult<Adlist>(_deleteAdlist);
+
+    searchLists.addListener(notifyListeners);
+    searchLists.isRunning.addListener(notifyListeners);
+    searchLists.errors.addListener(notifyListeners);
+    deleteDomain.addListener(notifyListeners);
+    deleteDomain.errors.addListener(notifyListeners);
+    deleteAdlist.addListener(notifyListeners);
+    deleteAdlist.errors.addListener(notifyListeners);
+  }
 
   final AdListRepository _adListRepository;
   final DomainRepository _domainRepository;
 
   // --- Commands ---
   late final Command<({String domain, bool partial, int limit}), void>
-  searchLists = Command.createAsyncNoResult(_searchLists);
-  late final Command<Domain, void> deleteDomain =
-      Command.createAsyncNoResult<Domain>(_deleteDomain);
-  late final Command<Adlist, void> deleteAdlist =
-      Command.createAsyncNoResult<Adlist>(_deleteAdlist);
+  searchLists;
+  late final Command<Domain, void> deleteDomain;
+  late final Command<Adlist, void> deleteAdlist;
 
   // --- State ---
   ListSearchResult? _searchResult;
@@ -129,6 +139,13 @@ class FindDomainsInListsViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
+    searchLists.removeListener(notifyListeners);
+    searchLists.isRunning.removeListener(notifyListeners);
+    searchLists.errors.removeListener(notifyListeners);
+    deleteDomain.removeListener(notifyListeners);
+    deleteDomain.errors.removeListener(notifyListeners);
+    deleteAdlist.removeListener(notifyListeners);
+    deleteAdlist.errors.removeListener(notifyListeners);
     searchLists.dispose();
     deleteDomain.dispose();
     deleteAdlist.dispose();
