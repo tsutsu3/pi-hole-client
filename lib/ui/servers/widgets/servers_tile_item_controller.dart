@@ -86,7 +86,9 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
     final serversViewModel = context.read<ServersViewModel>();
     final appConfigViewModel = context.read<AppConfigViewModel>();
 
-    await serversViewModel.setDefaultServer.runAsync(server);
+    try {
+      await serversViewModel.setDefaultServer.runAsync(server);
+    } catch (_) {}
 
     if (!mounted) return;
 

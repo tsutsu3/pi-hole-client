@@ -429,7 +429,9 @@ class ServerConnectionService {
     if (confirmed != true || !context.mounted) return null;
 
     final updated = server.copyWith(pinnedCertificateSha256: info.sha256);
-    await serversViewModel.editServer.runAsync(updated);
+    try {
+      await serversViewModel.editServer.runAsync(updated);
+    } catch (_) {}
 
     if (!context.mounted) return null;
 

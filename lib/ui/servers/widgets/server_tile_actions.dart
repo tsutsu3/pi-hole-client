@@ -251,7 +251,9 @@ class ServerTileActions extends StatelessWidget {
     final updated = server.copyWith(
       pinnedCertificateSha256: certificateInfo.sha256,
     );
-    await serversViewModel.editServer.runAsync(updated);
+    try {
+      await serversViewModel.editServer.runAsync(updated);
+    } catch (_) {}
     if (!context.mounted) return;
 
     if (serversViewModel.editServer.errors.value == null) {

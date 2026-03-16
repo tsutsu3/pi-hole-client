@@ -18,7 +18,9 @@ class DeleteServerModal extends StatelessWidget {
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     Future<void> removeServer() async {
-      await serversViewModel.removeServer.runAsync(serverToDelete.address);
+      try {
+        await serversViewModel.removeServer.runAsync(serverToDelete.address);
+      } catch (_) {}
 
       if (!context.mounted) return;
       await Navigator.maybePop(context);
