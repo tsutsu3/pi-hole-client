@@ -113,6 +113,11 @@ class GravityUpdateViewModel with ChangeNotifier {
   }
 
   /// Loads persisted gravity data (logs, messages, status) from local storage.
+  ///
+  /// NOTE: Not implemented as a Command because this is a one-time
+  /// initialization called during screen setup, not a user-triggered CRUD
+  /// operation. Loading state is managed directly via [_loaded] and
+  /// [GravityStatus].
   Future<void> load() async {
     if (_service == null) {
       logger.d('Service is null. load() cannot be performed.');
@@ -138,6 +143,13 @@ class GravityUpdateViewModel with ChangeNotifier {
   }
 
   /// Starts a new gravity update, streaming logs and status to the UI.
+  ///
+  /// NOTE: Not implemented as a Command because this is a long-running
+  /// streaming operation that emits multiple intermediate state changes via
+  /// callbacks (onStarted, onStatusChanged, onCompleted, onLogsUpdated,
+  /// onMessagesUpdated). Wrapping in a Command would suppress mid-flight
+  /// notifications and reduce the operation to a single completion event,
+  /// breaking the streaming UI.
   Future<void> start() async {
     if (_service == null) {
       logger.d('Service is null. start() cannot be performed.');

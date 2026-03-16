@@ -86,6 +86,10 @@ class LogsViewModel extends ChangeNotifier {
   ///
   /// [list] should be `'white'` for allow-list or `'black'` for deny-list.
   /// Returns a [Result] so the caller can display appropriate UI feedback.
+  ///
+  /// NOTE: Not implemented as a Command because the caller needs the full
+  /// `Result<Domain>` value to update its own UI state. The Result pattern
+  /// already provides type-safe error handling here.
   Future<Result<Domain>> addDomainToList({
     required String list,
     required String domain,
@@ -448,6 +452,12 @@ class LogsViewModel extends ChangeNotifier {
   /// existing list is shown immediately while fresh data is fetched in the
   /// background and then atomically swapped in. When no cache is available
   /// (first load or server switch), the full-screen spinner is shown as usual.
+  ///
+  /// NOTE: Not implemented as a Command because this method manages multiple
+  /// interleaved state transitions (loading, revalidating, live-timer setup)
+  /// and calls notifyListeners() at several intermediate points. A Command
+  /// wraps a single async action with one completion/error event; it cannot
+  /// model the fine-grained, multi-phase state machine required here.
   Future<void> initializeLoad() async {
     _stopLiveTimer();
     _isFiltering = false;
@@ -499,6 +509,10 @@ class LogsViewModel extends ChangeNotifier {
   ///
   /// When [inStartTime] or [inEndTime] is given, a single page is fetched for
   /// that exact range and further window expansion is disabled.
+  ///
+  /// NOTE: Not implemented as a Command — same reason as [initializeLoad]:
+  /// coordinates filter state, pagination reset, loading indicators, and
+  /// live-timer reconfiguration across multiple notifyListeners() calls.
   Future<void> applyFilterAndLoad({
     DateTime? inStartTime,
     DateTime? inEndTime,
@@ -603,6 +617,11 @@ class LogsViewModel extends ChangeNotifier {
   /// Triggered by the scroll listener to load the next page of logs.
   ///
   /// No-op when a load is already in progress.
+  ///
+  /// NOTE: Not implemented as a Command because it is scroll-driven (called
+  /// continuously by the scroll listener) and guards re-entrancy via
+  /// [_isLoadingMore]. Command.isRunning provides similar protection but is
+  /// incompatible with the pagination state machine used here.
   Future<void> enqueueLoadMore() async {
     if (_isLoadingMore || _paginationService == null) return;
     await _enqueueLoad();
