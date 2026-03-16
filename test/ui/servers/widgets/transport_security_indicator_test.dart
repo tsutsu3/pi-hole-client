@@ -88,9 +88,7 @@ void main() async {
     testWidgets('shows unknown label for invalid address', (tester) async {
       await tester.pumpWidget(
         buildTestApp(
-          TransportSecurityIndicator(
-            server: makeServer(address: 'not-a-url'),
-          ),
+          TransportSecurityIndicator(server: makeServer(address: 'not-a-url')),
         ),
       );
       // Before pumpAndSettle — FutureBuilder may show unknown

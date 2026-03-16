@@ -38,12 +38,15 @@ void main() async {
       expect(LogOption.indexFromTime(-1.0), 0);
     });
 
-    test('round-trip: timeFromIndex(indexFromTime(t)) == t for all options', () {
-      for (final option in LogOption.all) {
-        final index = LogOption.indexFromTime(option.time);
-        expect(LogOption.timeFromIndex(index), option.time);
-      }
-    });
+    test(
+      'round-trip: timeFromIndex(indexFromTime(t)) == t for all options',
+      () {
+        for (final option in LogOption.all) {
+          final index = LogOption.indexFromTime(option.time);
+          expect(LogOption.timeFromIndex(index), option.time);
+        }
+      },
+    );
   });
 
   group('LogsQuantityLoadScreen widget tests', () {
@@ -67,10 +70,7 @@ void main() async {
 
       expect(find.text('Logs quantity per request'), findsOneWidget);
       // v6 shows a not-supported message
-      expect(
-        find.textContaining('no longer applicable'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('no longer applicable'), findsOneWidget);
     });
 
     testWidgets('renders radio options for v5', (WidgetTester tester) async {

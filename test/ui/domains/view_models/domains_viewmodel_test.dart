@@ -65,6 +65,7 @@ void main() {
         await viewModel.loadDomains.runAsync();
       } catch (_) {}
       expect(viewModel.loadingStatus, LoadStatus.error);
+      expect(listenerCalled, true);
     });
 
     test('onSearch filters domains based on search term', () async {

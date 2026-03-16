@@ -61,7 +61,7 @@ class _UnusedMetricsRepository implements MetricsRepository {
 // ---------------------------------------------------------------------------
 class _FakePaginationService extends LogsPaginationService {
   _FakePaginationService({required this.pages})
-      : super(repository: _UnusedMetricsRepository());
+    : super(repository: _UnusedMetricsRepository());
 
   final List<List<Log>> pages;
   int _index = 0;
@@ -86,8 +86,7 @@ class _FakePaginationService extends LogsPaginationService {
 // Fake that always throws to simulate an unexpected error.
 // ---------------------------------------------------------------------------
 class _ThrowingPaginationService extends LogsPaginationService {
-  _ThrowingPaginationService()
-      : super(repository: _UnusedMetricsRepository());
+  _ThrowingPaginationService() : super(repository: _UnusedMetricsRepository());
 
   @override
   LoadStatus get finished => LoadStatus.loading;
@@ -104,13 +103,13 @@ class _ThrowingPaginationService extends LogsPaginationService {
 // Helpers
 // ---------------------------------------------------------------------------
 Log _log(int id) => Log(
-      dateTime: DateTime(2024),
-      type: DnsRecordType.a,
-      url: 'example.com',
-      device: '192.168.1.1',
-      replyTime: 0.001,
-      id: id,
-    );
+  dateTime: DateTime(2024),
+  type: DnsRecordType.a,
+  url: 'example.com',
+  device: '192.168.1.1',
+  replyTime: 0.001,
+  id: id,
+);
 
 // ---------------------------------------------------------------------------
 // Tests
@@ -147,38 +146,48 @@ void main() {
   });
 
   group('LiveLogsService – concurrent call prevention', () {
-    test('second call while first is loading returns empty immediately', () async {
-      final svc = LiveLogsService(
-        paginationService: _FakePaginationService(pages: [[_log(1)]]),
-        endTime: baseEnd,
-      );
+    test(
+      'second call while first is loading returns empty immediately',
+      () async {
+        final svc = LiveLogsService(
+          paginationService: _FakePaginationService(
+            pages: [
+              [_log(1)],
+            ],
+          ),
+          endTime: baseEnd,
+        );
 
-      // Start first tick without awaiting.
-      final first = svc.tickOnce();
-      expect(svc.isLoading, isTrue);
+        // Start first tick without awaiting.
+        final first = svc.tickOnce();
+        expect(svc.isLoading, isTrue);
 
-      // Second call must return empty immediately.
-      final second = await svc.tickOnce();
-      expect(second, isEmpty);
+        // Second call must return empty immediately.
+        final second = await svc.tickOnce();
+        expect(second, isEmpty);
 
-      // First tick still completes with the log.
-      final firstResult = await first;
-      expect(firstResult.length, 1);
-    });
+        // First tick still completes with the log.
+        final firstResult = await first;
+        expect(firstResult.length, 1);
+      },
+    );
   });
 
   group('LiveLogsService – error handling', () {
-    test('exception inside pagination is caught and returns empty list', () async {
-      final svc = LiveLogsService(
-        paginationService: _ThrowingPaginationService(),
-        endTime: baseEnd,
-      );
+    test(
+      'exception inside pagination is caught and returns empty list',
+      () async {
+        final svc = LiveLogsService(
+          paginationService: _ThrowingPaginationService(),
+          endTime: baseEnd,
+        );
 
-      final result = await svc.tickOnce();
-      expect(result, isEmpty);
-      // isLoading must be reset to false (finally block).
-      expect(svc.isLoading, isFalse);
-    });
+        final result = await svc.tickOnce();
+        expect(result, isEmpty);
+        // isLoading must be reset to false (finally block).
+        expect(svc.isLoading, isFalse);
+      },
+    );
   });
 
   group('LiveLogsService – max page limit', () {

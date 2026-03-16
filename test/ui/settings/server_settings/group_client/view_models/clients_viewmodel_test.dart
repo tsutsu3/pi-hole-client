@@ -55,6 +55,7 @@ void main() {
         await viewModel.loadClients.runAsync();
       } catch (_) {}
       expect(viewModel.loadingStatus, LoadStatus.error);
+      expect(listenerCalled, true);
     });
 
     test('onSearch filters clients by client id', () async {
@@ -138,8 +139,9 @@ void main() {
       expect(listenerCalled, true);
     });
 
-    test('addClient reloads clients after adding', () async {
+    test('addClient appends client to list without reloading', () async {
       await viewModel.loadClients.runAsync();
+      listenerCalled = false;
 
       await viewModel.addClient.runAsync((
         client: '10.0.0.1',
@@ -147,11 +149,15 @@ void main() {
         groups: [0],
       ));
 
+      expect(viewModel.clients.length, 3);
+      expect(viewModel.clients.any((c) => c.client == '10.0.0.1'), isTrue);
       expect(viewModel.loadingStatus, LoadStatus.loaded);
+      expect(listenerCalled, true);
     });
 
-    test('updateClient reloads clients after updating', () async {
+    test('updateClient updates client in list without reloading', () async {
       await viewModel.loadClients.runAsync();
+      listenerCalled = false;
 
       await viewModel.updateClient.runAsync((
         client: '192.168.1.100',
@@ -159,7 +165,13 @@ void main() {
         groups: [0, 5],
       ));
 
+      // FakeClientRepository.updateClient returns id:1 with the new values
+      final updated = viewModel.clients.firstWhere((c) => c.id == 1);
+      expect(updated.comment, 'updated comment');
+      expect(updated.groups, [0, 5]);
+      expect(viewModel.clients.length, 2);
       expect(viewModel.loadingStatus, LoadStatus.loaded);
+      expect(listenerCalled, true);
     });
 
     test('deleteClient sets error on failure', () async {
@@ -167,11 +179,13 @@ void main() {
       final client = viewModel.clients.first;
 
       fakeClientRepository.shouldFail = true;
+      listenerCalled = false;
       try {
         await viewModel.deleteClient.runAsync(client);
       } catch (_) {}
 
       expect(viewModel.deleteClient.errors.value, isNotNull);
+      expect(listenerCalled, true);
     });
 
     test('updateMacLookup does not notify when unchanged', () async {

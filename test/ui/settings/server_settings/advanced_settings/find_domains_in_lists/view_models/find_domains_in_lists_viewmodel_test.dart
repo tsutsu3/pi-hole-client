@@ -72,6 +72,7 @@ void main() {
       } catch (_) {}
 
       expect(viewModel.searchLists.errors.value, isNotNull);
+      expect(listenerCalled, true);
     });
 
     test('setSearchError sets error and clears results', () async {
@@ -145,11 +146,13 @@ void main() {
       final adlist = viewModel.gravityMatches.first.adlist;
 
       fakeAdlistRepository.shouldFail = true;
+      listenerCalled = false;
       try {
         await viewModel.deleteAdlist.runAsync(adlist);
       } catch (_) {}
 
       expect(viewModel.deleteAdlist.errors.value, isNotNull);
+      expect(listenerCalled, true);
       // gravityMatches should still contain the adlist (not removed)
       expect(viewModel.gravityMatches.length, 1);
     });

@@ -81,8 +81,9 @@ void main() async {
       expect(dismissed, isTrue);
     });
 
-    testWidgets('tapping a server in expanded list calls onServerTap',
-        (tester) async {
+    testWidgets('tapping a server in expanded list calls onServerTap', (
+      tester,
+    ) async {
       Server? tapped;
       await tester.pumpWidget(
         buildTestApp(
@@ -175,8 +176,7 @@ void main() async {
       final serversVm = FakeServersViewModel()
         ..selectedServer = defaultServer
         ..selectedServerEnabled = true;
-      final statusVm = FakeStatusViewModel()
-        ..serverStatus = LoadStatus.loaded;
+      final statusVm = FakeStatusViewModel()..serverStatus = LoadStatus.loaded;
 
       await tester.pumpWidget(
         buildTestApp(
@@ -204,13 +204,13 @@ void main() async {
       expect(find.byIcon(Icons.star), findsNothing);
     });
 
-    testWidgets('selected + disconnected server renders storage icon',
-        (tester) async {
+    testWidgets('selected + disconnected server renders storage icon', (
+      tester,
+    ) async {
       final serversVm = FakeServersViewModel()
         ..selectedServer = server
         ..selectedServerEnabled = false;
-      final statusVm = FakeStatusViewModel()
-        ..serverStatus = LoadStatus.error;
+      final statusVm = FakeStatusViewModel()..serverStatus = LoadStatus.error;
 
       await tester.pumpWidget(
         buildTestApp(
@@ -264,13 +264,15 @@ void main() async {
           onDelete: onDelete ?? () {},
           onSetDefault: onSetDefault ?? () {},
         ),
-        serversViewModel: serversVm ?? (FakeServersViewModel()..selectedServer = null),
+        serversViewModel:
+            serversVm ?? (FakeServersViewModel()..selectedServer = null),
         statusViewModel: statusVm ?? FakeStatusViewModel(),
       );
     }
 
-    testWidgets('shows Connect button when server is not selected',
-        (tester) async {
+    testWidgets('shows Connect button when server is not selected', (
+      tester,
+    ) async {
       await tester.pumpWidget(buildActions(httpServer));
       await tester.pump();
 
@@ -280,7 +282,9 @@ void main() async {
 
     testWidgets('onConnect called when Connect button tapped', (tester) async {
       var called = false;
-      await tester.pumpWidget(buildActions(httpServer, onConnect: () => called = true));
+      await tester.pumpWidget(
+        buildActions(httpServer, onConnect: () => called = true),
+      );
       await tester.pump();
 
       await tester.tap(find.text('Connect'));
@@ -289,8 +293,9 @@ void main() async {
       expect(called, isTrue);
     });
 
-    testWidgets('shows Connected status when server is selected and loaded',
-        (tester) async {
+    testWidgets('shows Connected status when server is selected and loaded', (
+      tester,
+    ) async {
       final serversVm = FakeServersViewModel()..selectedServer = httpServer;
       final statusVm = FakeStatusViewModel()..serverStatus = LoadStatus.loaded;
 
@@ -303,19 +308,21 @@ void main() async {
       expect(find.byIcon(Icons.check), findsOneWidget);
     });
 
-    testWidgets('shows disconnected status when server is selected but errored',
-        (tester) async {
-      final serversVm = FakeServersViewModel()..selectedServer = httpServer;
-      final statusVm = FakeStatusViewModel()..serverStatus = LoadStatus.error;
+    testWidgets(
+      'shows disconnected status when server is selected but errored',
+      (tester) async {
+        final serversVm = FakeServersViewModel()..selectedServer = httpServer;
+        final statusVm = FakeStatusViewModel()..serverStatus = LoadStatus.error;
 
-      await tester.pumpWidget(
-        buildActions(httpServer, serversVm: serversVm, statusVm: statusVm),
-      );
-      await tester.pump();
+        await tester.pumpWidget(
+          buildActions(httpServer, serversVm: serversVm, statusVm: statusVm),
+        );
+        await tester.pump();
 
-      expect(find.text('Selected but disconnected'), findsOneWidget);
-      expect(find.byIcon(Icons.warning), findsOneWidget);
-    });
+        expect(find.text('Selected but disconnected'), findsOneWidget);
+        expect(find.byIcon(Icons.warning), findsOneWidget);
+      },
+    );
 
     testWidgets('popup menu shows edit and delete options', (tester) async {
       await tester.pumpWidget(buildActions(httpServer));
@@ -328,8 +335,9 @@ void main() async {
       expect(find.text('Delete'), findsOneWidget);
     });
 
-    testWidgets('popup shows set-default for non-default server',
-        (tester) async {
+    testWidgets('popup shows set-default for non-default server', (
+      tester,
+    ) async {
       await tester.pumpWidget(buildActions(httpServer));
       await tester.pump();
 
@@ -339,20 +347,24 @@ void main() async {
       expect(find.text('Set as default connection'), findsOneWidget);
     });
 
-    testWidgets('popup shows Default connection (disabled) for default server',
-        (tester) async {
-      await tester.pumpWidget(buildActions(defaultServer));
-      await tester.pump();
+    testWidgets(
+      'popup shows Default connection (disabled) for default server',
+      (tester) async {
+        await tester.pumpWidget(buildActions(defaultServer));
+        await tester.pump();
 
-      await tester.tap(find.byType(PopupMenuButton<void>));
-      await tester.pumpAndSettle();
+        await tester.tap(find.byType(PopupMenuButton<void>));
+        await tester.pumpAndSettle();
 
-      expect(find.text('Default connection'), findsOneWidget);
-    });
+        expect(find.text('Default connection'), findsOneWidget);
+      },
+    );
 
     testWidgets('onEdit called from popup menu', (tester) async {
       var called = false;
-      await tester.pumpWidget(buildActions(httpServer, onEdit: () => called = true));
+      await tester.pumpWidget(
+        buildActions(httpServer, onEdit: () => called = true),
+      );
       await tester.pump();
 
       await tester.tap(find.byType(PopupMenuButton<void>));
@@ -366,7 +378,8 @@ void main() async {
     testWidgets('onDelete called from popup menu', (tester) async {
       var called = false;
       await tester.pumpWidget(
-          buildActions(httpServer, onDelete: () => called = true));
+        buildActions(httpServer, onDelete: () => called = true),
+      );
       await tester.pump();
 
       await tester.tap(find.byType(PopupMenuButton<void>));
@@ -377,11 +390,13 @@ void main() async {
       expect(called, isTrue);
     });
 
-    testWidgets('onSetDefault called from popup menu for non-default server',
-        (tester) async {
+    testWidgets('onSetDefault called from popup menu for non-default server', (
+      tester,
+    ) async {
       var called = false;
       await tester.pumpWidget(
-          buildActions(httpServer, onSetDefault: () => called = true));
+        buildActions(httpServer, onSetDefault: () => called = true),
+      );
       await tester.pump();
 
       await tester.tap(find.byType(PopupMenuButton<void>));

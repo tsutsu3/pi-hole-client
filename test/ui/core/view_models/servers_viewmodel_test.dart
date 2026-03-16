@@ -219,23 +219,28 @@ void main() async {
       expect(listenerCalled, true);
     });
 
-    test('serversWithUnverifiedCertificates returns servers with self-signed',
-        () async {
-      const unverifiedServer = Server(
-        address: 'https://pi.hole',
-        alias: 'Unverified',
-        defaultServer: false,
-        apiVersion: 'v6',
-        allowSelfSignedCert: true,
-        ignoreCertificateErrors: false,
-      );
-      await serversViewModel.addServer(unverifiedServer);
-      listenerCalled = false;
+    test(
+      'serversWithUnverifiedCertificates returns servers with self-signed',
+      () async {
+        const unverifiedServer = Server(
+          address: 'https://pi.hole',
+          alias: 'Unverified',
+          defaultServer: false,
+          apiVersion: 'v6',
+          allowSelfSignedCert: true,
+          ignoreCertificateErrors: false,
+        );
+        await serversViewModel.addServer(unverifiedServer);
+        listenerCalled = false;
 
-      final unverified = serversViewModel.serversWithUnverifiedCertificates;
+        final unverified = serversViewModel.serversWithUnverifiedCertificates;
 
-      expect(unverified.any((s) => s.address == unverifiedServer.address), isTrue);
-    });
+        expect(
+          unverified.any((s) => s.address == unverifiedServer.address),
+          isTrue,
+        );
+      },
+    );
 
     test('numShown returns non-negative value', () async {
       await serversViewModel.addServer(server);
@@ -255,7 +260,9 @@ void main() async {
       await serversViewModel.addServer(defaultSrv);
 
       expect(
-        serversViewModel.getServersList.any((s) => s.address == defaultSrv.address),
+        serversViewModel.getServersList.any(
+          (s) => s.address == defaultSrv.address,
+        ),
         isTrue,
       );
     });
@@ -311,7 +318,9 @@ void main() async {
       serversViewModel.addServer(server);
       serversViewModel.setselectedServer(server: server);
 
-      final result = serversViewModel.getQueryStatusByType(QueryStatusType.gravity);
+      final result = serversViewModel.getQueryStatusByType(
+        QueryStatusType.gravity,
+      );
       expect(result, isNotNull);
     });
 
@@ -348,15 +357,18 @@ void main() async {
       expect(serversViewModel.selectedServer?.alias, 'Updated Alias');
     });
 
-    test('editServer with defaultServer=true sets default and notifies', () async {
-      await serversViewModel.addServer(server);
-      serversViewModel.setselectedServer(server: server);
+    test(
+      'editServer with defaultServer=true sets default and notifies',
+      () async {
+        await serversViewModel.addServer(server);
+        serversViewModel.setselectedServer(server: server);
 
-      final updatedServer = server.copyWith(defaultServer: true);
-      final result = await serversViewModel.editServer(updatedServer);
+        final updatedServer = server.copyWith(defaultServer: true);
+        final result = await serversViewModel.editServer(updatedServer);
 
-      expect(result, true);
-      expect(listenerCalled, true);
-    });
+        expect(result, true);
+        expect(listenerCalled, true);
+      },
+    );
   });
 }

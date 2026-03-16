@@ -7,21 +7,34 @@ import 'package:result_dart/result_dart.dart';
 
 class DomainsViewModel extends ChangeNotifier {
   DomainsViewModel({required DomainRepository domainRepository})
-    : _domainRepository = domainRepository;
+    : _domainRepository = domainRepository {
+    loadDomains = Command.createAsyncNoParam<void>(
+      _loadDomains,
+      initialValue: null,
+    );
+    deleteDomain = Command.createAsyncNoResult<Domain>(_deleteDomain);
+    addDomain = Command.createAsyncNoResult(_addDomain);
+    updateDomain = Command.createAsyncNoResult<Domain>(_updateDomain);
+
+    loadDomains.addListener(notifyListeners);
+    loadDomains.isRunning.addListener(notifyListeners);
+    loadDomains.errors.addListener(notifyListeners);
+    deleteDomain.addListener(notifyListeners);
+    deleteDomain.errors.addListener(notifyListeners);
+    addDomain.addListener(notifyListeners);
+    addDomain.errors.addListener(notifyListeners);
+    updateDomain.addListener(notifyListeners);
+    updateDomain.errors.addListener(notifyListeners);
+  }
 
   final DomainRepository _domainRepository;
 
   // --- Commands ---
-  late final Command<void, void> loadDomains = Command.createAsyncNoParam<void>(
-    _loadDomains,
-    initialValue: null,
-  );
-  late final Command<Domain, void> deleteDomain =
-      Command.createAsyncNoResult<Domain>(_deleteDomain);
+  late final Command<void, void> loadDomains;
+  late final Command<Domain, void> deleteDomain;
   late final Command<({DomainType type, DomainKind kind, String domain}), void>
-  addDomain = Command.createAsyncNoResult(_addDomain);
-  late final Command<Domain, void> updateDomain =
-      Command.createAsyncNoResult<Domain>(_updateDomain);
+  addDomain;
+  late final Command<Domain, void> updateDomain;
 
   // --- State ---
   List<Domain> _whitelistDomains = [];
@@ -209,6 +222,15 @@ class DomainsViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
+    loadDomains.removeListener(notifyListeners);
+    loadDomains.isRunning.removeListener(notifyListeners);
+    loadDomains.errors.removeListener(notifyListeners);
+    deleteDomain.removeListener(notifyListeners);
+    deleteDomain.errors.removeListener(notifyListeners);
+    addDomain.removeListener(notifyListeners);
+    addDomain.errors.removeListener(notifyListeners);
+    updateDomain.removeListener(notifyListeners);
+    updateDomain.errors.removeListener(notifyListeners);
     loadDomains.dispose();
     deleteDomain.dispose();
     addDomain.dispose();

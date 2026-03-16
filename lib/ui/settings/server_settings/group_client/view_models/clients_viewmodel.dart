@@ -8,7 +8,25 @@ import 'package:result_dart/result_dart.dart';
 
 class ClientsViewModel extends ChangeNotifier {
   ClientsViewModel({required ClientRepository clientRepository})
-    : _clientRepository = clientRepository;
+    : _clientRepository = clientRepository {
+    loadClients = Command.createAsyncNoParam<void>(
+      _loadClients,
+      initialValue: null,
+    );
+    addClient = Command.createAsyncNoResult(_addClient);
+    updateClient = Command.createAsyncNoResult(_updateClient);
+    deleteClient = Command.createAsyncNoResult<ManagedClient>(_deleteClient);
+
+    loadClients.addListener(notifyListeners);
+    loadClients.isRunning.addListener(notifyListeners);
+    loadClients.errors.addListener(notifyListeners);
+    addClient.addListener(notifyListeners);
+    addClient.errors.addListener(notifyListeners);
+    updateClient.addListener(notifyListeners);
+    updateClient.errors.addListener(notifyListeners);
+    deleteClient.addListener(notifyListeners);
+    deleteClient.errors.addListener(notifyListeners);
+  }
 
   final ClientRepository _clientRepository;
 
@@ -18,22 +36,18 @@ class ClientsViewModel extends ChangeNotifier {
       MapEquality<int, String>();
 
   // --- Commands ---
-  late final Command<void, void> loadClients = Command.createAsyncNoParam<void>(
-    _loadClients,
-    initialValue: null,
-  );
+  late final Command<void, void> loadClients;
   late final Command<
     ({String client, String? comment, List<int>? groups}),
     void
   >
-  addClient = Command.createAsyncNoResult(_addClient);
+  addClient;
   late final Command<
     ({String client, String? comment, List<int>? groups}),
     void
   >
-  updateClient = Command.createAsyncNoResult(_updateClient);
-  late final Command<ManagedClient, void> deleteClient =
-      Command.createAsyncNoResult<ManagedClient>(_deleteClient);
+  updateClient;
+  late final Command<ManagedClient, void> deleteClient;
 
   // --- State ---
   List<ManagedClient> _clients = [];
@@ -97,7 +111,9 @@ class ClientsViewModel extends ChangeNotifier {
     );
     switch (result) {
       case Success():
-        await loadClients.runAsync();
+        _clients = [..._clients, result.getOrNull()];
+        _applyFilters();
+        notifyListeners();
       case Failure():
         throw result.exceptionOrNull();
     }
@@ -113,7 +129,12 @@ class ClientsViewModel extends ChangeNotifier {
     );
     switch (result) {
       case Success():
-        await loadClients.runAsync();
+        final updated = result.getOrNull();
+        _clients = _clients
+            .map((c) => c.id == updated.id ? updated : c)
+            .toList();
+        _applyFilters();
+        notifyListeners();
       case Failure():
         throw result.exceptionOrNull();
     }
@@ -168,6 +189,15 @@ class ClientsViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
+    loadClients.removeListener(notifyListeners);
+    loadClients.isRunning.removeListener(notifyListeners);
+    loadClients.errors.removeListener(notifyListeners);
+    addClient.removeListener(notifyListeners);
+    addClient.errors.removeListener(notifyListeners);
+    updateClient.removeListener(notifyListeners);
+    updateClient.errors.removeListener(notifyListeners);
+    deleteClient.removeListener(notifyListeners);
+    deleteClient.errors.removeListener(notifyListeners);
     loadClients.dispose();
     addClient.dispose();
     updateClient.dispose();

@@ -319,19 +319,23 @@ void main() {
       expect(listenerCalled, true);
     });
 
-    test('setImportantInfoReaden updates value and notifies listeners',
-        () async {
-      await appConfigViewModel.setImportantInfoReaden(true);
-      expect(appConfigViewModel.importantInfoReaden, true);
-      expect(listenerCalled, true);
-    });
+    test(
+      'setImportantInfoReaden updates value and notifies listeners',
+      () async {
+        await appConfigViewModel.setImportantInfoReaden(true);
+        expect(appConfigViewModel.importantInfoReaden, true);
+        expect(listenerCalled, true);
+      },
+    );
 
-    test('setLogAutoRefreshTime updates value and notifies listeners',
-        () async {
-      await appConfigViewModel.setLogAutoRefreshTime(30);
-      expect(appConfigViewModel.logAutoRefreshTime, 30);
-      expect(listenerCalled, true);
-    });
+    test(
+      'setLogAutoRefreshTime updates value and notifies listeners',
+      () async {
+        await appConfigViewModel.setLogAutoRefreshTime(30);
+        expect(appConfigViewModel.logAutoRefreshTime, 30);
+        expect(listenerCalled, true);
+      },
+    );
 
     test('setLiveLog updates value and notifies listeners', () async {
       await appConfigViewModel.setLiveLog(false);
@@ -345,20 +349,24 @@ void main() {
       expect(listenerCalled, true);
     });
 
-    test('setStatisticsVisualizationMode updates and notifies listeners',
-        () async {
-      await appConfigViewModel
-          .setStatisticsVisualizationMode(StatisticsVisualizationMode.pieChart);
-      expect(
-        appConfigViewModel.statisticsVisualizationMode,
-        StatisticsVisualizationMode.pieChart,
-      );
-      expect(listenerCalled, true);
-    });
+    test(
+      'setStatisticsVisualizationMode updates and notifies listeners',
+      () async {
+        await appConfigViewModel.setStatisticsVisualizationMode(
+          StatisticsVisualizationMode.pieChart,
+        );
+        expect(
+          appConfigViewModel.statisticsVisualizationMode,
+          StatisticsVisualizationMode.pieChart,
+        );
+        expect(listenerCalled, true);
+      },
+    );
 
     test('setHomeVisualizationMode updates and notifies listeners', () async {
-      await appConfigViewModel
-          .setHomeVisualizationMode(HomeVisualizationMode.bar);
+      await appConfigViewModel.setHomeVisualizationMode(
+        HomeVisualizationMode.bar,
+      );
       expect(
         appConfigViewModel.homeVisualizationMode,
         HomeVisualizationMode.bar,
@@ -366,59 +374,65 @@ void main() {
       expect(listenerCalled, true);
     });
 
-    test('selectedTheme returns ThemeMode.light when theme is AppThemeMode.light',
-        () {
-      appConfigViewModel.saveFromDb(
-        const AppConfig(
-          autoRefreshTime: 2,
-          theme: AppThemeMode.light,
-          language: 'en',
-          reducedDataCharts: false,
-          logsPerQuery: 2,
-          logAutoRefreshTime: 5,
-          liveLog: true,
-          isLivelogPaused: true,
-          useBiometricAuth: false,
-          importantInfoReaden: false,
-          hideZeroValues: false,
-          loadingAnimation: true,
-          statisticsVisualizationMode: StatisticsVisualizationMode.list,
-          homeVisualizationMode: HomeVisualizationMode.lineArea,
-          sendCrashReports: false,
-        ),
-      );
-      expect(appConfigViewModel.selectedTheme, ThemeMode.light);
-    });
+    test(
+      'selectedTheme returns ThemeMode.light when theme is AppThemeMode.light',
+      () {
+        appConfigViewModel.saveFromDb(
+          const AppConfig(
+            autoRefreshTime: 2,
+            theme: AppThemeMode.light,
+            language: 'en',
+            reducedDataCharts: false,
+            logsPerQuery: 2,
+            logAutoRefreshTime: 5,
+            liveLog: true,
+            isLivelogPaused: true,
+            useBiometricAuth: false,
+            importantInfoReaden: false,
+            hideZeroValues: false,
+            loadingAnimation: true,
+            statisticsVisualizationMode: StatisticsVisualizationMode.list,
+            homeVisualizationMode: HomeVisualizationMode.lineArea,
+            sendCrashReports: false,
+          ),
+        );
+        expect(appConfigViewModel.selectedTheme, ThemeMode.light);
+      },
+    );
 
-    test('selectedTheme returns ThemeMode.dark when theme is AppThemeMode.dark',
-        () {
-      appConfigViewModel.saveFromDb(
-        const AppConfig(
-          autoRefreshTime: 2,
-          theme: AppThemeMode.dark,
-          language: 'en',
-          reducedDataCharts: false,
-          logsPerQuery: 2,
-          logAutoRefreshTime: 5,
-          liveLog: true,
-          isLivelogPaused: true,
-          useBiometricAuth: false,
-          importantInfoReaden: false,
-          hideZeroValues: false,
-          loadingAnimation: true,
-          statisticsVisualizationMode: StatisticsVisualizationMode.list,
-          homeVisualizationMode: HomeVisualizationMode.lineArea,
-          sendCrashReports: false,
-        ),
-      );
-      expect(appConfigViewModel.selectedTheme, ThemeMode.dark);
-    });
+    test(
+      'selectedTheme returns ThemeMode.dark when theme is AppThemeMode.dark',
+      () {
+        appConfigViewModel.saveFromDb(
+          const AppConfig(
+            autoRefreshTime: 2,
+            theme: AppThemeMode.dark,
+            language: 'en',
+            reducedDataCharts: false,
+            logsPerQuery: 2,
+            logAutoRefreshTime: 5,
+            liveLog: true,
+            isLivelogPaused: true,
+            useBiometricAuth: false,
+            importantInfoReaden: false,
+            hideZeroValues: false,
+            loadingAnimation: true,
+            statisticsVisualizationMode: StatisticsVisualizationMode.list,
+            homeVisualizationMode: HomeVisualizationMode.lineArea,
+            sendCrashReports: false,
+          ),
+        );
+        expect(appConfigViewModel.selectedTheme, ThemeMode.dark);
+      },
+    );
 
-    test('selectedLanguageNumber falls back to en index for unknown language',
-        () async {
-      await appConfigViewModel.setSelectedLanguage('xx'); // unknown key
-      expect(appConfigViewModel.selectedLanguageNumber, isA<int>());
-    });
+    test(
+      'selectedLanguageNumber falls back to en index for unknown language',
+      () async {
+        await appConfigViewModel.setSelectedLanguage('xx'); // unknown key
+        expect(appConfigViewModel.selectedLanguageNumber, isA<int>());
+      },
+    );
 
     test('setUseBiometrics returns false on repository failure', () async {
       repository.shouldFailUpdate = true;

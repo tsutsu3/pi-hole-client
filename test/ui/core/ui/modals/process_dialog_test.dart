@@ -10,9 +10,7 @@ void main() async {
   group('ProcessDialog', () {
     testWidgets('renders message text', (tester) async {
       await tester.pumpWidget(
-        buildTestApp(
-          const ProcessDialog(message: 'Loading...'),
-        ),
+        buildTestApp(const ProcessDialog(message: 'Loading...')),
       );
 
       expect(find.text('Loading...'), findsOneWidget);
@@ -21,9 +19,7 @@ void main() async {
 
     testWidgets('renders as Dialog widget', (tester) async {
       await tester.pumpWidget(
-        buildTestApp(
-          const ProcessDialog(message: 'Please wait'),
-        ),
+        buildTestApp(const ProcessDialog(message: 'Please wait')),
       );
 
       expect(find.byType(Dialog), findsOneWidget);
