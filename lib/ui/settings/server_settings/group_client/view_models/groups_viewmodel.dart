@@ -82,7 +82,9 @@ class GroupsViewModel extends ChangeNotifier {
     );
     switch (result) {
       case Success():
-        await loadGroups.runAsync();
+        _groups = [..._groups, result.getOrNull()];
+        _applyFilters();
+        notifyListeners();
       case Failure():
         throw result.exceptionOrNull();
     }
@@ -98,7 +100,12 @@ class GroupsViewModel extends ChangeNotifier {
     );
     switch (result) {
       case Success():
-        await loadGroups.runAsync();
+        final updated = result.getOrNull();
+        _groups = _groups
+            .map((g) => g.id == updated.id ? updated : g)
+            .toList();
+        _applyFilters();
+        notifyListeners();
       case Failure():
         throw result.exceptionOrNull();
     }

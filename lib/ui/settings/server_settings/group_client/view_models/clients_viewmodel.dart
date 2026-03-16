@@ -111,7 +111,9 @@ class ClientsViewModel extends ChangeNotifier {
     );
     switch (result) {
       case Success():
-        await loadClients.runAsync();
+        _clients = [..._clients, result.getOrNull()];
+        _applyFilters();
+        notifyListeners();
       case Failure():
         throw result.exceptionOrNull();
     }
@@ -127,7 +129,12 @@ class ClientsViewModel extends ChangeNotifier {
     );
     switch (result) {
       case Success():
-        await loadClients.runAsync();
+        final updated = result.getOrNull();
+        _clients = _clients
+            .map((c) => c.id == updated.id ? updated : c)
+            .toList();
+        _applyFilters();
+        notifyListeners();
       case Failure():
         throw result.exceptionOrNull();
     }

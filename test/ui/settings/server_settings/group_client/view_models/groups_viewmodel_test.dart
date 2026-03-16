@@ -103,8 +103,9 @@ void main() {
       expect(listenerCalled, true);
     });
 
-    test('addGroup reloads groups after adding', () async {
+    test('addGroup appends group to list without reloading', () async {
       await viewModel.loadGroups.runAsync();
+      listenerCalled = false;
 
       await viewModel.addGroup.runAsync((
         name: 'new-group',
@@ -112,11 +113,15 @@ void main() {
         enabled: true,
       ));
 
+      expect(viewModel.groups.length, 3);
+      expect(viewModel.groups.any((g) => g.name == 'new-group'), isTrue);
       expect(viewModel.loadingStatus, LoadStatus.loaded);
+      expect(listenerCalled, true);
     });
 
-    test('updateGroup reloads groups after updating', () async {
+    test('updateGroup updates group in list without reloading', () async {
       await viewModel.loadGroups.runAsync();
+      listenerCalled = false;
 
       await viewModel.updateGroup.runAsync((
         name: 'test',
@@ -124,7 +129,13 @@ void main() {
         enabled: false,
       ));
 
+      // FakeGroupRepository.updateGroup returns id:5 with the new values
+      final updated = viewModel.groups.firstWhere((g) => g.id == 5);
+      expect(updated.comment, 'updated comment');
+      expect(updated.enabled, false);
+      expect(viewModel.groups.length, 2);
       expect(viewModel.loadingStatus, LoadStatus.loaded);
+      expect(listenerCalled, true);
     });
 
     test('deleteGroup sets error on failure', () async {
