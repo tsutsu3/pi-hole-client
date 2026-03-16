@@ -251,10 +251,10 @@ class ServerTileActions extends StatelessWidget {
     final updated = server.copyWith(
       pinnedCertificateSha256: certificateInfo.sha256,
     );
-    final result = await serversViewModel.editServer(updated);
+    await serversViewModel.editServer.runAsync(updated);
     if (!context.mounted) return;
 
-    if (result == true) {
+    if (serversViewModel.editServer.errors.value == null) {
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,

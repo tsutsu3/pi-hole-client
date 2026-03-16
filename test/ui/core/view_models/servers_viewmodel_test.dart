@@ -1,3 +1,4 @@
+import 'package:command_it/command_it.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
@@ -25,6 +26,7 @@ void main() async {
     );
 
     setUp(() {
+      Command.globalExceptionHandler = (_, _) {};
       repository = FakeServerRepository();
       serversViewModel = ServersViewModel(repository);
 
@@ -32,6 +34,11 @@ void main() async {
       serversViewModel.addListener(() {
         listenerCalled = true;
       });
+    });
+
+    tearDown(() {
+      serversViewModel.dispose();
+      Command.globalExceptionHandler = null;
     });
 
     test('initial values are correct', () {
@@ -53,8 +60,8 @@ void main() async {
       expect(callbackCalled, true);
     });
 
-    test('getQueryStatuses returns the correct query statuses', () {
-      serversViewModel.addServer(server);
+    test('getQueryStatuses returns the correct query statuses', () async {
+      await serversViewModel.addServer.runAsync(server);
       serversViewModel.setselectedServer(server: server);
 
       final result = serversViewModel.getQueryStatus('2');
@@ -62,8 +69,8 @@ void main() async {
       expect(listenerCalled, true);
     });
 
-    test('findQueryStatus returns the correct query statuses', () {
-      serversViewModel.addServer(server);
+    test('findQueryStatus returns the correct query statuses', () async {
+      await serversViewModel.addServer.runAsync(server);
       serversViewModel.setselectedServer(server: server);
 
       final result = serversViewModel.findQueryStatus('GRAVITY');
@@ -71,17 +78,17 @@ void main() async {
       expect(listenerCalled, true);
     });
 
-    test('addServer adds a server and notifies listeners', () async {
-      final result = await serversViewModel.addServer(server);
+    group('addServer Command', () {
+      test('adds a server and notifies listeners', () async {
+        await serversViewModel.addServer.runAsync(server);
 
-      expect(result, true);
-      expect(serversViewModel.getServersList.contains(server), true);
-      expect(listenerCalled, true);
-    });
+        expect(serversViewModel.addServer.errors.value, isNull);
+        expect(serversViewModel.getServersList.contains(server), true);
+        expect(listenerCalled, true);
+      });
 
-    test(
-      'addServer adds a server (defaultServer: on) option and notifies listeners',
-      () async {
+      test('adds a server (defaultServer: on) and notifies listeners',
+          () async {
         const server2 = Server(
           address: 'http://localhost:8081',
           alias: 'test v6',
@@ -90,47 +97,117 @@ void main() async {
           allowSelfSignedCert: true,
           ignoreCertificateErrors: false,
         );
-        final result = await serversViewModel.addServer(server2);
+        await serversViewModel.addServer.runAsync(server2);
 
-        expect(result, true);
+        expect(serversViewModel.addServer.errors.value, isNull);
         expect(serversViewModel.getServersList.contains(server2), true);
         expect(listenerCalled, true);
-      },
-    );
+      });
 
-    test('editServer edits a server and notifies listeners', () async {
-      await serversViewModel.addServer(server);
-      final updatedServer = server.copyWith(alias: 'Updated Server');
+      test('sets error on failure', () async {
+        repository.shouldFailInsert = true;
+        try {
+          await serversViewModel.addServer.runAsync(server);
+        } catch (_) {}
 
-      final result = await serversViewModel.editServer(updatedServer);
-
-      expect(result, true);
-      expect(serversViewModel.getServersList.contains(updatedServer), true);
-      expect(listenerCalled, true);
+        expect(serversViewModel.addServer.errors.value, isNotNull);
+        expect(listenerCalled, true);
+      });
     });
 
-    test('removeServer removes a server and notifies listeners', () async {
-      serversViewModel.getServersList.add(server);
+    group('editServer Command', () {
+      test('edits a server and notifies listeners', () async {
+        await serversViewModel.addServer.runAsync(server);
+        final updatedServer = server.copyWith(alias: 'Updated Server');
 
-      final result = await serversViewModel.removeServer(server.address);
+        await serversViewModel.editServer.runAsync(updatedServer);
 
-      expect(result, true);
-      expect(serversViewModel.getServersList.contains(server), false);
-      expect(listenerCalled, true);
+        expect(serversViewModel.editServer.errors.value, isNull);
+        expect(
+          serversViewModel.getServersList.contains(updatedServer),
+          true,
+        );
+        expect(listenerCalled, true);
+      });
+
+      test('updates selectedServer when addresses match', () async {
+        await serversViewModel.addServer.runAsync(server);
+        serversViewModel.setselectedServer(server: server);
+
+        final updatedServer = server.copyWith(alias: 'Updated Alias');
+        await serversViewModel.editServer.runAsync(updatedServer);
+
+        expect(serversViewModel.editServer.errors.value, isNull);
+        expect(serversViewModel.selectedServer?.alias, 'Updated Alias');
+      });
+
+      test('with defaultServer=true sets default and notifies', () async {
+        await serversViewModel.addServer.runAsync(server);
+        serversViewModel.setselectedServer(server: server);
+
+        final updatedServer = server.copyWith(defaultServer: true);
+        await serversViewModel.editServer.runAsync(updatedServer);
+
+        expect(serversViewModel.editServer.errors.value, isNull);
+        expect(listenerCalled, true);
+      });
+
+      test('sets error on failure', () async {
+        repository.shouldFailUpdate = true;
+        try {
+          await serversViewModel.editServer.runAsync(server);
+        } catch (_) {}
+
+        expect(serversViewModel.editServer.errors.value, isNotNull);
+        expect(listenerCalled, true);
+      });
     });
 
-    test(
-      'setDefaultServer sets a default server and notifies listeners',
-      () async {
-        serversViewModel.getServersList.add(server);
+    group('removeServer Command', () {
+      test('removes a server and notifies listeners', () async {
+        await serversViewModel.addServer.runAsync(server);
+        listenerCalled = false;
 
-        final result = await serversViewModel.setDefaultServer(server);
+        await serversViewModel.removeServer.runAsync(server.address);
 
-        expect(result, true);
+        expect(serversViewModel.removeServer.errors.value, isNull);
+        expect(serversViewModel.getServersList.contains(server), false);
+        expect(listenerCalled, true);
+      });
+
+      test('sets error on failure', () async {
+        repository.shouldFailDelete = true;
+        try {
+          await serversViewModel.removeServer.runAsync(server.address);
+        } catch (_) {}
+
+        expect(serversViewModel.removeServer.errors.value, isNotNull);
+        expect(listenerCalled, true);
+      });
+    });
+
+    group('setDefaultServer Command', () {
+      test('sets a default server and notifies listeners', () async {
+        await serversViewModel.addServer.runAsync(server);
+        listenerCalled = false;
+
+        await serversViewModel.setDefaultServer.runAsync(server);
+
+        expect(serversViewModel.setDefaultServer.errors.value, isNull);
         expect(serversViewModel.getServersList[0].defaultServer, true);
         expect(listenerCalled, true);
-      },
-    );
+      });
+
+      test('sets error on failure', () async {
+        repository.shouldFailUpdateDefault = true;
+        try {
+          await serversViewModel.setDefaultServer.runAsync(server);
+        } catch (_) {}
+
+        expect(serversViewModel.setDefaultServer.errors.value, isNotNull);
+        expect(listenerCalled, true);
+      });
+    });
 
     test('saveFromDb saves the servers from the database', () async {
       final servers = [
@@ -154,7 +231,7 @@ void main() async {
     });
 
     test('checkUrlExists returns the correct result', () async {
-      await serversViewModel.addServer(server);
+      await serversViewModel.addServer.runAsync(server);
 
       final result = await serversViewModel.checkUrlExists(server.address);
 
@@ -162,8 +239,8 @@ void main() async {
       expect(listenerCalled, true);
     });
 
-    test('updateselectedServerStatus updates the selected server', () {
-      serversViewModel.addServer(server);
+    test('updateselectedServerStatus updates the selected server', () async {
+      await serversViewModel.addServer.runAsync(server);
       serversViewModel.setselectedServer(server: server);
 
       serversViewModel.updateselectedServerStatus(true);
@@ -173,7 +250,7 @@ void main() async {
     });
 
     test('deleteDbData deletes the servers data', () async {
-      await serversViewModel.addServer(server);
+      await serversViewModel.addServer.runAsync(server);
       serversViewModel.setselectedServer(server: server);
 
       final result = await serversViewModel.deleteDbData();
@@ -230,7 +307,7 @@ void main() async {
           allowSelfSignedCert: true,
           ignoreCertificateErrors: false,
         );
-        await serversViewModel.addServer(unverifiedServer);
+        await serversViewModel.addServer.runAsync(unverifiedServer);
         listenerCalled = false;
 
         final unverified = serversViewModel.serversWithUnverifiedCertificates;
@@ -243,7 +320,7 @@ void main() async {
     );
 
     test('numShown returns non-negative value', () async {
-      await serversViewModel.addServer(server);
+      await serversViewModel.addServer.runAsync(server);
 
       expect(serversViewModel.numShown, greaterThanOrEqualTo(0));
     });
@@ -257,7 +334,7 @@ void main() async {
         allowSelfSignedCert: false,
         ignoreCertificateErrors: false,
       );
-      await serversViewModel.addServer(defaultSrv);
+      await serversViewModel.addServer.runAsync(defaultSrv);
 
       expect(
         serversViewModel.getServersList.any(
@@ -267,10 +344,10 @@ void main() async {
       );
     });
 
-    test('update stores the onServerSelected callback', () {
+    test('update stores the onServerSelected callback (not yet invoked)', () {
       var callbackFired = false;
       serversViewModel.update(() => callbackFired = true);
-      expect(callbackFired, false); // stored, not yet invoked
+      expect(callbackFired, false);
     });
 
     group('v5 server branches', () {
@@ -283,30 +360,30 @@ void main() async {
         ignoreCertificateErrors: false,
       );
 
-      test('queryStatuses returns v5 list for v5 server', () {
-        serversViewModel.addServer(serverV5);
+      test('queryStatuses returns v5 list for v5 server', () async {
+        await serversViewModel.addServer.runAsync(serverV5);
         serversViewModel.setselectedServer(server: serverV5);
 
         expect(serversViewModel.queryStatuses, queryStatusesV5);
       });
 
-      test('numShown returns count for v5 server', () {
-        serversViewModel.addServer(serverV5);
+      test('numShown returns count for v5 server', () async {
+        await serversViewModel.addServer.runAsync(serverV5);
         serversViewModel.setselectedServer(server: serverV5);
 
         expect(serversViewModel.numShown, greaterThanOrEqualTo(0));
       });
 
-      test('getQueryStatus returns correct status for v5 server', () {
-        serversViewModel.addServer(serverV5);
+      test('getQueryStatus returns correct status for v5 server', () async {
+        await serversViewModel.addServer.runAsync(serverV5);
         serversViewModel.setselectedServer(server: serverV5);
 
         final result = serversViewModel.getQueryStatus('1');
         expect(result?.key, queryStatusesV5[0].key);
       });
 
-      test('findQueryStatus returns correct status for v5 server', () {
-        serversViewModel.addServer(serverV5);
+      test('findQueryStatus returns correct status for v5 server', () async {
+        await serversViewModel.addServer.runAsync(serverV5);
         serversViewModel.setselectedServer(server: serverV5);
 
         final result = serversViewModel.findQueryStatus('1');
@@ -314,8 +391,8 @@ void main() async {
       });
     });
 
-    test('getQueryStatusByType returns correct status for v6 server', () {
-      serversViewModel.addServer(server);
+    test('getQueryStatusByType returns correct status for v6 server', () async {
+      await serversViewModel.addServer.runAsync(server);
       serversViewModel.setselectedServer(server: server);
 
       final result = serversViewModel.getQueryStatusByType(
@@ -325,7 +402,8 @@ void main() async {
     });
 
     test(
-      'serversWithUnverifiedCertificates includes server with empty pinnedCertificateSha256',
+      'serversWithUnverifiedCertificates includes server with empty '
+      'pinnedCertificateSha256',
       () async {
         const serverWithEmptyPin = Server(
           address: 'https://pi.hole',
@@ -336,38 +414,13 @@ void main() async {
           ignoreCertificateErrors: false,
           pinnedCertificateSha256: '',
         );
-        await serversViewModel.addServer(serverWithEmptyPin);
+        await serversViewModel.addServer.runAsync(serverWithEmptyPin);
 
         final unverified = serversViewModel.serversWithUnverifiedCertificates;
         expect(
           unverified.any((s) => s.address == serverWithEmptyPin.address),
           isTrue,
         );
-      },
-    );
-
-    test('editServer updates selectedServer when addresses match', () async {
-      await serversViewModel.addServer(server);
-      serversViewModel.setselectedServer(server: server);
-
-      final updatedServer = server.copyWith(alias: 'Updated Alias');
-      final result = await serversViewModel.editServer(updatedServer);
-
-      expect(result, true);
-      expect(serversViewModel.selectedServer?.alias, 'Updated Alias');
-    });
-
-    test(
-      'editServer with defaultServer=true sets default and notifies',
-      () async {
-        await serversViewModel.addServer(server);
-        serversViewModel.setselectedServer(server: server);
-
-        final updatedServer = server.copyWith(defaultServer: true);
-        final result = await serversViewModel.editServer(updatedServer);
-
-        expect(result, true);
-        expect(listenerCalled, true);
       },
     );
   });

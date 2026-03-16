@@ -502,7 +502,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(context)!.connectedSuccessfully,
           );
-          await serversViewModel.addServer(
+          await serversViewModel.addServer.runAsync(
             serverObj.copyWith(defaultServer: defaultCheckbox),
           );
         } else {
@@ -608,9 +608,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       if (result.isSuccess()) {
         final server = serverObj.copyWith(defaultServer: defaultCheckbox);
-        final editResult = await serversViewModel.editServer(server);
+        await serversViewModel.editServer.runAsync(server);
         if (context.mounted) {
-          if (editResult == true) {
+          if (serversViewModel.editServer.errors.value == null) {
             await Navigator.maybePop(context);
             if (!context.mounted) return;
 

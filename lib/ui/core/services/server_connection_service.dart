@@ -429,11 +429,11 @@ class ServerConnectionService {
     if (confirmed != true || !context.mounted) return null;
 
     final updated = server.copyWith(pinnedCertificateSha256: info.sha256);
-    final result = await serversViewModel.editServer(updated);
+    await serversViewModel.editServer.runAsync(updated);
 
     if (!context.mounted) return null;
 
-    if (result == true) {
+    if (serversViewModel.editServer.errors.value == null) {
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,

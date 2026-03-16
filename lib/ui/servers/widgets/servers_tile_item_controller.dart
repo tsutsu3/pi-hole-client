@@ -86,11 +86,11 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
     final serversViewModel = context.read<ServersViewModel>();
     final appConfigViewModel = context.read<AppConfigViewModel>();
 
-    final result = await serversViewModel.setDefaultServer(server);
+    await serversViewModel.setDefaultServer.runAsync(server);
 
     if (!mounted) return;
 
-    if (result == true) {
+    if (serversViewModel.setDefaultServer.errors.value == null) {
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
