@@ -1,3 +1,4 @@
+import 'package:command_it/command_it.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -84,6 +85,7 @@ void main() async {
     ];
 
     setUp(() {
+      Command.globalExceptionHandler = (_, _) {};
       provideDummy<Result<List<LocalDns>>>(const Success([]));
       provideDummy<Result<Unit>>(const Success(unit));
       provideDummy<Result<List<Device>>>(const Success([]));
@@ -100,6 +102,11 @@ void main() async {
       localDnsProvider.addListener(() {
         listenerCalled = true;
       });
+    });
+
+    tearDown(() {
+      localDnsProvider.dispose();
+      Command.globalExceptionHandler = null;
     });
 
     test('Initial values are set correctly', () {
@@ -119,7 +126,7 @@ void main() async {
       },
     );
 
-    test('load() updates local DNS and notifies listeners', () async {
+    test('load Command updates local DNS and notifies listeners', () async {
       when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
         (_) async =>
             const Success([LocalDns(ip: '192.168.1.2', name: 'device')]),
@@ -131,8 +138,9 @@ void main() async {
         ),
       ).thenAnswer((_) async => Success(devices));
 
-      await localDnsProvider.load();
+      await localDnsProvider.load.runAsync();
 
+      expect(localDnsProvider.load.errors.value, isNull);
       expect(localDnsProvider.localDns.length, 1);
       expect(
         localDnsProvider.localDns[0],
@@ -166,159 +174,175 @@ void main() async {
       expect(listenerCalled, true);
     });
 
-    test('addLocalDns() updates status and notifies listeners', () async {
-      when(
-        mockLocalDnsRepository.addRecord(ip: '192.168.11.3', name: 'test'),
-      ).thenAnswer((_) async => const Success(unit));
+    group('addLocalDns Command', () {
+      test('adds record and notifies listeners', () async {
+        when(
+          mockLocalDnsRepository.addRecord(ip: '192.168.11.3', name: 'test'),
+        ).thenAnswer((_) async => const Success(unit));
 
-      final resp = await localDnsProvider.addLocalDns(
-        const LocalDns(ip: '192.168.11.3', name: 'test'),
-      );
+        await localDnsProvider.addLocalDns.runAsync(
+          const LocalDns(ip: '192.168.11.3', name: 'test'),
+        );
 
-      expect(resp, true);
-      expect(
-        localDnsProvider.localDns[0],
-        const LocalDns(ip: '192.168.11.3', name: 'test'),
-      );
-      expect(listenerCalled, true);
+        expect(localDnsProvider.addLocalDns.errors.value, isNull);
+        expect(
+          localDnsProvider.localDns[0],
+          const LocalDns(ip: '192.168.11.3', name: 'test'),
+        );
+        expect(listenerCalled, true);
+      });
+
+      test('rolls back optimistic state and sets error on failure', () async {
+        when(
+          mockLocalDnsRepository.addRecord(ip: '192.168.11.3', name: 'test'),
+        ).thenAnswer((_) async => Failure(Exception('Failed to add')));
+
+        try {
+          await localDnsProvider.addLocalDns.runAsync(
+            const LocalDns(ip: '192.168.11.3', name: 'test'),
+          );
+        } catch (_) {}
+
+        expect(localDnsProvider.addLocalDns.errors.value, isNotNull);
+        expect(localDnsProvider.localDns.length, 0);
+        expect(listenerCalled, true);
+      });
     });
 
-    test('addLocalDns() failed', () async {
-      when(
-        mockLocalDnsRepository.addRecord(ip: '192.168.11.3', name: 'test'),
-      ).thenAnswer((_) async => Failure(Exception('Failed to add')));
+    group('updateLocalDns Command', () {
+      test('updates record and notifies listeners', () async {
+        when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
+          (_) async =>
+              const Success([LocalDns(ip: '192.168.1.2', name: 'device')]),
+        );
+        when(
+          mockNetworkRepository.fetchDevices(
+            maxDevices: anyNamed('maxDevices'),
+            maxAddresses: anyNamed('maxAddresses'),
+          ),
+        ).thenAnswer((_) async => Success(devices));
+        await localDnsProvider.load.runAsync();
 
-      final resp = await localDnsProvider.addLocalDns(
-        const LocalDns(ip: '192.168.11.3', name: 'test'),
-      );
+        when(
+          mockLocalDnsRepository.updateRecord(
+            record: const LocalDns(ip: '192.168.1.3', name: 'test'),
+            oldIp: '192.168.1.2',
+          ),
+        ).thenAnswer((_) async => const Success(unit));
 
-      expect(resp, false);
-      expect(localDnsProvider.localDns.length, 0);
-      expect(listenerCalled, true);
+        await localDnsProvider.updateLocalDns.runAsync(
+          (oldIp: '192.168.1.2', item: const LocalDns(ip: '192.168.1.3', name: 'test')),
+        );
+
+        expect(localDnsProvider.updateLocalDns.errors.value, isNull);
+        expect(localDnsProvider.localDns.length, 1);
+        expect(
+          localDnsProvider.localDns[0],
+          const LocalDns(ip: '192.168.1.3', name: 'test'),
+        );
+        expect(listenerCalled, true);
+      });
+
+      test('rolls back optimistic state and sets error on failure', () async {
+        when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
+          (_) async =>
+              const Success([LocalDns(ip: '192.168.1.2', name: 'device')]),
+        );
+        when(
+          mockNetworkRepository.fetchDevices(
+            maxDevices: anyNamed('maxDevices'),
+            maxAddresses: anyNamed('maxAddresses'),
+          ),
+        ).thenAnswer((_) async => Success(devices));
+        await localDnsProvider.load.runAsync();
+
+        when(
+          mockLocalDnsRepository.updateRecord(
+            record: const LocalDns(ip: '192.168.1.3', name: 'test'),
+            oldIp: '192.168.1.2',
+          ),
+        ).thenAnswer((_) async => Failure(Exception('Failed to update')));
+
+        try {
+          await localDnsProvider.updateLocalDns.runAsync(
+            (oldIp: '192.168.1.2', item: const LocalDns(ip: '192.168.1.3', name: 'test')),
+          );
+        } catch (_) {}
+
+        expect(localDnsProvider.updateLocalDns.errors.value, isNotNull);
+        expect(localDnsProvider.localDns.length, 1);
+        expect(
+          localDnsProvider.localDns[0],
+          const LocalDns(ip: '192.168.1.2', name: 'device'),
+        );
+        expect(listenerCalled, true);
+      });
     });
 
-    test('updateLocalDns() updates local DNS and notifies listeners', () async {
-      when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
-        (_) async =>
-            const Success([LocalDns(ip: '192.168.1.2', name: 'device')]),
-      );
-      when(
-        mockNetworkRepository.fetchDevices(
-          maxDevices: anyNamed('maxDevices'),
-          maxAddresses: anyNamed('maxAddresses'),
-        ),
-      ).thenAnswer((_) async => Success(devices));
-      await localDnsProvider.load();
+    group('removeLocalDns Command', () {
+      test('removes record and notifies listeners', () async {
+        when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
+          (_) async =>
+              const Success([LocalDns(ip: '192.168.1.2', name: 'device')]),
+        );
+        when(
+          mockNetworkRepository.fetchDevices(
+            maxDevices: anyNamed('maxDevices'),
+            maxAddresses: anyNamed('maxAddresses'),
+          ),
+        ).thenAnswer((_) async => Success(devices));
+        await localDnsProvider.load.runAsync();
 
-      when(
-        mockLocalDnsRepository.updateRecord(
-          record: const LocalDns(ip: '192.168.1.3', name: 'test'),
-          oldIp: '192.168.1.2',
-        ),
-      ).thenAnswer((_) async => const Success(unit));
+        when(
+          mockLocalDnsRepository.deleteRecord(
+            ip: '192.168.1.2',
+            name: 'device',
+          ),
+        ).thenAnswer((_) async => const Success(unit));
 
-      final resp = await localDnsProvider.updateLocalDns(
-        oldIp: '192.168.1.2',
-        item: const LocalDns(ip: '192.168.1.3', name: 'test'),
-      );
+        await localDnsProvider.removeLocalDns.runAsync(
+          const LocalDns(ip: '192.168.1.2', name: 'device'),
+        );
 
-      expect(resp, true);
-      expect(localDnsProvider.localDns.length, 1);
-      expect(
-        localDnsProvider.localDns[0],
-        const LocalDns(ip: '192.168.1.3', name: 'test'),
-      );
-      expect(listenerCalled, true);
-    });
+        expect(localDnsProvider.removeLocalDns.errors.value, isNull);
+        expect(localDnsProvider.localDns.length, 0);
+        expect(listenerCalled, true);
+      });
 
-    test('updateLocalDns() failed', () async {
-      when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
-        (_) async =>
-            const Success([LocalDns(ip: '192.168.1.2', name: 'device')]),
-      );
-      when(
-        mockNetworkRepository.fetchDevices(
-          maxDevices: anyNamed('maxDevices'),
-          maxAddresses: anyNamed('maxAddresses'),
-        ),
-      ).thenAnswer((_) async => Success(devices));
-      await localDnsProvider.load();
+      test('rolls back optimistic state and sets error on failure', () async {
+        when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
+          (_) async =>
+              const Success([LocalDns(ip: '192.168.1.2', name: 'device')]),
+        );
+        when(
+          mockNetworkRepository.fetchDevices(
+            maxDevices: anyNamed('maxDevices'),
+            maxAddresses: anyNamed('maxAddresses'),
+          ),
+        ).thenAnswer((_) async => Success(devices));
+        await localDnsProvider.load.runAsync();
 
-      when(
-        mockLocalDnsRepository.updateRecord(
-          record: const LocalDns(ip: '192.168.1.3', name: 'test'),
-          oldIp: '192.168.1.2',
-        ),
-      ).thenAnswer((_) async => Failure(Exception('Failed to update')));
+        when(
+          mockLocalDnsRepository.deleteRecord(
+            ip: '192.168.1.2',
+            name: 'device',
+          ),
+        ).thenAnswer((_) async => Failure(Exception('Failed to delete')));
 
-      final resp = await localDnsProvider.updateLocalDns(
-        oldIp: '192.168.1.2',
-        item: const LocalDns(ip: '192.168.1.3', name: 'test'),
-      );
+        try {
+          await localDnsProvider.removeLocalDns.runAsync(
+            const LocalDns(ip: '192.168.1.2', name: 'device'),
+          );
+        } catch (_) {}
 
-      expect(resp, false);
-      expect(localDnsProvider.localDns.length, 1);
-      expect(
-        localDnsProvider.localDns[0],
-        const LocalDns(ip: '192.168.1.2', name: 'device'),
-      );
-      expect(listenerCalled, true);
-    });
-
-    test('removeLocalDns() loads local DNS and notifies listeners', () async {
-      when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
-        (_) async =>
-            const Success([LocalDns(ip: '192.168.1.2', name: 'device')]),
-      );
-      when(
-        mockNetworkRepository.fetchDevices(
-          maxDevices: anyNamed('maxDevices'),
-          maxAddresses: anyNamed('maxAddresses'),
-        ),
-      ).thenAnswer((_) async => Success(devices));
-      await localDnsProvider.load();
-
-      when(
-        mockLocalDnsRepository.deleteRecord(ip: '192.168.1.2', name: 'device'),
-      ).thenAnswer((_) async => const Success(unit));
-
-      final resp = await localDnsProvider.removeLocalDns(
-        const LocalDns(ip: '192.168.1.2', name: 'device'),
-      );
-
-      expect(resp, true);
-      expect(localDnsProvider.localDns.length, 0);
-      expect(listenerCalled, true);
-    });
-
-    test('removeLocalDns() failed', () async {
-      when(mockLocalDnsRepository.fetchRecords()).thenAnswer(
-        (_) async =>
-            const Success([LocalDns(ip: '192.168.1.2', name: 'device')]),
-      );
-      when(
-        mockNetworkRepository.fetchDevices(
-          maxDevices: anyNamed('maxDevices'),
-          maxAddresses: anyNamed('maxAddresses'),
-        ),
-      ).thenAnswer((_) async => Success(devices));
-      await localDnsProvider.load();
-
-      when(
-        mockLocalDnsRepository.deleteRecord(ip: '192.168.1.2', name: 'device'),
-      ).thenAnswer((_) async => Failure(Exception('Failed to delete')));
-
-      final resp = await localDnsProvider.removeLocalDns(
-        const LocalDns(ip: '192.168.1.2', name: 'device'),
-      );
-
-      expect(resp, false);
-      expect(localDnsProvider.localDns.length, 1);
-      expect(
-        localDnsProvider.localDns[0],
-        const LocalDns(ip: '192.168.1.2', name: 'device'),
-      );
-      expect(listenerCalled, true);
+        expect(localDnsProvider.removeLocalDns.errors.value, isNotNull);
+        expect(localDnsProvider.localDns.length, 1);
+        expect(
+          localDnsProvider.localDns[0],
+          const LocalDns(ip: '192.168.1.2', name: 'device'),
+        );
+        expect(listenerCalled, true);
+      });
     });
 
     test('devicesToOptions() converts devices to device options', () {

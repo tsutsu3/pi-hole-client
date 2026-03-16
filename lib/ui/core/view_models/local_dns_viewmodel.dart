@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/local_dns_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
@@ -13,37 +14,58 @@ class LocalDnsViewModel with ChangeNotifier {
     required LocalDnsRepository localDnsRepository,
     required NetworkRepository networkRepository,
   }) : _localDnsRepository = localDnsRepository,
-       _networkRepository = networkRepository;
+       _networkRepository = networkRepository {
+    load = Command.createAsyncNoParam<void>(_load, initialValue: null);
+    addLocalDns = Command.createAsyncNoResult<LocalDns>(_addLocalDns);
+    updateLocalDns =
+        Command.createAsyncNoResult<({String oldIp, LocalDns item})>(
+          _updateLocalDns,
+        );
+    removeLocalDns = Command.createAsyncNoResult<LocalDns>(_removeLocalDns);
+
+    load.addListener(notifyListeners);
+    load.errors.addListener(notifyListeners);
+    addLocalDns.addListener(notifyListeners);
+    addLocalDns.errors.addListener(notifyListeners);
+    updateLocalDns.addListener(notifyListeners);
+    updateLocalDns.errors.addListener(notifyListeners);
+    removeLocalDns.addListener(notifyListeners);
+    removeLocalDns.errors.addListener(notifyListeners);
+  }
 
   final LocalDnsRepository _localDnsRepository;
   final NetworkRepository _networkRepository;
 
   final List<LocalDns> _localDns = [];
-
   final List<DeviceOption> _deviceOptions = [];
   Map<String, String> _ipToHostname = {};
   Map<String, String> _ipToMac = {};
   Map<String, String> _macToIp = {};
-
   LoadStatus _loadingStatus = LoadStatus.loading;
 
-  List<LocalDns> get localDns => List.unmodifiable(_localDns);
+  // --- Commands ---
+  late final Command<void, void> load;
+  late final Command<LocalDns, void> addLocalDns;
+  late final Command<({String oldIp, LocalDns item}), void> updateLocalDns;
+  late final Command<LocalDns, void> removeLocalDns;
 
+  // --- Getters ---
+  List<LocalDns> get localDns => List.unmodifiable(_localDns);
   List<DeviceOption> get deviceOptions => List.unmodifiable(_deviceOptions);
   Map<String, String> get ipToHostname => Map.unmodifiable(_ipToHostname);
   Map<String, String> get ipToMac => Map.unmodifiable(_ipToMac);
   Map<String, String> get macToIp => Map.unmodifiable(_macToIp);
 
-  LoadStatus get loadingStatus {
-    return _loadingStatus;
-  }
+  LoadStatus get loadingStatus => _loadingStatus;
 
   void setLoadingStatus(LoadStatus status) {
     _loadingStatus = status;
     notifyListeners();
   }
 
-  Future<void> load() async {
+  // --- Command implementations ---
+
+  Future<void> _load() async {
     _loadingStatus = LoadStatus.loading;
     notifyListeners();
 
@@ -82,7 +104,7 @@ class LocalDnsViewModel with ChangeNotifier {
     }
   }
 
-  Future<bool> addLocalDns(LocalDns item) async {
+  Future<void> _addLocalDns(LocalDns item) async {
     _localDns.add(item);
 
     final result = await _localDnsRepository.addRecord(
@@ -92,40 +114,35 @@ class LocalDnsViewModel with ChangeNotifier {
     if (result.isError()) {
       _localDns.removeWhere((e) => e.ip == item.ip && e.name == item.name);
       notifyListeners();
-      return false;
+      throw result.exceptionOrNull()!;
     }
 
     notifyListeners();
-    return true;
   }
 
-  Future<bool> updateLocalDns({
-    required String oldIp,
-    required LocalDns item,
-  }) async {
-    final idx = _localDns.indexWhere((e) => e.ip == oldIp);
-    if (idx == -1) return false;
+  Future<void> _updateLocalDns(({String oldIp, LocalDns item}) params) async {
+    final idx = _localDns.indexWhere((e) => e.ip == params.oldIp);
+    if (idx == -1) return;
 
     final before = _localDns[idx];
-    _localDns[idx] = item;
+    _localDns[idx] = params.item;
 
     final result = await _localDnsRepository.updateRecord(
-      record: item,
-      oldIp: oldIp,
+      record: params.item,
+      oldIp: params.oldIp,
     );
     if (result.isError()) {
       _localDns[idx] = before;
       notifyListeners();
-      return false;
+      throw result.exceptionOrNull()!;
     }
 
     notifyListeners();
-    return true;
   }
 
-  Future<bool> removeLocalDns(LocalDns item) async {
+  Future<void> _removeLocalDns(LocalDns item) async {
     final idx = _localDns.indexWhere((e) => e.ip == item.ip);
-    if (idx == -1) return false;
+    if (idx == -1) return;
 
     final removed = _localDns.removeAt(idx);
 
@@ -136,11 +153,10 @@ class LocalDnsViewModel with ChangeNotifier {
     if (result.isError()) {
       _localDns.insert(idx, removed);
       notifyListeners();
-      return false;
+      throw result.exceptionOrNull()!;
     }
 
     notifyListeners();
-    return true;
   }
 
   List<DeviceOption> devicesToOptions(List<Device> devices) {
@@ -213,5 +229,22 @@ class LocalDnsViewModel with ChangeNotifier {
     _ipToHostname = ipToHostname;
     _ipToMac = ipToMac;
     _macToIp = macToIp;
+  }
+
+  @override
+  void dispose() {
+    load.removeListener(notifyListeners);
+    load.errors.removeListener(notifyListeners);
+    addLocalDns.removeListener(notifyListeners);
+    addLocalDns.errors.removeListener(notifyListeners);
+    updateLocalDns.removeListener(notifyListeners);
+    updateLocalDns.errors.removeListener(notifyListeners);
+    removeLocalDns.removeListener(notifyListeners);
+    removeLocalDns.errors.removeListener(notifyListeners);
+    load.dispose();
+    addLocalDns.dispose();
+    updateLocalDns.dispose();
+    removeLocalDns.dispose();
+    super.dispose();
   }
 }

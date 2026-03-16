@@ -108,7 +108,7 @@ class _ClientsListState extends State<ClientsList> {
           mediaQuery.size.height < ResponsiveConstants.medium;
 
       if (localDnsProvider.deviceOptions.isEmpty) {
-        await localDnsProvider.load();
+        await localDnsProvider.load.runAsync();
       }
       if (!context.mounted) return;
 

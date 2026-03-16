@@ -88,7 +88,7 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
       await Future.wait([
         clientsViewModel.loadClients.runAsync(),
         groupsViewModel.loadGroups.runAsync(),
-        localDnsProvider.load(),
+        localDnsProvider.load.runAsync(),
         domainsViewModel.loadDomains.runAsync(),
         adlistsViewModel.loadAdlists.runAsync(),
       ]);
