@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:command_it/command_it.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
@@ -30,6 +31,7 @@ void main() async {
     const log = 'Test log';
 
     setUp(() {
+      Command.globalExceptionHandler = (_, _) {};
       repository = FakeGravityRepository();
       fakeActionsRepository = FakeActionsRepository();
       fakeFtlRepository = FakeFtlRepository();
@@ -44,6 +46,11 @@ void main() async {
       gravityUpdateViewModel.addListener(() {
         listenerCalled = true;
       });
+    });
+
+    tearDown(() {
+      gravityUpdateViewModel.dispose();
+      Command.globalExceptionHandler = null;
     });
 
     test('Initial values are set correctly', () {
@@ -254,25 +261,28 @@ void main() async {
       },
     );
 
-    test('removeMessage() removes a message and notifies listeners', () async {
+    test('removeMessage Command removes a message and notifies listeners',
+        () async {
       await gravityUpdateViewModel.load();
       listenerCalled = false;
 
-      final result = await gravityUpdateViewModel.removeMessage(id);
+      await gravityUpdateViewModel.removeMessage.runAsync(id);
 
-      expect(result, true);
+      expect(gravityUpdateViewModel.removeMessage.errors.value, isNull);
       expect(gravityUpdateViewModel.messages, []);
       expect(listenerCalled, true);
     });
 
-    test('removeMessage() returns false when API fails', () async {
+    test('removeMessage Command sets error on failure', () async {
       await gravityUpdateViewModel.load();
 
       fakeFtlRepository.shouldFail = true;
 
-      final result = await gravityUpdateViewModel.removeMessage(id);
+      try {
+        await gravityUpdateViewModel.removeMessage.runAsync(id);
+      } catch (_) {}
 
-      expect(result, false);
+      expect(gravityUpdateViewModel.removeMessage.errors.value, isNotNull);
       expect(gravityUpdateViewModel.messages.length, 1);
     });
   });

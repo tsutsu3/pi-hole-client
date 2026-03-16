@@ -1,3 +1,4 @@
+import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/actions_respository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
@@ -15,7 +16,11 @@ import 'package:pi_hole_client/utils/logger.dart';
 /// across navigation.
 class GravityUpdateViewModel with ChangeNotifier {
   GravityUpdateViewModel({required GravityRepository repository})
-    : _repository = repository;
+    : _repository = repository {
+    removeMessage = Command.createAsyncNoResult<int>(_removeMessage);
+    removeMessage.addListener(notifyListeners);
+    removeMessage.errors.addListener(notifyListeners);
+  }
 
   final GravityRepository _repository;
   String? _serverAddress;
@@ -27,6 +32,9 @@ class GravityUpdateViewModel with ChangeNotifier {
   DateTime? _startedAt;
   DateTime? _completedAt;
   bool _loaded = false;
+
+  // --- Commands ---
+  late final Command<int, void> removeMessage;
 
   GravityStatus get status => _status;
   List<String> get logs => _logs;
@@ -91,18 +99,17 @@ class GravityUpdateViewModel with ChangeNotifier {
   }
 
   /// Removes an info message by [id] from both the API and local database.
-  Future<bool> removeMessage(int id) async {
+  Future<void> _removeMessage(int id) async {
     if (_service == null) {
-      logger.d('Service is null. removeMessage() cannot be performed.');
-      return false;
+      throw Exception('Service is null. removeMessage() cannot be performed.');
     }
     final address = _serverAddress ?? '';
     final result = await _service!.removeMessage(address, id);
-    if (result) {
-      _messages.removeWhere((msg) => msg.id == id);
+    if (!result) {
+      throw Exception('Failed to remove message $id');
     }
+    _messages.removeWhere((msg) => msg.id == id);
     notifyListeners();
-    return result;
   }
 
   /// Loads persisted gravity data (logs, messages, status) from local storage.
@@ -186,5 +193,13 @@ class GravityUpdateViewModel with ChangeNotifier {
     _loaded = false;
     _service!.cancelUpdate();
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    removeMessage.removeListener(notifyListeners);
+    removeMessage.errors.removeListener(notifyListeners);
+    removeMessage.dispose();
+    super.dispose();
   }
 }
