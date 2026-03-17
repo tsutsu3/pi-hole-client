@@ -9,6 +9,7 @@ import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dart';
 import 'package:pi_hole_client/ui/servers/widgets/transport_security_indicator.dart';
+import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
 import 'package:provider/provider.dart';
 
@@ -253,7 +254,9 @@ class ServerTileActions extends StatelessWidget {
     );
     try {
       await serversViewModel.editServer.runAsync(updated);
-    } catch (_) {}
+    } catch (e, s) {
+      logger.e('Failed to update pinned certificate', error: e, stackTrace: s);
+    }
     if (!context.mounted) return;
 
     if (serversViewModel.editServer.errors.value == null) {

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
-
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/services/server_connection_service.dart';
@@ -13,6 +12,7 @@ import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/widgets/add_server_fullscreen.dart';
 import 'package:pi_hole_client/ui/servers/widgets/delete_server_modal.dart';
+import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 
 mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
@@ -88,7 +88,9 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
 
     try {
       await serversViewModel.setDefaultServer.runAsync(server);
-    } catch (_) {}
+    } catch (e, s) {
+      logger.e('Failed to set default server', error: e, stackTrace: s);
+    }
 
     if (!mounted) return;
 

@@ -194,7 +194,9 @@ class _GravityUpdateState extends State<GravityUpdate> {
   }) async {
     try {
       await provider.removeMessage.runAsync(messageId);
-    } catch (_) {}
+    } catch (e, s) {
+      logger.e('Failed to remove gravity message', error: e, stackTrace: s);
+    }
     final success = provider.removeMessage.errors.value == null;
     if (context.mounted) {
       if (success) {
