@@ -18,7 +18,7 @@ class FakeServersViewModel extends ServersViewModel {
   }
 
   FakeServersViewModel._internal(FakeServerRepository super.repo)
-      : _fakeRepo = repo;
+    : _fakeRepo = repo;
 
   final FakeServerRepository _fakeRepo;
 
@@ -31,8 +31,7 @@ class FakeServersViewModel extends ServersViewModel {
 
   // --- Failure controls (delegate to repo) ---
 
-  set shouldFailRemoveServer(bool value) =>
-      _fakeRepo.shouldFailDelete = value;
+  set shouldFailRemoveServer(bool value) => _fakeRepo.shouldFailDelete = value;
 
   set shouldFailSetDefaultServer(bool value) =>
       _fakeRepo.shouldFailUpdateDefault = value;

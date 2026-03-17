@@ -87,22 +87,24 @@ void main() async {
         expect(listenerCalled, true);
       });
 
-      test('adds a server (defaultServer: on) and notifies listeners',
-          () async {
-        const server2 = Server(
-          address: 'http://localhost:8081',
-          alias: 'test v6',
-          defaultServer: true,
-          apiVersion: 'v6',
-          allowSelfSignedCert: true,
-          ignoreCertificateErrors: false,
-        );
-        await serversViewModel.addServer.runAsync(server2);
+      test(
+        'adds a server (defaultServer: on) and notifies listeners',
+        () async {
+          const server2 = Server(
+            address: 'http://localhost:8081',
+            alias: 'test v6',
+            defaultServer: true,
+            apiVersion: 'v6',
+            allowSelfSignedCert: true,
+            ignoreCertificateErrors: false,
+          );
+          await serversViewModel.addServer.runAsync(server2);
 
-        expect(serversViewModel.addServer.errors.value, isNull);
-        expect(serversViewModel.getServersList.contains(server2), true);
-        expect(listenerCalled, true);
-      });
+          expect(serversViewModel.addServer.errors.value, isNull);
+          expect(serversViewModel.getServersList.contains(server2), true);
+          expect(listenerCalled, true);
+        },
+      );
 
       test('sets error on failure', () async {
         repository.shouldFailInsert = true;
@@ -123,10 +125,7 @@ void main() async {
         await serversViewModel.editServer.runAsync(updatedServer);
 
         expect(serversViewModel.editServer.errors.value, isNull);
-        expect(
-          serversViewModel.getServersList.contains(updatedServer),
-          true,
-        );
+        expect(serversViewModel.getServersList.contains(updatedServer), true);
         expect(listenerCalled, true);
       });
 
@@ -401,27 +400,24 @@ void main() async {
       expect(result, isNotNull);
     });
 
-    test(
-      'serversWithUnverifiedCertificates includes server with empty '
-      'pinnedCertificateSha256',
-      () async {
-        const serverWithEmptyPin = Server(
-          address: 'https://pi.hole',
-          alias: 'empty pin',
-          defaultServer: false,
-          apiVersion: 'v6',
-          allowSelfSignedCert: true,
-          ignoreCertificateErrors: false,
-          pinnedCertificateSha256: '',
-        );
-        await serversViewModel.addServer.runAsync(serverWithEmptyPin);
+    test('serversWithUnverifiedCertificates includes server with empty '
+        'pinnedCertificateSha256', () async {
+      const serverWithEmptyPin = Server(
+        address: 'https://pi.hole',
+        alias: 'empty pin',
+        defaultServer: false,
+        apiVersion: 'v6',
+        allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
+        pinnedCertificateSha256: '',
+      );
+      await serversViewModel.addServer.runAsync(serverWithEmptyPin);
 
-        final unverified = serversViewModel.serversWithUnverifiedCertificates;
-        expect(
-          unverified.any((s) => s.address == serverWithEmptyPin.address),
-          isTrue,
-        );
-      },
-    );
+      final unverified = serversViewModel.serversWithUnverifiedCertificates;
+      expect(
+        unverified.any((s) => s.address == serverWithEmptyPin.address),
+        isTrue,
+      );
+    });
   });
 }

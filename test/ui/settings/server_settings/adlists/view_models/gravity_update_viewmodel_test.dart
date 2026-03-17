@@ -261,17 +261,19 @@ void main() async {
       },
     );
 
-    test('removeMessage Command removes a message and notifies listeners',
-        () async {
-      await gravityUpdateViewModel.load();
-      listenerCalled = false;
+    test(
+      'removeMessage Command removes a message and notifies listeners',
+      () async {
+        await gravityUpdateViewModel.load();
+        listenerCalled = false;
 
-      await gravityUpdateViewModel.removeMessage.runAsync(id);
+        await gravityUpdateViewModel.removeMessage.runAsync(id);
 
-      expect(gravityUpdateViewModel.removeMessage.errors.value, isNull);
-      expect(gravityUpdateViewModel.messages, []);
-      expect(listenerCalled, true);
-    });
+        expect(gravityUpdateViewModel.removeMessage.errors.value, isNull);
+        expect(gravityUpdateViewModel.messages, []);
+        expect(listenerCalled, true);
+      },
+    );
 
     test('removeMessage Command sets error on failure', () async {
       await gravityUpdateViewModel.load();

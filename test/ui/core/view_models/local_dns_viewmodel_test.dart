@@ -230,9 +230,10 @@ void main() async {
           ),
         ).thenAnswer((_) async => const Success(unit));
 
-        await localDnsProvider.updateLocalDns.runAsync(
-          (oldIp: '192.168.1.2', item: const LocalDns(ip: '192.168.1.3', name: 'test')),
-        );
+        await localDnsProvider.updateLocalDns.runAsync((
+          oldIp: '192.168.1.2',
+          item: const LocalDns(ip: '192.168.1.3', name: 'test'),
+        ));
 
         expect(localDnsProvider.updateLocalDns.errors.value, isNull);
         expect(localDnsProvider.localDns.length, 1);
@@ -264,9 +265,10 @@ void main() async {
         ).thenAnswer((_) async => Failure(Exception('Failed to update')));
 
         try {
-          await localDnsProvider.updateLocalDns.runAsync(
-            (oldIp: '192.168.1.2', item: const LocalDns(ip: '192.168.1.3', name: 'test')),
-          );
+          await localDnsProvider.updateLocalDns.runAsync((
+            oldIp: '192.168.1.2',
+            item: const LocalDns(ip: '192.168.1.3', name: 'test'),
+          ));
         } catch (_) {}
 
         expect(localDnsProvider.updateLocalDns.errors.value, isNotNull);

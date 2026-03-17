@@ -101,9 +101,7 @@ class GroupsViewModel extends ChangeNotifier {
     switch (result) {
       case Success():
         final updated = result.getOrNull();
-        _groups = _groups
-            .map((g) => g.id == updated.id ? updated : g)
-            .toList();
+        _groups = _groups.map((g) => g.id == updated.id ? updated : g).toList();
         _applyFilters();
         notifyListeners();
       case Failure():

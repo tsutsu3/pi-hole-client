@@ -192,8 +192,7 @@ class ServersViewModel with ChangeNotifier {
       return s;
     }).toList();
 
-    if (_selectedServer != null &&
-        _selectedServer!.address == server.address) {
+    if (_selectedServer != null && _selectedServer!.address == server.address) {
       _selectedServer = server;
     }
 
