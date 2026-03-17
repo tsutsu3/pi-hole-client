@@ -72,9 +72,6 @@ class FakeGravityUpdateViewModel extends GravityUpdateViewModel {
   int startCallCount = 0;
   int loadCallCount = 0;
   int resetCallCount = 0;
-  int removeMessageCallCount = 0;
-  int? lastRemovedMessageId;
-  bool removeMessageResult = true;
 
   @override
   Future<void> start() async {
@@ -89,16 +86,5 @@ class FakeGravityUpdateViewModel extends GravityUpdateViewModel {
   @override
   void reset() {
     resetCallCount++;
-  }
-
-  @override
-  Future<bool> removeMessage(int id) async {
-    removeMessageCallCount++;
-    lastRemovedMessageId = id;
-    if (removeMessageResult) {
-      _messages.removeWhere((msg) => msg.id == id);
-      notifyListeners();
-    }
-    return removeMessageResult;
   }
 }

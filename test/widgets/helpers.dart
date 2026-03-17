@@ -2112,11 +2112,8 @@ class TestSetupHelper {
     when(mockLocalDnsViewModel.addLocalDns(any)).thenAnswer((_) async => true);
 
     when(
-      mockLocalDnsViewModel.updateLocalDns(
-        oldIp: anyNamed('oldIp'),
-        item: anyNamed('item'),
-      ),
-    ).thenAnswer((_) async => true);
+      mockLocalDnsViewModel.updateLocalDns(any),
+    ).thenAnswer((_) async => ());
 
     when(
       mockLocalDnsViewModel.removeLocalDns(any),
