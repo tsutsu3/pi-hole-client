@@ -513,6 +513,50 @@ class MockServersViewModel extends _i1.Mock implements _i14.ServersViewModel {
   }
 
   @override
+  _i3.Command<_i15.Server, void> get addServer =>
+      (super.noSuchMethod(
+            Invocation.getter(#addServer),
+            returnValue: _FakeCommand_1<_i15.Server, void>(
+              this,
+              Invocation.getter(#addServer),
+            ),
+          )
+          as _i3.Command<_i15.Server, void>);
+
+  @override
+  _i3.Command<_i15.Server, void> get editServer =>
+      (super.noSuchMethod(
+            Invocation.getter(#editServer),
+            returnValue: _FakeCommand_1<_i15.Server, void>(
+              this,
+              Invocation.getter(#editServer),
+            ),
+          )
+          as _i3.Command<_i15.Server, void>);
+
+  @override
+  _i3.Command<String, void> get removeServer =>
+      (super.noSuchMethod(
+            Invocation.getter(#removeServer),
+            returnValue: _FakeCommand_1<String, void>(
+              this,
+              Invocation.getter(#removeServer),
+            ),
+          )
+          as _i3.Command<String, void>);
+
+  @override
+  _i3.Command<_i15.Server, void> get setDefaultServer =>
+      (super.noSuchMethod(
+            Invocation.getter(#setDefaultServer),
+            returnValue: _FakeCommand_1<_i15.Server, void>(
+              this,
+              Invocation.getter(#setDefaultServer),
+            ),
+          )
+          as _i3.Command<_i15.Server, void>);
+
+  @override
   List<_i15.Server> get getServersList =>
       (super.noSuchMethod(
             Invocation.getter(#getServersList),
@@ -547,6 +591,31 @@ class MockServersViewModel extends _i1.Mock implements _i14.ServersViewModel {
             returnValue: <_i16.QueryStatus>[],
           )
           as List<_i16.QueryStatus>);
+
+  @override
+  set addServer(_i3.Command<_i15.Server, void>? value) => super.noSuchMethod(
+    Invocation.setter(#addServer, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set editServer(_i3.Command<_i15.Server, void>? value) => super.noSuchMethod(
+    Invocation.setter(#editServer, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set removeServer(_i3.Command<String, void>? value) => super.noSuchMethod(
+    Invocation.setter(#removeServer, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set setDefaultServer(_i3.Command<_i15.Server, void>? value) =>
+      super.noSuchMethod(
+        Invocation.setter(#setDefaultServer, value),
+        returnValueForMissingStub: null,
+      );
 
   @override
   bool get hasListeners =>
@@ -586,38 +655,6 @@ class MockServersViewModel extends _i1.Mock implements _i14.ServersViewModel {
   _i16.QueryStatus? findQueryStatus(String? key) =>
       (super.noSuchMethod(Invocation.method(#findQueryStatus, [key]))
           as _i16.QueryStatus?);
-
-  @override
-  _i11.Future<bool> addServer(_i15.Server? server) =>
-      (super.noSuchMethod(
-            Invocation.method(#addServer, [server]),
-            returnValue: _i11.Future<bool>.value(false),
-          )
-          as _i11.Future<bool>);
-
-  @override
-  _i11.Future<bool> editServer(_i15.Server? server) =>
-      (super.noSuchMethod(
-            Invocation.method(#editServer, [server]),
-            returnValue: _i11.Future<bool>.value(false),
-          )
-          as _i11.Future<bool>);
-
-  @override
-  _i11.Future<bool> removeServer(String? serverAddress) =>
-      (super.noSuchMethod(
-            Invocation.method(#removeServer, [serverAddress]),
-            returnValue: _i11.Future<bool>.value(false),
-          )
-          as _i11.Future<bool>);
-
-  @override
-  _i11.Future<bool> setDefaultServer(_i15.Server? server) =>
-      (super.noSuchMethod(
-            Invocation.method(#setDefaultServer, [server]),
-            returnValue: _i11.Future<bool>.value(false),
-          )
-          as _i11.Future<bool>);
 
   @override
   _i11.Future<dynamic> saveFromDb(List<_i15.Server>? servers) =>
@@ -766,6 +803,12 @@ class MockServersViewModel extends _i1.Mock implements _i14.ServersViewModel {
           as _i11.Future<_i17.ResultDart<void, Exception>>);
 
   @override
+  void dispose() => super.noSuchMethod(
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
   void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
@@ -774,12 +817,6 @@ class MockServersViewModel extends _i1.Mock implements _i14.ServersViewModel {
   @override
   void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  void dispose() => super.noSuchMethod(
-    Invocation.method(#dispose, []),
     returnValueForMissingStub: null,
   );
 
@@ -1489,6 +1526,36 @@ class MockDomainsViewModel extends _i1.Mock implements _i27.DomainsViewModel {
           as _i7.LoadStatus);
 
   @override
+  set loadDomains(_i3.Command<void, void>? value) => super.noSuchMethod(
+    Invocation.setter(#loadDomains, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set deleteDomain(_i3.Command<_i20.Domain, void>? value) => super.noSuchMethod(
+    Invocation.setter(#deleteDomain, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set addDomain(
+    _i3.Command<
+      ({String domain, _i7.DomainKind kind, _i7.DomainType type}),
+      void
+    >?
+    value,
+  ) => super.noSuchMethod(
+    Invocation.setter(#addDomain, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set updateDomain(_i3.Command<_i20.Domain, void>? value) => super.noSuchMethod(
+    Invocation.setter(#updateDomain, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
@@ -1657,6 +1724,37 @@ class MockClientsViewModel extends _i1.Mock implements _i28.ClientsViewModel {
           as _i7.LoadStatus);
 
   @override
+  set loadClients(_i3.Command<void, void>? value) => super.noSuchMethod(
+    Invocation.setter(#loadClients, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set addClient(
+    _i3.Command<({String client, String? comment, List<int>? groups}), void>?
+    value,
+  ) => super.noSuchMethod(
+    Invocation.setter(#addClient, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set updateClient(
+    _i3.Command<({String client, String? comment, List<int>? groups}), void>?
+    value,
+  ) => super.noSuchMethod(
+    Invocation.setter(#updateClient, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set deleteClient(_i3.Command<_i29.ManagedClient, void>? value) =>
+      super.noSuchMethod(
+        Invocation.setter(#deleteClient, value),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
@@ -1719,6 +1817,51 @@ class MockLocalDnsViewModel extends _i1.Mock implements _i30.LocalDnsViewModel {
   }
 
   @override
+  _i3.Command<void, void> get load =>
+      (super.noSuchMethod(
+            Invocation.getter(#load),
+            returnValue: _FakeCommand_1<void, void>(
+              this,
+              Invocation.getter(#load),
+            ),
+          )
+          as _i3.Command<void, void>);
+
+  @override
+  _i3.Command<_i31.LocalDns, void> get addLocalDns =>
+      (super.noSuchMethod(
+            Invocation.getter(#addLocalDns),
+            returnValue: _FakeCommand_1<_i31.LocalDns, void>(
+              this,
+              Invocation.getter(#addLocalDns),
+            ),
+          )
+          as _i3.Command<_i31.LocalDns, void>);
+
+  @override
+  _i3.Command<({_i31.LocalDns item, String oldIp}), void> get updateLocalDns =>
+      (super.noSuchMethod(
+            Invocation.getter(#updateLocalDns),
+            returnValue:
+                _FakeCommand_1<({_i31.LocalDns item, String oldIp}), void>(
+                  this,
+                  Invocation.getter(#updateLocalDns),
+                ),
+          )
+          as _i3.Command<({_i31.LocalDns item, String oldIp}), void>);
+
+  @override
+  _i3.Command<_i31.LocalDns, void> get removeLocalDns =>
+      (super.noSuchMethod(
+            Invocation.getter(#removeLocalDns),
+            returnValue: _FakeCommand_1<_i31.LocalDns, void>(
+              this,
+              Invocation.getter(#removeLocalDns),
+            ),
+          )
+          as _i3.Command<_i31.LocalDns, void>);
+
+  @override
   List<_i31.LocalDns> get localDns =>
       (super.noSuchMethod(
             Invocation.getter(#localDns),
@@ -1767,6 +1910,34 @@ class MockLocalDnsViewModel extends _i1.Mock implements _i30.LocalDnsViewModel {
           as _i7.LoadStatus);
 
   @override
+  set load(_i3.Command<void, void>? value) => super.noSuchMethod(
+    Invocation.setter(#load, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set addLocalDns(_i3.Command<_i31.LocalDns, void>? value) =>
+      super.noSuchMethod(
+        Invocation.setter(#addLocalDns, value),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set updateLocalDns(
+    _i3.Command<({_i31.LocalDns item, String oldIp}), void>? value,
+  ) => super.noSuchMethod(
+    Invocation.setter(#updateLocalDns, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set removeLocalDns(_i3.Command<_i31.LocalDns, void>? value) =>
+      super.noSuchMethod(
+        Invocation.setter(#removeLocalDns, value),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
@@ -1778,51 +1949,18 @@ class MockLocalDnsViewModel extends _i1.Mock implements _i30.LocalDnsViewModel {
   );
 
   @override
-  _i11.Future<void> load() =>
-      (super.noSuchMethod(
-            Invocation.method(#load, []),
-            returnValue: _i11.Future<void>.value(),
-            returnValueForMissingStub: _i11.Future<void>.value(),
-          )
-          as _i11.Future<void>);
-
-  @override
-  _i11.Future<bool> addLocalDns(_i31.LocalDns? item) =>
-      (super.noSuchMethod(
-            Invocation.method(#addLocalDns, [item]),
-            returnValue: _i11.Future<bool>.value(false),
-          )
-          as _i11.Future<bool>);
-
-  @override
-  _i11.Future<bool> updateLocalDns({
-    required String? oldIp,
-    required _i31.LocalDns? item,
-  }) =>
-      (super.noSuchMethod(
-            Invocation.method(#updateLocalDns, [], {
-              #oldIp: oldIp,
-              #item: item,
-            }),
-            returnValue: _i11.Future<bool>.value(false),
-          )
-          as _i11.Future<bool>);
-
-  @override
-  _i11.Future<bool> removeLocalDns(_i31.LocalDns? item) =>
-      (super.noSuchMethod(
-            Invocation.method(#removeLocalDns, [item]),
-            returnValue: _i11.Future<bool>.value(false),
-          )
-          as _i11.Future<bool>);
-
-  @override
   List<_i32.DeviceOption> devicesToOptions(List<_i32.Device>? devices) =>
       (super.noSuchMethod(
             Invocation.method(#devicesToOptions, [devices]),
             returnValue: <_i32.DeviceOption>[],
           )
           as List<_i32.DeviceOption>);
+
+  @override
+  void dispose() => super.noSuchMethod(
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
@@ -1833,12 +1971,6 @@ class MockLocalDnsViewModel extends _i1.Mock implements _i30.LocalDnsViewModel {
   @override
   void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  void dispose() => super.noSuchMethod(
-    Invocation.method(#dispose, []),
     returnValueForMissingStub: null,
   );
 
@@ -1958,6 +2090,34 @@ class MockGroupsViewModel extends _i1.Mock implements _i33.GroupsViewModel {
             returnValue: _i7.LoadStatus.loading,
           )
           as _i7.LoadStatus);
+
+  @override
+  set loadGroups(_i3.Command<void, void>? value) => super.noSuchMethod(
+    Invocation.setter(#loadGroups, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set addGroup(
+    _i3.Command<({String? comment, bool? enabled, String name}), void>? value,
+  ) => super.noSuchMethod(
+    Invocation.setter(#addGroup, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set updateGroup(
+    _i3.Command<({String? comment, bool? enabled, String name}), void>? value,
+  ) => super.noSuchMethod(
+    Invocation.setter(#updateGroup, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set deleteGroup(_i3.Command<_i34.Group, void>? value) => super.noSuchMethod(
+    Invocation.setter(#deleteGroup, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
   bool get hasListeners =>
@@ -2136,6 +2296,42 @@ class MockAdlistsViewModel extends _i1.Mock implements _i35.AdlistsViewModel {
           as _i7.LoadStatus);
 
   @override
+  set loadAdlists(_i3.Command<void, void>? value) => super.noSuchMethod(
+    Invocation.setter(#loadAdlists, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set deleteAdlist(_i3.Command<_i36.Adlist, void>? value) => super.noSuchMethod(
+    Invocation.setter(#deleteAdlist, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set addAdlist(
+    _i3.Command<
+      ({
+        String address,
+        String? comment,
+        bool? enabled,
+        List<int>? groups,
+        _i7.ListType type,
+      }),
+      void
+    >?
+    value,
+  ) => super.noSuchMethod(
+    Invocation.setter(#addAdlist, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set updateAdlist(_i3.Command<_i36.Adlist, void>? value) => super.noSuchMethod(
+    Invocation.setter(#updateAdlist, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
@@ -2205,6 +2401,17 @@ class MockGravityUpdateViewModel extends _i1.Mock
   }
 
   @override
+  _i3.Command<int, void> get removeMessage =>
+      (super.noSuchMethod(
+            Invocation.getter(#removeMessage),
+            returnValue: _FakeCommand_1<int, void>(
+              this,
+              Invocation.getter(#removeMessage),
+            ),
+          )
+          as _i3.Command<int, void>);
+
+  @override
   _i7.GravityStatus get status =>
       (super.noSuchMethod(
             Invocation.getter(#status),
@@ -2229,6 +2436,12 @@ class MockGravityUpdateViewModel extends _i1.Mock
             returnValue: <_i38.FtlMessage>[],
           )
           as List<_i38.FtlMessage>);
+
+  @override
+  set removeMessage(_i3.Command<int, void>? value) => super.noSuchMethod(
+    Invocation.setter(#removeMessage, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
   bool get hasListeners =>
@@ -2286,14 +2499,6 @@ class MockGravityUpdateViewModel extends _i1.Mock
   );
 
   @override
-  _i11.Future<bool> removeMessage(int? id) =>
-      (super.noSuchMethod(
-            Invocation.method(#removeMessage, [id]),
-            returnValue: _i11.Future<bool>.value(false),
-          )
-          as _i11.Future<bool>);
-
-  @override
   _i11.Future<void> load() =>
       (super.noSuchMethod(
             Invocation.method(#load, []),
@@ -2318,6 +2523,12 @@ class MockGravityUpdateViewModel extends _i1.Mock
   );
 
   @override
+  void dispose() => super.noSuchMethod(
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
   void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
@@ -2326,12 +2537,6 @@ class MockGravityUpdateViewModel extends _i1.Mock
   @override
   void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  void dispose() => super.noSuchMethod(
-    Invocation.method(#dispose, []),
     returnValueForMissingStub: null,
   );
 
