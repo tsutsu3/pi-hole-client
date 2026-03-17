@@ -431,7 +431,9 @@ class ServerConnectionService {
     final updated = server.copyWith(pinnedCertificateSha256: info.sha256);
     try {
       await serversViewModel.editServer.runAsync(updated);
-    } catch (_) {}
+    } catch (e, s) {
+      logger.e('Failed to save pinned certificate', error: e, stackTrace: s);
+    }
 
     if (!context.mounted) return null;
 
