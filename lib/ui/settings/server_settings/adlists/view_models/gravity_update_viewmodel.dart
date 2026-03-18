@@ -1,3 +1,4 @@
+import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/actions_respository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
@@ -14,8 +15,16 @@ import 'package:pi_hole_client/utils/logger.dart';
 /// a global-scope provider in `main.dart` because gravity updates persist
 /// across navigation.
 class GravityUpdateViewModel with ChangeNotifier {
-  GravityUpdateViewModel({required GravityRepository repository})
-    : _repository = repository;
+  GravityUpdateViewModel({
+    required GravityRepository repository,
+    Future<void> Function(int id)? removeMessageHandler,
+  }) : _repository = repository {
+    removeMessage = Command.createAsyncNoResult<int>(
+      removeMessageHandler ?? _removeMessage,
+    );
+    removeMessage.addListener(notifyListeners);
+    removeMessage.errors.addListener(notifyListeners);
+  }
 
   final GravityRepository _repository;
   String? _serverAddress;
@@ -27,6 +36,9 @@ class GravityUpdateViewModel with ChangeNotifier {
   DateTime? _startedAt;
   DateTime? _completedAt;
   bool _loaded = false;
+
+  // --- Commands ---
+  late final Command<int, void> removeMessage;
 
   GravityStatus get status => _status;
   List<String> get logs => _logs;
@@ -91,21 +103,25 @@ class GravityUpdateViewModel with ChangeNotifier {
   }
 
   /// Removes an info message by [id] from both the API and local database.
-  Future<bool> removeMessage(int id) async {
+  Future<void> _removeMessage(int id) async {
     if (_service == null) {
-      logger.d('Service is null. removeMessage() cannot be performed.');
-      return false;
+      throw Exception('Service is null. removeMessage() cannot be performed.');
     }
     final address = _serverAddress ?? '';
     final result = await _service!.removeMessage(address, id);
-    if (result) {
-      _messages.removeWhere((msg) => msg.id == id);
+    if (!result) {
+      throw Exception('Failed to remove message $id');
     }
+    _messages.removeWhere((msg) => msg.id == id);
     notifyListeners();
-    return result;
   }
 
   /// Loads persisted gravity data (logs, messages, status) from local storage.
+  ///
+  /// NOTE: Not implemented as a Command because this is a one-time
+  /// initialization called during screen setup, not a user-triggered CRUD
+  /// operation. Loading state is managed directly via [_loaded] and
+  /// [GravityStatus].
   Future<void> load() async {
     if (_service == null) {
       logger.d('Service is null. load() cannot be performed.');
@@ -131,6 +147,13 @@ class GravityUpdateViewModel with ChangeNotifier {
   }
 
   /// Starts a new gravity update, streaming logs and status to the UI.
+  ///
+  /// NOTE: Not implemented as a Command because this is a long-running
+  /// streaming operation that emits multiple intermediate state changes via
+  /// callbacks (onStarted, onStatusChanged, onCompleted, onLogsUpdated,
+  /// onMessagesUpdated). Wrapping in a Command would suppress mid-flight
+  /// notifications and reduce the operation to a single completion event,
+  /// breaking the streaming UI.
   Future<void> start() async {
     if (_service == null) {
       logger.d('Service is null. start() cannot be performed.');
@@ -186,5 +209,13 @@ class GravityUpdateViewModel with ChangeNotifier {
     _loaded = false;
     _service!.cancelUpdate();
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    removeMessage.removeListener(notifyListeners);
+    removeMessage.errors.removeListener(notifyListeners);
+    removeMessage.dispose();
+    super.dispose();
   }
 }

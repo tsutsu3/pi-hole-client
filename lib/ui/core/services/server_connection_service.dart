@@ -429,11 +429,15 @@ class ServerConnectionService {
     if (confirmed != true || !context.mounted) return null;
 
     final updated = server.copyWith(pinnedCertificateSha256: info.sha256);
-    final result = await serversViewModel.editServer(updated);
+    try {
+      await serversViewModel.editServer.runAsync(updated);
+    } catch (e, s) {
+      logger.e('Failed to save pinned certificate', error: e, stackTrace: s);
+    }
 
     if (!context.mounted) return null;
 
-    if (result == true) {
+    if (serversViewModel.editServer.errors.value == null) {
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,

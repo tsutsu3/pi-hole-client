@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
+import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/domain/model/enum_converters.dart';
@@ -13,7 +14,21 @@ import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:result_dart/result_dart.dart';
 
 class ServersViewModel with ChangeNotifier {
-  ServersViewModel(this._repository);
+  ServersViewModel(this._repository) {
+    addServer = Command.createAsyncNoResult<Server>(_addServer);
+    editServer = Command.createAsyncNoResult<Server>(_editServer);
+    removeServer = Command.createAsyncNoResult<String>(_removeServer);
+    setDefaultServer = Command.createAsyncNoResult<Server>(_setDefaultServer);
+
+    addServer.addListener(notifyListeners);
+    addServer.errors.addListener(notifyListeners);
+    editServer.addListener(notifyListeners);
+    editServer.errors.addListener(notifyListeners);
+    removeServer.addListener(notifyListeners);
+    removeServer.errors.addListener(notifyListeners);
+    setDefaultServer.addListener(notifyListeners);
+    setDefaultServer.errors.addListener(notifyListeners);
+  }
 
   VoidCallback? _onServerSelected;
   final ServerRepository _repository;
@@ -29,6 +44,12 @@ class ServersViewModel with ChangeNotifier {
 
   Server? _connectingServer;
   bool _unverifiedBannerDismissed = false;
+
+  // --- Commands ---
+  late final Command<Server, void> addServer;
+  late final Command<Server, void> editServer;
+  late final Command<String, void> removeServer;
+  late final Command<Server, void> setDefaultServer;
 
   List<Server> get getServersList {
     return _serversList;
@@ -146,109 +167,75 @@ class ServersViewModel with ChangeNotifier {
     }
   }
 
-  Future<bool> addServer(Server server) async {
+  // --- Command implementations ---
+
+  Future<void> _addServer(Server server) async {
     final saved = await _repository.insertServer(server);
-    if (saved.isSuccess()) {
-      if (server.defaultServer == true) {
-        final defaultServer = await setDefaultServer(server);
-        if (defaultServer == true) {
-          // Create new list so context.select() can detect the change
-          _serversList = [..._serversList, server];
-          await WidgetChannel.sendServersUpdated(_serversList);
-          notifyListeners();
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        // Create new list so context.select() can detect the change
-        _serversList = [..._serversList, server];
-        await WidgetChannel.sendServersUpdated(_serversList);
-        notifyListeners();
-        return true;
-      }
-    } else {
-      return false;
+    if (saved.isError()) {
+      throw saved.exceptionOrNull()!;
     }
+    if (server.defaultServer == true) {
+      await _setDefaultServer(server);
+    }
+    _serversList = [..._serversList, server];
+    await WidgetChannel.sendServersUpdated(_serversList);
+    notifyListeners();
   }
 
-  Future<bool> editServer(Server server) async {
+  Future<void> _editServer(Server server) async {
     final result = await _repository.updateServer(server);
-    if (result.isSuccess()) {
-      final newServers = _serversList.map((s) {
-        if (s.address == server.address) {
-          return server;
-        } else {
-          return s;
-        }
-      }).toList();
-      _serversList = newServers;
-
-      if (_selectedServer != null &&
-          _selectedServer!.address == server.address) {
-        _selectedServer = server;
-      }
-
-      // Handle default server update
-      if (server.defaultServer == true) {
-        final defaultUpdated = await setDefaultServer(server);
-        if (!defaultUpdated) {
-          return false;
-        }
-      }
-
-      await WidgetChannel.sendServersUpdated(_serversList);
-      notifyListeners();
-      return true;
-    } else {
-      return false;
+    if (result.isError()) {
+      throw result.exceptionOrNull()!;
     }
+    _serversList = _serversList.map((s) {
+      if (s.address == server.address) return server;
+      return s;
+    }).toList();
+
+    if (_selectedServer != null && _selectedServer!.address == server.address) {
+      _selectedServer = server;
+    }
+
+    if (server.defaultServer == true) {
+      await _setDefaultServer(server);
+    }
+
+    await WidgetChannel.sendServersUpdated(_serversList);
+    notifyListeners();
   }
 
-  /// Removes a server from the list and clears its related data.
-  Future<bool> removeServer(String serverAddress) async {
-    try {
-      final result = await _repository.deleteServer(serverAddress);
-
-      if (result.isSuccess()) {
-        // Create new list so context.select() can detect the change
-        _serversList = _serversList
-            .where((s) => s.address != serverAddress)
-            .toList();
-
-        if (_selectedServer?.address == serverAddress) {
-          _selectedServer = null;
-          _selectedServerEnabled = null;
-        }
-
-        await WidgetChannel.sendServerRemoved(serverAddress);
-        await WidgetChannel.sendServersUpdated(_serversList);
-        notifyListeners();
-        return true;
-      }
-
-      return false;
-    } catch (e) {
-      logger.d('Transaction failed: $e');
-      return false;
+  Future<void> _removeServer(String serverAddress) async {
+    final result = await _repository.deleteServer(serverAddress);
+    if (result.isError()) {
+      throw result.exceptionOrNull()!;
     }
+    _serversList = _serversList
+        .where((s) => s.address != serverAddress)
+        .toList();
+
+    if (_selectedServer?.address == serverAddress) {
+      _selectedServer = null;
+      _selectedServerEnabled = null;
+    }
+
+    await WidgetChannel.sendServerRemoved(serverAddress);
+    await WidgetChannel.sendServersUpdated(_serversList);
+    notifyListeners();
   }
 
-  Future<bool> setDefaultServer(Server server) async {
+  Future<void> _setDefaultServer(Server server) async {
     final updated = await _repository.updateDefaultServer(server.address);
-    if (updated.isSuccess()) {
-      _serversList = _serversList.map((s) {
-        if (s.address == server.address) {
-          return s.copyWith(defaultServer: true);
-        } else {
-          return s.copyWith(defaultServer: false);
-        }
-      }).toList();
-      notifyListeners();
-      return true;
-    } else {
-      return false;
+    if (updated.isError()) {
+      throw updated.exceptionOrNull()!;
     }
+    _serversList = _serversList.map((s) {
+      if (s.address == server.address) {
+        return s.copyWith(defaultServer: true);
+      } else {
+        return s.copyWith(defaultServer: false);
+      }
+    }).toList();
+    notifyListeners();
   }
 
   Future<dynamic> saveFromDb(List<Server> servers) async {
@@ -346,4 +333,21 @@ class ServersViewModel with ChangeNotifier {
 
   Future<Result<void>> deleteToken(String address) =>
       _repository.deleteToken(address);
+
+  @override
+  void dispose() {
+    addServer.removeListener(notifyListeners);
+    addServer.errors.removeListener(notifyListeners);
+    editServer.removeListener(notifyListeners);
+    editServer.errors.removeListener(notifyListeners);
+    removeServer.removeListener(notifyListeners);
+    removeServer.errors.removeListener(notifyListeners);
+    setDefaultServer.removeListener(notifyListeners);
+    setDefaultServer.errors.removeListener(notifyListeners);
+    addServer.dispose();
+    editServer.dispose();
+    removeServer.dispose();
+    setDefaultServer.dispose();
+    super.dispose();
+  }
 }

@@ -192,9 +192,14 @@ class _GravityUpdateState extends State<GravityUpdate> {
     required AppConfigViewModel appConfigViewModel,
     required int messageId,
   }) async {
-    final deleted = await provider.removeMessage(messageId);
+    try {
+      await provider.removeMessage.runAsync(messageId);
+    } catch (e, s) {
+      logger.e('Failed to remove gravity message', error: e, stackTrace: s);
+    }
+    final success = provider.removeMessage.errors.value == null;
     if (context.mounted) {
-      if (deleted) {
+      if (success) {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
@@ -208,7 +213,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
         );
       }
     }
-    return deleted;
+    return success;
   }
 
   @override

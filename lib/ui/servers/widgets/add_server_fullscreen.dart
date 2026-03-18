@@ -16,6 +16,7 @@ import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
+import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
 import 'package:provider/provider.dart';
@@ -502,9 +503,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(context)!.connectedSuccessfully,
           );
-          await serversViewModel.addServer(
-            serverObj.copyWith(defaultServer: defaultCheckbox),
-          );
+          try {
+            await serversViewModel.addServer.runAsync(
+              serverObj.copyWith(defaultServer: defaultCheckbox),
+            );
+          } catch (e, s) {
+            logger.e('Failed to save server', error: e, stackTrace: s);
+          }
         } else {
           if (mounted) {
             setState(() {
@@ -608,9 +613,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       if (result.isSuccess()) {
         final server = serverObj.copyWith(defaultServer: defaultCheckbox);
-        final editResult = await serversViewModel.editServer(server);
+        try {
+          await serversViewModel.editServer.runAsync(server);
+        } catch (e, s) {
+          logger.e('Failed to save server', error: e, stackTrace: s);
+        }
         if (context.mounted) {
-          if (editResult == true) {
+          if (serversViewModel.editServer.errors.value == null) {
             await Navigator.maybePop(context);
             if (!context.mounted) return;
 

@@ -946,8 +946,15 @@ void main() async {
         find.text('List with ID 10 was inaccessible during last gravity run'),
         const Offset(-500, 0),
       );
-      await tester.pumpAndSettle(const Duration(milliseconds: 500));
+      await tester.pumpAndSettle();
+      // Command.run() suspends at Future.delayed(Duration.zero) before calling
+      // the handler. One pump fires that timer; a second pumpAndSettle processes
+      // the resulting rebuild and Dismissible collapse animation.
+      await tester.pump();
+      await tester.pumpAndSettle();
 
+      expect(fakeGravityUpdateViewModel.removeMessageCallCount, 1);
+      expect(fakeGravityUpdateViewModel.lastRemovedMessageId, 5);
       expect(
         find.text('List with ID 10 was inaccessible during last gravity run'),
         findsNothing,

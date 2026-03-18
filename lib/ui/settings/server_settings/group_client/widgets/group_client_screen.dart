@@ -85,13 +85,17 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
       final domainsViewModel = context.read<DomainsViewModel>();
       final adlistsViewModel = context.read<AdlistsViewModel>();
 
-      await Future.wait([
-        clientsViewModel.loadClients.runAsync(),
-        groupsViewModel.loadGroups.runAsync(),
-        localDnsProvider.load(),
-        domainsViewModel.loadDomains.runAsync(),
-        adlistsViewModel.loadAdlists.runAsync(),
-      ]);
+      try {
+        await (
+          clientsViewModel.loadClients.runAsync(),
+          groupsViewModel.loadGroups.runAsync(),
+          localDnsProvider.load.runAsync(),
+          domainsViewModel.loadDomains.runAsync(),
+          adlistsViewModel.loadAdlists.runAsync(),
+        ).wait;
+      } catch (_) {
+        // Each ViewModel manages its own error state via Command.errors.
+      }
     });
 
     tabController = TabController(length: 2, vsync: this);

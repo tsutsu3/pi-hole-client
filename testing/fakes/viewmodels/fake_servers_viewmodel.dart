@@ -8,10 +8,19 @@ import '../repositories/local/fake_server_repository.dart';
 /// A fake [ServersViewModel] for widget tests.
 ///
 /// Allows setting internal state directly instead of going through
-/// `ServerRepository` calls. Call tracking fields let tests verify
-/// that expected methods were invoked.
+/// `ServerRepository` calls. Call tracking and failure simulation delegate
+/// to [FakeServerRepository] since Command fields cannot be overridden in
+/// subclasses — the real Command logic runs against the fake repository.
 class FakeServersViewModel extends ServersViewModel {
-  FakeServersViewModel() : super(FakeServerRepository());
+  factory FakeServersViewModel() {
+    final repo = FakeServerRepository();
+    return FakeServersViewModel._internal(repo);
+  }
+
+  FakeServersViewModel._internal(FakeServerRepository super.repo)
+    : _fakeRepo = repo;
+
+  final FakeServerRepository _fakeRepo;
 
   Server? _selectedServer;
   bool? _selectedServerEnabled;
@@ -20,24 +29,26 @@ class FakeServersViewModel extends ServersViewModel {
   bool _unverifiedBannerDismissed = false;
   Server? _connectingServer;
 
-  // Failure mode controls
-  bool shouldFailSetDefaultServer = false;
-  bool shouldFailRemoveServer = false;
+  // --- Failure controls (delegate to repo) ---
 
-  // Call tracking for verification
-  int setDefaultServerCallCount = 0;
-  Server? lastSetDefaultServer;
+  set shouldFailRemoveServer(bool value) => _fakeRepo.shouldFailDelete = value;
 
-  int removeServerCallCount = 0;
-  String? lastRemovedServerAddress;
+  set shouldFailSetDefaultServer(bool value) =>
+      _fakeRepo.shouldFailUpdateDefault = value;
 
-  int setUnverifiedBannerDismissedCallCount = 0;
-  bool? lastUnverifiedBannerDismissedValue;
+  // --- Call tracking (delegate to repo) ---
 
-  int addServerCallCount = 0;
-  int editServerCallCount = 0;
+  int get removeServerCallCount => _fakeRepo.deleteCallCount;
+  String? get lastRemovedServerAddress => _fakeRepo.lastDeletedAddress;
+  int get setDefaultServerCallCount => _fakeRepo.updateDefaultCallCount;
+  int get addServerCallCount => _fakeRepo.insertCallCount;
+  int get editServerCallCount => _fakeRepo.updateCallCount;
+
+  // Additional call-tracking fields for non-Command methods
   int setselectedServerCallCount = 0;
   int updateselectedServerStatusCallCount = 0;
+  int setUnverifiedBannerDismissedCallCount = 0;
+  bool? lastUnverifiedBannerDismissedValue;
 
   // --- Getters ---
 
@@ -116,40 +127,6 @@ class FakeServersViewModel extends ServersViewModel {
     setUnverifiedBannerDismissedCallCount++;
     lastUnverifiedBannerDismissedValue = dismissed;
     notifyListeners();
-  }
-
-  @override
-  Future<bool> setDefaultServer(Server server) async {
-    setDefaultServerCallCount++;
-    lastSetDefaultServer = server;
-    return !shouldFailSetDefaultServer;
-  }
-
-  @override
-  Future<bool> removeServer(String serverAddress) async {
-    removeServerCallCount++;
-    lastRemovedServerAddress = serverAddress;
-    if (shouldFailRemoveServer) return false;
-    _serversList = _serversList
-        .where((s) => s.address != serverAddress)
-        .toList();
-    notifyListeners();
-    return true;
-  }
-
-  @override
-  Future<bool> addServer(Server server) async {
-    addServerCallCount++;
-    _serversList = [..._serversList, server];
-    notifyListeners();
-    return true;
-  }
-
-  @override
-  Future<bool> editServer(Server server) async {
-    editServerCallCount++;
-    notifyListeners();
-    return true;
   }
 
   @override

@@ -10,7 +10,29 @@ import '../repositories/local/fake_gravity_repository.dart';
 /// as a simple settable property. Call counters let tests verify that
 /// methods such as [start], [load], and [removeMessage] were invoked.
 class FakeGravityUpdateViewModel extends GravityUpdateViewModel {
-  FakeGravityUpdateViewModel() : super(repository: FakeGravityRepository());
+  /// Factory constructor that wires the [removeMessage] Command's handler to
+  /// this instance's state via a one-element list (a mutable reference
+  /// container). This avoids the Dart limitation that `this` is unavailable
+  /// before `super()` completes.
+  factory FakeGravityUpdateViewModel() {
+    final self = <FakeGravityUpdateViewModel?>[null];
+    final vm = FakeGravityUpdateViewModel._internal(self);
+    self[0] = vm;
+    return vm;
+  }
+
+  FakeGravityUpdateViewModel._internal(List<FakeGravityUpdateViewModel?> self)
+    : super(
+        repository: FakeGravityRepository(),
+        removeMessageHandler: (int id) async {
+          final vm = self[0];
+          if (vm == null) return;
+          vm.removeMessageCallCount++;
+          vm.lastRemovedMessageId = id;
+          vm._messages.removeWhere((msg) => msg.id == id);
+          vm.notifyListeners();
+        },
+      );
 
   // --- Settable state ---
   GravityStatus _status = GravityStatus.idle;
@@ -74,7 +96,6 @@ class FakeGravityUpdateViewModel extends GravityUpdateViewModel {
   int resetCallCount = 0;
   int removeMessageCallCount = 0;
   int? lastRemovedMessageId;
-  bool removeMessageResult = true;
 
   @override
   Future<void> start() async {
@@ -89,16 +110,5 @@ class FakeGravityUpdateViewModel extends GravityUpdateViewModel {
   @override
   void reset() {
     resetCallCount++;
-  }
-
-  @override
-  Future<bool> removeMessage(int id) async {
-    removeMessageCallCount++;
-    lastRemovedMessageId = id;
-    if (removeMessageResult) {
-      _messages.removeWhere((msg) => msg.id == id);
-      notifyListeners();
-    }
-    return removeMessageResult;
   }
 }

@@ -5,6 +5,7 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 
 class DeleteServerModal extends StatelessWidget {
@@ -18,15 +19,17 @@ class DeleteServerModal extends StatelessWidget {
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     Future<void> removeServer() async {
-      final deleted = await serversViewModel.removeServer(
-        serverToDelete.address,
-      );
+      try {
+        await serversViewModel.removeServer.runAsync(serverToDelete.address);
+      } catch (e, s) {
+        logger.e('Failed to remove server', error: e, stackTrace: s);
+      }
 
       if (!context.mounted) return;
       await Navigator.maybePop(context);
       if (!context.mounted) return;
 
-      if (deleted == true) {
+      if (serversViewModel.removeServer.errors.value == null) {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
