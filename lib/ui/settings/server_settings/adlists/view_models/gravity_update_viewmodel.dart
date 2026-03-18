@@ -15,9 +15,13 @@ import 'package:pi_hole_client/utils/logger.dart';
 /// a global-scope provider in `main.dart` because gravity updates persist
 /// across navigation.
 class GravityUpdateViewModel with ChangeNotifier {
-  GravityUpdateViewModel({required GravityRepository repository})
-    : _repository = repository {
-    removeMessage = Command.createAsyncNoResult<int>(_removeMessage);
+  GravityUpdateViewModel({
+    required GravityRepository repository,
+    Future<void> Function(int id)? removeMessageHandler,
+  }) : _repository = repository {
+    removeMessage = Command.createAsyncNoResult<int>(
+      removeMessageHandler ?? _removeMessage,
+    );
     removeMessage.addListener(notifyListeners);
     removeMessage.errors.addListener(notifyListeners);
   }
