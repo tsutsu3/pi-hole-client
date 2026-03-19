@@ -78,7 +78,10 @@ void main() {
         ip: '192.168.1.100',
         name: 'mydevice',
       );
-      expectError(result, messageContains: 'Forced deleteConfigElement failure');
+      expectError(
+        result,
+        messageContains: 'Forced deleteConfigElement failure',
+      );
     });
   });
 

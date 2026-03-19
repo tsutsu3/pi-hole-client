@@ -116,13 +116,15 @@ void main() {
       expect(repository.sid.getOrNull(), 'new-sid');
     });
 
-    test('should return Failure and not update cache when storage fails',
-        () async {
-      storage.shouldFailSave = true;
-      final result = await repository.saveSid('new-sid');
-      expect(result.isError(), true);
-      expect(repository.sid.isError(), true);
-    });
+    test(
+      'should return Failure and not update cache when storage fails',
+      () async {
+        storage.shouldFailSave = true;
+        final result = await repository.saveSid('new-sid');
+        expect(result.isError(), true);
+        expect(repository.sid.isError(), true);
+      },
+    );
   });
 
   group('loadSid', () {
@@ -173,14 +175,17 @@ void main() {
       expect(repository.sid.isError(), true);
     });
 
-    test('should return Failure and preserve cache when delete fails', () async {
-      await repository.saveSid('to-delete');
-      storage.shouldFailDelete = true;
+    test(
+      'should return Failure and preserve cache when delete fails',
+      () async {
+        await repository.saveSid('to-delete');
+        storage.shouldFailDelete = true;
 
-      final result = await repository.deleteSid();
-      expect(result.isError(), true);
-      expect(repository.sid.isSuccess(), true);
-    });
+        final result = await repository.deleteSid();
+        expect(result.isError(), true);
+        expect(repository.sid.isSuccess(), true);
+      },
+    );
   });
 
   group('savePassword', () {

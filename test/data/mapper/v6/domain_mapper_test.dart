@@ -42,8 +42,14 @@ void main() {
       expect(domain.groups, [0]);
       expect(domain.enabled, isTrue);
       expect(domain.comment, 'test');
-      expect(domain.dateAdded, DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000));
-      expect(domain.dateModified, DateTime.fromMillisecondsSinceEpoch(1700001000 * 1000));
+      expect(
+        domain.dateAdded,
+        DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000),
+      );
+      expect(
+        domain.dateModified,
+        DateTime.fromMillisecondsSinceEpoch(1700001000 * 1000),
+      );
     });
 
     test('maps deny/regex domain correctly', () {

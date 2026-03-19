@@ -22,7 +22,10 @@ void main() {
 
       expect(result.length, 1);
       final lease = result[0];
-      expect(lease.expires, DateTime.fromMillisecondsSinceEpoch(1700007200 * 1000));
+      expect(
+        lease.expires,
+        DateTime.fromMillisecondsSinceEpoch(1700007200 * 1000),
+      );
       expect(lease.name, 'mydevice');
       expect(lease.hwaddr, 'aa:bb:cc:dd:ee:ff');
       expect(lease.ip, '192.168.1.100');

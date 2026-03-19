@@ -133,7 +133,10 @@ void main() async {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        _buildScreen(_blockedLog, viewModel: _FakeLogsViewModelAllowWhitelist()),
+        _buildScreen(
+          _blockedLog,
+          viewModel: _FakeLogsViewModelAllowWhitelist(),
+        ),
       );
       expect(find.byIcon(Icons.verified_user_rounded), findsOneWidget);
       expect(find.byIcon(Icons.gpp_bad_rounded), findsNothing);

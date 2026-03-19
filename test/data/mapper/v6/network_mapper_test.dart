@@ -31,8 +31,14 @@ void main() {
       expect(device.id, 1);
       expect(device.hwaddr, 'aa:bb:cc:dd:ee:ff');
       expect(device.interface, 'eth0');
-      expect(device.firstSeen, DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000));
-      expect(device.lastQuery, DateTime.fromMillisecondsSinceEpoch(1700003600 * 1000));
+      expect(
+        device.firstSeen,
+        DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000),
+      );
+      expect(
+        device.lastQuery,
+        DateTime.fromMillisecondsSinceEpoch(1700003600 * 1000),
+      );
       expect(device.numQueries, 500);
       expect(device.macVendor, 'Acme Corp');
     });
@@ -43,8 +49,14 @@ void main() {
 
       expect(device.ips.length, 1);
       expect(device.ips[0].ip, '192.168.1.50');
-      expect(device.ips[0].lastSeen, DateTime.fromMillisecondsSinceEpoch(1700003600 * 1000));
-      expect(device.ips[0].nameUpdated, DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000));
+      expect(
+        device.ips[0].lastSeen,
+        DateTime.fromMillisecondsSinceEpoch(1700003600 * 1000),
+      );
+      expect(
+        device.ips[0].nameUpdated,
+        DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000),
+      );
       expect(device.ips[0].name, 'laptop');
     });
 
@@ -64,17 +76,19 @@ void main() {
       final domain = _deviceIp.toDomain();
 
       expect(domain.ip, '192.168.1.50');
-      expect(domain.lastSeen, DateTime.fromMillisecondsSinceEpoch(1700003600 * 1000));
-      expect(domain.nameUpdated, DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000));
+      expect(
+        domain.lastSeen,
+        DateTime.fromMillisecondsSinceEpoch(1700003600 * 1000),
+      );
+      expect(
+        domain.nameUpdated,
+        DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000),
+      );
       expect(domain.name, 'laptop');
     });
 
     test('name is null when not provided', () {
-      const ip = s.DeviceIp(
-        ip: '10.0.0.1',
-        lastSeen: 0,
-        nameUpdated: 0,
-      );
+      const ip = s.DeviceIp(ip: '10.0.0.1', lastSeen: 0, nameUpdated: 0);
       expect(ip.toDomain().name, isNull);
     });
   });

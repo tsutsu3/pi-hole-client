@@ -25,12 +25,21 @@ void main() {
       expect(client.name, 'laptop');
       expect(client.comment, 'my laptop');
       expect(client.groups, [0, 2]);
-      expect(client.dateAdded, DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000));
-      expect(client.dateModified, DateTime.fromMillisecondsSinceEpoch(1700001000 * 1000));
+      expect(
+        client.dateAdded,
+        DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000),
+      );
+      expect(
+        client.dateModified,
+        DateTime.fromMillisecondsSinceEpoch(1700001000 * 1000),
+      );
     });
 
     test('maps multiple clients', () {
-      const source = s.Clients(clients: [_clientData, _clientData], took: 0.001);
+      const source = s.Clients(
+        clients: [_clientData, _clientData],
+        took: 0.001,
+      );
       expect(source.toDomain().length, 2);
     });
 
@@ -50,7 +59,10 @@ void main() {
     });
 
     test('toSingleDomain throws when multiple', () {
-      const source = s.Clients(clients: [_clientData, _clientData], took: 0.001);
+      const source = s.Clients(
+        clients: [_clientData, _clientData],
+        took: 0.001,
+      );
       expect(() => source.toSingleDomain(), throwsA(isA<Exception>()));
     });
   });

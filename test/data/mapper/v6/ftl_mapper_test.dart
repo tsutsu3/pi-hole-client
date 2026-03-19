@@ -47,18 +47,9 @@ void main() {
 
     test('canUpdate is false when versions are null', () {
       const data = s.VersionData(
-        core: s.Core(
-          local: s.LocalVersion(),
-          remote: s.RemoteVersion(),
-        ),
-        web: s.Web(
-          local: s.LocalVersion(),
-          remote: s.RemoteVersion(),
-        ),
-        ftl: s.FTL(
-          local: s.LocalFTL(),
-          remote: s.RemoteVersion(),
-        ),
+        core: s.Core(local: s.LocalVersion(), remote: s.RemoteVersion()),
+        web: s.Web(local: s.LocalVersion(), remote: s.RemoteVersion()),
+        ftl: s.FTL(local: s.LocalFTL(), remote: s.RemoteVersion()),
         docker: s.Docker(),
       );
 
@@ -98,7 +89,8 @@ void main() {
             id: 1,
             timestamp: 1700000000,
             type: 'GRAVITY_BLOCKED_ADLIST_INACCESSIBLE',
-            plain: 'List with ID 42 (https://example.com/list.txt) was inaccessible during last gravity run',
+            plain:
+                'List with ID 42 (https://example.com/list.txt) was inaccessible during last gravity run',
             html: '',
           ),
         ],
@@ -109,7 +101,10 @@ void main() {
 
       expect(result.length, 1);
       expect(result[0].id, 1);
-      expect(result[0].timestamp, DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000));
+      expect(
+        result[0].timestamp,
+        DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000),
+      );
       expect(result[0].url, 'https://example.com/list.txt');
       expect(result[0].message, contains('List with ID 42'));
     });
@@ -163,17 +158,32 @@ void main() {
           cpuPercentage: 2.5,
           allowDestructive: false,
           dnsmasq: s.Dnsmasq(
-            dnsCacheInserted: 0, dnsCacheLiveFreed: 0,
-            dnsQueriesForwarded: 0, dnsAuthAnswered: 0,
-            dnsLocalAnswered: 0, dnsStaleAnswered: 0,
-            dnsUnanswered: 0, bootp: 0, pxe: 0,
-            dhcpAck: 0, dhcpDecline: 0, dhcpDiscover: 0,
-            dhcpInform: 0, dhcpNak: 0, dhcpOffer: 0,
-            dhcpRelease: 0, dhcpRequest: 0, noAnswer: 0,
-            leasesAllocated4: 0, leasesPruned4: 0,
-            leasesAllocated6: 0, leasesPruned6: 0,
-            tcpConnections: 0, dnssecMaxCryptoUse: 0,
-            dnssecMaxSigFail: 0, dnssecMaxWork: 0,
+            dnsCacheInserted: 0,
+            dnsCacheLiveFreed: 0,
+            dnsQueriesForwarded: 0,
+            dnsAuthAnswered: 0,
+            dnsLocalAnswered: 0,
+            dnsStaleAnswered: 0,
+            dnsUnanswered: 0,
+            bootp: 0,
+            pxe: 0,
+            dhcpAck: 0,
+            dhcpDecline: 0,
+            dhcpDiscover: 0,
+            dhcpInform: 0,
+            dhcpNak: 0,
+            dhcpOffer: 0,
+            dhcpRelease: 0,
+            dhcpRequest: 0,
+            noAnswer: 0,
+            leasesAllocated4: 0,
+            leasesPruned4: 0,
+            leasesAllocated6: 0,
+            leasesPruned6: 0,
+            tcpConnections: 0,
+            dnssecMaxCryptoUse: 0,
+            dnssecMaxSigFail: 0,
+            dnssecMaxWork: 0,
           ),
         ),
         took: 0.001,
@@ -207,11 +217,22 @@ void main() {
             ),
           ),
           dhcp: s.DhcpMetrics(
-            ack: 0, nak: 0, decline: 0, offer: 0,
-            discover: 0, inform: 0, request: 0, release: 0,
-            noanswer: 0, bootp: 0, pxe: 0,
+            ack: 0,
+            nak: 0,
+            decline: 0,
+            offer: 0,
+            discover: 0,
+            inform: 0,
+            request: 0,
+            release: 0,
+            noanswer: 0,
+            bootp: 0,
+            pxe: 0,
             leases: s.DhcpLeases(
-              allocated4: 0, pruned4: 0, allocated6: 0, pruned6: 0,
+              allocated4: 0,
+              pruned4: 0,
+              allocated6: 0,
+              pruned6: 0,
             ),
           ),
         ),
@@ -270,7 +291,9 @@ void main() {
 
       // When size == 0, record entries get 0.0, but the trailing "empty" slot
       // receives 100.0 (it absorbs the remaining percentage).
-      final withoutLast = domain.typePercentages.take(domain.typePercentages.length - 1);
+      final withoutLast = domain.typePercentages.take(
+        domain.typePercentages.length - 1,
+      );
       for (final tp in withoutLast) {
         expect(tp.percentage, 0.0);
       }
@@ -328,12 +351,7 @@ void main() {
               available: 500,
               percentUsed: 50.0,
             ),
-            swap: s.Swap(
-              total: 0,
-              used: 0,
-              free: 0,
-              percentUsed: 0.0,
-            ),
+            swap: s.Swap(total: 0, used: 0, free: 0, percentUsed: 0.0),
           ),
           cpu: s.CPU(
             nprocs: 2,

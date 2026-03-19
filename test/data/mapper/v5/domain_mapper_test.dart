@@ -71,8 +71,16 @@ void main() {
           groups: [],
         ).toDomain();
 
-        expect(domain.type, entry.value.$1, reason: 'type for index ${entry.key}');
-        expect(domain.kind, entry.value.$2, reason: 'kind for index ${entry.key}');
+        expect(
+          domain.type,
+          entry.value.$1,
+          reason: 'type for index ${entry.key}',
+        );
+        expect(
+          domain.kind,
+          entry.value.$2,
+          reason: 'kind for index ${entry.key}',
+        );
       }
     });
 
@@ -95,28 +103,30 @@ void main() {
 
   group('DomainsMapper (v5)', () {
     test('toDomain maps multiple domains', () {
-      const source = s.Domains(data: [
-        s.Domain(
-          id: 1,
-          type: 0,
-          domain: 'a.com',
-          enabled: 1,
-          dateAdded: 0,
-          dateModified: 0,
-          comment: '',
-          groups: [],
-        ),
-        s.Domain(
-          id: 2,
-          type: 1,
-          domain: 'b.com',
-          enabled: 1,
-          dateAdded: 0,
-          dateModified: 0,
-          comment: '',
-          groups: [],
-        ),
-      ]);
+      const source = s.Domains(
+        data: [
+          s.Domain(
+            id: 1,
+            type: 0,
+            domain: 'a.com',
+            enabled: 1,
+            dateAdded: 0,
+            dateModified: 0,
+            comment: '',
+            groups: [],
+          ),
+          s.Domain(
+            id: 2,
+            type: 1,
+            domain: 'b.com',
+            enabled: 1,
+            dateAdded: 0,
+            dateModified: 0,
+            comment: '',
+            groups: [],
+          ),
+        ],
+      );
 
       final list = source.toDomain();
       expect(list.length, 2);
@@ -130,18 +140,20 @@ void main() {
     });
 
     test('toSingleDomain returns the one domain', () {
-      const source = s.Domains(data: [
-        s.Domain(
-          id: 1,
-          type: 0,
-          domain: 'single.com',
-          enabled: 1,
-          dateAdded: 0,
-          dateModified: 0,
-          comment: '',
-          groups: [],
-        ),
-      ]);
+      const source = s.Domains(
+        data: [
+          s.Domain(
+            id: 1,
+            type: 0,
+            domain: 'single.com',
+            enabled: 1,
+            dateAdded: 0,
+            dateModified: 0,
+            comment: '',
+            groups: [],
+          ),
+        ],
+      );
       expect(source.toSingleDomain().name, 'single.com');
     });
 
@@ -151,28 +163,30 @@ void main() {
     });
 
     test('toSingleDomain throws when data has multiple items', () {
-      const source = s.Domains(data: [
-        s.Domain(
-          id: 1,
-          type: 0,
-          domain: 'a.com',
-          enabled: 1,
-          dateAdded: 0,
-          dateModified: 0,
-          comment: '',
-          groups: [],
-        ),
-        s.Domain(
-          id: 2,
-          type: 0,
-          domain: 'b.com',
-          enabled: 1,
-          dateAdded: 0,
-          dateModified: 0,
-          comment: '',
-          groups: [],
-        ),
-      ]);
+      const source = s.Domains(
+        data: [
+          s.Domain(
+            id: 1,
+            type: 0,
+            domain: 'a.com',
+            enabled: 1,
+            dateAdded: 0,
+            dateModified: 0,
+            comment: '',
+            groups: [],
+          ),
+          s.Domain(
+            id: 2,
+            type: 0,
+            domain: 'b.com',
+            enabled: 1,
+            dateAdded: 0,
+            dateModified: 0,
+            comment: '',
+            groups: [],
+          ),
+        ],
+      );
       expect(() => source.toSingleDomain(), throwsA(isA<Exception>()));
     });
   });

@@ -57,9 +57,18 @@ void main() {
       expect(session.tlsStatus, TlsStatus.login);
       expect(session.isApp, isFalse);
       expect(session.isCli, isTrue);
-      expect(session.loginAt, DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000));
-      expect(session.lastActive, DateTime.fromMillisecondsSinceEpoch(1700003600 * 1000));
-      expect(session.validUntil, DateTime.fromMillisecondsSinceEpoch(1700007200 * 1000));
+      expect(
+        session.loginAt,
+        DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000),
+      );
+      expect(
+        session.lastActive,
+        DateTime.fromMillisecondsSinceEpoch(1700003600 * 1000),
+      );
+      expect(
+        session.validUntil,
+        DateTime.fromMillisecondsSinceEpoch(1700007200 * 1000),
+      );
       expect(session.clientIp, '192.168.1.100');
       expect(session.userAgent, 'TestAgent/1.0');
     });

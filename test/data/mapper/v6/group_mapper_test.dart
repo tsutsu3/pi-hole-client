@@ -22,8 +22,14 @@ void main() {
       expect(group.id, 5);
       expect(group.name, 'Work devices');
       expect(group.enabled, isTrue);
-      expect(group.dateAdded, DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000));
-      expect(group.dateModified, DateTime.fromMillisecondsSinceEpoch(1700001000 * 1000));
+      expect(
+        group.dateAdded,
+        DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000),
+      );
+      expect(
+        group.dateModified,
+        DateTime.fromMillisecondsSinceEpoch(1700001000 * 1000),
+      );
       expect(group.comment, 'office LAN');
     });
 

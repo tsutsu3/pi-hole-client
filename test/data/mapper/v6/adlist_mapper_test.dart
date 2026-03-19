@@ -32,9 +32,18 @@ void main() {
       expect(item.groups, [0, 1]);
       expect(item.enabled, isTrue);
       expect(item.id, 42);
-      expect(item.dateAdded, DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000));
-      expect(item.dateModified, DateTime.fromMillisecondsSinceEpoch(1700001000 * 1000));
-      expect(item.dateUpdated, DateTime.fromMillisecondsSinceEpoch(1700002000 * 1000));
+      expect(
+        item.dateAdded,
+        DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000),
+      );
+      expect(
+        item.dateModified,
+        DateTime.fromMillisecondsSinceEpoch(1700001000 * 1000),
+      );
+      expect(
+        item.dateUpdated,
+        DateTime.fromMillisecondsSinceEpoch(1700002000 * 1000),
+      );
       expect(item.number, 150000);
       expect(item.invalidDomains, 5);
       expect(item.abpEntries, 0);
@@ -53,7 +62,10 @@ void main() {
 
     test('toSingleDomain returns the one item', () {
       const source = s.Lists(lists: [_adlistItem], took: 0.001);
-      expect(source.toSingleDomain().address, 'https://example.com/blocklist.txt');
+      expect(
+        source.toSingleDomain().address,
+        'https://example.com/blocklist.txt',
+      );
     });
 
     test('toSingleDomain throws when list is empty', () {

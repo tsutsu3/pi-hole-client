@@ -92,7 +92,10 @@ void main() {
         domains: [],
         gravity: [],
         parameters: s.SearchParameters(
-          partial: false, N: 25, domain: '', debug: false,
+          partial: false,
+          N: 25,
+          domain: '',
+          debug: false,
         ),
         results: s.SearchResults(
           domains: s.DomainMatchCount(exact: 0, regex: 0),

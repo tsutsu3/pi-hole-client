@@ -32,7 +32,11 @@ void main() {
     });
 
     test('unrecognized status maps to unknown', () {
-      final source = s.Blocking(blocking: 'invalid_value', timer: null, took: 0.001);
+      final source = s.Blocking(
+        blocking: 'invalid_value',
+        timer: null,
+        took: 0.001,
+      );
       final domain = source.toDomain();
       expect(domain.status, DnsBlockingStatus.unknown);
     });

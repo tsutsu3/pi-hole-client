@@ -103,9 +103,7 @@ void main() async {
     testWidgets('shows carrier changes count', (WidgetTester tester) async {
       await tester.pumpWidget(
         buildTestApp(
-          MoreDetailsScreen(
-            interfaceData: _makeInterface(carrierChanges: 7),
-          ),
+          MoreDetailsScreen(interfaceData: _makeInterface(carrierChanges: 7)),
         ),
       );
       expect(find.text('7'), findsOneWidget);
@@ -164,7 +162,10 @@ void main() async {
         ),
       );
       // Item may be off-screen in ListView
-      expect(find.text('ff:ff:ff:ff:ff:ff', skipOffstage: false), findsOneWidget);
+      expect(
+        find.text('ff:ff:ff:ff:ff:ff', skipOffstage: false),
+        findsOneWidget,
+      );
     });
 
     testWidgets('shows qdisc value', (WidgetTester tester) async {

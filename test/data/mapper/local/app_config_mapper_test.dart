@@ -78,7 +78,10 @@ void main() {
       expect(config.importantInfoReaden, isTrue);
       expect(config.hideZeroValues, isTrue);
       expect(config.loadingAnimation, isFalse);
-      expect(config.statisticsVisualizationMode, StatisticsVisualizationMode.values[1]);
+      expect(
+        config.statisticsVisualizationMode,
+        StatisticsVisualizationMode.values[1],
+      );
       expect(config.homeVisualizationMode, HomeVisualizationMode.values[1]);
       expect(config.sendCrashReports, isTrue);
     });
@@ -115,7 +118,10 @@ void main() {
 
     test('out-of-range statisticsVisualizationMode falls back to list', () {
       final config = _makeData(statisticsVisualizationMode: 9999).toDomain();
-      expect(config.statisticsVisualizationMode, StatisticsVisualizationMode.list);
+      expect(
+        config.statisticsVisualizationMode,
+        StatisticsVisualizationMode.list,
+      );
     });
 
     test('out-of-range homeVisualizationMode falls back to lineArea', () {

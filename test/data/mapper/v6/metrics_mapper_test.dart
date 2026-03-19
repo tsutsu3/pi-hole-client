@@ -4,24 +4,60 @@ import 'package:pi_hole_client/data/model/v6/metrics/history.dart' as sh;
 import 'package:pi_hole_client/data/model/v6/metrics/stats.dart' as ss;
 
 const _replies = ss.StatsReplies(
-  unknown: 1, nodata: 2, nxdomain: 3, cname: 4,
-  ip: 5, domain: 6, rrname: 7, servfail: 8,
-  refused: 9, notimp: 10, other: 11, dnssec: 12,
-  none: 13, blob: 14,
+  unknown: 1,
+  nodata: 2,
+  nxdomain: 3,
+  cname: 4,
+  ip: 5,
+  domain: 6,
+  rrname: 7,
+  servfail: 8,
+  refused: 9,
+  notimp: 10,
+  other: 11,
+  dnssec: 12,
+  none: 13,
+  blob: 14,
 );
 
 const _types = ss.StatsTypes(
-  a: 100, aaaa: 50, any: 0, srv: 0, soa: 0,
-  ptr: 10, txt: 5, naptr: 0, mx: 0, ds: 0,
-  rrsig: 0, dnskey: 0, ns: 3, svcb: 0, https: 2, other: 0,
+  a: 100,
+  aaaa: 50,
+  any: 0,
+  srv: 0,
+  soa: 0,
+  ptr: 10,
+  txt: 5,
+  naptr: 0,
+  mx: 0,
+  ds: 0,
+  rrsig: 0,
+  dnskey: 0,
+  ns: 3,
+  svcb: 0,
+  https: 2,
+  other: 0,
 );
 
 const _status = ss.StatsStatus(
-  unknown: 0, gravity: 50, forwarded: 300, cache: 150, regex: 10,
-  denylist: 5, externalBlockedIp: 0, externalBlockedNull: 0,
-  externalBlockedNxra: 0, gravityCname: 0, regexCname: 0,
-  denylistCname: 0, retried: 0, retriedDnssec: 0, inProgress: 0,
-  dbbusy: 0, specialDomain: 0, cacheStale: 0,
+  unknown: 0,
+  gravity: 50,
+  forwarded: 300,
+  cache: 150,
+  regex: 10,
+  denylist: 5,
+  externalBlockedIp: 0,
+  externalBlockedNull: 0,
+  externalBlockedNxra: 0,
+  gravityCname: 0,
+  regexCname: 0,
+  denylistCname: 0,
+  retried: 0,
+  retriedDnssec: 0,
+  inProgress: 0,
+  dbbusy: 0,
+  specialDomain: 0,
+  cacheStale: 0,
 );
 
 const _queries = ss.StatsQueries(
@@ -193,7 +229,11 @@ void main() {
 
   group('ClientMapper (v6)', () {
     test('uses name|ip format when name is not empty', () {
-      const source = ss.StatsClient(ip: '192.168.1.1', name: 'laptop', count: 50);
+      const source = ss.StatsClient(
+        ip: '192.168.1.1',
+        name: 'laptop',
+        count: 50,
+      );
       final domain = source.toDomain();
       expect(domain.source, 'laptop|192.168.1.1');
       expect(domain.count, 50);

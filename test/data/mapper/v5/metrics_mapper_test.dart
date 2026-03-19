@@ -44,7 +44,10 @@ void main() {
   group('HistoryEntryMapper (v5)', () {
     test('converts timestamp string key to DateTime', () {
       final entry = const MapEntry('1700000000', 42).toDomain();
-      expect(entry.timestamp, DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000));
+      expect(
+        entry.timestamp,
+        DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000),
+      );
       expect(entry.count, 42);
     });
 
@@ -65,10 +68,33 @@ void main() {
 
   group('QueriesMapper (v5)', () {
     test('maps list of log entries', () {
-      const source = s.Queries(data: [
-        ['1700000000', 'A', 'example.com', '192.168.1.1', '2', '', '1', '15000', '', '', 'localhost'],
-        ['1700000060', 'AAAA', 'blocked.com', '192.168.1.2', '1', '', '0', '0'],
-      ]);
+      const source = s.Queries(
+        data: [
+          [
+            '1700000000',
+            'A',
+            'example.com',
+            '192.168.1.1',
+            '2',
+            '',
+            '1',
+            '15000',
+            '',
+            '',
+            'localhost',
+          ],
+          [
+            '1700000060',
+            'AAAA',
+            'blocked.com',
+            '192.168.1.2',
+            '1',
+            '',
+            '0',
+            '0',
+          ],
+        ],
+      );
 
       final domain = source.toDomain();
       expect(domain.logs.length, 2);
@@ -82,21 +108,42 @@ void main() {
       // index: 0=ts, 1=type, 2=url, 3=device, 4=status, 5=skip,
       //        6=replyIndex, 7=replyTime, 8=skip, 9=skip, 10=answeredBy
       final log = [
-        '1700000000', 'A', 'example.com', '192.168.1.1',
-        '2', '', '1', '15000', '', '', 'someserver',
+        '1700000000',
+        'A',
+        'example.com',
+        '192.168.1.1',
+        '2',
+        '',
+        '1',
+        '15000',
+        '',
+        '',
+        'someserver',
       ].toDomain();
 
       expect(log.url, 'example.com');
       expect(log.device, '192.168.1.1');
-      expect(log.dateTime, DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000));
+      expect(
+        log.dateTime,
+        DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000),
+      );
       expect(log.replyTime, closeTo(1.5, 0.001)); // 15000 / 10000 = 1.5
       expect(log.answeredBy, 'someserver'); // status == '2'
     });
 
     test('answeredBy is null when status != 2', () {
       final log = [
-        '1700000000', 'A', 'example.com', '192.168.1.1',
-        '1', '', '0', '0', '', '', 'someserver',
+        '1700000000',
+        'A',
+        'example.com',
+        '192.168.1.1',
+        '1',
+        '',
+        '0',
+        '0',
+        '',
+        '',
+        'someserver',
       ].toDomain();
       expect(log.answeredBy, isNull);
     });
