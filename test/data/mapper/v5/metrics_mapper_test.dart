@@ -6,10 +6,10 @@ import 'package:pi_hole_client/data/model/v5/queries.dart' as s;
 void main() {
   group('OverTimeDataMapper (v5)', () {
     test('maps all fields correctly', () {
-      final source = s.OverTimeData(
+      const source = s.OverTimeData(
         domainsOverTime: {'1700000000': 10, '1700000300': 20},
         adsOverTime: {'1700000000': 2, '1700000300': 5},
-        clients: const [
+        clients: [
           s.Client(name: 'router', ip: '192.168.1.1'),
           s.Client(name: '', ip: '192.168.1.2'),
         ],
