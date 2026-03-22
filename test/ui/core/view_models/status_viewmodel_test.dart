@@ -306,26 +306,31 @@ void main() {
 
     tearDown(() => vm.dispose());
 
-    test('error -> loading transitions correctly and notifies listeners', () {
-      vm.setServerStatus(LoadStatus.error); // simulate expired-SID state
-      statusHistory.clear();
+    test(
+      'error -> loading -> loaded transitions correctly and notifies listeners',
+      () {
+        // 1. Simulate initial expired-SID state.
+        vm.setServerStatus(LoadStatus.error);
+        statusHistory.clear();
 
-      vm.setServerStatus(LoadStatus.loading); // the fix in setupWidgetChannel
+        // 2. Simulate widget tap which resets status to loading.
+        vm.setServerStatus(LoadStatus.loading);
 
-      expect(vm.getServerStatus, LoadStatus.loading);
-      expect(vm.isServerLoading, isTrue);
-      expect(statusHistory, [LoadStatus.loading]);
-    });
+        // Assert loading state.
+        expect(vm.getServerStatus, LoadStatus.loading);
+        expect(vm.isServerLoading, isTrue);
+        expect(statusHistory, [LoadStatus.loading]);
 
-    test('loading -> loaded transitions correctly after successful reconnect',
-        () {
-      vm.setServerStatus(LoadStatus.error);
-      vm.setServerStatus(LoadStatus.loading);
-      vm.setServerStatus(LoadStatus.loaded);
+        // 3. Simulate successful reconnect.
+        statusHistory.clear();
+        vm.setServerStatus(LoadStatus.loaded);
 
-      expect(vm.getServerStatus, LoadStatus.loaded);
-      expect(vm.isServerLoading, isFalse);
-    });
+        // Assert loaded state.
+        expect(vm.getServerStatus, LoadStatus.loaded);
+        expect(vm.isServerLoading, isFalse);
+        expect(statusHistory, [LoadStatus.loaded]);
+      },
+    );
   });
 
   // ---------------------------------------------------------------------------
