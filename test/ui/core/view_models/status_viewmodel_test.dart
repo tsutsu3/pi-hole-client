@@ -292,6 +292,43 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
+  // setServerStatus() — resets stale error state before widget-tap navigation
+  // ---------------------------------------------------------------------------
+  group('StatusViewModel – setServerStatus resets stale error state', () {
+    late StatusViewModel vm;
+    late List<LoadStatus> statusHistory;
+
+    setUp(() {
+      vm = StatusViewModel();
+      statusHistory = [];
+      vm.addListener(() => statusHistory.add(vm.getServerStatus));
+    });
+
+    tearDown(() => vm.dispose());
+
+    test('error -> loading transitions correctly and notifies listeners', () {
+      vm.setServerStatus(LoadStatus.error); // simulate expired-SID state
+      statusHistory.clear();
+
+      vm.setServerStatus(LoadStatus.loading); // the fix in setupWidgetChannel
+
+      expect(vm.getServerStatus, LoadStatus.loading);
+      expect(vm.isServerLoading, isTrue);
+      expect(statusHistory, [LoadStatus.loading]);
+    });
+
+    test('loading -> loaded transitions correctly after successful reconnect',
+        () {
+      vm.setServerStatus(LoadStatus.error);
+      vm.setServerStatus(LoadStatus.loading);
+      vm.setServerStatus(LoadStatus.loaded);
+
+      expect(vm.getServerStatus, LoadStatus.loaded);
+      expect(vm.isServerLoading, isFalse);
+    });
+  });
+
+  // ---------------------------------------------------------------------------
   // update() — auto-refresh interval change restarts timers
   // ---------------------------------------------------------------------------
   group('StatusViewModel – update() interval change', () {
