@@ -187,6 +187,9 @@ class StatusViewModel with ChangeNotifier {
 
   /// Sets the server connection status imperatively.
   /// Used by `ServerConnectionService` during server connection flow.
+  ///
+  /// NOTE: Not implemented as a `Command` — synchronous setter, not an
+  /// async user-triggered operation.
   void setServerStatus(LoadStatus status) {
     _serverStatus = status;
     notifyListeners();
@@ -198,6 +201,11 @@ class StatusViewModel with ChangeNotifier {
   /// - [isDelay]: If true, the refresh will be delayed by a short duration.
   /// - [showLoadingIndicator]: If true, shows a loading indicator during the
   ///   refresh.
+  ///
+  /// NOTE: Not implemented as a `Command` because this method sets up three
+  /// timers that fire indefinitely — there is no single completion event.
+  /// `Command` wraps one-shot async operations with a clear done/error signal,
+  /// which does not apply to continuous background polling.
   void startAutoRefresh({
     bool runImmediately = true,
     bool isDelay = false,
@@ -218,12 +226,23 @@ class StatusViewModel with ChangeNotifier {
 
   /// Refresh the status data once. Returns true if all data fetched
   /// successfully.
+  ///
+  /// NOTE: Not implemented as a `Command` because this method triggers three
+  /// parallel HTTP requests ([_fetchStatusData], [_fetchOverTimeData],
+  /// [_fetchMetricsData]), each of which calls [notifyListeners] independently
+  /// as it completes. A `Command` wraps a single async action with one
+  /// completion/error event and cannot model these fine-grained, parallel
+  /// intermediate state transitions. The `bool` return value is used directly
+  /// by callers to decide whether to show an error snackbar.
   Future<bool> refreshOnce() async {
     logger.d('Refresh once Server Status');
     return _refreshOnce();
   }
 
   /// Stop auto-refresh timers.
+  ///
+  /// NOTE: Not implemented as a `Command` — synchronous timer cancellation,
+  /// not an async user-triggered operation.
   void stopAutoRefresh({bool showLoadingIndicator = true}) {
     if (_isAutoRefreshRunning) {
       logger.d(
