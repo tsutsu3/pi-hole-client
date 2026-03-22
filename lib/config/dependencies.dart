@@ -50,7 +50,6 @@ List<SingleChildWidget> createProviders({
 
     // Layer 3: ViewModels
     ChangeNotifierProvider(create: (_) => configProvider),
-    ChangeNotifierProvider(create: (_) => serversViewModel),
     ChangeNotifierProxyProvider<AppConfigViewModel, ServersViewModel>(
       create: (_) => serversViewModel,
       update: (_, appConfig, servers) =>
