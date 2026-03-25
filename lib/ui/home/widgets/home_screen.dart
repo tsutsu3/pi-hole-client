@@ -11,6 +11,7 @@ import 'package:pi_hole_client/ui/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_tiles.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -65,66 +66,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: Listenable.merge([
-        widget.serversViewModel,
-        widget.appConfigViewModel,
-        widget.statusViewModel,
-      ]),
+      listenable: widget.serversViewModel,
       builder: (context, _) => _buildContent(context),
     );
   }
 
   Widget _buildContent(BuildContext context) {
     final serversViewModel = widget.serversViewModel;
-    final showingSnackbar = widget.appConfigViewModel.showingSnackbar;
-    final statusLoading = widget.statusViewModel.getStatusLoading;
-    final isConnectionAttemptFinished = !widget.statusViewModel.isServerLoading;
-
     final width = MediaQuery.of(context).size.width;
-
-    Future<void> enableDisableServer() async {
-      if (isConnectionAttemptFinished == true &&
-          serversViewModel.selectedServer != null) {
-        if (serversViewModel.selectedServerEnabled == true) {
-          if (width > ResponsiveConstants.medium) {
-            await showDialog(
-              context: context,
-              useRootNavigator:
-                  false, // Prevents unexpected app exit on mobile when pressing back
-              builder: (_) => DisableModal(
-                onDisable: (time) => disableServer(time, context),
-                window: true,
-              ),
-            );
-          } else {
-            await showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              builder: (_) => DisableModal(
-                onDisable: (time) => disableServer(time, context),
-                window: false,
-              ),
-              backgroundColor: Colors.transparent,
-            );
-          }
-        } else {
-          await enableServer(context);
-        }
-      }
-    }
-
-    double calcFabPosition() {
-      if (isVisible && statusLoading == LoadStatus.loaded) {
-        if (showingSnackbar) {
-          final isSmallScreen =
-              MediaQuery.of(context).size.width <= ResponsiveConstants.medium;
-          return isSmallScreen ? 100.0 : 70.0;
-        }
-        return 20.0;
-      }
-      // If the FAB is not visible, it should be off-screen
-      return -70.0;
-    }
 
     return serversViewModel.selectedServer != null
         ? Stack(
@@ -179,24 +128,86 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              SafeArea(
-                child: Stack(
-                  children: [
-                    AnimatedPositioned(
-                      duration: const Duration(milliseconds: 100),
-                      curve: Curves.easeInOut,
-                      bottom: calcFabPosition(),
-                      right: 20,
-                      child: FloatingActionButton(
-                        onPressed: enableDisableServer,
-                        child: const Icon(Icons.shield_rounded),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              _HomeFab(isVisible: isVisible),
             ],
           )
         : const SizedBox();
+  }
+}
+
+class _HomeFab extends StatelessWidget {
+  const _HomeFab({required this.isVisible});
+
+  final bool isVisible;
+
+  @override
+  Widget build(BuildContext context) {
+    final statusLoading = context.select<StatusViewModel, LoadStatus>(
+      (vm) => vm.getStatusLoading,
+    );
+    final showingSnackbar = context.select<AppConfigViewModel, bool>(
+      (vm) => vm.showingSnackbar,
+    );
+
+    final width = MediaQuery.of(context).size.width;
+
+    double fabPosition() {
+      if (isVisible && statusLoading == LoadStatus.loaded) {
+        if (showingSnackbar) {
+          final isSmallScreen = width <= ResponsiveConstants.medium;
+          return isSmallScreen ? 100.0 : 70.0;
+        }
+        return 20.0;
+      }
+
+      // If the FAB is not visible, it should be off-screen
+      return -70.0;
+    }
+
+    return SafeArea(
+      child: Stack(
+        children: [
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 100),
+            curve: Curves.easeInOut,
+            bottom: fabPosition(),
+            right: 20,
+            child: FloatingActionButton(
+              onPressed: () async {
+                final serversVM = context.read<ServersViewModel>();
+                final statusVM = context.read<StatusViewModel>();
+                if (statusVM.isServerLoading) return;
+                if (serversVM.selectedServer == null) return;
+                if (serversVM.selectedServerEnabled == true) {
+                  if (width > ResponsiveConstants.medium) {
+                    await showDialog(
+                      context: context,
+                      useRootNavigator: false,
+                      builder: (_) => DisableModal(
+                        onDisable: (time) => disableServer(time, context),
+                        window: true,
+                      ),
+                    );
+                  } else {
+                    await showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (_) => DisableModal(
+                        onDisable: (time) => disableServer(time, context),
+                        window: false,
+                      ),
+                      backgroundColor: Colors.transparent,
+                    );
+                  }
+                } else {
+                  await enableServer(context);
+                }
+              },
+              child: const Icon(Icons.shield_rounded),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
