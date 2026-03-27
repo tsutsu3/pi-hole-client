@@ -138,9 +138,10 @@ void main() async {
         );
         await tester.pump();
 
-        await tester.tap(find.text('Clients'));
+        await tester.tap(find.text('Domains'));
         await tester.pumpAndSettle();
-        expect(find.text('Top clients (total)'), findsOneWidget);
+
+        expect(find.text('Top permitted domains'), findsOneWidget);
 
         appConfigViewModel.setSelectedTab(AppShell.homeIndex);
         await tester.pump();
