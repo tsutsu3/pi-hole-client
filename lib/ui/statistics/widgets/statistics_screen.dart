@@ -28,9 +28,10 @@ class _StatisticsScreenState extends State<StatisticsScreen>
 
   TabController? _tabController;
   int _lastTabLength = 0;
+  bool _wasOnStatistics = false;
+  bool _pendingTabReset = false;
 
   late final AppConfigViewModel _appConfigViewModel;
-  int _lastKnownTab = AppShell.statisticsIndex;
 
   @override
   void initState() {
@@ -41,29 +42,29 @@ class _StatisticsScreenState extends State<StatisticsScreen>
     _dnsController = ScrollController();
 
     _appConfigViewModel = context.read<AppConfigViewModel>();
+    _wasOnStatistics =
+        _appConfigViewModel.selectedTab == AppShell.statisticsIndex;
     _appConfigViewModel.addListener(_onAppConfigChanged);
   }
 
   void _onAppConfigChanged() {
-    final currentTab = _appConfigViewModel.selectedTab;
-    if (currentTab == _lastKnownTab) return;
-    _lastKnownTab = currentTab;
-
-    // Reset tab to first when returning to statistics.
-    // Resetting on leave would call TabController.index while off-screen,
-    // triggering TabBarView.setState() before TickerMode(enabled: false) is
-    // applied — causing unnecessary rebuilds of all statistics widgets.
-    if (currentTab == AppShell.statisticsIndex) {
-      _tabController?.index = 0;
-    }
+    final isStatistics =
+        _appConfigViewModel.selectedTab == AppShell.statisticsIndex;
+    // Queue a tab reset when leaving statistics. The reset is consumed in
+    // build() so it happens exactly once before the next render.
+    if (_wasOnStatistics && !isStatistics) _pendingTabReset = true;
+    _wasOnStatistics = isStatistics;
   }
 
-  void _ensureTabController(int length) {
-    if (_tabController == null || _lastTabLength != length) {
-      _tabController?.dispose();
-      _tabController = TabController(length: length, vsync: this);
-      _lastTabLength = length;
+  void _ensureTabController(int length, {bool resetToFirst = false}) {
+    if (_tabController != null && _lastTabLength == length && !resetToFirst) {
+      return;
     }
+    final index =
+        resetToFirst ? 0 : (_tabController?.index ?? 0).clamp(0, length - 1);
+    _tabController?.dispose();
+    _tabController = TabController(length: length, vsync: this, initialIndex: index);
+    _lastTabLength = length;
   }
 
   @override
@@ -82,7 +83,8 @@ class _StatisticsScreenState extends State<StatisticsScreen>
     final apiVersion =
         context.select<ServersViewModel, String?>(
           (vm) => vm.selectedServer?.apiVersion,
-        ) ?? 'v5';
+        ) ??
+        'v5';
 
     if (MediaQuery.of(context).size.width > ResponsiveConstants.xxLarge) {
       return const StatisticsTripleColumn();
@@ -90,10 +92,15 @@ class _StatisticsScreenState extends State<StatisticsScreen>
 
     final loc = AppLocalizations.of(context)!;
     final isV6 = apiVersion == 'v6';
+    final isActive = context.select<AppConfigViewModel, bool>(
+      (vm) => vm.selectedTab == AppShell.statisticsIndex,
+    );
+    final doReset = isActive && _pendingTabReset;
+    if (doReset) _pendingTabReset = false;
 
     // Initialize TabController before building pages so TabVisibilityTicker
     // can reference _tabController! safely.
-    _ensureTabController(isV6 ? 4 : 3);
+    _ensureTabController(isV6 ? 4 : 3, resetToFirst: doReset);
 
     final tabs = <Tab>[
       Tab(

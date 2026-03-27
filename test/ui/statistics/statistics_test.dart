@@ -8,6 +8,7 @@ import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
+import 'package:pi_hole_client/ui/shell/app_shell.dart';
 import 'package:pi_hole_client/ui/statistics/widgets/statistics_list.dart';
 import 'package:pi_hole_client/ui/statistics/widgets/statistics_screen.dart';
 import 'package:pi_hole_client/ui/statistics/widgets/statistics_triple_column.dart';
@@ -112,6 +113,45 @@ void main() async {
       expect(find.text('DNS reply metrics'), findsOneWidget);
       expect(find.byType(PieChart), findsNWidgets(2));
     });
+
+    testWidgets(
+      'should reset to first tab without transition when returning to statistics',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        appConfigViewModel.setSelectedTab(AppShell.statisticsIndex);
+
+        await tester.pumpWidget(
+          buildTestApp(
+            const StatisticsScreen(),
+            appConfigViewModel: appConfigViewModel,
+            serversViewModel: serversViewModel,
+            statusViewModel: statusViewModel,
+            logsViewModel: logsViewModel,
+          ),
+        );
+        await tester.pump();
+
+        await tester.tap(find.text('Clients'));
+        await tester.pumpAndSettle();
+        expect(find.text('Top clients (total)'), findsOneWidget);
+
+        appConfigViewModel.setSelectedTab(AppShell.homeIndex);
+        await tester.pump();
+
+        appConfigViewModel.setSelectedTab(AppShell.statisticsIndex);
+        await tester.pump();
+
+        expect(find.text('Query types'), findsOneWidget);
+        expect(find.text('Top clients (total)'), findsNothing);
+      },
+    );
 
     testWidgets('should show loading screen', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
