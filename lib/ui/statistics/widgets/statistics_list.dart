@@ -32,7 +32,7 @@ class StatisticsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loadStatus = context.select<StatusViewModel, LoadStatus>(
-      (provider) => provider.getStatusLoading,
+      (vm) => vm.getStatusLoading,
     );
 
     return CustomTabContent(
@@ -101,17 +101,15 @@ class StatisticsListContent extends StatelessWidget {
     const topk = 10;
 
     final realtimeStatus = context.select<StatusViewModel, RealtimeStatus?>(
-      (p) => p.getRealtimeStatus,
+      (vm) => vm.getRealtimeStatus,
     );
-
     final totalClients = context.select<LogsViewModel, List<String>>(
-      (p) => p.totalClients,
+      (vm) => vm.totalClients,
     );
-
-    final visualizationMode = context
-        .select<AppConfigViewModel, StatisticsVisualizationMode>(
-          (p) => p.statisticsVisualizationMode,
-        );
+    final visualizationMode =
+        context.select<AppConfigViewModel, StatisticsVisualizationMode>(
+      (vm) => vm.statisticsVisualizationMode,
+    );
 
     final theme = Theme.of(context);
     final loc = AppLocalizations.of(context)!;
