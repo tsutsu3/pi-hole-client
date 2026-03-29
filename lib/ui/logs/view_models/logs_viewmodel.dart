@@ -821,6 +821,7 @@ class LogsViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
+    _stopLiveTimer();
     logsDisplayNotifier.dispose();
     super.dispose();
   }
