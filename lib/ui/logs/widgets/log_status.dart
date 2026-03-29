@@ -14,7 +14,10 @@ class LogStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final serverProvider = Provider.of<ServersViewModel>(context);
+    final serverProvider = Provider.of<ServersViewModel>(
+      context,
+      listen: false,
+    );
 
     Widget logStatusWidget({
       required IconData icon,
@@ -22,10 +25,10 @@ class LogStatus extends StatelessWidget {
       required String text,
     }) {
       return Row(
-        children: showIcon == true
+        children: showIcon
             ? [
                 Icon(icon, color: color, size: 14),
-                const Flexible(child: SizedBox(width: 10)),
+                const SizedBox(width: 10),
                 Text(
                   text,
                   style: TextStyle(

@@ -130,6 +130,7 @@ class LogsViewModel extends ChangeNotifier {
   /// Sets the selected query-status filter indices.
   void setStatusSelected(List<int> values) {
     _filters.setStatusSelected(values);
+    _recomputeLogsListDisplay();
     notifyListeners();
   }
 
@@ -148,6 +149,7 @@ class LogsViewModel extends ChangeNotifier {
   /// Resets all filters (status, time, clients, domain) to defaults.
   void resetFilters() {
     _filters.resetFilters();
+    _recomputeLogsListDisplay();
     notifyListeners();
   }
 
@@ -160,6 +162,7 @@ class LogsViewModel extends ChangeNotifier {
   /// Resets the status filter to its defaults.
   void resetStatus() {
     _filters.resetStatus();
+    _recomputeLogsListDisplay();
     notifyListeners();
   }
 
@@ -172,24 +175,28 @@ class LogsViewModel extends ChangeNotifier {
   /// Sets the client filter to the given subset.
   void setSelectedClients(List<String> selectedClients) {
     _filters.setSelectedClients(selectedClients);
+    _recomputeLogsListDisplay();
     notifyListeners();
   }
 
   /// Sets the domain filter (or `null` to clear).
   void setSelectedDomain(String? domain) {
     _filters.setSelectedDomain(domain);
+    _recomputeLogsListDisplay();
     notifyListeners();
   }
 
   /// Resets the client filter (deselects all).
   void resetClients() {
     _filters.resetClients();
+    _recomputeLogsListDisplay();
     notifyListeners();
   }
 
   /// Sets the request-status preset (allowed / blocked / all).
   void setRequestStatus(RequestStatus status) {
     _filters.setRequestStatus(status);
+    _recomputeLogsListDisplay();
     notifyListeners();
   }
 
@@ -256,6 +263,7 @@ class LogsViewModel extends ChangeNotifier {
   LiveLogsService? _liveLogsService;
 
   List<Log> _logsList = [];
+  final ValueNotifier<List<Log>> logsDisplayNotifier = ValueNotifier([]);
   final Set<String> _loadedLogKeys = {};
   LoadStatus _loadStatus = LoadStatus.loading;
   int _sortStatus = 0;
@@ -295,7 +303,12 @@ class LogsViewModel extends ChangeNotifier {
 
   /// Returns logs filtered by status, client, domain, and search text,
   /// then sorted by timestamp according to [sortStatus].
-  List<Log> get logsListDisplay {
+  ///
+  /// The result is pre-computed; call [_recomputeLogsListDisplay] whenever
+  /// [_logsList] or any filter/sort dependency changes.
+  List<Log> get logsListDisplay => logsDisplayNotifier.value;
+
+  void _recomputeLogsListDisplay() {
     var logs = [..._logsList];
 
     logs = logs.where((log) {
@@ -313,7 +326,7 @@ class LogsViewModel extends ChangeNotifier {
     logs.sort((a, b) => a.dateTime.compareTo(b.dateTime));
     if (_sortStatus == 0) logs = logs.reversed.toList();
 
-    return logs;
+    logsDisplayNotifier.value = logs;
   }
 
   /// Whether any non-default filter is active (shown as chips in the app bar).
@@ -612,6 +625,7 @@ class LogsViewModel extends ChangeNotifier {
     _loadedLogKeys
       ..clear()
       ..addAll(freshKeys);
+    _recomputeLogsListDisplay();
   }
 
   /// Triggered by the scroll listener to load the next page of logs.
@@ -664,6 +678,7 @@ class LogsViewModel extends ChangeNotifier {
 
   void _resetLogsCache() {
     _logsList = [];
+    logsDisplayNotifier.value = [];
     _loadedLogKeys.clear();
   }
 
@@ -676,7 +691,7 @@ class LogsViewModel extends ChangeNotifier {
     } else {
       _logsList = [..._logsList, ...uniqueLogs];
     }
-    notifyListeners();
+    _recomputeLogsListDisplay();
   }
 
   List<Log> _filterNewLogs(List<Log> logs) {
@@ -713,6 +728,7 @@ class LogsViewModel extends ChangeNotifier {
   /// Updates the URL search text used by [logsListDisplay].
   void setSearchText(String text) {
     _searchText = text;
+    _recomputeLogsListDisplay();
     notifyListeners();
   }
 
@@ -720,6 +736,7 @@ class LogsViewModel extends ChangeNotifier {
   void updateSortStatus(int value) {
     if (_sortStatus != value) {
       _sortStatus = value;
+      _recomputeLogsListDisplay();
       notifyListeners();
     }
   }
@@ -800,6 +817,13 @@ class LogsViewModel extends ChangeNotifier {
       _liveLogIntervalSeconds = null;
       _isLiveTickInProgress = false;
     }
+  }
+
+  @override
+  void dispose() {
+    _stopLiveTimer();
+    logsDisplayNotifier.dispose();
+    super.dispose();
   }
 
   Future<void> _handleLiveTick() async {

@@ -20,7 +20,7 @@ class DnsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusLoading = context.select<StatusViewModel, LoadStatus>(
-      (p) => p.getStatusLoading,
+      (vm) => vm.getStatusLoading,
     );
 
     return CustomTabContent(
@@ -76,11 +76,10 @@ class DnsTabContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dnsCache = context.select<StatusViewModel, DnsCache?>(
-      (p) => p.getDnsCache,
+      (vm) => vm.getDnsCache,
     );
-
     final dnsReplies = context.select<StatusViewModel, DnsReplies?>(
-      (p) => p.getDnsReplies,
+      (vm) => vm.getDnsReplies,
     );
 
     final loc = AppLocalizations.of(context)!;

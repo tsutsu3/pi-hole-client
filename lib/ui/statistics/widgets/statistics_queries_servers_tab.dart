@@ -26,7 +26,7 @@ class QueriesServersTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusLoading = context.select<StatusViewModel, LoadStatus>(
-      (p) => p.getStatusLoading,
+      (vm) => vm.getStatusLoading,
     );
 
     return CustomTabContent(
@@ -82,7 +82,7 @@ class QueriesServersTabContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final realtimeStatus = context.select<StatusViewModel, RealtimeStatus?>(
-      (provider) => provider.getRealtimeStatus,
+      (vm) => vm.getRealtimeStatus,
     );
 
     final width = MediaQuery.of(context).size.width;

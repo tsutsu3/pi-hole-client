@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 import 'package:pi_hole_client/build_info/git_commit.dart';
+import 'package:pi_hole_client/config/dependencies.dart';
 import 'package:pi_hole_client/data/mapper/local/app_config_mapper.dart';
 import 'package:pi_hole_client/data/mapper/v5/dns_mapper.dart';
 import 'package:pi_hole_client/data/mapper/v5/domain_mapper.dart';
@@ -559,6 +560,7 @@ import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v6_not_supported_sc
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
+import 'package:pi_hole_client/ui/core/ui/components/tab_visibility_ticker.dart';
 import 'package:pi_hole_client/ui/core/ui/components/unlock.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/color_helpers.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/formats.dart';

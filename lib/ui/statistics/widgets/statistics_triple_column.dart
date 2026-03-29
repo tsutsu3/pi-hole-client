@@ -15,9 +15,13 @@ class StatisticsTripleColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusViewModel = Provider.of<StatusViewModel>(context);
+    final statusLoading = context.select<StatusViewModel, LoadStatus>(
+      (vm) => vm.getStatusLoading,
+    );
     final apiVersion =
-        context.select((ServersViewModel p) => p.selectedServer?.apiVersion) ??
+        context.select<ServersViewModel, String?>(
+          (vm) => vm.selectedServer?.apiVersion,
+        ) ??
         'v5';
 
     final columns = <Widget>[
@@ -57,7 +61,7 @@ class StatisticsTripleColumn extends StatelessWidget {
     }
 
     Widget body;
-    switch (statusViewModel.getStatusLoading) {
+    switch (statusLoading) {
       case LoadStatus.loading:
         body = Center(
           child: Column(

@@ -459,12 +459,10 @@ class StatusViewModel with ChangeNotifier {
           );
           _realtimeStatus = status;
           _statusLoading = LoadStatus.loaded;
-          notifyListeners();
-
           if (_serverStatus != LoadStatus.loaded) {
             _serverStatus = LoadStatus.loaded;
-            notifyListeners();
           }
+          notifyListeners();
 
           // When blocking status changes during auto-refresh (e.g. a timed
           // disable expired while the app was in the foreground), notify the
@@ -478,18 +476,20 @@ class StatusViewModel with ChangeNotifier {
         },
         (error) {
           if (selectedUrlBefore == _selectedServerAddress) {
+            var changed = false;
             if (_serverStatus == LoadStatus.loaded) {
               logger.w(
                 'Server disconnected: $error. '
                 '$_selectedServerAlias ($_selectedServerAddress)',
               );
               _serverStatus = LoadStatus.error;
-              notifyListeners();
+              changed = true;
             }
             if (_statusLoading == LoadStatus.loading) {
               _statusLoading = LoadStatus.error;
-              notifyListeners();
+              changed = true;
             }
+            if (changed) notifyListeners();
           }
         },
       );
@@ -549,27 +549,27 @@ class StatusViewModel with ChangeNotifier {
         (overTime) {
           _overtimeData = overTime;
           _overtimeDataLoading = LoadStatus.loaded;
-          notifyListeners();
-
           if (_serverStatus != LoadStatus.loaded) {
             _serverStatus = LoadStatus.loaded;
-            notifyListeners();
           }
+          notifyListeners();
         },
         (error) {
           if (selectedUrlBefore == _selectedServerAddress) {
+            var changed = false;
             if (_serverStatus == LoadStatus.loaded) {
               logger.w(
                 'Server disconnected: $error. '
                 '$_selectedServerAlias ($_selectedServerAddress)',
               );
               _serverStatus = LoadStatus.error;
-              notifyListeners();
+              changed = true;
             }
             if (_overtimeDataLoading == LoadStatus.loading) {
               _overtimeDataLoading = LoadStatus.error;
-              notifyListeners();
+              changed = true;
             }
+            if (changed) notifyListeners();
           }
         },
       );
