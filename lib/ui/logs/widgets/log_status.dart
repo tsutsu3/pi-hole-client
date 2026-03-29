@@ -22,7 +22,7 @@ class LogStatus extends StatelessWidget {
       required String text,
     }) {
       return Row(
-        children: showIcon == true
+        children: showIcon
             ? [
                 Icon(icon, color: color, size: 14),
                 const SizedBox(width: 10),
