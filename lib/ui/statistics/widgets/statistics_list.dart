@@ -106,10 +106,10 @@ class StatisticsListContent extends StatelessWidget {
     final totalClients = context.select<LogsViewModel, List<String>>(
       (vm) => vm.totalClients,
     );
-    final visualizationMode =
-        context.select<AppConfigViewModel, StatisticsVisualizationMode>(
-      (vm) => vm.statisticsVisualizationMode,
-    );
+    final visualizationMode = context
+        .select<AppConfigViewModel, StatisticsVisualizationMode>(
+          (vm) => vm.statisticsVisualizationMode,
+        );
 
     final theme = Theme.of(context);
     final loc = AppLocalizations.of(context)!;

@@ -21,7 +21,8 @@ class StatisticsTripleColumn extends StatelessWidget {
     final apiVersion =
         context.select<ServersViewModel, String?>(
           (vm) => vm.selectedServer?.apiVersion,
-        ) ?? 'v5';
+        ) ??
+        'v5';
 
     final columns = <Widget>[
       _buildColumn(

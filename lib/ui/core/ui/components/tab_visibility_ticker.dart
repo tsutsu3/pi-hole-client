@@ -51,7 +51,8 @@ class TabVisibilityTicker extends StatelessWidget {
         final isActive = controller.index == index;
         // Keep both pages mounted during transition so the slide animation
         // doesn't show an empty departing page.
-        final isTransitioning = controller.indexIsChanging &&
+        final isTransitioning =
+            controller.indexIsChanging &&
             (controller.index == index || controller.previousIndex == index);
         return (isActive || isTransitioning) ? child : const SizedBox.shrink();
       },

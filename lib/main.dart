@@ -208,7 +208,6 @@ void setupWidgetChannel({
   });
 }
 
-
 void main() async {
   // 1. System init
   await initializeFlutter();

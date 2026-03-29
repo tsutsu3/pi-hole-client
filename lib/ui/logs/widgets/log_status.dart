@@ -14,7 +14,10 @@ class LogStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final serverProvider = Provider.of<ServersViewModel>(context, listen: false);
+    final serverProvider = Provider.of<ServersViewModel>(
+      context,
+      listen: false,
+    );
 
     Widget logStatusWidget({
       required IconData icon,

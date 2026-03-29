@@ -14,8 +14,7 @@ class AnimatedPercentIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final percent =
-        total == 0 ? 0.0 : (value / total).clamp(0.0, 1.0);
+    final percent = total == 0 ? 0.0 : (value / total).clamp(0.0, 1.0);
     return LinearPercentIndicator(
       animation: true,
       lineHeight: 10,

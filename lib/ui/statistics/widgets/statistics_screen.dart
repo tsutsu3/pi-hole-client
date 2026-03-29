@@ -60,10 +60,15 @@ class _StatisticsScreenState extends State<StatisticsScreen>
     if (_tabController != null && _lastTabLength == length && !resetToFirst) {
       return;
     }
-    final index =
-        resetToFirst ? 0 : (_tabController?.index ?? 0).clamp(0, length - 1);
+    final index = resetToFirst
+        ? 0
+        : (_tabController?.index ?? 0).clamp(0, length - 1);
     _tabController?.dispose();
-    _tabController = TabController(length: length, vsync: this, initialIndex: index);
+    _tabController = TabController(
+      length: length,
+      vsync: this,
+      initialIndex: index,
+    );
     _lastTabLength = length;
   }
 
