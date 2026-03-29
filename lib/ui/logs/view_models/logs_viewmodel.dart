@@ -533,6 +533,7 @@ class LogsViewModel extends ChangeNotifier {
     _stopLiveTimer();
     _loadStatus = LoadStatus.loading;
     _isFiltering = true;
+    _isLoadingMore = false;
     notifyListeners();
 
     final endTime = inEndTime ?? DateTime.now();
@@ -542,14 +543,10 @@ class LogsViewModel extends ChangeNotifier {
       _enableNextWindow = false;
       _paginationService!.reset(startTime, endTime);
       _resetLogsCache();
-      _isLoadingMore = true;
-      notifyListeners();
 
       final newLogs = await _paginationService!.loadNextPage();
       logger.d('Loaded ${newLogs.length} logs from $startTime to $endTime');
 
-      _isLoadingMore = false;
-      notifyListeners();
       _addLogs(newLogs);
     }
 
