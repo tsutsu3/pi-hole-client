@@ -152,8 +152,6 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
     final statusBarHeight = MediaQuery.of(context).viewPadding.top;
     final bottomNavBarHeight = MediaQuery.of(context).viewPadding.bottom;
 
-    final logsListDisplay = logsViewModel.logsListDisplay;
-
     void showLogDetails(Log log) {
       logsViewModel.setSelectedLog(log);
       if (width <= ResponsiveConstants.large) {
@@ -251,14 +249,11 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
           hasActiveChips: logsViewModel.hasActiveChips,
         ),
         body: SafeArea(
-          child: RefreshIndicator(
-            onRefresh: () async {
-              if (logsViewModel.isFiltering) return;
-              await logsViewModel.initializeLoad();
-            },
-            child: LogsContentView(
+          child: ValueListenableBuilder<List<Log>>(
+            valueListenable: logsViewModel.logsDisplayNotifier,
+            builder: (context, logs, _) => LogsContentView(
               loadStatus: logsViewModel.loadStatus,
-              logs: logsListDisplay,
+              logs: logs,
               isLoadingMore: logsViewModel.isLoadingMore,
               // Hide LinearProgressIndicator while the user is actively
               // pull-to-refreshing — the circular RefreshIndicator spinner

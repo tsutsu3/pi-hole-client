@@ -18,7 +18,48 @@ class LogTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
+    final theme = Theme.of(context);
+    final isLarge =
+        MediaQuery.of(context).size.width > ResponsiveConstants.large;
+
+    final innerContent = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (log.status != null)
+                LogStatus(status: log.status!, showIcon: true),
+              const SizedBox(height: 10),
+              Text(
+                log.url,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                log.device,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: theme.listTileTheme.textColor,
+                  fontSize: 14,
+                  height: 1.4,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (isLarge) const SizedBox(width: 16),
+        Text(formatTimestamp(log.dateTime, 'HH:mm:ss')),
+      ],
+    );
+
+    if (isLarge) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Material(
@@ -35,103 +76,26 @@ class LogTile extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(28),
                 color: isLogSelected == true
-                    ? Theme.of(context).colorScheme.primaryContainer
+                    ? theme.colorScheme.primaryContainer
                     : null,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (log.status != null)
-                          LogStatus(status: log.status!, showIcon: true),
-                        const SizedBox(height: 10),
-                        SizedBox(
-                          child: Text(
-                            log.url,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        SizedBox(
-                          child: Text(
-                            log.device,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Theme.of(context).listTileTheme.textColor,
-                              fontSize: 14,
-                              height: 1.4,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Text(formatTimestamp(log.dateTime, 'HH:mm:ss')),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-    } else {
-      return Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () => showLogDetails(log),
-          child: Container(
-            width: double.maxFinite,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (log.status != null)
-                        LogStatus(status: log.status!, showIcon: true),
-                      const SizedBox(height: 10),
-                      SizedBox(
-                        child: Text(
-                          log.url,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      SizedBox(
-                        child: Text(
-                          log.device,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Theme.of(context).listTileTheme.textColor,
-                            fontSize: 14,
-                            height: 1.4,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Text(formatTimestamp(log.dateTime, 'HH:mm:ss')),
-              ],
+              child: innerContent,
             ),
           ),
         ),
       );
     }
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => showLogDetails(log),
+        child: Container(
+          width: double.maxFinite,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: innerContent,
+        ),
+      ),
+    );
   }
 }
