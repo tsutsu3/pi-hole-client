@@ -174,6 +174,7 @@ class AppConfigViewModel with ChangeNotifier {
   }
 
   void setShowingSnackbar(bool status) {
+    if (_showingSnackbar == status) return;
     _showingSnackbar = status;
     notifyListeners();
   }
@@ -181,11 +182,13 @@ class AppConfigViewModel with ChangeNotifier {
   bool get detailScreenOpen => _detailScreenOpen;
 
   void setDetailScreenOpen(bool value) {
+    if (_detailScreenOpen == value) return;
     _detailScreenOpen = value;
     notifyListeners();
   }
 
   void setSelectedTab(int selectedTab) {
+    if (_selectedTab == selectedTab) return;
     _selectedTab = selectedTab;
     notifyListeners();
   }
@@ -206,11 +209,13 @@ class AppConfigViewModel with ChangeNotifier {
   }
 
   void setBiometricsSupport(bool isSupported) {
+    if (_biometricsSupport == isSupported) return;
     _biometricsSupport = isSupported;
     notifyListeners();
   }
 
   void setAppUnlocked(bool status) {
+    if (_appUnlocked == status) return;
     _appUnlocked = status;
     notifyListeners();
   }

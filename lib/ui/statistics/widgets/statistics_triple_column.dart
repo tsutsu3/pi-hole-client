@@ -10,8 +10,21 @@ import 'package:pi_hole_client/ui/statistics/widgets/statistics_list.dart';
 import 'package:pi_hole_client/ui/statistics/widgets/statistics_queries_servers_tab.dart';
 import 'package:provider/provider.dart';
 
-class StatisticsTripleColumn extends StatelessWidget {
+class StatisticsTripleColumn extends StatefulWidget {
   const StatisticsTripleColumn({super.key});
+
+  @override
+  State<StatisticsTripleColumn> createState() => _StatisticsTripleColumnState();
+}
+
+class _StatisticsTripleColumnState extends State<StatisticsTripleColumn> {
+  final PageController _controller = PageController(viewportFraction: 1 / 3);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +94,6 @@ class StatisticsTripleColumn extends StatelessWidget {
         );
 
       case LoadStatus.loaded:
-        final controller = PageController(viewportFraction: 1 / 3);
         body = Stack(
           children: [
             ScrollConfiguration(
@@ -93,7 +105,7 @@ class StatisticsTripleColumn extends StatelessWidget {
                   horizontal: apiVersion == 'v6' ? 32 : 0,
                 ),
                 child: PageView.builder(
-                  controller: controller,
+                  controller: _controller,
                   physics: const PageScrollPhysics(),
                   padEnds: false,
                   itemCount: columns.length,
