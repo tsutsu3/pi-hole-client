@@ -36,30 +36,30 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.9
   provider: ^6.1.5
   sqflite: ^2.2.5
   http: ^1.5.0
   expandable: ^5.0.1
-  package_info_plus: ^9.0.0
+  package_info_plus: ^9.0.1
   flutter_phoenix: ^1.0.0
   intl: ^0.20.2
   html: ^0.15.6
   pie_chart: ^5.3.2
-  flutter_svg: ^2.2.0
-  fl_chart: ^1.1.1
-  animations: ^2.1.0
+  flutter_svg: ^2.2.4
+  fl_chart: ^1.2.0
+  animations: ^2.1.2
   permission_handler: ^12.0.1
   dynamic_color: ^1.6.5
-  device_info_plus: ^12.2.0
+  device_info_plus: ^12.4.0
   vibration: ^3.1.8
   url_launcher: ^6.2.4
   percent_indicator: ^4.2.5
   flutter_app_lock: ^4.3.0
   sqlite3_flutter_libs: ^0.6.0+eol
-  sqlite3: ^3.1.6 # Versions above 3 cause a "Couldn't resolve native function 'sqlite3_initialize'" error on Windows.
+  sqlite3: ^3.2.0 # Versions above 3 cause a "Couldn't resolve native function 'sqlite3_initialize'" error on Windows.
   sqflite_common_ffi: ^2.3.7+1
-  sentry_flutter: ^9.14.0
+  sentry_flutter: ^9.16.0
   flutter_dotenv: ^6.0.0
   contextmenu: ^3.0.0
   window_size:
@@ -69,7 +69,7 @@ dependencies:
   local_auth: ^3.0.1
   flutter_custom_tabs: ^2.5.0
   mobile_scanner: ^7.2.0
-  logger: ^2.6.2
+  logger: ^2.7.0
   freezed_annotation: ^3.0.0
   json_annotation: ^4.11.0
   flutter_secure_storage: ^10.0.0
@@ -78,7 +78,7 @@ dependencies:
   skeletonizer: ^2.1.3
   loading_animation_widget: ^1.3.0
   command_it: ^9.5.1
-  result_dart: ^2.1.1
+  result_dart: ^2.2.0
   crypto: ^3.0.3
   # OpenAPI generated v6 API client
   pihole_v6_api:
@@ -95,7 +95,7 @@ dev_dependencies:
     sdk: flutter
   flutter_launcher_icons: ^0.14.3
   flutter_native_splash: ^2.4.7
-  build_runner: ^2.12.1
+  build_runner: ^2.13.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -104,8 +104,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   freezed: ^3.2.5
-  json_serializable: ^6.9.5
-  mockito: ^5.6.3
+  json_serializable: ^6.13.1
+  mockito: ^5.6.4
   full_coverage: ^1.0.0
   flutter_svg_test: ^1.0.3
   pub_version_plus: ^3.1.3
