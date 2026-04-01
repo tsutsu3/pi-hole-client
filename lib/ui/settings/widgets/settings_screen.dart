@@ -30,7 +30,12 @@ class SettingsScreen extends StatelessWidget {
     final serverStatus = context.select<StatusViewModel, LoadStatus>(
       (p) => p.getServerStatus,
     );
-    final appConfigViewModel = context.watch<AppConfigViewModel>();
+    final appThemeMode = context.select<AppConfigViewModel, AppThemeMode>(
+      (vm) => vm.appThemeMode,
+    );
+    final selectedLanguage = context.select<AppConfigViewModel, String>(
+      (vm) => vm.selectedLanguage,
+    );
     final width = MediaQuery.of(context).size.width;
 
     /// Navigate to a settings sub-route.
@@ -49,7 +54,7 @@ class SettingsScreen extends StatelessWidget {
     }
 
     String getThemeString() {
-      switch (appConfigViewModel.appThemeMode) {
+      switch (appThemeMode) {
         case AppThemeMode.system:
           return AppLocalizations.of(context)!.systemTheme;
         case AppThemeMode.light:
@@ -61,7 +66,7 @@ class SettingsScreen extends StatelessWidget {
 
     String getLanguageString() {
       final selectedLanguageOption = languageOptions.firstWhere(
-        (option) => option.key == appConfigViewModel.selectedLanguage,
+        (option) => option.key == selectedLanguage,
         orElse: () =>
             languageOptions.firstWhere((option) => option.key == 'en'),
       );

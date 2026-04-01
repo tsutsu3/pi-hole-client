@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/group_filter_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
@@ -82,8 +83,17 @@ class _DomainsScreenState extends State<DomainsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<DomainsViewModel>(context);
-    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
+    final selectedDomain = context.select<DomainsViewModel, Domain?>(
+      (vm) => vm.selectedDomain,
+    );
+    final groupFilter = context.select<DomainsViewModel, int?>(
+      (vm) => vm.groupFilter,
+    );
+    final colors = context.select<AppConfigViewModel, AppColors>(
+      (vm) => vm.colors,
+    );
+    final viewModel = context.read<DomainsViewModel>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
     final groups = context.watch<GroupsViewModel>().groupItems;
 
     Widget buildScaffold() {
@@ -120,13 +130,13 @@ class _DomainsScreenState extends State<DomainsScreen>
             type: 'whitelist',
             scrollController: scrollController,
             onDomainSelected: viewModel.setSelectedDomain,
-            selectedDomain: viewModel.selectedDomain,
+            selectedDomain: selectedDomain,
           ),
           DomainsList(
             type: 'blacklist',
             scrollController: scrollController,
             onDomainSelected: viewModel.setSelectedDomain,
-            selectedDomain: viewModel.selectedDomain,
+            selectedDomain: selectedDomain,
           ),
         ],
         onSearchClose: () => setState(() {
@@ -134,10 +144,10 @@ class _DomainsScreenState extends State<DomainsScreen>
           searchController.text = '';
           viewModel.onSearch('');
         }),
-        groupChip: viewModel.groupFilter != null
+        groupChip: groupFilter != null
             ? Chip(
                 label: Text(
-                  '${AppLocalizations.of(context)!.groups}: ${groups[viewModel.groupFilter] ?? ''}',
+                  '${AppLocalizations.of(context)!.groups}: ${groups[groupFilter] ?? ''}',
                 ),
                 deleteIcon: const Icon(Icons.close, size: 18),
                 onDeleted: viewModel.clearGroupFilter,
@@ -148,7 +158,7 @@ class _DomainsScreenState extends State<DomainsScreen>
             onPressed: () => showGroupFilterModal(
               context: context,
               groups: groups,
-              selectedGroupId: viewModel.groupFilter,
+              selectedGroupId: groupFilter,
               onApply: viewModel.setGroupFilter,
             ),
             icon: const Icon(Icons.filter_list_rounded),
@@ -168,9 +178,9 @@ class _DomainsScreenState extends State<DomainsScreen>
           ),
           Expanded(
             flex: 3,
-            child: viewModel.selectedDomain != null
+            child: selectedDomain != null
                 ? DomainDetailsScreen(
-                    domain: viewModel.selectedDomain!,
+                    domain: selectedDomain,
                     remove: (Domain domain) {
                       viewModel.setSelectedDomain(null);
                       deleteDomain(
@@ -181,7 +191,7 @@ class _DomainsScreenState extends State<DomainsScreen>
                       );
                     },
                     groups: groups,
-                    colors: appConfigViewModel.colors,
+                    colors: colors,
                   )
                 : SizedBox(
                     child: SafeArea(

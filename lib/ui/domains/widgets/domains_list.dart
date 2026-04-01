@@ -6,6 +6,7 @@ import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
@@ -70,7 +71,13 @@ class _DomainsListState extends State<DomainsList> {
   @override
   Widget build(BuildContext context) {
     final viewModel = Provider.of<DomainsViewModel>(context);
-    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
+    final showingSnackbar = context.select<AppConfigViewModel, bool>(
+      (vm) => vm.showingSnackbar,
+    );
+    final colors = context.select<AppConfigViewModel, AppColors>(
+      (vm) => vm.colors,
+    );
+    final appConfigViewModel = context.read<AppConfigViewModel>();
     final groups = context.watch<GroupsViewModel>().groupItems;
 
     final domainsList = widget.type == 'blacklist'
@@ -218,7 +225,7 @@ class _DomainsListState extends State<DomainsList> {
                             domain: d,
                             remove: removeDomain,
                             groups: groups,
-                            colors: appConfigViewModel.colors,
+                            colors: colors,
                             viewModel: viewModel,
                           ),
                         )
@@ -227,7 +234,7 @@ class _DomainsListState extends State<DomainsList> {
                         });
                   }
                 },
-                colors: appConfigViewModel.colors,
+                colors: colors,
               ),
             );
           },
@@ -275,7 +282,7 @@ class _DomainsListState extends State<DomainsList> {
                 duration: const Duration(milliseconds: 100),
                 curve: Curves.easeInOut,
                 bottom: isVisible
-                    ? appConfigViewModel.showingSnackbar
+                    ? showingSnackbar
                           ? 70
                           : 20
                     : -70,

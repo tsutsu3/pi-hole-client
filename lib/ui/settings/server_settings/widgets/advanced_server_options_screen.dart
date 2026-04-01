@@ -86,8 +86,10 @@ class _AdvancedServerOptionsScreenState
 
   @override
   Widget build(BuildContext context) {
-    final appConfigViewModel = context.watch<AppConfigViewModel>();
-    final serversViewModel = context.watch<ServersViewModel>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
+    final isV5 = context.select<ServersViewModel, bool>(
+      (vm) => vm.selectedServer?.apiVersion == 'v5',
+    );
     final bundle = context.watch<RepositoryBundle?>();
     final theme = Theme.of(context).extension<AppColors>()!;
 
@@ -100,7 +102,7 @@ class _AdvancedServerOptionsScreenState
       );
     }
 
-    if (serversViewModel.selectedServer?.apiVersion == 'v5') {
+    if (isV5) {
       return Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.advancedSetup),

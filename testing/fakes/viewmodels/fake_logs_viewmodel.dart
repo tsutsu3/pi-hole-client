@@ -132,11 +132,15 @@ class FakeLogsViewModel extends LogsViewModel {
 
   set logsList(List<Log> value) {
     _logsList = value;
+    if (_logsListDisplay == null) {
+      logsDisplayNotifier.value = value;
+    }
     notifyListeners();
   }
 
   set logsListDisplay(List<Log>? value) {
     _logsListDisplay = value;
+    logsDisplayNotifier.value = value ?? _logsList;
     notifyListeners();
   }
 
