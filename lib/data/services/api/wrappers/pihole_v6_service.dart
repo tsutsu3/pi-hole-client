@@ -529,7 +529,7 @@ class PiholeV6Service {
 
   Future<Result<ActionRestartdns200Response>> actionFlushArp() {
     return safeDioCall(() async {
-      // ignore: deprecated_member_use_from_same_package
+      // ignore: deprecated_member_use
       final response = await _actionsApi.actionFlusharp();
       return response.requireData;
     });

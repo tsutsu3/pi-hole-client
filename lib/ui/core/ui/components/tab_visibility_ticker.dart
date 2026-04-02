@@ -43,7 +43,7 @@ class TabVisibilityTicker extends StatelessWidget {
   Widget build(BuildContext context) {
     // Register a dependency on the branch-level TickerMode so this widget
     // rebuilds when StatefulShellRoute deactivates the statistics branch.
-    final branchActive = TickerMode.of(context);
+    final branchActive = TickerMode.valuesOf(context).enabled;
     return ListenableBuilder(
       listenable: controller,
       builder: (context, _) {

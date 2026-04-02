@@ -1107,7 +1107,7 @@ class PiholeV6ApiClient {
     bool? isDetailed,
   }) async {
     return safeApiCall<Config>(() async {
-      final pathString = _buildPathString([if (element != null) element]);
+      final pathString = _buildPathString([?element]);
       final queryString = _buildQueryString({
         if (isDetailed != null) 'detailed': isDetailed.toString(),
       });
@@ -1247,7 +1247,7 @@ class PiholeV6ApiClient {
 
     final headers = <String, String>{
       'Content-Type': 'application/json',
-      if (sid != null) 'X-FTL-SID': sid,
+      'X-FTL-SID': ?sid,
     };
 
     final encodedBody = body != null ? jsonEncode(body) : null;
@@ -1288,7 +1288,7 @@ class PiholeV6ApiClient {
     final uri = Uri.parse(_url).resolve(path);
     final headers = <String, String>{
       'Content-Type': 'application/json',
-      if (sid != null) 'X-FTL-SID': sid,
+      'X-FTL-SID': ?sid,
     };
 
     final request = http.Request(method.toUpperCase(), uri)
