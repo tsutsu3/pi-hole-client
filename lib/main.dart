@@ -195,6 +195,9 @@ void setupWidgetChannel({
     }
     if (target == null) return;
 
+    // Reset to loading before navigating — prevents stale error state (yellow
+    // icon) from showing while reconnecting after any connection failure.
+    statusViewModel.setServerStatus(LoadStatus.loading);
     serversViewModel.setselectedServer(server: target, toHomeTab: true);
     final bundle = RepositoryBundleFactory.create(
       server: target,
