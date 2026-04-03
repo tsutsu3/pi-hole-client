@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // Unmount content when this branch is inactive so that Provider select
     // subscriptions in HomeTiles and HomeCharts are disposed and do not
     // rebuild on every 5-second timer tick while the user is on another screen.
-    if (!TickerMode.of(context)) return const SizedBox.shrink();
+    if (!TickerMode.valuesOf(context).enabled) return const SizedBox.shrink();
     return ListenableBuilder(
       listenable: widget.serversViewModel,
       builder: (context, _) => _buildContent(context),
