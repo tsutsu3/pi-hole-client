@@ -13,8 +13,13 @@ import 'package:flutter/material.dart';
 /// via [ScrollController] passed from the parent.
 ///
 /// During tab-switch animations both the departing and arriving pages are kept
-/// mounted (via [TabController.indexIsChanging]) to avoid the slide-out content
-/// disappearing mid-animation.
+/// mounted. Two conditions are combined to handle all transition types:
+///
+/// - **Gesture swipe**: [TabController.animation] updates every frame while the
+///   user drags, so `animation.value` is used to detect adjacent tabs in view.
+/// - **Programmatic non-adjacent jump** (e.g. tab 0 → tab 2): the animation
+///   value starts far from the destination, so [TabController.indexIsChanging]
+///   is additionally checked to mount both endpoints immediately.
 ///
 /// Wrap each page of a `TabBarView` with this widget:
 ///
@@ -44,17 +49,21 @@ class TabVisibilityTicker extends StatelessWidget {
     // Register a dependency on the branch-level TickerMode so this widget
     // rebuilds when StatefulShellRoute deactivates the statistics branch.
     final branchActive = TickerMode.valuesOf(context).enabled;
+    if (!branchActive) return const SizedBox.shrink();
     return ListenableBuilder(
-      listenable: controller,
+      listenable: Listenable.merge([controller.animation, controller]),
       builder: (context, _) {
-        if (!branchActive) return const SizedBox.shrink();
-        final isActive = controller.index == index;
-        // Keep both pages mounted during transition so the slide animation
-        // doesn't show an empty departing page.
-        final isTransitioning =
+        // Gesture swipe: animation.value moves continuously, so mount any tab
+        // within 1 unit of the current value (i.e. the two adjacent tabs).
+        final inSwipeRange =
+            (controller.animation!.value - index).abs() < 1.0;
+        // Programmatic non-adjacent jump: indexIsChanging is true and both
+        // the departure and destination tabs must be mounted immediately,
+        // even when the animation value is still far from the destination.
+        final isEndpoint =
             controller.indexIsChanging &&
             (controller.index == index || controller.previousIndex == index);
-        return (isActive || isTransitioning) ? child : const SizedBox.shrink();
+        return (inSwipeRange || isEndpoint) ? child : const SizedBox.shrink();
       },
     );
   }
