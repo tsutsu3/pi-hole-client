@@ -12,9 +12,10 @@ import 'package:flutter/material.dart';
 /// Provider subscriptions are cleared. Scroll position is preserved externally
 /// via [ScrollController] passed from the parent.
 ///
-/// During tab-switch animations both the departing and arriving pages are kept
-/// mounted (via [TabController.indexIsChanging]) to avoid the slide-out content
-/// disappearing mid-animation.
+/// During tab-switch animations (both gesture swipes and programmatic
+/// [TabController.animateTo] taps) both the departing and arriving pages are
+/// kept mounted by listening to [TabController.animation], which updates on
+/// every frame regardless of how the transition was initiated.
 ///
 /// Wrap each page of a `TabBarView` with this widget:
 ///
@@ -44,17 +45,15 @@ class TabVisibilityTicker extends StatelessWidget {
     // Register a dependency on the branch-level TickerMode so this widget
     // rebuilds when StatefulShellRoute deactivates the statistics branch.
     final branchActive = TickerMode.valuesOf(context).enabled;
-    return ListenableBuilder(
-      listenable: controller,
+    if (!branchActive) return const SizedBox.shrink();
+    return AnimatedBuilder(
+      animation: controller.animation!,
       builder: (context, _) {
-        if (!branchActive) return const SizedBox.shrink();
-        final isActive = controller.index == index;
-        // Keep both pages mounted during transition so the slide animation
-        // doesn't show an empty departing page.
-        final isTransitioning =
-            controller.indexIsChanging &&
-            (controller.index == index || controller.previousIndex == index);
-        return (isActive || isTransitioning) ? child : const SizedBox.shrink();
+        // A tab is visible when the animation is within 1 unit of this index.
+        // This covers the active tab at rest and either participant during a
+        // gesture swipe or animated transition.
+        final isVisible = (controller.animation!.value - index).abs() < 1.0;
+        return isVisible ? child : const SizedBox.shrink();
       },
     );
   }
