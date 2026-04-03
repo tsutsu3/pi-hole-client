@@ -12,10 +12,14 @@ import 'package:flutter/material.dart';
 /// Provider subscriptions are cleared. Scroll position is preserved externally
 /// via [ScrollController] passed from the parent.
 ///
-/// During tab-switch animations (both gesture swipes and programmatic
-/// [TabController.animateTo] taps) both the departing and arriving pages are
-/// kept mounted by listening to [TabController.animation], which updates on
-/// every frame regardless of how the transition was initiated.
+/// During tab-switch animations both the departing and arriving pages are kept
+/// mounted. Two conditions are combined to handle all transition types:
+///
+/// - **Gesture swipe**: [TabController.animation] updates every frame while the
+///   user drags, so `animation.value` is used to detect adjacent tabs in view.
+/// - **Programmatic non-adjacent jump** (e.g. tab 0 → tab 2): the animation
+///   value starts far from the destination, so [TabController.indexIsChanging]
+///   is additionally checked to mount both endpoints immediately.
 ///
 /// Wrap each page of a `TabBarView` with this widget:
 ///
@@ -46,14 +50,20 @@ class TabVisibilityTicker extends StatelessWidget {
     // rebuilds when StatefulShellRoute deactivates the statistics branch.
     final branchActive = TickerMode.valuesOf(context).enabled;
     if (!branchActive) return const SizedBox.shrink();
-    return AnimatedBuilder(
-      animation: controller.animation!,
+    return ListenableBuilder(
+      listenable: Listenable.merge([controller.animation, controller]),
       builder: (context, _) {
-        // A tab is visible when the animation is within 1 unit of this index.
-        // This covers the active tab at rest and either participant during a
-        // gesture swipe or animated transition.
-        final isVisible = (controller.animation!.value - index).abs() < 1.0;
-        return isVisible ? child : const SizedBox.shrink();
+        // Gesture swipe: animation.value moves continuously, so mount any tab
+        // within 1 unit of the current value (i.e. the two adjacent tabs).
+        final inSwipeRange =
+            (controller.animation!.value - index).abs() < 1.0;
+        // Programmatic non-adjacent jump: indexIsChanging is true and both
+        // the departure and destination tabs must be mounted immediately,
+        // even when the animation value is still far from the destination.
+        final isEndpoint =
+            controller.indexIsChanging &&
+            (controller.index == index || controller.previousIndex == index);
+        return (inSwipeRange || isEndpoint) ? child : const SizedBox.shrink();
       },
     );
   }
