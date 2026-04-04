@@ -182,11 +182,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get allowSelfSignedCertificates =>
-      'Permitir certificados autofirmados';
+      'Permitir certificados no confiables';
 
   @override
   String get allowSelfSignedCertificatesDescription =>
-      'Allows self-signed certificates without CA verification.';
+      'Permite conexiones a servidores con certificados no confiables para este dispositivo, incluidos certificados autofirmados y los que tienen cadenas de certificados incompletas (p. ej., CA intermedia faltante).';
 
   @override
   String get tlsCertSubject => 'Sujeto';
@@ -729,7 +729,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dontCheckCertificateDescription =>
-      'Accepts all SSL certificates without validation (not recommended).';
+      'Acepta todos los certificados SSL sin validación (no recomendado).';
 
   @override
   String get edit => 'Editar';
@@ -1079,6 +1079,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get leaseInfo => 'Información de arrendamiento';
+
+  @override
+  String get learnMoreAboutCertificates =>
+      'Más información sobre la configuración de certificados';
 
   @override
   String get legal => 'Legal';
@@ -1718,7 +1722,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get sslErrorLong =>
-      'Error de SSL. Comprueba si el certificado del servidor es válido.';
+      'Error de SSL. El certificado del servidor puede ser inválido, autofirmado o tener una cadena de certificados incompleta.';
 
   @override
   String get sslErrorShort => 'Error de SSL.';

@@ -177,11 +177,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get allowList => '許可リスト';
 
   @override
-  String get allowSelfSignedCertificates => '自己署名証明書を許可する';
+  String get allowSelfSignedCertificates => '信頼されていない証明書を許可する';
 
   @override
   String get allowSelfSignedCertificatesDescription =>
-      '認証局による署名は確認せず、自己署名証明書でも接続を許可します。';
+      '自己署名証明書や不完全な証明書チェーン（中間CA欠落など）を含む、このデバイスが信頼していない証明書でのサーバー接続を許可します。';
 
   @override
   String get tlsCertSubject => 'サブジェクト';
@@ -1033,6 +1033,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get leaseInfo => 'リース情報';
 
   @override
+  String get learnMoreAboutCertificates => '証明書設定について詳しく';
+
+  @override
   String get legal => '法的情報';
 
   @override
@@ -1646,7 +1649,7 @@ class AppLocalizationsJa extends AppLocalizations {
       'チャートデータの読み込み中にアニメーションのプレースホルダーを表示します。';
 
   @override
-  String get sslErrorLong => 'SSLエラー。サーバーの証明書が有効か確認してください。';
+  String get sslErrorLong => 'SSLエラー。サーバーの証明書が無効、自己署名、または証明書チェーンが不完全な可能性があります。';
 
   @override
   String get sslErrorShort => 'SSLエラー。';

@@ -941,10 +941,28 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                                 }
                               })
                             : null,
-                        title: Text(
-                          AppLocalizations.of(
-                            context,
-                          )!.allowSelfSignedCertificates,
+                        title: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                AppLocalizations.of(
+                                  context,
+                                )!.allowSelfSignedCertificates,
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.help_outline_rounded),
+                              onPressed: () => openUrl(Urls.certConfigGuide),
+                              tooltip: AppLocalizations.of(
+                                context,
+                              )!.learnMoreAboutCertificates,
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(
+                                minWidth: 40,
+                                minHeight: 40,
+                              ),
+                            ),
+                          ],
                         ),
                         subtitle: Text(
                           AppLocalizations.of(

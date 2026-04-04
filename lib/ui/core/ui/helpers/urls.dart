@@ -21,5 +21,8 @@ class Urls {
   static const String certConfig =
       '${appWebSite}docs/guides/cert-config/#after-app-update-backward-compatibility';
 
+  static const String certConfigGuide =
+      '${appWebSite}docs/guides/cert-config/#ssl-error-with-a-valid-lets-encrypt-certificate-incomplete-chain';
+
   static const String googleSearch = 'https://www.google.com/search?q=';
 }

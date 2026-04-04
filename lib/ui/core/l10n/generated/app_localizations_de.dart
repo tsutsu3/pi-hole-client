@@ -183,11 +183,11 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get allowSelfSignedCertificates =>
-      'Selbstsignierte Zertifikate zulassen';
+      'Nicht vertrauenswürdige Zertifikate zulassen';
 
   @override
   String get allowSelfSignedCertificatesDescription =>
-      'Allows self-signed certificates without CA verification.';
+      'Erlaubt Verbindungen zu Servern mit Zertifikaten, denen das Gerät nicht vertraut, einschließlich selbstsignierter Zertifikate und solcher mit unvollständigen Zertifikatsketten (z. B. fehlende Zwischen-CA).';
 
   @override
   String get tlsCertSubject => 'Betreff';
@@ -733,7 +733,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dontCheckCertificateDescription =>
-      'Accepts all SSL certificates without validation (not recommended).';
+      'Akzeptiert alle SSL-Zertifikate ohne Überprüfung (nicht empfohlen).';
 
   @override
   String get edit => 'Bearbeiten';
@@ -1081,6 +1081,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get leaseInfo => 'Lease-Informationen';
+
+  @override
+  String get learnMoreAboutCertificates =>
+      'Mehr über Zertifikateinstellungen erfahren';
 
   @override
   String get legal => 'Rechtliches';
@@ -1724,7 +1728,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get sslErrorLong =>
-      'SSL Fehler. Überprüfen Sie die Gültigkeit des Zertifikats.';
+      'SSL Fehler. Das Zertifikat des Servers könnte ungültig, selbstsigniert oder die Zertifikatskette unvollständig sein.';
 
   @override
   String get sslErrorShort => 'SSL Fehler.';

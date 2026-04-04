@@ -443,13 +443,13 @@ abstract class AppLocalizations {
   /// No description provided for @allowSelfSignedCertificates.
   ///
   /// In en, this message translates to:
-  /// **'Allow self-signed certificates'**
+  /// **'Allow untrusted certificates'**
   String get allowSelfSignedCertificates;
 
   /// No description provided for @allowSelfSignedCertificatesDescription.
   ///
   /// In en, this message translates to:
-  /// **'Allows self-signed certificates without CA verification.'**
+  /// **'Allows connections using certificates not trusted by this device, including self-signed certificates and those with incomplete chains (e.g., missing intermediate CA).'**
   String get allowSelfSignedCertificatesDescription;
 
   /// No description provided for @tlsCertSubject.
@@ -2126,6 +2126,12 @@ abstract class AppLocalizations {
   /// **'Lease Information'**
   String get leaseInfo;
 
+  /// No description provided for @learnMoreAboutCertificates.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn more about certificate settings'**
+  String get learnMoreAboutCertificates;
+
   /// No description provided for @legal.
   ///
   /// In en, this message translates to:
@@ -3341,7 +3347,7 @@ abstract class AppLocalizations {
   /// No description provided for @sslErrorLong.
   ///
   /// In en, this message translates to:
-  /// **'SSL error. Check if the server\'s certificate is valid.'**
+  /// **'SSL error. The server\'s certificate may be invalid, self-signed, or have an incomplete chain.'**
   String get sslErrorLong;
 
   /// No description provided for @sslErrorShort.
