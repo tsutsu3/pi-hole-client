@@ -50,11 +50,36 @@ We're working to improve the reliability across all environments.
 
 ---
 
-## ❓ Q2. "Connection failed" with self-signed certificate
+## ❓ Q2. SSL error with a valid Let's Encrypt certificate
 
 ### 💡 Answer
 
-1. Check if **"Allow self-signed certificates"** is enabled in server settings
+If the certificate works fine in a browser but the app shows an SSL error, the cause is likely an **incomplete certificate chain**.
+
+Unlike browsers, Flutter's HTTP client requires the server to provide the **full certificate chain**. This happens when the server is configured with `cert.pem` instead of `fullchain.pem`.
+
+Pi-hole requires a single combined PEM file containing both the certificate and the private key.
+The fix is to use `fullchain.pem` (not `cert.pem`) when creating this file.
+
+**Pi-hole v6:**
+
+```bash
+cat /etc/letsencrypt/live/yourdomain.com/fullchain.pem \
+    /etc/letsencrypt/live/yourdomain.com/privkey.pem \
+    > /etc/pihole/tls.pem
+```
+
+If you cannot fix the server immediately, enable **"Allow untrusted certificates"** in server settings as a temporary workaround.
+
+For full instructions, see [SSL Error with a Valid Let's Encrypt Certificate](../../guides/cert-config#ssl-error-with-a-valid-lets-encrypt-certificate-incomplete-chain).
+
+---
+
+## ❓ Q3. "Connection failed" with self-signed certificate
+
+### 💡 Answer
+
+1. Check if **"Allow untrusted certificates"** is enabled in server settings
 2. If using Docker, try enabling **"Don't check SSL certificate"**
 3. Verify the server URL is correct
 
@@ -62,7 +87,7 @@ For more details, see the [Certificate Configuration Guide](../../guides/cert-co
 
 ---
 
-## ❓ Q3. Certificate pin mismatch after server certificate update
+## ❓ Q4. Certificate pin mismatch after server certificate update
 
 ### 💡 Answer
 
@@ -88,7 +113,7 @@ Verify your server's certificate before updating the pin.
 
 ---
 
-## ❓ Q4. Warning banner about unverified certificates keeps appearing
+## ❓ Q5. Warning banner about unverified certificates keeps appearing
 
 ### 💡 Answer
 
@@ -97,13 +122,13 @@ The warning banner appears when you have servers with **"HTTPS Untrusted Allowed
 **To resolve this:**
 
 1. **Pin the certificate** for those servers (recommended) - tap on the server to trigger the pinning flow
-2. Or tap **"Dismiss"** on the banner (not recommended as it reduces security awareness)
+2. Or tap **"Dismiss"** on the banner
 
 For more details, see the [Certificate Configuration Guide](../../guides/cert-config).
 
 ---
 
-## ❓ Q5. Android Home Widget shows offline or error state
+## ❓ Q6. Android Home Widget shows offline or error state
 
 <img width="320" alt="Widget offline state" src={imgWidgetOffline} />
 

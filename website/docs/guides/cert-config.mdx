@@ -37,7 +37,7 @@ The app displays the connection security status for each server. Here are all po
 | HTTPS Verified              | Highest        | Valid CA-signed certificate         |
 | HTTPS Pinned                | High           | Certificate fingerprint verified    |
 | Don't check SSL certificate | Low            | All certificate validation disabled |
-| HTTPS Untrusted Allowed     | Low            | Self-signed certificates accepted   |
+| HTTPS Untrusted Allowed     | Low            | Untrusted certificates or incomplete chains accepted |
 | HTTP                        | None           | Unencrypted connection              |
 | HTTPS Pin Mismatch          | Error          | Pinned fingerprint doesn't match    |
 | HTTPS Untrusted Blocked     | Error          | Self-signed certificate rejected    |
@@ -58,7 +58,7 @@ The app displays the connection security status for each server. Here are all po
 **When this appears:**
 
 - Server uses a certificate from Let's Encrypt, DigiCert, or other trusted CAs
-- **"Allow self-signed certificates"** is **OFF**
+- **"Allow untrusted certificates"** is **OFF**
 
 **User action:**
 
@@ -84,7 +84,7 @@ The app displays the connection security status for each server. Here are all po
 
 **When this appears:**
 
-- **"Allow self-signed certificates"** is **ON**
+- **"Allow untrusted certificates"** is **ON**
 - You've connected and pinned the certificate fingerprint
 
 **User action:**
@@ -141,14 +141,15 @@ This setting bypasses all security checks. Only use this when absolutely necessa
 
 **What it means:**
 
-- The server's certificate is not signed by a trusted CA
-- The app is configured to accept self-signed certificates
+- The server's certificate is not trusted by this device
+- The app is configured to accept untrusted certificates
 - No certificate pinning is active
+- Common causes: self-signed certificate, incomplete certificate chain (e.g., using `cert.pem` instead of `fullchain.pem`)
 
 **When this appears:**
 
-- Server uses a self-signed certificate
-- "Allow self-signed certificates" is ON
+- Server uses a self-signed certificate or an incomplete certificate chain
+- "Allow untrusted certificates" is ON
 - Certificate has not been pinned yet
 
 **User action:**
@@ -214,19 +215,19 @@ If you didn't change your certificate, this could indicate a security issue. Ver
 
 **What it means:**
 
-- Server has a self-signed or invalid certificate
-- **"Allow self-signed certificates"** is **OFF**
+- The server's certificate is not trusted by this device
+- **"Allow untrusted certificates"** is **OFF**
 - Connection is blocked
 
 **When this appears:**
 
-- Attempting to connect to a server with self-signed certificate
-- App default settings are in effect but server needs self-signed support
+- Attempting to connect to a server with a self-signed certificate or an incomplete certificate chain (e.g., using `cert.pem` instead of `fullchain.pem`)
+- App default settings are in effect
 
 **User action:**
 
-- Enable **"Allow self-signed certificates"** in server settings
-- Or install a CA-signed certificate on your server
+- Enable **"Allow untrusted certificates"** in server settings as a workaround
+- Or fix the root cause: use a CA-signed certificate, or ensure the full chain is served (use `fullchain.pem`)
 
 ---
 
@@ -234,13 +235,13 @@ If you didn't change your certificate, this could indicate a security issue. Ver
 
 By default, the app has:
 
-- **Allow self-signed certificates:** ON
+- **Allow untrusted certificates:** ON
 - **Don't check SSL certificate:** OFF
 
 <img width="320" alt="Self-signed certificate setting" src={imgSelfSignedCert} />
 
 :::info
-If your Pi-hole server uses a **valid CA-signed certificate** (e.g., Let's Encrypt), you should turn OFF "Allow self-signed certificates" to achieve the "HTTPS Verified" status.
+If your Pi-hole server uses a **valid CA-signed certificate** (e.g., Let's Encrypt), you should turn OFF "Allow untrusted certificates" to achieve the "HTTPS Verified" status.
 :::
 
 <img width="320" alt="Signed certificate setting" src={imgSignedCert} />
@@ -254,16 +255,16 @@ This backward compatibility behavior applies **only when updating to v1.8.0**.
 
 In v1.8.0, the SSL verification settings were restructured.
 To prevent existing connections from breaking, servers that had
-**"Allow self-signed certificates"** enabled before the update are
+**"Allow untrusted certificates"** enabled before the update are
 automatically migrated to a less strict configuration.
 
 For better security, we strongly recommend reviewing each affected server
 and switching back to the **certificate pinning** approach.
 :::
 
-If you had **"Allow self-signed certificates"** enabled before updating the app,
+If you had **"Allow untrusted certificates"** enabled before updating the app,
 the update will automatically enable **both**
-**"Allow self-signed certificates"** **and**
+**"Allow untrusted certificates"** **and**
 **"Don't check SSL certificate"** for backward compatibility.
 
 As a result, all your HTTPS servers will display the
@@ -273,7 +274,7 @@ As a result, all your HTTPS servers will display the
 
 :::warning
 After the app update,
-if **"Allow self-signed certificates"** was **ON** before the update,
+if **"Allow untrusted certificates"** was **ON** before the update,
 all HTTPS servers will show the **"Don't check SSL certificate"** status.
 This configuration is less secure than the certificate pinning approach.
 
@@ -287,7 +288,7 @@ your servers will remain in either
 1. Open the server details screen for the affected server
 2. Turn **OFF** **"Don't check SSL certificate"**
 3. Save the settings
-4. The **"Allow self-signed certificates"** confirmation modal will appear
+4. The **"Allow untrusted certificates"** confirmation modal will appear
 5. Verify the certificate fingerprint and tap **"Confirm"**
 
 <ImageRow>
@@ -305,7 +306,7 @@ security than **"Don't check SSL certificate"**.
 
 ## Pi-hole in Docker: Special Considerations
 
-If you're running Pi-hole in Docker, you may encounter connection issues even with "Allow self-signed certificates" enabled.
+If you're running Pi-hole in Docker, you may encounter connection issues even with "Allow untrusted certificates" enabled.
 
 <img width="320" alt="Docker connection error" src={imgDockerError} />
 
@@ -349,12 +350,65 @@ pihole.local {
 
 ## Recommended Configuration by Use Case
 
-| Use Case                             | Recommended Setting                                  | Expected Status |
-| ------------------------------------ | ---------------------------------------------------- | --------------- |
-| Valid CA certificate (Let's Encrypt) | **Allow self-signed certificates: OFF**              | HTTPS Verified  |
-| Self-signed certificate              | **Allow self-signed certificates: ON**, Pin the cert | HTTPS Pinned    |
-| Docker without reverse proxy         | **Don't check SSL certificate: ON**                  | Don't check SSL |
-| Local HTTP only                      | -                                                    | HTTP            |
+| Use Case                                        | Recommended Setting                                       | Expected Status |
+| ----------------------------------------------- | --------------------------------------------------------- | --------------- |
+| Valid CA certificate with full chain (Let's Encrypt + `fullchain.pem`) | **Allow untrusted certificates: OFF** | HTTPS Verified  |
+| Let's Encrypt with incomplete chain (`cert.pem`) | Fix server to use `fullchain.pem` — or enable **Allow untrusted certificates: ON** as a workaround | HTTPS Verified / HTTPS Pinned |
+| Self-signed certificate                         | **Allow untrusted certificates: ON**, Pin the cert        | HTTPS Pinned    |
+| Docker without reverse proxy                    | **Don't check SSL certificate: ON**                       | Don't check SSL |
+| Local HTTP only                                 | -                                                         | HTTP            |
+
+---
+
+## SSL Error with a Valid Let's Encrypt Certificate (Incomplete Chain)
+
+If you're using a valid Let's Encrypt certificate but still get SSL errors in the app,
+the most common cause is an **incomplete certificate chain**.
+
+Unlike web browsers, which can automatically fetch missing intermediate certificates,
+Flutter's HTTP client requires the server to provide the **complete chain**.
+This typically happens when the server is configured with `cert.pem` instead of `fullchain.pem`.
+
+**Symptoms:**
+- SSL error when connecting through the app
+- The connection works fine in a web browser
+- The certificate appears valid when viewed in a browser
+
+### Solution 1: Fix the certificate chain (Recommended)
+
+Pi-hole requires a single combined PEM file containing **both** the certificate and the private key.
+The key point is to use `fullchain.pem` (not `cert.pem`) when creating this file.
+
+**Pi-hole v6** (`pihole.toml` or environment variable):
+
+Create the combined PEM with the full chain:
+
+```bash
+cat /etc/letsencrypt/live/yourdomain.com/fullchain.pem \
+    /etc/letsencrypt/live/yourdomain.com/privkey.pem \
+    > /etc/pihole/tls.pem
+```
+
+Then set the path in `pihole.toml`:
+
+```toml
+[webserver.tls]
+cert = "/etc/pihole/tls.pem"
+```
+
+After updating, restart Pi-hole and reconnect — the status should change to **HTTPS Verified**.
+
+### Solution 2: Enable "Allow untrusted certificates" (Workaround)
+
+If you cannot fix the server configuration immediately:
+
+1. Open server settings and expand **Advanced Options**
+2. Enable **"Allow untrusted certificates"**
+3. Pin the certificate fingerprint when prompted
+
+:::warning
+This is a temporary workaround. Fixing the certificate chain on the server side is strongly recommended for proper security.
+:::
 
 ---
 
@@ -362,6 +416,7 @@ pihole.local {
 
 Having issues with certificate configuration? Check out the [FAQ](../../help/faq) for common questions and solutions:
 
-- [Q2. "Connection failed" with self-signed certificate](../../help/faq#-q2-connection-failed-with-self-signed-certificate)
-- [Q3. Certificate pin mismatch after server certificate update](../../help/faq#-q3-certificate-pin-mismatch-after-server-certificate-update)
-- [Q4. Warning banner about unverified certificates keeps appearing](../../help/faq#-q4-warning-banner-about-unverified-certificates-keeps-appearing)
+- [Q2. SSL error with a valid Let's Encrypt certificate](../../help/faq#-q2-ssl-error-with-a-valid-lets-encrypt-certificate)
+- [Q3. "Connection failed" with self-signed certificate](../../help/faq#-q3-connection-failed-with-self-signed-certificate)
+- [Q4. Certificate pin mismatch after server certificate update](../../help/faq#-q4-certificate-pin-mismatch-after-server-certificate-update)
+- [Q5. Warning banner about unverified certificates keeps appearing](../../help/faq#-q5-warning-banner-about-unverified-certificates-keeps-appearing)
