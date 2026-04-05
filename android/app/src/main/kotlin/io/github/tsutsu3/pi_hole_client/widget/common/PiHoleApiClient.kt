@@ -81,7 +81,7 @@ data class ApiResponse(val statusCode: Int, val body: String) {
  *
  * ## TLS certificate validation modes
  *
- * | ignoreCertErrors | allowSelfSigned | pinnedSha256 | Behaviour               |
+ * | ignoreCertErrors | allowUntrustedCert | pinnedSha256 | Behaviour               |
  * |------------------|-----------------|--------------|-------------------------|
  * | true             | any             | any          | Skip all TLS validation |
  * | false            | true            | non-null     | Verify SHA-256 pin      |
@@ -89,7 +89,7 @@ data class ApiResponse(val statusCode: Int, val body: String) {
  * | false            | false           | any          | Standard TLS            |
  */
 class PiHoleApiClient(
-    private val allowSelfSigned: Boolean,
+    private val allowUntrustedCert: Boolean,
     private val ignoreCertificateErrors: Boolean,
     private val pinnedCertificateSha256: String?,
 ) {
@@ -131,7 +131,7 @@ class PiHoleApiClient(
 
         // HTTPS certificate validation logic
         if (ignoreCertificateErrors) return true
-        if (allowSelfSigned && pinnedCertificateSha256.isNullOrEmpty()) return false
+        if (allowUntrustedCert && pinnedCertificateSha256.isNullOrEmpty()) return false
         return true
     }
 
@@ -189,10 +189,10 @@ class PiHoleApiClient(
      *
      * Priority order matches Flutter's `createHttpClient()`:
      * 1. `ignoreCertificateErrors` — trust everything (legacy / explicit opt-in)
-     * 2. `allowSelfSigned` with pin — verify SHA-256 fingerprint
+     * 2. `allowUntrustedCert` with pin — verify SHA-256 fingerprint
      * 3. default — standard platform TLS validation
      *
-     * Note: `allowSelfSigned` without a pin is rejected before reaching this
+     * Note: `allowUntrustedCert` without a pin is rejected before reaching this
      * method (see [canConnect]).
      */
     private fun configureTls(connection: HttpsURLConnection) {
@@ -207,7 +207,7 @@ class PiHoleApiClient(
                 connection.hostnameVerifier = HostnameVerifier { _, _ -> true }
             }
 
-            allowSelfSigned && !pinnedCertificateSha256.isNullOrEmpty() -> {
+            allowUntrustedCert && !pinnedCertificateSha256.isNullOrEmpty() -> {
                 // Accept only if the server certificate's SHA-256 fingerprint
                 // matches the pinned value configured in the app.
                 val pinningManager = CertificatePinningTrustManager(pinnedCertificateSha256)
