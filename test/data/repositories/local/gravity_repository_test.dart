@@ -41,7 +41,7 @@ void main() {
     'alias': 'test6',
     'isDefaultServer': 1,
     'apiVersion': 'v6',
-    'allowSelfSignedCert': 1,
+    'allowUntrustedCert': 1,
   };
 
   final gravityUpdateData = GravityUpdateData.fromMap(gravityUpdateDataJson);

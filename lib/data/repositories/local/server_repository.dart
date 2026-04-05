@@ -52,7 +52,7 @@ class LocalServerRepository implements ServerRepository {
           alias: map['alias']! as String,
           apiVersion: map['apiVersion']! as String,
           defaultServer: (map['isDefaultServer']! as int) == 1,
-          allowUntrustedCert: (map['allowSelfSignedCert']! as int) == 1,
+          allowUntrustedCert: (map['allowUntrustedCert']! as int) == 1,
           ignoreCertificateErrors:
               ((map['ignoreCertificateErrors'] as int?) ?? 0) == 1,
           pinnedCertificateSha256: map['pinnedCertificateSha256'] as String?,
@@ -101,7 +101,7 @@ class LocalServerRepository implements ServerRepository {
         'alias': server.alias,
         'isDefaultServer': server.defaultServer ? 1 : 0,
         'apiVersion': server.apiVersion,
-        'allowSelfSignedCert': server.allowUntrustedCert ? 1 : 0,
+        'allowUntrustedCert': server.allowUntrustedCert ? 1 : 0,
         'ignoreCertificateErrors': server.ignoreCertificateErrors ? 1 : 0,
         'pinnedCertificateSha256': server.pinnedCertificateSha256,
       });
@@ -147,7 +147,7 @@ class LocalServerRepository implements ServerRepository {
           'alias': server.alias,
           'isDefaultServer': convertFromBoolToInt(server.defaultServer),
           'apiVersion': server.apiVersion,
-          'allowSelfSignedCert': server.allowUntrustedCert ? 1 : 0,
+          'allowUntrustedCert': server.allowUntrustedCert ? 1 : 0,
           'ignoreCertificateErrors': server.ignoreCertificateErrors ? 1 : 0,
           'pinnedCertificateSha256': server.pinnedCertificateSha256,
         },
