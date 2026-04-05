@@ -116,7 +116,7 @@ class PiHoleApiClient(
     /**
      * Whether this client can actually connect given the current TLS settings.
      *
-     * Returns `false` when self-signed certs are allowed but no pinned
+     * Returns `false` when untrusted signed certs are allowed but no pinned
      * fingerprint is configured — the widget refuses to trust arbitrary
      * certificates and requires the user to pin one via the app.
      *
@@ -215,7 +215,7 @@ class PiHoleApiClient(
                 sslContext.init(null, arrayOf<TrustManager>(pinningManager), java.security.SecureRandom())
                 connection.sslSocketFactory = sslContext.socketFactory
                 // Hostname verification is relaxed because the certificate is
-                // pinned by fingerprint, not by CN/SAN — self-signed certs
+                // pinned by fingerprint, not by CN/SAN — untrusted signed certs
                 // typically lack a matching hostname entry.
                 connection.hostnameVerifier = HostnameVerifier { _, _ -> true }
             }
