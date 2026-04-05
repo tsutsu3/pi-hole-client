@@ -25,7 +25,7 @@ void main() async {
       alias: 'test v6',
       defaultServer: false,
       apiVersion: 'v6',
-      allowSelfSignedCert: true,
+      allowUntrustedCert: true,
       ignoreCertificateErrors: false,
     );
 
@@ -273,7 +273,7 @@ void main() async {
         alias: 'unverified',
         defaultServer: false,
         apiVersion: 'v6',
-        allowSelfSignedCert: true,
+        allowUntrustedCert: true,
         ignoreCertificateErrors: false,
       );
 
@@ -310,7 +310,7 @@ void main() async {
           alias: 'unverified',
           defaultServer: false,
           apiVersion: 'v6',
-          allowSelfSignedCert: true,
+          allowUntrustedCert: true,
           ignoreCertificateErrors: false,
         );
 
@@ -353,7 +353,7 @@ void main() async {
         alias: 'test v5',
         defaultServer: true,
         apiVersion: 'v5',
-        allowSelfSignedCert: false,
+        allowUntrustedCert: false,
         ignoreCertificateErrors: false,
       );
       const server3 = Server(
@@ -361,7 +361,7 @@ void main() async {
         alias: 'test v5b',
         defaultServer: false,
         apiVersion: 'v5',
-        allowSelfSignedCert: false,
+        allowUntrustedCert: false,
         ignoreCertificateErrors: false,
       );
 
@@ -399,7 +399,7 @@ void main() async {
           alias: 'unverified',
           defaultServer: false,
           apiVersion: 'v6',
-          allowSelfSignedCert: true,
+          allowUntrustedCert: true,
           ignoreCertificateErrors: false,
         );
 
@@ -512,7 +512,7 @@ void main() async {
           alias: 'test v5',
           defaultServer: true,
           apiVersion: 'v5',
-          allowSelfSignedCert: false,
+          allowUntrustedCert: false,
           ignoreCertificateErrors: false,
         );
         const server3 = Server(
@@ -520,7 +520,7 @@ void main() async {
           alias: 'test v5b',
           defaultServer: false,
           apiVersion: 'v5',
-          allowSelfSignedCert: false,
+          allowUntrustedCert: false,
           ignoreCertificateErrors: false,
         );
         const server4 = Server(
@@ -528,7 +528,7 @@ void main() async {
           alias: 'test v5c',
           defaultServer: false,
           apiVersion: 'v5',
-          allowSelfSignedCert: false,
+          allowUntrustedCert: false,
           ignoreCertificateErrors: false,
         );
         const server5 = Server(
@@ -536,7 +536,7 @@ void main() async {
           alias: 'test v5d',
           defaultServer: false,
           apiVersion: 'v5',
-          allowSelfSignedCert: false,
+          allowUntrustedCert: false,
           ignoreCertificateErrors: false,
         );
 
@@ -626,7 +626,7 @@ void main() async {
           alias: 'unverified',
           defaultServer: false,
           apiVersion: 'v6',
-          allowSelfSignedCert: true,
+          allowUntrustedCert: true,
           ignoreCertificateErrors: false,
         );
 
@@ -670,14 +670,14 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        // HTTPS server with allowSelfSignedCert=true and ignoreCertificateErrors=false
+        // HTTPS server with allowUntrustedCert=true and ignoreCertificateErrors=false
         // so "View certificate" and "Update" popup items are enabled.
         const httpsServer = Server(
           address: 'https://127.0.0.1:19998',
           alias: 'https test',
           defaultServer: false,
           apiVersion: 'v6',
-          allowSelfSignedCert: true,
+          allowUntrustedCert: true,
           ignoreCertificateErrors: false,
         );
 
@@ -722,19 +722,19 @@ void main() async {
     );
 
     testWidgets(
-      'popup menu for HTTPS server evaluates allowSelfSignedCert conditions',
+      'popup menu for HTTPS server evaluates allowUntrustedCert conditions',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        // HTTPS server with allowSelfSignedCert=true, ignoreCertificateErrors=false
+        // HTTPS server with allowUntrustedCert=true, ignoreCertificateErrors=false
         // → the "Update" pin item evaluates both conditions on lines 96-97
         const httpsServer = Server(
           address: 'https://127.0.0.1:19997',
           alias: 'https pin test',
           defaultServer: false,
           apiVersion: 'v6',
-          allowSelfSignedCert: true,
+          allowUntrustedCert: true,
           ignoreCertificateErrors: false,
         );
 

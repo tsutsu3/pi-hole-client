@@ -116,7 +116,7 @@ class ToggleWidgetWorker(
         }
 
         val client = PiHoleApiClient(
-            allowSelfSigned = server.allowSelfSignedCert,
+            allowUntrustedCert = server.allowUntrustedCert,
             ignoreCertificateErrors = server.ignoreCertificateErrors,
             pinnedCertificateSha256 = server.pinnedCertificateSha256,
         )

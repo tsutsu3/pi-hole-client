@@ -37,7 +37,7 @@ void main() async {
           alias: 'test v6',
           defaultServer: false,
           apiVersion: 'v6',
-          allowSelfSignedCert: true,
+          allowUntrustedCert: true,
           ignoreCertificateErrors: false,
         )
         ..selectedServerEnabled = true;

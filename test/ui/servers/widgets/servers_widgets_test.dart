@@ -23,7 +23,7 @@ void main() async {
       alias: 'My Pi-hole',
       defaultServer: false,
       apiVersion: 'v6',
-      allowSelfSignedCert: true,
+      allowUntrustedCert: true,
       ignoreCertificateErrors: false,
     );
 
@@ -112,7 +112,7 @@ void main() async {
         alias: '',
         defaultServer: false,
         apiVersion: 'v6',
-        allowSelfSignedCert: true,
+        allowUntrustedCert: true,
         ignoreCertificateErrors: false,
       );
 
@@ -143,7 +143,7 @@ void main() async {
       alias: 'Local Pi',
       defaultServer: false,
       apiVersion: 'v5',
-      allowSelfSignedCert: false,
+      allowUntrustedCert: false,
       ignoreCertificateErrors: false,
     );
 
@@ -152,7 +152,7 @@ void main() async {
       alias: 'Default Pi',
       defaultServer: true,
       apiVersion: 'v5',
-      allowSelfSignedCert: false,
+      allowUntrustedCert: false,
       ignoreCertificateErrors: false,
     );
 
@@ -234,7 +234,7 @@ void main() async {
       alias: 'Pi-hole',
       defaultServer: false,
       apiVersion: 'v6',
-      allowSelfSignedCert: false,
+      allowUntrustedCert: false,
       ignoreCertificateErrors: false,
     );
 
@@ -243,7 +243,7 @@ void main() async {
       alias: 'Default Pi-hole',
       defaultServer: true,
       apiVersion: 'v6',
-      allowSelfSignedCert: false,
+      allowUntrustedCert: false,
       ignoreCertificateErrors: false,
     );
 

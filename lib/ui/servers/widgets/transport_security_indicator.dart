@@ -56,8 +56,8 @@ class _TransportSecurityIndicatorState
   void didUpdateWidget(covariant TransportSecurityIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.server.address != widget.server.address ||
-        oldWidget.server.allowSelfSignedCert !=
-            widget.server.allowSelfSignedCert ||
+        oldWidget.server.allowUntrustedCert !=
+            widget.server.allowUntrustedCert ||
         oldWidget.server.ignoreCertificateErrors !=
             widget.server.ignoreCertificateErrors ||
         oldWidget.server.pinnedCertificateSha256 !=
@@ -134,7 +134,7 @@ class _TransportSecurityIndicatorState
     Uri uri, {
     required Duration timeout,
   }) async {
-    if (!server.allowSelfSignedCert) {
+    if (!server.allowUntrustedCert) {
       return _TransportSecurityStatus.httpsUntrustedBlocked;
     }
 

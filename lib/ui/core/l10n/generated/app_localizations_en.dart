@@ -179,11 +179,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get allowList => 'Allowlist';
 
   @override
-  String get allowSelfSignedCertificates => 'Allow self-signed certificates';
+  String get allowUntrustedCert => 'Allow untrusted certificates';
 
   @override
-  String get allowSelfSignedCertificatesDescription =>
-      'Allows self-signed certificates without CA verification.';
+  String get allowUntrustedCertDescription =>
+      'Allows connections using certificates not trusted by this device, including self-signed certificates and those with incomplete chains (e.g., missing intermediate CA).';
 
   @override
   String get tlsCertSubject => 'Subject';
@@ -1059,6 +1059,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get leaseInfo => 'Lease Information';
 
   @override
+  String get learnMoreAboutCertificates =>
+      'Learn more about certificate settings';
+
+  @override
   String get legal => 'Legal';
 
   @override
@@ -1691,7 +1695,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sslErrorLong =>
-      'SSL error. Check if the server\'s certificate is valid.';
+      'SSL error. The server\'s certificate may be invalid, self-signed, or have an incomplete chain.';
 
   @override
   String get sslErrorShort => 'SSL error.';

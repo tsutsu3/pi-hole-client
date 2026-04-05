@@ -180,12 +180,11 @@ class AppLocalizationsPl extends AppLocalizations {
   String get allowList => 'Lista dozwolonych';
 
   @override
-  String get allowSelfSignedCertificates =>
-      'Zezwól na certyfikaty z podpisem własnym';
+  String get allowUntrustedCert => 'Zezwól na niezaufane certyfikaty';
 
   @override
-  String get allowSelfSignedCertificatesDescription =>
-      'Allows self-signed certificates without CA verification.';
+  String get allowUntrustedCertDescription =>
+      'Umożliwia połączenia z serwerami posiadającymi certyfikaty niezaufane przez urządzenie, w tym certyfikaty z podpisem własnym i te z niekompletnymi łańcuchami (np. brakująca pośrednia CA).';
 
   @override
   String get tlsCertSubject => 'Podmiot';
@@ -718,7 +717,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get dontCheckCertificateDescription =>
-      'Accepts all SSL certificates without validation (not recommended).';
+      'Akceptuje wszystkie certyfikaty SSL bez weryfikacji (niezalecane).';
 
   @override
   String get edit => 'Edytuj';
@@ -1067,6 +1066,10 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get leaseInfo => 'Informacje o dzierżawie';
+
+  @override
+  String get learnMoreAboutCertificates =>
+      'Dowiedz się więcej o ustawieniach certyfikatów';
 
   @override
   String get legal => 'Legalność';
@@ -1705,7 +1708,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get sslErrorLong =>
-      'Błąd SSL. Sprawdź, czy certyfikat serwera jest prawidłowy.';
+      'Błąd SSL. Certyfikat serwera może być nieprawidłowy, z podpisem własnym lub mieć niekompletny łańcuch certyfikatów.';
 
   @override
   String get sslErrorShort => 'Błąd SSL.';

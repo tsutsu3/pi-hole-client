@@ -24,7 +24,7 @@ class PiHoleApiClientTest {
 
         // Default client with standard TLS validation
         client = PiHoleApiClient(
-            allowSelfSigned = false,
+            allowUntrustedCert = false,
             ignoreCertificateErrors = false,
             pinnedCertificateSha256 = null
         )
@@ -133,7 +133,7 @@ class PiHoleApiClientTest {
     fun canConnect_withHttpUrl_alwaysReturnsTrue() {
         // HTTP URLs should always be allowed (no certificate validation)
         val httpClient = PiHoleApiClient(
-            allowSelfSigned = false,
+            allowUntrustedCert = false,
             ignoreCertificateErrors = false,
             pinnedCertificateSha256 = null
         )
@@ -145,7 +145,7 @@ class PiHoleApiClientTest {
     fun canConnect_withIgnoreCertErrors_alwaysReturnsTrue() {
         // Client with ignoreCertificateErrors should always allow connection
         val ignoreCertClient = PiHoleApiClient(
-            allowSelfSigned = false,
+            allowUntrustedCert = false,
             ignoreCertificateErrors = true,
             pinnedCertificateSha256 = null
         )
@@ -154,10 +154,10 @@ class PiHoleApiClientTest {
     }
 
     @Test
-    fun canConnect_withSelfSignedAndPin_returnsTrue() {
-        // Client with self-signed allowed and pinned cert should allow connection
+    fun canConnect_withUntrustedSignedAndPin_returnsTrue() {
+        // Client with untrusted signed allowed and pinned cert should allow connection
         val pinnedClient = PiHoleApiClient(
-            allowSelfSigned = true,
+            allowUntrustedCert = true,
             ignoreCertificateErrors = false,
             pinnedCertificateSha256 = "abc123def456"
         )
@@ -165,10 +165,10 @@ class PiHoleApiClientTest {
     }
 
     @Test
-    fun canConnect_withSelfSignedButNoPinnedCert_returnsFalse() {
-        // Client with self-signed allowed but no pinned cert should reject
+    fun canConnect_withUntrustedSignedButNoPinnedCert_returnsFalse() {
+        // Client with untrusted signed allowed but no pinned cert should reject
         val noPinClient = PiHoleApiClient(
-            allowSelfSigned = true,
+            allowUntrustedCert = true,
             ignoreCertificateErrors = false,
             pinnedCertificateSha256 = null
         )
@@ -176,7 +176,7 @@ class PiHoleApiClientTest {
 
         // Empty pin should also reject
         val emptyPinClient = PiHoleApiClient(
-            allowSelfSigned = true,
+            allowUntrustedCert = true,
             ignoreCertificateErrors = false,
             pinnedCertificateSha256 = ""
         )
@@ -187,7 +187,7 @@ class PiHoleApiClientTest {
     fun canConnect_withStandardTls_returnsTrue() {
         // Standard TLS client should allow connection
         val standardClient = PiHoleApiClient(
-            allowSelfSigned = false,
+            allowUntrustedCert = false,
             ignoreCertificateErrors = false,
             pinnedCertificateSha256 = null
         )

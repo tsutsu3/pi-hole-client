@@ -81,7 +81,7 @@ data class ApiResponse(val statusCode: Int, val body: String) {
  *
  * ## TLS certificate validation modes
  *
- * | ignoreCertErrors | allowSelfSigned | pinnedSha256 | Behaviour               |
+ * | ignoreCertErrors | allowUntrustedCert | pinnedSha256 | Behaviour               |
  * |------------------|-----------------|--------------|-------------------------|
  * | true             | any             | any          | Skip all TLS validation |
  * | false            | true            | non-null     | Verify SHA-256 pin      |
@@ -89,7 +89,7 @@ data class ApiResponse(val statusCode: Int, val body: String) {
  * | false            | false           | any          | Standard TLS            |
  */
 class PiHoleApiClient(
-    private val allowSelfSigned: Boolean,
+    private val allowUntrustedCert: Boolean,
     private val ignoreCertificateErrors: Boolean,
     private val pinnedCertificateSha256: String?,
 ) {
@@ -107,8 +107,10 @@ class PiHoleApiClient(
          * Detects auth failures from HTTP status code.
          *
          * Pi-hole v6 returns 401/403 for expired or invalid SIDs.
+         * The body is accepted for call-site convenience but only the
+         * status code is used for detection.
          */
-        fun isAuthFailure(statusCode: Int): Boolean {
+        fun isAuthFailure(statusCode: Int, body: String = ""): Boolean {
             return statusCode == 401 || statusCode == 403
         }
     }
@@ -116,7 +118,7 @@ class PiHoleApiClient(
     /**
      * Whether this client can actually connect given the current TLS settings.
      *
-     * Returns `false` when self-signed certs are allowed but no pinned
+     * Returns `false` when untrusted signed certs are allowed but no pinned
      * fingerprint is configured — the widget refuses to trust arbitrary
      * certificates and requires the user to pin one via the app.
      *
@@ -131,7 +133,7 @@ class PiHoleApiClient(
 
         // HTTPS certificate validation logic
         if (ignoreCertificateErrors) return true
-        if (allowSelfSigned && pinnedCertificateSha256.isNullOrEmpty()) return false
+        if (allowUntrustedCert && pinnedCertificateSha256.isNullOrEmpty()) return false
         return true
     }
 
@@ -189,10 +191,10 @@ class PiHoleApiClient(
      *
      * Priority order matches Flutter's `createHttpClient()`:
      * 1. `ignoreCertificateErrors` — trust everything (legacy / explicit opt-in)
-     * 2. `allowSelfSigned` with pin — verify SHA-256 fingerprint
+     * 2. `allowUntrustedCert` with pin — verify SHA-256 fingerprint
      * 3. default — standard platform TLS validation
      *
-     * Note: `allowSelfSigned` without a pin is rejected before reaching this
+     * Note: `allowUntrustedCert` without a pin is rejected before reaching this
      * method (see [canConnect]).
      */
     private fun configureTls(connection: HttpsURLConnection) {
@@ -207,7 +209,7 @@ class PiHoleApiClient(
                 connection.hostnameVerifier = HostnameVerifier { _, _ -> true }
             }
 
-            allowSelfSigned && !pinnedCertificateSha256.isNullOrEmpty() -> {
+            allowUntrustedCert && !pinnedCertificateSha256.isNullOrEmpty() -> {
                 // Accept only if the server certificate's SHA-256 fingerprint
                 // matches the pinned value configured in the app.
                 val pinningManager = CertificatePinningTrustManager(pinnedCertificateSha256)
@@ -215,7 +217,7 @@ class PiHoleApiClient(
                 sslContext.init(null, arrayOf<TrustManager>(pinningManager), java.security.SecureRandom())
                 connection.sslSocketFactory = sslContext.socketFactory
                 // Hostname verification is relaxed because the certificate is
-                // pinned by fingerprint, not by CN/SAN — self-signed certs
+                // pinned by fingerprint, not by CN/SAN — untrusted signed certs
                 // typically lack a matching hostname entry.
                 connection.hostnameVerifier = HostnameVerifier { _, _ -> true }
             }

@@ -137,12 +137,12 @@ class PiHoleWidgetWorker(
             ?: WidgetConstants.ACTION_REFRESH
 
         val client = PiHoleApiClient(
-            allowSelfSigned = server.allowSelfSignedCert,
+            allowUntrustedCert = server.allowUntrustedCert,
             ignoreCertificateErrors = server.ignoreCertificateErrors,
             pinnedCertificateSha256 = server.pinnedCertificateSha256,
         )
         if (!client.canConnect(server.address)) {
-            // Self-signed cert enabled without a pinned fingerprint.
+            // Untrusted signed cert enabled without a pinned fingerprint.
             // The widget refuses to trust arbitrary certificates; the user
             // must open the app and pin the server's certificate.
             if (WidgetDebugConfig.DEBUG) {

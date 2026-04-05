@@ -48,7 +48,7 @@ class WidgetChannel {
               'alias': server.alias,
               'address': server.address,
               'apiVersion': server.apiVersion,
-              'allowSelfSignedCert': server.allowSelfSignedCert,
+              'allowUntrustedCert': server.allowUntrustedCert,
               'ignoreCertificateErrors': server.ignoreCertificateErrors,
               'pinnedCertificateSha256': server.pinnedCertificateSha256,
             },

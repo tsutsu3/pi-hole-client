@@ -45,7 +45,7 @@ class MainActivity : FlutterFragmentActivity() {
                         val alias = item["alias"] as? String ?: serverId
                         val address = item["address"] as? String ?: serverId
                         val apiVersion = item["apiVersion"] as? String ?: "v6"
-                        val allowSelfSigned = item["allowSelfSignedCert"] as? Boolean ?: false
+                        val allowUntrustedCert = item["allowUntrustedCert"] as? Boolean ?: false
                         val ignoreCertErrors = item["ignoreCertificateErrors"] as? Boolean ?: false
                         val pinnedCertSha256 = item["pinnedCertificateSha256"] as? String
                         WidgetServer(
@@ -53,7 +53,7 @@ class MainActivity : FlutterFragmentActivity() {
                             alias = alias,
                             address = address,
                             apiVersion = apiVersion,
-                            allowSelfSignedCert = allowSelfSigned,
+                            allowUntrustedCert = allowUntrustedCert,
                             ignoreCertificateErrors = ignoreCertErrors,
                             pinnedCertificateSha256 = pinnedCertSha256,
                         )

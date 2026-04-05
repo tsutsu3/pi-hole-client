@@ -10,7 +10,7 @@ void main() async {
 
   Server makeServer({
     required String address,
-    bool allowSelfSignedCert = false,
+    bool allowUntrustedCert = false,
     bool ignoreCertificateErrors = false,
     String? pinnedCertificateSha256,
   }) {
@@ -19,7 +19,7 @@ void main() async {
       alias: 'test',
       defaultServer: false,
       apiVersion: 'v6',
-      allowSelfSignedCert: allowSelfSignedCert,
+      allowUntrustedCert: allowUntrustedCert,
       ignoreCertificateErrors: ignoreCertificateErrors,
       pinnedCertificateSha256: pinnedCertificateSha256,
     );

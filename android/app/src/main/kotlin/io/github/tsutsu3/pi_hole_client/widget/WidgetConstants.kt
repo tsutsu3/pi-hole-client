@@ -15,7 +15,7 @@ object WidgetConstants {
     const val KEY_SERVER_ALIAS_PREFIX = "server_alias_"
     const val KEY_SERVER_ADDRESS_PREFIX = "server_address_"
     const val KEY_SERVER_API_VERSION_PREFIX = "server_api_version_"
-    const val KEY_SERVER_ALLOW_SELF_SIGNED_PREFIX = "server_allow_self_signed_"
+    const val KEY_SERVER_ALLOW_UNTRUSTED_CERT_PREFIX = "server_allow_untrusted_cert_"
     const val KEY_SERVER_IGNORE_CERT_ERRORS_PREFIX = "server_ignore_cert_errors_"
     const val KEY_SERVER_PINNED_CERT_SHA256_PREFIX = "server_pinned_cert_sha256_"
     const val KEY_SERVERS_JSON = "servers_json"

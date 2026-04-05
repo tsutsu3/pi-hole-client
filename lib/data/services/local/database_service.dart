@@ -44,7 +44,7 @@ class DatabaseService {
   /// Returns:
   /// - [Success] containing the opened [Database] instance if successful.
   /// - [Failure] containing an [Exception] if an error occurs during opening.
-  Future<Result<Database>> open({int? latestVersion = 9}) async {
+  Future<Result<Database>> open({int? latestVersion = 10}) async {
     try {
       _db = await openDatabase(
         _path,
@@ -265,7 +265,7 @@ class DatabaseService {
         alias TEXT NOT NULL,
         isDefaultServer NUMERIC NOT NULL,
         apiVersion TEXT NOT NULL,
-        allowSelfSignedCert NUMERIC NOT NULL,
+        allowUntrustedCert NUMERIC NOT NULL,
         ignoreCertificateErrors NUMERIC NOT NULL,
         pinnedCertificateSha256 TEXT
       )
@@ -371,6 +371,8 @@ class DatabaseService {
         await _upgradeToV8(db);
       case 9:
         await _upgradeToV9(db);
+      case 10:
+        await _upgradeToV10(db);
       default:
         logger.w('Database upgrade to version $version is not handled.');
     }
@@ -776,5 +778,17 @@ class DatabaseService {
     await db.execute('DROP TABLE servers');
     await db.execute('ALTER TABLE servers_new RENAME TO servers');
     logger.d('Database upgraded to version 9');
+  }
+
+  /// Migrates the database to version 10.
+  ///
+  /// Renames the `allowSelfSignedCert` column to `allowUntrustedCert`
+  /// to reflect that the option covers not only self-signed certificates
+  /// but also those with incomplete chains.
+  Future<void> _upgradeToV10(Database db) async {
+    await db.execute(
+      'ALTER TABLE servers RENAME COLUMN allowSelfSignedCert TO allowUntrustedCert',
+    );
+    logger.d('Database upgraded to version 10');
   }
 }

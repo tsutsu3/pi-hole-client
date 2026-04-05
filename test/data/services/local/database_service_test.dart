@@ -40,7 +40,7 @@ void main() {
         'alias': 'Local',
         'isDefaultServer': 1,
         'apiVersion': 'v6',
-        'allowSelfSignedCert': 1,
+        'allowUntrustedCert': 1,
         'ignoreCertificateErrors': 0,
         'pinnedCertificateSha256': null,
       });
@@ -53,7 +53,7 @@ void main() {
       expect(queryResult.getOrNull()?[0]['alias'], 'Local');
       expect(queryResult.getOrNull()?[0]['isDefaultServer'], 1);
       expect(queryResult.getOrNull()?[0]['apiVersion'], 'v6');
-      expect(queryResult.getOrNull()?[0]['allowSelfSignedCert'], 1);
+      expect(queryResult.getOrNull()?[0]['allowUntrustedCert'], 1);
     });
 
     test('Update servers table', () async {
@@ -62,7 +62,7 @@ void main() {
         'alias': 'Local',
         'isDefaultServer': 1,
         'apiVersion': 'v6',
-        'allowSelfSignedCert': 1,
+        'allowUntrustedCert': 1,
         'ignoreCertificateErrors': 0,
         'pinnedCertificateSha256': null,
       });
@@ -85,7 +85,7 @@ void main() {
         'alias': 'Local',
         'isDefaultServer': 1,
         'apiVersion': 'v6',
-        'allowSelfSignedCert': 1,
+        'allowUntrustedCert': 1,
         'ignoreCertificateErrors': 0,
         'pinnedCertificateSha256': null,
       });
@@ -107,7 +107,7 @@ void main() {
         'alias': 'Local',
         'isDefaultServer': 1,
         'apiVersion': 'v6',
-        'allowSelfSignedCert': 1,
+        'allowUntrustedCert': 1,
         'ignoreCertificateErrors': 0,
         'pinnedCertificateSha256': null,
       });
@@ -118,7 +118,7 @@ void main() {
       expect(rawResult.getOrNull()?[0]['alias'], 'Local');
       expect(rawResult.getOrNull()?[0]['isDefaultServer'], 1);
       expect(rawResult.getOrNull()?[0]['apiVersion'], 'v6');
-      expect(rawResult.getOrNull()?[0]['allowSelfSignedCert'], 1);
+      expect(rawResult.getOrNull()?[0]['allowUntrustedCert'], 1);
     });
 
     test('Transaction works and returns result', () async {
@@ -128,7 +128,7 @@ void main() {
           'alias': 'Tx',
           'isDefaultServer': 0,
           'apiVersion': 'v6',
-          'allowSelfSignedCert': 1,
+          'allowUntrustedCert': 1,
           'ignoreCertificateErrors': 0,
           'pinnedCertificateSha256': null,
         });
@@ -150,7 +150,7 @@ void main() {
         'alias': 'Local',
         'isDefaultServer': 1,
         'apiVersion': 'v6',
-        'allowSelfSignedCert': 1,
+        'allowUntrustedCert': 1,
         'ignoreCertificateErrors': 0,
         'pinnedCertificateSha256': null,
       });
@@ -159,7 +159,7 @@ void main() {
         'alias': 'Duplicate',
         'isDefaultServer': 0,
         'apiVersion': 'v6',
-        'allowSelfSignedCert': 1,
+        'allowUntrustedCert': 1,
         'ignoreCertificateErrors': 0,
         'pinnedCertificateSha256': null,
       });
@@ -171,7 +171,7 @@ void main() {
       expect(queryResult.getOrNull()?[0]['alias'], 'Local');
       expect(queryResult.getOrNull()?[0]['isDefaultServer'], 1);
       expect(queryResult.getOrNull()?[0]['apiVersion'], 'v6');
-      expect(queryResult.getOrNull()?[0]['allowSelfSignedCert'], 1);
+      expect(queryResult.getOrNull()?[0]['allowUntrustedCert'], 1);
     });
 
     test(
@@ -182,7 +182,7 @@ void main() {
           'alias': 'Local',
           'isDefaultServer': 1,
           'apiVersion': 'v6',
-          'allowSelfSignedCert': 1,
+          'allowUntrustedCert': 1,
           'ignoreCertificateErrors': 0,
           'pinnedCertificateSha256': null,
         });
@@ -191,7 +191,7 @@ void main() {
           'alias': 'Duplicate',
           'isDefaultServer': 0,
           'apiVersion': 'v6',
-          'allowSelfSignedCert': 1,
+          'allowUntrustedCert': 1,
           'ignoreCertificateErrors': 0,
           'pinnedCertificateSha256': null,
         }, conflictAlgorithm: ConflictAlgorithm.replace);
@@ -203,7 +203,7 @@ void main() {
         expect(queryResult.getOrNull()?[0]['alias'], 'Duplicate');
         expect(queryResult.getOrNull()?[0]['isDefaultServer'], 0);
         expect(queryResult.getOrNull()?[0]['apiVersion'], 'v6');
-        expect(queryResult.getOrNull()?[0]['allowSelfSignedCert'], 1);
+        expect(queryResult.getOrNull()?[0]['allowUntrustedCert'], 1);
       },
     );
 

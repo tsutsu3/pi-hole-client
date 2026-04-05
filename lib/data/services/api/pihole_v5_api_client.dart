@@ -20,14 +20,14 @@ class PiholeV5ApiClient {
   PiholeV5ApiClient({
     required String url,
     http.Client? client,
-    bool? allowSelfSignedCert,
+    bool? allowUntrustedCert,
     bool? ignoreCertificateErrors,
   }) : _url = url,
        _client =
            client ??
            IOClient(
              createHttpClient(
-               allowSelfSignedCert: allowSelfSignedCert ?? true,
+               allowUntrustedCert: allowUntrustedCert ?? true,
                ignoreCertificateErrors: ignoreCertificateErrors ?? false,
              ),
            );

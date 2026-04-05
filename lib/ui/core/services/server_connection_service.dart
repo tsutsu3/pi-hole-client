@@ -213,7 +213,7 @@ class ServerConnectionService {
     final hasPin = pin != null && pin.trim().isNotEmpty;
     if (uri.scheme != 'https' ||
         server.ignoreCertificateErrors ||
-        !server.allowSelfSignedCert ||
+        !server.allowUntrustedCert ||
         hasPin) {
       return server;
     }
@@ -228,7 +228,7 @@ class ServerConnectionService {
       );
       return server;
     } on HandshakeException {
-      // Untrusted certificate + allowSelfSignedCert enabled + no pin:
+      // Untrusted certificate + allowUntrustedCert enabled + no pin:
       // prompt the user to pin before connecting.
     } catch (_) {
       // Network issues etc. are handled by the normal connection flow.
@@ -498,7 +498,7 @@ class ServerConnectionService {
     // Only attempt mismatch detection when the app is configured to allow
     // untrusted certificates (pin fallback path).
     if (server.ignoreCertificateErrors) return false;
-    if (!server.allowSelfSignedCert) return false;
+    if (!server.allowUntrustedCert) return false;
 
     try {
       final info = await fetchTlsCertificateInfo(
