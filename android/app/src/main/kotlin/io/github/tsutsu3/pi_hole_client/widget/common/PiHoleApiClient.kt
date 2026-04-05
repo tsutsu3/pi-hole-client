@@ -107,8 +107,10 @@ class PiHoleApiClient(
          * Detects auth failures from HTTP status code.
          *
          * Pi-hole v6 returns 401/403 for expired or invalid SIDs.
+         * The body is accepted for call-site convenience but only the
+         * status code is used for detection.
          */
-        fun isAuthFailure(statusCode: Int): Boolean {
+        fun isAuthFailure(statusCode: Int, body: String = ""): Boolean {
             return statusCode == 401 || statusCode == 403
         }
     }
