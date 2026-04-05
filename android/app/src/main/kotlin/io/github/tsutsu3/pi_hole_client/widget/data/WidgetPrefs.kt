@@ -21,7 +21,7 @@ data class WidgetServer(
     val alias: String,
     val address: String,
     val apiVersion: String,
-    val allowSelfSignedCert: Boolean,
+    val allowUntrustedCert: Boolean,
     val ignoreCertificateErrors: Boolean,
     val pinnedCertificateSha256: String?,
 )
@@ -196,7 +196,7 @@ class WidgetPrefs private constructor(context: Context) {
             obj.put("alias", server.alias)
             obj.put("address", server.address)
             obj.put("apiVersion", server.apiVersion)
-            obj.put("allowSelfSignedCert", server.allowSelfSignedCert)
+            obj.put("allowUntrustedCert", server.allowUntrustedCert)
             obj.put("ignoreCertificateErrors", server.ignoreCertificateErrors)
             if (server.pinnedCertificateSha256 != null) {
                 obj.put("pinnedCertificateSha256", server.pinnedCertificateSha256)
@@ -211,7 +211,7 @@ class WidgetPrefs private constructor(context: Context) {
                 .putString(keyForAlias(server.serverId), server.alias)
                 .putString(keyForAddress(server.serverId), server.address)
                 .putString(keyForApiVersion(server.serverId), server.apiVersion)
-                .putBoolean(keyForAllowSelfSigned(server.serverId), server.allowSelfSignedCert)
+                .putBoolean(keyForAllowUntrustedCert(server.serverId), server.allowUntrustedCert)
                 .putBoolean(keyForIgnoreCertErrors(server.serverId), server.ignoreCertificateErrors)
             if (server.pinnedCertificateSha256 != null) {
                 editor.putString(keyForPinnedCertSha256(server.serverId), server.pinnedCertificateSha256)
@@ -232,7 +232,7 @@ class WidgetPrefs private constructor(context: Context) {
             .remove(keyForAlias(serverId))
             .remove(keyForAddress(serverId))
             .remove(keyForApiVersion(serverId))
-            .remove(keyForAllowSelfSigned(serverId))
+            .remove(keyForAllowUntrustedCert(serverId))
             .remove(keyForIgnoreCertErrors(serverId))
             .remove(keyForPinnedCertSha256(serverId))
             .apply()
@@ -254,7 +254,7 @@ class WidgetPrefs private constructor(context: Context) {
                         alias = obj.optString("alias"),
                         address = obj.optString("address"),
                         apiVersion = obj.optString("apiVersion"),
-                        allowSelfSignedCert = obj.optBoolean("allowSelfSignedCert", false),
+                        allowUntrustedCert = obj.optBoolean("allowUntrustedCert", false),
                         ignoreCertificateErrors = obj.optBoolean("ignoreCertificateErrors", false),
                         pinnedCertificateSha256 = obj.optString("pinnedCertificateSha256").ifEmpty { null },
                     ),
@@ -277,7 +277,7 @@ class WidgetPrefs private constructor(context: Context) {
         val alias = prefs.getString(keyForAlias(serverId), null) ?: return null
         val address = prefs.getString(keyForAddress(serverId), null) ?: return null
         val apiVersion = prefs.getString(keyForApiVersion(serverId), "v6") ?: "v6"
-        val allowSelfSigned = prefs.getBoolean(keyForAllowSelfSigned(serverId), false)
+        val allowUntrustedCert = prefs.getBoolean(keyForAllowUntrustedCert(serverId), false)
         val ignoreCertErrors = prefs.getBoolean(keyForIgnoreCertErrors(serverId), false)
         val pinnedCertSha256 = prefs.getString(keyForPinnedCertSha256(serverId), null)
         return WidgetServer(
@@ -285,7 +285,7 @@ class WidgetPrefs private constructor(context: Context) {
             alias = alias,
             address = address,
             apiVersion = apiVersion,
-            allowSelfSignedCert = allowSelfSigned,
+            allowUntrustedCert = allowUntrustedCert,
             ignoreCertificateErrors = ignoreCertErrors,
             pinnedCertificateSha256 = pinnedCertSha256,
         )
@@ -317,8 +317,8 @@ class WidgetPrefs private constructor(context: Context) {
     private fun keyForApiVersion(serverId: String) =
         "${WidgetConstants.KEY_SERVER_API_VERSION_PREFIX}$serverId"
 
-    private fun keyForAllowSelfSigned(serverId: String) =
-        "${WidgetConstants.KEY_SERVER_ALLOW_SELF_SIGNED_PREFIX}$serverId"
+    private fun keyForAllowUntrustedCert(serverId: String) =
+        "${WidgetConstants.KEY_SERVER_ALLOW_UNTRUSTED_CERT_PREFIX}$serverId"
 
     private fun keyForIgnoreCertErrors(serverId: String) =
         "${WidgetConstants.KEY_SERVER_IGNORE_CERT_ERRORS_PREFIX}$serverId"

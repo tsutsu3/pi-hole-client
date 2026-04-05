@@ -137,7 +137,7 @@ class PiHoleWidgetWorker(
             ?: WidgetConstants.ACTION_REFRESH
 
         val client = PiHoleApiClient(
-            allowSelfSigned = server.allowSelfSignedCert,
+            allowSelfSigned = server.allowUntrustedCert,
             ignoreCertificateErrors = server.ignoreCertificateErrors,
             pinnedCertificateSha256 = server.pinnedCertificateSha256,
         )
