@@ -66,7 +66,7 @@ class ServersViewModel with ChangeNotifier {
   bool get unverifiedBannerDismissed => _unverifiedBannerDismissed;
 
   /// Returns servers that have unverified certificates allowed
-  /// (allowSelfSignedCert=true, ignoreCertificateErrors=false, no pinned cert)
+  /// (allowUntrustedCert=true, ignoreCertificateErrors=false, no pinned cert)
   List<Server> get serversWithUnverifiedCertificates {
     return _serversList.where(_hasUnverifiedCertificate).toList();
   }
@@ -77,7 +77,7 @@ class ServersViewModel with ChangeNotifier {
     final isHttps = address.startsWith('https://');
     if (!isHttps) return false;
     if (server.ignoreCertificateErrors) return true;
-    return server.allowSelfSignedCert &&
+    return server.allowUntrustedCert &&
         (server.pinnedCertificateSha256 == null ||
             server.pinnedCertificateSha256!.isEmpty);
   }

@@ -181,11 +181,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get allowList => 'Lista de permitidos';
 
   @override
-  String get allowSelfSignedCertificates =>
-      'Permitir certificados no confiables';
+  String get allowUntrustedCert => 'Permitir certificados no confiables';
 
   @override
-  String get allowSelfSignedCertificatesDescription =>
+  String get allowUntrustedCertDescription =>
       'Permite conexiones a servidores con certificados no confiables para este dispositivo, incluidos certificados autofirmados y los que tienen cadenas de certificados incompletas (p. ej., CA intermedia faltante).';
 
   @override

@@ -9,7 +9,7 @@ sealed class Server with _$Server {
     required String alias,
     required String apiVersion,
     @Default(false) bool defaultServer,
-    @Default(false) bool allowSelfSignedCert,
+    @Default(false) bool allowUntrustedCert,
     @Default(false) bool ignoreCertificateErrors,
     String? pinnedCertificateSha256,
   }) = _Server;

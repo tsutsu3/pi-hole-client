@@ -179,10 +179,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get allowList => 'Allowlist';
 
   @override
-  String get allowSelfSignedCertificates => 'Allow untrusted certificates';
+  String get allowUntrustedCert => 'Allow untrusted certificates';
 
   @override
-  String get allowSelfSignedCertificatesDescription =>
+  String get allowUntrustedCertDescription =>
       'Allows connections using certificates not trusted by this device, including self-signed certificates and those with incomplete chains (e.g., missing intermediate CA).';
 
   @override

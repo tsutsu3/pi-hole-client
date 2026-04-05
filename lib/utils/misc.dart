@@ -27,7 +27,7 @@ String convertTemperatureUnit(String? unit) {
 /// Creates an instance of [HttpClient] with configurable certificate validation
 /// and connection keep-alive behavior.
 ///
-/// If [allowSelfSignedCert] is `true`, the client will install a
+/// If [allowUntrustedCert] is `true`, the client will install a
 /// `badCertificateCallback`. This callback is only invoked when the platform's
 /// default TLS validation fails. When invoked, the callback can allow the
 /// connection based on [pinnedCertificateSha256].
@@ -39,14 +39,14 @@ String convertTemperatureUnit(String? unit) {
 /// (by setting `idleTimeout` to `Duration.zero`).
 /// If `false`, the default `HttpClient` idle timeout is used.
 ///
-/// - [allowSelfSignedCert]: Whether to allow self-signed certificates. Defaults to `true`.
+/// - [allowUntrustedCert]: Whether to allow self-signed certificates. Defaults to `true`.
 /// - [ignoreCertificateErrors]: Whether to ignore TLS certificate validation
 ///   entirely. Defaults to `false`.
 /// - [keepAlive]: Whether to keep idle connections alive indefinitely. Defaults to `false`.
 ///
 /// Returns an instance of [HttpClient].
 HttpClient createHttpClient({
-  bool allowSelfSignedCert = true,
+  bool allowUntrustedCert = true,
   bool ignoreCertificateErrors = false,
   bool keepAlive = false,
   String? pinnedCertificateSha256,
@@ -61,7 +61,7 @@ HttpClient createHttpClient({
   if (ignoreCertificateErrors) {
     client.badCertificateCallback =
         (X509Certificate cert, String host, int port) => true;
-  } else if (allowSelfSignedCert) {
+  } else if (allowUntrustedCert) {
     client.badCertificateCallback =
         (X509Certificate cert, String host, int port) => _isCertificatePinned(
           pinnedCertificateSha256: pinnedCertificateSha256,
@@ -81,7 +81,7 @@ bool _isCertificatePinned({
 }) {
   if (pinnedCertificateSha256 == null || pinnedCertificateSha256.isEmpty) {
     logger.w(
-      'TLS validation failed for $host:$port; allowing untrusted certificate because no pin is set (legacy allowSelfSignedCert behavior).',
+      'TLS validation failed for $host:$port; allowing untrusted certificate because no pin is set (legacy allowUntrustedCert behavior).',
     );
     // Backward compatible behavior: allow untrusted certificates when explicitly enabled.
     // Prefer certificate pinning to avoid accepting arbitrary self-signed certificates.

@@ -78,7 +78,7 @@ class _ServersListState extends State<ServersList> {
     );
     for (final s in serversList) {
       logger.d(
-        '  - ${s.alias}: https=${s.address.toLowerCase().startsWith("https://")}, allowSelfSigned=${s.allowSelfSignedCert}, ignoreCertErrors=${s.ignoreCertificateErrors}, pinned=${s.pinnedCertificateSha256}',
+        '  - ${s.alias}: https=${s.address.toLowerCase().startsWith("https://")}, allowUntrustedCert=${s.allowUntrustedCert}, ignoreCertErrors=${s.ignoreCertificateErrors}, pinned=${s.pinnedCertificateSha256}',
       );
     }
 

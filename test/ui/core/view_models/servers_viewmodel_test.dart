@@ -21,7 +21,7 @@ void main() async {
       alias: 'test v6',
       defaultServer: false,
       apiVersion: 'v6',
-      allowSelfSignedCert: true,
+      allowUntrustedCert: true,
       ignoreCertificateErrors: false,
     );
 
@@ -95,7 +95,7 @@ void main() async {
             alias: 'test v6',
             defaultServer: true,
             apiVersion: 'v6',
-            allowSelfSignedCert: true,
+            allowUntrustedCert: true,
             ignoreCertificateErrors: false,
           );
           await serversViewModel.addServer.runAsync(server2);
@@ -215,7 +215,7 @@ void main() async {
           alias: server.alias,
           defaultServer: true,
           apiVersion: server.apiVersion,
-          allowSelfSignedCert: server.allowSelfSignedCert,
+          allowUntrustedCert: server.allowUntrustedCert,
           ignoreCertificateErrors: server.ignoreCertificateErrors,
           pinnedCertificateSha256: null,
         ),
@@ -303,7 +303,7 @@ void main() async {
           alias: 'Unverified',
           defaultServer: false,
           apiVersion: 'v6',
-          allowSelfSignedCert: true,
+          allowUntrustedCert: true,
           ignoreCertificateErrors: false,
         );
         await serversViewModel.addServer.runAsync(unverifiedServer);
@@ -330,7 +330,7 @@ void main() async {
         alias: 'default',
         defaultServer: true,
         apiVersion: 'v6',
-        allowSelfSignedCert: false,
+        allowUntrustedCert: false,
         ignoreCertificateErrors: false,
       );
       await serversViewModel.addServer.runAsync(defaultSrv);
@@ -355,7 +355,7 @@ void main() async {
         alias: 'test v5',
         defaultServer: false,
         apiVersion: 'v5',
-        allowSelfSignedCert: true,
+        allowUntrustedCert: true,
         ignoreCertificateErrors: false,
       );
 
@@ -407,7 +407,7 @@ void main() async {
         alias: 'empty pin',
         defaultServer: false,
         apiVersion: 'v6',
-        allowSelfSignedCert: true,
+        allowUntrustedCert: true,
         ignoreCertificateErrors: false,
         pinnedCertificateSha256: '',
       );

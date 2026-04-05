@@ -8,7 +8,7 @@ import 'dart:ui' as _i13;
 
 import 'package:command_it/command_it.dart' as _i3;
 import 'package:device_info_plus/device_info_plus.dart' as _i10;
-import 'package:flutter/material.dart' as _i5;
+import 'package:flutter/material.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i6;
 import 'package:package_info_plus/package_info_plus.dart' as _i9;
@@ -39,7 +39,7 @@ import 'package:pi_hole_client/domain/model/query_status.dart' as _i16;
 import 'package:pi_hole_client/domain/model/server/server.dart' as _i15;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart'
-    as _i4;
+    as _i5;
 import 'package:pi_hole_client/ui/core/view_models/local_dns_viewmodel.dart'
     as _i30;
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart'
@@ -85,11 +85,17 @@ class _FakeCommand_1<TParam, TResult> extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
+class _FakeValueNotifier_2<T> extends _i1.SmartFake
+    implements _i4.ValueNotifier<T> {
+  _FakeValueNotifier_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [AppConfigViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAppConfigViewModel extends _i1.Mock
-    implements _i4.AppConfigViewModel {
+    implements _i5.AppConfigViewModel {
   MockAppConfigViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -116,12 +122,12 @@ class MockAppConfigViewModel extends _i1.Mock
           as int);
 
   @override
-  _i5.ThemeMode get selectedTheme =>
+  _i4.ThemeMode get selectedTheme =>
       (super.noSuchMethod(
             Invocation.getter(#selectedTheme),
-            returnValue: _i5.ThemeMode.system,
+            returnValue: _i4.ThemeMode.system,
           )
-          as _i5.ThemeMode);
+          as _i4.ThemeMode);
 
   @override
   String get selectedLanguage =>
@@ -938,6 +944,17 @@ class MockLogsViewModel extends _i1.Mock implements _i18.LogsViewModel {
           as Set<_i7.QueryStatusType>);
 
   @override
+  _i4.ValueNotifier<List<_i19.Log>> get logsDisplayNotifier =>
+      (super.noSuchMethod(
+            Invocation.getter(#logsDisplayNotifier),
+            returnValue: _FakeValueNotifier_2<List<_i19.Log>>(
+              this,
+              Invocation.getter(#logsDisplayNotifier),
+            ),
+          )
+          as _i4.ValueNotifier<List<_i19.Log>>);
+
+  @override
   List<_i19.Log> get logsList =>
       (super.noSuchMethod(
             Invocation.getter(#logsList),
@@ -1237,6 +1254,12 @@ class MockLogsViewModel extends _i1.Mock implements _i18.LogsViewModel {
   );
 
   @override
+  void dispose() => super.noSuchMethod(
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
   void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
@@ -1245,12 +1268,6 @@ class MockLogsViewModel extends _i1.Mock implements _i18.LogsViewModel {
   @override
   void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  void dispose() => super.noSuchMethod(
-    Invocation.method(#dispose, []),
     returnValueForMissingStub: null,
   );
 

@@ -180,10 +180,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get allowList => 'Lista dozwolonych';
 
   @override
-  String get allowSelfSignedCertificates => 'Zezwól na niezaufane certyfikaty';
+  String get allowUntrustedCert => 'Zezwól na niezaufane certyfikaty';
 
   @override
-  String get allowSelfSignedCertificatesDescription =>
+  String get allowUntrustedCertDescription =>
       'Umożliwia połączenia z serwerami posiadającymi certyfikaty niezaufane przez urządzenie, w tym certyfikaty z podpisem własnym i te z niekompletnymi łańcuchami (np. brakująca pośrednia CA).';
 
   @override

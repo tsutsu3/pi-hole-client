@@ -24,7 +24,7 @@ void main() {
       alias: 'test',
       defaultServer: false,
       apiVersion: apiVersion,
-      allowSelfSignedCert: false,
+      allowUntrustedCert: false,
       ignoreCertificateErrors: false,
     );
   }

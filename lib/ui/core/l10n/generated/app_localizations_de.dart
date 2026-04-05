@@ -182,11 +182,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get allowList => 'Zulassungsliste';
 
   @override
-  String get allowSelfSignedCertificates =>
+  String get allowUntrustedCert =>
       'Nicht vertrauenswürdige Zertifikate zulassen';
 
   @override
-  String get allowSelfSignedCertificatesDescription =>
+  String get allowUntrustedCertDescription =>
       'Erlaubt Verbindungen zu Servern mit Zertifikaten, denen das Gerät nicht vertraut, einschließlich selbstsignierter Zertifikate und solcher mit unvollständigen Zertifikatsketten (z. B. fehlende Zwischen-CA).';
 
   @override

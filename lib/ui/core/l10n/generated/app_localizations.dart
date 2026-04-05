@@ -440,17 +440,17 @@ abstract class AppLocalizations {
   /// **'Allowlist'**
   String get allowList;
 
-  /// No description provided for @allowSelfSignedCertificates.
+  /// No description provided for @allowUntrustedCert.
   ///
   /// In en, this message translates to:
   /// **'Allow untrusted certificates'**
-  String get allowSelfSignedCertificates;
+  String get allowUntrustedCert;
 
-  /// No description provided for @allowSelfSignedCertificatesDescription.
+  /// No description provided for @allowUntrustedCertDescription.
   ///
   /// In en, this message translates to:
   /// **'Allows connections using certificates not trusted by this device, including self-signed certificates and those with incomplete chains (e.g., missing intermediate CA).'**
-  String get allowSelfSignedCertificatesDescription;
+  String get allowUntrustedCertDescription;
 
   /// No description provided for @tlsCertSubject.
   ///

@@ -20,7 +20,7 @@ void main() {
     alias: 'test5',
     defaultServer: false,
     apiVersion: 'v5',
-    allowSelfSignedCert: true,
+    allowUntrustedCert: true,
     ignoreCertificateErrors: false,
   );
   const serverV6 = Server(
@@ -28,7 +28,7 @@ void main() {
     alias: 'test6',
     defaultServer: true,
     apiVersion: 'v6',
-    allowSelfSignedCert: true,
+    allowUntrustedCert: true,
     ignoreCertificateErrors: false,
   );
   final gravityUpdateDataJson = {

@@ -119,7 +119,7 @@ const _serverV6 = Server(
   alias: 'test v6',
   defaultServer: false,
   apiVersion: 'v6',
-  allowSelfSignedCert: true,
+  allowUntrustedCert: true,
   ignoreCertificateErrors: false,
 );
 
@@ -128,7 +128,7 @@ const _serverV5 = Server(
   alias: 'test v5',
   defaultServer: false,
   apiVersion: 'v5',
-  allowSelfSignedCert: true,
+  allowUntrustedCert: true,
   ignoreCertificateErrors: false,
 );
 

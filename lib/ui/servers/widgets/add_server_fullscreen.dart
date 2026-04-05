@@ -52,7 +52,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   ConnectionType connectionType = ConnectionType.http;
   String piHoleVersion = SupportedApiVersions.v6;
   bool defaultCheckbox = false;
-  bool allowSelfSignedCert = true;
+  bool allowUntrustedCert = true;
   bool ignoreCertificateErrors = false;
   String? pinnedCertificateSha256;
 
@@ -88,7 +88,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           : ConnectionType.http;
       piHoleVersion = widget.server!.apiVersion;
       defaultCheckbox = widget.server!.defaultServer;
-      allowSelfSignedCert = widget.server!.allowSelfSignedCert;
+      allowUntrustedCert = widget.server!.allowUntrustedCert;
       ignoreCertificateErrors = widget.server!.ignoreCertificateErrors;
       pinnedCertificateSha256 = widget.server!.pinnedCertificateSha256;
       // For edit mode, expand Advanced Options if HTTPS
@@ -329,7 +329,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         builder: (dialogContext) => CertificateDetailsDialog(
           title: AppLocalizations.of(
             dialogContext,
-          )!.allowSelfSignedCertificates,
+          )!.allowUntrustedCert,
           description: AppLocalizations.of(
             dialogContext,
           )!.serverCertificateUpdatePinHelp,
@@ -370,7 +370,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       final uri = Uri.parse(serverObj.address);
 
-      if (allowSelfSignedCert) {
+      if (allowUntrustedCert) {
         // Allow self-signed: prompt user to pin the certificate
         if (!context.mounted) return null;
         final pin = await ensurePinnedFingerprint(
@@ -417,7 +417,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       setState(() {
         isConnecting = true;
       });
-      if (!allowSelfSignedCert) {
+      if (!allowUntrustedCert) {
         pinnedCertificateSha256 = null;
       }
 
@@ -451,7 +451,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           address: url,
           alias: aliasFieldController.text,
           apiVersion: piHoleVersion,
-          allowSelfSignedCert: allowSelfSignedCert,
+          allowUntrustedCert: allowUntrustedCert,
           ignoreCertificateErrors: ignoreCertificateErrors,
           pinnedCertificateSha256: pinnedCertificateSha256,
         );
@@ -542,7 +542,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         isConnecting = true;
       });
 
-      if (!allowSelfSignedCert) {
+      if (!allowUntrustedCert) {
         pinnedCertificateSha256 = null;
       }
 
@@ -550,7 +550,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         address: widget.server!.address,
         alias: aliasFieldController.text,
         apiVersion: piHoleVersion,
-        allowSelfSignedCert: allowSelfSignedCert,
+        allowUntrustedCert: allowUntrustedCert,
         ignoreCertificateErrors: ignoreCertificateErrors,
         pinnedCertificateSha256: pinnedCertificateSha256,
       );
@@ -930,13 +930,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       const SizedBox(height: 12),
                       CheckboxListTile(
                         contentPadding: const EdgeInsets.only(right: 8),
-                        value: allowSelfSignedCert,
+                        value: allowUntrustedCert,
                         onChanged:
                             connectionType == ConnectionType.https &&
                                 !ignoreCertificateErrors
                             ? (v) => setState(() {
-                                allowSelfSignedCert = v!;
-                                if (!allowSelfSignedCert) {
+                                allowUntrustedCert = v!;
+                                if (!allowUntrustedCert) {
                                   pinnedCertificateSha256 = null;
                                 }
                               })
@@ -947,7 +947,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                               child: Text(
                                 AppLocalizations.of(
                                   context,
-                                )!.allowSelfSignedCertificates,
+                                )!.allowUntrustedCert,
                               ),
                             ),
                             IconButton(
@@ -967,7 +967,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                         subtitle: Text(
                           AppLocalizations.of(
                             context,
-                          )!.allowSelfSignedCertificatesDescription,
+                          )!.allowUntrustedCertDescription,
                           style: TextStyle(
                             fontSize: 12,
                             color: appColors.queryOrange,

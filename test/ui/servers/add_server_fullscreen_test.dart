@@ -17,7 +17,7 @@ const _serverV6 = Server(
   alias: 'test v6',
   defaultServer: false,
   apiVersion: 'v6',
-  allowSelfSignedCert: true,
+  allowUntrustedCert: true,
   ignoreCertificateErrors: false,
 );
 
@@ -310,7 +310,7 @@ void main() async {
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
         expect(
-          find.text("SSL error. Check if the server's certificate is valid."),
+          find.text("SSL error. The server's certificate may be invalid, self-signed, or have an incomplete chain."),
           findsOneWidget,
         );
       },
@@ -641,7 +641,7 @@ void main() async {
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
         expect(
-          find.text("SSL error. Check if the server's certificate is valid."),
+          find.text("SSL error. The server's certificate may be invalid, self-signed, or have an incomplete chain."),
           findsOneWidget,
         );
       },
