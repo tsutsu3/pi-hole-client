@@ -786,9 +786,39 @@ class DatabaseService {
   /// to reflect that the option covers not only self-signed certificates
   /// but also those with incomplete chains.
   Future<void> _upgradeToV10(Database db) async {
-    await db.execute(
-      'ALTER TABLE servers RENAME COLUMN allowSelfSignedCert TO allowUntrustedCert',
-    );
+    await db.execute('''
+      CREATE TABLE servers_new (
+        address TEXT PRIMARY KEY NOT NULL,
+        alias TEXT NOT NULL,
+        isDefaultServer NUMERIC NOT NULL,
+        apiVersion TEXT NOT NULL,
+        allowUntrustedCert NUMERIC NOT NULL,
+        ignoreCertificateErrors NUMERIC NOT NULL,
+        pinnedCertificateSha256 TEXT
+      )
+    ''');
+    await db.execute('''
+      INSERT INTO servers_new (
+        address,
+        alias,
+        isDefaultServer,
+        apiVersion,
+        allowUntrustedCert,
+        ignoreCertificateErrors,
+        pinnedCertificateSha256
+      )
+      SELECT
+        address,
+        alias,
+        isDefaultServer,
+        apiVersion,
+        allowSelfSignedCert,
+        ignoreCertificateErrors,
+        pinnedCertificateSha256
+      FROM servers
+    ''');
+    await db.execute('DROP TABLE servers');
+    await db.execute('ALTER TABLE servers_new RENAME TO servers');
     logger.d('Database upgraded to version 10');
   }
 }
