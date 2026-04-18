@@ -5,14 +5,11 @@ import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_button_list_tile.dart';
-import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
-import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/confirmation_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -87,29 +84,8 @@ class _AdvancedServerOptionsScreenState
   @override
   Widget build(BuildContext context) {
     final appConfigViewModel = context.read<AppConfigViewModel>();
-    final isV5 = context.select<ServersViewModel, bool>(
-      (vm) => vm.selectedServer?.apiVersion == 'v5',
-    );
-    final bundle = context.watch<RepositoryBundle?>();
+    final bundle = context.watch<RepositoryBundle?>()!;
     final theme = Theme.of(context).extension<AppColors>()!;
-
-    if (bundle == null) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.advancedSetup),
-        ),
-        body: const SafeArea(child: EmptyDataScreen()),
-      );
-    }
-
-    if (isV5) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.advancedSetup),
-        ),
-        body: const SafeArea(child: PiHoleV5NotSupportedScreen()),
-      );
-    }
 
     final loggingEnabled = isLoggingEnabled;
 

@@ -4,9 +4,9 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundl
 import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
+import 'package:pi_hole_client/routing/server_scoped_route.dart';
 import 'package:pi_hole_client/ui/app_logs/widgets/app_logs_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
@@ -157,14 +157,10 @@ GoRouter createAppRouter({
                   GoRoute(
                     path: '/domains',
                     name: Routes.domains,
-                    builder: (context, state) {
-                      final bundle = context.watch<RepositoryBundle?>();
-                      if (bundle == null) return const SizedBox.shrink();
-                      return KeyedSubtree(
-                        key: ObjectKey(bundle),
-                        child: createDomainsScreen(bundle),
-                      );
-                    },
+                    builder: (context, state) => ServerScopedRoute(
+                      title: AppLocalizations.of(context)!.domains,
+                      builder: (bundle, _) => createDomainsScreen(bundle),
+                    ),
                     routes: [
                       GoRoute(
                         path: 'details',
@@ -275,37 +271,23 @@ GoRouter createAppRouter({
                       GoRoute(
                         path: '/settings/server/info',
                         name: Routes.settingsServerInfo,
-                        builder: (context, state) {
-                          final bundle = context.read<RepositoryBundle?>();
-                          final server = context
-                              .read<ServersViewModel>()
-                              .selectedServer;
-                          if (bundle == null || server == null) {
-                            return _serverUnselectedScreen(
-                              context,
-                              AppLocalizations.of(context)!.serverInfo,
-                            );
-                          }
-                          return createServerInfoScreen(
+                        builder: (context, state) => ServerScopedRoute(
+                          title: AppLocalizations.of(context)!.serverInfo,
+                          builder: (bundle, server) => createServerInfoScreen(
                             bundle: bundle,
                             serverAlias: server.alias,
                             serverAddress: server.address,
-                          );
-                        },
+                          ),
+                        ),
                       ),
                       GoRoute(
                         path: '/settings/server/adlists',
                         name: Routes.settingsServerAdlists,
-                        builder: (context, state) {
-                          final bundle = context.read<RepositoryBundle?>();
-                          if (bundle == null) {
-                            return _serverUnselectedScreen(
-                              context,
-                              AppLocalizations.of(context)!.adlists,
-                            );
-                          }
-                          return createAdlistScreen(bundle);
-                        },
+                        builder: (context, state) => ServerScopedRoute(
+                          title: AppLocalizations.of(context)!.adlists,
+                          required: RequiredApiVersion.v6Only,
+                          builder: (bundle, _) => createAdlistScreen(bundle),
+                        ),
                         routes: [
                           GoRoute(
                             path: 'details',
@@ -328,16 +310,12 @@ GoRouter createAppRouter({
                       GoRoute(
                         path: '/settings/server/group-client',
                         name: Routes.settingsServerGroupClient,
-                        builder: (context, state) {
-                          final bundle = context.read<RepositoryBundle?>();
-                          if (bundle == null) {
-                            return _serverUnselectedScreen(
-                              context,
-                              AppLocalizations.of(context)!.groupsAndClients,
-                            );
-                          }
-                          return createGroupClientScreen(bundle);
-                        },
+                        builder: (context, state) => ServerScopedRoute(
+                          title: AppLocalizations.of(context)!.groupsAndClients,
+                          required: RequiredApiVersion.v6Only,
+                          builder: (bundle, _) =>
+                              createGroupClientScreen(bundle),
+                        ),
                         routes: [
                           GoRoute(
                             path: 'group-details',
@@ -390,16 +368,21 @@ GoRouter createAppRouter({
                       GoRoute(
                         path: '/settings/server/advanced',
                         name: Routes.settingsServerAdvanced,
-                        builder: (context, state) =>
-                            const AdvancedServerOptionsScreen(),
+                        builder: (context, state) => ServerScopedRoute(
+                          title: AppLocalizations.of(context)!.advancedSetup,
+                          required: RequiredApiVersion.v6Only,
+                          builder: (_, _) => const AdvancedServerOptionsScreen(),
+                        ),
                       ),
 
                       // ── Settings > Server > Advanced ──
                       GoRoute(
                         path: '/settings/server/advanced/sessions',
                         name: Routes.settingsServerAdvancedSessions,
-                        builder: (context, state) => createSessionsScreen(
-                          context.read<RepositoryBundle?>()!,
+                        builder: (context, state) => ServerScopedRoute(
+                          title: AppLocalizations.of(context)!.sessions,
+                          required: RequiredApiVersion.v6Only,
+                          builder: (bundle, _) => createSessionsScreen(bundle),
                         ),
                         routes: [
                           GoRoute(
@@ -418,8 +401,10 @@ GoRouter createAppRouter({
                       GoRoute(
                         path: '/settings/server/advanced/dhcp',
                         name: Routes.settingsServerAdvancedDhcp,
-                        builder: (context, state) => createDhcpScreen(
-                          context.read<RepositoryBundle?>()!,
+                        builder: (context, state) => ServerScopedRoute(
+                          title: AppLocalizations.of(context)!.dhcp,
+                          required: RequiredApiVersion.v6Only,
+                          builder: (bundle, _) => createDhcpScreen(bundle),
                         ),
                         routes: [
                           GoRoute(
@@ -438,8 +423,10 @@ GoRouter createAppRouter({
                       GoRoute(
                         path: '/settings/server/advanced/local-dns',
                         name: Routes.settingsServerAdvancedLocalDns,
-                        builder: (context, state) => createLocalDnsScreen(
-                          context.read<RepositoryBundle?>()!,
+                        builder: (context, state) => ServerScopedRoute(
+                          title: AppLocalizations.of(context)!.localDns,
+                          required: RequiredApiVersion.v6Only,
+                          builder: (bundle, _) => createLocalDnsScreen(bundle),
                         ),
                         routes: [
                           GoRoute(
@@ -461,10 +448,13 @@ GoRouter createAppRouter({
                       GoRoute(
                         path: '/settings/server/advanced/find-domains-in-lists',
                         name: Routes.settingsServerAdvancedFindDomainsInLists,
-                        builder: (context, state) =>
-                            createFindDomainsInListsScreen(
-                              context.read<RepositoryBundle?>()!,
-                            ),
+                        builder: (context, state) => ServerScopedRoute(
+                          title:
+                              AppLocalizations.of(context)!.findDomainsInLists,
+                          required: RequiredApiVersion.v6Only,
+                          builder: (bundle, _) =>
+                              createFindDomainsInListsScreen(bundle),
+                        ),
                         routes: [
                           GoRoute(
                             path: 'domain-details',
@@ -515,8 +505,10 @@ GoRouter createAppRouter({
                       GoRoute(
                         path: '/settings/server/advanced/interface',
                         name: Routes.settingsServerAdvancedInterface,
-                        builder: (context, state) => createInterfaceScreen(
-                          context.read<RepositoryBundle?>()!,
+                        builder: (context, state) => ServerScopedRoute(
+                          title: AppLocalizations.of(context)!.interface,
+                          required: RequiredApiVersion.v6Only,
+                          builder: (bundle, _) => createInterfaceScreen(bundle),
                         ),
                         routes: [
                           GoRoute(
@@ -555,8 +547,10 @@ GoRouter createAppRouter({
                       GoRoute(
                         path: '/settings/server/advanced/network',
                         name: Routes.settingsServerAdvancedNetwork,
-                        builder: (context, state) => createNetworkScreen(
-                          context.read<RepositoryBundle?>()!,
+                        builder: (context, state) => ServerScopedRoute(
+                          title: AppLocalizations.of(context)!.network,
+                          required: RequiredApiVersion.v6Only,
+                          builder: (bundle, _) => createNetworkScreen(bundle),
                         ),
                         routes: [
                           GoRoute(
@@ -615,16 +609,6 @@ GoRouter createAppRouter({
         builder: (context, state) => const ServersScreen(),
       ),
     ],
-  );
-}
-
-/// Fallback shown by server-scoped settings routes when no server is selected
-/// (i.e. [RepositoryBundle] is null). Matches the v1.8.0 behavior of showing
-/// a titled empty screen instead of throwing.
-Widget _serverUnselectedScreen(BuildContext context, String title) {
-  return Scaffold(
-    appBar: AppBar(title: Text(title)),
-    body: const SafeArea(child: EmptyDataScreen()),
   );
 }
 
