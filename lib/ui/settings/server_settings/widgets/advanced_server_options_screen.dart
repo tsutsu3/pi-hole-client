@@ -24,47 +24,18 @@ class AdvancedServerOptionsScreen extends StatefulWidget {
 
 class _AdvancedServerOptionsScreenState
     extends State<AdvancedServerOptionsScreen> {
-  RepositoryBundle? _bundle;
-  RepositoryBundle? _previousBundle;
   bool? isLoggingEnabled;
   bool isLoading = true;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final currentBundle = context.watch<RepositoryBundle?>();
-
-    if (currentBundle != _previousBundle) {
-      _previousBundle = currentBundle;
-      _bundle = currentBundle;
-
-      if (_bundle != null) {
-        _loadQueryLoggingStatus();
-      } else {
-        setState(() {
-          isLoading = false;
-          isLoggingEnabled = null;
-        });
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    isLoggingEnabled = null;
-    isLoading = true;
-    super.dispose();
+  void initState() {
+    super.initState();
+    _loadQueryLoggingStatus();
   }
 
   Future<void> _loadQueryLoggingStatus() async {
-    if (!mounted || _bundle == null) return;
-
-    setState(() {
-      isLoading = true;
-      isLoggingEnabled = null;
-    });
-
-    final result = await _bundle!.config.fetchDnsQueryLogging();
+    final bundle = context.read<RepositoryBundle?>()!;
+    final result = await bundle.config.fetchDnsQueryLogging();
     if (!mounted) return;
 
     setState(() {
@@ -84,7 +55,7 @@ class _AdvancedServerOptionsScreenState
   @override
   Widget build(BuildContext context) {
     final appConfigViewModel = context.read<AppConfigViewModel>();
-    final bundle = context.watch<RepositoryBundle?>()!;
+    final bundle = context.read<RepositoryBundle?>()!;
     final theme = Theme.of(context).extension<AppColors>()!;
 
     final loggingEnabled = isLoggingEnabled;
