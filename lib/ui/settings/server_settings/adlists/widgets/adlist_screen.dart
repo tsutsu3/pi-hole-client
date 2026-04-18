@@ -4,12 +4,9 @@ import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
-import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/group_filter_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/gravity_update_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_actions.dart';
@@ -25,26 +22,7 @@ class AdlistScreen extends StatelessWidget {
   const AdlistScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final serversViewModel = Provider.of<ServersViewModel>(context);
-    final selectedServer = serversViewModel.selectedServer;
-
-    if (selectedServer == null) {
-      return Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.adlists)),
-        body: const SafeArea(child: EmptyDataScreen()),
-      );
-    }
-
-    if (selectedServer.apiVersion == 'v5') {
-      return Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.adlists)),
-        body: const SafeArea(child: PiHoleV5NotSupportedScreen()),
-      );
-    }
-
-    return const AdlistScreenWidget();
-  }
+  Widget build(BuildContext context) => const AdlistScreenWidget();
 }
 
 class AdlistScreenWidget extends StatefulWidget {

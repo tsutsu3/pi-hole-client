@@ -6,12 +6,9 @@ import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
-import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/local_dns_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/clients_viewmodel.dart';
@@ -26,30 +23,7 @@ class GroupClientScreen extends StatelessWidget {
   const GroupClientScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final serversViewModel = Provider.of<ServersViewModel>(context);
-    final apiVersion = serversViewModel.selectedServer?.apiVersion;
-
-    if (serversViewModel.selectedServer == null) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.groupsAndClients),
-        ),
-        body: const SafeArea(child: EmptyDataScreen()),
-      );
-    }
-
-    if (apiVersion == 'v5') {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.groupsAndClients),
-        ),
-        body: const SafeArea(child: PiHoleV5NotSupportedScreen()),
-      );
-    }
-
-    return const GroupClientScreenWidget();
-  }
+  Widget build(BuildContext context) => const GroupClientScreenWidget();
 }
 
 class GroupClientScreenWidget extends StatefulWidget {

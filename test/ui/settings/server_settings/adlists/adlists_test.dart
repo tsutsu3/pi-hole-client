@@ -11,9 +11,7 @@ import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
-import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
-import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
@@ -119,15 +117,6 @@ const _serverV6 = Server(
   alias: 'test v6',
   defaultServer: false,
   apiVersion: 'v6',
-  allowUntrustedCert: true,
-  ignoreCertificateErrors: false,
-);
-
-const _serverV5 = Server(
-  address: 'http://localhost:8080',
-  alias: 'test v5',
-  defaultServer: false,
-  apiVersion: 'v5',
   allowUntrustedCert: true,
   ignoreCertificateErrors: false,
 );
@@ -281,54 +270,6 @@ void main() async {
       expect(find.text('Blocklist'), findsOneWidget);
       expect(find.text('There are no adlists to show here.'), findsOneWidget);
       expect(find.text('Choose an adlist to see its details'), findsOneWidget);
-    });
-
-    testWidgets('should show not supported screen with V5 server', (
-      WidgetTester tester,
-    ) async {
-      tester.view.physicalSize = const Size(1080, 2400);
-      tester.view.devicePixelRatio = 2.0;
-
-      fakeServersViewModel.selectedServer = _serverV5;
-
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
-
-      await tester.pumpWidget(buildAdlistWidget());
-
-      expect(find.byType(AdlistScreen), findsOneWidget);
-      await tester.pumpAndSettle();
-
-      expect(find.byType(PiHoleV5NotSupportedScreen), findsOneWidget);
-      expect(find.text('Adlists'), findsOneWidget);
-      expect(find.text('Allowlist'), findsNothing);
-      expect(find.text('Blocklist'), findsNothing);
-    });
-
-    testWidgets('should show empty data screen when no server selected', (
-      WidgetTester tester,
-    ) async {
-      tester.view.physicalSize = const Size(1080, 2400);
-      tester.view.devicePixelRatio = 2.0;
-
-      fakeServersViewModel.selectedServer = null;
-
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
-
-      await tester.pumpWidget(buildAdlistWidget());
-
-      expect(find.byType(AdlistScreen), findsOneWidget);
-      await tester.pumpAndSettle();
-
-      expect(find.byType(EmptyDataScreen), findsOneWidget);
-      expect(find.text('Adlists'), findsOneWidget);
-      expect(find.text('Allowlist'), findsNothing);
-      expect(find.text('Blocklist'), findsNothing);
     });
 
     testWidgets(

@@ -6,7 +6,6 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundl
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
-import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_details_screen.dart';
@@ -156,42 +155,6 @@ void main() async {
         find.text('Please enter a maximum number greater than 0.'),
         findsOneWidget,
       );
-    });
-
-    testWidgets('shows v5 not supported screen when api is v5', (
-      WidgetTester tester,
-    ) async {
-      final v5ServersViewModel = FakeServersViewModel()
-        ..selectedServer = const Server(
-          address: 'http://localhost:8080',
-          alias: 'test v5',
-          defaultServer: false,
-          apiVersion: 'v5',
-          allowUntrustedCert: true,
-          ignoreCertificateErrors: false,
-        );
-
-      await tester.pumpWidget(
-        buildTestApp(
-          MultiProvider(
-            providers: [
-              ChangeNotifierProvider<ServersViewModel>.value(
-                value: v5ServersViewModel,
-              ),
-              ChangeNotifierProvider<FindDomainsInListsViewModel>.value(
-                value: findDomainsInListsViewModel,
-              ),
-              ChangeNotifierProvider<GroupsViewModel>.value(
-                value: groupsViewModel,
-              ),
-            ],
-            child: const FindDomainsInListsScreen(),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.byType(PiHoleV5NotSupportedScreen), findsOneWidget);
     });
 
     testWidgets('renders summary and results after successful search', (

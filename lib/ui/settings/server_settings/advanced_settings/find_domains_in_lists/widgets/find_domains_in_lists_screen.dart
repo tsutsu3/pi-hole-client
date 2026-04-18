@@ -7,12 +7,9 @@ import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
-import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists/view_models/find_domains_in_lists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists/widgets/models.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists/widgets/results_section.dart';
@@ -21,9 +18,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_mod
 import 'package:provider/provider.dart';
 
 class FindDomainsInListsScreen extends StatefulWidget {
-  const FindDomainsInListsScreen({this.showAppBar = true, super.key});
-
-  final bool showAppBar;
+  const FindDomainsInListsScreen({super.key});
 
   @override
   State<FindDomainsInListsScreen> createState() =>
@@ -58,35 +53,9 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<FindDomainsInListsViewModel>();
-    final serversViewModel = context.watch<ServersViewModel>();
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final groups = context.watch<GroupsViewModel>().groupItems;
     final colors = appConfigViewModel.colors;
-    final apiVersion = serversViewModel.selectedServer?.apiVersion;
-
-    if (apiVersion == null) {
-      if (widget.showAppBar) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(AppLocalizations.of(context)!.findDomainsInLists),
-          ),
-          body: const SafeArea(child: EmptyDataScreen()),
-        );
-      }
-      return const SafeArea(child: EmptyDataScreen());
-    }
-
-    if (apiVersion == 'v5') {
-      if (widget.showAppBar) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(AppLocalizations.of(context)!.findDomainsInLists),
-          ),
-          body: const SafeArea(child: PiHoleV5NotSupportedScreen()),
-        );
-      }
-      return const SafeArea(child: PiHoleV5NotSupportedScreen());
-    }
 
     final content = SafeArea(
       child: ListView(
@@ -141,10 +110,6 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
         ],
       ),
     );
-
-    if (!widget.showAppBar) {
-      return content;
-    }
 
     return Scaffold(
       appBar: AppBar(
