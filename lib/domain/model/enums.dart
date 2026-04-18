@@ -79,8 +79,6 @@ enum DomainKind {
   regex,
 }
 
-enum GraphSection { homeView, statsView }
-
 /// Controls how statistics data is displayed on the Statistics screen.
 ///
 /// Persisted in the local database as an integer index.
