@@ -5,6 +5,8 @@ import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/app_logs/widgets/app_logs_screen.dart';
+import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
@@ -274,11 +276,18 @@ GoRouter createAppRouter({
                         path: '/settings/server/info',
                         name: Routes.settingsServerInfo,
                         builder: (context, state) {
+                          final bundle = context.read<RepositoryBundle?>();
                           final server = context
                               .read<ServersViewModel>()
-                              .selectedServer!;
+                              .selectedServer;
+                          if (bundle == null || server == null) {
+                            return _serverUnselectedScreen(
+                              context,
+                              AppLocalizations.of(context)!.serverInfo,
+                            );
+                          }
                           return createServerInfoScreen(
-                            bundle: context.read<RepositoryBundle?>()!,
+                            bundle: bundle,
                             serverAlias: server.alias,
                             serverAddress: server.address,
                           );
@@ -287,9 +296,16 @@ GoRouter createAppRouter({
                       GoRoute(
                         path: '/settings/server/adlists',
                         name: Routes.settingsServerAdlists,
-                        builder: (context, state) => createAdlistScreen(
-                          context.read<RepositoryBundle?>()!,
-                        ),
+                        builder: (context, state) {
+                          final bundle = context.read<RepositoryBundle?>();
+                          if (bundle == null) {
+                            return _serverUnselectedScreen(
+                              context,
+                              AppLocalizations.of(context)!.adlists,
+                            );
+                          }
+                          return createAdlistScreen(bundle);
+                        },
                         routes: [
                           GoRoute(
                             path: 'details',
@@ -312,9 +328,16 @@ GoRouter createAppRouter({
                       GoRoute(
                         path: '/settings/server/group-client',
                         name: Routes.settingsServerGroupClient,
-                        builder: (context, state) => createGroupClientScreen(
-                          context.read<RepositoryBundle?>()!,
-                        ),
+                        builder: (context, state) {
+                          final bundle = context.read<RepositoryBundle?>();
+                          if (bundle == null) {
+                            return _serverUnselectedScreen(
+                              context,
+                              AppLocalizations.of(context)!.groupsAndClients,
+                            );
+                          }
+                          return createGroupClientScreen(bundle);
+                        },
                         routes: [
                           GoRoute(
                             path: 'group-details',
@@ -592,6 +615,16 @@ GoRouter createAppRouter({
         builder: (context, state) => const ServersScreen(),
       ),
     ],
+  );
+}
+
+/// Fallback shown by server-scoped settings routes when no server is selected
+/// (i.e. [RepositoryBundle] is null). Matches the v1.8.0 behavior of showing
+/// a titled empty screen instead of throwing.
+Widget _serverUnselectedScreen(BuildContext context, String title) {
+  return Scaffold(
+    appBar: AppBar(title: Text(title)),
+    body: const SafeArea(child: EmptyDataScreen()),
   );
 }
 
