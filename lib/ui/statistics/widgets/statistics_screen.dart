@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/domain/model/api_versions.dart';
 import 'package:pi_hole_client/ui/core/actions/refresh_server_status.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_visibility_ticker.dart';
@@ -89,14 +90,14 @@ class _StatisticsScreenState extends State<StatisticsScreen>
         context.select<ServersViewModel, String?>(
           (vm) => vm.selectedServer?.apiVersion,
         ) ??
-        'v5';
+        SupportedApiVersions.v5;
 
     if (MediaQuery.of(context).size.width > ResponsiveConstants.xxLarge) {
       return const StatisticsTripleColumn();
     }
 
     final loc = AppLocalizations.of(context)!;
-    final isV6 = apiVersion == 'v6';
+    final isV6 = apiVersion == SupportedApiVersions.v6;
     final isActive = context.select<AppConfigViewModel, bool>(
       (vm) => vm.selectedTab == AppShell.statisticsIndex,
     );

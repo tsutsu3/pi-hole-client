@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/domain/model/api_versions.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
@@ -35,7 +36,7 @@ class _StatisticsTripleColumnState extends State<StatisticsTripleColumn> {
         context.select<ServersViewModel, String?>(
           (vm) => vm.selectedServer?.apiVersion,
         ) ??
-        'v5';
+        SupportedApiVersions.v5;
 
     final columns = <Widget>[
       _buildColumn(
@@ -63,7 +64,7 @@ class _StatisticsTripleColumnState extends State<StatisticsTripleColumn> {
       ),
     ];
 
-    if (apiVersion == 'v6') {
+    if (apiVersion == SupportedApiVersions.v6) {
       columns.add(
         _buildColumn(
           context: context,
@@ -102,7 +103,7 @@ class _StatisticsTripleColumnState extends State<StatisticsTripleColumn> {
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: apiVersion == 'v6' ? 32 : 0,
+                  horizontal: apiVersion == SupportedApiVersions.v6 ? 32 : 0,
                 ),
                 child: PageView.builder(
                   controller: _controller,
@@ -115,7 +116,7 @@ class _StatisticsTripleColumnState extends State<StatisticsTripleColumn> {
                 ),
               ),
             ),
-            if (apiVersion == 'v6')
+            if (apiVersion == SupportedApiVersions.v6)
               Positioned(
                 left: 0,
                 top: 0,
@@ -131,7 +132,7 @@ class _StatisticsTripleColumnState extends State<StatisticsTripleColumn> {
                   ),
                 ),
               ),
-            if (apiVersion == 'v6')
+            if (apiVersion == SupportedApiVersions.v6)
               Positioned(
                 right: 0,
                 top: 0,

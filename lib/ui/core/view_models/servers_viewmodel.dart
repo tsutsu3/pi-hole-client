@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
+import 'package:pi_hole_client/domain/model/api_versions.dart';
 import 'package:pi_hole_client/domain/model/enum_converters.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/query_status.dart';
@@ -84,9 +85,9 @@ class ServersViewModel with ChangeNotifier {
 
   int get numShown {
     switch (_selectedServer?.apiVersion) {
-      case 'v5':
+      case SupportedApiVersions.v5:
         return _queryStatusesV5.where((status) => status.isShown).length;
-      case 'v6':
+      case SupportedApiVersions.v6:
         return _queryStatusesV6.where((status) => status.isShown).length;
       default:
         return 0;
@@ -95,9 +96,9 @@ class ServersViewModel with ChangeNotifier {
 
   List<QueryStatus> get queryStatuses {
     switch (_selectedServer?.apiVersion) {
-      case 'v5':
+      case SupportedApiVersions.v5:
         return _queryStatusesV5;
-      case 'v6':
+      case SupportedApiVersions.v6:
         return _queryStatusesV6;
       default:
         return [];
@@ -128,9 +129,9 @@ class ServersViewModel with ChangeNotifier {
   /// - [key]: Number of the query status. e.g. '1', '2', '3', etc.
   QueryStatus? getQueryStatus(String key) {
     switch (_selectedServer?.apiVersion) {
-      case 'v5':
+      case SupportedApiVersions.v5:
         return _queryStatusesV5.firstWhereOrNull((status) => status.key == key);
-      case 'v6':
+      case SupportedApiVersions.v6:
         return _queryStatusesV6.firstWhereOrNull(
           (status) => status.index.toString() == key,
         );
@@ -142,11 +143,11 @@ class ServersViewModel with ChangeNotifier {
   /// Returns the [QueryStatus] display info for a [QueryStatusType] enum value.
   QueryStatus? getQueryStatusByType(QueryStatusType? type) {
     if (type == null) return null;
-    final statuses = _selectedServer?.apiVersion == 'v6'
+    final statuses = _selectedServer?.apiVersion == SupportedApiVersions.v6
         ? _queryStatusesV6
         : _queryStatusesV5;
     return statuses.firstWhereOrNull((s) {
-      final mapped = _selectedServer?.apiVersion == 'v6'
+      final mapped = _selectedServer?.apiVersion == SupportedApiVersions.v6
           ? convertQueryStatusTypeV6(s.key)
           : convertQueryStatusTypeV5(int.tryParse(s.key));
       return mapped == type;
@@ -158,9 +159,9 @@ class ServersViewModel with ChangeNotifier {
   /// If the key is not found, returns null.
   QueryStatus? findQueryStatus(String key) {
     switch (_selectedServer?.apiVersion) {
-      case 'v5':
+      case SupportedApiVersions.v5:
         return _queryStatusesV5.firstWhereOrNull((status) => status.key == key);
-      case 'v6':
+      case SupportedApiVersions.v6:
         return _queryStatusesV6.firstWhereOrNull((status) => status.key == key);
       default:
         return null;

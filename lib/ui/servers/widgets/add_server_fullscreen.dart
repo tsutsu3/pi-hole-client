@@ -258,7 +258,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           case 495:
             label = loc.sslErrorLong;
           case 401:
-            label = version == 'v6' ? loc.passwordNotValid : loc.tokenNotValid;
+            label = version == SupportedApiVersions.v6
+                ? loc.passwordNotValid
+                : loc.tokenNotValid;
           default:
             label = loc.cantReachServer;
         }
@@ -470,7 +472,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             serverObj;
 
         final bundle = createBundle(server: serverObj);
-        if (serverObj.apiVersion == 'v6') {
+        if (serverObj.apiVersion == SupportedApiVersions.v6) {
           final authResult = await bundle.auth.createSession(
             passwordFieldController.text,
           );
@@ -586,7 +588,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       serverObj = updatedServer;
 
       final bundle = saveCreateBundle(server: serverObj);
-      if (serverObj.apiVersion == 'v6') {
+      if (serverObj.apiVersion == SupportedApiVersions.v6) {
         final authResult = await bundle.auth.createSession(
           passwordFieldController.text,
         );

@@ -32,6 +32,7 @@ import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
+import 'package:pi_hole_client/domain/model/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 
 class RepositoryBundleFactory {
@@ -42,7 +43,7 @@ class RepositoryBundleFactory {
     final creds = SessionCredentialService(storage, server.address);
 
     switch (server.apiVersion) {
-      case 'v6':
+      case SupportedApiVersions.v6:
         final client = PiholeV6ApiClient(url: server.address);
         final auth = AuthRepositoryV6(client: client, creds: creds);
         // Register a renewal callback so that any v6 repository can trigger

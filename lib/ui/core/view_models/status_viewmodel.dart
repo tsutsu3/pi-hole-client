@@ -5,6 +5,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/dns_repository.d
 import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart';
+import 'package:pi_hole_client/domain/model/api_versions.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/ftl/metrics.dart';
 import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
@@ -332,7 +333,7 @@ class StatusViewModel with ChangeNotifier {
 
   /// Creates the appropriate [RealtimeStatusUseCase] based on API version.
   RealtimeStatusUseCase? _createRealtimeStatusUseCase() {
-    if (_apiVersion == 'v6') {
+    if (_apiVersion == SupportedApiVersions.v6) {
       final metrics = _metricsRepository;
       final dns = _dnsRepository;
       if (metrics == null || dns == null) return null;

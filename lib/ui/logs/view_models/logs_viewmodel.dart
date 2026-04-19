@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
+import 'package:pi_hole_client/domain/model/api_versions.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/enum_converters.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
@@ -111,7 +112,7 @@ class LogsViewModel extends ChangeNotifier {
   // Filter state (always available, replaces FiltersViewModel)
   // ------------------------------------------
 
-  String _apiVersion = 'v5';
+  String _apiVersion = SupportedApiVersions.v5;
   late Filters _filters = FiltersV5();
 
   String get apiVersion => _apiVersion;
@@ -202,7 +203,9 @@ class LogsViewModel extends ChangeNotifier {
 
   /// Converts the int-based [statusSelected] to a [Set<QueryStatusType>].
   Set<QueryStatusType> get selectedStatusTypes {
-    final statuses = _apiVersion == 'v6' ? queryStatusesV6 : queryStatusesV5;
+    final statuses = _apiVersion == SupportedApiVersions.v6
+        ? queryStatusesV6
+        : queryStatusesV5;
     return _filters.statusSelected.map((index) {
       final status = statuses.firstWhere(
         (s) => s.index == index,
@@ -211,7 +214,7 @@ class LogsViewModel extends ChangeNotifier {
           return statuses.first;
         },
       );
-      return _apiVersion == 'v6'
+      return _apiVersion == SupportedApiVersions.v6
           ? convertQueryStatusTypeV6(status.key)
           : convertQueryStatusTypeV5(int.tryParse(status.key));
     }).toSet();
@@ -219,7 +222,9 @@ class LogsViewModel extends ChangeNotifier {
 
   /// Converts the int-based [statusAllowedAndRetried] to a [Set<QueryStatusType>].
   Set<QueryStatusType> get allowedAndRetriedStatusTypes {
-    final statuses = _apiVersion == 'v6' ? queryStatusesV6 : queryStatusesV5;
+    final statuses = _apiVersion == SupportedApiVersions.v6
+        ? queryStatusesV6
+        : queryStatusesV5;
     return _filters.statusAllowedAndRetried.map((index) {
       final status = statuses.firstWhere(
         (s) => s.index == index,
@@ -228,7 +233,7 @@ class LogsViewModel extends ChangeNotifier {
           return statuses.first;
         },
       );
-      return _apiVersion == 'v6'
+      return _apiVersion == SupportedApiVersions.v6
           ? convertQueryStatusTypeV6(status.key)
           : convertQueryStatusTypeV5(int.tryParse(status.key));
     }).toSet();
@@ -242,9 +247,11 @@ class LogsViewModel extends ChangeNotifier {
 
   /// All shown status types for filter comparison.
   Set<QueryStatusType> get allStatusTypes {
-    final statuses = _apiVersion == 'v6' ? queryStatusesV6 : queryStatusesV5;
+    final statuses = _apiVersion == SupportedApiVersions.v6
+        ? queryStatusesV6
+        : queryStatusesV5;
     return statuses.where((s) => s.isShown).map((s) {
-      return _apiVersion == 'v6'
+      return _apiVersion == SupportedApiVersions.v6
           ? convertQueryStatusTypeV6(s.key)
           : convertQueryStatusTypeV5(int.tryParse(s.key));
     }).toSet();
@@ -380,10 +387,10 @@ class LogsViewModel extends ChangeNotifier {
     }
 
     // Swap the filter delegate when the API version changes (v5 <-> v6).
-    final version = apiVersion ?? 'v5';
+    final version = apiVersion ?? SupportedApiVersions.v5;
     if (version != _apiVersion) {
       _apiVersion = version;
-      _filters = version == 'v6' ? FiltersV6() : FiltersV5();
+      _filters = version == SupportedApiVersions.v6 ? FiltersV6() : FiltersV5();
     }
 
     final repositoryChanged =
@@ -395,7 +402,7 @@ class LogsViewModel extends ChangeNotifier {
     // Also reset the filter delegate on server switch so stale client/domain
     // selections from the previous server don't bleed into the new one.
     if (repositoryChanged) {
-      _filters = version == 'v6' ? FiltersV6() : FiltersV5();
+      _filters = version == SupportedApiVersions.v6 ? FiltersV6() : FiltersV5();
     }
 
     // Server switch while the screen is visible: clear the log cache so

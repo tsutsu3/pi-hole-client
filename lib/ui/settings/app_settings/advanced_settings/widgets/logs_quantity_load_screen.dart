@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/domain/model/api_versions.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v6_not_supported_screen.dart';
@@ -91,7 +92,7 @@ class LogsQuantityLoadScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(loc.logsQuantityPerLoad)),
       body: SafeArea(
-        child: apiVersion == 'v6'
+        child: apiVersion == SupportedApiVersions.v6
             ? PiHoleV6NotSupportedScreen(
                 message: loc.featureNotSupportedMessageLogOption,
               )
