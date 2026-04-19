@@ -1,10 +1,12 @@
 # Changelog
 
-## [1.9.0](https://github.com/tsutsu3/pi-hole-client/compare/1.8.0_(75)..1.9.0) - 2026-04-18
+## [1.9.0](https://github.com/tsutsu3/pi-hole-client/compare/1.8.0_(75)..1.9.0) - 2026-04-19
 
 ### 🐛 Bug Fixes
 
+- *(db)* Make v10 migration compatible with SQLite < 3.25 ([#575](https://github.com/tsutsu3/pi-hole-client/issues/575)) - ([4efdf36](https://github.com/tsutsu3/pi-hole-client/commit/4efdf36bc46f79b38e440bf13c8e0d80d9458139))
 - *(gravity)* Resolve Dismissible crash on message card deletion ([#532](https://github.com/tsutsu3/pi-hole-client/issues/532)) - ([b0a41f8](https://github.com/tsutsu3/pi-hole-client/commit/b0a41f843dd11fb1f1e7fcfb5d6592e579624cba))
+- *(routing)* Show empty screen on server-scoped settings when no server is selected ([#576](https://github.com/tsutsu3/pi-hole-client/issues/576)) - ([278e07c](https://github.com/tsutsu3/pi-hole-client/commit/278e07c4a05476cb0baf37b4ac29de537f7dafe4))
 - *(statistics)* Fix swipe-to-switch tabs causing ~1s white flash ([#567](https://github.com/tsutsu3/pi-hole-client/issues/567)) - ([bc6c66d](https://github.com/tsutsu3/pi-hole-client/commit/bc6c66d4d47f5dae0c23c65db95847ea63266207))
 - *(ui, api)* Address deprecation warnings from Flutter version upgrade ([#566](https://github.com/tsutsu3/pi-hole-client/issues/566)) - ([21f03d5](https://github.com/tsutsu3/pi-hole-client/commit/21f03d530bd863a1ec25850a4ddce129b23a3716))
 - *(widget)* Reset status to loading before navigating from home widget tap ([#557](https://github.com/tsutsu3/pi-hole-client/issues/557)) - ([9da0746](https://github.com/tsutsu3/pi-hole-client/commit/9da074644857ac1c2d9547ab9dfadfa43694474b))
@@ -14,6 +16,7 @@
 
 - *(adlists)* Extract shared scaffold, actions, and icon tab components ([#543](https://github.com/tsutsu3/pi-hole-client/issues/543)) - ([6e8df5c](https://github.com/tsutsu3/pi-hole-client/commit/6e8df5c2abddcfede01923a4c6731caa4f1406b3))
 - *(adlists)* Migrate AdLists, Find Domains, and Gravity screens ([#524](https://github.com/tsutsu3/pi-hole-client/issues/524)) - ([cf25101](https://github.com/tsutsu3/pi-hole-client/commit/cf251013430853514d7e2d5a53a664eb327b603d))
+- *(api-version)* Unify 'v5'/'v6' literals into SupportedApiVersions ([#578](https://github.com/tsutsu3/pi-hole-client/issues/578)) - ([3fb9a4b](https://github.com/tsutsu3/pi-hole-client/commit/3fb9a4b53264ee29fe88e1d92f77e4ab6baf45a9))
 - *(arch)* Align with Flutter official architecture guidelines ([#556](https://github.com/tsutsu3/pi-hole-client/issues/556)) - ([34e96d4](https://github.com/tsutsu3/pi-hole-client/commit/34e96d4206c8708f5cfd6240d1d110198e4d9ab1))
 - *(arch)* Replace API Gateway layer with Repository/ViewModel pattern ([#534](https://github.com/tsutsu3/pi-hole-client/issues/534)) - ([14fa25b](https://github.com/tsutsu3/pi-hole-client/commit/14fa25b72c83fd7f149dd8f8c795ba53a0e2ff32))
 - *(core)* GoRouter migration, ViewModel renaming, and codebase cleanup ([#526](https://github.com/tsutsu3/pi-hole-client/issues/526)) - ([f7e48b1](https://github.com/tsutsu3/pi-hole-client/commit/f7e48b1ddd335f14160055325f891243179a634c))
@@ -31,6 +34,7 @@
 - *(model)* Redesign domain models ([#508](https://github.com/tsutsu3/pi-hole-client/issues/508)) - ([90f97cb](https://github.com/tsutsu3/pi-hole-client/commit/90f97cb497b048d477a136e1970c1c0195e4140f))
 - *(network)* Optimize device loading ([#516](https://github.com/tsutsu3/pi-hole-client/issues/516)) - ([c324cee](https://github.com/tsutsu3/pi-hole-client/commit/c324cee2ad61dee73236edba690899bcfae04387))
 - *(network)* Migrate Network screen ([#514](https://github.com/tsutsu3/pi-hole-client/issues/514)) - ([bf29cce](https://github.com/tsutsu3/pi-hole-client/commit/bf29ccef8d6af74e3462d2305a1baf3a5478700c))
+- *(routing)* Unify server-scoped route guards into ServerScopedRoute ([#577](https://github.com/tsutsu3/pi-hole-client/issues/577)) - ([b150044](https://github.com/tsutsu3/pi-hole-client/commit/b150044d0b3defa04332f1aee2063f948513d216))
 - *(routing)* Go_router migration across all screens ([#548](https://github.com/tsutsu3/pi-hole-client/issues/548)) - ([35dfe09](https://github.com/tsutsu3/pi-hole-client/commit/35dfe095fe359d2e46995eeb365ce42af0a52db8))
 - *(routing)* Add go_router foundation for future navigation migration ([#503](https://github.com/tsutsu3/pi-hole-client/issues/503)) - ([2a02fe4](https://github.com/tsutsu3/pi-hole-client/commit/2a02fe48a76582ed24640a681d806efb0239ff00))
 - *(server)* Remove TODO for deleting basic auth keys ([#549](https://github.com/tsutsu3/pi-hole-client/issues/549)) - ([75592c1](https://github.com/tsutsu3/pi-hole-client/commit/75592c1c39cdf41d0a65bb498d31479d04b21399))
@@ -67,6 +71,7 @@
 - *(website)* Fix warnings and bump dependencies ([#565](https://github.com/tsutsu3/pi-hole-client/issues/565)) - ([95b7b32](https://github.com/tsutsu3/pi-hole-client/commit/95b7b320ea0d7a34ba4d9d63c8b59946f7dfae85))
 - *(winget)* Update documentation URL in winget manifest ([#505](https://github.com/tsutsu3/pi-hole-client/issues/505)) - ([9b447f6](https://github.com/tsutsu3/pi-hole-client/commit/9b447f6edfe6d3ba3cb1ff2add17e27c23d53442))
 - *(winget)* Winget manifest for v1.8.0 ([#504](https://github.com/tsutsu3/pi-hole-client/issues/504)) - ([14afaa1](https://github.com/tsutsu3/pi-hole-client/commit/14afaa1730161bbc5c6083fbfeef0ad30b9aab63))
+- Bump version to 1.9.0+78 - ([fcbe030](https://github.com/tsutsu3/pi-hole-client/commit/fcbe030acd15b7828737a5045399cf61b53c6749))
 - Remove unused UseCaseFactory and GraphSection enum ([#573](https://github.com/tsutsu3/pi-hole-client/issues/573)) - ([83e7645](https://github.com/tsutsu3/pi-hole-client/commit/83e76453780398df95daa465dd079f789fec1aec))
 
 ## [1.8.0_(75)](https://github.com/tsutsu3/pi-hole-client/compare/1.7.1_(65)..1.8.0_(75)) - 2026-02-07
