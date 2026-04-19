@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
-import 'package:pi_hole_client/domain/model/api_versions.dart';
 import 'package:pi_hole_client/domain/model/app/app_log.dart';
+import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -258,7 +258,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           case 495:
             label = loc.sslErrorLong;
           case 401:
-            label = version == 'v6' ? loc.passwordNotValid : loc.tokenNotValid;
+            label = version == SupportedApiVersions.v6
+                ? loc.passwordNotValid
+                : loc.tokenNotValid;
           default:
             label = loc.cantReachServer;
         }
@@ -327,9 +329,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       final confirmed = await showDialog<bool>(
         context: context,
         builder: (dialogContext) => CertificateDetailsDialog(
-          title: AppLocalizations.of(
-            dialogContext,
-          )!.allowUntrustedCert,
+          title: AppLocalizations.of(dialogContext)!.allowUntrustedCert,
           description: AppLocalizations.of(
             dialogContext,
           )!.serverCertificateUpdatePinHelp,
@@ -470,7 +470,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             serverObj;
 
         final bundle = createBundle(server: serverObj);
-        if (serverObj.apiVersion == 'v6') {
+        if (serverObj.apiVersion == SupportedApiVersions.v6) {
           final authResult = await bundle.auth.createSession(
             passwordFieldController.text,
           );
@@ -586,7 +586,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       serverObj = updatedServer;
 
       final bundle = saveCreateBundle(server: serverObj);
-      if (serverObj.apiVersion == 'v6') {
+      if (serverObj.apiVersion == SupportedApiVersions.v6) {
         final authResult = await bundle.auth.createSession(
           passwordFieldController.text,
         );

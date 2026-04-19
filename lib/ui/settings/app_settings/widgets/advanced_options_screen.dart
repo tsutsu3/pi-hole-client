@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
@@ -25,7 +26,7 @@ class AdvancedOptionsScreen extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
 
     final isV6 =
-        serversViewModel.selectedServer?.apiVersion.startsWith('v6') ?? false;
+        serversViewModel.selectedServer?.apiVersion == SupportedApiVersions.v6;
 
     final logDescription = isV6
         ? AppLocalizations.of(context)!.logsSettingNotApplicable

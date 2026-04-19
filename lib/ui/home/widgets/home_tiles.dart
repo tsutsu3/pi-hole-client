@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -81,7 +82,7 @@ class HomeTiles extends StatelessWidget {
                 // Switch to settings branch, then push target
                 context.goNamed(Routes.settings);
                 context.pushNamed(Routes.settingsServerAdvanced);
-                if (apiVersion == 'v6') {
+                if (apiVersion == SupportedApiVersions.v6) {
                   context.pushNamed(Routes.settingsServerAdvancedNetwork);
                 }
               },

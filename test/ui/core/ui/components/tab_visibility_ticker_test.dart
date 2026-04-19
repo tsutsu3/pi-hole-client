@@ -39,7 +39,11 @@ class _TabTestWidgetState extends State<_TabTestWidget>
       appBar: AppBar(
         bottom: TabBar(
           controller: controller,
-          tabs: const [Tab(text: 'A'), Tab(text: 'B'), Tab(text: 'C')],
+          tabs: const [
+            Tab(text: 'A'),
+            Tab(text: 'B'),
+            Tab(text: 'C'),
+          ],
         ),
       ),
       body: TabBarView(
@@ -162,11 +166,7 @@ void main() async {
       await tester.pump();
 
       // Fling left to complete a swipe to tab B.
-      await tester.fling(
-        find.byType(TabBarView),
-        const Offset(-600, 0),
-        1000,
-      );
+      await tester.fling(find.byType(TabBarView), const Offset(-600, 0), 1000);
       await tester.pumpAndSettle();
 
       expect(find.text('Content A'), findsNothing);
