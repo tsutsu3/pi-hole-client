@@ -371,7 +371,8 @@ GoRouter createAppRouter({
                         builder: (context, state) => ServerScopedRoute(
                           title: AppLocalizations.of(context)!.advancedSetup,
                           required: RequiredApiVersion.v6Only,
-                          builder: (_, _) => const AdvancedServerOptionsScreen(),
+                          builder: (_, _) =>
+                              const AdvancedServerOptionsScreen(),
                         ),
                       ),
 
@@ -449,8 +450,9 @@ GoRouter createAppRouter({
                         path: '/settings/server/advanced/find-domains-in-lists',
                         name: Routes.settingsServerAdvancedFindDomainsInLists,
                         builder: (context, state) => ServerScopedRoute(
-                          title:
-                              AppLocalizations.of(context)!.findDomainsInLists,
+                          title: AppLocalizations.of(
+                            context,
+                          )!.findDomainsInLists,
                           required: RequiredApiVersion.v6Only,
                           builder: (bundle, _) =>
                               createFindDomainsInListsScreen(bundle),

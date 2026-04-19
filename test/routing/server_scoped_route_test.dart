@@ -196,7 +196,9 @@ void main() async {
       expect(capturedServer, _v6Server);
     });
 
-    testWidgets('rebuilds subtree when bundle identity changes', (tester) async {
+    testWidgets('rebuilds subtree when bundle identity changes', (
+      tester,
+    ) async {
       final vm = FakeServersViewModel()..selectedServer = _v6Server;
       final bundle1 = createFakeRepositoryBundle();
       final bundle2 = createFakeRepositoryBundle();

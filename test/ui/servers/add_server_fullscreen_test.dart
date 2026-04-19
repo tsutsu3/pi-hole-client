@@ -310,7 +310,9 @@ void main() async {
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
         expect(
-          find.text("SSL error. The server's certificate may be invalid, self-signed, or have an incomplete chain."),
+          find.text(
+            "SSL error. The server's certificate may be invalid, self-signed, or have an incomplete chain.",
+          ),
           findsOneWidget,
         );
       },
@@ -641,7 +643,9 @@ void main() async {
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
         expect(
-          find.text("SSL error. The server's certificate may be invalid, self-signed, or have an incomplete chain."),
+          find.text(
+            "SSL error. The server's certificate may be invalid, self-signed, or have an incomplete chain.",
+          ),
           findsOneWidget,
         );
       },

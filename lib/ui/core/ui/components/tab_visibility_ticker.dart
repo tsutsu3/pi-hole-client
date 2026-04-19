@@ -55,8 +55,7 @@ class TabVisibilityTicker extends StatelessWidget {
       builder: (context, _) {
         // Gesture swipe: animation.value moves continuously, so mount any tab
         // within 1 unit of the current value (i.e. the two adjacent tabs).
-        final inSwipeRange =
-            (controller.animation!.value - index).abs() < 1.0;
+        final inSwipeRange = (controller.animation!.value - index).abs() < 1.0;
         // Programmatic non-adjacent jump: indexIsChanging is true and both
         // the departure and destination tabs must be mounted immediately,
         // even when the animation value is still far from the destination.

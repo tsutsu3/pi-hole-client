@@ -329,9 +329,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       final confirmed = await showDialog<bool>(
         context: context,
         builder: (dialogContext) => CertificateDetailsDialog(
-          title: AppLocalizations.of(
-            dialogContext,
-          )!.allowUntrustedCert,
+          title: AppLocalizations.of(dialogContext)!.allowUntrustedCert,
           description: AppLocalizations.of(
             dialogContext,
           )!.serverCertificateUpdatePinHelp,
