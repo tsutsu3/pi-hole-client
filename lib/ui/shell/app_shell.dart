@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/ui/core/model/app_screens.dart';
@@ -85,7 +84,7 @@ class AppShell extends StatelessWidget {
               selectedScreen: safeDisplayedIndex,
               onChange: onTabChanged,
             ),
-            Expanded(child: _animatedShell(navigationShell, currentBranch)),
+            Expanded(child: navigationShell),
           ],
         ),
       );
@@ -93,7 +92,7 @@ class AppShell extends StatelessWidget {
 
     // Mobile: content + optional BottomNavBar
     return Scaffold(
-      body: _animatedShell(navigationShell, currentBranch),
+      body: navigationShell,
       bottomNavigationBar: showBottomNav
           ? BottomNavBar(
               screens: screens,
@@ -101,18 +100,6 @@ class AppShell extends StatelessWidget {
               onChange: onTabChanged,
             )
           : null,
-    );
-  }
-
-  Widget _animatedShell(Widget child, int branchIndex) {
-    return PageTransitionSwitcher(
-      duration: const Duration(milliseconds: 200),
-      transitionBuilder: (child, primary, secondary) => FadeThroughTransition(
-        animation: primary,
-        secondaryAnimation: secondary,
-        child: child,
-      ),
-      child: KeyedSubtree(key: ValueKey<int>(branchIndex), child: child),
     );
   }
 }

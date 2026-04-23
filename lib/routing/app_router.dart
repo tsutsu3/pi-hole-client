@@ -51,6 +51,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/group_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info/widgets/server_info_screen_factory.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/advanced_server_options_screen.dart';
+import 'package:pi_hole_client/ui/shell/animated_branch_container.dart';
 import 'package:pi_hole_client/ui/shell/app_shell.dart';
 import 'package:pi_hole_client/ui/shell/base.dart';
 import 'package:pi_hole_client/ui/shell/settings_shell.dart';
@@ -63,7 +64,7 @@ import 'package:provider/provider.dart';
 ///
 /// ```txt
 /// ShellRoute (Base – lifecycle management)
-///   └─ StatefulShellRoute.indexedStack (AppShell – NavigationRail / BottomNavBar)
+///   └─ StatefulShellRoute (AppShell – NavigationRail / BottomNavBar)
 ///         ├─ Branch 0: /home, /connect
 ///         ├─ Branch 1: /statistics
 ///         ├─ Branch 2: /logs
@@ -95,9 +96,15 @@ GoRouter createAppRouter({
         builder: (context, state, child) => Base(child: child),
         routes: [
           // Main navigation shell with 5 branches
-          StatefulShellRoute.indexedStack(
+          StatefulShellRoute(
             builder: (context, state, navigationShell) =>
                 AppShell(navigationShell: navigationShell),
+            navigatorContainerBuilder: (context, navigationShell, children) {
+              return AnimatedBranchContainer(
+                currentIndex: navigationShell.currentIndex,
+                children: children,
+              );
+            },
             branches: [
               // ── Branch 0: Home ──
               StatefulShellBranch(
