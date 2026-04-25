@@ -1,6 +1,10 @@
 # Changelog
 
-## [1.9.0](https://github.com/tsutsu3/pi-hole-client/compare/1.8.0_(75)..1.9.0) - 2026-04-19
+## [1.9.0](https://github.com/tsutsu3/pi-hole-client/compare/1.8.0_(75)..1.9.0) - 2026-04-25
+
+### 🚀 Features
+
+- *(ui)* Restore fade-through animation on bottom nav tab switching ([#583](https://github.com/tsutsu3/pi-hole-client/issues/583)) - ([42c37a9](https://github.com/tsutsu3/pi-hole-client/commit/42c37a95490d54f21479281adb3af4cc02912250))
 
 ### 🐛 Bug Fixes
 
@@ -71,7 +75,8 @@
 - *(website)* Fix warnings and bump dependencies ([#565](https://github.com/tsutsu3/pi-hole-client/issues/565)) - ([95b7b32](https://github.com/tsutsu3/pi-hole-client/commit/95b7b320ea0d7a34ba4d9d63c8b59946f7dfae85))
 - *(winget)* Update documentation URL in winget manifest ([#505](https://github.com/tsutsu3/pi-hole-client/issues/505)) - ([9b447f6](https://github.com/tsutsu3/pi-hole-client/commit/9b447f6edfe6d3ba3cb1ff2add17e27c23d53442))
 - *(winget)* Winget manifest for v1.8.0 ([#504](https://github.com/tsutsu3/pi-hole-client/issues/504)) - ([14afaa1](https://github.com/tsutsu3/pi-hole-client/commit/14afaa1730161bbc5c6083fbfeef0ad30b9aab63))
-- Bump version to 1.9.0+78 - ([fcbe030](https://github.com/tsutsu3/pi-hole-client/commit/fcbe030acd15b7828737a5045399cf61b53c6749))
+- Bump version to 1.9.0+80 - ([363dd56](https://github.com/tsutsu3/pi-hole-client/commit/363dd56a630103c8a944714fce98b2cdf2e5814a))
+- Bump version to 1.9.0+78 - ([717524b](https://github.com/tsutsu3/pi-hole-client/commit/717524bb44762b3c64df9c590dbf9524aa0746b9))
 - Remove unused UseCaseFactory and GraphSection enum ([#573](https://github.com/tsutsu3/pi-hole-client/issues/573)) - ([83e7645](https://github.com/tsutsu3/pi-hole-client/commit/83e76453780398df95daa465dd079f789fec1aec))
 
 ## [1.8.0_(75)](https://github.com/tsutsu3/pi-hole-client/compare/1.7.1_(65)..1.8.0_(75)) - 2026-02-07
