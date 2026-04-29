@@ -11,15 +11,12 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/config/dependencies.dart';
-import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
 import 'package:pi_hole_client/data/repositories/local/app_config_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/app_config_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
-import 'package:pi_hole_client/domain/model/enums.dart';
-import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
@@ -173,43 +170,6 @@ Future<void> initializeSentry(AppConfigViewModel configProvider) async {
   }
 }
 
-void setupWidgetChannel({
-  required ServersViewModel serversViewModel,
-  required SecureStorageService secureStorageService,
-  required StatusViewModel statusViewModel,
-}) {
-  const widgetChannel = MethodChannel('pihole/widget');
-  widgetChannel.setMethodCallHandler((call) async {
-    if (call.method != 'openServer') return;
-    final args = call.arguments;
-    if (args is! Map) return;
-    final serverId = args['serverId'];
-    if (serverId is! String || serverId.isEmpty) return;
-
-    Server? target;
-    for (final server in serversViewModel.getServersList) {
-      if (server.address == serverId) {
-        target = server;
-        break;
-      }
-    }
-    if (target == null) return;
-
-    // Reset to loading before navigating — prevents stale error state (yellow
-    // icon) from showing while reconnecting after any connection failure.
-    statusViewModel.setServerStatus(LoadStatus.loading);
-    serversViewModel.setselectedServer(server: target, toHomeTab: true);
-    final bundle = RepositoryBundleFactory.create(
-      server: target,
-      storage: secureStorageService,
-    );
-    final result = await bundle.dns.fetchBlockingStatus();
-    serversViewModel.updateselectedServerStatus(
-      result.getOrNull()?.status == DnsBlockingStatus.enabled,
-    );
-    statusViewModel.startAutoRefresh(showLoadingIndicator: false);
-  });
-}
 
 void main() async {
   // 1. System init
@@ -260,11 +220,6 @@ void main() async {
   await WidgetChannel.sendServersUpdated(serversViewModel.getServersList);
 
   // 5. Platform-specific setup
-  setupWidgetChannel(
-    serversViewModel: serversViewModel,
-    secureStorageService: secureStorageService,
-    statusViewModel: statusViewModel,
-  );
   await initializeBiometrics(configProvider, appConfigRepository);
   await initializeVibration(configProvider);
   await initializeDeviceInfo(configProvider);
