@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/metrics_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache.dart';
 
 import '../../../../../testing/fakes/services/fake_pihole_v6_api_client.dart';
 import '../../../../../testing/fakes/services/fake_session_credential_service.dart';
@@ -15,7 +16,7 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = MetricsRepositoryV6(client: client, creds: creds);
+      repository = MetricsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should get history successfully', () async {
@@ -35,7 +36,7 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = MetricsRepositoryV6(client: client, creds: creds);
+      repository = MetricsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should get history client successfully', () async {
@@ -55,7 +56,7 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = MetricsRepositoryV6(client: client, creds: creds);
+      repository = MetricsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should get queries successfully', () async {
@@ -81,7 +82,7 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = MetricsRepositoryV6(client: client, creds: creds);
+      repository = MetricsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should get stats summary successfully', () async {
@@ -101,7 +102,7 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = MetricsRepositoryV6(client: client, creds: creds);
+      repository = MetricsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should get stats upstreams successfully', () async {
@@ -121,7 +122,7 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = MetricsRepositoryV6(client: client, creds: creds);
+      repository = MetricsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should get stats top domains blocked successfully', () async {
@@ -141,7 +142,7 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = MetricsRepositoryV6(client: client, creds: creds);
+      repository = MetricsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should get stats top domains allowed successfully', () async {
@@ -161,7 +162,7 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = MetricsRepositoryV6(client: client, creds: creds);
+      repository = MetricsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should get stats top clients blocked successfully', () async {
@@ -181,7 +182,7 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = MetricsRepositoryV6(client: client, creds: creds);
+      repository = MetricsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should get stats top clients allowed successfully', () async {
@@ -201,7 +202,7 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = MetricsRepositoryV6(client: client, creds: creds);
+      repository = MetricsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should get stats over time successfully', () async {

@@ -22,21 +22,6 @@ class SessionCredentialService {
   /// The server address this service is scoped to.
   String get address => _address;
 
-  Future<void> Function()? _renewCallback;
-
-  /// Registers a callback that performs session renewal (re-authentication).
-  ///
-  /// Called by the factory after creating the auth repository so that any
-  /// repository can trigger a password-based re-login when a session expires.
-  void setRenewCallback(Future<void> Function() callback) {
-    _renewCallback = callback;
-  }
-
-  /// Invokes the registered renewal callback, if any.
-  Future<void> renewSession() async {
-    await _renewCallback?.call();
-  }
-
   /// Retrieves the stored password for the server (v6).
   ///
   /// Returns a [Success] with the password, or [Failure] if not found or an error occurs.

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
-import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/start_warning_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
@@ -118,27 +117,16 @@ class _BaseState extends State<Base>
 
   /// Fetches the blocking status and updates [ServersViewModel].
   ///
-  /// For v6 servers, if the initial request fails (e.g. expired session),
-  /// re-authenticates with the stored password and retries once.
+  /// Session renewal for v6 is handled transparently inside
+  /// fetchBlockingStatus via runWithResultRetry + clearAndRenewSid,
+  /// so no explicit fallback is needed here.
   Future<void> _fetchAndUpdateStatus() async {
     final serversViewModel = context.read<ServersViewModel>();
     final server = serversViewModel.selectedServer;
     final bundle = context.read<RepositoryBundle?>();
     if (bundle == null || server == null) return;
 
-    var result = await bundle.dns.fetchBlockingStatus();
-
-    // Auto-refresh for v6 can fail if the session has expired
-    if (result.isError() && server.apiVersion == SupportedApiVersions.v6) {
-      final creds = await serversViewModel.fetchCredentials(server.address);
-      final pw = creds.getOrNull()?.password ?? '';
-      if (pw.isNotEmpty) {
-        final authResult = await bundle.auth.createSession(pw);
-        if (authResult.isSuccess()) {
-          result = await bundle.dns.fetchBlockingStatus();
-        }
-      }
-    }
+    final result = await bundle.dns.fetchBlockingStatus();
 
     serversViewModel.updateselectedServerStatus(
       result.getOrNull()?.status == DnsBlockingStatus.enabled,

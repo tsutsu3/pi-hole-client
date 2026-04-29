@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/domain_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 
 import '../../../../../testing/fakes/services/fake_pihole_v6_api_client.dart';
@@ -16,7 +17,7 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = DomainRepositoryV6(client: client, creds: creds);
+      repository = DomainRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should fetch all domains successfully', () async {
@@ -36,7 +37,7 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = DomainRepositoryV6(client: client, creds: creds);
+      repository = DomainRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should add domain successfully', () async {
@@ -64,7 +65,7 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = DomainRepositoryV6(client: client, creds: creds);
+      repository = DomainRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should update domain successfully', () async {
@@ -98,7 +99,7 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = DomainRepositoryV6(client: client, creds: creds);
+      repository = DomainRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should delete domain successfully', () async {
