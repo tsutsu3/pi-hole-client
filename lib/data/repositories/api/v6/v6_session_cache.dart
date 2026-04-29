@@ -54,10 +54,8 @@ class V6SessionCache {
   /// Clears the cache and triggers session renewal, deduplicating concurrent
   /// calls so that only one re-authentication request is made.
   Future<void> clearAndRenewSid() async {
-    logger.d('[V6SessionCache] Session expired, attempting renewal...');
     try {
       await _renewOnce();
-      logger.d('[V6SessionCache] Session renewed successfully.');
     } catch (e) {
       logger.w('[V6SessionCache] Session renewal failed: $e');
       await WidgetChannel.sendSidInvalidated(serverAddress: _creds.address);
@@ -112,6 +110,7 @@ class V6SessionCache {
   Future<void> _renewOnce() async {
     if (_pendingRenewal != null) return _pendingRenewal!;
 
+    logger.d('[V6SessionCache] Session expired, attempting renewal...');
     _clear();
 
     // Share the same Future so concurrent callers all wait for the same renewal.
@@ -120,6 +119,7 @@ class V6SessionCache {
 
     try {
       await pending;
+      logger.d('[V6SessionCache] Session renewed successfully.');
     } finally {
       _pendingRenewal = null;
     }
