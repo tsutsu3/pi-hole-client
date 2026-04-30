@@ -16,7 +16,9 @@ class DnsRepositoryV5 extends BaseV5TokenRepository implements DnsRepository {
   final PiholeV5ApiClient _client;
 
   @override
-  Future<Result<Blocking>> fetchBlockingStatus() async {
+  Future<Result<Blocking>> fetchBlockingStatus({
+    bool skipRenewal = false,
+  }) async {
     final token = await getToken();
     final result = await _client.getSummaryRaw(token);
     return result.map(

@@ -15,14 +15,16 @@ class DnsRepositoryV6 extends BaseV6SidRepository implements DnsRepository {
   final PiholeV6ApiClient _client;
 
   @override
-  Future<Result<Blocking>> fetchBlockingStatus() async {
+  Future<Result<Blocking>> fetchBlockingStatus({
+    bool skipRenewal = false,
+  }) async {
     return runWithResultRetry<Blocking>(
       action: () async {
         final sid = await getSid();
         final result = await _client.getDnsBlocking(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: skipRenewal ? null : (_) => clearAndRenewSid(),
     );
   }
 

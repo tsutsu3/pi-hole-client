@@ -493,7 +493,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             return;
           }
         }
-        final result = await bundle.dns.fetchBlockingStatus();
+        // Use skipRenewal: true because the session was just created above.
+        // Retrying with clearAndRenewSid would create a duplicate session.
+        // Transient errors (e.g. network timeout) are still retried.
+        final result = await bundle.dns.fetchBlockingStatus(skipRenewal: true);
         if (!context.mounted) return;
         if (result.isSuccess()) {
           await Navigator.maybePop(context);
@@ -609,7 +612,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           return;
         }
       }
-      final result = await bundle.dns.fetchBlockingStatus();
+      // Use skipRenewal: true because the session was just created above.
+      // Retrying with clearAndRenewSid would create a duplicate session.
+      // Transient errors (e.g. network timeout) are still retried.
+      final result = await bundle.dns.fetchBlockingStatus(skipRenewal: true);
 
       if (result.isSuccess()) {
         final server = serverObj.copyWith(defaultServer: defaultCheckbox);
