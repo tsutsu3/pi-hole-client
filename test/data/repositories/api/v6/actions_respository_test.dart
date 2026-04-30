@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/actions_respository.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../../../../../testing/fakes/services/fake_pihole_v6_api_client.dart';
@@ -16,7 +17,7 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = ActionsRepositoryV6(client: client, creds: creds);
+      repository = ActionsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should flush ARP successfully', () async {
@@ -46,7 +47,7 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = ActionsRepositoryV6(client: client, creds: creds);
+      repository = ActionsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should flush logs successfully', () async {
@@ -69,7 +70,7 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = ActionsRepositoryV6(client: client, creds: creds);
+      repository = ActionsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should update gravity successfully', () async {
@@ -103,7 +104,7 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = ActionsRepositoryV6(client: client, creds: creds);
+      repository = ActionsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
     });
 
     test('should restart DNS successfully', () async {

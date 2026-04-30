@@ -24,8 +24,7 @@ class RealtimeStatusRepositoryV6 extends BaseV6SidRepository
     implements RealtimeStatusRepository {
   RealtimeStatusRepositoryV6({
     required PiholeV6ApiClient client,
-    required super.creds,
-    super.sid,
+    required super.sessionCache,
   }) {
     // "Use" the parameters to suppress Lint
     client.hashCode;

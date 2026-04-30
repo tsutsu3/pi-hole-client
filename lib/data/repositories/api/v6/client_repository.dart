@@ -10,8 +10,7 @@ class ClientRepositoryV6 extends BaseV6SidRepository
     implements ClientRepository {
   ClientRepositoryV6({
     required PiholeV6ApiClient client,
-    required super.creds,
-    super.sid,
+    required super.sessionCache,
   }) : _client = client;
 
   final PiholeV6ApiClient _client;

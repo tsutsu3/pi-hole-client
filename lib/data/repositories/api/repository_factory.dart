@@ -28,6 +28,7 @@ import 'package:pi_hole_client/data/repositories/api/v6/metrics_repository.dart'
 import 'package:pi_hole_client/data/repositories/api/v6/network_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/realtime_status_repository.dart'
     as v6;
+import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
@@ -45,32 +46,49 @@ class RepositoryBundleFactory {
     switch (server.apiVersion) {
       case SupportedApiVersions.v6:
         final client = PiholeV6ApiClient(url: server.address);
-        final auth = AuthRepositoryV6(client: client, creds: creds);
-        // Register a renewal callback so that any v6 repository can trigger
-        // re-authentication transparently when a session expires (401/403).
-        creds.setRenewCallback(() async {
-          final pwResult = await creds.password;
-          final pw = pwResult.getOrNull() ?? '';
-          if (pw.isEmpty) return;
-          await auth.createSession(pw);
-        });
+        final sessionCache = V6SessionCache(creds: creds, client: client);
+
         return RepositoryBundle(
-          actions: ActionsRepositoryV6(client: client, creds: creds),
-          adlist: AdlistRepositoryV6(client: client, creds: creds),
-          auth: auth,
-          client: ClientRepositoryV6(client: client, creds: creds),
-          config: ConfigRepositoryV6(client: client, creds: creds),
-          dhcp: DhcpRepositoryV6(client: client, creds: creds),
-          dns: DnsRepositoryV6(client: client, creds: creds),
-          domain: DomainRepositoryV6(client: client, creds: creds),
-          ftl: FtlRepositoryV6(client: client, creds: creds),
-          group: GroupRepositoryV6(client: client, creds: creds),
-          localDns: LocalDnsRepositoryV6(client: client, creds: creds),
-          metrics: MetricsRepositoryV6(client: client, creds: creds),
-          network: NetworkRepositoryV6(client: client, creds: creds),
+          actions: ActionsRepositoryV6(
+            client: client,
+            sessionCache: sessionCache,
+          ),
+          adlist: AdlistRepositoryV6(
+            client: client,
+            sessionCache: sessionCache,
+          ),
+          auth: AuthRepositoryV6(client: client, sessionCache: sessionCache),
+          client: ClientRepositoryV6(
+            client: client,
+            sessionCache: sessionCache,
+          ),
+          config: ConfigRepositoryV6(
+            client: client,
+            sessionCache: sessionCache,
+          ),
+          dhcp: DhcpRepositoryV6(client: client, sessionCache: sessionCache),
+          dns: DnsRepositoryV6(client: client, sessionCache: sessionCache),
+          domain: DomainRepositoryV6(
+            client: client,
+            sessionCache: sessionCache,
+          ),
+          ftl: FtlRepositoryV6(client: client, sessionCache: sessionCache),
+          group: GroupRepositoryV6(client: client, sessionCache: sessionCache),
+          localDns: LocalDnsRepositoryV6(
+            client: client,
+            sessionCache: sessionCache,
+          ),
+          metrics: MetricsRepositoryV6(
+            client: client,
+            sessionCache: sessionCache,
+          ),
+          network: NetworkRepositoryV6(
+            client: client,
+            sessionCache: sessionCache,
+          ),
           realtimeStatus: v6.RealtimeStatusRepositoryV6(
             client: client,
-            creds: creds,
+            sessionCache: sessionCache,
           ),
           serverAddress: server.address,
           apiVersion: server.apiVersion,

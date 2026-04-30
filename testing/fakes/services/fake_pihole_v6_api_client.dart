@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:pi_hole_client/data/model/v6/action/action.dart' show Action;
 import 'package:pi_hole_client/data/model/v6/auth/auth.dart' show Session;
 import 'package:pi_hole_client/data/model/v6/auth/sessions.dart'
@@ -58,6 +60,8 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   bool shouldFail = false;
   bool shouldFlushNetworkReturn404 = false;
   bool shouldPostDnsBlockingReturnEnabled = false;
+  int postAuthCallCount = 0;
+  Completer<void>? authPauseCompleter;
   bool shouldGetInfoVersionWithDocker = false;
   bool shouldGetInfoSystemOld = false;
   bool shouldGetInfoFtlV63 = false;
@@ -70,6 +74,8 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   // ==========================================================================
   @override
   Future<Result<Session>> postAuth({required String password}) async {
+    postAuthCallCount++;
+    if (authPauseCompleter != null) await authPauseCompleter!.future;
     if (shouldFail) {
       return Failure(Exception('Forced postAuth failure'));
     }
