@@ -96,10 +96,10 @@ class V6SessionCache {
 
   Future<void> _renew() async {
     final pw = (await _creds.password).getOrNull() ?? '';
-    if (pw.isEmpty) return;
+    if (pw.isEmpty) throw Exception('Cannot renew session: no password configured');
     final result = await _client.postAuth(password: pw);
-    final auth = result.map((e) => e.toDomain()).getOrNull();
-    if (auth == null || !auth.valid) throw Exception('Session renewal failed');
+    final auth = result.getOrThrow().toDomain();
+    if (!auth.valid) throw Exception('Session renewal failed');
     await saveSid(auth.sid);
     await WidgetChannel.sendSidUpdated(
       serverAddress: serverAddress,

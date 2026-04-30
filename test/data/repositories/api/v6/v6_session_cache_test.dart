@@ -131,5 +131,17 @@ void main() {
       final sid = await cache.getSid();
       expect(sid, 'sid_after_failure');
     });
+
+    test('does not call postAuth and clears cache when password is empty',
+        () async {
+      creds.addressPassword = '';
+      await cache.getSid();
+      await cache.clearAndRenewSid();
+
+      expect(client.postAuthCallCount, 0);
+      creds.addressSid = 'sid_after_empty_password';
+      final sid = await cache.getSid();
+      expect(sid, 'sid_after_empty_password');
+    });
   });
 }
