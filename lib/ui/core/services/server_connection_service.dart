@@ -165,7 +165,7 @@ class ServerConnectionService {
 
     final bundle = createBundle(server: serverForLogin);
     // Track whether createSession was called so the post-auth probe can be
-    // made with once: true, preventing a duplicate session from being created
+    // made with skipRenewal: true, preventing a duplicate session from being created
     // by clearAndRenewSid if a transient error occurs right after login.
     var sessionJustCreated = false;
     if (serverForLogin.apiVersion == SupportedApiVersions.v6) {
