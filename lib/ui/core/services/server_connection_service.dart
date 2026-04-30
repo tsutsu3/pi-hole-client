@@ -77,6 +77,15 @@ class ServerConnectionService {
   final bool showModal;
 
   Future<void> connect() async {
+    // Prevent a second concurrent connection attempt to the same server.
+    // Two callers (e.g. home screen + server list) can both trigger connect()
+    // for the same server at nearly the same time. Without this guard both
+    // would pass the connectingServer != server checks below and each call
+    // createSession(), creating duplicate Pi-hole sessions.
+    if (serversViewModel.connectingServer == server) {
+      return;
+    }
+
     final previouslySelectedServer = serversViewModel.selectedServer;
 
     _startConnection();
@@ -155,6 +164,10 @@ class ServerConnectionService {
     }
 
     final bundle = createBundle(server: serverForLogin);
+    // Track whether createSession was called so the post-auth probe can be
+    // made with skipRenewal: true, preventing a duplicate session from being created
+    // by clearAndRenewSid if a transient error occurs right after login.
+    var sessionJustCreated = false;
     if (serverForLogin.apiVersion == SupportedApiVersions.v6) {
       final creds = await serversViewModel.fetchCredentials(
         serverForLogin.address,
@@ -162,7 +175,12 @@ class ServerConnectionService {
       final pw = creds.getOrNull()?.password ?? '';
       if (pw.isNotEmpty) {
         // Try existing session first to avoid creating unnecessary sessions.
-        final preCheck = await bundle.dns.fetchBlockingStatus();
+        // Use skipRenewal: true so that no session renewal happens inside the
+        // probe — if the existing session is expired, createSession below is
+        // the sole place that creates a new session, preventing duplicates.
+        final preCheck = await bundle.dns.fetchBlockingStatus(
+          skipRenewal: true,
+        );
         if (preCheck.isSuccess()) {
           process?.close();
           return preCheck;
@@ -175,9 +193,15 @@ class ServerConnectionService {
             authResult.exceptionOrNull() ?? Exception('Auth failed'),
           );
         }
+        sessionJustCreated = true;
       }
     }
-    final result = await bundle.dns.fetchBlockingStatus();
+    // Use skipRenewal: true when a session was just created above to prevent
+    // clearAndRenewSid from creating a second session on transient errors.
+    // Transient errors (e.g. network timeout) are still retried.
+    final result = await bundle.dns.fetchBlockingStatus(
+      skipRenewal: sessionJustCreated,
+    );
     process?.close();
     return result;
   }

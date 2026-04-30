@@ -11,7 +11,9 @@ class FakeDnsRepository implements DnsRepository {
   Exception? failureException;
 
   @override
-  Future<Result<Blocking>> fetchBlockingStatus() async {
+  Future<Result<Blocking>> fetchBlockingStatus({
+    bool skipRenewal = false,
+  }) async {
     if (shouldFail) {
       return Failure(
         failureException ?? Exception('Force fetchBlockingStatus failure'),
