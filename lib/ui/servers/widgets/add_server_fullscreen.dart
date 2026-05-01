@@ -588,6 +588,24 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       serverObj = updatedServer;
 
+      void handleSaveError(Exception e) {
+        if (context.mounted) {
+          setState(() {
+            isConnecting = false;
+            _restoreSecrets();
+          });
+          handleApiErrorResult(
+            context: context,
+            appConfigViewModel: appConfigViewModel,
+            error: e,
+            version: piHoleVersion,
+          );
+        }
+        if (serversViewModel.selectedServer != null) {
+          statusViewModel.startAutoRefresh();
+        }
+      }
+
       final bundle = saveCreateBundle(server: serverObj);
       var sessionJustCreated = false;
       if (serverObj.apiVersion == SupportedApiVersions.v6) {
@@ -600,42 +618,14 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         if (preCheck.isError()) {
           final err = preCheck.exceptionOrNull();
           if (!isReauthRequired(err)) {
-            if (context.mounted) {
-              setState(() {
-                isConnecting = false;
-                _restoreSecrets();
-              });
-              handleApiErrorResult(
-                context: context,
-                appConfigViewModel: appConfigViewModel,
-                error: err!,
-                version: piHoleVersion,
-              );
-            }
-            if (serversViewModel.selectedServer != null) {
-              statusViewModel.startAutoRefresh();
-            }
+            handleSaveError(err!);
             return;
           }
           final authResult = await bundle.auth.createSession(
             passwordFieldController.text,
           );
           if (authResult.isError()) {
-            if (context.mounted) {
-              setState(() {
-                isConnecting = false;
-                _restoreSecrets();
-              });
-              handleApiErrorResult(
-                context: context,
-                appConfigViewModel: appConfigViewModel,
-                error: authResult.exceptionOrNull()!,
-                version: piHoleVersion,
-              );
-            }
-            if (serversViewModel.selectedServer != null) {
-              statusViewModel.startAutoRefresh();
-            }
+            handleSaveError(authResult.exceptionOrNull()!);
             return;
           }
           sessionJustCreated = true;
