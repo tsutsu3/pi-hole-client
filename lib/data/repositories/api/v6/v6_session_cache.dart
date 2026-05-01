@@ -101,7 +101,10 @@ class V6SessionCache {
     // If postAuth succeeds, saveSid() restores it.
     // If postAuth fails (e.g. HTTPS response lost after Pi-hole creates the session),
     // storage stays empty → next getSid() throws SidNotFoundException → no retry loop.
-    await _creds.deleteSid();
+    final deleteResult = await _creds.deleteSid();
+    if (deleteResult.isError()) {
+      logger.w('[V6SessionCache] Failed to purge stale SID: ${deleteResult.exceptionOrNull()}');
+    }
     final result = await _client.postAuth(password: pw);
     final auth = result.getOrThrow().toDomain();
     if (!auth.valid) throw Exception('Session renewal failed');
