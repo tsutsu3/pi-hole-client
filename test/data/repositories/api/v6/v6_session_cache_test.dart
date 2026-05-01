@@ -113,13 +113,15 @@ void main() {
       expect(client.postAuthCallCount, 1);
     });
 
-    test('second clearAndRenewSid after first completes calls postAuth again',
-        () async {
-      await cache.clearAndRenewSid();
-      await cache.clearAndRenewSid();
+    test(
+      'second clearAndRenewSid after first completes calls postAuth again',
+      () async {
+        await cache.clearAndRenewSid();
+        await cache.clearAndRenewSid();
 
-      expect(client.postAuthCallCount, 2);
-    });
+        expect(client.postAuthCallCount, 2);
+      },
+    );
 
     test('cache stays cleared after postAuth fails', () async {
       client.shouldFail = true;
@@ -132,23 +134,27 @@ void main() {
       expect(sid, 'sid_after_failure');
     });
 
-    test('does not call postAuth and clears cache when password is empty',
-        () async {
-      creds.addressPassword = '';
-      await cache.getSid();
-      await cache.clearAndRenewSid();
+    test(
+      'does not call postAuth and clears cache when password is empty',
+      () async {
+        creds.addressPassword = '';
+        await cache.getSid();
+        await cache.clearAndRenewSid();
 
-      expect(client.postAuthCallCount, 0);
-      creds.addressSid = 'sid_after_empty_password';
-      final sid = await cache.getSid();
-      expect(sid, 'sid_after_empty_password');
-    });
+        expect(client.postAuthCallCount, 0);
+        creds.addressSid = 'sid_after_empty_password';
+        final sid = await cache.getSid();
+        expect(sid, 'sid_after_empty_password');
+      },
+    );
 
-    test('deleteSid is called before postAuth to prevent stale-SID loop',
-        () async {
-      await cache.clearAndRenewSid();
-      expect(creds.deleteSidCallCount, 1);
-    });
+    test(
+      'deleteSid is called before postAuth to prevent stale-SID loop',
+      () async {
+        await cache.clearAndRenewSid();
+        expect(creds.deleteSidCallCount, 1);
+      },
+    );
 
     test('deleteSid is called even when postAuth fails', () async {
       client.shouldFail = true;

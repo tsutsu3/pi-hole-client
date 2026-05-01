@@ -16,7 +16,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = DhcpRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = DhcpRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch DHCP leases successfully', () async {
@@ -36,7 +39,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = DhcpRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = DhcpRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch DHCP lease successfully', () async {

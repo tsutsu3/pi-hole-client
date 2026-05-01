@@ -16,7 +16,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = FtlRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = FtlRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch info client successfully', () async {
@@ -36,7 +39,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = FtlRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = FtlRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch info ftl successfully', () async {
@@ -62,7 +68,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = FtlRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = FtlRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch info host successfully', () async {
@@ -82,7 +91,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = FtlRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = FtlRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch gravity messages successfully', () async {
@@ -102,7 +114,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = FtlRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = FtlRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should delete info message successfully', () async {
@@ -122,7 +137,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = FtlRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = FtlRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch info metrics successfully', () async {
@@ -142,7 +160,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = FtlRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = FtlRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch all sensors successfully', () async {
@@ -162,7 +183,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = FtlRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = FtlRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch info system successfully', () async {
@@ -188,7 +212,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = FtlRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = FtlRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch info version successfully', () async {
@@ -214,7 +241,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = FtlRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = FtlRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch all server info successfully', () async {

@@ -17,7 +17,10 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = AdlistRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = AdlistRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should get adlists successfully', () async {
@@ -37,7 +40,10 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = AdlistRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = AdlistRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should add adlist successfully', () async {
@@ -63,7 +69,10 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = AdlistRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = AdlistRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should remove adlist successfully', () async {
@@ -89,7 +98,10 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = AdlistRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = AdlistRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should remove adlist successfully', () async {

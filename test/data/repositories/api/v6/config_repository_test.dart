@@ -16,7 +16,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = ConfigRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = ConfigRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch DNS query logging successfully', () async {
@@ -36,7 +39,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = ConfigRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = ConfigRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch DNS query logging successfully', () async {

@@ -86,5 +86,4 @@ class FakeSessionCredentialService implements SessionCredentialService {
     }
     return Success.unit();
   }
-
 }

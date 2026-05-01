@@ -96,14 +96,18 @@ class V6SessionCache {
 
   Future<void> _renew() async {
     final pw = (await _creds.password).getOrNull() ?? '';
-    if (pw.isEmpty) throw Exception('Cannot renew session: no password configured');
+    if (pw.isEmpty) {
+      throw Exception('Cannot renew session: no password configured');
+    }
     // Purge the stale SID from storage before POST /api/auth.
     // If postAuth succeeds, saveSid() restores it.
     // If postAuth fails (e.g. HTTPS response lost after Pi-hole creates the session),
     // storage stays empty → next getSid() throws SidNotFoundException → no retry loop.
     final deleteResult = await _creds.deleteSid();
     if (deleteResult.isError()) {
-      logger.w('[V6SessionCache] Failed to purge stale SID: ${deleteResult.exceptionOrNull()}');
+      logger.w(
+        '[V6SessionCache] Failed to purge stale SID: ${deleteResult.exceptionOrNull()}',
+      );
     }
     final result = await _client.postAuth(password: pw);
     final auth = result.getOrThrow().toDomain();

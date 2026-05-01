@@ -16,7 +16,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = DnsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = DnsRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch DNS blocking status successfully', () async {
@@ -36,7 +39,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = DnsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = DnsRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should enable DNS blocking successfully', () async {
@@ -57,7 +63,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = DnsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = DnsRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should disable DNS blocking successfully', () async {
