@@ -170,7 +170,6 @@ Future<void> initializeSentry(AppConfigViewModel configProvider) async {
   }
 }
 
-
 void main() async {
   // 1. System init
   await initializeFlutter();

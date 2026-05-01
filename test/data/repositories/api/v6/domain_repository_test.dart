@@ -17,7 +17,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = DomainRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = DomainRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch all domains successfully', () async {
@@ -37,7 +40,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = DomainRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = DomainRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should add domain successfully', () async {
@@ -65,7 +71,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = DomainRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = DomainRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should update domain successfully', () async {
@@ -99,7 +108,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = DomainRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = DomainRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should delete domain successfully', () async {

@@ -16,7 +16,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = RealtimeStatusRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = RealtimeStatusRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('fetchRealtimeStatus should return NotSupportedException', () async {

@@ -16,7 +16,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = LocalDnsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = LocalDnsRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fetch records successfully', () async {
@@ -37,7 +40,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = LocalDnsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = LocalDnsRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should add record successfully', () async {
@@ -62,7 +68,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = LocalDnsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = LocalDnsRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should delete record successfully', () async {
@@ -90,7 +99,10 @@ void main() {
     setUp(() {
       client = FakePiholeV6ApiClient();
       creds = FakeSessionCredentialService();
-      repository = LocalDnsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = LocalDnsRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should fail when fetching current config fails', () async {

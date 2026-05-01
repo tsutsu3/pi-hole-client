@@ -16,7 +16,10 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = NetworkRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = NetworkRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should get devices successfully', () async {
@@ -36,7 +39,10 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = NetworkRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = NetworkRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should get devices successfully', () async {
@@ -59,7 +65,10 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = NetworkRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = NetworkRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should get gateways successfully', () async {

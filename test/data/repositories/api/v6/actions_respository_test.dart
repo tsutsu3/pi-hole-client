@@ -17,7 +17,10 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = ActionsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = ActionsRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should flush ARP successfully', () async {
@@ -47,7 +50,10 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = ActionsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = ActionsRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should flush logs successfully', () async {
@@ -70,7 +76,10 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = ActionsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = ActionsRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should update gravity successfully', () async {
@@ -104,7 +113,10 @@ void main() {
     setUp(() {
       creds = FakeSessionCredentialService();
       client = FakePiholeV6ApiClient();
-      repository = ActionsRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+      repository = ActionsRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
     });
 
     test('should restart DNS successfully', () async {

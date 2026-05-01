@@ -15,7 +15,10 @@ void main() {
   setUp(() {
     creds = FakeSessionCredentialService();
     client = FakePiholeV6ApiClient();
-    repository = GroupRepositoryV6(client: client, sessionCache: V6SessionCache(creds: creds, client: client));
+    repository = GroupRepositoryV6(
+      client: client,
+      sessionCache: V6SessionCache(creds: creds, client: client),
+    );
   });
 
   group('fetchGroups', () {
