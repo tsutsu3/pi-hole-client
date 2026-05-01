@@ -143,5 +143,17 @@ void main() {
       final sid = await cache.getSid();
       expect(sid, 'sid_after_empty_password');
     });
+
+    test('deleteSid is called before postAuth to prevent stale-SID loop',
+        () async {
+      await cache.clearAndRenewSid();
+      expect(creds.deleteSidCallCount, 1);
+    });
+
+    test('deleteSid is called even when postAuth fails', () async {
+      client.shouldFail = true;
+      await cache.clearAndRenewSid();
+      expect(creds.deleteSidCallCount, 1);
+    });
   });
 }

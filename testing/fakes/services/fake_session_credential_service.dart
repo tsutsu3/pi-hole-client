@@ -5,6 +5,7 @@ class FakeSessionCredentialService implements SessionCredentialService {
   bool shouldFailSave = false;
   bool shouldFailRead = false;
   bool shouldFailDelete = false;
+  int deleteSidCallCount = 0;
 
   String addressPassword = 'pass123';
   String addressToken = 'token123';
@@ -47,6 +48,7 @@ class FakeSessionCredentialService implements SessionCredentialService {
 
   @override
   Future<Result<void>> deleteSid() async {
+    deleteSidCallCount++;
     if (shouldFailDelete) {
       return Failure(Exception('Forced delete failure'));
     }

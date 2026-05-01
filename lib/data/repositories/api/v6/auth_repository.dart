@@ -18,6 +18,8 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
   @override
   Future<Result<Auth>> createSession(String password) async {
     return runWithResultRetry<Auth>(
+      // POST /api/auth is non-idempotent - retrying creates duplicate sessions
+      maxRetries: 0,
       action: () async {
         final result = await _client.postAuth(password: password);
         final auth = result.map((e) => e.toDomain());
@@ -31,7 +33,6 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
         }
         return auth;
       },
-      onRetry: (_) => clearSid(),
     );
   }
 
