@@ -41,7 +41,7 @@ class ConfigRepositoryV6 extends BaseV6SidRepository
         );
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -53,7 +53,7 @@ class ConfigRepositoryV6 extends BaseV6SidRepository
         final result = await _client.patchConfig(sid, body: configData);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 }

@@ -80,5 +80,36 @@ void main() {
       expect(result.isError(), isTrue);
       expect(attempts, 4); // 3 retries + initial attempt
     });
+
+    test('passes failure exception to onRetry', () async {
+      final receivedErrors = <Object>[];
+      await runWithResultRetry<String>(
+        action: () async => Failure(Exception('sentinel error')),
+        maxRetries: 1,
+        onRetry: (attempt, error) async {
+          receivedErrors.add(error);
+        },
+      );
+      expect(receivedErrors.length, 1);
+      expect(receivedErrors.first.toString(), contains('sentinel error'));
+    });
+
+    test('passes correct error across multiple retries', () async {
+      var call = 0;
+      final receivedErrors = <Object>[];
+      await runWithResultRetry<String>(
+        action: () async {
+          call++;
+          return Failure(Exception('error $call'));
+        },
+        maxRetries: 2,
+        onRetry: (attempt, error) async {
+          receivedErrors.add(error);
+        },
+      );
+      expect(receivedErrors.length, 2);
+      expect(receivedErrors[0].toString(), contains('error 1'));
+      expect(receivedErrors[1].toString(), contains('error 2'));
+    });
   });
 }

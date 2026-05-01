@@ -57,7 +57,7 @@ class MetricsRepositoryV5 extends BaseV5TokenRepository
         );
         return response.map((q) => q.toDomain());
       },
-      onRetry: (_) => clearToken(),
+      onRetry: (_, _) => clearToken(),
     );
   }
 
@@ -119,7 +119,7 @@ class MetricsRepositoryV5 extends BaseV5TokenRepository
         final response = await _client.getOverTimeData(token);
         return response.map((o) => o.toDomain());
       },
-      onRetry: (_) => clearToken(),
+      onRetry: (_, _) => clearToken(),
     );
   }
 }

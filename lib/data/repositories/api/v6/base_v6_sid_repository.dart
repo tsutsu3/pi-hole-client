@@ -1,4 +1,5 @@
 import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 
 /// Abstract base class for all v6 repositories.
 ///
@@ -21,4 +22,10 @@ abstract class BaseV6SidRepository {
   Future<void> clearSid() async => _sessionCache.clearSid();
 
   Future<void> clearAndRenewSid() => _sessionCache.clearAndRenewSid();
+
+  Future<void> renewSidIfExpired(Object error) async {
+    if (isReauthRequired(error)) {
+      await clearAndRenewSid();
+    }
+  }
 }

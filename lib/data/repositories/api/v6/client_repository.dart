@@ -23,7 +23,7 @@ class ClientRepositoryV6 extends BaseV6SidRepository
         final result = await _client.getClients(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -44,7 +44,7 @@ class ClientRepositoryV6 extends BaseV6SidRepository
         );
         return result.map((e) => e.toSingleDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -65,7 +65,7 @@ class ClientRepositoryV6 extends BaseV6SidRepository
         );
         return result.map((e) => e.toSingleDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -76,7 +76,7 @@ class ClientRepositoryV6 extends BaseV6SidRepository
         final sid = await getSid();
         return _client.deleteClients(sid, client: client);
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 }

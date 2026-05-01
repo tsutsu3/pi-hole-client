@@ -185,6 +185,16 @@ class ServerConnectionService {
           process?.close();
           return preCheck;
         }
+        // Only re-authenticate on auth errors (401/SidNotFoundException).
+        // Transient failures (503/504/timeout) should not create a new session
+        // as that would cause session multiplication on the Pi-hole side.
+        final preCheckErr = preCheck.exceptionOrNull();
+        if (!isReauthRequired(preCheckErr)) {
+          process?.close();
+          return Failure(
+            preCheckErr ?? Exception('connection pre-check failed'),
+          );
+        }
         // Session is missing or expired — re-authenticate.
         final authResult = await bundle.auth.createSession(pw);
         if (authResult.isError()) {

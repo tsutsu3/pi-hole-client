@@ -82,7 +82,8 @@ Future<T> runWithRetry<T>({
 /// - [action]: The asynchronous operation to execute. Must return a [Future<Result<T>>].
 /// - [maxRetries]: Maximum number of retry attempts before giving up. Defaults to 1.
 /// - [delay]: Delay between retry attempts. Defaults to 10 milliseconds.
-/// - [onRetry]: Optional callback invoked after each failed attempt, with the current attempt count.
+/// - [onRetry]: Optional callback invoked after each failed attempt, with the
+///   current attempt count and the failure exception.
 ///
 /// Returns:
 /// - A [Future<Result<T>>] that resolves to the first [Success] returned by [action],
@@ -94,7 +95,7 @@ Future<Result<T>> runWithResultRetry<T extends Object>({
   required Future<Result<T>> Function() action,
   int maxRetries = 1,
   Duration delay = const Duration(milliseconds: 10),
-  Future<void> Function(int attempt)? onRetry,
+  Future<void> Function(int attempt, Object error)? onRetry,
 }) async {
   var attempt = 0;
   Result<T>? lastFailure;
@@ -114,7 +115,10 @@ Future<Result<T>> runWithResultRetry<T extends Object>({
     if (attempt <= maxRetries) {
       if (onRetry != null) {
         try {
-          await onRetry(attempt);
+          final error =
+              lastFailure.exceptionOrNull() ??
+              Exception('Unknown failure on attempt ${attempt - 1}');
+          await onRetry(attempt, error);
         } catch (e, st) {
           return Failure(Exception('Exception on onRetry $attempt: $e\n$st'));
         }
