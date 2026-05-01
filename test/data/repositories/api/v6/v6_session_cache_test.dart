@@ -116,8 +116,13 @@ void main() {
     test(
       'second clearAndRenewSid after first completes calls postAuth again',
       () async {
-        await cache.clearAndRenewSid();
-        await cache.clearAndRenewSid();
+        final noDebounceCache = V6SessionCache(
+          creds: creds,
+          client: client,
+          renewalCooldown: Duration.zero,
+        );
+        await noDebounceCache.clearAndRenewSid();
+        await noDebounceCache.clearAndRenewSid();
 
         expect(client.postAuthCallCount, 2);
       },
@@ -161,5 +166,38 @@ void main() {
       await cache.clearAndRenewSid();
       expect(creds.deleteSidCallCount, 1);
     });
+
+    test(
+      'rapid call after renewal completes is debounced within cooldown window',
+      () async {
+        client.authPauseCompleter = Completer<void>();
+
+        final f1 = cache.clearAndRenewSid();
+        final f2 = cache.clearAndRenewSid();
+        client.authPauseCompleter!.complete();
+        await Future.wait([f1, f2]);
+
+        // Immediate call — still within the 500ms cooldown window.
+        await cache.clearAndRenewSid();
+
+        expect(client.postAuthCallCount, 1);
+      },
+    );
+
+    test(
+      'second call after cooldown expires invokes postAuth again',
+      () async {
+        final shortCooldownCache = V6SessionCache(
+          creds: creds,
+          client: client,
+          renewalCooldown: const Duration(milliseconds: 10),
+        );
+        await shortCooldownCache.clearAndRenewSid();
+        await Future<void>.delayed(const Duration(milliseconds: 20));
+        await shortCooldownCache.clearAndRenewSid();
+
+        expect(client.postAuthCallCount, 2);
+      },
+    );
   });
 }

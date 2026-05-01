@@ -24,7 +24,7 @@ class DnsRepositoryV6 extends BaseV6SidRepository implements DnsRepository {
         final result = await _client.getDnsBlocking(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: skipRenewal ? null : (_) => clearAndRenewSid(),
+      onRetry: skipRenewal ? null : (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -53,7 +53,7 @@ class DnsRepositoryV6 extends BaseV6SidRepository implements DnsRepository {
         );
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 }

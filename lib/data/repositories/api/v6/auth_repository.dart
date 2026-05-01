@@ -44,7 +44,7 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
         final result = await _client.deleteAuth(sid);
         return result.map((_) => unit);
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -56,7 +56,7 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
         final result = await _client.getAuthSessions(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -68,7 +68,7 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
         final result = await _client.deleteAuthSession(sid, id: id);
         return result.map((_) => unit);
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 }

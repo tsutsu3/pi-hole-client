@@ -22,7 +22,7 @@ class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
         final result = await _client.getGroups(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -43,7 +43,7 @@ class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
         );
         return result.map((e) => e.toSingleDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -64,7 +64,7 @@ class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
         );
         return result.map((e) => e.toSingleDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -75,7 +75,7 @@ class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
         final sid = await getSid();
         return _client.deleteGroups(sid, name: name);
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 }

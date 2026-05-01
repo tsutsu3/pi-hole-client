@@ -29,7 +29,7 @@ class AdlistRepositoryV6 extends BaseV6SidRepository
         final result = await _client.getLists(sid, adlist: adlist, type: type);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -54,7 +54,7 @@ class AdlistRepositoryV6 extends BaseV6SidRepository
         );
         return result.map((e) => e.toSingleDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -79,7 +79,7 @@ class AdlistRepositoryV6 extends BaseV6SidRepository
         );
         return result.map((e) => e.toSingleDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -95,7 +95,7 @@ class AdlistRepositoryV6 extends BaseV6SidRepository
         );
         return result.map((_) => unit);
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -116,7 +116,7 @@ class AdlistRepositoryV6 extends BaseV6SidRepository
         );
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 }

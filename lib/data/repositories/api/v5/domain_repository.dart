@@ -45,7 +45,7 @@ class DomainRepositoryV5 extends BaseV5TokenRepository
 
         return Success(domainLists);
       },
-      onRetry: (_) => clearToken(),
+      onRetry: (_, _) => clearToken(),
     );
   }
 
@@ -89,7 +89,7 @@ class DomainRepositoryV5 extends BaseV5TokenRepository
           ),
         );
       },
-      onRetry: (_) => clearToken(),
+      onRetry: (_, _) => clearToken(),
     );
   }
 
@@ -127,7 +127,7 @@ class DomainRepositoryV5 extends BaseV5TokenRepository
         }
         return Success.unit();
       },
-      onRetry: (_) => clearToken(),
+      onRetry: (_, _) => clearToken(),
     );
   }
 }

@@ -30,7 +30,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
         final result = await _client.getInfoClient(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -42,7 +42,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
         final result = await _client.getInfoFtl(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -54,7 +54,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
         final result = await _client.getInfoHost(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -66,7 +66,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
         final result = await _client.getInfoMessages(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -81,7 +81,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
         );
         return result.map((_) => unit);
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -93,7 +93,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
         final result = await _client.getInfoMetrics(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -105,7 +105,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
         final result = await _client.getInfoSensors(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -117,7 +117,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
         final result = await _client.getInfoSystem(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -129,7 +129,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
         final result = await _client.getInfoVersion(sid);
         return result.map((e) => e.toDomain());
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -153,7 +153,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
           ),
         );
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 }

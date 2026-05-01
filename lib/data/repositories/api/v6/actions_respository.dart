@@ -38,7 +38,7 @@ class ActionsRepositoryV6 extends BaseV6SidRepository
 
         return networkResult.map((_) => unit);
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -50,7 +50,7 @@ class ActionsRepositoryV6 extends BaseV6SidRepository
         final result = await _client.postActionFlushLogs(sid);
         return result.map((_) => unit);
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -63,7 +63,7 @@ class ActionsRepositoryV6 extends BaseV6SidRepository
       },
       maxRetries: 1,
       delay: const Duration(milliseconds: 10),
-      onRetry: (attempt, error, st) => clearAndRenewSid(),
+      onRetry: (attempt, error, st) => renewSidIfExpired(error),
     );
 
     yield* stream;
@@ -77,7 +77,7 @@ class ActionsRepositoryV6 extends BaseV6SidRepository
         final result = await _client.postActionRestartDns(sid);
         return result.map((_) => unit);
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 }

@@ -588,34 +588,54 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       serverObj = updatedServer;
 
-      final bundle = saveCreateBundle(server: serverObj);
-      if (serverObj.apiVersion == SupportedApiVersions.v6) {
-        final authResult = await bundle.auth.createSession(
-          passwordFieldController.text,
-        );
-        if (authResult.isError()) {
-          if (context.mounted) {
-            setState(() {
-              isConnecting = false;
-              _restoreSecrets();
-            });
-            handleApiErrorResult(
-              context: context,
-              appConfigViewModel: appConfigViewModel,
-              error: authResult.exceptionOrNull()!,
-              version: piHoleVersion,
-            );
-          }
-          if (serversViewModel.selectedServer != null) {
-            statusViewModel.startAutoRefresh();
-          }
-          return;
+      void handleSaveError(Exception e) {
+        if (context.mounted) {
+          setState(() {
+            isConnecting = false;
+            _restoreSecrets();
+          });
+          handleApiErrorResult(
+            context: context,
+            appConfigViewModel: appConfigViewModel,
+            error: e,
+            version: piHoleVersion,
+          );
+        }
+        if (serversViewModel.selectedServer != null) {
+          statusViewModel.startAutoRefresh();
         }
       }
-      // Use skipRenewal: true because the session was just created above.
-      // Retrying with clearAndRenewSid would create a duplicate session.
-      // Transient errors (e.g. network timeout) are still retried.
-      final result = await bundle.dns.fetchBlockingStatus(skipRenewal: true);
+
+      final bundle = saveCreateBundle(server: serverObj);
+      var sessionJustCreated = false;
+      if (serverObj.apiVersion == SupportedApiVersions.v6) {
+        // Check if the existing session is still valid before creating a new one.
+        // Only re-authenticate on 401/SidNotFoundException to avoid session
+        // multiplication when the server is temporarily unreachable (503/504/timeout).
+        final preCheck = await bundle.dns.fetchBlockingStatus(
+          skipRenewal: true,
+        );
+        if (preCheck.isError()) {
+          final err = preCheck.exceptionOrNull();
+          if (!isReauthRequired(err)) {
+            handleSaveError(err!);
+            return;
+          }
+          final authResult = await bundle.auth.createSession(
+            passwordFieldController.text,
+          );
+          if (authResult.isError()) {
+            handleSaveError(authResult.exceptionOrNull()!);
+            return;
+          }
+          sessionJustCreated = true;
+        }
+      }
+      // skipRenewal: true only when a new session was just created above to
+      // avoid creating a duplicate session on transient retry failures.
+      final result = await bundle.dns.fetchBlockingStatus(
+        skipRenewal: sessionJustCreated,
+      );
 
       if (result.isSuccess()) {
         final server = serverObj.copyWith(defaultServer: defaultCheckbox);

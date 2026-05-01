@@ -89,7 +89,7 @@ class FtlRepositoryV5 extends BaseV5TokenRepository implements FtlRepository {
         final result = await _client.getVersions(token);
         return result.map((v) => v.toDomain());
       },
-      onRetry: (_) => clearToken(),
+      onRetry: (_, _) => clearToken(),
     );
   }
 
@@ -101,7 +101,7 @@ class FtlRepositoryV5 extends BaseV5TokenRepository implements FtlRepository {
         final result = await _client.getVersions(token);
         return result.map((v) => PiholeServer(version: v.toDomain()));
       },
-      onRetry: (_) => clearToken(),
+      onRetry: (_, _) => clearToken(),
     );
   }
 }

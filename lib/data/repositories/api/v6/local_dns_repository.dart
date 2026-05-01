@@ -26,7 +26,7 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
         );
         return result.map((config) => _parseHosts(config.config?.dns?.hosts));
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -44,7 +44,7 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
           value: '$ip $name',
         );
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -62,7 +62,7 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
           value: '$ip $name',
         );
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
@@ -99,7 +99,7 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
         );
         return patchResult.map((_) => unit);
       },
-      onRetry: (_) => clearAndRenewSid(),
+      onRetry: (_, e) => renewSidIfExpired(e),
     );
   }
 
