@@ -16,15 +16,18 @@ class V6SessionCache {
   V6SessionCache({
     required SessionCredentialService creds,
     required PiholeV6ApiClient client,
+    this.renewalCooldown = const Duration(milliseconds: 500),
   }) : _creds = creds,
        _client = client;
 
   final SessionCredentialService _creds;
   final PiholeV6ApiClient _client;
+  final Duration renewalCooldown;
 
   String? _sid;
   Future<String>? _pendingLoad;
   Future<void>? _pendingRenewal;
+  DateTime? _lastRenewalCompletedAt;
 
   String get serverAddress => _creds.address;
 
@@ -122,6 +125,15 @@ class V6SessionCache {
   Future<void> _renewOnce() async {
     if (_pendingRenewal != null) return _pendingRenewal!;
 
+    // Debounce: skip if a renewal just completed within the cooldown window.
+    // Prevents a race condition where multiple onRetry callbacks fire after
+    // _pendingRenewal is cleared (finally) and each starts a new postAuth.
+    final now = DateTime.now();
+    if (_lastRenewalCompletedAt != null &&
+        now.difference(_lastRenewalCompletedAt!) < renewalCooldown) {
+      return;
+    }
+
     logger.d('[V6SessionCache] Session expired, attempting renewal...');
     _clear();
 
@@ -131,6 +143,7 @@ class V6SessionCache {
 
     try {
       await pending;
+      _lastRenewalCompletedAt = DateTime.now();
       logger.d('[V6SessionCache] Session renewed successfully.');
     } finally {
       _pendingRenewal = null;
