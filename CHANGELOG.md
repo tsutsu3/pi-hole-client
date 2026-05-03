@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.9.0](https://github.com/tsutsu3/pi-hole-client/compare/1.8.0_(75)..1.9.0) - 2026-05-01
+## [1.9.0](https://github.com/tsutsu3/pi-hole-client/compare/1.8.0_(75)..1.9.0) - 2026-05-03
 
 ### 🚀 Features
 
@@ -16,6 +16,7 @@
 - *(sessions)* Prevent duplicate Pi-hole sessions on server switch ([#587](https://github.com/tsutsu3/pi-hole-client/issues/587)) - ([769aa87](https://github.com/tsutsu3/pi-hole-client/commit/769aa877539e1da6e0b3c9e00bb069a774cb9651))
 - *(sessions)* Centralize v6 session management and prevent duplicate sessions ([#586](https://github.com/tsutsu3/pi-hole-client/issues/586)) - ([9c9382d](https://github.com/tsutsu3/pi-hole-client/commit/9c9382da193cdd656eda93c10369e14f387998d6))
 - *(statistics)* Fix swipe-to-switch tabs causing ~1s white flash ([#567](https://github.com/tsutsu3/pi-hole-client/issues/567)) - ([bc6c66d](https://github.com/tsutsu3/pi-hole-client/commit/bc6c66d4d47f5dae0c23c65db95847ea63266207))
+- *(ui)* Prevent stale server data flashes when switching servers ([#590](https://github.com/tsutsu3/pi-hole-client/issues/590)) - ([7c54b79](https://github.com/tsutsu3/pi-hole-client/commit/7c54b7974b0cadfa575e850c7589e8b067b09882))
 - *(ui, api)* Address deprecation warnings from Flutter version upgrade ([#566](https://github.com/tsutsu3/pi-hole-client/issues/566)) - ([21f03d5](https://github.com/tsutsu3/pi-hole-client/commit/21f03d530bd863a1ec25850a4ddce129b23a3716))
 - *(widget)* Reset status to loading before navigating from home widget tap ([#557](https://github.com/tsutsu3/pi-hole-client/issues/557)) - ([9da0746](https://github.com/tsutsu3/pi-hole-client/commit/9da074644857ac1c2d9547ab9dfadfa43694474b))
 - *(widget)* Sync blocking status to home widget after timed disable expires ([#540](https://github.com/tsutsu3/pi-hole-client/issues/540)) - ([404bfa7](https://github.com/tsutsu3/pi-hole-client/commit/404bfa7fd0b799fcae1acf3e3e3d3cd034470f66))
@@ -79,12 +80,13 @@
 - *(website)* Fix warnings and bump dependencies ([#565](https://github.com/tsutsu3/pi-hole-client/issues/565)) - ([95b7b32](https://github.com/tsutsu3/pi-hole-client/commit/95b7b320ea0d7a34ba4d9d63c8b59946f7dfae85))
 - *(winget)* Update documentation URL in winget manifest ([#505](https://github.com/tsutsu3/pi-hole-client/issues/505)) - ([9b447f6](https://github.com/tsutsu3/pi-hole-client/commit/9b447f6edfe6d3ba3cb1ff2add17e27c23d53442))
 - *(winget)* Winget manifest for v1.8.0 ([#504](https://github.com/tsutsu3/pi-hole-client/issues/504)) - ([14afaa1](https://github.com/tsutsu3/pi-hole-client/commit/14afaa1730161bbc5c6083fbfeef0ad30b9aab63))
-- Bump version to 1.9.0+88 - ([7fbd7e8](https://github.com/tsutsu3/pi-hole-client/commit/7fbd7e838bdee85e2ed2e9aedc200cb21e8609e4))
-- Bump version to 1.9.0+86 - ([1ab7a49](https://github.com/tsutsu3/pi-hole-client/commit/1ab7a498f2837442ba209f2ef05ec100031c1258))
-- Bump version to 1.9.0+84 - ([222fda0](https://github.com/tsutsu3/pi-hole-client/commit/222fda0f3d02ce30549030a7abf07907584ae92f))
-- Bump version to 1.9.0+82 - ([3a97477](https://github.com/tsutsu3/pi-hole-client/commit/3a974776a07f9c61ea9c416b50ee229c675566b6))
-- Bump version to 1.9.0+80 - ([da4b502](https://github.com/tsutsu3/pi-hole-client/commit/da4b5025f6fef18ecb231e2f6a2319ea7f19a005))
-- Bump version to 1.9.0+78 - ([6bc22a6](https://github.com/tsutsu3/pi-hole-client/commit/6bc22a6883d68bb499d7ff83c3a827ae1805cb2b))
+- Bump version to 1.9.0+90 - ([df057c6](https://github.com/tsutsu3/pi-hole-client/commit/df057c6776bfbb1a52ff64f45875867d6832e577))
+- Bump version to 1.9.0+88 - ([c172cfe](https://github.com/tsutsu3/pi-hole-client/commit/c172cfe93a79c6cfa7ad73d3134c701e38c148db))
+- Bump version to 1.9.0+86 - ([4efcb44](https://github.com/tsutsu3/pi-hole-client/commit/4efcb442221a528d0744ebca75414e4277df62c7))
+- Bump version to 1.9.0+84 - ([ea0d4bf](https://github.com/tsutsu3/pi-hole-client/commit/ea0d4bf9ab8d9fc99acf9a1a2261b1da3bdabf36))
+- Bump version to 1.9.0+82 - ([59772cf](https://github.com/tsutsu3/pi-hole-client/commit/59772cfc9304c15ae921e11c2378706bc85d6d0b))
+- Bump version to 1.9.0+80 - ([e15cbe0](https://github.com/tsutsu3/pi-hole-client/commit/e15cbe0d917998651c5eeed065b041c40fe85135))
+- Bump version to 1.9.0+78 - ([11a6884](https://github.com/tsutsu3/pi-hole-client/commit/11a688442a47f8a7d8ecb9713188fa03babb1317))
 - Remove unused UseCaseFactory and GraphSection enum ([#573](https://github.com/tsutsu3/pi-hole-client/issues/573)) - ([83e7645](https://github.com/tsutsu3/pi-hole-client/commit/83e76453780398df95daa465dd079f789fec1aec))
 
 ## [1.8.0_(75)](https://github.com/tsutsu3/pi-hole-client/compare/1.7.1_(65)..1.8.0_(75)) - 2026-02-07
