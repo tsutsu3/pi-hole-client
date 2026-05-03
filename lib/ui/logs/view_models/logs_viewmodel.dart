@@ -292,6 +292,7 @@ class LogsViewModel extends ChangeNotifier {
   int _logAutoRefreshTime = 5;
 
   bool _isRevalidating = false;
+  int _serverEpoch = 0;
 
   List<Log> get logsList => _logsList;
   LoadStatus get loadStatus => _loadStatus;
@@ -402,19 +403,32 @@ class LogsViewModel extends ChangeNotifier {
     // Also reset the filter delegate on server switch so stale client/domain
     // selections from the previous server don't bleed into the new one.
     if (repositoryChanged) {
+      _serverEpoch++;
       _filters = version == SupportedApiVersions.v6 ? FiltersV6() : FiltersV5();
-    }
 
-    // Server switch while the screen is visible: clear the log cache so
-    // initializeLoad() shows the full-screen spinner instead of stale logs,
-    // then reinitialize the pagination services and reload.
-    if (repositoryChanged && _screenActive) {
+      // Always reset server-bound state on repository changes, even when
+      // the screen is not visible, to prevent stale data from leaking across
+      // server switches.
+      _stopLiveTimer();
+      _liveLogsService = null;
       _resetLogsCache();
-      _paginationService = _paginationServiceFactory(repository: _repository!);
-      _livePaginationService = _paginationServiceFactory(
-        repository: _repository!,
-      );
-      _scheduleInitializeLoad();
+      _loadStatus = LoadStatus.loading;
+      _isRevalidating = false;
+      _isFiltering = false;
+      _isLoadingMore = false;
+      _enableNextWindow = true;
+
+      // Server switch while the screen is visible: reinitialize pagination
+      // services and trigger a reload.
+      if (_screenActive) {
+        _paginationService = _paginationServiceFactory(
+          repository: _repository!,
+        );
+        _livePaginationService = _paginationServiceFactory(
+          repository: _repository!,
+        );
+        _scheduleInitializeLoad();
+      }
     }
   }
 
@@ -479,6 +493,7 @@ class LogsViewModel extends ChangeNotifier {
   /// wraps a single async action with one completion/error event; it cannot
   /// model the fine-grained, multi-phase state machine required here.
   Future<void> initializeLoad() async {
+    final serverEpoch = _serverEpoch;
     _stopLiveTimer();
     _isFiltering = false;
     _enableNextWindow = true;
@@ -500,7 +515,8 @@ class LogsViewModel extends ChangeNotifier {
     _paginationService!.reset(start, now);
 
     if (hasCache) {
-      await _collectAndReplace();
+      await _collectAndReplace(serverEpoch: serverEpoch);
+      if (!_isCurrentServerEpoch(serverEpoch)) return;
       _isRevalidating = false;
 
       if (_paginationService!.finished != LoadStatus.error) {
@@ -508,7 +524,8 @@ class LogsViewModel extends ChangeNotifier {
       }
       notifyListeners();
     } else {
-      await _enqueueLoad();
+      await _enqueueLoad(serverEpoch: serverEpoch);
+      if (!_isCurrentServerEpoch(serverEpoch)) return;
 
       if (_paginationService!.finished == LoadStatus.error) {
         _loadStatus = LoadStatus.error;
@@ -521,6 +538,7 @@ class LogsViewModel extends ChangeNotifier {
     }
 
     final endTime = _paginationService!.endTime ?? DateTime.now();
+    if (!_isCurrentServerEpoch(serverEpoch)) return;
     _resetLiveBaseline(endTime: endTime);
     _configureLiveUpdates();
   }
@@ -537,6 +555,7 @@ class LogsViewModel extends ChangeNotifier {
     DateTime? inStartTime,
     DateTime? inEndTime,
   }) async {
+    final serverEpoch = _serverEpoch;
     _stopLiveTimer();
     _loadStatus = LoadStatus.loading;
     _isFiltering = true;
@@ -552,15 +571,18 @@ class LogsViewModel extends ChangeNotifier {
       _resetLogsCache();
 
       final newLogs = await _paginationService!.loadNextPage();
+      if (!_isCurrentServerEpoch(serverEpoch)) return;
       logger.d('Loaded ${newLogs.length} logs from $startTime to $endTime');
 
       _addLogs(newLogs);
     }
 
+    if (!_isCurrentServerEpoch(serverEpoch)) return;
     _loadStatus = LoadStatus.loaded;
     notifyListeners();
 
     final liveEndTime = _paginationService!.endTime ?? DateTime.now();
+    if (!_isCurrentServerEpoch(serverEpoch)) return;
     _resetLiveBaseline(endTime: liveEndTime);
     _configureLiveUpdates();
   }
@@ -573,15 +595,21 @@ class LogsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> _enqueueLoad() async {
+  Future<void> _enqueueLoad({required int serverEpoch}) async {
     // Allow up to 3 consecutive empty windows before giving up.
     const maxEmptyWindows = 3;
 
     for (var emptyWindowCount = 0; emptyWindowCount < maxEmptyWindows;) {
+      if (!_isCurrentServerEpoch(serverEpoch)) return;
       _isLoadingMore = true;
       notifyListeners();
 
       final newLogs = await _loadNextWithWindowSupport();
+      if (!_isCurrentServerEpoch(serverEpoch)) {
+        _isLoadingMore = false;
+        notifyListeners();
+        return;
+      }
 
       _isLoadingMore = false;
       notifyListeners();
@@ -596,6 +624,11 @@ class LogsViewModel extends ChangeNotifier {
       }
     }
 
+    if (!_isCurrentServerEpoch(serverEpoch)) {
+      _isLoadingMore = false;
+      notifyListeners();
+      return;
+    }
     if (_paginationService!.finished == LoadStatus.error) {
       _loadStatus = LoadStatus.error;
       notifyListeners();
@@ -607,14 +640,16 @@ class LogsViewModel extends ChangeNotifier {
 
   /// SWR: collects fresh logs without touching the displayed list, then
   /// atomically replaces [_logsList] and [_loadedLogKeys].
-  Future<void> _collectAndReplace() async {
+  Future<void> _collectAndReplace({required int serverEpoch}) async {
     // Allow up to 3 consecutive empty windows before giving up.
     const maxEmptyWindows = 3;
     final freshLogs = <Log>[];
     final freshKeys = <String>{};
 
     for (var emptyWindowCount = 0; emptyWindowCount < maxEmptyWindows;) {
+      if (!_isCurrentServerEpoch(serverEpoch)) return;
       final newLogs = await _loadNextWithWindowSupport();
+      if (!_isCurrentServerEpoch(serverEpoch)) return;
 
       for (final log in newLogs) {
         final key = _logKey(log);
@@ -625,6 +660,7 @@ class LogsViewModel extends ChangeNotifier {
       if (_isPaginationFinished) emptyWindowCount++;
     }
 
+    if (!_isCurrentServerEpoch(serverEpoch)) return;
     _logsList = freshLogs;
     _loadedLogKeys
       ..clear()
@@ -642,7 +678,7 @@ class LogsViewModel extends ChangeNotifier {
   /// incompatible with the pagination state machine used here.
   Future<void> enqueueLoadMore() async {
     if (_isLoadingMore || _paginationService == null) return;
-    await _enqueueLoad();
+    await _enqueueLoad(serverEpoch: _serverEpoch);
   }
 
   bool get _isPaginationFinished =>
@@ -841,9 +877,16 @@ class LogsViewModel extends ChangeNotifier {
       return;
     }
 
+    final serverEpoch = _serverEpoch;
+    final liveLogsService = _liveLogsService;
+    if (liveLogsService == null) return;
+
     _isLiveTickInProgress = true;
     try {
-      final logs = await _liveLogsService?.tickOnce() ?? const <Log>[];
+      final logs = await liveLogsService.tickOnce();
+      if (!_isCurrentServerEpoch(serverEpoch)) return;
+      if (_liveLogsService != liveLogsService) return;
+      if (!_shouldRunLiveLog) return;
       if (logs.isEmpty) return;
       _addLogs(logs, prepend: true);
     } catch (error, stackTrace) {
@@ -852,4 +895,6 @@ class LogsViewModel extends ChangeNotifier {
       _isLiveTickInProgress = false;
     }
   }
+
+  bool _isCurrentServerEpoch(int epoch) => epoch == _serverEpoch;
 }

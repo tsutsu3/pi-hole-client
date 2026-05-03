@@ -27,7 +27,7 @@ void main() {
     });
 
     test('initial values are correct', () {
-      expect(viewModel.loadingStatus, LoadStatus.loaded);
+      expect(viewModel.loadingStatus, LoadStatus.loading);
       expect(viewModel.whitelistDomains, []);
       expect(viewModel.blacklistDomains, []);
       expect(viewModel.filteredWhitelistDomains, []);

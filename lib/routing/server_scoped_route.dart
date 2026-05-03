@@ -25,7 +25,7 @@ enum RequiredApiVersion {
 /// 2. **v6-only feature on v5 server** — renders a titled
 ///    [PiHoleV5NotSupportedScreen].
 /// 3. **Happy path** — invokes [builder] with the non-null bundle and server,
-///    wrapped in a [KeyedSubtree] keyed on bundle identity so switching
+///    wrapped in a [KeyedSubtree] keyed on server identity so switching
 ///    servers tears down stale ViewModels instead of leaking state.
 class ServerScopedRoute extends StatelessWidget {
   const ServerScopedRoute({
@@ -66,6 +66,6 @@ class ServerScopedRoute extends StatelessWidget {
       );
     }
 
-    return KeyedSubtree(key: ObjectKey(bundle), child: builder(bundle, server));
+    return KeyedSubtree(key: ObjectKey(server), child: builder(bundle, server));
   }
 }

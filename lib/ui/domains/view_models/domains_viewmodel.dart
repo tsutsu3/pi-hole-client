@@ -46,6 +46,8 @@ class DomainsViewModel extends ChangeNotifier {
   String _searchTerm = '';
   bool _searchMode = false;
   int? _groupFilter;
+  LoadStatus _loadingStatus = LoadStatus.loading;
+  bool _disposed = false;
 
   // --- Getters ---
   List<Domain> get whitelistDomains => _whitelistDomains;
@@ -59,22 +61,31 @@ class DomainsViewModel extends ChangeNotifier {
   int? get groupFilter => _groupFilter;
 
   LoadStatus get loadingStatus {
-    if (loadDomains.isRunning.value) return LoadStatus.loading;
-    if (loadDomains.errors.value != null) return LoadStatus.error;
-    return LoadStatus.loaded;
+    return _loadingStatus;
   }
 
   // --- Command implementations ---
   Future<void> _loadDomains() async {
+    _loadingStatus = LoadStatus.loading;
+    _whitelistDomains = [];
+    _blacklistDomains = [];
+    _filteredWhitelistDomains = [];
+    _filteredBlacklistDomains = [];
+    _safeNotifyListeners();
+
     final result = await _domainRepository.fetchAllDomains();
+    if (_disposed) return;
     switch (result) {
       case Success():
         final lists = result.getOrNull();
         _whitelistDomains = [...lists.allowExact, ...lists.allowRegex];
         _blacklistDomains = [...lists.denyExact, ...lists.denyRegex];
         _applyFilters();
-        notifyListeners();
+        _loadingStatus = LoadStatus.loaded;
+        _safeNotifyListeners();
       case Failure():
+        _loadingStatus = LoadStatus.error;
+        _safeNotifyListeners();
         throw result.exceptionOrNull();
     }
   }
@@ -85,6 +96,7 @@ class DomainsViewModel extends ChangeNotifier {
       domain.kind,
       domain.punyCode,
     );
+    if (_disposed) return;
     switch (result) {
       case Success():
         _removeDomainFromList(domain);
@@ -101,6 +113,7 @@ class DomainsViewModel extends ChangeNotifier {
       params.kind,
       params.domain,
     );
+    if (_disposed) return;
     switch (result) {
       case Success():
         final domain = result.getOrNull();
@@ -110,7 +123,7 @@ class DomainsViewModel extends ChangeNotifier {
           _blacklistDomains = [..._blacklistDomains, domain];
         }
         _applyFilters();
-        notifyListeners();
+        _safeNotifyListeners();
       case Failure():
         throw result.exceptionOrNull();
     }
@@ -125,6 +138,7 @@ class DomainsViewModel extends ChangeNotifier {
       groups: domain.groups,
       enabled: domain.enabled,
     );
+    if (_disposed) return;
     switch (result) {
       case Success():
         final updated = result.getOrNull();
@@ -147,7 +161,7 @@ class DomainsViewModel extends ChangeNotifier {
               .toList();
         }
         _applyFilters();
-        notifyListeners();
+        _safeNotifyListeners();
       case Failure():
         throw result.exceptionOrNull();
     }
@@ -217,11 +231,17 @@ class DomainsViewModel extends ChangeNotifier {
           .where((d) => d.id != domain.id)
           .toList();
     }
+    _safeNotifyListeners();
+  }
+
+  void _safeNotifyListeners() {
+    if (_disposed) return;
     notifyListeners();
   }
 
   @override
   void dispose() {
+    _disposed = true;
     loadDomains.removeListener(notifyListeners);
     loadDomains.isRunning.removeListener(notifyListeners);
     loadDomains.errors.removeListener(notifyListeners);

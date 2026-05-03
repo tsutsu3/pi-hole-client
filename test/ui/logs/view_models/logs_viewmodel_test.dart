@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
@@ -9,6 +11,7 @@ import 'package:pi_hole_client/domain/model/metrics/top_clients.dart';
 import 'package:pi_hole_client/domain/model/metrics/top_domains.dart';
 import 'package:pi_hole_client/domain/model/metrics/upstreams.dart';
 import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
+import 'package:pi_hole_client/domain/services/live_logs_service.dart';
 import 'package:pi_hole_client/domain/services/logs_pagination_service.dart';
 import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
 import 'package:result_dart/result_dart.dart';
@@ -122,6 +125,51 @@ class _ErrorPaginationService extends LogsPaginationService {
 
   @override
   Future<List<Log>> loadNextPage() async => const [];
+}
+
+/// [LogsPaginationService] that can delay the first page until [gate] completes.
+class _GatePaginationService extends LogsPaginationService {
+  _GatePaginationService(this._logs, {this.gate})
+    : super(repository: _StubMetricsRepository());
+
+  final List<Log> _logs;
+  final Completer<void>? gate;
+  bool _done = false;
+
+  @override
+  LoadStatus get finished => _done ? LoadStatus.loaded : LoadStatus.loading;
+
+  @override
+  void reset(DateTime start, DateTime until) {
+    super.reset(start, until);
+    _done = false;
+  }
+
+  @override
+  Future<List<Log>> loadNextPage() async {
+    if (_done) return const [];
+    if (gate != null && !gate!.isCompleted) await gate!.future;
+    _done = true;
+    return List.of(_logs);
+  }
+}
+
+/// [LiveLogsService] that records tick invocations.
+class _CountingLiveLogsService extends LiveLogsService {
+  _CountingLiveLogsService({
+    required super.paginationService,
+    required super.endTime,
+    required this.onTick,
+  });
+
+  final Future<List<Log>> Function() onTick;
+  int tickCount = 0;
+
+  @override
+  Future<List<Log>> tickOnce() async {
+    tickCount++;
+    return onTick();
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -300,7 +348,7 @@ void main() {
   // selectedStatusTypes / allStatusTypes / isAllowedOrRetried
   // -------------------------------------------------------------------------
 
-  group('LogsViewModel – status type sets', () {
+  group('LogsViewModel - status type sets', () {
     late LogsViewModel vm;
 
     setUp(() => vm = _buildVm());
@@ -357,7 +405,7 @@ void main() {
   // Search, sort, selectedLog (pure state)
   // -------------------------------------------------------------------------
 
-  group('LogsViewModel – search / sort / selectedLog', () {
+  group('LogsViewModel - search / sort / selectedLog', () {
     late LogsViewModel vm;
 
     setUp(() => vm = _buildVm());
@@ -398,7 +446,7 @@ void main() {
   // API version switch resets filter delegate
   // -------------------------------------------------------------------------
 
-  group('LogsViewModel – update() API version switch', () {
+  group('LogsViewModel - update() API version switch', () {
     test('switching from v5 to v6 resets filter state', () {
       final vm = _buildVm();
       vm.setRequestStatus(RequestStatus.blocked);
@@ -408,6 +456,124 @@ void main() {
       vm.update(metricsRepository: _StubMetricsRepository(), apiVersion: 'v6');
       expect(vm.apiVersion, equals('v6'));
       expect(vm.requestStatus, equals(RequestStatus.all));
+      vm.dispose();
+    });
+  });
+
+  group('LogsViewModel - server switch stale-state guard', () {
+    test(
+      'repositoryChanged while screen is inactive clears logs and sets loading',
+      () async {
+        final vm = _buildVm(
+          logs: [_allowedLog(url: 'server-a.com', device: '10.0.0.1', id: 1)],
+        );
+        await _initAndLoad(vm);
+        expect(vm.logsList, isNotEmpty);
+        expect(vm.loadStatus, LoadStatus.loaded);
+
+        vm.disposeScreen();
+        vm.update(
+          metricsRepository: _StubMetricsRepository(),
+          apiVersion: 'v5',
+        );
+
+        expect(vm.logsList, isEmpty);
+        expect(vm.logsListDisplay, isEmpty);
+        expect(vm.loadStatus, LoadStatus.loading);
+        expect(vm.isFiltering, isFalse);
+        expect(vm.isLoadingMore, isFalse);
+        expect(vm.isRevalidating, isFalse);
+        vm.dispose();
+      },
+    );
+
+    test(
+      'configureLive after inactive server switch does not run stale live service',
+      () async {
+        final repoA = _StubMetricsRepository();
+        final repoB = _StubMetricsRepository();
+        final serviceByRepository = <MetricsRepository, LogsPaginationService>{
+          repoA: _ControlledPaginationService([
+            _allowedLog(url: 'a.com', device: '10.0.0.1', id: 1),
+          ]),
+          repoB: _ControlledPaginationService(const []),
+        };
+        final liveService = _CountingLiveLogsService(
+          paginationService: _ControlledPaginationService(const []),
+          endTime: DateTime(2024, 1, 1, 12, 0),
+          onTick: () async => [
+            _allowedLog(url: 'stale-live.com', device: '10.0.0.9', id: 999),
+          ],
+        );
+
+        final vm = LogsViewModel(
+          paginationServiceFactory: ({required MetricsRepository repository}) {
+            return serviceByRepository[repository]!;
+          },
+          liveLogsServiceFactory:
+              ({
+                required LogsPaginationService paginationService,
+                required DateTime endTime,
+              }) {
+                return liveService;
+              },
+        );
+
+        vm.update(metricsRepository: repoA, apiVersion: 'v5');
+        await _initAndLoad(vm); // Creates the live baseline for server A.
+        expect(vm.loadStatus, LoadStatus.loaded);
+
+        vm.disposeScreen();
+        vm.update(metricsRepository: repoB, apiVersion: 'v5');
+        vm.initScreen(logsPerQuery: 2.0);
+        vm.configureLive(
+          liveLogEnabled: true,
+          isLivelogPaused: false,
+          isOnLogsTab: true,
+          logAutoRefreshTime: 1,
+        );
+        await Future<void>.delayed(const Duration(milliseconds: 30));
+
+        expect(liveService.tickCount, equals(0));
+        expect(
+          vm.logsList.where((log) => log.url == 'stale-live.com'),
+          isEmpty,
+        );
+        vm.dispose();
+      },
+    );
+
+    test('old delayed load result is ignored after server switch', () async {
+      final repoA = _StubMetricsRepository();
+      final repoB = _StubMetricsRepository();
+      final gateA = Completer<void>();
+
+      final serviceA = _GatePaginationService([
+        _allowedLog(url: 'old-a.com', device: '10.0.0.1', id: 1),
+      ], gate: gateA);
+      final serviceB = _GatePaginationService([
+        _allowedLog(url: 'new-b.com', device: '10.0.0.2', id: 2),
+      ]);
+
+      final vm = LogsViewModel(
+        paginationServiceFactory: ({required MetricsRepository repository}) {
+          return repository == repoA ? serviceA : serviceB;
+        },
+      );
+
+      vm.update(metricsRepository: repoA, apiVersion: 'v5');
+      vm.initScreen(logsPerQuery: 2.0);
+      final pendingOldLoad = vm.initializeLoad();
+
+      vm.update(metricsRepository: repoB, apiVersion: 'v5');
+      await vm.initializeLoad();
+
+      gateA.complete();
+      await pendingOldLoad;
+
+      expect(vm.loadStatus, LoadStatus.loaded);
+      expect(vm.logsList.length, equals(1));
+      expect(vm.logsList.first.url, equals('new-b.com'));
       vm.dispose();
     });
   });
