@@ -46,6 +46,7 @@ class DomainsViewModel extends ChangeNotifier {
   String _searchTerm = '';
   bool _searchMode = false;
   int? _groupFilter;
+  LoadStatus _loadingStatus = LoadStatus.loading;
 
   // --- Getters ---
   List<Domain> get whitelistDomains => _whitelistDomains;
@@ -59,13 +60,18 @@ class DomainsViewModel extends ChangeNotifier {
   int? get groupFilter => _groupFilter;
 
   LoadStatus get loadingStatus {
-    if (loadDomains.isRunning.value) return LoadStatus.loading;
-    if (loadDomains.errors.value != null) return LoadStatus.error;
-    return LoadStatus.loaded;
+    return _loadingStatus;
   }
 
   // --- Command implementations ---
   Future<void> _loadDomains() async {
+    _loadingStatus = LoadStatus.loading;
+    _whitelistDomains = [];
+    _blacklistDomains = [];
+    _filteredWhitelistDomains = [];
+    _filteredBlacklistDomains = [];
+    notifyListeners();
+
     final result = await _domainRepository.fetchAllDomains();
     switch (result) {
       case Success():
@@ -73,8 +79,11 @@ class DomainsViewModel extends ChangeNotifier {
         _whitelistDomains = [...lists.allowExact, ...lists.allowRegex];
         _blacklistDomains = [...lists.denyExact, ...lists.denyRegex];
         _applyFilters();
+        _loadingStatus = LoadStatus.loaded;
         notifyListeners();
       case Failure():
+        _loadingStatus = LoadStatus.error;
+        notifyListeners();
         throw result.exceptionOrNull();
     }
   }
