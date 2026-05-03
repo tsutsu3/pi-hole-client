@@ -605,7 +605,11 @@ class LogsViewModel extends ChangeNotifier {
       notifyListeners();
 
       final newLogs = await _loadNextWithWindowSupport();
-      if (!_isCurrentServerEpoch(serverEpoch)) return;
+      if (!_isCurrentServerEpoch(serverEpoch)) {
+        _isLoadingMore = false;
+        notifyListeners();
+        return;
+      }
 
       _isLoadingMore = false;
       notifyListeners();
@@ -620,7 +624,11 @@ class LogsViewModel extends ChangeNotifier {
       }
     }
 
-    if (!_isCurrentServerEpoch(serverEpoch)) return;
+    if (!_isCurrentServerEpoch(serverEpoch)) {
+      _isLoadingMore = false;
+      notifyListeners();
+      return;
+    }
     if (_paginationService!.finished == LoadStatus.error) {
       _loadStatus = LoadStatus.error;
       notifyListeners();
