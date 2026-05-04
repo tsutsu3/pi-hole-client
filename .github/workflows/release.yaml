@@ -134,6 +134,23 @@ jobs:
       - name: Build linux
         run: flutter build linux --release
 
+      - name: Copy sqlite3 native asset to Linux bundle
+        run: |
+          mkdir -p $LINUX_RELEASE_PATH/lib
+
+          if [ -f build/native_assets/linux/libsqlite3.so ]; then
+            cp build/native_assets/linux/libsqlite3.so $LINUX_RELEASE_PATH/lib/
+          elif [ -f build/native_assets/linux/sqlite3.so ]; then
+            cp build/native_assets/linux/sqlite3.so $LINUX_RELEASE_PATH/lib/
+          else
+            echo "sqlite3 native asset not found"
+            find build/native_assets -iname '*sqlite*' || true
+            exit 1
+          fi
+
+          echo "SQLite files in Linux bundle:"
+          find $LINUX_RELEASE_PATH -iname '*sqlite*'
+
       - name: Install flutter_to_debian
         run: dart pub global activate flutter_to_debian
 

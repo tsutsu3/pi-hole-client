@@ -56,8 +56,7 @@ dependencies:
   url_launcher: ^6.2.4
   percent_indicator: ^4.2.5
   flutter_app_lock: ^4.3.0
-  sqlite3_flutter_libs: ^0.6.0+eol
-  sqlite3: ^3.3.1 # Versions above 3 cause a "Couldn't resolve native function 'sqlite3_initialize'" error on Windows.
+  sqlite3: ^3.3.1
   sqflite_common_ffi: ^2.3.7+1
   sentry_flutter: ^9.18.0
   flutter_dotenv: ^6.0.0
