@@ -81,14 +81,6 @@
 - *(website)* Fix warnings and bump dependencies ([#565](https://github.com/tsutsu3/pi-hole-client/issues/565)) - ([95b7b32](https://github.com/tsutsu3/pi-hole-client/commit/95b7b320ea0d7a34ba4d9d63c8b59946f7dfae85))
 - *(winget)* Update documentation URL in winget manifest ([#505](https://github.com/tsutsu3/pi-hole-client/issues/505)) - ([9b447f6](https://github.com/tsutsu3/pi-hole-client/commit/9b447f6edfe6d3ba3cb1ff2add17e27c23d53442))
 - *(winget)* Winget manifest for v1.8.0 ([#504](https://github.com/tsutsu3/pi-hole-client/issues/504)) - ([14afaa1](https://github.com/tsutsu3/pi-hole-client/commit/14afaa1730161bbc5c6083fbfeef0ad30b9aab63))
-- Bump version to 1.9.0+92 - ([5c54b9e](https://github.com/tsutsu3/pi-hole-client/commit/5c54b9e25348ce20ad57c95a94141a3094a7a837))
-- Bump version to 1.9.0+90 - ([2c592c6](https://github.com/tsutsu3/pi-hole-client/commit/2c592c639c95a80a474ec4df067dbd34e14615eb))
-- Bump version to 1.9.0+88 - ([27ccd10](https://github.com/tsutsu3/pi-hole-client/commit/27ccd109773038f80917fa5026f11c8c2bbc547c))
-- Bump version to 1.9.0+86 - ([2a5f180](https://github.com/tsutsu3/pi-hole-client/commit/2a5f1805de365308d7439410daf741839d0d5b98))
-- Bump version to 1.9.0+84 - ([108c663](https://github.com/tsutsu3/pi-hole-client/commit/108c6633977aeeed4e125a3d740427ea06e4611f))
-- Bump version to 1.9.0+82 - ([208664b](https://github.com/tsutsu3/pi-hole-client/commit/208664b213eed2495530dec75e9be62b06ad98f0))
-- Bump version to 1.9.0+80 - ([8030fa5](https://github.com/tsutsu3/pi-hole-client/commit/8030fa5fe0041b9e558f4dbf70e112c2bf212ebd))
-- Bump version to 1.9.0+78 - ([e8438a4](https://github.com/tsutsu3/pi-hole-client/commit/e8438a421e28ef3da4f383983e87458d14884766))
 - Remove unused UseCaseFactory and GraphSection enum ([#573](https://github.com/tsutsu3/pi-hole-client/issues/573)) - ([83e7645](https://github.com/tsutsu3/pi-hole-client/commit/83e76453780398df95daa465dd079f789fec1aec))
 
 ## [1.8.0_(75)](https://github.com/tsutsu3/pi-hole-client/compare/1.7.1_(65)..1.8.0_(75)) - 2026-02-07
