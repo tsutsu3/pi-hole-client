@@ -19,14 +19,19 @@ import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_mod
 import 'package:provider/provider.dart';
 
 class AdlistScreen extends StatelessWidget {
-  const AdlistScreen({super.key});
+  const AdlistScreen({this.forceBackToHome = false, super.key});
+
+  final bool forceBackToHome;
 
   @override
-  Widget build(BuildContext context) => const AdlistScreenWidget();
+  Widget build(BuildContext context) =>
+      AdlistScreenWidget(forceBackToHome: forceBackToHome);
 }
 
 class AdlistScreenWidget extends StatefulWidget {
-  const AdlistScreenWidget({super.key});
+  const AdlistScreenWidget({required this.forceBackToHome, super.key});
+
+  final bool forceBackToHome;
 
   @override
   State<AdlistScreenWidget> createState() => _AdlistScreenWidgetState();
@@ -86,6 +91,7 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
 
     AdlistsScaffold buildScaffold({void Function(Adlist)? onTap}) {
       return AdlistsScaffold(
+        forceBackToHome: widget.forceBackToHome,
         tabController: tabController,
         tabs: [
           IconTab(

@@ -5,7 +5,10 @@ import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlis
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-Widget createAdlistScreen(RepositoryBundle bundle) {
+Widget createAdlistScreen(
+  RepositoryBundle bundle, {
+  bool forceBackToHome = false,
+}) {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -18,6 +21,6 @@ Widget createAdlistScreen(RepositoryBundle bundle) {
             GroupsViewModel(groupRepository: bundle.group)..loadGroups.run(),
       ),
     ],
-    child: const AdlistScreen(),
+    child: AdlistScreen(forceBackToHome: forceBackToHome),
   );
 }

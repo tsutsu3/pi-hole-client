@@ -290,11 +290,18 @@ GoRouter createAppRouter({
                       GoRoute(
                         path: '/settings/server/adlists',
                         name: Routes.settingsServerAdlists,
-                        builder: (context, state) => ServerScopedRoute(
-                          title: AppLocalizations.of(context)!.adlists,
-                          required: RequiredApiVersion.v6Only,
-                          builder: (bundle, _) => createAdlistScreen(bundle),
-                        ),
+                        builder: (context, state) {
+                          final forceBackToHome =
+                              state.extra is HomeTileEntryExtra;
+                          return ServerScopedRoute(
+                            title: AppLocalizations.of(context)!.adlists,
+                            required: RequiredApiVersion.v6Only,
+                            builder: (bundle, _) => createAdlistScreen(
+                              bundle,
+                              forceBackToHome: forceBackToHome,
+                            ),
+                          );
+                        },
                         routes: [
                           GoRoute(
                             path: 'details',
@@ -556,11 +563,18 @@ GoRouter createAppRouter({
                       GoRoute(
                         path: '/settings/server/advanced/network',
                         name: Routes.settingsServerAdvancedNetwork,
-                        builder: (context, state) => ServerScopedRoute(
-                          title: AppLocalizations.of(context)!.network,
-                          required: RequiredApiVersion.v6Only,
-                          builder: (bundle, _) => createNetworkScreen(bundle),
-                        ),
+                        builder: (context, state) {
+                          final forceBackToHome =
+                              state.extra is HomeTileEntryExtra;
+                          return ServerScopedRoute(
+                            title: AppLocalizations.of(context)!.network,
+                            required: RequiredApiVersion.v6Only,
+                            builder: (bundle, _) => createNetworkScreen(
+                              bundle,
+                              forceBackToHome: forceBackToHome,
+                            ),
+                          );
+                        },
                         routes: [
                           GoRoute(
                             path: 'details',

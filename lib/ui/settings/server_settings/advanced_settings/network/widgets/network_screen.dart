@@ -40,9 +40,14 @@ final _fakeDevices = List.filled(5, _fakeDevice);
 /// Loads device and client IP info, shows a device list, and supports
 /// viewing and deleting devices. Handles loading, error, and empty states.
 class NetworkScreen extends StatefulWidget {
-  const NetworkScreen({required this.viewModel, super.key});
+  const NetworkScreen({
+    required this.viewModel,
+    this.forceBackToHome = false,
+    super.key,
+  });
 
   final NetworkViewModel viewModel;
+  final bool forceBackToHome;
 
   @override
   State<NetworkScreen> createState() => _NetworkScreenState();
@@ -94,6 +99,18 @@ class _NetworkScreenState extends State<NetworkScreen> {
           behavior: CustomScrollBehavior(),
           child: Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: !widget.forceBackToHome,
+              leading: widget.forceBackToHome
+                  ? BackButton(
+                      onPressed: () {
+                        if (context.canPop()) {
+                          context.pop();
+                          return;
+                        }
+                        context.goNamed(Routes.home);
+                      },
+                    )
+                  : null,
               title: Text(locale.network),
               actions: [
                 Padding(
