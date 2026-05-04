@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/actions/refresh_server_status.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_visibility_ticker.dart';
@@ -93,7 +95,19 @@ class _StatisticsScreenState extends State<StatisticsScreen>
         SupportedApiVersions.v5;
 
     if (MediaQuery.of(context).size.width > ResponsiveConstants.xxLarge) {
-      return const StatisticsTripleColumn();
+      final isStatisticsRoot =
+          GoRouterState.of(context).uri.path == '/statistics';
+
+      return PopScope<void>(
+        canPop: !isStatisticsRoot,
+        onPopInvokedWithResult: (didPop, _) {
+          if (didPop) return;
+          if (GoRouterState.of(context).uri.path == '/statistics') {
+            context.goNamed(Routes.home);
+          }
+        },
+        child: const StatisticsTripleColumn(),
+      );
     }
 
     final loc = AppLocalizations.of(context)!;
@@ -198,29 +212,43 @@ class _StatisticsScreenState extends State<StatisticsScreen>
       );
     }
 
-    return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverAppBar(
-                title: Text(AppLocalizations.of(context)!.statistics),
-                pinned: true,
-                floating: true,
-                centerTitle: false,
-                forceElevated: innerBoxIsScrolled,
-                bottom: TabBar(
-                  controller: _tabController,
-                  tabAlignment: TabAlignment.start,
-                  isScrollable: true,
-                  tabs: tabs,
+    final isStatisticsRoot =
+        GoRouterState.of(context).uri.path == '/statistics';
+
+    return PopScope<void>(
+      canPop: !isStatisticsRoot,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+        if (GoRouterState.of(context).uri.path == '/statistics') {
+          context.goNamed(Routes.home);
+        }
+      },
+      child: Scaffold(
+        body: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverOverlapAbsorber(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                  context,
+                ),
+                sliver: SliverAppBar(
+                  title: Text(AppLocalizations.of(context)!.statistics),
+                  pinned: true,
+                  floating: true,
+                  centerTitle: false,
+                  forceElevated: innerBoxIsScrolled,
+                  bottom: TabBar(
+                    controller: _tabController,
+                    tabAlignment: TabAlignment.start,
+                    isScrollable: true,
+                    tabs: tabs,
+                  ),
                 ),
               ),
-            ),
-          ];
-        },
-        body: TabBarView(controller: _tabController, children: pages),
+            ];
+          },
+          body: TabBarView(controller: _tabController, children: pages),
+        ),
       ),
     );
   }

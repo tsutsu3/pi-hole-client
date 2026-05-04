@@ -74,32 +74,48 @@ class AppShell extends StatelessWidget {
     );
     final showBottomNav = _branchRootPaths.contains(currentPath) && !detailOpen;
 
+    final shouldRouteToHomeOnBack =
+        _branchRootPaths.contains(currentPath) && currentPath != '/home';
+
+    void onPopInvoked(bool didPop) {
+      if (didPop || !shouldRouteToHomeOnBack) return;
+      onTabChanged(branchIndices.indexOf(homeIndex));
+    }
+
     if (width > ResponsiveConstants.large) {
       // Desktop: NavigationRail + content
-      return Scaffold(
-        body: Row(
-          children: [
-            CustomNavigationRail(
-              screens: screens,
-              selectedScreen: safeDisplayedIndex,
-              onChange: onTabChanged,
-            ),
-            Expanded(child: navigationShell),
-          ],
+      return PopScope<void>(
+        canPop: !shouldRouteToHomeOnBack,
+        onPopInvokedWithResult: (didPop, _) => onPopInvoked(didPop),
+        child: Scaffold(
+          body: Row(
+            children: [
+              CustomNavigationRail(
+                screens: screens,
+                selectedScreen: safeDisplayedIndex,
+                onChange: onTabChanged,
+              ),
+              Expanded(child: navigationShell),
+            ],
+          ),
         ),
       );
     }
 
     // Mobile: content + optional BottomNavBar
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: showBottomNav
-          ? BottomNavBar(
-              screens: screens,
-              selectedScreen: safeDisplayedIndex,
-              onChange: onTabChanged,
-            )
-          : null,
+    return PopScope<void>(
+      canPop: !shouldRouteToHomeOnBack,
+      onPopInvokedWithResult: (didPop, _) => onPopInvoked(didPop),
+      child: Scaffold(
+        body: navigationShell,
+        bottomNavigationBar: showBottomNav
+            ? BottomNavBar(
+                screens: screens,
+                selectedScreen: safeDisplayedIndex,
+                onChange: onTabChanged,
+              )
+            : null,
+      ),
     );
   }
 }

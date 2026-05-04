@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
@@ -167,49 +169,67 @@ class _DomainsScreenState extends State<DomainsScreen>
       );
     }
 
-    if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
-      return Row(
-        children: [
-          Expanded(
-            flex: MediaQuery.of(context).size.width > ResponsiveConstants.xLarge
-                ? 2
-                : 3,
-            child: buildScaffold(),
-          ),
-          Expanded(
-            flex: 3,
-            child: selectedDomain != null
-                ? DomainDetailsScreen(
-                    domain: selectedDomain,
-                    remove: (Domain domain) {
-                      viewModel.setSelectedDomain(null);
-                      deleteDomain(
-                        context: context,
-                        viewModel: viewModel,
-                        appConfigViewModel: appConfigViewModel,
-                        domain: domain,
-                      );
-                    },
-                    groups: groups,
-                    colors: colors,
-                  )
-                : SizedBox(
-                    child: SafeArea(
-                      child: Text(
-                        AppLocalizations.of(context)!.domainsSelectLeftColumn,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+    final content =
+        MediaQuery.of(context).size.width > ResponsiveConstants.large
+        ? Row(
+            children: [
+              Expanded(
+                flex:
+                    MediaQuery.of(context).size.width >
+                        ResponsiveConstants.xLarge
+                    ? 2
+                    : 3,
+                child: buildScaffold(),
+              ),
+              Expanded(
+                flex: 3,
+                child: selectedDomain != null
+                    ? DomainDetailsScreen(
+                        domain: selectedDomain,
+                        remove: (Domain domain) {
+                          viewModel.setSelectedDomain(null);
+                          deleteDomain(
+                            context: context,
+                            viewModel: viewModel,
+                            appConfigViewModel: appConfigViewModel,
+                            domain: domain,
+                          );
+                        },
+                        groups: groups,
+                        colors: colors,
+                      )
+                    : SizedBox(
+                        child: SafeArea(
+                          child: Text(
+                            AppLocalizations.of(
+                              context,
+                            )!.domainsSelectLeftColumn,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 24,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurfaceVariant,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-          ),
-        ],
-      );
-    } else {
-      return buildScaffold();
-    }
+              ),
+            ],
+          )
+        : buildScaffold();
+
+    final isDomainsRoot = GoRouterState.of(context).uri.path == '/domains';
+
+    return PopScope<void>(
+      canPop: !isDomainsRoot,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+        if (GoRouterState.of(context).uri.path == '/domains') {
+          context.goNamed(Routes.home);
+        }
+      },
+      child: content,
+    );
   }
 }
