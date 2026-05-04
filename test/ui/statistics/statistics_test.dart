@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/metrics/summary.dart';
 import 'package:pi_hole_client/domain/model/metrics/top_clients.dart';
@@ -44,6 +45,27 @@ void main() async {
       logsViewModel = LogsViewModel();
     });
 
+    Widget buildAppWithRouter() {
+      final router = GoRouter(
+        initialLocation: '/statistics',
+        routes: [
+          GoRoute(
+            path: '/statistics',
+            builder: (context, state) => const StatisticsScreen(),
+          ),
+        ],
+      );
+
+      return buildTestApp(
+        const SizedBox.shrink(),
+        appConfigViewModel: appConfigViewModel,
+        serversViewModel: serversViewModel,
+        statusViewModel: statusViewModel,
+        logsViewModel: logsViewModel,
+        router: router,
+      );
+    }
+
     testWidgets('should show statistics screen (all graphs are rendered)', (
       WidgetTester tester,
     ) async {
@@ -55,15 +77,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const StatisticsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(StatisticsScreen), findsOneWidget);
       await tester.pump();
@@ -127,15 +141,7 @@ void main() async {
 
         appConfigViewModel.setSelectedTab(AppShell.statisticsIndex);
 
-        await tester.pumpWidget(
-          buildTestApp(
-            const StatisticsScreen(),
-            appConfigViewModel: appConfigViewModel,
-            serversViewModel: serversViewModel,
-            statusViewModel: statusViewModel,
-            logsViewModel: logsViewModel,
-          ),
-        );
+        await tester.pumpWidget(buildAppWithRouter());
         await tester.pump();
 
         await tester.tap(find.text('Domains'));
@@ -165,15 +171,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const StatisticsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(StatisticsScreen), findsOneWidget);
       await tester.pump();
@@ -198,15 +196,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const StatisticsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(StatisticsScreen), findsOneWidget);
       await tester.pump();
@@ -271,15 +261,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const StatisticsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(StatisticsScreen), findsOneWidget);
       await tester.pump();
@@ -322,15 +304,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const StatisticsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(StatisticsScreen), findsOneWidget);
       expect(find.byType(StatisticsTripleColumn), findsOneWidget);
@@ -350,15 +324,7 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        await tester.pumpWidget(
-          buildTestApp(
-            const StatisticsScreen(),
-            appConfigViewModel: appConfigViewModel,
-            serversViewModel: serversViewModel,
-            statusViewModel: statusViewModel,
-            logsViewModel: logsViewModel,
-          ),
-        );
+        await tester.pumpWidget(buildAppWithRouter());
 
         expect(find.byType(StatisticsScreen), findsOneWidget);
         expect(find.byType(StatisticsTripleColumn), findsOneWidget);
@@ -390,15 +356,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const StatisticsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(StatisticsScreen), findsOneWidget);
       expect(find.byType(StatisticsTripleColumn), findsOneWidget);
@@ -421,15 +379,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const StatisticsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(StatisticsScreen), findsOneWidget);
       expect(find.byType(StatisticsTripleColumn), findsOneWidget);

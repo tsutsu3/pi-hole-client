@@ -88,6 +88,29 @@ void main() async {
         ..totalClients = ['localhost', '192.168.100.2'];
     });
 
+    Widget buildAppWithRouter() {
+      final router = GoRouter(
+        initialLocation: '/logs',
+        routes: [
+          GoRoute(
+            path: '/logs',
+            builder: (context, state) => LogsScreen(
+              logsViewModel: logsViewModel,
+              appConfigViewModel: appConfigViewModel,
+            ),
+          ),
+        ],
+      );
+
+      return buildTestApp(
+        const SizedBox.shrink(),
+        appConfigViewModel: appConfigViewModel,
+        serversViewModel: serversViewModel,
+        logsViewModel: logsViewModel,
+        router: router,
+      );
+    }
+
     testWidgets('should show logs screen on mobile layout', (
       WidgetTester tester,
     ) async {
@@ -99,17 +122,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          LogsScreen(
-            logsViewModel: logsViewModel,
-            appConfigViewModel: appConfigViewModel,
-          ),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       // Show logs screen
       expect(find.byType(LogsScreen), findsOneWidget);
@@ -134,17 +147,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          LogsScreen(
-            logsViewModel: logsViewModel,
-            appConfigViewModel: appConfigViewModel,
-          ),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
@@ -240,17 +243,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          LogsScreen(
-            logsViewModel: logsViewModel,
-            appConfigViewModel: appConfigViewModel,
-          ),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
@@ -283,17 +276,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          LogsScreen(
-            logsViewModel: logsViewModel,
-            appConfigViewModel: appConfigViewModel,
-          ),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       // show logs screen
       expect(find.byType(LogsScreen), findsOneWidget);
@@ -334,17 +317,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          LogsScreen(
-            logsViewModel: logsViewModel,
-            appConfigViewModel: appConfigViewModel,
-          ),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       // show logs screen
       expect(find.byType(LogsScreen), findsOneWidget);
@@ -385,17 +358,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          LogsScreen(
-            logsViewModel: logsViewModel,
-            appConfigViewModel: appConfigViewModel,
-          ),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       // show logs screen
       expect(find.byType(LogsScreen), findsOneWidget);
@@ -434,17 +397,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          LogsScreen(
-            logsViewModel: logsViewModel,
-            appConfigViewModel: appConfigViewModel,
-          ),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
@@ -476,17 +429,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          LogsScreen(
-            logsViewModel: logsViewModel,
-            appConfigViewModel: appConfigViewModel,
-          ),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byIcon(Icons.sort_rounded), findsOneWidget);
       await tester.tap(find.byIcon(Icons.sort_rounded));
@@ -538,6 +481,29 @@ void main() async {
         ..totalClients = ['localhost', '192.168.100.2'];
     });
 
+    Widget buildAppWithRouter() {
+      final router = GoRouter(
+        initialLocation: '/logs',
+        routes: [
+          GoRoute(
+            path: '/logs',
+            builder: (context, state) => LogsScreen(
+              logsViewModel: logsViewModel,
+              appConfigViewModel: appConfigViewModel,
+            ),
+          ),
+        ],
+      );
+
+      return buildTestApp(
+        const SizedBox.shrink(),
+        appConfigViewModel: appConfigViewModel,
+        serversViewModel: serversViewModel,
+        logsViewModel: logsViewModel,
+        router: router,
+      );
+    }
+
     testWidgets('should show logs screen on mobile layout', (
       WidgetTester tester,
     ) async {
@@ -549,17 +515,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          LogsScreen(
-            logsViewModel: logsViewModel,
-            appConfigViewModel: appConfigViewModel,
-          ),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       // Show logs screen
       expect(find.byType(LogsScreen), findsOneWidget);
@@ -584,17 +540,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          LogsScreen(
-            logsViewModel: logsViewModel,
-            appConfigViewModel: appConfigViewModel,
-          ),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          logsViewModel: logsViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(LogsScreen), findsOneWidget);
       expect(find.text('Query logs'), findsOneWidget);
