@@ -226,47 +226,60 @@ class SettingsScreen extends StatelessWidget {
       );
     }
 
-    return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: width > ResponsiveConstants.large
-                  ? SliverAppBar(
-                      pinned: true,
-                      centerTitle: false,
-                      forceElevated: innerBoxIsScrolled,
-                      title: Text(AppLocalizations.of(context)!.settings),
-                    )
-                  : SliverAppBar.medium(
-                      floating: true,
-                      centerTitle: false,
-                      forceElevated: innerBoxIsScrolled,
-                      title: Text(AppLocalizations.of(context)!.settings),
+    final isSettingsRoot = GoRouterState.of(context).uri.path == '/settings';
+
+    return PopScope<void>(
+      canPop: !isSettingsRoot,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+        if (GoRouterState.of(context).uri.path == '/settings') {
+          context.goNamed(Routes.home);
+        }
+      },
+      child: Scaffold(
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverOverlapAbsorber(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                  context,
+                ),
+                sliver: width > ResponsiveConstants.large
+                    ? SliverAppBar(
+                        pinned: true,
+                        centerTitle: false,
+                        forceElevated: innerBoxIsScrolled,
+                        title: Text(AppLocalizations.of(context)!.settings),
+                      )
+                    : SliverAppBar.medium(
+                        floating: true,
+                        centerTitle: false,
+                        forceElevated: innerBoxIsScrolled,
+                        title: Text(AppLocalizations.of(context)!.settings),
+                      ),
+              ),
+            ];
+          },
+          body: SafeArea(
+            top: false,
+            bottom: false,
+            child: Builder(
+              builder: (context) => CustomScrollView(
+                slivers: [
+                  SliverOverlapInjector(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                      context,
                     ),
-            ),
-          ];
-        },
-        body: SafeArea(
-          top: false,
-          bottom: false,
-          child: Builder(
-            builder: (context) => CustomScrollView(
-              slivers: [
-                SliverOverlapInjector(
-                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                    context,
                   ),
-                ),
-                SliverList.list(
-                  children: [
-                    appSettings(context),
-                    serverSettings(context),
-                    aboutSettings(context),
-                  ],
-                ),
-              ],
+                  SliverList.list(
+                    children: [
+                      appSettings(context),
+                      serverSettings(context),
+                      aboutSettings(context),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

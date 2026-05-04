@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg_test/flutter_svg_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/widgets/settings_screen.dart';
@@ -29,6 +30,26 @@ void main() async {
       statusViewModel = FakeStatusViewModel();
     });
 
+    Widget buildAppWithRouter() {
+      final router = GoRouter(
+        initialLocation: '/settings',
+        routes: [
+          GoRoute(
+            path: '/settings',
+            builder: (context, state) => const SettingsScreen(),
+          ),
+        ],
+      );
+
+      return buildTestApp(
+        const SizedBox.shrink(),
+        appConfigViewModel: appConfigViewModel,
+        serversViewModel: serversViewModel,
+        statusViewModel: statusViewModel,
+        router: router,
+      );
+    }
+
     testWidgets('should show Settings screen', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
@@ -38,14 +59,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       expect(find.text('Settings'), findsNWidgets(2)); //title and nav bar
@@ -112,14 +126,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       expect(find.text('Settings'), findsOneWidget);
@@ -195,14 +202,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
@@ -221,14 +221,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
@@ -246,14 +239,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
@@ -274,14 +260,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
@@ -299,14 +278,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
@@ -324,14 +296,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
@@ -352,14 +317,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
@@ -384,14 +342,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
@@ -412,14 +363,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
@@ -438,14 +382,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
@@ -464,14 +401,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
@@ -490,14 +420,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
@@ -535,14 +458,7 @@ void main() async {
             .setMockMethodCallHandler(urlLauncherChannel, null);
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();
@@ -589,14 +505,7 @@ void main() async {
             .setMockMethodCallHandler(urlLauncherChannel, null);
       });
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const SettingsScreen(),
-          appConfigViewModel: appConfigViewModel,
-          serversViewModel: serversViewModel,
-          statusViewModel: statusViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildAppWithRouter());
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       await tester.pump();

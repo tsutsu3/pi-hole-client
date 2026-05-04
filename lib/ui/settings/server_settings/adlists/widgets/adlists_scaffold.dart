@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/icon_tab.dart';
@@ -49,6 +51,16 @@ class AdlistsScaffold extends StatelessWidget {
       length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: BackButton(
+            onPressed: () {
+              if (context.canPop()) {
+                context.pop();
+                return;
+              }
+              context.goNamed(Routes.home);
+            },
+          ),
           title: viewModel.searchMode
               ? TextFormField(
                   initialValue: viewModel.searchTerm,

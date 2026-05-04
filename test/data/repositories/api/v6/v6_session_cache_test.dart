@@ -184,20 +184,17 @@ void main() {
       },
     );
 
-    test(
-      'second call after cooldown expires invokes postAuth again',
-      () async {
-        final shortCooldownCache = V6SessionCache(
-          creds: creds,
-          client: client,
-          renewalCooldown: const Duration(milliseconds: 10),
-        );
-        await shortCooldownCache.clearAndRenewSid();
-        await Future<void>.delayed(const Duration(milliseconds: 20));
-        await shortCooldownCache.clearAndRenewSid();
+    test('second call after cooldown expires invokes postAuth again', () async {
+      final shortCooldownCache = V6SessionCache(
+        creds: creds,
+        client: client,
+        renewalCooldown: const Duration(milliseconds: 10),
+      );
+      await shortCooldownCache.clearAndRenewSid();
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+      await shortCooldownCache.clearAndRenewSid();
 
-        expect(client.postAuthCallCount, 2);
-      },
-    );
+      expect(client.postAuthCallCount, 2);
+    });
   });
 }

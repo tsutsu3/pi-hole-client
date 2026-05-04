@@ -133,16 +133,6 @@ void main() async {
       groupsViewModel = GroupsViewModel(groupRepository: groupRepo);
     }
 
-    Widget buildApp() {
-      return buildTestApp(
-        const DomainsScreen(),
-        appConfigViewModel: appConfigViewModel,
-        serversViewModel: serversViewModel,
-        domainsViewModel: domainsViewModel,
-        groupsViewModel: groupsViewModel,
-      );
-    }
-
     Widget buildAppWithRouter() {
       final router = GoRouter(
         initialLocation: '/domains',
@@ -195,6 +185,10 @@ void main() async {
         groupsViewModel: groupsViewModel,
         router: router,
       );
+    }
+
+    Widget buildApp() {
+      return buildAppWithRouter();
     }
 
     /// Pumps the widget, triggers data loading, and settles.

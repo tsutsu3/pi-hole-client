@@ -94,6 +94,16 @@ class _NetworkScreenState extends State<NetworkScreen> {
           behavior: CustomScrollBehavior(),
           child: Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
+              leading: BackButton(
+                onPressed: () {
+                  if (context.canPop()) {
+                    context.pop();
+                    return;
+                  }
+                  context.goNamed(Routes.home);
+                },
+              ),
               title: Text(locale.network),
               actions: [
                 Padding(

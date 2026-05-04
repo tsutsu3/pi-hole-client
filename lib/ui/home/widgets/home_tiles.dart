@@ -79,12 +79,12 @@ class HomeTiles extends StatelessWidget {
                 final serverProvider = context.read<ServersViewModel>();
                 final apiVersion = serverProvider.selectedServer?.apiVersion;
 
-                // Switch to settings branch, then push target
-                context.goNamed(Routes.settings);
-                context.pushNamed(Routes.settingsServerAdvanced);
-                if (apiVersion == SupportedApiVersions.v6) {
-                  context.pushNamed(Routes.settingsServerAdvancedNetwork);
-                }
+                // Push directly so back returns to the origin page (e.g. Home)
+                context.pushNamed(
+                  apiVersion == SupportedApiVersions.v6
+                      ? Routes.settingsServerAdvancedNetwork
+                      : Routes.settingsServerAdvanced,
+                );
               },
             ),
             HomeTileItem(
@@ -142,8 +142,7 @@ class HomeTiles extends StatelessWidget {
               },
               width: width,
               onTap: () {
-                // Switch to settings branch, then push target
-                context.goNamed(Routes.settings);
+                // Push directly so back returns to the origin page (e.g. Home)
                 context.pushNamed(Routes.settingsServerAdlists);
               },
             ),

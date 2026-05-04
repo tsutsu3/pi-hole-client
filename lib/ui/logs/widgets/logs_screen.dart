@@ -139,9 +139,20 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: widget.logsViewModel,
-      builder: (context, _) => _buildContent(context),
+    final isLogsRoot = GoRouterState.of(context).uri.path == '/logs';
+
+    return PopScope<void>(
+      canPop: !isLogsRoot,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+        if (GoRouterState.of(context).uri.path == '/logs') {
+          context.goNamed(Routes.home);
+        }
+      },
+      child: ListenableBuilder(
+        listenable: widget.logsViewModel,
+        builder: (context, _) => _buildContent(context),
+      ),
     );
   }
 
