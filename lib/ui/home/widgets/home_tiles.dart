@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
-import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -85,7 +84,6 @@ class HomeTiles extends StatelessWidget {
                   apiVersion == SupportedApiVersions.v6
                       ? Routes.settingsServerAdvancedNetwork
                       : Routes.settingsServerAdvanced,
-                  extra: const HomeTileEntryExtra(),
                 );
               },
             ),
@@ -145,10 +143,7 @@ class HomeTiles extends StatelessWidget {
               width: width,
               onTap: () {
                 // Push directly so back returns to the origin page (e.g. Home)
-                context.pushNamed(
-                  Routes.settingsServerAdlists,
-                  extra: const HomeTileEntryExtra(),
-                );
+                context.pushNamed(Routes.settingsServerAdlists);
               },
             ),
           ],

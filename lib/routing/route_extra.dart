@@ -183,8 +183,3 @@ class NetworkDetailsExtra {
   final Device device;
   final void Function(Device) onDelete;
 }
-
-/// Marker extra used when opening settings pages from Home tiles.
-class HomeTileEntryExtra {
-  const HomeTileEntryExtra();
-}

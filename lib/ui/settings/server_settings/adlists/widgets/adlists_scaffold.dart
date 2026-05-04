@@ -18,7 +18,6 @@ class AdlistsScaffold extends StatelessWidget {
     required this.tabs,
     required this.tabChildren,
     required this.onSearchClose,
-    this.forceBackToHome = false,
     this.groupChip,
     this.extraActions,
     super.key,
@@ -36,9 +35,6 @@ class AdlistsScaffold extends StatelessWidget {
   /// Typically clears the search controller and resets view-model state.
   final VoidCallback onSearchClose;
 
-  /// Forces a back button and navigates to Home when this page is root.
-  final bool forceBackToHome;
-
   /// Optional chip shown in the AppBar bottom area (e.g. active group filter).
   /// When non-null the bottom area is 96 px tall; otherwise 46 px.
   final Widget? groupChip;
@@ -55,18 +51,16 @@ class AdlistsScaffold extends StatelessWidget {
       length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: !forceBackToHome,
-          leading: forceBackToHome
-              ? BackButton(
-                  onPressed: () {
-                    if (context.canPop()) {
-                      context.pop();
-                      return;
-                    }
-                    context.goNamed(Routes.home);
-                  },
-                )
-              : null,
+          automaticallyImplyLeading: false,
+          leading: BackButton(
+            onPressed: () {
+              if (context.canPop()) {
+                context.pop();
+                return;
+              }
+              context.goNamed(Routes.home);
+            },
+          ),
           title: viewModel.searchMode
               ? TextFormField(
                   initialValue: viewModel.searchTerm,
