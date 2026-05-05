@@ -29,10 +29,10 @@ packages:
     dependency: "direct main"
     description:
       name: animations
-      sha256: a120785be876b24177e8af387929e786e7761d6574e63cad6c2ca28545b30186
+      sha256: "9cb469212ea51be27097f23b519d594c01171721347b55df9334fff653659e7f"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.2"
+    version: "2.2.0"
   ansicolor:
     dependency: transitive
     description:
@@ -101,10 +101,10 @@ packages:
     dependency: "direct dev"
     description:
       name: build_runner
-      sha256: "521daf8d189deb79ba474e43a696b41c49fb3987818dbacf3308f1e03673a75e"
+      sha256: "1523ce62448ebac2c15a8ba5fbad8acac169788658a7dd2a1c2d9c2a9318b9a6"
       url: "https://pub.dev"
     source: hosted
-    version: "2.13.1"
+    version: "2.15.0"
   built_collection:
     dependency: transitive
     description:
@@ -394,10 +394,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_dotenv
-      sha256: d4130c4a43e0b13fefc593bc3961f2cb46e30cb79e253d4a526b1b5d24ae1ce4
+      sha256: d41da11fb497314fbf89811ec30af02d1d898b47980a129f0a8c0a1720460ba2
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0"
+    version: "6.0.1"
   flutter_driver:
     dependency: transitive
     description: flutter
@@ -563,10 +563,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "08b742eef4f71c9df5af543751cd0b7f1c679c4088488f4223ecaddc1a813b79"
+      sha256: "92d8cee7c57dff0a6c409c05597b460002434eccf7424a712283225b3962d03f"
       url: "https://pub.dev"
     source: hosted
-    version: "17.2.2"
+    version: "17.2.3"
   graphs:
     dependency: transitive
     description:
@@ -664,10 +664,10 @@ packages:
     dependency: "direct dev"
     description:
       name: json_serializable
-      sha256: fbcf404b03520e6e795f6b9b39badb2b788407dfc0a50cf39158a6ae1ca78925
+      sha256: "2c15e78e1cc6e62aadecf59f81566fd56829713d96a8c4177699e2b2e17f20db"
       url: "https://pub.dev"
     source: hosted
-    version: "6.13.1"
+    version: "6.13.2"
   leak_tracker:
     dependency: transitive
     description:
@@ -1143,18 +1143,18 @@ packages:
     dependency: transitive
     description:
       name: sentry
-      sha256: "8c07a413ce5691db5b299024498f1ad6376e015f61b6d8fc8819b042f65df6c7"
+      sha256: "1f78300740739ff4b4920802687879231554350eab73eb229778f463aabda440"
       url: "https://pub.dev"
     source: hosted
-    version: "9.18.0"
+    version: "9.19.0"
   sentry_flutter:
     dependency: "direct main"
     description:
       name: sentry_flutter
-      sha256: "0c98ca79261325806c4eccc47274910306e2d914dfefc598650819677ce2b484"
+      sha256: "168bbb120f7684dee6c0e100817f56ee1925bc2eb7fa55a71253337640c7e241"
       url: "https://pub.dev"
     source: hosted
-    version: "9.18.0"
+    version: "9.19.0"
   shelf:
     dependency: transitive
     description:
