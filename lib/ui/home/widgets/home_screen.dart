@@ -11,6 +11,7 @@ import 'package:pi_hole_client/ui/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_tiles.dart';
+import 'package:pi_hole_client/ui/home/widgets/server_status_chips.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -118,6 +119,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               SliverList.list(
                                 children: [
+                                  const ServerStatusChips(),
+                                  const SizedBox(height: 24),
                                   HomeTiles(width: width),
                                   const SizedBox(height: 24),
                                   const HomeCharts(),
