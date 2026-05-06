@@ -40,7 +40,11 @@ object WidgetUpdateHelper {
         val manager = AppWidgetManager.getInstance(context)
         val prefs = WidgetPrefs.getInstance(context)
 
-        // Stats widgets
+        // Stagger the three widget types by 90 ms each to avoid concurrent SSL
+        // connections that can cause handshake failures during Pi-hole blocking toggles.
+        val stagger = 90L
+
+        // Stats widgets: no delay
         val statsIds = manager.getAppWidgetIds(
             ComponentName(context, PiHoleWidgetProvider::class.java),
         )
@@ -50,23 +54,23 @@ object WidgetUpdateHelper {
             }
         }
 
-        // Toggle widgets
+        // Toggle widgets: stagger delay
         val toggleIds = manager.getAppWidgetIds(
             ComponentName(context, ToggleWidgetProvider::class.java),
         )
         prefs.getWidgetIdsForServer(toggleIds, serverId).forEach { widgetId ->
             if (widgetId != excludeWidgetId) {
-                enqueueToggleRefresh(context, widgetId)
+                enqueueToggleRefresh(context, widgetId, stagger)
             }
         }
 
-        // Compact widgets
+        // Compact widgets: stagger * 2 delay
         val compactIds = manager.getAppWidgetIds(
             ComponentName(context, CompactWidgetProvider::class.java),
         )
         prefs.getWidgetIdsForServer(compactIds, serverId).forEach { widgetId ->
             if (widgetId != excludeWidgetId) {
-                enqueueCompactRefresh(context, widgetId)
+                enqueueCompactRefresh(context, widgetId, stagger * 2)
             }
         }
     }
@@ -144,7 +148,7 @@ object WidgetUpdateHelper {
         )
     }
 
-    private fun enqueueToggleRefresh(context: Context, widgetId: Int) {
+    private fun enqueueToggleRefresh(context: Context, widgetId: Int, initialDelayMs: Long = 0L) {
         val request = OneTimeWorkRequestBuilder<ToggleWidgetWorker>()
             .setInputData(
                 workDataOf(
@@ -152,6 +156,7 @@ object WidgetUpdateHelper {
                     WidgetConstants.EXTRA_ACTION to WidgetConstants.ACTION_REFRESH,
                 ),
             )
+            .setInitialDelay(initialDelayMs, TimeUnit.MILLISECONDS)
             .build()
 
         WorkManager.getInstance(context).enqueueUniqueWork(
@@ -161,7 +166,7 @@ object WidgetUpdateHelper {
         )
     }
 
-    private fun enqueueCompactRefresh(context: Context, widgetId: Int) {
+    private fun enqueueCompactRefresh(context: Context, widgetId: Int, initialDelayMs: Long = 0L) {
         val request = OneTimeWorkRequestBuilder<PiHoleWidgetWorker>()
             .setInputData(
                 workDataOf(
@@ -169,6 +174,7 @@ object WidgetUpdateHelper {
                     WidgetConstants.EXTRA_ACTION to WidgetConstants.ACTION_REFRESH,
                 ),
             )
+            .setInitialDelay(initialDelayMs, TimeUnit.MILLISECONDS)
             .build()
 
         WorkManager.getInstance(context).enqueueUniqueWork(

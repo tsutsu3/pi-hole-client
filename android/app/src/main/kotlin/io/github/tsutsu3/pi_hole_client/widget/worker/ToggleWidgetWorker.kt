@@ -21,6 +21,7 @@ import io.github.tsutsu3.pi_hole_client.widget.data.WidgetServer
 import io.github.tsutsu3.pi_hole_client.widget.data.updateFromToggle
 import io.github.tsutsu3.pi_hole_client.widget.ui.toggle.ToggleWidgetProvider
 import io.github.tsutsu3.pi_hole_client.widget.ui.toggle.ToggleGlanceWidget
+import kotlinx.coroutines.delay
 import org.json.JSONObject
 
 /**
@@ -148,7 +149,20 @@ class ToggleWidgetWorker(
         sid: String,
         widgetId: Int,
     ) {
-        val resp = client.get("${server.address}/api/dns/blocking", sid)
+        var resp = client.get("${server.address}/api/dns/blocking", sid)
+
+        // Transient SSL/network errors can occur when Pi-hole briefly drops connections
+        // during a blocking toggle. Retry twice (200 ms, then 400 ms) before giving up.
+        if (resp.isConnectionError) {
+            if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Connection error, retrying (1): ${resp.body}")
+            delay(200)
+            resp = client.get("${server.address}/api/dns/blocking", sid)
+        }
+        if (resp.isConnectionError) {
+            if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Connection error, retrying (2): ${resp.body}")
+            delay(400)
+            resp = client.get("${server.address}/api/dns/blocking", sid)
+        }
 
         if (PiHoleApiClient.isAuthFailure(resp.statusCode)) {
             if (WidgetDebugConfig.DEBUG) {
@@ -201,7 +215,18 @@ class ToggleWidgetWorker(
         widgetId: Int,
     ) {
         // Get current status first.
-        val statusResp = client.get("${server.address}/api/dns/blocking", sid)
+        var statusResp = client.get("${server.address}/api/dns/blocking", sid)
+
+        // Transient SSL/network errors can occur when Pi-hole briefly drops connections
+        // during a blocking toggle. Retry twice (200 ms, then 400 ms) before giving up.
+        if (statusResp.isConnectionError) {
+            delay(200)
+            statusResp = client.get("${server.address}/api/dns/blocking", sid)
+        }
+        if (statusResp.isConnectionError) {
+            delay(400)
+            statusResp = client.get("${server.address}/api/dns/blocking", sid)
+        }
 
         if (PiHoleApiClient.isAuthFailure(statusResp.statusCode)) {
             if (WidgetDebugConfig.DEBUG) {

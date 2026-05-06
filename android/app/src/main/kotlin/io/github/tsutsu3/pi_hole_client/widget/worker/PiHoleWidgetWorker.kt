@@ -22,6 +22,7 @@ import io.github.tsutsu3.pi_hole_client.widget.ui.stats.PiHoleWidgetProvider
 import io.github.tsutsu3.pi_hole_client.widget.ui.stats.PiHoleGlanceWidget
 import io.github.tsutsu3.pi_hole_client.widget.ui.compact.CompactWidgetProvider
 import io.github.tsutsu3.pi_hole_client.widget.ui.compact.CompactGlanceWidget
+import kotlinx.coroutines.delay
 import org.json.JSONObject
 import java.text.NumberFormat
 import java.time.LocalDateTime
@@ -201,7 +202,20 @@ class PiHoleWidgetWorker(
             return
         }
 
-        val paddResponse = client.get("$serverAddress/api/padd", sid)
+        var paddResponse = client.get("$serverAddress/api/padd", sid)
+
+        // Transient SSL/network errors can occur when Pi-hole briefly drops connections
+        // during a blocking toggle. Retry twice (200 ms, then 400 ms) before giving up.
+        if (paddResponse.isConnectionError) {
+            if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Connection error, retrying (1): ${paddResponse.body}")
+            delay(200)
+            paddResponse = client.get("$serverAddress/api/padd", sid)
+        }
+        if (paddResponse.isConnectionError) {
+            if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Connection error, retrying (2): ${paddResponse.body}")
+            delay(400)
+            paddResponse = client.get("$serverAddress/api/padd", sid)
+        }
 
         if (PiHoleApiClient.isAuthFailure(paddResponse.statusCode)) {
             // Mark SID invalid so Flutter can refresh on next app open.
