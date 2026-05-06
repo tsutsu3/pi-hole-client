@@ -19,7 +19,7 @@ import io.github.tsutsu3.pi_hole_client.widget.data.WidgetPrefs
 import io.github.tsutsu3.pi_hole_client.widget.data.updateFromToggle
 import io.github.tsutsu3.pi_hole_client.widget.ui.toggle.ToggleGlanceWidget
 import io.github.tsutsu3.pi_hole_client.widget.ui.toggle.ToggleWidgetProvider
-import kotlinx.coroutines.delay
+import org.json.JSONException
 import org.json.JSONObject
 
 /**
@@ -75,16 +75,7 @@ class ServerToggleWorker(
             return Result.success()
         }
 
-        // Read current status before toggling.
-        var statusResp = client.get("${server.address}/api/dns/blocking", sid)
-        if (statusResp.isConnectionError) {
-            delay(200)
-            statusResp = client.get("${server.address}/api/dns/blocking", sid)
-        }
-        if (statusResp.isConnectionError) {
-            delay(400)
-            statusResp = client.get("${server.address}/api/dns/blocking", sid)
-        }
+        val statusResp = client.getWithRetry("${server.address}/api/dns/blocking", sid)
 
         if (PiHoleApiClient.isAuthFailure(statusResp.statusCode)) {
             if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Auth failure: ${statusResp.statusCode}")
@@ -123,11 +114,10 @@ class ServerToggleWorker(
 
             broadcast(serverId, prefs, ToggleWidgetState(serverId, server.alias, finalStatus, true))
 
-            // Trigger Stats + Compact refresh so they reflect the new blocking state.
             if (toggleResp.statusCode in 200..299) {
                 WidgetUpdateHelper.enqueueServerPadd(applicationContext, serverId)
             }
-        } catch (e: org.json.JSONException) {
+        } catch (e: JSONException) {
             if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Invalid JSON response: ${e.message}")
             broadcast(serverId, prefs, errorState(serverId, server.alias))
         }
@@ -137,14 +127,13 @@ class ServerToggleWorker(
 
     private suspend fun broadcast(serverId: String, prefs: WidgetPrefs, state: ToggleWidgetState) {
         val manager = AppWidgetManager.getInstance(applicationContext)
+        val glanceManager = GlanceAppWidgetManager(applicationContext)
         val toggleIds = prefs.getWidgetIdsForServer(
             manager.getAppWidgetIds(ComponentName(applicationContext, ToggleWidgetProvider::class.java)),
             serverId,
         )
         for (widgetId in toggleIds) {
-            val glanceId = runCatching {
-                GlanceAppWidgetManager(applicationContext).getGlanceIdBy(widgetId)
-            }.getOrNull() ?: continue
+            val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue
             updateAppWidgetState(applicationContext, glanceId) { it.updateFromToggle(state) }
             ToggleGlanceWidget().update(applicationContext, glanceId)
         }

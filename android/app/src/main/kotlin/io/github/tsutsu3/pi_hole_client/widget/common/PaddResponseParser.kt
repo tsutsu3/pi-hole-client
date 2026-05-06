@@ -132,8 +132,7 @@ object PaddResponseParser {
         }
     }
 
-    fun nowString(): String {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        return LocalDateTime.now().format(formatter)
-    }
+    private val FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+
+    fun nowString(): String = LocalDateTime.now().format(FORMATTER)
 }

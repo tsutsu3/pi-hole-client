@@ -99,7 +99,7 @@ object WidgetUpdateHelper {
             .setConstraints(constraints)
             .build()
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            "pihole_widget_periodic_sync",
+            WidgetConstants.WORK_PERIODIC_SYNC,
             ExistingPeriodicWorkPolicy.UPDATE,
             request,
         )
@@ -121,7 +121,7 @@ object WidgetUpdateHelper {
             .setInputData(workDataOf(WidgetConstants.EXTRA_SERVER_ID to serverId))
         if (delayMs > 0L) builder.setInitialDelay(delayMs, TimeUnit.MILLISECONDS)
         WorkManager.getInstance(context).enqueueUniqueWork(
-            "pihole_padd_server_$serverId",
+            "${WidgetConstants.WORK_PREFIX_PADD}$serverId",
             existingWorkPolicy,
             builder.build(),
         )
@@ -142,7 +142,7 @@ object WidgetUpdateHelper {
             .setInputData(workDataOf(WidgetConstants.EXTRA_SERVER_ID to serverId))
         if (delayMs > 0L) builder.setInitialDelay(delayMs, TimeUnit.MILLISECONDS)
         WorkManager.getInstance(context).enqueueUniqueWork(
-            "pihole_blocking_server_$serverId",
+            "${WidgetConstants.WORK_PREFIX_BLOCKING}$serverId",
             existingWorkPolicy,
             builder.build(),
         )
@@ -159,7 +159,7 @@ object WidgetUpdateHelper {
             .setInputData(workDataOf(WidgetConstants.EXTRA_SERVER_ID to serverId))
             .build()
         WorkManager.getInstance(context).enqueueUniqueWork(
-            "pihole_toggle_server_$serverId",
+            "${WidgetConstants.WORK_PREFIX_TOGGLE}$serverId",
             ExistingWorkPolicy.KEEP,
             request,
         )

@@ -23,6 +23,11 @@ object WidgetConstants {
     const val EXTRA_ACTION = "extra_action"
     const val EXTRA_SERVER_ID = "extra_server_id"
 
+    const val WORK_PREFIX_PADD = "pihole_padd_server_"
+    const val WORK_PREFIX_BLOCKING = "pihole_blocking_server_"
+    const val WORK_PREFIX_TOGGLE = "pihole_toggle_server_"
+    const val WORK_PERIODIC_SYNC = "pihole_widget_periodic_sync"
+
     const val ACTION_REFRESH = "io.github.tsutsu3.pi_hole_client.widget.REFRESH"
     const val ACTION_TOGGLE = "io.github.tsutsu3.pi_hole_client.widget.TOGGLE"
 }

@@ -20,7 +20,7 @@ import io.github.tsutsu3.pi_hole_client.widget.ui.compact.CompactGlanceWidget
 import io.github.tsutsu3.pi_hole_client.widget.ui.compact.CompactWidgetProvider
 import io.github.tsutsu3.pi_hole_client.widget.ui.stats.PiHoleGlanceWidget
 import io.github.tsutsu3.pi_hole_client.widget.ui.stats.PiHoleWidgetProvider
-import kotlinx.coroutines.delay
+import org.json.JSONException
 
 /**
  * Per-server worker that fetches `/api/padd` once and updates all Stats and Compact
@@ -72,17 +72,7 @@ class ServerPaddWorker(
             return Result.success()
         }
 
-        var resp = client.get("${server.address}/api/padd", sid)
-        if (resp.isConnectionError) {
-            if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Connection error, retrying (1): ${resp.body}")
-            delay(200)
-            resp = client.get("${server.address}/api/padd", sid)
-        }
-        if (resp.isConnectionError) {
-            if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Connection error, retrying (2): ${resp.body}")
-            delay(400)
-            resp = client.get("${server.address}/api/padd", sid)
-        }
+        val resp = client.getWithRetry("${server.address}/api/padd", sid)
 
         val state = when {
             PiHoleApiClient.isAuthFailure(resp.statusCode) -> {
@@ -97,7 +87,7 @@ class ServerPaddWorker(
             else -> {
                 try {
                     PaddResponseParser.parse(serverId, server.alias, resp.body)
-                } catch (e: org.json.JSONException) {
+                } catch (e: JSONException) {
                     if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Invalid JSON response: ${e.message}")
                     PaddResponseParser.placeholderState(serverId, server.alias, WidgetStatus.ERROR, false)
                 }
@@ -110,6 +100,7 @@ class ServerPaddWorker(
 
     private suspend fun broadcast(serverId: String, prefs: WidgetPrefs, state: WidgetState) {
         val manager = AppWidgetManager.getInstance(applicationContext)
+        val glanceManager = GlanceAppWidgetManager(applicationContext)
         val statsIds = prefs.getWidgetIdsForServer(
             manager.getAppWidgetIds(ComponentName(applicationContext, PiHoleWidgetProvider::class.java)),
             serverId,
@@ -118,16 +109,15 @@ class ServerPaddWorker(
             manager.getAppWidgetIds(ComponentName(applicationContext, CompactWidgetProvider::class.java)),
             serverId,
         )
-        for (widgetId in statsIds.toList() + compactIds.toList()) {
-            val glanceId = runCatching {
-                GlanceAppWidgetManager(applicationContext).getGlanceIdBy(widgetId)
-            }.getOrNull() ?: continue
+        for (widgetId in statsIds) {
+            val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue
             updateAppWidgetState(applicationContext, glanceId) { it.updateFrom(state) }
-            if (widgetId in compactIds) {
-                CompactGlanceWidget().update(applicationContext, glanceId)
-            } else {
-                PiHoleGlanceWidget().update(applicationContext, glanceId)
-            }
+            PiHoleGlanceWidget().update(applicationContext, glanceId)
+        }
+        for (widgetId in compactIds) {
+            val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue
+            updateAppWidgetState(applicationContext, glanceId) { it.updateFrom(state) }
+            CompactGlanceWidget().update(applicationContext, glanceId)
         }
     }
 }
