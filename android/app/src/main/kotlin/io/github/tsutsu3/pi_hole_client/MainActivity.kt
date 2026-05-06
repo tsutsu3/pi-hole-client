@@ -6,6 +6,7 @@ import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import androidx.work.ExistingWorkPolicy
 import io.github.tsutsu3.pi_hole_client.widget.WidgetUpdateHelper
 import io.github.tsutsu3.pi_hole_client.widget.data.WidgetPrefs
 import io.github.tsutsu3.pi_hole_client.widget.data.WidgetServer
@@ -27,14 +28,22 @@ class MainActivity : FlutterFragmentActivity() {
                     val sid = call.argument<String>("sid").orEmpty()
                     prefs.saveSid(serverId, sid)
                     prefs.setSidValid(serverId, true)
-                    WidgetUpdateHelper.refreshWidgetsForServer(this, serverId)
+                    WidgetUpdateHelper.refreshWidgetsForServer(
+                        this,
+                        serverId,
+                        existingWorkPolicy = ExistingWorkPolicy.KEEP,
+                    )
                     result.success(null)
                 }
 
                 "sidInvalidated" -> {
                     val serverId = requireServerId(call, result) ?: return@setMethodCallHandler
                     prefs.setSidValid(serverId, false)
-                    WidgetUpdateHelper.refreshWidgetsForServer(this, serverId)
+                    WidgetUpdateHelper.refreshWidgetsForServer(
+                        this,
+                        serverId,
+                        existingWorkPolicy = ExistingWorkPolicy.KEEP,
+                    )
                     result.success(null)
                 }
 
@@ -72,7 +81,14 @@ class MainActivity : FlutterFragmentActivity() {
 
                 "blockingUpdated" -> {
                     val serverId = requireServerId(call, result) ?: return@setMethodCallHandler
-                    WidgetUpdateHelper.refreshWidgetsForServer(this, serverId)
+                    // Pi-hole may briefly drop TLS connections right after blocking flips.
+                    // Delay reads slightly to avoid transient SSL handshake failures.
+                    WidgetUpdateHelper.refreshWidgetsForServer(
+                        this,
+                        serverId,
+                        delayMs = 100L,
+                        existingWorkPolicy = ExistingWorkPolicy.KEEP,
+                    )
                     result.success(null)
                 }
 

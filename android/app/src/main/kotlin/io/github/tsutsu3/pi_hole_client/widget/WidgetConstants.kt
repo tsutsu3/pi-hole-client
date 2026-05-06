@@ -21,6 +21,7 @@ object WidgetConstants {
     const val KEY_SERVERS_JSON = "servers_json"
 
     const val EXTRA_ACTION = "extra_action"
+    const val EXTRA_SERVER_ID = "extra_server_id"
 
     const val ACTION_REFRESH = "io.github.tsutsu3.pi_hole_client.widget.REFRESH"
     const val ACTION_TOGGLE = "io.github.tsutsu3.pi_hole_client.widget.TOGGLE"
