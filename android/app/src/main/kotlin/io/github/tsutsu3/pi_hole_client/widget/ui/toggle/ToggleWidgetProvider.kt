@@ -79,11 +79,16 @@ class ToggleWidgetProvider : GlanceAppWidgetReceiver() {
                 )
                 .build()
 
-            WorkManager.getInstance(context).enqueueUniqueWork(
-                "pihole_toggle_widget_$widgetId",
-                ExistingWorkPolicy.REPLACE,
-                request,
-            )
+            // TOGGLE uses KEEP so a rapid second tap cannot cancel an in-flight toggle
+            // and leave Pi-hole in an inconsistent state.
+            // REFRESH uses a separate name so it never cancels a running TOGGLE.
+            val (workName, policy) = when (action) {
+                WidgetConstants.ACTION_TOGGLE ->
+                    "pihole_toggle_action_$widgetId" to ExistingWorkPolicy.KEEP
+                else ->
+                    "pihole_toggle_refresh_$widgetId" to ExistingWorkPolicy.KEEP
+            }
+            WorkManager.getInstance(context).enqueueUniqueWork(workName, policy, request)
         }
     }
 

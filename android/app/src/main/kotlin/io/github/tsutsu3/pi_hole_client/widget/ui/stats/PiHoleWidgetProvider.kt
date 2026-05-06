@@ -98,12 +98,16 @@ class PiHoleWidgetProvider : GlanceAppWidgetReceiver() {
                 )
                 .build()
 
-            // Unique work keeps only the latest action for this widget id.
-            WorkManager.getInstance(context).enqueueUniqueWork(
-                "pihole_widget_$widgetId",
-                ExistingWorkPolicy.REPLACE,
-                request,
-            )
+            // TOGGLE uses KEEP so a rapid second tap cannot cancel an in-flight toggle
+            // and leave Pi-hole in an inconsistent state.
+            // REFRESH uses a separate name so it never cancels a running TOGGLE.
+            val (workName, policy) = when (action) {
+                WidgetConstants.ACTION_TOGGLE ->
+                    "pihole_widget_action_$widgetId" to ExistingWorkPolicy.KEEP
+                else ->
+                    "pihole_widget_$widgetId" to ExistingWorkPolicy.REPLACE
+            }
+            WorkManager.getInstance(context).enqueueUniqueWork(workName, policy, request)
         }
     }
 

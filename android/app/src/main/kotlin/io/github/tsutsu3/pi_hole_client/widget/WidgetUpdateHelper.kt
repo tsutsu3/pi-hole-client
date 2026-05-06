@@ -161,7 +161,7 @@ object WidgetUpdateHelper {
 
         WorkManager.getInstance(context).enqueueUniqueWork(
             "pihole_toggle_channel_$widgetId",
-            ExistingWorkPolicy.REPLACE,
+            ExistingWorkPolicy.KEEP,
             request,
         )
     }
