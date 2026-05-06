@@ -81,12 +81,12 @@ class MainActivity : FlutterFragmentActivity() {
 
                 "blockingUpdated" -> {
                     val serverId = requireServerId(call, result) ?: return@setMethodCallHandler
-                    // Pi-hole may briefly drop TLS connections right after blocking flips.
-                    // Delay reads slightly to avoid transient SSL handshake failures.
+                    // Pi-hole resets TLS connections for up to ~1-2 s after a blocking toggle.
+                    // Wait long enough for the TLS stack to stabilize before the workers connect.
                     WidgetUpdateHelper.refreshWidgetsForServer(
                         this,
                         serverId,
-                        delayMs = 100L,
+                        delayMs = 1000L,
                         existingWorkPolicy = ExistingWorkPolicy.KEEP,
                     )
                     result.success(null)

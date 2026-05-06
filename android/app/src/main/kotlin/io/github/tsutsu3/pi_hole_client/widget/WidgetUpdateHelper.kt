@@ -38,8 +38,8 @@ object WidgetUpdateHelper {
         delayMs: Long = 0L,
         existingWorkPolicy: ExistingWorkPolicy = ExistingWorkPolicy.REPLACE,
     ) {
-        enqueueServerPadd(context, serverId, delayMs, existingWorkPolicy)
-        enqueueServerBlockingStatus(context, serverId, delayMs * 2, existingWorkPolicy)
+        enqueueServerBlockingStatus(context, serverId, delayMs, existingWorkPolicy)
+        enqueueServerPadd(context, serverId, delayMs + 1000L, existingWorkPolicy)
     }
 
     /**
@@ -72,8 +72,29 @@ object WidgetUpdateHelper {
      */
     fun scheduleDelayedRefresh(context: Context, serverId: String, delaySeconds: Long) {
         val delayMs = delaySeconds * 1000L
-        enqueueServerPadd(context, serverId, delayMs)
-        enqueueServerBlockingStatus(context, serverId, delayMs)
+
+        // Use distinct queue names so these delayed workers do not cancel the
+        // immediate refresh already enqueued by blockingUpdated (REPLACE would
+        // overwrite the pending 200ms-delay worker before it runs).
+        val paddRequest = OneTimeWorkRequestBuilder<ServerPaddWorker>()
+            .setInputData(workDataOf(WidgetConstants.EXTRA_SERVER_ID to serverId))
+            .setInitialDelay(delayMs, TimeUnit.MILLISECONDS)
+            .build()
+        WorkManager.getInstance(context).enqueueUniqueWork(
+            "${WidgetConstants.WORK_PREFIX_PADD_DELAYED}$serverId",
+            ExistingWorkPolicy.REPLACE,
+            paddRequest,
+        )
+
+        val blockingRequest = OneTimeWorkRequestBuilder<ServerBlockingStatusWorker>()
+            .setInputData(workDataOf(WidgetConstants.EXTRA_SERVER_ID to serverId))
+            .setInitialDelay(delayMs, TimeUnit.MILLISECONDS)
+            .build()
+        WorkManager.getInstance(context).enqueueUniqueWork(
+            "${WidgetConstants.WORK_PREFIX_BLOCKING_DELAYED}$serverId",
+            ExistingWorkPolicy.REPLACE,
+            blockingRequest,
+        )
     }
 
     /**
