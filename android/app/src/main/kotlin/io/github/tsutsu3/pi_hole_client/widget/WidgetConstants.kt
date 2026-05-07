@@ -21,6 +21,17 @@ object WidgetConstants {
     const val KEY_SERVERS_JSON = "servers_json"
 
     const val EXTRA_ACTION = "extra_action"
+    const val EXTRA_SERVER_ID = "extra_server_id"
+
+    const val WORK_PREFIX_PADD = "pihole_padd_server_"
+    const val WORK_PREFIX_BLOCKING = "pihole_blocking_server_"
+    const val WORK_PREFIX_TOGGLE = "pihole_toggle_server_"
+    const val WORK_PERIODIC_SYNC = "pihole_widget_periodic_sync"
+
+    // Separate queue names for timed-disable auto-re-enable refreshes so they
+    // do not cancel the immediate refresh enqueued by blockingUpdated.
+    const val WORK_PREFIX_PADD_DELAYED = "pihole_padd_delayed_server_"
+    const val WORK_PREFIX_BLOCKING_DELAYED = "pihole_blocking_delayed_server_"
 
     const val ACTION_REFRESH = "io.github.tsutsu3.pi_hole_client.widget.REFRESH"
     const val ACTION_TOGGLE = "io.github.tsutsu3.pi_hole_client.widget.TOGGLE"

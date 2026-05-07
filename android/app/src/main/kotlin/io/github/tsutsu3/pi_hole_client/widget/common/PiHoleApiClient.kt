@@ -8,6 +8,7 @@ import java.net.HttpURLConnection
 import java.net.SocketTimeoutException
 import java.net.URL
 import java.net.UnknownHostException
+import kotlinx.coroutines.delay
 import java.security.MessageDigest
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
@@ -97,8 +98,8 @@ class PiHoleApiClient(
     companion object {
         private const val TAG = "PiHoleApiClient"
 
-        /** Connection timeout in milliseconds */
-        private const val CONNECT_TIMEOUT_MS = 10_000
+        /** Connection timeout in milliseconds. Short enough to fail-fast on LAN. */
+        private const val CONNECT_TIMEOUT_MS = 4_000
 
         /** Read timeout in milliseconds */
         private const val READ_TIMEOUT_MS = 10_000
@@ -148,6 +149,26 @@ class PiHoleApiClient(
             connection.setRequestProperty("X-FTL-SID", sid)
         }
         return readResponse(connection)
+    }
+
+    /**
+     * Executes a GET request with up to two retries (300 ms then 600 ms) on connection errors.
+     *
+     * Extracted so all workers share the same retry logic without duplication.
+     */
+    suspend fun getWithRetry(url: String, sid: String?): ApiResponse {
+        var resp = get(url, sid)
+        if (resp.isConnectionError) {
+            if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Connection error, retrying (1): ${resp.body}")
+            delay(300)
+            resp = get(url, sid)
+        }
+        if (resp.isConnectionError) {
+            if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Connection error, retrying (2): ${resp.body}")
+            delay(600)
+            resp = get(url, sid)
+        }
+        return resp
     }
 
     /**
