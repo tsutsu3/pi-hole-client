@@ -52,6 +52,16 @@ internal fun Preferences.toWidgetState(): WidgetState {
 }
 
 /**
+ * Updates only the blocking status field, leaving stats data unchanged.
+ *
+ * Used by [ServerToggleWorker] to immediately reflect the new blocking state
+ * in Stats and Compact widgets without waiting for the full PADD refresh.
+ */
+internal fun MutablePreferences.updateStatusFrom(status: WidgetStatus) {
+    this[WidgetGlanceStateKeys.status] = status.name
+}
+
+/**
  * Persist a WidgetState into preferences for Glance to render.
  */
 internal fun MutablePreferences.updateFrom(state: WidgetState) {

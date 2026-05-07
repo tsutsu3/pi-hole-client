@@ -31,15 +31,20 @@ object WidgetUpdateHelper {
      * Enqueues [ServerPaddWorker] (Stats + Compact) and [ServerBlockingStatusWorker]
      * (Toggle) as per-server work items. Concurrent refreshes for the same server are
      * coalesced by WorkManager via [ExistingWorkPolicy.REPLACE].
+     *
+     * [paddOffsetMs] staggers the PADD worker relative to the Blocking worker.
+     * Pass a non-zero value when the call is triggered by a blocking toggle so the
+     * two workers do not connect simultaneously while Pi-hole's TLS stack resets.
      */
     fun refreshWidgetsForServer(
         context: Context,
         serverId: String,
         delayMs: Long = 0L,
+        paddOffsetMs: Long = 0L,
         existingWorkPolicy: ExistingWorkPolicy = ExistingWorkPolicy.REPLACE,
     ) {
         enqueueServerBlockingStatus(context, serverId, delayMs, existingWorkPolicy)
-        enqueueServerPadd(context, serverId, delayMs + 1000L, existingWorkPolicy)
+        enqueueServerPadd(context, serverId, delayMs + paddOffsetMs, existingWorkPolicy)
     }
 
     /**
@@ -74,18 +79,9 @@ object WidgetUpdateHelper {
         val delayMs = delaySeconds * 1000L
 
         // Use distinct queue names so these delayed workers do not cancel the
-        // immediate refresh already enqueued by blockingUpdated (REPLACE would
-        // overwrite the pending 200ms-delay worker before it runs).
-        val paddRequest = OneTimeWorkRequestBuilder<ServerPaddWorker>()
-            .setInputData(workDataOf(WidgetConstants.EXTRA_SERVER_ID to serverId))
-            .setInitialDelay(delayMs, TimeUnit.MILLISECONDS)
-            .build()
-        WorkManager.getInstance(context).enqueueUniqueWork(
-            "${WidgetConstants.WORK_PREFIX_PADD_DELAYED}$serverId",
-            ExistingWorkPolicy.REPLACE,
-            paddRequest,
-        )
-
+        // immediate refresh already enqueued by blockingUpdated.
+        // Stagger PADD by 1 s so the two workers do not connect to Pi-hole
+        // simultaneously when the timed-disable auto-re-enables.
         val blockingRequest = OneTimeWorkRequestBuilder<ServerBlockingStatusWorker>()
             .setInputData(workDataOf(WidgetConstants.EXTRA_SERVER_ID to serverId))
             .setInitialDelay(delayMs, TimeUnit.MILLISECONDS)
@@ -94,6 +90,16 @@ object WidgetUpdateHelper {
             "${WidgetConstants.WORK_PREFIX_BLOCKING_DELAYED}$serverId",
             ExistingWorkPolicy.REPLACE,
             blockingRequest,
+        )
+
+        val paddRequest = OneTimeWorkRequestBuilder<ServerPaddWorker>()
+            .setInputData(workDataOf(WidgetConstants.EXTRA_SERVER_ID to serverId))
+            .setInitialDelay(delayMs + 1000L, TimeUnit.MILLISECONDS)
+            .build()
+        WorkManager.getInstance(context).enqueueUniqueWork(
+            "${WidgetConstants.WORK_PREFIX_PADD_DELAYED}$serverId",
+            ExistingWorkPolicy.REPLACE,
+            paddRequest,
         )
     }
 

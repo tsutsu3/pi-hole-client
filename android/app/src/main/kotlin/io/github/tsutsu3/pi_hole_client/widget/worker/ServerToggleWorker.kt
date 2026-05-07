@@ -17,6 +17,11 @@ import io.github.tsutsu3.pi_hole_client.widget.common.WidgetStatus
 import io.github.tsutsu3.pi_hole_client.widget.common.parseBlockingStatus
 import io.github.tsutsu3.pi_hole_client.widget.data.WidgetPrefs
 import io.github.tsutsu3.pi_hole_client.widget.data.updateFromToggle
+import io.github.tsutsu3.pi_hole_client.widget.data.updateStatusFrom
+import io.github.tsutsu3.pi_hole_client.widget.ui.compact.CompactGlanceWidget
+import io.github.tsutsu3.pi_hole_client.widget.ui.compact.CompactWidgetProvider
+import io.github.tsutsu3.pi_hole_client.widget.ui.stats.PiHoleGlanceWidget
+import io.github.tsutsu3.pi_hole_client.widget.ui.stats.PiHoleWidgetProvider
 import io.github.tsutsu3.pi_hole_client.widget.ui.toggle.ToggleGlanceWidget
 import io.github.tsutsu3.pi_hole_client.widget.ui.toggle.ToggleWidgetProvider
 import org.json.JSONException
@@ -115,7 +120,12 @@ class ServerToggleWorker(
             broadcast(serverId, prefs, ToggleWidgetState(serverId, server.alias, finalStatus, true))
 
             if (toggleResp.statusCode in 200..299) {
-                WidgetUpdateHelper.enqueueServerPadd(applicationContext, serverId)
+                // Immediately reflect the new blocking state in Stats and Compact widgets
+                // so they update in sync with the Toggle widget without waiting for PADD.
+                broadcastStatusToStatsWidgets(serverId, prefs, finalStatus)
+                // Pi-hole resets TLS connections for up to ~1-2 s after a blocking toggle.
+                // Full PADD refresh (stats counts, uptime, etc.) runs after stabilization.
+                WidgetUpdateHelper.enqueueServerPadd(applicationContext, serverId, 1000L)
             }
         } catch (e: JSONException) {
             if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Invalid JSON response: ${e.message}")
@@ -136,6 +146,33 @@ class ServerToggleWorker(
             val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue
             updateAppWidgetState(applicationContext, glanceId) { it.updateFromToggle(state) }
             ToggleGlanceWidget().update(applicationContext, glanceId)
+        }
+    }
+
+    private suspend fun broadcastStatusToStatsWidgets(
+        serverId: String,
+        prefs: WidgetPrefs,
+        status: WidgetStatus,
+    ) {
+        val manager = AppWidgetManager.getInstance(applicationContext)
+        val glanceManager = GlanceAppWidgetManager(applicationContext)
+        val statsIds = prefs.getWidgetIdsForServer(
+            manager.getAppWidgetIds(ComponentName(applicationContext, PiHoleWidgetProvider::class.java)),
+            serverId,
+        )
+        val compactIds = prefs.getWidgetIdsForServer(
+            manager.getAppWidgetIds(ComponentName(applicationContext, CompactWidgetProvider::class.java)),
+            serverId,
+        )
+        for (widgetId in statsIds) {
+            val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue
+            updateAppWidgetState(applicationContext, glanceId) { it.updateStatusFrom(status) }
+            PiHoleGlanceWidget().update(applicationContext, glanceId)
+        }
+        for (widgetId in compactIds) {
+            val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue
+            updateAppWidgetState(applicationContext, glanceId) { it.updateStatusFrom(status) }
+            CompactGlanceWidget().update(applicationContext, glanceId)
         }
     }
 

@@ -82,11 +82,13 @@ class MainActivity : FlutterFragmentActivity() {
                 "blockingUpdated" -> {
                     val serverId = requireServerId(call, result) ?: return@setMethodCallHandler
                     // Pi-hole resets TLS connections for up to ~1-2 s after a blocking toggle.
-                    // Wait long enough for the TLS stack to stabilize before the workers connect.
+                    // delayMs defers both workers past the reset window; paddOffsetMs staggers
+                    // them so they do not connect simultaneously while TLS is still unstable.
                     WidgetUpdateHelper.refreshWidgetsForServer(
                         this,
                         serverId,
                         delayMs = 1000L,
+                        paddOffsetMs = 600L,
                         existingWorkPolicy = ExistingWorkPolicy.KEEP,
                     )
                     result.success(null)

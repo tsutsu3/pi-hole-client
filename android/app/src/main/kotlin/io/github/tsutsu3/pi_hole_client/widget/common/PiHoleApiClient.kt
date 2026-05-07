@@ -98,8 +98,8 @@ class PiHoleApiClient(
     companion object {
         private const val TAG = "PiHoleApiClient"
 
-        /** Connection timeout in milliseconds */
-        private const val CONNECT_TIMEOUT_MS = 10_000
+        /** Connection timeout in milliseconds. Short enough to fail-fast on LAN. */
+        private const val CONNECT_TIMEOUT_MS = 4_000
 
         /** Read timeout in milliseconds */
         private const val READ_TIMEOUT_MS = 10_000
@@ -152,7 +152,7 @@ class PiHoleApiClient(
     }
 
     /**
-     * Executes a GET request with up to two retries (200 ms then 400 ms) on connection errors.
+     * Executes a GET request with up to two retries (300 ms then 600 ms) on connection errors.
      *
      * Extracted so all workers share the same retry logic without duplication.
      */
@@ -160,12 +160,12 @@ class PiHoleApiClient(
         var resp = get(url, sid)
         if (resp.isConnectionError) {
             if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Connection error, retrying (1): ${resp.body}")
-            delay(200)
+            delay(300)
             resp = get(url, sid)
         }
         if (resp.isConnectionError) {
             if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Connection error, retrying (2): ${resp.body}")
-            delay(400)
+            delay(600)
             resp = get(url, sid)
         }
         return resp
