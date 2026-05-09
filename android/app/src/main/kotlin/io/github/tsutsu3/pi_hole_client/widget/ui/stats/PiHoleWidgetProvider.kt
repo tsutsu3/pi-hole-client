@@ -30,6 +30,7 @@ class PiHoleWidgetProvider : GlanceAppWidgetReceiver() {
             .mapNotNull { prefs.getServerForWidget(it) }
             .toSet()
             .forEach { serverId -> WidgetUpdateHelper.enqueueServerPadd(context, serverId) }
+        WidgetUpdateHelper.cancelLegacyPeriodicWork(context)
         WidgetUpdateHelper.schedulePeriodicSync(context)
     }
 

@@ -29,6 +29,7 @@ class ToggleWidgetProvider : GlanceAppWidgetReceiver() {
             .mapNotNull { prefs.getServerForWidget(it) }
             .toSet()
             .forEach { serverId -> WidgetUpdateHelper.enqueueServerBlockingStatus(context, serverId) }
+        WidgetUpdateHelper.cancelLegacyPeriodicWork(context)
         WidgetUpdateHelper.schedulePeriodicSync(context)
     }
 
