@@ -4,6 +4,7 @@
 
 ### 🐛 Bug Fixes
 
+- *(widget)* Ensure periodic sync is registered on app cold start ([#602](https://github.com/tsutsu3/pi-hole-client/issues/602)) - ([eab168f](https://github.com/tsutsu3/pi-hole-client/commit/eab168fe819019a854789a078ae110446789b4f9))
 - *(widget)* Migrate to per-server workers and reduce widget sync errors ([#600](https://github.com/tsutsu3/pi-hole-client/issues/600)) - ([86d706c](https://github.com/tsutsu3/pi-hole-client/commit/86d706c9077e2f4a04773b672a78430ac61eb819))
 
 ### ⚙️ Miscellaneous Tasks
