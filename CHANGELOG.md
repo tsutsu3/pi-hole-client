@@ -1,6 +1,17 @@
 # Changelog
 
-## [1.9.0](https://github.com/tsutsu3/pi-hole-client/compare/1.8.0_(75)..1.9.0) - 2026-05-04
+## [1.9.1](https://github.com/tsutsu3/pi-hole-client/compare/1.9.0_(93)..1.9.1) - 2026-05-09
+
+### 🐛 Bug Fixes
+
+- *(widget)* Migrate to per-server workers and reduce widget sync errors ([#600](https://github.com/tsutsu3/pi-hole-client/issues/600)) - ([86d706c](https://github.com/tsutsu3/pi-hole-client/commit/86d706c9077e2f4a04773b672a78430ac61eb819))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(changelog)* Skip version bump messages in changelog generation ([#597](https://github.com/tsutsu3/pi-hole-client/issues/597)) - ([9ed1692](https://github.com/tsutsu3/pi-hole-client/commit/9ed1692ebf87efe73192a2aec483c9f12a49237c))
+- *(winget)* Winget manifest for v1.9.0 ([#596](https://github.com/tsutsu3/pi-hole-client/issues/596)) - ([1ef69bb](https://github.com/tsutsu3/pi-hole-client/commit/1ef69bbd46ec896f8b5ce3acd97039d70dfbe880))
+
+## [1.9.0_(93)](https://github.com/tsutsu3/pi-hole-client/compare/1.8.0_(75)..1.9.0_(93)) - 2026-05-04
 
 ### 🚀 Features
 
@@ -78,6 +89,7 @@
 - *(api)* Add PiholeV6Service wrapper for OpenAPI-generated v6 client ([#507](https://github.com/tsutsu3/pi-hole-client/issues/507)) - ([e12e52f](https://github.com/tsutsu3/pi-hole-client/commit/e12e52fecf318de08e13abc7a862bc7b486fcaa0))
 - *(coverage)* Update coverage exclusions for generated files ([#510](https://github.com/tsutsu3/pi-hole-client/issues/510)) - ([3900935](https://github.com/tsutsu3/pi-hole-client/commit/39009354fce06e040ae69abf66d477ca9c1f3b63))
 - *(openapi)* Add OpenAPI generator setup and bundled spec ([#502](https://github.com/tsutsu3/pi-hole-client/issues/502)) - ([575a941](https://github.com/tsutsu3/pi-hole-client/commit/575a9410283b92cc7705feb295b35348d474b9c8))
+- *(sqlite3)* Package sqlite3 native assets for Linux and Windows installer ([#594](https://github.com/tsutsu3/pi-hole-client/issues/594)) - ([5ca98bf](https://github.com/tsutsu3/pi-hole-client/commit/5ca98bf3fa0fbbc1dcde0a70ebb8fd998386cedb))
 - *(website)* Fix warnings and bump dependencies ([#565](https://github.com/tsutsu3/pi-hole-client/issues/565)) - ([95b7b32](https://github.com/tsutsu3/pi-hole-client/commit/95b7b320ea0d7a34ba4d9d63c8b59946f7dfae85))
 - *(winget)* Update documentation URL in winget manifest ([#505](https://github.com/tsutsu3/pi-hole-client/issues/505)) - ([9b447f6](https://github.com/tsutsu3/pi-hole-client/commit/9b447f6edfe6d3ba3cb1ff2add17e27c23d53442))
 - *(winget)* Winget manifest for v1.8.0 ([#504](https://github.com/tsutsu3/pi-hole-client/issues/504)) - ([14afaa1](https://github.com/tsutsu3/pi-hole-client/commit/14afaa1730161bbc5c6083fbfeef0ad30b9aab63))
