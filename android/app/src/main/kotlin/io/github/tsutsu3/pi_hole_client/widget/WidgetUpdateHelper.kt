@@ -110,13 +110,11 @@ object WidgetUpdateHelper {
      * workers (stats, compact, toggle). It enumerates bound server ids at runtime
      * and fires per-server workers, so the API call count scales with servers, not
      * with widget instance count.
+     *
+     * Safe to call on every app cold start: [ExistingPeriodicWorkPolicy.UPDATE]
+     * preserves the next scheduled run time and does not reset the 30-minute timer.
      */
     fun schedulePeriodicSync(context: Context) {
-        // Cleanup legacy periodic jobs from pre per-server architecture versions.
-        WorkManager.getInstance(context).cancelUniqueWork("pihole_widget_periodic")
-        WorkManager.getInstance(context).cancelUniqueWork("pihole_compact_widget_periodic")
-        WorkManager.getInstance(context).cancelUniqueWork("pihole_toggle_widget_periodic")
-
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
@@ -130,6 +128,19 @@ object WidgetUpdateHelper {
             ExistingPeriodicWorkPolicy.UPDATE,
             request,
         )
+    }
+
+    /**
+     * Cancels periodic work registered by the pre-per-server architecture (v1.8/v1.9.0).
+     *
+     * Called once from each widget provider's [onUpdate] so the cleanup runs when
+     * the OS triggers a widget refresh after an app update, not on every app cold start.
+     */
+    fun cancelLegacyPeriodicWork(context: Context) {
+        val wm = WorkManager.getInstance(context)
+        wm.cancelUniqueWork("pihole_widget_periodic")
+        wm.cancelUniqueWork("pihole_compact_widget_periodic")
+        wm.cancelUniqueWork("pihole_toggle_widget_periodic")
     }
 
     /**
