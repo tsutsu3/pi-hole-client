@@ -1,5 +1,7 @@
 package io.github.tsutsu3.pi_hole_client.widget.data
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
@@ -7,6 +9,9 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
 import io.github.tsutsu3.pi_hole_client.widget.WidgetDebugConfig
+import io.github.tsutsu3.pi_hole_client.widget.ui.compact.CompactWidgetProvider
+import io.github.tsutsu3.pi_hole_client.widget.ui.stats.PiHoleWidgetProvider
+import io.github.tsutsu3.pi_hole_client.widget.ui.toggle.ToggleWidgetProvider
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -289,6 +294,25 @@ class WidgetPrefs private constructor(context: Context) {
             ignoreCertificateErrors = ignoreCertErrors,
             pinnedCertificateSha256 = pinnedCertSha256,
         )
+    }
+
+    /**
+     * Returns the set of server ids that have at least one widget bound to them.
+     *
+     * Enumerates all widget instances across the three widget types and maps each
+     * to its configured server id. Used by [WidgetSyncPeriodicWorker] to trigger
+     * a per-server refresh without knowing widget ids in advance.
+     */
+    fun getBoundServerIds(context: Context): Set<String> {
+        val manager = AppWidgetManager.getInstance(context)
+        return listOf(
+            PiHoleWidgetProvider::class.java,
+            CompactWidgetProvider::class.java,
+            ToggleWidgetProvider::class.java,
+        ).flatMap { type ->
+            manager.getAppWidgetIds(ComponentName(context, type)).toList()
+                .mapNotNull { getServerForWidget(it) }
+        }.toSet()
     }
 
     /**

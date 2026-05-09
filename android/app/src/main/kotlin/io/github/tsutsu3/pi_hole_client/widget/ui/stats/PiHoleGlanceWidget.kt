@@ -48,11 +48,13 @@ import androidx.glance.currentState
 import io.github.tsutsu3.pi_hole_client.MainActivity
 import io.github.tsutsu3.pi_hole_client.R
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
+import io.github.tsutsu3.pi_hole_client.widget.WidgetUpdateHelper
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetSizingSpec
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetState
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetStatus
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetTheme
 import io.github.tsutsu3.pi_hole_client.widget.common.getWidgetSizingSpec
+import io.github.tsutsu3.pi_hole_client.widget.data.WidgetPrefs
 import io.github.tsutsu3.pi_hole_client.widget.data.toWidgetState
 import kotlin.math.floor
 
@@ -99,11 +101,8 @@ class StatsRefreshCallback : ActionCallback {
         parameters: ActionParameters,
     ) {
         val appWidgetId = (glanceId as? AppWidgetId)?.appWidgetId ?: return
-        PiHoleWidgetProvider.enqueueWork(
-            context,
-            appWidgetId,
-            WidgetConstants.ACTION_REFRESH,
-        )
+        val serverId = WidgetPrefs.getInstance(context).getServerForWidget(appWidgetId) ?: return
+        WidgetUpdateHelper.enqueueServerPadd(context, serverId)
     }
 }
 
@@ -117,11 +116,8 @@ class StatsToggleCallback : ActionCallback {
         parameters: ActionParameters,
     ) {
         val appWidgetId = (glanceId as? AppWidgetId)?.appWidgetId ?: return
-        PiHoleWidgetProvider.enqueueWork(
-            context,
-            appWidgetId,
-            WidgetConstants.ACTION_TOGGLE,
-        )
+        val serverId = WidgetPrefs.getInstance(context).getServerForWidget(appWidgetId) ?: return
+        WidgetUpdateHelper.enqueueServerToggle(context, serverId)
     }
 }
 

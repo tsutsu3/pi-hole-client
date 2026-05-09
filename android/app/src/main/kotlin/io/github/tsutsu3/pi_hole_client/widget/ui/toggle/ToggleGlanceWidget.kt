@@ -40,8 +40,10 @@ import androidx.glance.state.PreferencesGlanceStateDefinition
 import io.github.tsutsu3.pi_hole_client.MainActivity
 import io.github.tsutsu3.pi_hole_client.R
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
+import io.github.tsutsu3.pi_hole_client.widget.WidgetUpdateHelper
 import io.github.tsutsu3.pi_hole_client.widget.common.ToggleWidgetState
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetTheme
+import io.github.tsutsu3.pi_hole_client.widget.data.WidgetPrefs
 import io.github.tsutsu3.pi_hole_client.widget.common.getWidgetSizingSpec
 import io.github.tsutsu3.pi_hole_client.widget.data.toToggleWidgetState
 
@@ -78,11 +80,8 @@ class ToggleToggleCallback : ActionCallback {
         parameters: ActionParameters,
     ) {
         val appWidgetId = (glanceId as? AppWidgetId)?.appWidgetId ?: return
-        ToggleWidgetProvider.enqueueWork(
-            context,
-            appWidgetId,
-            WidgetConstants.ACTION_TOGGLE,
-        )
+        val serverId = WidgetPrefs.getInstance(context).getServerForWidget(appWidgetId) ?: return
+        WidgetUpdateHelper.enqueueServerToggle(context, serverId)
     }
 }
 
