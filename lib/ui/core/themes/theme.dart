@@ -342,8 +342,9 @@ class GraphColors extends ThemeExtension<GraphColors> {
   }
 
   Color getColor(int index, [Color? defaultColor]) {
-    if (colors.isEmpty)
+    if (colors.isEmpty) {
       return defaultColor ?? const Color.fromARGB(255, 46, 44, 44);
+    }
     if (index < 0) return defaultColor ?? Colors.black;
     return colors[index % colors.length];
   }
