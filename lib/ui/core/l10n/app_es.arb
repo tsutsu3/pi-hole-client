@@ -730,5 +730,11 @@
   "domainsWhitelist": "Dominios (lista blanca)",
   "domainsBlacklist": "Dominios (lista negra)",
   "adlistsAllow": "Adlists (permitir)",
-  "adlistsBlock": "Adlists (bloquear)"
+  "adlistsBlock": "Adlists (bloquear)",
+  "chipTooltipQueriesPerMinute": "Consultas por minuto",
+  "chipTooltipCpuLoadAverage": "Carga promedio de CPU (1 min / 5 min / 15 min)",
+  "chipTooltipCpuUsage": "Uso de CPU",
+  "chipTooltipRamUsage": "Uso de RAM",
+  "chipTooltipCpuTemperature": "Temperatura de CPU",
+  "chipTooltipSystemUptime": "Tiempo de actividad del sistema"
 }

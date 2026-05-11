@@ -21,6 +21,7 @@ _Summary _$SummaryFromJson(Map<String, dynamic> json) => _Summary(
   queryTypes: (json['queryTypes'] as List<dynamic>)
       .map((e) => QueryTypeStat.fromJson(e as Map<String, dynamic>))
       .toList(),
+  frequency: (json['frequency'] as num?)?.toDouble(),
 );
 
 Map<String, dynamic> _$SummaryToJson(_Summary instance) => <String, dynamic>{
@@ -36,6 +37,7 @@ Map<String, dynamic> _$SummaryToJson(_Summary instance) => <String, dynamic>{
   'dnsQueriesAllTypes': instance.dnsQueriesAllTypes,
   'replies': instance.replies.toJson(),
   'queryTypes': instance.queryTypes.map((e) => e.toJson()).toList(),
+  'frequency': instance.frequency,
 };
 
 _ReplyCounts _$ReplyCountsFromJson(Map<String, dynamic> json) => _ReplyCounts(

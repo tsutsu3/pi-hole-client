@@ -21,7 +21,6 @@ class ServerStatusChips extends StatelessWidget {
 
     final locale = Platform.localeName;
     final theme = Theme.of(context).extension<GraphColors>()!;
-    final loc = AppLocalizations.of(context)!;
 
     return SizedBox(
       height: 32,
@@ -39,48 +38,48 @@ class ServerStatusChips extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
                 itemCount: 6,
-                separatorBuilder: (_, __) => const SizedBox(width: 8),
+                separatorBuilder: (_, _) => const SizedBox(width: 8),
                 itemBuilder: (context, index) {
+                  final loc = AppLocalizations.of(context)!;
                   return switch (index) {
                     0 => _StatusChip(
                       icon: Icons.trending_up_rounded,
                       iconColor: theme.getColorByTheme('blue'),
+                      tooltip: loc.chipTooltipQueriesPerMinute,
                       labelSelector: (context) {
                         return context.select<StatusViewModel, String>((
                           provider,
                         ) {
-                          // final qpm = provider.getQueriesPerMinute;
-                          final qpm = 1.6 * 60; // Fake QPM for demo purposes
-                          return '$qpm q/min';
+                          final qpm = provider.getQueriesPerMinute;
+                          if (qpm == null) return '- q/min';
+                          return '${qpm.toStringAsFixed(1)} q/min';
                         });
                       },
                     ),
                     1 => _StatusChip(
                       icon: Icons.speed_rounded,
                       iconColor: theme.getColorByTheme('purple'),
+                      tooltip: loc.chipTooltipCpuLoadAverage,
                       labelSelector: (context) {
                         return context.select<StatusViewModel, String>((
                           provider,
                         ) {
-                          // final load = provider.getSystemStatus?.loadAverage;
-                          final load = [
-                            0.42,
-                            0.37,
-                            0.31,
-                          ]; // Fake load for demo purposes 1m, 5m, 15m
-                          return 'Load ${load[0].toStringAsFixed(2)}/${load[1].toStringAsFixed(2)}/${load[2].toStringAsFixed(2)}';
+                          final load = provider.getFtlSystem?.cpuLoad;
+                          if (load == null) return 'Load -/-/-';
+                          return 'Load ${load.avg1m.toStringAsFixed(2)}/${load.avg5m.toStringAsFixed(2)}/${load.avg15m.toStringAsFixed(2)}';
                         });
                       },
                     ),
                     2 => _StatusChip(
                       icon: Icons.memory_rounded,
                       iconColor: theme.getColorByTheme('green'),
+                      tooltip: loc.chipTooltipCpuUsage,
                       labelSelector: (context) {
                         return context.select<StatusViewModel, String>((
                           provider,
                         ) {
-                          // final cpu = provider.getSystemStatus?.cpuUsage;
-                          final cpu = 27.3; // Fake CPU usage for demo purposes
+                          final cpu = provider.getFtlSystem?.cpuUsage;
+                          if (cpu == null) return 'CPU -%';
                           return 'CPU ${formatPercentage(cpu, locale)}%';
                         });
                       },
@@ -88,12 +87,13 @@ class ServerStatusChips extends StatelessWidget {
                     3 => _StatusChip(
                       icon: Icons.developer_board_rounded,
                       iconColor: theme.getColorByTheme('teal'),
+                      tooltip: loc.chipTooltipRamUsage,
                       labelSelector: (context) {
                         return context.select<StatusViewModel, String>((
                           provider,
                         ) {
-                          // final ram = provider.getSystemStatus?.memoryUsage;
-                          final ram = 18.5; // Fake RAM usage for demo purposes
+                          final ram = provider.getFtlSystem?.ramUsage;
+                          if (ram == null) return 'RAM -%';
                           return 'RAM ${formatPercentage(ram, locale)}%';
                         });
                       },
@@ -101,29 +101,35 @@ class ServerStatusChips extends StatelessWidget {
                     4 => _StatusChip(
                       icon: Icons.thermostat_rounded,
                       iconColor: theme.getColorByTheme('orange'),
+                      tooltip: loc.chipTooltipCpuTemperature,
                       labelSelector: (context) {
                         return context.select<StatusViewModel, String>((
                           provider,
                         ) {
-                          // final temp = provider.getSystemStatus?.cpuTemperature;
-                          final temp =
-                              48.0; // Fake temperature for demo purposes
-                          return '${temp.toStringAsFixed(0)}°C';
+                          final sensor = provider.getFtlSensor;
+                          final temp = sensor?.cpuTemp;
+                          final unitSymbol = switch (sensor?.unit) {
+                            TemperatureUnit.fahrenheit => '°F',
+                            TemperatureUnit.kelvin => 'K',
+                            _ => '°C',
+                          };
+                          if (temp == null) return 'Temp -$unitSymbol';
+                          return 'Temp ${temp.toStringAsFixed(1)}$unitSymbol';
                         });
                       },
                     ),
                     _ => _StatusChip(
                       icon: Icons.schedule_rounded,
                       iconColor: theme.getColorByTheme('indigo'),
+                      tooltip: loc.chipTooltipSystemUptime,
                       labelSelector: (context) {
                         return context.select<StatusViewModel, String>((
                           provider,
                         ) {
-                          // final uptime = provider.getSystemStatus?.uptime;
-                          // use same serverinfo uptime func
-                          final uptime =
-                              1234567; // Fake uptime for demo purposes
-                          return 'Up ${Duration(seconds: uptime).inDays}d ${Duration(seconds: uptime).inHours % 24}h ${Duration(seconds: uptime).inMinutes % 60}m';
+                          final uptime = provider.getFtlSystem?.uptime;
+                          if (uptime == null) return 'Up -';
+                          final d = Duration(seconds: uptime);
+                          return 'Up ${d.inDays}d ${d.inHours % 24}h ${d.inMinutes % 60}m';
                         });
                       },
                     ),
@@ -168,49 +174,35 @@ class _StatusChip extends StatelessWidget {
   const _StatusChip({
     required this.icon,
     required this.iconColor,
+    required this.tooltip,
     required this.labelSelector,
   });
 
   final IconData icon;
   final Color iconColor;
+  final String tooltip;
   final String Function(BuildContext context) labelSelector;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final cs = theme.colorScheme;
     final label = labelSelector(context);
 
-    return Container(
-      height: 36,
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        color: isDark
-            ? Colors.white.withValues(alpha: 0.06)
-            : Colors.black.withValues(alpha: 0.04),
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(
-          color: isDark
-              ? Colors.white.withValues(alpha: 0.12)
-              : Colors.black.withValues(alpha: 0.10),
+    return Tooltip(
+      message: tooltip,
+      child: Chip(
+        avatar: Icon(icon, size: 17, color: iconColor),
+        label: Text(label),
+        visualDensity: const VisualDensity(vertical: -4),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+        side: BorderSide(color: cs.outlineVariant),
+        backgroundColor: cs.onSurfaceVariant.withValues(alpha: 0.06),
+        labelStyle: theme.textTheme.labelMedium?.copyWith(
+          color: cs.onSurface,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 0.1,
         ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 17, color: iconColor),
-          const SizedBox(width: 6),
-          Text(
-            label,
-            style: theme.textTheme.labelMedium?.copyWith(
-              color: isDark
-                  ? Colors.white.withValues(alpha: 0.92)
-                  : Colors.black.withValues(alpha: 0.82),
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.1,
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -242,10 +242,14 @@ extension DnsRepliesMapper on s.DnsReplies {
 
 extension InfoSystemMapper on s.InfoSystem {
   d.FtlSystem toDomain() {
+    final raw = system.cpu.load.raw;
     return d.FtlSystem(
       uptime: system.uptime,
       ramUsage: system.memory.ram.percentUsed,
       cpuUsage: system.cpu.percentCpu ?? _average(system.cpu.load.percent),
+      cpuLoad: raw.length >= 3
+          ? d.CpuLoad(avg1m: raw[0], avg5m: raw[1], avg15m: raw[2])
+          : null,
     );
   }
 

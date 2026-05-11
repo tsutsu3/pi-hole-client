@@ -20,6 +20,7 @@ sealed class Summary with _$Summary {
     required int dnsQueriesAllTypes,
     required ReplyCounts replies,
     required List<QueryTypeStat> queryTypes,
+    double? frequency,
   }) = _Summary;
 
   factory Summary.fromJson(Map<String, dynamic> json) =>

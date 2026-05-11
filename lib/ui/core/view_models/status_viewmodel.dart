@@ -7,6 +7,8 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_reposito
 import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/ftl/metrics.dart';
+import 'package:pi_hole_client/domain/model/ftl/sensor.dart';
+import 'package:pi_hole_client/domain/model/ftl/system.dart';
 import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
 import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
@@ -52,6 +54,8 @@ class StatusViewModel with ChangeNotifier {
   RealtimeStatus? _realtimeStatus;
   OverTime? _overtimeData;
   FtlDnsMetrics? _ftlDnsMetrics;
+  FtlSystem? _ftlSystem;
+  FtlSensor? _ftlSensor;
 
   // ---------------------------------------------------------------------------
   // Timer management
@@ -81,6 +85,16 @@ class StatusViewModel with ChangeNotifier {
   DnsCache? get getDnsCache => _ftlDnsMetrics?.cache;
 
   DnsReplies? get getDnsReplies => _ftlDnsMetrics?.replies;
+
+  FtlSystem? get getFtlSystem => _ftlSystem;
+
+  FtlSensor? get getFtlSensor => _ftlSensor;
+
+  double? get getQueriesPerMinute {
+    final freq = _realtimeStatus?.summary.frequency;
+    if (freq == null) return null;
+    return freq * 60;
+  }
 
   LoadStatus get getOvertimeDataLoadStatus => _overtimeDataLoading;
 
@@ -157,6 +171,8 @@ class StatusViewModel with ChangeNotifier {
       _realtimeStatus = null;
       _overtimeData = null;
       _ftlDnsMetrics = null;
+      _ftlSystem = null;
+      _ftlSensor = null;
       // When auto-refresh was already running (e.g. ServerConnectionService
       // just set serverStatus=loaded and called startAutoRefresh), preserve
       // _serverStatus to avoid a visible "disconnected" flicker.  The
@@ -305,7 +321,7 @@ class StatusViewModel with ChangeNotifier {
     // _fetchStatusData issues multiple HTTP requests, so we start it
     // immediately to give it a head start. The others are slightly delayed
     // to avoid overwhelming the connection pool.
-    final (statusOk, overtimeOk, metricsOk) = await (
+    final (statusOk, overtimeOk, metricsOk, _) = await (
       _fetchStatusData(),
       Future.delayed(
         const Duration(milliseconds: 100),
@@ -313,6 +329,9 @@ class StatusViewModel with ChangeNotifier {
       Future.delayed(
         const Duration(milliseconds: 100),
       ).then((_) => _fetchMetricsData()),
+      Future.delayed(
+        const Duration(milliseconds: 100),
+      ).then((_) => _fetchSlowSystemData()),
     ).wait;
 
     if (statusOk && overtimeOk && metricsOk) {
@@ -417,6 +436,22 @@ class StatusViewModel with ChangeNotifier {
         return false;
       },
     );
+  }
+
+  // Fetched at overtime-timer frequency (slow): system stats + temperature
+  Future<bool> _fetchSlowSystemData() async {
+    if (_selectedServerAddress == null) return false;
+    final ftlRepo = _ftlRepository;
+    if (ftlRepo == null) return false;
+
+    final (systemResult, sensorResult) = await (
+      ftlRepo.fetchInfoSystem(),
+      ftlRepo.fetchInfoSensors(),
+    ).wait;
+
+    systemResult.fold((system) => _ftlSystem = system, (_) {});
+    sensorResult.fold((sensor) => _ftlSensor = sensor, (_) {});
+    return true;
   }
 
   // ---------------------------------------------------------------------------
@@ -535,7 +570,10 @@ class StatusViewModel with ChangeNotifier {
       final metricsRepo = _metricsRepository;
       if (metricsRepo == null) return;
 
-      final result = await metricsRepo.fetchOverTime();
+      final (result, _) = await (
+        metricsRepo.fetchOverTime(),
+        _fetchSlowSystemData(),
+      ).wait;
 
       if (_selectedServerAddress != selectedUrlBefore) {
         logger.d(

@@ -30,6 +30,7 @@ sealed class StatsQueries with _$StatsQueries {
     required StatsTypes types,
     required StatsStatus status,
     required StatsReplies replies,
+    double? frequency,
   }) = _StatsQueries;
 
   factory StatsQueries.fromJson(Map<String, dynamic> json) =>
