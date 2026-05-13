@@ -128,6 +128,7 @@ final kRepoFetchRealTimeStatus = repo.RealtimeStatus(
       repo.QueryTypeStat(type: DnsRecordType.svcb, percentage: 0),
       repo.QueryTypeStat(type: DnsRecordType.https, percentage: 0),
     ],
+    frequency: 1.5,
   ),
   status: DnsBlockingStatus.enabled,
   topDomains: const repo.TopDomains(

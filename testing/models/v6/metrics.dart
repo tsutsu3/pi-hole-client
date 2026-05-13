@@ -156,6 +156,7 @@ const kSrvGetStatsSummary = srv.StatsSummary(
       none: 0,
       blob: 286,
     ),
+    frequency: 1.5,
   ),
   clients: srv.StatsClients(active: 10, total: 22),
   gravity: srv.StatsGravity(
@@ -367,6 +368,7 @@ final kRepoFetchStatsSummary = repo.Summary(
       percentage: 845 / 19663 * 100,
     ),
   ],
+  frequency: 1.5,
 );
 
 const kRepoFetchStatsUpstreams = [
