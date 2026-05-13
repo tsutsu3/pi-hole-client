@@ -126,9 +126,9 @@ class AppDetailScreen extends StatelessWidget {
                   colorScheme: colorScheme,
                 ),
                 subtitle: Text(loc.supportDeveloperSubtitle),
-                onTap: () => openUrl(Urls.buyMeACoffee, externalBrowser: true),
+                onTap: () => openUrl(Urls.buyMeACoffee),
                 trailing: Icon(
-                  Icons.open_in_browser_rounded,
+                  Icons.open_in_new_rounded,
                   color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
                 ),
               ),
