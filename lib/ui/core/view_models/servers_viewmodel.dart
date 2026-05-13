@@ -143,11 +143,10 @@ class ServersViewModel with ChangeNotifier {
   /// Returns the [QueryStatus] display info for a [QueryStatusType] enum value.
   QueryStatus? getQueryStatusByType(QueryStatusType? type) {
     if (type == null) return null;
-    final statuses = _selectedServer?.apiVersion == SupportedApiVersions.v6
-        ? _queryStatusesV6
-        : _queryStatusesV5;
+    final isV6 = _selectedServer?.apiVersion == SupportedApiVersions.v6;
+    final statuses = isV6 ? _queryStatusesV6 : _queryStatusesV5;
     return statuses.firstWhereOrNull((s) {
-      final mapped = _selectedServer?.apiVersion == SupportedApiVersions.v6
+      final mapped = isV6
           ? convertQueryStatusTypeV6(s.key)
           : convertQueryStatusTypeV5(int.tryParse(s.key));
       return mapped == type;
