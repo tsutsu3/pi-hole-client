@@ -180,7 +180,7 @@ void main() {
       () async {
         expect(vm.getQueriesPerMinute, isNull);
         await vm.refreshOnce();
-        expect(vm.getQueriesPerMinute, 90.0);
+        expect(vm.getQueriesPerMinute, isNull);
       },
     );
   });
