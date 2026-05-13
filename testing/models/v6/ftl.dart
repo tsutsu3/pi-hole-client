@@ -538,12 +538,22 @@ const kRepoFetchFtlSystem = repo.FtlSystem(
   uptime: 67906,
   ramUsage: 26.854,
   cpuUsage: 3.3232043958349604,
+  cpuLoad: repo.CpuLoad(
+    avg1m: 0.58837890625,
+    avg5m: 0.64990234375,
+    avg15m: 0.66748046875,
+  ),
 );
 
 const kRepoFetchFtlSystemOld = repo.FtlSystem(
   uptime: 67906,
   ramUsage: 26.854,
   cpuUsage: 5.293782711029053,
+  cpuLoad: repo.CpuLoad(
+    avg1m: 0.58837890625,
+    avg5m: 0.64990234375,
+    avg15m: 0.66748046875,
+  ),
 );
 
 const kRepoFetchFtlVersion = repo.FtlVersion(

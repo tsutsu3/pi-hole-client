@@ -70,6 +70,7 @@ const _queries = ss.StatsQueries(
   types: _types,
   status: _status,
   replies: _replies,
+  frequency: 1.5,
 );
 
 const _statsSummary = ss.StatsSummary(

@@ -487,6 +487,7 @@ void main() {
             'NONE': 0,
             'BLOB': 0,
           },
+          'frequency': 1.5,
         },
         'clients': {'active': 10, 'total': 22},
         'gravity': {'domains_being_blocked': 104756, 'last_update': 1725194639},
