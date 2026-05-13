@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/domain/model/ftl/sensor.dart';
+import 'package:pi_hole_client/domain/model/ftl/system.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
@@ -20,7 +22,84 @@ class ServerStatusChips extends StatelessWidget {
     final isLoading = statusLoading == LoadStatus.loading;
 
     final locale = Platform.localeName;
-    final theme = Theme.of(context).extension<GraphColors>()!;
+    final graphColors = Theme.of(context).extension<GraphColors>()!;
+    final loc = AppLocalizations.of(context)!;
+
+    final qpm = context.select<StatusViewModel, double?>(
+      (p) => p.getQueriesPerMinute,
+    );
+    final cpuLoad = context.select<StatusViewModel, CpuLoad?>(
+      (p) => p.getFtlSystem?.cpuLoad,
+    );
+    final cpuUsage = context.select<StatusViewModel, double?>(
+      (p) => p.getFtlSystem?.cpuUsage,
+    );
+    final ramUsage = context.select<StatusViewModel, double?>(
+      (p) => p.getFtlSystem?.ramUsage,
+    );
+    final sensor = context.select<StatusViewModel, FtlSensor?>(
+      (p) => p.getFtlSensor,
+    );
+    final uptime = context.select<StatusViewModel, int?>(
+      (p) => p.getFtlSystem?.uptime,
+    );
+
+    final tempUnitSymbol = switch (sensor?.unit) {
+      TemperatureUnit.fahrenheit => '°F',
+      TemperatureUnit.kelvin => 'K',
+      _ => '°C',
+    };
+
+    final chips = [
+      (
+        icon: Icons.trending_up_rounded,
+        color: graphColors.getColorByTheme('blue'),
+        tooltip: loc.chipTooltipQueriesPerMinute,
+        label:
+            qpm == null ? '- q/min' : '${qpm.toStringAsFixed(1)} q/min',
+      ),
+      (
+        icon: Icons.speed_rounded,
+        color: graphColors.getColorByTheme('purple'),
+        tooltip: loc.chipTooltipCpuLoadAverage,
+        label: cpuLoad == null
+            ? 'Load -/-/-'
+            : 'Load ${cpuLoad.avg1m.toStringAsFixed(2)}/${cpuLoad.avg5m.toStringAsFixed(2)}/${cpuLoad.avg15m.toStringAsFixed(2)}',
+      ),
+      (
+        icon: Icons.memory_rounded,
+        color: graphColors.getColorByTheme('green'),
+        tooltip: loc.chipTooltipCpuUsage,
+        label:
+            cpuUsage == null ? 'CPU -%' : 'CPU ${formatPercentage(cpuUsage, locale)}%',
+      ),
+      (
+        icon: Icons.developer_board_rounded,
+        color: graphColors.getColorByTheme('teal'),
+        tooltip: loc.chipTooltipRamUsage,
+        label:
+            ramUsage == null ? 'RAM -%' : 'RAM ${formatPercentage(ramUsage, locale)}%',
+      ),
+      (
+        icon: Icons.thermostat_rounded,
+        color: graphColors.getColorByTheme('orange'),
+        tooltip: loc.chipTooltipCpuTemperature,
+        label: sensor?.cpuTemp == null
+            ? 'Temp -$tempUnitSymbol'
+            : 'Temp ${sensor!.cpuTemp!.toStringAsFixed(1)}$tempUnitSymbol',
+      ),
+      (
+        icon: Icons.schedule_rounded,
+        color: graphColors.getColorByTheme('indigo'),
+        tooltip: loc.chipTooltipSystemUptime,
+        label: uptime == null
+            ? 'Up -'
+            : () {
+                final d = Duration(seconds: uptime);
+                return 'Up ${d.inDays}d ${d.inHours % 24}h ${d.inMinutes % 60}m';
+              }(),
+      ),
+    ];
 
     return SizedBox(
       height: 32,
@@ -37,103 +116,16 @@ class ServerStatusChips extends StatelessWidget {
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
-                itemCount: 6,
+                itemCount: chips.length,
                 separatorBuilder: (_, _) => const SizedBox(width: 8),
                 itemBuilder: (context, index) {
-                  final loc = AppLocalizations.of(context)!;
-                  return switch (index) {
-                    0 => _StatusChip(
-                      icon: Icons.trending_up_rounded,
-                      iconColor: theme.getColorByTheme('blue'),
-                      tooltip: loc.chipTooltipQueriesPerMinute,
-                      labelSelector: (context) {
-                        return context.select<StatusViewModel, String>((
-                          provider,
-                        ) {
-                          final qpm = provider.getQueriesPerMinute;
-                          if (qpm == null) return '- q/min';
-                          return '${qpm.toStringAsFixed(1)} q/min';
-                        });
-                      },
-                    ),
-                    1 => _StatusChip(
-                      icon: Icons.speed_rounded,
-                      iconColor: theme.getColorByTheme('purple'),
-                      tooltip: loc.chipTooltipCpuLoadAverage,
-                      labelSelector: (context) {
-                        return context.select<StatusViewModel, String>((
-                          provider,
-                        ) {
-                          final load = provider.getFtlSystem?.cpuLoad;
-                          if (load == null) return 'Load -/-/-';
-                          return 'Load ${load.avg1m.toStringAsFixed(2)}/${load.avg5m.toStringAsFixed(2)}/${load.avg15m.toStringAsFixed(2)}';
-                        });
-                      },
-                    ),
-                    2 => _StatusChip(
-                      icon: Icons.memory_rounded,
-                      iconColor: theme.getColorByTheme('green'),
-                      tooltip: loc.chipTooltipCpuUsage,
-                      labelSelector: (context) {
-                        return context.select<StatusViewModel, String>((
-                          provider,
-                        ) {
-                          final cpu = provider.getFtlSystem?.cpuUsage;
-                          if (cpu == null) return 'CPU -%';
-                          return 'CPU ${formatPercentage(cpu, locale)}%';
-                        });
-                      },
-                    ),
-                    3 => _StatusChip(
-                      icon: Icons.developer_board_rounded,
-                      iconColor: theme.getColorByTheme('teal'),
-                      tooltip: loc.chipTooltipRamUsage,
-                      labelSelector: (context) {
-                        return context.select<StatusViewModel, String>((
-                          provider,
-                        ) {
-                          final ram = provider.getFtlSystem?.ramUsage;
-                          if (ram == null) return 'RAM -%';
-                          return 'RAM ${formatPercentage(ram, locale)}%';
-                        });
-                      },
-                    ),
-                    4 => _StatusChip(
-                      icon: Icons.thermostat_rounded,
-                      iconColor: theme.getColorByTheme('orange'),
-                      tooltip: loc.chipTooltipCpuTemperature,
-                      labelSelector: (context) {
-                        return context.select<StatusViewModel, String>((
-                          provider,
-                        ) {
-                          final sensor = provider.getFtlSensor;
-                          final temp = sensor?.cpuTemp;
-                          final unitSymbol = switch (sensor?.unit) {
-                            TemperatureUnit.fahrenheit => '°F',
-                            TemperatureUnit.kelvin => 'K',
-                            _ => '°C',
-                          };
-                          if (temp == null) return 'Temp -$unitSymbol';
-                          return 'Temp ${temp.toStringAsFixed(1)}$unitSymbol';
-                        });
-                      },
-                    ),
-                    _ => _StatusChip(
-                      icon: Icons.schedule_rounded,
-                      iconColor: theme.getColorByTheme('indigo'),
-                      tooltip: loc.chipTooltipSystemUptime,
-                      labelSelector: (context) {
-                        return context.select<StatusViewModel, String>((
-                          provider,
-                        ) {
-                          final uptime = provider.getFtlSystem?.uptime;
-                          if (uptime == null) return 'Up -';
-                          final d = Duration(seconds: uptime);
-                          return 'Up ${d.inDays}d ${d.inHours % 24}h ${d.inMinutes % 60}m';
-                        });
-                      },
-                    ),
-                  };
+                  final chip = chips[index];
+                  return _StatusChip(
+                    icon: chip.icon,
+                    iconColor: chip.color,
+                    tooltip: chip.tooltip,
+                    label: chip.label,
+                  );
                 },
               ),
             ),
@@ -175,19 +167,18 @@ class _StatusChip extends StatelessWidget {
     required this.icon,
     required this.iconColor,
     required this.tooltip,
-    required this.labelSelector,
+    required this.label,
   });
 
   final IconData icon;
   final Color iconColor;
   final String tooltip;
-  final String Function(BuildContext context) labelSelector;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
-    final label = labelSelector(context);
 
     return Tooltip(
       message: tooltip,
