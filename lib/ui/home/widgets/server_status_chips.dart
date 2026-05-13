@@ -84,20 +84,14 @@ class ServerStatusChips extends StatelessWidget {
         icon: Icons.thermostat_rounded,
         color: graphColors.getColorByTheme('orange'),
         tooltip: loc.chipTooltipCpuTemperature,
-        label: sensor?.cpuTemp == null
-            ? 'Temp -$tempUnitSymbol'
-            : 'Temp ${sensor!.cpuTemp!.toStringAsFixed(1)}$tempUnitSymbol',
+        label:
+            'Temp ${sensor?.cpuTemp?.toStringAsFixed(1) ?? '-'}$tempUnitSymbol',
       ),
       (
         icon: Icons.schedule_rounded,
         color: graphColors.getColorByTheme('indigo'),
         tooltip: loc.chipTooltipSystemUptime,
-        label: uptime == null
-            ? 'Up -'
-            : () {
-                final d = Duration(seconds: uptime);
-                return 'Up ${d.inDays}d ${d.inHours % 24}h ${d.inMinutes % 60}m';
-              }(),
+        label: _formatUptime(uptime),
       ),
     ];
 
@@ -135,6 +129,12 @@ class ServerStatusChips extends StatelessWidget {
       ),
     );
   }
+}
+
+String _formatUptime(int? uptime) {
+  if (uptime == null) return 'Up -';
+  final d = Duration(seconds: uptime);
+  return 'Up ${d.inDays}d ${d.inHours % 24}h ${d.inMinutes % 60}m';
 }
 
 class _RightFade extends StatelessWidget {
