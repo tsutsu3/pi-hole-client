@@ -502,13 +502,6 @@ ThemeData createTheme(
     navigationBarTheme: NavigationBarThemeData(
       surfaceTintColor: colorScheme.surfaceTint,
     ),
-    // Disabled PredictiveBack because its animation feels slow.
-    // Revert to ZoomPageTransitionsBuilder() for snappier, faster transitions.
-    // pageTransitionsTheme: const PageTransitionsTheme(
-    //   builders: {
-    //     TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
-    //   },
-    // ),
     dialogTheme: DialogThemeData(backgroundColor: colorScheme.surface),
     extensions: [
       // dataVisColors.harmonized(colorScheme),

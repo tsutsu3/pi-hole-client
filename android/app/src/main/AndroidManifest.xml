@@ -9,6 +9,14 @@
         android:allowBackup="false"
         android:fullBackupContent="@xml/backup_rules"
         android:networkSecurityConfig="@xml/network_security_config">
+        <!--
+            enableOnBackInvokedCallback="false": disables Predictive Back gesture (Android 14+).
+            Setting this to "true" enables the back gesture animation, but causes the following issues:
+              1. After returning from a browser or Chrome Custom Tabs, the system back is not
+                 delivered to Flutter, causing the app to exit unexpectedly.
+              2. PopScope on the theme/language screens does not work correctly — pressing back
+                 exits the app instead of returning to the previous screen (WillPopScope required).
+        -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -18,7 +26,7 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize"
-            android:enableOnBackInvokedCallback="true">
+            android:enableOnBackInvokedCallback="false">
             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues

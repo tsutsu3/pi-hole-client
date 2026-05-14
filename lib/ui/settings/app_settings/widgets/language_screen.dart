@@ -16,41 +16,33 @@ class LanguageScreen extends StatelessWidget {
     final sortedLanguageOptions = List.from(languageOptions)
       ..sort((a, b) => a.key.compareTo(b.key));
 
-    return WillPopScope(
-      // Ensures the system back gesture (or physical back button) navigates back to the Settings screen.
-      // Without this, the gesture back may cause the app to exit/close.
-      // Note: Using PopScope instead does not return to Settings and causes the app to close.
-      onWillPop: () async {
-        return true;
-      },
-      child: Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.language)),
-        body: RadioGroup<int>(
-          groupValue: appConfigViewModel.selectedLanguageNumber,
-          onChanged: (v) {
-            if (v != null) {
-              final option = sortedLanguageOptions.firstWhere(
-                (opt) => opt.index == v,
-              );
-              appConfigViewModel.setSelectedLanguage(option.key);
-            }
-          },
-          child: SafeArea(
-            child: ListView(
-              children: sortedLanguageOptions.map((languageOption) {
-                return RadioListTile<int>(
-                  value: languageOption.index,
-                  controlAffinity: ListTileControlAffinity.trailing,
-                  title: Text(
-                    languageOption.displayName,
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      color: getListTextColor(context),
-                    ),
+    return Scaffold(
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.language)),
+      body: RadioGroup<int>(
+        groupValue: appConfigViewModel.selectedLanguageNumber,
+        onChanged: (v) {
+          if (v != null) {
+            final option = sortedLanguageOptions.firstWhere(
+              (opt) => opt.index == v,
+            );
+            appConfigViewModel.setSelectedLanguage(option.key);
+          }
+        },
+        child: SafeArea(
+          child: ListView(
+            children: sortedLanguageOptions.map((languageOption) {
+              return RadioListTile<int>(
+                value: languageOption.index,
+                controlAffinity: ListTileControlAffinity.trailing,
+                title: Text(
+                  languageOption.displayName,
+                  style: TextStyle(
+                    fontWeight: FontWeight.normal,
+                    color: getListTextColor(context),
                   ),
-                );
-              }).toList(),
-            ),
+                ),
+              );
+            }).toList(),
           ),
         ),
       ),
