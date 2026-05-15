@@ -1,6 +1,25 @@
 # Changelog
 
-## [1.9.1](https://github.com/tsutsu3/pi-hole-client/compare/1.9.0_(93)..1.9.1) - 2026-05-09
+## [1.9.2](https://github.com/tsutsu3/pi-hole-client/compare/1.9.1_(97)..1.9.2) - 2026-05-15
+
+### 🚀 Features
+
+- *(home)* Add server status chips with real-time system metrics ([#607](https://github.com/tsutsu3/pi-hole-client/issues/607)) - ([70e1b6c](https://github.com/tsutsu3/pi-hole-client/commit/70e1b6cf49d21bfd291e0025a7bccf6a14b3ef80))
+- *(open-url)* Open links in the user's default external browser ([#609](https://github.com/tsutsu3/pi-hole-client/issues/609)) - ([498ca42](https://github.com/tsutsu3/pi-hole-client/commit/498ca42964332117fd50d863a3047acc7f2b59f6))
+
+### 🐛 Bug Fixes
+
+- *(android)* Disable Predictive Back to fix broken back navigation ([#610](https://github.com/tsutsu3/pi-hole-client/issues/610)) - ([3894bf0](https://github.com/tsutsu3/pi-hole-client/commit/3894bf0405b7d173881671e2a3424c65f4770145))
+
+### 🚜 Refactor
+
+- *(viewmodel)* Deduplicate API version check in getQueryStatusByType ([#608](https://github.com/tsutsu3/pi-hole-client/issues/608)) - ([1bd3b64](https://github.com/tsutsu3/pi-hole-client/commit/1bd3b64ecefefa1ded6274c3d6e403073eb27755))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(winget)* Winget manifest for v1.9.1 ([#603](https://github.com/tsutsu3/pi-hole-client/issues/603)) - ([8336775](https://github.com/tsutsu3/pi-hole-client/commit/83367756565546e1c3e8f4d856fd14e3b61a3987))
+
+## [1.9.1_(97)](https://github.com/tsutsu3/pi-hole-client/compare/1.9.0_(93)..1.9.1_(97)) - 2026-05-10
 
 ### 🐛 Bug Fixes
 
