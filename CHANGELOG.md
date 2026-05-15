@@ -1,10 +1,9 @@
 # Changelog
 
-## [1.9.2](https://github.com/tsutsu3/pi-hole-client/compare/1.9.1_(97)..1.9.2) - 2026-05-15
+## [1.9.2](https://github.com/tsutsu3/pi-hole-client/compare/1.9.1_(97)..1.9.2) - 2026-05-16
 
 ### 🚀 Features
 
-- *(home)* Add server status chips with real-time system metrics ([#607](https://github.com/tsutsu3/pi-hole-client/issues/607)) - ([70e1b6c](https://github.com/tsutsu3/pi-hole-client/commit/70e1b6cf49d21bfd291e0025a7bccf6a14b3ef80))
 - *(open-url)* Open links in the user's default external browser ([#609](https://github.com/tsutsu3/pi-hole-client/issues/609)) - ([498ca42](https://github.com/tsutsu3/pi-hole-client/commit/498ca42964332117fd50d863a3047acc7f2b59f6))
 
 ### 🐛 Bug Fixes
