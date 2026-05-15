@@ -2206,22 +2206,4 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get unverifiedCertificatesBannerLearnMore => '詳しく見る';
-
-  @override
-  String get chipTooltipQueriesPerMinute => '1分あたりのクエリ数';
-
-  @override
-  String get chipTooltipCpuLoadAverage => 'CPU負荷平均 (1分 / 5分 / 15分)';
-
-  @override
-  String get chipTooltipCpuUsage => 'CPU使用率';
-
-  @override
-  String get chipTooltipRamUsage => 'メモリ使用率';
-
-  @override
-  String get chipTooltipCpuTemperature => 'CPU温度';
-
-  @override
-  String get chipTooltipSystemUptime => 'システム稼働時間';
 }

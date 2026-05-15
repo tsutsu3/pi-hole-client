@@ -1,7 +1,5 @@
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/ftl/metrics.dart';
-import 'package:pi_hole_client/domain/model/ftl/sensor.dart';
-import 'package:pi_hole_client/domain/model/ftl/system.dart';
 import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
 import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
@@ -17,8 +15,6 @@ class FakeStatusViewModel extends StatusViewModel {
   RealtimeStatus? _realtimeStatus;
   OverTime? _overtimeData;
   FtlDnsMetrics? _ftlDnsMetrics;
-  FtlSystem? _ftlSystem;
-  FtlSensor? _ftlSensor;
 
   @override
   LoadStatus get getStatusLoading => _statusLoading;
@@ -46,27 +42,6 @@ class FakeStatusViewModel extends StatusViewModel {
 
   @override
   DnsReplies? get getDnsReplies => _ftlDnsMetrics?.replies;
-
-  @override
-  FtlSystem? get getFtlSystem => _ftlSystem;
-
-  @override
-  FtlSensor? get getFtlSensor => _ftlSensor;
-
-  @override
-  double? get getQueriesPerMinute {
-    final freq = _realtimeStatus?.summary.frequency;
-    if (freq == null) return null;
-    return freq * 60;
-  }
-
-  @override
-  List<String> get topClientNames {
-    if (_realtimeStatus == null) return [];
-    return _realtimeStatus!.topClients.topSources
-        .map((source) => source.source.split('|').first)
-        .toList();
-  }
 
   // Setters for test state
   // ignore_for_file: avoid_setters_without_getters
@@ -97,16 +72,6 @@ class FakeStatusViewModel extends StatusViewModel {
 
   set ftlDnsMetrics(FtlDnsMetrics? value) {
     _ftlDnsMetrics = value;
-    notifyListeners();
-  }
-
-  set ftlSystem(FtlSystem? value) {
-    _ftlSystem = value;
-    notifyListeners();
-  }
-
-  set ftlSensor(FtlSensor? value) {
-    _ftlSensor = value;
     notifyListeners();
   }
 

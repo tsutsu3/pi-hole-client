@@ -336,10 +336,6 @@ void main() {
       expect(domain.uptime, 86400);
       expect(domain.ramUsage, 75.0);
       expect(domain.cpuUsage, 30.0);
-      expect(domain.cpuLoad, isNotNull);
-      expect(domain.cpuLoad!.avg1m, 1.0);
-      expect(domain.cpuLoad!.avg5m, 0.8);
-      expect(domain.cpuLoad!.avg15m, 0.6);
     });
 
     test('uses average of load.percent when percentCpu is null', () {
@@ -368,7 +364,6 @@ void main() {
       final domain = source.toDomain();
 
       expect(domain.cpuUsage, closeTo(30.0, 0.001)); // (20 + 40) / 2
-      expect(domain.cpuLoad, isNull);
     });
   });
 }

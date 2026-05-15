@@ -151,13 +151,6 @@ void main() {
       expect(vm.getFtlDnsMetrics, isNotNull);
     });
 
-    test('loading -> loaded: chip system/sensor data are populated', () async {
-      expect(vm.getServerStatus, LoadStatus.loading);
-      await vm.refreshOnce();
-      expect(vm.getFtlSystem, isNotNull);
-      expect(vm.getFtlSensor, isNotNull);
-    });
-
     test('loading -> loaded: statusLoading transitions to loaded', () async {
       expect(vm.getStatusLoading, LoadStatus.loading);
       await vm.refreshOnce();
@@ -172,15 +165,6 @@ void main() {
         // kRepoFetchRealTimeStatus has sources: '172.26.0.1' and
         // 'localhost|127.0.0.1'; split('|').first gives hostname or IP.
         expect(vm.topClientNames, containsAll(['172.26.0.1', 'localhost']));
-      },
-    );
-
-    test(
-      'loading -> loaded: getQueriesPerMinute returns frequency * 60 when available',
-      () async {
-        expect(vm.getQueriesPerMinute, isNull);
-        await vm.refreshOnce();
-        expect(vm.getQueriesPerMinute, isNull);
       },
     );
   });
