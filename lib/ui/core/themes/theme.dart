@@ -342,62 +342,9 @@ class GraphColors extends ThemeExtension<GraphColors> {
   }
 
   Color getColor(int index, [Color? defaultColor]) {
-    if (colors.isEmpty) {
-      return defaultColor ?? const Color.fromARGB(255, 46, 44, 44);
-    }
+    if (colors.isEmpty) return defaultColor ?? Colors.black;
     if (index < 0) return defaultColor ?? Colors.black;
     return colors[index % colors.length];
-  }
-
-  Color getColorByTheme(String themeName, [Color? defaultColor]) {
-    switch (themeName) {
-      case 'blue':
-        return colors[0];
-      case 'red':
-        return colors[1];
-      case 'amber':
-        return colors[2];
-      case 'green':
-        return colors[3];
-      case 'cyan':
-        return colors[4];
-      case 'blueGrey':
-        return colors[5];
-      case 'deepPurple':
-        return colors[6];
-      case 'orange':
-        return colors[7];
-      case 'lightBlue':
-        return colors[8];
-      case 'brown':
-        return colors[9];
-      case 'deepOrange':
-        return colors[10];
-      case 'amberAccent':
-        return colors[11];
-      case 'blueAccent':
-        return colors[12];
-      case 'lightGreen':
-        return colors[13];
-      case 'indigo':
-        return colors[14];
-      case 'redAccent':
-        return colors[15];
-      case 'yellowAccent':
-        return colors[16];
-      case 'purple':
-        return colors[17];
-      case 'limeAccent':
-        return colors[18];
-      case 'teal':
-        return colors[19];
-      case 'pink':
-        return colors[20];
-      case 'greenAccent':
-        return colors[21];
-      default:
-        return defaultColor ?? Colors.black;
-    }
   }
 }
 

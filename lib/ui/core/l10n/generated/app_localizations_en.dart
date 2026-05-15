@@ -2264,22 +2264,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unverifiedCertificatesBannerLearnMore => 'Learn more';
-
-  @override
-  String get chipTooltipQueriesPerMinute => 'Queries per minute';
-
-  @override
-  String get chipTooltipCpuLoadAverage => 'CPU load average (1m / 5m / 15m)';
-
-  @override
-  String get chipTooltipCpuUsage => 'CPU usage';
-
-  @override
-  String get chipTooltipRamUsage => 'RAM usage';
-
-  @override
-  String get chipTooltipCpuTemperature => 'CPU temperature';
-
-  @override
-  String get chipTooltipSystemUptime => 'System uptime';
 }

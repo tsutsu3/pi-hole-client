@@ -335,7 +335,7 @@ $StatsGravityCopyWith<$Res> get gravity {
 /// @nodoc
 mixin _$StatsQueries {
 
- int get total; int get blocked;@JsonKey(name: 'percent_blocked') double get percentBlocked;@JsonKey(name: 'unique_domains') int get uniqueDomains; int get forwarded; int get cached; StatsTypes get types; StatsStatus get status; StatsReplies get replies; double? get frequency;
+ int get total; int get blocked;@JsonKey(name: 'percent_blocked') double get percentBlocked;@JsonKey(name: 'unique_domains') int get uniqueDomains; int get forwarded; int get cached; StatsTypes get types; StatsStatus get status; StatsReplies get replies;
 /// Create a copy of StatsQueries
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -348,16 +348,16 @@ $StatsQueriesCopyWith<StatsQueries> get copyWith => _$StatsQueriesCopyWithImpl<S
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsQueries&&(identical(other.total, total) || other.total == total)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.percentBlocked, percentBlocked) || other.percentBlocked == percentBlocked)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.types, types) || other.types == types)&&(identical(other.status, status) || other.status == status)&&(identical(other.replies, replies) || other.replies == replies)&&(identical(other.frequency, frequency) || other.frequency == frequency));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsQueries&&(identical(other.total, total) || other.total == total)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.percentBlocked, percentBlocked) || other.percentBlocked == percentBlocked)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.types, types) || other.types == types)&&(identical(other.status, status) || other.status == status)&&(identical(other.replies, replies) || other.replies == replies));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,blocked,percentBlocked,uniqueDomains,forwarded,cached,types,status,replies,frequency);
+int get hashCode => Object.hash(runtimeType,total,blocked,percentBlocked,uniqueDomains,forwarded,cached,types,status,replies);
 
 @override
 String toString() {
-  return 'StatsQueries(total: $total, blocked: $blocked, percentBlocked: $percentBlocked, uniqueDomains: $uniqueDomains, forwarded: $forwarded, cached: $cached, types: $types, status: $status, replies: $replies, frequency: $frequency)';
+  return 'StatsQueries(total: $total, blocked: $blocked, percentBlocked: $percentBlocked, uniqueDomains: $uniqueDomains, forwarded: $forwarded, cached: $cached, types: $types, status: $status, replies: $replies)';
 }
 
 
@@ -368,7 +368,7 @@ abstract mixin class $StatsQueriesCopyWith<$Res>  {
   factory $StatsQueriesCopyWith(StatsQueries value, $Res Function(StatsQueries) _then) = _$StatsQueriesCopyWithImpl;
 @useResult
 $Res call({
- int total, int blocked,@JsonKey(name: 'percent_blocked') double percentBlocked,@JsonKey(name: 'unique_domains') int uniqueDomains, int forwarded, int cached, StatsTypes types, StatsStatus status, StatsReplies replies, double? frequency
+ int total, int blocked,@JsonKey(name: 'percent_blocked') double percentBlocked,@JsonKey(name: 'unique_domains') int uniqueDomains, int forwarded, int cached, StatsTypes types, StatsStatus status, StatsReplies replies
 });
 
 
@@ -385,7 +385,7 @@ class _$StatsQueriesCopyWithImpl<$Res>
 
 /// Create a copy of StatsQueries
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? total = null,Object? blocked = null,Object? percentBlocked = null,Object? uniqueDomains = null,Object? forwarded = null,Object? cached = null,Object? types = null,Object? status = null,Object? replies = null,Object? frequency = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? total = null,Object? blocked = null,Object? percentBlocked = null,Object? uniqueDomains = null,Object? forwarded = null,Object? cached = null,Object? types = null,Object? status = null,Object? replies = null,}) {
   return _then(_self.copyWith(
 total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,blocked: null == blocked ? _self.blocked : blocked // ignore: cast_nullable_to_non_nullable
@@ -396,8 +396,7 @@ as int,cached: null == cached ? _self.cached : cached // ignore: cast_nullable_t
 as int,types: null == types ? _self.types : types // ignore: cast_nullable_to_non_nullable
 as StatsTypes,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as StatsStatus,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
-as StatsReplies,frequency: freezed == frequency ? _self.frequency : frequency // ignore: cast_nullable_to_non_nullable
-as double?,
+as StatsReplies,
   ));
 }
 /// Create a copy of StatsQueries
@@ -506,10 +505,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int total,  int blocked, @JsonKey(name: 'percent_blocked')  double percentBlocked, @JsonKey(name: 'unique_domains')  int uniqueDomains,  int forwarded,  int cached,  StatsTypes types,  StatsStatus status,  StatsReplies replies,  double? frequency)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int total,  int blocked, @JsonKey(name: 'percent_blocked')  double percentBlocked, @JsonKey(name: 'unique_domains')  int uniqueDomains,  int forwarded,  int cached,  StatsTypes types,  StatsStatus status,  StatsReplies replies)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _StatsQueries() when $default != null:
-return $default(_that.total,_that.blocked,_that.percentBlocked,_that.uniqueDomains,_that.forwarded,_that.cached,_that.types,_that.status,_that.replies,_that.frequency);case _:
+return $default(_that.total,_that.blocked,_that.percentBlocked,_that.uniqueDomains,_that.forwarded,_that.cached,_that.types,_that.status,_that.replies);case _:
   return orElse();
 
 }
@@ -527,10 +526,10 @@ return $default(_that.total,_that.blocked,_that.percentBlocked,_that.uniqueDomai
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int total,  int blocked, @JsonKey(name: 'percent_blocked')  double percentBlocked, @JsonKey(name: 'unique_domains')  int uniqueDomains,  int forwarded,  int cached,  StatsTypes types,  StatsStatus status,  StatsReplies replies,  double? frequency)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int total,  int blocked, @JsonKey(name: 'percent_blocked')  double percentBlocked, @JsonKey(name: 'unique_domains')  int uniqueDomains,  int forwarded,  int cached,  StatsTypes types,  StatsStatus status,  StatsReplies replies)  $default,) {final _that = this;
 switch (_that) {
 case _StatsQueries():
-return $default(_that.total,_that.blocked,_that.percentBlocked,_that.uniqueDomains,_that.forwarded,_that.cached,_that.types,_that.status,_that.replies,_that.frequency);}
+return $default(_that.total,_that.blocked,_that.percentBlocked,_that.uniqueDomains,_that.forwarded,_that.cached,_that.types,_that.status,_that.replies);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -544,10 +543,10 @@ return $default(_that.total,_that.blocked,_that.percentBlocked,_that.uniqueDomai
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int total,  int blocked, @JsonKey(name: 'percent_blocked')  double percentBlocked, @JsonKey(name: 'unique_domains')  int uniqueDomains,  int forwarded,  int cached,  StatsTypes types,  StatsStatus status,  StatsReplies replies,  double? frequency)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int total,  int blocked, @JsonKey(name: 'percent_blocked')  double percentBlocked, @JsonKey(name: 'unique_domains')  int uniqueDomains,  int forwarded,  int cached,  StatsTypes types,  StatsStatus status,  StatsReplies replies)?  $default,) {final _that = this;
 switch (_that) {
 case _StatsQueries() when $default != null:
-return $default(_that.total,_that.blocked,_that.percentBlocked,_that.uniqueDomains,_that.forwarded,_that.cached,_that.types,_that.status,_that.replies,_that.frequency);case _:
+return $default(_that.total,_that.blocked,_that.percentBlocked,_that.uniqueDomains,_that.forwarded,_that.cached,_that.types,_that.status,_that.replies);case _:
   return null;
 
 }
@@ -559,7 +558,7 @@ return $default(_that.total,_that.blocked,_that.percentBlocked,_that.uniqueDomai
 
 @JsonSerializable(explicitToJson: true)
 class _StatsQueries implements StatsQueries {
-  const _StatsQueries({required this.total, required this.blocked, @JsonKey(name: 'percent_blocked') required this.percentBlocked, @JsonKey(name: 'unique_domains') required this.uniqueDomains, required this.forwarded, required this.cached, required this.types, required this.status, required this.replies, this.frequency});
+  const _StatsQueries({required this.total, required this.blocked, @JsonKey(name: 'percent_blocked') required this.percentBlocked, @JsonKey(name: 'unique_domains') required this.uniqueDomains, required this.forwarded, required this.cached, required this.types, required this.status, required this.replies});
   factory _StatsQueries.fromJson(Map<String, dynamic> json) => _$StatsQueriesFromJson(json);
 
 @override final  int total;
@@ -571,7 +570,6 @@ class _StatsQueries implements StatsQueries {
 @override final  StatsTypes types;
 @override final  StatsStatus status;
 @override final  StatsReplies replies;
-@override final  double? frequency;
 
 /// Create a copy of StatsQueries
 /// with the given fields replaced by the non-null parameter values.
@@ -586,16 +584,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsQueries&&(identical(other.total, total) || other.total == total)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.percentBlocked, percentBlocked) || other.percentBlocked == percentBlocked)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.types, types) || other.types == types)&&(identical(other.status, status) || other.status == status)&&(identical(other.replies, replies) || other.replies == replies)&&(identical(other.frequency, frequency) || other.frequency == frequency));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsQueries&&(identical(other.total, total) || other.total == total)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.percentBlocked, percentBlocked) || other.percentBlocked == percentBlocked)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.types, types) || other.types == types)&&(identical(other.status, status) || other.status == status)&&(identical(other.replies, replies) || other.replies == replies));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,blocked,percentBlocked,uniqueDomains,forwarded,cached,types,status,replies,frequency);
+int get hashCode => Object.hash(runtimeType,total,blocked,percentBlocked,uniqueDomains,forwarded,cached,types,status,replies);
 
 @override
 String toString() {
-  return 'StatsQueries(total: $total, blocked: $blocked, percentBlocked: $percentBlocked, uniqueDomains: $uniqueDomains, forwarded: $forwarded, cached: $cached, types: $types, status: $status, replies: $replies, frequency: $frequency)';
+  return 'StatsQueries(total: $total, blocked: $blocked, percentBlocked: $percentBlocked, uniqueDomains: $uniqueDomains, forwarded: $forwarded, cached: $cached, types: $types, status: $status, replies: $replies)';
 }
 
 
@@ -606,7 +604,7 @@ abstract mixin class _$StatsQueriesCopyWith<$Res> implements $StatsQueriesCopyWi
   factory _$StatsQueriesCopyWith(_StatsQueries value, $Res Function(_StatsQueries) _then) = __$StatsQueriesCopyWithImpl;
 @override @useResult
 $Res call({
- int total, int blocked,@JsonKey(name: 'percent_blocked') double percentBlocked,@JsonKey(name: 'unique_domains') int uniqueDomains, int forwarded, int cached, StatsTypes types, StatsStatus status, StatsReplies replies, double? frequency
+ int total, int blocked,@JsonKey(name: 'percent_blocked') double percentBlocked,@JsonKey(name: 'unique_domains') int uniqueDomains, int forwarded, int cached, StatsTypes types, StatsStatus status, StatsReplies replies
 });
 
 
@@ -623,7 +621,7 @@ class __$StatsQueriesCopyWithImpl<$Res>
 
 /// Create a copy of StatsQueries
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? total = null,Object? blocked = null,Object? percentBlocked = null,Object? uniqueDomains = null,Object? forwarded = null,Object? cached = null,Object? types = null,Object? status = null,Object? replies = null,Object? frequency = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? total = null,Object? blocked = null,Object? percentBlocked = null,Object? uniqueDomains = null,Object? forwarded = null,Object? cached = null,Object? types = null,Object? status = null,Object? replies = null,}) {
   return _then(_StatsQueries(
 total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,blocked: null == blocked ? _self.blocked : blocked // ignore: cast_nullable_to_non_nullable
@@ -634,8 +632,7 @@ as int,cached: null == cached ? _self.cached : cached // ignore: cast_nullable_t
 as int,types: null == types ? _self.types : types // ignore: cast_nullable_to_non_nullable
 as StatsTypes,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as StatsStatus,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
-as StatsReplies,frequency: freezed == frequency ? _self.frequency : frequency // ignore: cast_nullable_to_non_nullable
-as double?,
+as StatsReplies,
   ));
 }
 

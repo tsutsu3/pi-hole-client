@@ -729,11 +729,5 @@
   },
   "unverifiedCertificatesBannerExpand": "Expand",
   "unverifiedCertificatesBannerCollapse": "Collapse",
-  "unverifiedCertificatesBannerLearnMore": "Learn more",
-  "chipTooltipQueriesPerMinute": "Queries per minute",
-  "chipTooltipCpuLoadAverage": "CPU load average (1m / 5m / 15m)",
-  "chipTooltipCpuUsage": "CPU usage",
-  "chipTooltipRamUsage": "RAM usage",
-  "chipTooltipCpuTemperature": "CPU temperature",
-  "chipTooltipSystemUptime": "System uptime"
+  "unverifiedCertificatesBannerLearnMore": "Learn more"
 }

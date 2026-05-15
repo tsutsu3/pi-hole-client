@@ -33,7 +33,6 @@ _StatsQueries _$StatsQueriesFromJson(Map<String, dynamic> json) =>
       types: StatsTypes.fromJson(json['types'] as Map<String, dynamic>),
       status: StatsStatus.fromJson(json['status'] as Map<String, dynamic>),
       replies: StatsReplies.fromJson(json['replies'] as Map<String, dynamic>),
-      frequency: (json['frequency'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$StatsQueriesToJson(_StatsQueries instance) =>
@@ -47,7 +46,6 @@ Map<String, dynamic> _$StatsQueriesToJson(_StatsQueries instance) =>
       'types': instance.types.toJson(),
       'status': instance.status.toJson(),
       'replies': instance.replies.toJson(),
-      'frequency': instance.frequency,
     };
 
 _StatsTypes _$StatsTypesFromJson(Map<String, dynamic> json) => _StatsTypes(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
-import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/ui/core/actions/refresh_server_status.dart';
 import 'package:pi_hole_client/ui/core/actions/server_management.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
@@ -12,7 +11,6 @@ import 'package:pi_hole_client/ui/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_tiles.dart';
-import 'package:pi_hole_client/ui/home/widgets/server_status_chips.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -120,14 +118,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               SliverList.list(
                                 children: [
-                                  // Chips data is not available for V5, so it is not displayed
-                                  if (serversViewModel
-                                          .selectedServer
-                                          ?.apiVersion !=
-                                      SupportedApiVersions.v5) ...[
-                                    const ServerStatusChips(),
-                                    const SizedBox(height: 24),
-                                  ],
                                   HomeTiles(width: width),
                                   const SizedBox(height: 24),
                                   const HomeCharts(),
