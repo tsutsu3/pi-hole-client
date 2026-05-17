@@ -9,6 +9,7 @@ import 'package:pi_hole_client/ui/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_appbar/switch_server_modal.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_screen.dart';
+import 'package:pi_hole_client/ui/home/widgets/server_status_chips.dart';
 import 'package:pi_hole_client/ui/servers/widgets/servers_screen.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -26,6 +27,15 @@ const _serverV6 = Server(
   alias: 'test v6',
   defaultServer: false,
   apiVersion: 'v6',
+  allowUntrustedCert: true,
+  ignoreCertificateErrors: false,
+);
+
+const _serverV5 = Server(
+  address: 'http://localhost:8080',
+  alias: 'test v5',
+  defaultServer: false,
+  apiVersion: 'v5',
   allowUntrustedCert: true,
   ignoreCertificateErrors: false,
 );
@@ -103,6 +113,54 @@ void main() async {
 
       // clients graph
       expect(find.text('Client activity last 24 hours'), findsOneWidget);
+    });
+
+    testWidgets('should show status chips for v6 server', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          HomeScreen(
+            serversViewModel: serversViewModel,
+            appConfigViewModel: appConfigViewModel,
+            statusViewModel: statusViewModel,
+          ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+      expect(find.byType(ServerStatusChips), findsOneWidget);
+    });
+
+    testWidgets('should hide status chips for v5 server', (
+      WidgetTester tester,
+    ) async {
+      serversViewModel
+        ..selectedServer = _serverV5
+        ..serversList = [_serverV5];
+
+      await tester.pumpWidget(
+        buildTestApp(
+          HomeScreen(
+            serversViewModel: serversViewModel,
+            appConfigViewModel: appConfigViewModel,
+            statusViewModel: statusViewModel,
+          ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+          repositoryBundle: createFakeRepositoryBundle(apiVersion: 'v5'),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+      expect(find.byType(ServerStatusChips), findsNothing);
     });
 
     testWidgets('should home screen be rendered (loading state)', (

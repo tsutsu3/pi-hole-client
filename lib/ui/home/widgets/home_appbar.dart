@@ -20,6 +20,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: const AdBlockStatusIcon(),
       title: const ServerLabel(),
       actions: const [ServerActionsMenu()],
+      expandedHeight: 140,
     );
   }
 }

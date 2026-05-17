@@ -2300,4 +2300,23 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get unverifiedCertificatesBannerLearnMore => 'Mehr erfahren';
+
+  @override
+  String get chipTooltipQueriesPerMinute => 'Anfragen pro Minute';
+
+  @override
+  String get chipTooltipCpuLoadAverage =>
+      'CPU-Lastdurchschnitt (1 Min / 5 Min / 15 Min)';
+
+  @override
+  String get chipTooltipCpuUsage => 'CPU-Auslastung';
+
+  @override
+  String get chipTooltipRamUsage => 'RAM-Auslastung';
+
+  @override
+  String get chipTooltipCpuTemperature => 'CPU-Temperatur';
+
+  @override
+  String get chipTooltipSystemUptime => 'Systemlaufzeit';
 }

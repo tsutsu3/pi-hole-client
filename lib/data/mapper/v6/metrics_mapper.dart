@@ -99,6 +99,7 @@ extension StatsSummaryMapper on ss.StatsSummary {
         total: queries.total,
       ),
       queryTypes: queries.types.toDomain(),
+      frequency: queries.frequency,
     );
   }
 }

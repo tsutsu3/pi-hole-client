@@ -4393,6 +4393,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Learn more'**
   String get unverifiedCertificatesBannerLearnMore;
+
+  /// No description provided for @chipTooltipQueriesPerMinute.
+  ///
+  /// In en, this message translates to:
+  /// **'Queries per minute'**
+  String get chipTooltipQueriesPerMinute;
+
+  /// No description provided for @chipTooltipCpuLoadAverage.
+  ///
+  /// In en, this message translates to:
+  /// **'CPU load average (1m / 5m / 15m)'**
+  String get chipTooltipCpuLoadAverage;
+
+  /// No description provided for @chipTooltipCpuUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'CPU usage'**
+  String get chipTooltipCpuUsage;
+
+  /// No description provided for @chipTooltipRamUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'RAM usage'**
+  String get chipTooltipRamUsage;
+
+  /// No description provided for @chipTooltipCpuTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'CPU temperature'**
+  String get chipTooltipCpuTemperature;
+
+  /// No description provided for @chipTooltipSystemUptime.
+  ///
+  /// In en, this message translates to:
+  /// **'System uptime'**
+  String get chipTooltipSystemUptime;
 }
 
 class _AppLocalizationsDelegate

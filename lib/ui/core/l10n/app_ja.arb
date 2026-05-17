@@ -731,5 +731,11 @@
   },
   "unverifiedCertificatesBannerExpand": "展開",
   "unverifiedCertificatesBannerCollapse": "閉じる",
-  "unverifiedCertificatesBannerLearnMore": "詳しく見る"
+  "unverifiedCertificatesBannerLearnMore": "詳しく見る",
+  "chipTooltipQueriesPerMinute": "1分あたりのクエリ数",
+  "chipTooltipCpuLoadAverage": "CPU負荷平均 (1分 / 5分 / 15分)",
+  "chipTooltipCpuUsage": "CPU使用率",
+  "chipTooltipRamUsage": "メモリ使用率",
+  "chipTooltipCpuTemperature": "CPU温度",
+  "chipTooltipSystemUptime": "システム稼働時間"
 }
