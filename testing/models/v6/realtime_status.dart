@@ -92,6 +92,7 @@ final kRepoFetchRealTimeStatus = repo.RealtimeStatus(
         percentage: 4.297411381783045,
       ),
     ],
+    frequency: 1.5,
   ),
   status: DnsBlockingStatus.enabled,
   topDomains: const repo.TopDomains(

@@ -80,6 +80,7 @@ void main() {
       expect(domain.summary.clientsEverSeen, 10);
       expect(domain.summary.uniqueClients, 8);
       expect(domain.summary.dnsQueriesAllTypes, 5000);
+      expect(domain.summary.frequency, isNull);
     });
 
     test('maps reply counts correctly', () {
