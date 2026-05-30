@@ -42,13 +42,14 @@ class _AddDomainModalState extends State<AddDomainModal> {
 
   void validateDomain(String? value) {
     if (value != null && value != '') {
-      // Matches "domain-like" strings such as:
-      // - Single labels: example, local, com, jp
-      // - With dots: example.com, sub.domain.co.jp
+      // Matches "domain-like" strings including IDN (Internationalized Domain Names):
+      // - Single labels: example, local, てすと
+      // - With dots: example.com, sub.domain.co.jp, てすと.com
       // - With leading dot: .example.com, .co.jp
-      // Uses only letters, digits, '.' and '-' (case-insensitive).
+      // Uses Unicode letters (\p{L}), digits (\p{N}), '.' and '-'.
       final domainLikeRegexp = RegExp(
-        r'^\.?\-?[a-z0-9]+([.-][a-z0-9]+)*$',
+        r'^\.?-?[\p{L}\p{N}-]+(\.[\p{L}\p{N}-]+)*$',
+        unicode: true,
         caseSensitive: false,
       );
       if (domainLikeRegexp.hasMatch(value)) {

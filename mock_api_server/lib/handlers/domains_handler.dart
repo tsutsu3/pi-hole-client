@@ -201,6 +201,18 @@ class DomainsHandler {
             "date_added": 1742822968,
             "date_modified": 1742822968,
           },
+          {
+            "domain": "xn--88jzah.com",
+            "unicode": "てすと.COM",
+            "type": "allow",
+            "kind": "exact",
+            "comment": null,
+            "groups": [0],
+            "enabled": true,
+            "id": 145,
+            "date_added": 1742822968,
+            "date_modified": 1742822968,
+          },
         ],
         "took": 0.004214763641357422,
       };

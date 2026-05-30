@@ -88,7 +88,9 @@ class DomainTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                domain.name,
+                domain.punyCode != domain.name
+                    ? '${domain.name} (${domain.punyCode})'
+                    : domain.name,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontWeight: FontWeight.w400,
