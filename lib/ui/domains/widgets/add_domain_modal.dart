@@ -48,7 +48,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
       // - With leading dot: .example.com, .co.jp
       // Uses Unicode letters (\p{L}), digits (\p{N}), '.' and '-'.
       final domainLikeRegexp = RegExp(
-        r'^\.?-?[\p{L}\p{N}]+([-.][\p{L}\p{N}]+)*$',
+        r'^\.?-?[\p{L}\p{N}-]+(\.[\p{L}\p{N}-]+)*$',
         unicode: true,
         caseSensitive: false,
       );
