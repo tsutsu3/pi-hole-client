@@ -102,7 +102,11 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
             ListTile(
               leading: const Icon(Icons.domain),
               title: Text(AppLocalizations.of(context)!.domain),
-              subtitle: Text(_domain.name),
+              subtitle: Text(
+                _domain.punyCode != _domain.name
+                    ? '${_domain.name} (${_domain.punyCode})'
+                    : _domain.name,
+              ),
             ),
             ListTile(
               leading: const Icon(Icons.category_rounded),
