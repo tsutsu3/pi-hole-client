@@ -77,12 +77,6 @@ class LogsViewModel extends ChangeNotifier {
     }
   }
 
-  /// Whether a domain was added via [addDomainToList] since the last time
-  /// the domains screen consumed this flag.
-  bool _domainListDirty = false;
-  bool get domainListDirty => _domainListDirty;
-  void clearDomainListDirty() => _domainListDirty = false;
-
   /// Adds [domain] to the allow or deny list via [DomainRepository].
   ///
   /// [list] should be `'white'` for allow-list or `'black'` for deny-list.
@@ -104,7 +98,6 @@ class LogsViewModel extends ChangeNotifier {
       DomainKind.exact,
       domain,
     );
-    if (result.isSuccess()) _domainListDirty = true;
     return result;
   }
 
