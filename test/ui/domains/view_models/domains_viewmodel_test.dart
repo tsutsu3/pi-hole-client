@@ -1,9 +1,93 @@
+import 'dart:async';
+
 import 'package:command_it/command_it.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart';
+import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
+import 'package:result_dart/result_dart.dart';
 
 import '../../../../testing/fakes/repositories/api/fake_domain_repository.dart';
+
+/// A [DomainRepository] whose [fetchAllDomains] result and timing can be
+/// controlled per test: swap the returned dataset, gate the response on a
+/// [Completer], force failures, and count how often it was hit.
+class _ControllableDomainRepository implements DomainRepository {
+  _ControllableDomainRepository(this._lists);
+
+  DomainLists _lists;
+  Completer<void>? gate;
+  bool shouldFail = false;
+  int fetchCount = 0;
+
+  void setLists(DomainLists lists) => _lists = lists;
+
+  @override
+  Future<Result<DomainLists>> fetchAllDomains() async {
+    fetchCount++;
+    final gate = this.gate;
+    if (gate != null) await gate.future;
+    if (shouldFail) {
+      return Failure(Exception('Force fetchAllDomains failure'));
+    }
+    return Success(_lists);
+  }
+
+  @override
+  Future<Result<Domain>> addDomain(
+    DomainType type,
+    DomainKind kind,
+    String domain, {
+    String? comment,
+    List<int>? groups = const [0],
+    bool? enabled = true,
+  }) async => Failure(Exception('not used'));
+
+  @override
+  Future<Result<Domain>> updateDomain(
+    DomainType type,
+    DomainKind kind,
+    String domain, {
+    String? comment,
+    List<int>? groups = const [0],
+    bool? enabled = true,
+  }) async => Failure(Exception('not used'));
+
+  @override
+  Future<Result<Unit>> deleteDomain(
+    DomainType type,
+    DomainKind kind,
+    String domain,
+  ) async => const Success(unit);
+}
+
+DateTime _ts = DateTime(2025, 1, 1);
+
+/// Builds a [DomainLists] holding a single allow-exact domain named [allowName]
+/// so tests can assert which server's dataset ended up in the view model.
+///
+/// [allowName] is optional: omit it when the dataset content is irrelevant and
+/// only a distinct repository instance is needed (e.g. server-switch resets).
+DomainLists _listsWith([String allowName = 'placeholder.com']) => DomainLists(
+  allowExact: [
+    Domain(
+      id: 1,
+      name: allowName,
+      punyCode: allowName,
+      type: DomainType.allow,
+      kind: DomainKind.exact,
+      comment: null,
+      groups: const [0],
+      enabled: true,
+      dateAdded: _ts,
+      dateModified: _ts,
+    ),
+  ],
+  allowRegex: const [],
+  denyExact: const [],
+  denyRegex: const [],
+);
 
 void main() {
   group('DomainsViewModel', () {
@@ -204,6 +288,187 @@ void main() {
           expect(viewModel.filteredBlacklistDomains.length, 0);
         },
       );
+    });
+  });
+
+  group('DomainsViewModel - stale-while-revalidate', () {
+    setUp(() => Command.globalExceptionHandler = (_, _) {});
+    tearDown(() => Command.globalExceptionHandler = null);
+
+    test(
+      'keeps cached list visible and sets isRevalidating during a background reload',
+      () async {
+        final repo = _ControllableDomainRepository(_listsWith('cached.com'));
+        final vm = DomainsViewModel(domainRepository: repo);
+        addTearDown(vm.dispose);
+
+        // First load populates the cache.
+        await vm.loadDomains.runAsync();
+        expect(vm.isRevalidating, isFalse);
+        expect(vm.whitelistDomains.single.name, 'cached.com');
+        expect(vm.loadingStatus, LoadStatus.loaded);
+
+        // Gate the next fetch so the reload stays in flight.
+        repo.setLists(_listsWith('fresh.com'));
+        repo.gate = Completer<void>();
+        final pending = vm.loadDomains.runAsync();
+        await Future<void>.delayed(Duration.zero);
+
+        // SWR: stale list stays visible, status stays loaded, bar is shown.
+        expect(vm.isRevalidating, isTrue);
+        expect(vm.loadingStatus, LoadStatus.loaded);
+        expect(vm.whitelistDomains.single.name, 'cached.com');
+
+        // Completing the reload swaps in the fresh data and clears the bar.
+        repo.gate!.complete();
+        await pending;
+        expect(vm.isRevalidating, isFalse);
+        expect(vm.loadingStatus, LoadStatus.loaded);
+        expect(vm.whitelistDomains.single.name, 'fresh.com');
+      },
+    );
+
+    test('failed background reload keeps the cached list', () async {
+      final repo = _ControllableDomainRepository(_listsWith('cached.com'));
+      final vm = DomainsViewModel(domainRepository: repo);
+      addTearDown(vm.dispose);
+
+      await vm.loadDomains.runAsync();
+      expect(vm.whitelistDomains.single.name, 'cached.com');
+
+      repo.shouldFail = true;
+      try {
+        await vm.loadDomains.runAsync();
+      } catch (_) {}
+
+      // Cache is preserved; no error screen because there is data to show.
+      expect(vm.loadingStatus, LoadStatus.loaded);
+      expect(vm.isRevalidating, isFalse);
+      expect(vm.whitelistDomains.single.name, 'cached.com');
+    });
+  });
+
+  group('DomainsViewModel - server switch (update)', () {
+    setUp(() => Command.globalExceptionHandler = (_, _) {});
+    tearDown(() => Command.globalExceptionHandler = null);
+
+    test('update() with a new repository resets cached state', () async {
+      final repoA = _ControllableDomainRepository(_listsWith('a.com'));
+      final vm = DomainsViewModel(domainRepository: repoA);
+      addTearDown(vm.dispose);
+
+      await vm.loadDomains.runAsync();
+      expect(vm.whitelistDomains, isNotEmpty);
+      expect(vm.loadingStatus, LoadStatus.loaded);
+
+      // Change server
+      vm.update(domainRepository: _ControllableDomainRepository(_listsWith()));
+
+      expect(vm.whitelistDomains, isEmpty);
+      expect(vm.blacklistDomains, isEmpty);
+      expect(vm.filteredWhitelistDomains, isEmpty);
+      expect(vm.filteredBlacklistDomains, isEmpty);
+      expect(vm.loadingStatus, LoadStatus.loading);
+      expect(vm.isRevalidating, isFalse);
+    });
+
+    test('update() with the same repository instance is a no-op', () async {
+      final repo = _ControllableDomainRepository(_listsWith('a.com'));
+      final vm = DomainsViewModel(domainRepository: repo);
+      addTearDown(vm.dispose);
+
+      await vm.loadDomains.runAsync();
+      expect(vm.whitelistDomains, isNotEmpty);
+
+      vm.update(domainRepository: repo);
+
+      // No reset: the loaded list is preserved.
+      expect(vm.whitelistDomains, isNotEmpty);
+      expect(vm.loadingStatus, LoadStatus.loaded);
+      expect(vm.whitelistDomains.single.name, 'a.com');
+    });
+
+    test(
+      'discards an in-flight load from the previous server (epoch guard)',
+      () async {
+        final repoA = _ControllableDomainRepository(_listsWith('a.com'));
+        repoA.gate = Completer<void>();
+        final repoB = _ControllableDomainRepository(_listsWith('b.com'));
+        final vm = DomainsViewModel(domainRepository: repoA);
+        addTearDown(vm.dispose);
+
+        // Start a load against server A that stays in flight.
+        final pendingOld = vm.loadDomains.runAsync();
+        await Future<void>.delayed(Duration.zero);
+        expect(repoA.fetchCount, 1);
+
+        // Switch to server B (screen inactive -> reset only, no eager reload).
+        vm.update(domainRepository: repoB);
+        expect(vm.whitelistDomains, isEmpty);
+
+        // The delayed server-A response must be discarded, not applied.
+        repoA.gate!.complete();
+        await pendingOld;
+        expect(vm.whitelistDomains, isEmpty);
+        expect(vm.loadingStatus, LoadStatus.loading);
+
+        // A fresh load now resolves against server B.
+        await vm.loadDomains.runAsync();
+        expect(vm.whitelistDomains.single.name, 'b.com');
+      },
+    );
+  });
+
+  group('DomainsViewModel - screen-active eager reload', () {
+    late TestWidgetsFlutterBinding binding;
+
+    setUpAll(() => binding = TestWidgetsFlutterBinding.ensureInitialized());
+    setUp(() => Command.globalExceptionHandler = (_, _) {});
+    tearDown(() => Command.globalExceptionHandler = null);
+
+    // Drives one frame so any post-frame callback scheduled by update() runs,
+    // then drains the (microtask-only) fetch.
+    Future<void> pumpFrame() async {
+      binding.handleBeginFrame(Duration.zero);
+      binding.handleDrawFrame();
+      await Future<void>.delayed(Duration.zero);
+    }
+
+    test(
+      'server switch while the screen is inactive does not eagerly reload',
+      () async {
+        final repoA = _ControllableDomainRepository(_listsWith('a.com'));
+        final repoB = _ControllableDomainRepository(_listsWith('b.com'));
+        final vm = DomainsViewModel(domainRepository: repoA);
+        addTearDown(vm.dispose);
+
+        // screenActive defaults to false: the switch resets state but must not
+        // schedule a background reload.
+        vm.update(domainRepository: repoB);
+        await pumpFrame();
+
+        expect(repoB.fetchCount, 0);
+        expect(vm.whitelistDomains, isEmpty);
+        expect(vm.loadingStatus, LoadStatus.loading);
+      },
+    );
+
+    test('server switch while the screen is active eagerly reloads', () async {
+      final repoA = _ControllableDomainRepository(_listsWith('a.com'));
+      final repoB = _ControllableDomainRepository(_listsWith('b.com'));
+      final vm = DomainsViewModel(domainRepository: repoA);
+      addTearDown(vm.dispose);
+
+      vm.setScreenActive(true);
+
+      // The switch schedules a background reload via a post-frame callback;
+      // running a frame fires it and drains the fetch (microtask-only, no gate).
+      vm.update(domainRepository: repoB);
+      await pumpFrame();
+
+      expect(repoB.fetchCount, 1);
+      expect(vm.whitelistDomains.single.name, 'b.com');
+      expect(vm.loadingStatus, LoadStatus.loaded);
     });
   });
 }
