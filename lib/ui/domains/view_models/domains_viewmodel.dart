@@ -176,7 +176,11 @@ class DomainsViewModel extends ChangeNotifier {
   }
 
   Future<void> _deleteDomain(Domain domain) async {
-    final result = await _domainRepository!.deleteDomain(
+    final repository = _domainRepository;
+    if (repository == null) {
+      throw Exception('DomainRepository not available');
+    }
+    final result = await repository.deleteDomain(
       domain.type,
       domain.kind,
       domain.punyCode,
@@ -193,7 +197,11 @@ class DomainsViewModel extends ChangeNotifier {
   Future<void> _addDomain(
     ({DomainType type, DomainKind kind, String domain}) params,
   ) async {
-    final result = await _domainRepository!.addDomain(
+    final repository = _domainRepository;
+    if (repository == null) {
+      throw Exception('DomainRepository not available');
+    }
+    final result = await repository.addDomain(
       params.type,
       params.kind,
       params.domain,
@@ -215,7 +223,11 @@ class DomainsViewModel extends ChangeNotifier {
   }
 
   Future<void> _updateDomain(Domain domain) async {
-    final result = await _domainRepository!.updateDomain(
+    final repository = _domainRepository;
+    if (repository == null) {
+      throw Exception('DomainRepository not available');
+    }
+    final result = await repository.updateDomain(
       domain.type,
       domain.kind,
       domain.punyCode,
