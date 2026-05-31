@@ -1,12 +1,13 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:result_dart/result_dart.dart';
 
 class DomainsViewModel extends ChangeNotifier {
-  DomainsViewModel({required DomainRepository domainRepository})
+  DomainsViewModel({DomainRepository? domainRepository})
     : _domainRepository = domainRepository {
     loadDomains = Command.createAsyncNoParam<void>(
       _loadDomains,
@@ -27,7 +28,7 @@ class DomainsViewModel extends ChangeNotifier {
     updateDomain.errors.addListener(notifyListeners);
   }
 
-  final DomainRepository _domainRepository;
+  DomainRepository? _domainRepository;
 
   // --- Commands ---
   late final Command<void, void> loadDomains;
@@ -48,6 +49,9 @@ class DomainsViewModel extends ChangeNotifier {
   int? _groupFilter;
   LoadStatus _loadingStatus = LoadStatus.loading;
   bool _disposed = false;
+  bool _isRevalidating = false;
+  bool _screenActive = false;
+  int _serverEpoch = 0;
 
   // --- Getters ---
   List<Domain> get whitelistDomains => _whitelistDomains;
@@ -64,17 +68,92 @@ class DomainsViewModel extends ChangeNotifier {
     return _loadingStatus;
   }
 
-  // --- Command implementations ---
-  Future<void> _loadDomains() async {
-    _loadingStatus = LoadStatus.loading;
+  bool get isRevalidating => _isRevalidating;
+
+  /// Marks whether the Domains screen is currently visible.
+  ///
+  /// Only while the screen is active does a server switch ([update]) trigger an
+  /// eager background reload. When inactive, the load is deferred until the
+  /// screen mounts and calls `loadDomains.run()`, so the first view after a
+  /// server switch shows the full-screen spinner rather than the SWR bar.
+  void setScreenActive(bool active) {
+    _screenActive = active;
+  }
+
+  /// Called by the app-level `ChangeNotifierProxyProvider` whenever the active
+  /// [DomainRepository] changes (i.e. the selected server changed).
+  ///
+  /// On a repository change the cached domain data is reset **immediately** and
+  /// a fresh load is scheduled, so the previous server's domains never leak
+  /// into the new server's screen — even if the new server is slow to respond.
+  void update({DomainRepository? domainRepository}) {
+    if (domainRepository == null) return;
+    final changed = domainRepository != _domainRepository;
+    _domainRepository = domainRepository;
+    if (!changed) return;
+
+    _serverEpoch++;
     _whitelistDomains = [];
     _blacklistDomains = [];
     _filteredWhitelistDomains = [];
     _filteredBlacklistDomains = [];
+    _loadingStatus = LoadStatus.loading;
+    _isRevalidating = false;
     _safeNotifyListeners();
 
-    final result = await _domainRepository.fetchAllDomains();
-    if (_disposed) return;
+    // Only eagerly reload when the screen is visible. Otherwise the reset cache
+    // is loaded lazily on the next mount, so the first view after a server
+    // switch shows the full-screen spinner instead of the SWR bar.
+    if (!_screenActive) return;
+
+    // Defer to after the current frame to avoid notifyListeners() during build.
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (_disposed) return;
+      _reload();
+    });
+  }
+
+  /// Reloads outside the [loadDomains] Command so that a server switch can
+  /// always trigger a fresh load even if a previous load is still in flight
+  /// (Commands ignore re-entrant runs). Errors are swallowed here because
+  /// [_loadDomains] already records the error state.
+  Future<void> _reload() async {
+    try {
+      await _loadDomains();
+    } catch (_) {
+      // Error state is handled inside _loadDomains.
+    }
+  }
+
+  // --- Command implementations ---
+  Future<void> _loadDomains() async {
+    final repository = _domainRepository;
+    if (repository == null) return;
+
+    final serverEpoch = _serverEpoch;
+
+    // Stale-While-Revalidate: when a list is already loaded, keep it visible
+    // and show a thin progress bar while fresh data is fetched in the
+    // background. The full-screen spinner is only shown on the very first load
+    // (and after a server switch, where the cache was just cleared), so
+    // returning to the Domains tab no longer flashes a spinner.
+    final hasCache =
+        _whitelistDomains.isNotEmpty || _blacklistDomains.isNotEmpty;
+
+    if (hasCache) {
+      _isRevalidating = true;
+      _safeNotifyListeners();
+    } else {
+      _loadingStatus = LoadStatus.loading;
+      _whitelistDomains = [];
+      _blacklistDomains = [];
+      _filteredWhitelistDomains = [];
+      _filteredBlacklistDomains = [];
+      _safeNotifyListeners();
+    }
+
+    final result = await repository.fetchAllDomains();
+    if (_disposed || serverEpoch != _serverEpoch) return;
     switch (result) {
       case Success():
         final lists = result.getOrNull();
@@ -82,16 +161,22 @@ class DomainsViewModel extends ChangeNotifier {
         _blacklistDomains = [...lists.denyExact, ...lists.denyRegex];
         _applyFilters();
         _loadingStatus = LoadStatus.loaded;
+        _isRevalidating = false;
         _safeNotifyListeners();
       case Failure():
-        _loadingStatus = LoadStatus.error;
+        _isRevalidating = false;
+        // Keep the cached list visible when a background refresh fails; only
+        // surface the error screen when there is nothing to show.
+        if (!hasCache) {
+          _loadingStatus = LoadStatus.error;
+        }
         _safeNotifyListeners();
         throw result.exceptionOrNull();
     }
   }
 
   Future<void> _deleteDomain(Domain domain) async {
-    final result = await _domainRepository.deleteDomain(
+    final result = await _domainRepository!.deleteDomain(
       domain.type,
       domain.kind,
       domain.punyCode,
@@ -108,7 +193,7 @@ class DomainsViewModel extends ChangeNotifier {
   Future<void> _addDomain(
     ({DomainType type, DomainKind kind, String domain}) params,
   ) async {
-    final result = await _domainRepository.addDomain(
+    final result = await _domainRepository!.addDomain(
       params.type,
       params.kind,
       params.domain,
@@ -130,7 +215,7 @@ class DomainsViewModel extends ChangeNotifier {
   }
 
   Future<void> _updateDomain(Domain domain) async {
-    final result = await _domainRepository.updateDomain(
+    final result = await _domainRepository!.updateDomain(
       domain.type,
       domain.kind,
       domain.punyCode,

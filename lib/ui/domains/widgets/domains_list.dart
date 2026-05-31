@@ -275,6 +275,15 @@ class _DomainsListState extends State<DomainsList> {
           onRefresh: () async => viewModel.loadDomains.runAsync(),
           bottomSpaceHeight: 80,
         ),
+        // Stale-While-Revalidate: a thin bar at the top while a background
+        // refresh runs over an already-visible list.
+        if (viewModel.isRevalidating)
+          const Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: LinearProgressIndicator(),
+          ),
         SafeArea(
           child: Stack(
             children: [

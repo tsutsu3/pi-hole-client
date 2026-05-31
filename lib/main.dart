@@ -21,6 +21,7 @@ import 'package:pi_hole_client/pi_hole_client.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/gravity_update_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
@@ -195,6 +196,7 @@ void main() async {
   final configProvider = AppConfigViewModel(appConfigRepository);
   final statusViewModel = StatusViewModel();
   final logsViewModel = LogsViewModel();
+  final domainsViewModel = DomainsViewModel();
   final gravityUpdateViewModel = GravityUpdateViewModel(
     repository: gravityRepository,
   );
@@ -243,6 +245,7 @@ void main() async {
         serversViewModel: serversViewModel,
         statusViewModel: statusViewModel,
         logsViewModel: logsViewModel,
+        domainsViewModel: domainsViewModel,
         gravityUpdateViewModel: gravityUpdateViewModel,
       ),
       child: SentryWidget(child: Phoenix(child: const PiHoleClient())),

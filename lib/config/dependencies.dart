@@ -8,6 +8,7 @@ import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/gravity_update_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,7 @@ List<SingleChildWidget> createProviders({
   required ServersViewModel serversViewModel,
   required StatusViewModel statusViewModel,
   required LogsViewModel logsViewModel,
+  required DomainsViewModel domainsViewModel,
   required GravityUpdateViewModel gravityUpdateViewModel,
 }) {
   return [
@@ -106,6 +108,11 @@ List<SingleChildWidget> createProviders({
           topClientNames: statusVM.topClientNames,
           onRefreshClients: statusVM.refreshOnce,
         ),
+    ),
+    ChangeNotifierProxyProvider<RepositoryBundle?, DomainsViewModel>(
+      create: (_) => domainsViewModel,
+      update: (_, bundle, previous) =>
+          previous!..update(domainRepository: bundle?.domain),
     ),
     ChangeNotifierProxyProvider2<
       RepositoryBundle?,

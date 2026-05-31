@@ -12,7 +12,6 @@ import 'package:pi_hole_client/ui/domains/widgets/domain_actions.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domains_list.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domains_scaffold.dart';
-import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
 import 'package:pi_hole_client/ui/shell/app_shell.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +31,7 @@ class _DomainsScreenState extends State<DomainsScreen>
   final TextEditingController searchController = TextEditingController();
 
   late final AppConfigViewModel _appConfigViewModel;
+  DomainsViewModel? _domainsViewModel;
   int _lastKnownTab = AppShell.domainsIndex;
 
   @override
@@ -51,15 +51,9 @@ class _DomainsScreenState extends State<DomainsScreen>
     final previousTab = _lastKnownTab;
     _lastKnownTab = currentTab;
 
-    if (currentTab == AppShell.domainsIndex) {
-      // Returning to domains tab — refresh only if a domain was added
-      final logsVm = context.read<LogsViewModel>();
-      if (logsVm.domainListDirty) {
-        logsVm.clearDomainListDirty();
-        context.read<DomainsViewModel>().loadDomains.run();
-      }
-    } else if (previousTab == AppShell.domainsIndex) {
-      // Leaving domains tab — reset while hidden (no flash)
+    if (previousTab == AppShell.domainsIndex &&
+        currentTab != AppShell.domainsIndex) {
+      // Leaving domains tab — reset selection while hidden (no flash).
       context.read<DomainsViewModel>().setSelectedDomain(null);
       tabController.index = 0;
     }
@@ -68,15 +62,20 @@ class _DomainsScreenState extends State<DomainsScreen>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    final viewModel = context.read<DomainsViewModel>();
+    _domainsViewModel = viewModel;
+    viewModel.setScreenActive(true);
     if (!_initialized) {
       _initialized = true;
-      Provider.of<DomainsViewModel>(context, listen: false).setSelectedTab(0);
+      viewModel.setSelectedTab(0);
+      viewModel.loadDomains.run();
     }
   }
 
   @override
   void dispose() {
     _appConfigViewModel.removeListener(_onAppConfigChanged);
+    _domainsViewModel?.setScreenActive(false);
     tabController.dispose();
     scrollController.dispose();
     searchController.dispose();
