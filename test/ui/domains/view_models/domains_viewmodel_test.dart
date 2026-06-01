@@ -26,12 +26,16 @@ class _ControllableDomainRepository implements DomainRepository {
   @override
   Future<Result<DomainLists>> fetchAllDomains() async {
     fetchCount++;
+    // Capture the dataset at call time: a response that resolves later must
+    // reflect the data as it was when the query was issued, so a mutation that
+    // lands during an in-flight fetch is not retroactively included.
+    final snapshot = _lists;
     final gate = this.gate;
     if (gate != null) await gate.future;
     if (shouldFail) {
       return Failure(Exception('Force fetchAllDomains failure'));
     }
-    return Success(_lists);
+    return Success(snapshot);
   }
 
   @override
@@ -42,7 +46,32 @@ class _ControllableDomainRepository implements DomainRepository {
     String? comment,
     List<int>? groups = const [0],
     bool? enabled = true,
-  }) async => Failure(Exception('not used'));
+  }) async {
+    final added = Domain(
+      id: _lists.allowExact.length + _lists.denyExact.length + 100,
+      name: domain,
+      punyCode: domain,
+      type: type,
+      kind: kind,
+      comment: comment,
+      groups: groups ?? const [0],
+      enabled: enabled ?? true,
+      dateAdded: _ts,
+      dateModified: _ts,
+    );
+    // Simulate server persistence so a fetch issued after this reflects it.
+    _lists = DomainLists(
+      allowExact: type == DomainType.allow
+          ? [..._lists.allowExact, added]
+          : _lists.allowExact,
+      allowRegex: _lists.allowRegex,
+      denyExact: type == DomainType.deny
+          ? [..._lists.denyExact, added]
+          : _lists.denyExact,
+      denyRegex: _lists.denyRegex,
+    );
+    return Success(added);
+  }
 
   @override
   Future<Result<Domain>> updateDomain(
@@ -346,6 +375,52 @@ void main() {
       expect(vm.isRevalidating, isFalse);
       expect(vm.whitelistDomains.single.name, 'cached.com');
     });
+
+    test(
+      'a mutation during revalidation is not overwritten by the stale fetch',
+      () async {
+        final repo = _ControllableDomainRepository(_listsWith('cached.com'));
+        final vm = DomainsViewModel(domainRepository: repo);
+        addTearDown(vm.dispose);
+
+        // First load populates the cache.
+        await vm.loadDomains.runAsync();
+        expect(vm.whitelistDomains.map((d) => d.name), ['cached.com']);
+
+        // Start a revalidation and gate it so it stays in flight. Its snapshot
+        // is captured now (just {cached.com}), before the upcoming add.
+        repo.gate = Completer<void>();
+        final pending = vm.loadDomains.runAsync();
+        await Future<void>.delayed(Duration.zero);
+        expect(vm.isRevalidating, isTrue);
+
+        // While the revalidation is in flight, the user adds a domain; the
+        // server confirms it and the local list updates optimistically.
+        await vm.addDomain.runAsync((
+          type: DomainType.allow,
+          kind: DomainKind.exact,
+          domain: 'added.com',
+        ));
+        expect(vm.whitelistDomains.map((d) => d.name), [
+          'cached.com',
+          'added.com',
+        ]);
+
+        // The in-flight fetch resolves with its pre-add snapshot. It must be
+        // discarded, not applied over the user's confirmed addition.
+        repo.gate!.complete();
+        await pending;
+
+        expect(vm.whitelistDomains.map((d) => d.name), [
+          'cached.com',
+          'added.com',
+        ]);
+        expect(vm.isRevalidating, isFalse);
+        expect(vm.loadingStatus, LoadStatus.loaded);
+        // Only the single gated fetch ran; the discard does not re-fetch.
+        expect(repo.fetchCount, 2);
+      },
+    );
   });
 
   group('DomainsViewModel - server switch (update)', () {
