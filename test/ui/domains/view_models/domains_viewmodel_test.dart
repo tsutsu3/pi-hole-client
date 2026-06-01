@@ -492,58 +492,24 @@ void main() {
         expect(vm.whitelistDomains.single.name, 'b.com');
       },
     );
-  });
 
-  group('DomainsViewModel - screen-active eager reload', () {
-    late TestWidgetsFlutterBinding binding;
-
-    setUpAll(() => binding = TestWidgetsFlutterBinding.ensureInitialized());
-    setUp(() => Command.globalExceptionHandler = (_, _) {});
-    tearDown(() => Command.globalExceptionHandler = null);
-
-    // Drives one frame so any post-frame callback scheduled by update() runs,
-    // then drains the (microtask-only) fetch.
-    Future<void> pumpFrame() async {
-      binding.handleBeginFrame(Duration.zero);
-      binding.handleDrawFrame();
-      await Future<void>.delayed(Duration.zero);
-    }
-
-    test(
-      'server switch while the screen is inactive does not eagerly reload',
-      () async {
-        final repoA = _ControllableDomainRepository(_listsWith('a.com'));
-        final repoB = _ControllableDomainRepository(_listsWith('b.com'));
-        final vm = DomainsViewModel(domainRepository: repoA);
-        addTearDown(vm.dispose);
-
-        // screenActive defaults to false: the switch resets state but must not
-        // schedule a background reload.
-        vm.update(domainRepository: repoB);
-        await pumpFrame();
-
-        expect(repoB.fetchCount, 0);
-        expect(vm.whitelistDomains, isEmpty);
-        expect(vm.loadingStatus, LoadStatus.loading);
-      },
-    );
-
-    test('server switch while the screen is active eagerly reloads', () async {
+    test('update() resets cached state but does not load on its own', () async {
       final repoA = _ControllableDomainRepository(_listsWith('a.com'));
       final repoB = _ControllableDomainRepository(_listsWith('b.com'));
       final vm = DomainsViewModel(domainRepository: repoA);
       addTearDown(vm.dispose);
 
-      vm.setScreenActive(true);
+      await vm.loadDomains.runAsync();
+      expect(vm.whitelistDomains.single.name, 'a.com');
 
-      // The switch schedules a background reload via a post-frame callback;
-      // running a frame fires it and drains the fetch (microtask-only, no gate).
+      // Switching servers clears the cache and marks loading, but the reload is
+      // deferred to the next screen mount — update() itself never fetches.
       vm.update(domainRepository: repoB);
-      await pumpFrame();
+      await Future<void>.delayed(Duration.zero);
 
-      expect(repoB.fetchCount, 1);
-      expect(vm.whitelistDomains.single.name, 'b.com');
-      expect(vm.loadingStatus, LoadStatus.loaded);
+      expect(repoB.fetchCount, 0);
+      expect(vm.whitelistDomains, isEmpty);
+      expect(vm.loadingStatus, LoadStatus.loading);
     });
   });
 }

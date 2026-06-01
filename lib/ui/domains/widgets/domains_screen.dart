@@ -31,7 +31,6 @@ class _DomainsScreenState extends State<DomainsScreen>
   final TextEditingController searchController = TextEditingController();
 
   late final AppConfigViewModel _appConfigViewModel;
-  DomainsViewModel? _domainsViewModel;
   int _lastKnownTab = AppShell.domainsIndex;
 
   @override
@@ -62,11 +61,9 @@ class _DomainsScreenState extends State<DomainsScreen>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final viewModel = context.read<DomainsViewModel>();
-    _domainsViewModel = viewModel;
-    viewModel.setScreenActive(true);
     if (!_initialized) {
       _initialized = true;
+      final viewModel = context.read<DomainsViewModel>();
       viewModel.setSelectedTab(0);
       viewModel.loadDomains.run();
     }
@@ -75,7 +72,6 @@ class _DomainsScreenState extends State<DomainsScreen>
   @override
   void dispose() {
     _appConfigViewModel.removeListener(_onAppConfigChanged);
-    _domainsViewModel?.setScreenActive(false);
     tabController.dispose();
     scrollController.dispose();
     searchController.dispose();

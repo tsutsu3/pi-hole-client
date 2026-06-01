@@ -1,6 +1,5 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
@@ -50,18 +49,12 @@ class DomainsViewModel extends ChangeNotifier {
   LoadStatus _loadingStatus = LoadStatus.loading;
   bool _disposed = false;
   bool _isRevalidating = false;
-  bool _screenActive = false;
   int _serverEpoch = 0;
 
   /// Bumped on every locally-confirmed add/delete/update. Used to detect a
   /// mutation that raced an in-flight revalidation, so its stale snapshot is
   /// not applied over the user's change.
   int _mutationSeq = 0;
-
-  /// Server epoch currently being loaded, or -1 when idle. Guards against two
-  /// concurrent loads for the same server (the eager reload from [update] and
-  /// the remount-driven `loadDomains.run()` would otherwise both fetch).
-  int _loadingEpoch = -1;
 
   // --- Getters ---
   List<Domain> get whitelistDomains => _whitelistDomains;
@@ -80,22 +73,14 @@ class DomainsViewModel extends ChangeNotifier {
 
   bool get isRevalidating => _isRevalidating;
 
-  /// Marks whether the Domains screen is currently visible.
-  ///
-  /// Only while the screen is active does a server switch ([update]) trigger an
-  /// eager background reload. When inactive, the load is deferred until the
-  /// screen mounts and calls `loadDomains.run()`, so the first view after a
-  /// server switch shows the full-screen spinner rather than the SWR bar.
-  void setScreenActive(bool active) {
-    _screenActive = active;
-  }
-
   /// Called by the app-level `ChangeNotifierProxyProvider` whenever the active
   /// [DomainRepository] changes (i.e. the selected server changed).
   ///
-  /// On a repository change the cached domain data is reset **immediately** and
-  /// a fresh load is scheduled, so the previous server's domains never leak
-  /// into the new server's screen — even if the new server is slow to respond.
+  /// The cached domain data is reset **immediately** so the previous server's
+  /// domains never leak into the new server's screen. The reload itself is left
+  /// to the next screen mount (`loadDomains.run()`): switching servers always
+  /// navigates away from the Domains tab, so the screen is unmounted here and
+  /// remounts — and reloads against the cleared cache — on return.
   void update({DomainRepository? domainRepository}) {
     if (domainRepository == null) return;
     final changed = domainRepository != _domainRepository;
@@ -107,31 +92,6 @@ class DomainsViewModel extends ChangeNotifier {
     _loadingStatus = LoadStatus.loading;
     _isRevalidating = false;
     _safeNotifyListeners();
-
-    // Only eagerly reload when the screen is visible. Otherwise the reset cache
-    // is loaded lazily on the next mount, so the first view after a server
-    // switch shows the full-screen spinner instead of the SWR bar.
-    if (!_screenActive) return;
-
-    // Defer to after the current frame to avoid notifyListeners() during build.
-    // Re-check visibility: the user may have left the tab before the frame ran,
-    // in which case the next mount will load lazily instead.
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      if (_disposed || !_screenActive) return;
-      _reload();
-    });
-  }
-
-  /// Reloads outside the [loadDomains] Command so that a server switch can
-  /// always trigger a fresh load even if a previous load is still in flight
-  /// (Commands ignore re-entrant runs). Errors are swallowed here because
-  /// [_loadDomains] already records the error state.
-  Future<void> _reload() async {
-    try {
-      await _loadDomains();
-    } catch (_) {
-      // Error state is handled inside _loadDomains.
-    }
   }
 
   /// Clears the loaded and filtered domain lists (e.g. on a server switch or
@@ -150,63 +110,52 @@ class DomainsViewModel extends ChangeNotifier {
 
     final serverEpoch = _serverEpoch;
 
-    // A load for this server is already in flight (e.g. the screen remount
-    // called loadDomains.run() and update() also scheduled an eager reload).
-    // Let the first one win instead of fetching twice.
-    if (_loadingEpoch == serverEpoch) return;
-    _loadingEpoch = serverEpoch;
+    // Stale-While-Revalidate: when a list is already loaded, keep it visible
+    // and show a thin progress bar while fresh data is fetched in the
+    // background. The full-screen spinner is only shown on the very first load
+    // (and after a server switch, where the cache was just cleared), so
+    // returning to the Domains tab no longer flashes a spinner.
+    final hasCache =
+        _whitelistDomains.isNotEmpty || _blacklistDomains.isNotEmpty;
 
-    try {
-      // Stale-While-Revalidate: when a list is already loaded, keep it visible
-      // and show a thin progress bar while fresh data is fetched in the
-      // background. The full-screen spinner is only shown on the very first load
-      // (and after a server switch, where the cache was just cleared), so
-      // returning to the Domains tab no longer flashes a spinner.
-      final hasCache =
-          _whitelistDomains.isNotEmpty || _blacklistDomains.isNotEmpty;
+    if (hasCache) {
+      _isRevalidating = true;
+      _safeNotifyListeners();
+    } else {
+      _loadingStatus = LoadStatus.loading;
+      _resetCache();
+      _safeNotifyListeners();
+    }
 
-      if (hasCache) {
-        _isRevalidating = true;
+    final mutationSeq = _mutationSeq;
+    final result = await repository.fetchAllDomains();
+    if (_disposed || serverEpoch != _serverEpoch) return;
+
+    switch (result) {
+      case Success():
+        // A local add/delete/update was confirmed by the server while this
+        // fetch was in flight; its snapshot predates that change, so applying
+        // it would drop the user's mutation. Skip the assignment and keep the
+        // locally-updated list (already correct: previous data plus the
+        // confirmed change). External edits are picked up on the next reload.
+        if (mutationSeq == _mutationSeq) {
+          final lists = result.getOrNull();
+          _whitelistDomains = [...lists.allowExact, ...lists.allowRegex];
+          _blacklistDomains = [...lists.denyExact, ...lists.denyRegex];
+          _applyFilters();
+        }
+        _loadingStatus = LoadStatus.loaded;
+        _isRevalidating = false;
         _safeNotifyListeners();
-      } else {
-        _loadingStatus = LoadStatus.loading;
-        _resetCache();
+      case Failure():
+        _isRevalidating = false;
+        // Keep the cached list visible when a background refresh fails; only
+        // surface the error screen when there is nothing to show.
+        if (!hasCache) {
+          _loadingStatus = LoadStatus.error;
+        }
         _safeNotifyListeners();
-      }
-
-      final mutationSeq = _mutationSeq;
-      final result = await repository.fetchAllDomains();
-      if (_disposed || serverEpoch != _serverEpoch) return;
-
-      switch (result) {
-        case Success():
-          // A local add/delete/update was confirmed by the server while this
-          // fetch was in flight; its snapshot predates that change, so applying
-          // it would drop the user's mutation. Skip the assignment and keep the
-          // locally-updated list (already correct: previous data plus the
-          // confirmed change). External edits are picked up on the next reload.
-          if (mutationSeq == _mutationSeq) {
-            final lists = result.getOrNull();
-            _whitelistDomains = [...lists.allowExact, ...lists.allowRegex];
-            _blacklistDomains = [...lists.denyExact, ...lists.denyRegex];
-            _applyFilters();
-          }
-          _loadingStatus = LoadStatus.loaded;
-          _isRevalidating = false;
-          _safeNotifyListeners();
-        case Failure():
-          _isRevalidating = false;
-          // Keep the cached list visible when a background refresh fails; only
-          // surface the error screen when there is nothing to show.
-          if (!hasCache) {
-            _loadingStatus = LoadStatus.error;
-          }
-          _safeNotifyListeners();
-          throw result.exceptionOrNull();
-      }
-    } finally {
-      // Release ownership only if a newer server switch hasn't taken over.
-      if (_loadingEpoch == serverEpoch) _loadingEpoch = -1;
+        throw result.exceptionOrNull();
     }
   }
 
