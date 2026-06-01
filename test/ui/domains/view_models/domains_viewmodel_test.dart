@@ -59,17 +59,6 @@ class _ControllableDomainRepository implements DomainRepository {
       dateAdded: _ts,
       dateModified: _ts,
     );
-    // Simulate server persistence so a fetch issued after this reflects it.
-    _lists = DomainLists(
-      allowExact: type == DomainType.allow
-          ? [..._lists.allowExact, added]
-          : _lists.allowExact,
-      allowRegex: _lists.allowRegex,
-      denyExact: type == DomainType.deny
-          ? [..._lists.denyExact, added]
-          : _lists.denyExact,
-      denyRegex: _lists.denyRegex,
-    );
     return Success(added);
   }
 

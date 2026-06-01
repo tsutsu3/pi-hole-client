@@ -123,7 +123,6 @@ class DomainsViewModel extends ChangeNotifier {
       _safeNotifyListeners();
     } else {
       _loadingStatus = LoadStatus.loading;
-      _resetCache();
       _safeNotifyListeners();
     }
 
