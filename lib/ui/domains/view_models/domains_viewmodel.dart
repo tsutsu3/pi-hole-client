@@ -6,7 +6,7 @@ import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:result_dart/result_dart.dart';
 
 class DomainsViewModel extends ChangeNotifier {
-  DomainsViewModel({required DomainRepository domainRepository})
+  DomainsViewModel({DomainRepository? domainRepository})
     : _domainRepository = domainRepository {
     loadDomains = Command.createAsyncNoParam<void>(
       _loadDomains,
@@ -27,7 +27,7 @@ class DomainsViewModel extends ChangeNotifier {
     updateDomain.errors.addListener(notifyListeners);
   }
 
-  final DomainRepository _domainRepository;
+  DomainRepository? _domainRepository;
 
   // --- Commands ---
   late final Command<void, void> loadDomains;
@@ -48,6 +48,13 @@ class DomainsViewModel extends ChangeNotifier {
   int? _groupFilter;
   LoadStatus _loadingStatus = LoadStatus.loading;
   bool _disposed = false;
+  bool _isRevalidating = false;
+  int _serverEpoch = 0;
+
+  /// Bumped on every locally-confirmed add/delete/update. Used to detect a
+  /// mutation that raced an in-flight revalidation, so its stale snapshot is
+  /// not applied over the user's change.
+  int _mutationSeq = 0;
 
   // --- Getters ---
   List<Domain> get whitelistDomains => _whitelistDomains;
@@ -64,34 +71,99 @@ class DomainsViewModel extends ChangeNotifier {
     return _loadingStatus;
   }
 
-  // --- Command implementations ---
-  Future<void> _loadDomains() async {
+  bool get isRevalidating => _isRevalidating;
+
+  /// Called by the app-level `ChangeNotifierProxyProvider` whenever the active
+  /// [DomainRepository] changes (i.e. the selected server changed).
+  ///
+  /// The cached domain data is reset **immediately** so the previous server's
+  /// domains never leak into the new server's screen. The reload itself is left
+  /// to the next screen mount (`loadDomains.run()`): switching servers always
+  /// navigates away from the Domains tab, so the screen is unmounted here and
+  /// remounts — and reloads against the cleared cache — on return.
+  void update({DomainRepository? domainRepository}) {
+    if (domainRepository == null) return;
+    final changed = domainRepository != _domainRepository;
+    _domainRepository = domainRepository;
+    if (!changed) return;
+
+    _serverEpoch++;
+    _resetCache();
     _loadingStatus = LoadStatus.loading;
+    _isRevalidating = false;
+    _safeNotifyListeners();
+  }
+
+  /// Clears the loaded and filtered domain lists (e.g. on a server switch or
+  /// before the first load of a server).
+  void _resetCache() {
     _whitelistDomains = [];
     _blacklistDomains = [];
     _filteredWhitelistDomains = [];
     _filteredBlacklistDomains = [];
-    _safeNotifyListeners();
+  }
 
-    final result = await _domainRepository.fetchAllDomains();
-    if (_disposed) return;
+  // --- Command implementations ---
+  Future<void> _loadDomains() async {
+    final repository = _domainRepository;
+    if (repository == null) return;
+
+    final serverEpoch = _serverEpoch;
+
+    // Stale-While-Revalidate: when a list is already loaded, keep it visible
+    // and show a thin progress bar while fresh data is fetched in the
+    // background. The full-screen spinner is only shown on the very first load
+    // (and after a server switch, where the cache was just cleared), so
+    // returning to the Domains tab no longer flashes a spinner.
+    final hasCache =
+        _whitelistDomains.isNotEmpty || _blacklistDomains.isNotEmpty;
+
+    if (hasCache) {
+      _isRevalidating = true;
+      _safeNotifyListeners();
+    } else {
+      _loadingStatus = LoadStatus.loading;
+      _safeNotifyListeners();
+    }
+
+    final mutationSeq = _mutationSeq;
+    final result = await repository.fetchAllDomains();
+    if (_disposed || serverEpoch != _serverEpoch) return;
+
     switch (result) {
       case Success():
-        final lists = result.getOrNull();
-        _whitelistDomains = [...lists.allowExact, ...lists.allowRegex];
-        _blacklistDomains = [...lists.denyExact, ...lists.denyRegex];
-        _applyFilters();
+        // A local add/delete/update was confirmed by the server while this
+        // fetch was in flight; its snapshot predates that change, so applying
+        // it would drop the user's mutation. Skip the assignment and keep the
+        // locally-updated list (already correct: previous data plus the
+        // confirmed change). External edits are picked up on the next reload.
+        if (mutationSeq == _mutationSeq) {
+          final lists = result.getOrNull();
+          _whitelistDomains = [...lists.allowExact, ...lists.allowRegex];
+          _blacklistDomains = [...lists.denyExact, ...lists.denyRegex];
+          _applyFilters();
+        }
         _loadingStatus = LoadStatus.loaded;
+        _isRevalidating = false;
         _safeNotifyListeners();
       case Failure():
-        _loadingStatus = LoadStatus.error;
+        _isRevalidating = false;
+        // Keep the cached list visible when a background refresh fails; only
+        // surface the error screen when there is nothing to show.
+        if (!hasCache) {
+          _loadingStatus = LoadStatus.error;
+        }
         _safeNotifyListeners();
         throw result.exceptionOrNull();
     }
   }
 
   Future<void> _deleteDomain(Domain domain) async {
-    final result = await _domainRepository.deleteDomain(
+    final repository = _domainRepository;
+    if (repository == null) {
+      throw Exception('DomainRepository not available');
+    }
+    final result = await repository.deleteDomain(
       domain.type,
       domain.kind,
       domain.punyCode,
@@ -108,7 +180,11 @@ class DomainsViewModel extends ChangeNotifier {
   Future<void> _addDomain(
     ({DomainType type, DomainKind kind, String domain}) params,
   ) async {
-    final result = await _domainRepository.addDomain(
+    final repository = _domainRepository;
+    if (repository == null) {
+      throw Exception('DomainRepository not available');
+    }
+    final result = await repository.addDomain(
       params.type,
       params.kind,
       params.domain,
@@ -117,6 +193,7 @@ class DomainsViewModel extends ChangeNotifier {
     switch (result) {
       case Success():
         final domain = result.getOrNull();
+        _mutationSeq++;
         if (domain.type == DomainType.allow) {
           _whitelistDomains = [..._whitelistDomains, domain];
         } else {
@@ -130,7 +207,11 @@ class DomainsViewModel extends ChangeNotifier {
   }
 
   Future<void> _updateDomain(Domain domain) async {
-    final result = await _domainRepository.updateDomain(
+    final repository = _domainRepository;
+    if (repository == null) {
+      throw Exception('DomainRepository not available');
+    }
+    final result = await repository.updateDomain(
       domain.type,
       domain.kind,
       domain.punyCode,
@@ -142,6 +223,7 @@ class DomainsViewModel extends ChangeNotifier {
     switch (result) {
       case Success():
         final updated = result.getOrNull();
+        _mutationSeq++;
         // Replace in-place and remove from the other list (handles type changes).
         if (updated.type == DomainType.allow) {
           _whitelistDomains = [
@@ -216,6 +298,7 @@ class DomainsViewModel extends ChangeNotifier {
   }
 
   void _removeDomainFromList(Domain domain) {
+    _mutationSeq++;
     if (domain.type == DomainType.allow) {
       _whitelistDomains = _whitelistDomains
           .where((d) => d.id != domain.id)

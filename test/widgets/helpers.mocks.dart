@@ -842,14 +842,6 @@ class MockLogsViewModel extends _i1.Mock implements _i18.LogsViewModel {
   }
 
   @override
-  bool get domainListDirty =>
-      (super.noSuchMethod(
-            Invocation.getter(#domainListDirty),
-            returnValue: false,
-          )
-          as bool);
-
-  @override
   String get apiVersion =>
       (super.noSuchMethod(
             Invocation.getter(#apiVersion),
@@ -1038,12 +1030,6 @@ class MockLogsViewModel extends _i1.Mock implements _i18.LogsViewModel {
   @override
   void refreshClients() => super.noSuchMethod(
     Invocation.method(#refreshClients, []),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  void clearDomainListDirty() => super.noSuchMethod(
-    Invocation.method(#clearDomainListDirty, []),
     returnValueForMissingStub: null,
   );
 
