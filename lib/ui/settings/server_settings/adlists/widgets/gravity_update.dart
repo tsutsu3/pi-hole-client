@@ -106,9 +106,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          onTap: () {
-            onTap();
-          },
+          onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
             child: Row(
