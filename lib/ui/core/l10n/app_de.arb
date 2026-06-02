@@ -30,6 +30,7 @@
   "adlistInfo": "Adlist-Informationen",
   "adlistInvalid": "Ungültige Adlist-URL",
   "adlistNotExists": "Adlist existiert nicht",
+  "adlistNotFoundForMessage": "Keine passende Adlist gefunden",
   "adlistRemoved": "Adlist wurde erfolgreich entfernt",
   "adlistSettings": "Adlist-Einstellungen",
   "adlistStatus": "Zustand",

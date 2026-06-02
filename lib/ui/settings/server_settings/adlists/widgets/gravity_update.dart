@@ -1,11 +1,20 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/domain/model/ftl/message.dart';
+import 'package:pi_hole_client/domain/model/list/adlist.dart';
+import 'package:pi_hole_client/routing/route_extra.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/gravity_update_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_actions.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
 import 'package:pi_hole_client/utils/format.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
@@ -78,6 +87,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
     required String title,
     required String subtitle,
     required Future<bool> Function() onDelete,
+    required void Function() onTap,
     required Icon icon,
     Key? key,
   }) {
@@ -94,38 +104,42 @@ class _GravityUpdateState extends State<GravityUpdate> {
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          child: Row(
-            children: [
-              Padding(padding: const EdgeInsets.only(right: 12), child: icon),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            child: Row(
+              children: [
+                Padding(padding: const EdgeInsets.only(right: 12), child: icon),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      subtitle,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Icon(
-                Icons.swipe_left_alt_rounded,
-                color: Theme.of(context).colorScheme.outlineVariant,
-              ),
-            ],
+                Icon(
+                  Icons.swipe_left_alt_rounded,
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -153,6 +167,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
                 appConfigViewModel: context.read<AppConfigViewModel>(),
                 messageId: message.id,
               ),
+              onTap: () => handleMessageTap(context: context, message: message),
             );
           }).toList(),
         );
@@ -214,6 +229,44 @@ class _GravityUpdateState extends State<GravityUpdate> {
       }
     }
     return success;
+  }
+
+  void handleMessageTap({
+    required BuildContext context,
+    required FtlMessage message,
+  }) {
+    final viewModel = context.read<AdlistsViewModel>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
+
+    final adlist = [
+      ...viewModel.whitelistAdlists,
+      ...viewModel.blacklistAdlists,
+    ].firstWhereOrNull((a) => a.address == message.url);
+
+    if (adlist == null) {
+      showErrorSnackBar(
+        context: context,
+        appConfigViewModel: appConfigViewModel,
+        label: AppLocalizations.of(context)!.adlistNotFoundForMessage,
+      );
+      return;
+    }
+
+    context.pushNamed(
+      Routes.settingsServerAdlistsDetails,
+      extra: AdlistDetailsExtra(
+        adlist: adlist,
+        remove: (Adlist a) => deleteAdlist(
+          context: context,
+          viewModel: viewModel,
+          appConfigViewModel: appConfigViewModel,
+          adlist: a,
+        ),
+        groups: context.read<GroupsViewModel>().groupItems,
+        colors: appConfigViewModel.colors,
+        viewModel: viewModel,
+      ),
+    );
   }
 
   @override

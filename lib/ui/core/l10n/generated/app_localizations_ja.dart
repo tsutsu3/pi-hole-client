@@ -99,6 +99,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get adlistNotExists => 'Adlistが存在しません';
 
   @override
+  String get adlistNotFoundForMessage => '対応する広告リストが見つかりませんでした';
+
+  @override
   String get adlistRemoved => 'Adlistを正常に削除しました';
 
   @override

@@ -902,5 +902,89 @@ void main() async {
       );
       expect(find.text('http://localhost:8989/test.txt'), findsNothing);
     });
+
+    testWidgets(
+      'should navigate to adlist details when message card is tapped',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        fakeGravityUpdateViewModel.logs = ['Log1', 'Log2', 'Done'];
+        fakeGravityUpdateViewModel.status = GravityStatus.success;
+        fakeGravityUpdateViewModel.isLoaded = true;
+        fakeGravityUpdateViewModel.completedAtTime =
+            DateTime.fromMillisecondsSinceEpoch(1733465701 * 1000);
+        fakeGravityUpdateViewModel.messages = [
+          FtlMessage(
+            id: 5,
+            timestamp: DateTime.fromMillisecondsSinceEpoch(1743936482 * 1000),
+            message:
+                'List with ID 106 was inaccessible during last gravity run',
+            url: 'https://hosts-file.net/ad_servers.txt',
+          ),
+        ];
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(buildAdlistWidgetWithRouter());
+
+        expect(find.byType(AdlistScreen), findsOneWidget);
+        await tester.pump();
+
+        await tester.tap(find.text('Update Gravity'));
+        await tester.pumpAndSettle();
+
+        await tester.tap(
+          find.text(
+            'List with ID 106 was inaccessible during last gravity run',
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.byType(AdlistDetailsScreen), findsOneWidget);
+        expect(find.text('Adlist Details'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'should show snackbar when no matching adlist for tapped message',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        fakeGravityUpdateViewModel.logs = ['Log1', 'Log2', 'Done'];
+        fakeGravityUpdateViewModel.status = GravityStatus.success;
+        fakeGravityUpdateViewModel.isLoaded = true;
+        fakeGravityUpdateViewModel.completedAtTime =
+            DateTime.fromMillisecondsSinceEpoch(1733465701 * 1000);
+        // The default message url ('http://localhost:8989/test.txt') does not
+        // match any adlist, so a "not found" snackbar should be shown instead.
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(buildAdlistWidgetWithRouter());
+
+        expect(find.byType(AdlistScreen), findsOneWidget);
+        await tester.pump();
+
+        await tester.tap(find.text('Update Gravity'));
+        await tester.pumpAndSettle();
+
+        await tester.tap(
+          find.text('List with ID 10 was inaccessible during last gravity run'),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.byType(AdlistDetailsScreen), findsNothing);
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(find.text('No matching adlist was found'), findsWidgets);
+      },
+    );
   });
 }

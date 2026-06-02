@@ -284,6 +284,12 @@ abstract class AppLocalizations {
   /// **'Adlist does not exist'**
   String get adlistNotExists;
 
+  /// No description provided for @adlistNotFoundForMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching adlist was found'**
+  String get adlistNotFoundForMessage;
+
   /// No description provided for @adlistRemoved.
   ///
   /// In en, this message translates to:
