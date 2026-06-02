@@ -30,6 +30,7 @@
   "adlistInfo": "Adlistの情報",
   "adlistInvalid": "無効なAdlistのURLです",
   "adlistNotExists": "Adlistが存在しません",
+  "adlistNotFoundForMessage": "対応する広告リストが見つかりませんでした",
   "adlistRemoved": "Adlistを正常に削除しました",
   "adlistSettings": "Adlistの設定",
   "adlistStatus": "ヘルスステータス",

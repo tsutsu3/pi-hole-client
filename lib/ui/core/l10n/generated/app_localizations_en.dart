@@ -100,6 +100,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adlistNotExists => 'Adlist does not exist';
 
   @override
+  String get adlistNotFoundForMessage => 'No matching adlist was found';
+
+  @override
   String get adlistRemoved => 'Adlist removed successfully';
 
   @override
