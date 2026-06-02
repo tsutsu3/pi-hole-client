@@ -241,6 +241,24 @@ class InfoHandler {
             "html":
                 "Connection error (<strong>127.0.0.1#5335</strong>): TCP connection failed while receiving payload length from upstream (<strong>Connection prematurely closed by remote server</strong>)",
           },
+          {
+            "id": 201,
+            "timestamp": 1744481762,
+            "type": "LIST",
+            "plain":
+                "List with ID 30 (https://blocklistproject.github.io/Lists/malware.txt) was inaccessible during last gravity run",
+            "html":
+                "List with ID <strong>30</strong> (<a href=\"https://blocklistproject.github.io/Lists/malware.txt\">https://blocklistproject.github.io/Lists/malware.txt</a>) was inaccessible during last gravity run",
+          },
+          {
+            "id": 202,
+            "timestamp": 1744481763,
+            "type": "LIST",
+            "plain":
+                "List with ID 333 (https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV-notfound.txt) was inaccessible during last gravity run",
+            "html":
+                "List with ID <strong>333</strong> (<a href=\"https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV-notfound.txt\">https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV-notfound.txt</a>) was inaccessible during last gravity run",
+          },
         ],
         "took": 0.003072500228881836,
       };
