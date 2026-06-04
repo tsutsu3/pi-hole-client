@@ -56,7 +56,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   bool ignoreCertificateErrors = false;
   String? pinnedCertificateSha256;
 
-  String? errorUrl;
   bool allDataValid = false;
 
   String errorMessage = 'Failed';
@@ -430,12 +429,15 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       if (exists['result'] == 'success' && exists['exists'] == true) {
         setState(() {
-          errorUrl = AppLocalizations.of(context)!.connectionAlreadyExists;
           isConnecting = false;
         });
+        showErrorSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: AppLocalizations.of(context)!.connectionAlreadyExists,
+        );
       } else if (exists['result'] == 'fail') {
         setState(() {
-          errorUrl = null;
           isConnecting = false;
         });
         showErrorSnackBar(
@@ -444,9 +446,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
         );
       } else {
-        setState(() {
-          errorUrl = null;
-        });
         var serverObj = Server(
           address: url,
           alias: aliasFieldController.text,
@@ -541,7 +540,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       FocusManager.instance.primaryFocus?.unfocus();
       final saveCreateBundle = context.read<CreateRepositoryBundle>();
       setState(() {
-        errorUrl = null;
         isConnecting = true;
       });
 
@@ -1091,22 +1089,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               ],
             ),
           ),
-          if (errorUrl != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 7),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    errorUrl!,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
-                    ),
-                  ),
-                ],
-              ),
-            ),
         ],
       );
     }
