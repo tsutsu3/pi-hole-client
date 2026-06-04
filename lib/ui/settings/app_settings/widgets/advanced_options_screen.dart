@@ -161,10 +161,6 @@ class AdvancedOptionsScreen extends StatelessWidget {
               window: false,
             ),
             isScrollControlled: true,
-            backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-            ),
           );
         }
       }

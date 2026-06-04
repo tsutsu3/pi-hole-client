@@ -148,10 +148,6 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
           window: false,
           devices: devices,
         ),
-        backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-        ),
         isScrollControlled: true,
       );
     }

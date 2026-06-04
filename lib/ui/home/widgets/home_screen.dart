@@ -210,14 +210,6 @@ class _HomeFab extends StatelessWidget {
                         onDisable: (time) => disableServer(time, context),
                         window: false,
                       ),
-                      backgroundColor: Theme.of(
-                        context,
-                      ).dialogTheme.backgroundColor,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(28),
-                        ),
-                      ),
                     );
                   }
                 } else {

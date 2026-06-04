@@ -58,10 +58,6 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
             statusSelected: logsViewModel.statusSelected,
             window: false,
           ),
-          backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-          ),
           isScrollControlled: true,
         );
       }
@@ -89,10 +85,6 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
             bottomNavBarHeight: widget.bottomNavBarHeight,
             selectedClients: logsViewModel.selectedClients,
             window: false,
-          ),
-          backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
           ),
           isScrollControlled: true,
         );

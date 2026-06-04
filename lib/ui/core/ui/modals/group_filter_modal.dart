@@ -155,10 +155,6 @@ void showGroupFilterModal({
         onApply: onApply,
         window: false,
       ),
-      backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
       isScrollControlled: true,
     );
   }

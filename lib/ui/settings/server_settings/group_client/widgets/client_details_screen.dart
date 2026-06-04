@@ -335,10 +335,6 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
           groups: widget.groups,
           window: false,
         ),
-        backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-        ),
         isScrollControlled: true,
       );
     }
@@ -370,10 +366,6 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
           onConfirm: onEditClient,
           groups: widget.groups,
           window: false,
-        ),
-        backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
         ),
         isScrollControlled: true,
       );

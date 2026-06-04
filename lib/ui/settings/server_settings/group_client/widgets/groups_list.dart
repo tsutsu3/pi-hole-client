@@ -168,10 +168,6 @@ class _GroupsListState extends State<GroupsList> {
         showModalBottomSheet(
           context: context,
           builder: (ctx) => AddGroupModal(onConfirm: onAddGroup, window: false),
-          backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-          ),
           isScrollControlled: true,
         );
       }
