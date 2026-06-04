@@ -172,7 +172,10 @@ class _DomainsListState extends State<DomainsList> {
             addDomain: onAddDomain,
             window: false,
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+          ),
           isScrollControlled: true,
         );
       }

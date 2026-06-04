@@ -117,16 +117,9 @@ class _GroupFilterModalState extends State<GroupFilterModal> {
         ),
       );
     } else {
-      return Container(
+      return ConstrainedBox(
         constraints: BoxConstraints(
           maxHeight: MediaQuery.of(context).size.height * 0.7,
-        ),
-        decoration: BoxDecoration(
-          color: Theme.of(context).dialogTheme.backgroundColor,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
         ),
         child: SafeArea(child: content()),
       );
@@ -162,7 +155,10 @@ void showGroupFilterModal({
         onApply: onApply,
         window: false,
       ),
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
       isScrollControlled: true,
     );
   }

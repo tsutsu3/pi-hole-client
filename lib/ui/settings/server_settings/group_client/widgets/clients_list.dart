@@ -135,7 +135,10 @@ class _ClientsListState extends State<ClientsList> {
             devices: localDnsProvider.deviceOptions,
             ipToHostname: ipToHostname,
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+          ),
           isScrollControlled: true,
         );
       }

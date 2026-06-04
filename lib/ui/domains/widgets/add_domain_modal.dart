@@ -221,15 +221,8 @@ class _AddDomainModalState extends State<AddDomainModal> {
     } else {
       return Padding(
         padding: MediaQuery.of(context).viewInsets,
-        child: Container(
+        child: Padding(
           padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Theme.of(context).dialogTheme.backgroundColor,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(28),
-              topRight: Radius.circular(28),
-            ),
-          ),
           child: SafeArea(child: content()),
         ),
       );

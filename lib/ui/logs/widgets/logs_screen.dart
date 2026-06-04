@@ -210,7 +210,10 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
             },
             window: false,
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
           isScrollControlled: true,
         );
       }

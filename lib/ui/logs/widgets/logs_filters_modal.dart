@@ -58,7 +58,10 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
             statusSelected: logsViewModel.statusSelected,
             window: false,
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+          ),
           isScrollControlled: true,
         );
       }
@@ -87,7 +90,10 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
             selectedClients: logsViewModel.selectedClients,
             window: false,
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+          ),
           isScrollControlled: true,
         );
       }
@@ -600,16 +606,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
         ),
       );
     } else {
-      return Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).dialogTheme.backgroundColor,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
-        ),
-        child: SafeArea(child: content()),
-      );
+      return SafeArea(child: content());
     }
   }
 }

@@ -360,17 +360,10 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
         ),
       );
     } else {
-      return Container(
+      return SizedBox(
         height: (mediaQuery.size.height - widget.topBarHeight) > 460
             ? 460
             : mediaQuery.size.height - widget.topBarHeight,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(28),
-            topRight: Radius.circular(28),
-          ),
-          color: Theme.of(context).dialogTheme.backgroundColor,
-        ),
         child: content(),
       );
     }

@@ -198,16 +198,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
         ),
       );
     } else {
-      return Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(28),
-            topRight: Radius.circular(28),
-          ),
-          color: Theme.of(context).dialogTheme.backgroundColor,
-        ),
-        child: SafeArea(child: content()),
-      );
+      return SafeArea(child: content());
     }
   }
 }

@@ -175,7 +175,10 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
           onConfirm: onEditLocalDns,
           window: false,
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        ),
         isScrollControlled: true,
       );
     }
@@ -216,7 +219,10 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
           devices: widget.devices,
           window: false,
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        ),
         isScrollControlled: true,
       );
     }

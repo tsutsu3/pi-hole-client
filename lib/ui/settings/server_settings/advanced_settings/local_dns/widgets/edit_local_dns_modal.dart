@@ -260,21 +260,12 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
     } else {
       return Padding(
         padding: MediaQuery.of(context).viewInsets,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).dialogTheme.backgroundColor,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(28),
-              topRight: Radius.circular(28),
-            ),
-          ),
-          child: SafeArea(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 480),
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: content(),
-              ),
+        child: SafeArea(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 480),
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: content(),
             ),
           ),
         ),
