@@ -38,28 +38,28 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.9
   provider: ^6.1.5
-  sqflite: ^2.2.5
+  sqflite: ^2.4.3
   http: ^1.5.0
   expandable: ^5.0.1
-  package_info_plus: ^9.0.1
+  package_info_plus: ^10.1.0
   flutter_phoenix: ^1.0.0
   intl: ^0.20.2
   html: ^0.15.6
   pie_chart: ^5.3.2
-  flutter_svg: ^2.2.4
+  flutter_svg: ^2.3.0
   fl_chart: ^1.2.0
-  animations: ^2.1.2
-  permission_handler: ^12.0.1
+  animations: ^2.2.0
+  permission_handler: ^12.0.3
   dynamic_color: ^1.6.5
-  device_info_plus: ^12.4.0
+  device_info_plus: ^13.1.0
   vibration: ^3.1.8
   url_launcher: ^6.2.4
   percent_indicator: ^4.2.5
   flutter_app_lock: ^4.3.0
-  sqlite3: ^3.3.1
-  sqflite_common_ffi: ^2.3.7+1
-  sentry_flutter: ^9.18.0
-  flutter_dotenv: ^6.0.0
+  sqlite3: ^3.3.2
+  sqflite_common_ffi: ^2.4.1
+  sentry_flutter: ^9.21.0
+  flutter_dotenv: ^6.0.1
   contextmenu: ^3.0.0
   window_size:
     git:
@@ -69,8 +69,8 @@ dependencies:
   mobile_scanner: ^7.2.0
   logger: ^2.7.0
   freezed_annotation: ^3.0.0
-  json_annotation: ^4.11.0
-  flutter_secure_storage: ^10.0.0
+  json_annotation: ^4.12.0
+  flutter_secure_storage: ^10.3.1
   collection: ^1.18.0
   window_manager: ^0.5.0
   skeletonizer: ^2.1.3
@@ -83,7 +83,7 @@ dependencies:
     path: lib/data/services/api/generated/v6
   dio: ^5.9.2
   meta: ^1.17.0
-  go_router: ^17.2.2
+  go_router: ^17.3.0
 
 
 dev_dependencies:
@@ -92,8 +92,8 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   flutter_launcher_icons: ^0.14.3
-  flutter_native_splash: ^2.4.7
-  build_runner: ^2.13.1
+  flutter_native_splash: ^2.4.8
+  build_runner: ^2.15.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
