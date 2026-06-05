@@ -264,7 +264,6 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
           groups: widget.groups,
           window: false,
         ),
-        backgroundColor: Colors.transparent,
         isScrollControlled: true,
       );
     }
@@ -298,7 +297,6 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
           groups: widget.groups,
           window: false,
         ),
-        backgroundColor: Colors.transparent,
         isScrollControlled: true,
       );
     }

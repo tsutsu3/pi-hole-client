@@ -135,7 +135,6 @@ class _ClientsListState extends State<ClientsList> {
             devices: localDnsProvider.deviceOptions,
             ipToHostname: ipToHostname,
           ),
-          backgroundColor: Colors.transparent,
           isScrollControlled: true,
         );
       }

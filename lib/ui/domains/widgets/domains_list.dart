@@ -172,7 +172,6 @@ class _DomainsListState extends State<DomainsList> {
             addDomain: onAddDomain,
             window: false,
           ),
-          backgroundColor: Colors.transparent,
           isScrollControlled: true,
         );
       }

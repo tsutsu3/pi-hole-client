@@ -210,7 +210,6 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
             },
             window: false,
           ),
-          backgroundColor: Colors.transparent,
           isScrollControlled: true,
         );
       }

@@ -335,7 +335,6 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
           groups: widget.groups,
           window: false,
         ),
-        backgroundColor: Colors.transparent,
         isScrollControlled: true,
       );
     }
@@ -368,7 +367,6 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
           groups: widget.groups,
           window: false,
         ),
-        backgroundColor: Colors.transparent,
         isScrollControlled: true,
       );
     }

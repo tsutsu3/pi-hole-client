@@ -148,7 +148,6 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
           window: false,
           devices: devices,
         ),
-        backgroundColor: Colors.transparent,
         isScrollControlled: true,
       );
     }

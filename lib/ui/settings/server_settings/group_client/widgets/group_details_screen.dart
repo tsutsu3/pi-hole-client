@@ -311,7 +311,6 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
           )),
           window: false,
         ),
-        backgroundColor: Colors.transparent,
         isScrollControlled: true,
       );
     }

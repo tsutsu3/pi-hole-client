@@ -360,16 +360,8 @@ class _DisableModalState extends State<DisableModal> {
     } else {
       return Padding(
         padding: mediaQueryData.viewInsets,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).dialogTheme.backgroundColor,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(28),
-              topRight: Radius.circular(28),
-            ),
-          ),
-          child: SafeArea(
-            child: Column(
+        child: SafeArea(
+          child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Flexible(
@@ -421,8 +413,7 @@ class _DisableModalState extends State<DisableModal> {
               ],
             ),
           ),
-        ),
-      );
+        );
     }
   }
 }

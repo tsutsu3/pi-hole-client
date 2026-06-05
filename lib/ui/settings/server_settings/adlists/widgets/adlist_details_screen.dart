@@ -277,7 +277,6 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
           groups: widget.groups,
           window: false,
         ),
-        backgroundColor: Colors.transparent,
         isScrollControlled: true,
       );
     }
@@ -311,7 +310,6 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
           groups: widget.groups,
           window: false,
         ),
-        backgroundColor: Colors.transparent,
         isScrollControlled: true,
       );
     }

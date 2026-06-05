@@ -210,7 +210,6 @@ class _HomeFab extends StatelessWidget {
                         onDisable: (time) => disableServer(time, context),
                         window: false,
                       ),
-                      backgroundColor: Colors.transparent,
                     );
                   }
                 } else {

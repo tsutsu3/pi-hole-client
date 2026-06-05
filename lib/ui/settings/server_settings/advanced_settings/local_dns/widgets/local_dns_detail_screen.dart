@@ -175,7 +175,6 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
           onConfirm: onEditLocalDns,
           window: false,
         ),
-        backgroundColor: Colors.transparent,
         isScrollControlled: true,
       );
     }
@@ -216,7 +215,6 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
           devices: widget.devices,
           window: false,
         ),
-        backgroundColor: Colors.transparent,
         isScrollControlled: true,
       );
     }

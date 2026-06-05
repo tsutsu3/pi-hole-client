@@ -161,7 +161,6 @@ class AdvancedOptionsScreen extends StatelessWidget {
               window: false,
             ),
             isScrollControlled: true,
-            backgroundColor: Colors.transparent,
           );
         }
       }

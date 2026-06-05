@@ -170,7 +170,6 @@ class _AdlistsListState extends State<AdlistsList> {
             window: false,
             groups: groups,
           ),
-          backgroundColor: Colors.transparent,
           isScrollControlled: true,
         );
       }

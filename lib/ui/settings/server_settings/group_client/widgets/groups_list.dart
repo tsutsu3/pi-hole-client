@@ -168,7 +168,6 @@ class _GroupsListState extends State<GroupsList> {
         showModalBottomSheet(
           context: context,
           builder: (ctx) => AddGroupModal(onConfirm: onAddGroup, window: false),
-          backgroundColor: Colors.transparent,
           isScrollControlled: true,
         );
       }
