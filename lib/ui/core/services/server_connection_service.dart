@@ -65,6 +65,7 @@ class ServerConnectionService {
     required this.createBundle,
     this.useRootContextOnFailure = false,
     this.showModal = false,
+    this.fetchTlsCertificate = fetchTlsCertificateInfo,
   });
 
   final BuildContext context;
@@ -75,6 +76,7 @@ class ServerConnectionService {
   final CreateRepositoryBundle createBundle;
   final bool useRootContextOnFailure;
   final bool showModal;
+  final TlsCertificateFetcher fetchTlsCertificate;
 
   Future<void> connect() async {
     // Prevent a second concurrent connection attempt to the same server.
@@ -256,7 +258,7 @@ class ServerConnectionService {
     // If the platform TLS validation succeeds, treat the connection as verified
     // and do not require pin setup (user may still choose to pin manually).
     try {
-      await fetchTlsCertificateInfo(
+      await fetchTlsCertificate(
         uri,
         allowBadCertificates: false,
         timeout: const Duration(seconds: 3),
@@ -398,6 +400,7 @@ class ServerConnectionService {
             createBundle: createBundle,
             useRootContextOnFailure: useRootContextOnFailure,
             showModal: showModal,
+            fetchTlsCertificate: fetchTlsCertificate,
           ).connect();
         }
       } else {
@@ -422,7 +425,7 @@ class ServerConnectionService {
 
     TlsCertificateInfo? certificateInfo;
     try {
-      certificateInfo = await fetchTlsCertificateInfo(
+      certificateInfo = await fetchTlsCertificate(
         uri,
         allowBadCertificates: true,
       );
@@ -536,7 +539,7 @@ class ServerConnectionService {
     if (!server.allowUntrustedCert) return false;
 
     try {
-      final info = await fetchTlsCertificateInfo(
+      final info = await fetchTlsCertificate(
         uri,
         allowBadCertificates: true,
         timeout: const Duration(seconds: 3),

@@ -18,6 +18,17 @@ class TlsCertificateInfo {
   final DateTime endValidity;
 }
 
+/// Function signature for fetching TLS certificate information.
+///
+/// Matches [fetchTlsCertificateInfo] so the real implementation can be used as
+/// the default value, while tests inject a fake to avoid a real TLS handshake.
+typedef TlsCertificateFetcher =
+    Future<TlsCertificateInfo?> Function(
+      Uri uri, {
+      required bool allowBadCertificates,
+      Duration timeout,
+    });
+
 /// Fetches the server TLS certificate SHA-256 fingerprint (if available).
 ///
 /// This function performs a TLS handshake using [SecureSocket.connect] and returns

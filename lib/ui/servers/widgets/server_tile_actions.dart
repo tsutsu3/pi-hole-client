@@ -31,6 +31,7 @@ class ServerTileActions extends StatelessWidget {
     required this.onDelete,
     required this.onSetDefault,
     super.key,
+    this.fetchTlsCertificate = fetchTlsCertificateInfo,
   });
 
   final Server server;
@@ -38,6 +39,7 @@ class ServerTileActions extends StatelessWidget {
   final VoidCallback onEdit;
   final VoidCallback onDelete;
   final VoidCallback onSetDefault;
+  final TlsCertificateFetcher fetchTlsCertificate;
 
   @override
   Widget build(BuildContext context) {
@@ -162,7 +164,7 @@ class ServerTileActions extends StatelessWidget {
 
     TlsCertificateInfo? certificateInfo;
     try {
-      certificateInfo = await fetchTlsCertificateInfo(
+      certificateInfo = await fetchTlsCertificate(
         uri,
         allowBadCertificates: true,
       );
