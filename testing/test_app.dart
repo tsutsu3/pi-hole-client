@@ -107,6 +107,7 @@ Widget buildTestApp(
 RepositoryBundle createFakeRepositoryBundle({
   FakeActionsRepository? actions,
   FakeAdlistRepository? adlist,
+  FakeAuthRepository? auth,
   FakeConfigRepository? config,
   FakeDnsRepository? dns,
   FakeDomainRepository? domain,
@@ -116,7 +117,7 @@ RepositoryBundle createFakeRepositoryBundle({
   return RepositoryBundle(
     actions: actions ?? FakeActionsRepository(),
     adlist: adlist ?? FakeAdlistRepository(),
-    auth: FakeAuthRepository(),
+    auth: auth ?? FakeAuthRepository(),
     client: FakeClientRepository(),
     config: config ?? FakeConfigRepository(),
     dhcp: FakeDhcpRepository(),

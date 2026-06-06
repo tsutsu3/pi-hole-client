@@ -124,17 +124,21 @@ class FakeStatusViewModel extends StatusViewModel {
     notifyListeners();
   }
 
+  // Call tracking for auto-refresh gating assertions.
+  int startAutoRefreshCallCount = 0;
+  int stopAutoRefreshCallCount = 0;
+
   @override
   void startAutoRefresh({
     bool runImmediately = true,
     bool isDelay = false,
     bool showLoadingIndicator = true,
   }) {
-    // No-op: prevent real timers from starting in tests.
+    startAutoRefreshCallCount++;
   }
 
   @override
   void stopAutoRefresh({bool showLoadingIndicator = true}) {
-    // No-op: prevent real timer cancellation in tests.
+    stopAutoRefreshCallCount++;
   }
 }

@@ -36,6 +36,8 @@ class FakeServersViewModel extends ServersViewModel {
   set shouldFailReplaceServer(bool value) =>
       _fakeRepo.shouldFailReplace = value;
 
+  set shouldFailEditServer(bool value) => _fakeRepo.shouldFailUpdate = value;
+
   set shouldFailSetDefaultServer(bool value) =>
       _fakeRepo.shouldFailUpdateDefault = value;
 
@@ -52,6 +54,10 @@ class FakeServersViewModel extends ServersViewModel {
 
   /// Controls the result returned by [checkUrlExists] in tests.
   bool urlExistsResult = false;
+
+  /// When true, [checkUrlExists] returns `result: 'fail'` to simulate an
+  /// inconclusive uniqueness check.
+  bool checkUrlExistsFails = false;
 
   // Additional call-tracking fields for non-Command methods
   int setselectedServerCallCount = 0;
@@ -140,6 +146,9 @@ class FakeServersViewModel extends ServersViewModel {
 
   @override
   FutureOr<Map<String, dynamic>> checkUrlExists(String url) async {
+    if (checkUrlExistsFails) {
+      return {'result': 'fail', 'exists': false};
+    }
     return {'result': 'success', 'exists': urlExistsResult};
   }
 }

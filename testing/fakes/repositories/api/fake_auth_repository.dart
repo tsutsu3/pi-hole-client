@@ -7,9 +7,12 @@ import '../../../models/v6/auth.dart';
 class FakeAuthRepository implements AuthRepository {
   bool shouldFail = false;
   int getAllSessionsCallCount = 0;
+  int createSessionCallCount = 0;
+  int deleteCurrentSessionCallCount = 0;
 
   @override
   Future<Result<Auth>> createSession(String password) async {
+    createSessionCallCount++;
     if (shouldFail) {
       return Failure(Exception('Force createSession failure'));
     }
@@ -18,6 +21,7 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<Result<Unit>> deleteCurrentSession() async {
+    deleteCurrentSessionCallCount++;
     if (shouldFail) {
       return Failure(Exception('Force deleteCurrentSession failure'));
     }

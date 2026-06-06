@@ -10,6 +10,7 @@ import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dar
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
 
+import '../../../testing/fakes/repositories/api/fake_auth_repository.dart';
 import '../../../testing/fakes/repositories/api/fake_dns_repository.dart';
 import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
@@ -21,6 +22,24 @@ const _serverV6 = Server(
   alias: 'test v6',
   defaultServer: false,
   apiVersion: 'v6',
+  allowUntrustedCert: true,
+  ignoreCertificateErrors: false,
+);
+
+const _serverV6Default = Server(
+  address: 'http://localhost:8081',
+  alias: 'test v6 default',
+  defaultServer: true,
+  apiVersion: 'v6',
+  allowUntrustedCert: true,
+  ignoreCertificateErrors: false,
+);
+
+const _serverV5 = Server(
+  address: 'http://localhost:8081',
+  alias: 'test v5',
+  defaultServer: false,
+  apiVersion: 'v5',
   allowUntrustedCert: true,
   ignoreCertificateErrors: false,
 );
@@ -99,7 +118,15 @@ void main() async {
       fakeDnsRepository = FakeDnsRepository();
     });
 
-    Widget buildWidget(Widget child) {
+    // [authByAddress] maps a server address to the auth fake that its bundle
+    // should use, so the new-address and old-address bundles can be controlled
+    // independently (e.g. fail createSession on the new host, or
+    // deleteCurrentSession on the old host). Addresses not listed fall back to
+    // a default succeeding auth.
+    Widget buildWidget(
+      Widget child, {
+      Map<String, FakeAuthRepository>? authByAddress,
+    }) {
       final bundle = createFakeRepositoryBundle(dns: fakeDnsRepository);
       return buildTestApp(
         child,
@@ -110,11 +137,23 @@ void main() async {
         createRepositoryBundle: ({required server}) =>
             createFakeRepositoryBundle(
               dns: fakeDnsRepository,
+              auth: authByAddress?[server.address],
               serverAddress: server.address,
               apiVersion: server.apiVersion,
             ),
         secureStorageService: SecureStorageService(),
       );
+    }
+
+    // Gives the test surface enough room so the save/login button and the
+    // form fields are laid out and tappable.
+    void useLargeView(WidgetTester tester) {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
     }
 
     testWidgets('should show the page with window', (
@@ -1059,5 +1098,334 @@ void main() async {
         );
       },
     );
+
+    // Server-edit flow tests.
+    testWidgets(
+      'address change with a failing connection does not replace and shows an error',
+      (WidgetTester tester) async {
+        useLargeView(tester);
+
+        fakeDnsRepository
+          ..shouldFail = true
+          ..failureException = HttpStatusCodeException(503);
+
+        await tester.pumpWidget(
+          buildWidget(
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: _serverV6,
+            ),
+          ),
+        );
+
+        await tester.enterText(find.byType(TextField).at(1), '192.168.1.10');
+
+        await tester.tap(find.byIcon(Icons.save_rounded));
+        await tester.pump(const Duration(milliseconds: 1000));
+
+        expect(serversViewModel.replaceServerCallCount, 0);
+        expect(find.text('Failed. Check address.'), findsOneWidget);
+      },
+    );
+
+    testWidgets('replaceServer DB failure shows the cant-save error', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      serversViewModel.shouldFailReplaceServer = true;
+
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverV6,
+          ),
+        ),
+      );
+
+      await tester.enterText(find.byType(TextField).at(1), '192.168.1.10');
+
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      expect(find.text("Connection data couldn't be saved"), findsOneWidget);
+    });
+
+    testWidgets(
+      'address change carries the default flag into the replaced server',
+      (WidgetTester tester) async {
+        useLargeView(tester);
+
+        await tester.pumpWidget(
+          buildWidget(
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: _serverV6Default,
+            ),
+          ),
+        );
+
+        await tester.enterText(find.byType(TextField).at(1), '192.168.1.10');
+
+        await tester.tap(find.byIcon(Icons.save_rounded));
+        await tester.pump(const Duration(milliseconds: 1000));
+
+        expect(serversViewModel.replaceServerCallCount, 1);
+        expect(serversViewModel.lastReplacedNewServer?.defaultServer, isTrue);
+      },
+    );
+
+    testWidgets('v5 server replaces on address change', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverV5,
+          ),
+        ),
+      );
+
+      await tester.enterText(find.byType(TextField).at(1), '192.168.1.10');
+
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      expect(serversViewModel.replaceServerCallCount, 1);
+      expect(serversViewModel.lastReplacedNewServer?.apiVersion, 'v5');
+    });
+
+    testWidgets('port-only change rebuilds the URL correctly', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverHttpsIgnore,
+          ),
+        ),
+      );
+
+      await tester.enterText(find.byType(TextField).at(2), '9999');
+
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      expect(serversViewModel.replaceServerCallCount, 1);
+      expect(
+        serversViewModel.lastReplacedNewServer?.address,
+        'https://pi.hole:9999',
+      );
+    });
+
+    testWidgets('subroute-only change rebuilds the URL correctly', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverHttpsIgnore,
+          ),
+        ),
+      );
+
+      await tester.enterText(find.byType(TextField).at(3), '/admin');
+
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      expect(serversViewModel.replaceServerCallCount, 1);
+      expect(
+        serversViewModel.lastReplacedNewServer?.address,
+        'https://pi.hole/admin',
+      );
+    });
+
+    testWidgets('editServer DB failure shows the cant-save error', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      serversViewModel.shouldFailEditServer = true;
+
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverV6,
+          ),
+        ),
+      );
+
+      // Same address (only the alias changes) so save() takes the edit path.
+      await tester.enterText(find.byType(TextField).at(0), 'renamed');
+
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      // The edit was attempted (not a replace); its DB failure surfaces.
+      expect(serversViewModel.editServerCallCount, 1);
+      expect(serversViewModel.replaceServerCallCount, 0);
+      expect(find.text("Connection data couldn't be saved"), findsOneWidget);
+    });
+
+    testWidgets('inconclusive URL uniqueness check aborts the save', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      serversViewModel.checkUrlExistsFails = true;
+
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverV6,
+          ),
+        ),
+      );
+
+      await tester.enterText(find.byType(TextField).at(1), '192.168.1.10');
+
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      expect(serversViewModel.replaceServerCallCount, 0);
+      expect(
+        find.text('Cannot check if this URL is already saved.'),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('with no selected server, auto-refresh is not toggled', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      serversViewModel.selectedServer = null;
+
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverV6,
+          ),
+        ),
+      );
+
+      await tester.enterText(find.byType(TextField).at(1), '192.168.1.10');
+
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      expect(serversViewModel.replaceServerCallCount, 1);
+      expect(statusViewModel.stopAutoRefreshCallCount, 0);
+      expect(statusViewModel.startAutoRefreshCallCount, 0);
+    });
+
+    testWidgets('createSession failure on the new address aborts the replace', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      final failingAuth = FakeAuthRepository()..shouldFail = true;
+
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverV6,
+          ),
+          authByAddress: {'http://192.168.1.10:8081': failingAuth},
+        ),
+      );
+
+      await tester.enterText(find.byType(TextField).at(1), '192.168.1.10');
+
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      // Outcome: the replace is aborted and the user sees the failure.
+      expect(serversViewModel.replaceServerCallCount, 0);
+      expect(find.text('Failed. Unknown error.'), findsOneWidget);
+    });
+
+    testWidgets('v5 address change never deletes the old session', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      final oldAuth = FakeAuthRepository();
+
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverV5,
+          ),
+          authByAddress: {_serverV5.address: oldAuth},
+        ),
+      );
+
+      await tester.enterText(find.byType(TextField).at(1), '192.168.1.10');
+
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      expect(serversViewModel.replaceServerCallCount, 1);
+      expect(oldAuth.deleteCurrentSessionCallCount, 0);
+    });
+
+    testWidgets('replace still succeeds when the old session logout fails', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      final oldAuth = FakeAuthRepository()..shouldFail = true;
+
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverV6,
+          ),
+          authByAddress: {_serverV6.address: oldAuth},
+        ),
+      );
+
+      await tester.enterText(find.byType(TextField).at(1), '192.168.1.10');
+
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      expect(oldAuth.deleteCurrentSessionCallCount, 1);
+      expect(serversViewModel.replaceServerCallCount, 1);
+      expect(
+        find.text('Server settings updated successfully.'),
+        findsOneWidget,
+      );
+    });
   });
 }
