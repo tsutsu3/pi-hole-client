@@ -33,9 +33,14 @@ class _TransportSecurityViewData {
 }
 
 class TransportSecurityIndicator extends StatefulWidget {
-  const TransportSecurityIndicator({required this.server, super.key});
+  const TransportSecurityIndicator({
+    required this.server,
+    super.key,
+    this.fetchTlsCertificate = fetchTlsCertificateInfo,
+  });
 
   final Server server;
+  final TlsCertificateFetcher fetchTlsCertificate;
 
   @override
   State<TransportSecurityIndicator> createState() =>
@@ -114,7 +119,7 @@ class _TransportSecurityIndicatorState
     required Duration timeout,
   }) async {
     try {
-      await fetchTlsCertificateInfo(
+      await widget.fetchTlsCertificate(
         uri,
         allowBadCertificates: false,
         timeout: timeout,
@@ -163,7 +168,7 @@ class _TransportSecurityIndicatorState
     required Duration timeout,
   }) async {
     try {
-      return await fetchTlsCertificateInfo(
+      return await widget.fetchTlsCertificate(
         uri,
         allowBadCertificates: true,
         timeout: timeout,

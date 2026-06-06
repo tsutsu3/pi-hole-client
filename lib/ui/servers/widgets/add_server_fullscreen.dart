@@ -27,11 +27,13 @@ class AddServerFullscreen extends StatefulWidget {
     required this.title,
     super.key,
     this.server,
+    this.fetchTlsCertificate = fetchTlsCertificateInfo,
   });
 
   final Server? server;
   final bool window;
   final String title;
+  final TlsCertificateFetcher fetchTlsCertificate;
 
   @override
   State<AddServerFullscreen> createState() => _AddServerFullscreenState();
@@ -293,7 +295,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       try {
         // If the certificate is trusted by the platform, pin it automatically.
-        final info = await fetchTlsCertificateInfo(
+        final info = await widget.fetchTlsCertificate(
           uri,
           allowBadCertificates: false,
         );
@@ -310,7 +312,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       TlsCertificateInfo? certificateInfo;
       try {
-        certificateInfo = await fetchTlsCertificateInfo(
+        certificateInfo = await widget.fetchTlsCertificate(
           uri,
           allowBadCertificates: true,
         );
@@ -388,7 +390,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       } else {
         // Strict mode: verify certificate is trusted by the platform
         try {
-          await fetchTlsCertificateInfo(uri, allowBadCertificates: false);
+          await widget.fetchTlsCertificate(uri, allowBadCertificates: false);
           // Certificate is trusted, proceed without pin
           // ignore: avoid_redundant_argument_values
           return serverObj.copyWith(pinnedCertificateSha256: null);
