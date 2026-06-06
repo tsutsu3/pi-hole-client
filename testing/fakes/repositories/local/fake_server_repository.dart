@@ -6,12 +6,16 @@ class FakeServerRepository implements ServerRepository {
   // Failure controls
   bool shouldFailInsert = false;
   bool shouldFailUpdate = false;
+  bool shouldFailReplace = false;
   bool shouldFailDelete = false;
   bool shouldFailUpdateDefault = false;
 
   // Call tracking
   int insertCallCount = 0;
   int updateCallCount = 0;
+  int replaceCallCount = 0;
+  String? lastReplacedOldAddress;
+  Server? lastReplacedNewServer;
   int deleteCallCount = 0;
   String? lastDeletedAddress;
   int updateDefaultCallCount = 0;
@@ -65,6 +69,23 @@ class FakeServerRepository implements ServerRepository {
     updateCallCount++;
     if (shouldFailUpdate) {
       return Failure(Exception('FakeServerRepository: updateServer failed'));
+    }
+    return const Success(1);
+  }
+
+  @override
+  Future<Result<int>> replaceServer(
+    String oldAddress,
+    Server newServer, {
+    String? token,
+    String? password,
+    String? sid,
+  }) async {
+    replaceCallCount++;
+    lastReplacedOldAddress = oldAddress;
+    lastReplacedNewServer = newServer;
+    if (shouldFailReplace) {
+      return Failure(Exception('FakeServerRepository: replaceServer failed'));
     }
     return const Success(1);
   }

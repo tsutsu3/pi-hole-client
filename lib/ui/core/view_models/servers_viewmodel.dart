@@ -14,10 +14,17 @@ import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:result_dart/result_dart.dart';
 
+/// Parameters for [ServersViewModel.replaceServer]: the address of the server
+/// being replaced and the new server that takes its place.
+typedef ReplaceServerParams = ({String oldAddress, Server newServer});
+
 class ServersViewModel with ChangeNotifier {
   ServersViewModel(this._repository) {
     addServer = Command.createAsyncNoResult<Server>(_addServer);
     editServer = Command.createAsyncNoResult<Server>(_editServer);
+    replaceServer = Command.createAsyncNoResult<ReplaceServerParams>(
+      _replaceServer,
+    );
     removeServer = Command.createAsyncNoResult<String>(_removeServer);
     setDefaultServer = Command.createAsyncNoResult<Server>(_setDefaultServer);
 
@@ -25,6 +32,8 @@ class ServersViewModel with ChangeNotifier {
     addServer.errors.addListener(notifyListeners);
     editServer.addListener(notifyListeners);
     editServer.errors.addListener(notifyListeners);
+    replaceServer.addListener(notifyListeners);
+    replaceServer.errors.addListener(notifyListeners);
     removeServer.addListener(notifyListeners);
     removeServer.errors.addListener(notifyListeners);
     setDefaultServer.addListener(notifyListeners);
@@ -49,6 +58,7 @@ class ServersViewModel with ChangeNotifier {
   // --- Commands ---
   late final Command<Server, void> addServer;
   late final Command<Server, void> editServer;
+  late final Command<ReplaceServerParams, void> replaceServer;
   late final Command<String, void> removeServer;
   late final Command<Server, void> setDefaultServer;
 
@@ -204,6 +214,37 @@ class ServersViewModel with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Replaces an existing server when its address (primary key) changes.
+  ///
+  /// Deletes the old row (and its cascaded data) and inserts the new one. The
+  /// new server's credentials/session are expected to already be stored under
+  /// the new address by the caller (the edit screen) before this runs.
+  Future<void> _replaceServer(ReplaceServerParams params) async {
+    final result = await _repository.replaceServer(
+      params.oldAddress,
+      params.newServer,
+    );
+    if (result.isError()) {
+      throw result.exceptionOrNull()!;
+    }
+
+    _serversList = _serversList
+        .map((s) => s.address == params.oldAddress ? params.newServer : s)
+        .toList();
+
+    if (_selectedServer?.address == params.oldAddress) {
+      _selectedServer = params.newServer;
+    }
+
+    if (params.newServer.defaultServer == true) {
+      await _setDefaultServer(params.newServer);
+    }
+
+    await WidgetChannel.sendServerRemoved(params.oldAddress);
+    await WidgetChannel.sendServersUpdated(_serversList);
+    notifyListeners();
+  }
+
   Future<void> _removeServer(String serverAddress) async {
     final result = await _repository.deleteServer(serverAddress);
     if (result.isError()) {
@@ -340,12 +381,15 @@ class ServersViewModel with ChangeNotifier {
     addServer.errors.removeListener(notifyListeners);
     editServer.removeListener(notifyListeners);
     editServer.errors.removeListener(notifyListeners);
+    replaceServer.removeListener(notifyListeners);
+    replaceServer.errors.removeListener(notifyListeners);
     removeServer.removeListener(notifyListeners);
     removeServer.errors.removeListener(notifyListeners);
     setDefaultServer.removeListener(notifyListeners);
     setDefaultServer.errors.removeListener(notifyListeners);
     addServer.dispose();
     editServer.dispose();
+    replaceServer.dispose();
     removeServer.dispose();
     setDefaultServer.dispose();
     super.dispose();

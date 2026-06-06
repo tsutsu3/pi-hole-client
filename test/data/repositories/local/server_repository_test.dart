@@ -374,6 +374,115 @@ void main() {
     });
   });
 
+  group('ServerRepository.replaceServer', () {
+    late LocalServerRepository repository;
+    late FakeDatabaseService dbService;
+    late FakeSecureStorageService ssSerivce;
+
+    const newServerV6 = Server(
+      address: 'http://192.168.1.50',
+      alias: 'test6-moved',
+      defaultServer: true,
+      apiVersion: 'v6',
+      allowUntrustedCert: true,
+      ignoreCertificateErrors: false,
+    );
+
+    setUp(() async {
+      dbService = FakeDatabaseService(path: dbName);
+      ssSerivce = FakeSecureStorageService();
+      repository = LocalServerRepository(dbService, ssSerivce);
+      await dbService.open();
+    });
+
+    tearDown(() async {
+      await dbService.close();
+      if (await databaseExists(dbName)) {
+        await deleteDatabase(dbName);
+      }
+    });
+
+    test('moves the row and swaps secret keys', () async {
+      await repository.insertServer(
+        serverV6,
+        password: 'pass-old',
+        sid: 'sid-old',
+      );
+
+      final result = await repository.replaceServer(
+        serverV6.address,
+        newServerV6,
+        password: 'pass-new',
+        sid: 'sid-new',
+      );
+      expect(result.isSuccess(), true);
+
+      final servers = await repository.fetchServers();
+      final addresses = servers.getOrNull()!.map((s) => s.address).toList();
+      expect(addresses.contains(serverV6.address), false);
+      expect(addresses.contains(newServerV6.address), true);
+
+      // Old secrets are removed.
+      expect(
+        (await ssSerivce.getValue('${serverV6.address}_password')).isError(),
+        true,
+      );
+      expect(
+        (await ssSerivce.getValue('${serverV6.address}_sid')).isError(),
+        true,
+      );
+      // New secrets are stored under the new address.
+      expect(
+        (await ssSerivce.getValue('${newServerV6.address}_password'))
+            .getOrNull(),
+        'pass-new',
+      );
+      expect(
+        (await ssSerivce.getValue('${newServerV6.address}_sid')).getOrNull(),
+        'sid-new',
+      );
+    });
+
+    test('removes cascade data for the old address', () async {
+      await repository.insertServer(serverV6);
+      await dbService.insert('gravity_updates', gravityUpdateDataJson);
+      await dbService.insert('gravity_messages', gravityMessagesDataJson);
+      await dbService.insert('gravity_logs', gravityLogsDataJson);
+
+      final result = await repository.replaceServer(
+        serverV6.address,
+        newServerV6,
+      );
+      expect(result.isSuccess(), true);
+
+      final gu = await dbService.query('gravity_updates');
+      expect(gu.getOrNull()?.length, 0);
+      final gm = await dbService.query('gravity_messages');
+      expect(gm.getOrNull()?.length, 0);
+      final gl = await dbService.query('gravity_logs');
+      expect(gl.getOrNull()?.length, 0);
+    });
+
+    test('returns Failure and keeps the old row on transaction error', () async {
+      await repository.insertServer(serverV6);
+      dbService.shouldThrowOnTransaction = true;
+
+      final result = await repository.replaceServer(
+        serverV6.address,
+        newServerV6,
+      );
+      expect(result.isError(), true);
+      expect(
+        result.exceptionOrNull()?.toString(),
+        contains('Failed to replace server'),
+      );
+
+      final servers = await repository.fetchServers();
+      final addresses = servers.getOrNull()!.map((s) => s.address).toList();
+      expect(addresses.contains(serverV6.address), true);
+    });
+  });
+
   group('ServerRepository.deleteAllServer', () {
     late LocalServerRepository repository;
     late FakeDatabaseService dbService;

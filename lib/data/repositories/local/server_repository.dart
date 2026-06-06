@@ -192,6 +192,64 @@ class LocalServerRepository implements ServerRepository {
     }
   }
 
+  /// Replaces the server identified by [oldAddress] with [newServer].
+  ///
+  /// Deletes the old secrets, stores any provided new secrets under the new
+  /// server address, then in a single transaction removes the old row and
+  /// inserts the new one. Gravity child rows referencing [oldAddress] are
+  /// removed automatically by the `ON DELETE CASCADE` foreign keys.
+  ///
+  /// Returns the inserted row id on success, or a [Failure] if it fails.
+  @override
+  Future<Result<int>> replaceServer(
+    String oldAddress,
+    Server newServer, {
+    String? token,
+    String? password,
+    String? sid,
+  }) async {
+    try {
+      await openDbIfNeeded(_database);
+
+      await _secureStorage.deleteValue('${oldAddress}_token');
+      await _secureStorage.deleteValue('${oldAddress}_password');
+      await _secureStorage.deleteValue('${oldAddress}_sid');
+
+      if (token != null && token.isNotEmpty) {
+        await _secureStorage.saveValue('${newServer.address}_token', token);
+      }
+      if (password != null && password.isNotEmpty) {
+        await _secureStorage.saveValue(
+          '${newServer.address}_password',
+          password,
+        );
+      }
+      if (sid != null && sid.isNotEmpty) {
+        await _secureStorage.saveValue('${newServer.address}_sid', sid);
+      }
+
+      return await _database.transaction<int>((txn) async {
+        await txn.delete(
+          'servers',
+          where: 'address = ?',
+          whereArgs: [oldAddress],
+        );
+        return txn.insert('servers', {
+          'address': newServer.address,
+          'alias': newServer.alias,
+          'isDefaultServer': newServer.defaultServer ? 1 : 0,
+          'apiVersion': newServer.apiVersion,
+          'allowUntrustedCert': newServer.allowUntrustedCert ? 1 : 0,
+          'ignoreCertificateErrors': newServer.ignoreCertificateErrors ? 1 : 0,
+          'pinnedCertificateSha256': newServer.pinnedCertificateSha256,
+        });
+      });
+    } catch (e, st) {
+      logger.e('Failed to replace server: $e\n$st');
+      return Failure(Exception('Failed to replace server: $e\n$st'));
+    }
+  }
+
   /// Deletes a specific server entry and its associated secrets.
   ///
   /// This method removes token, password, and session ID from secure storage

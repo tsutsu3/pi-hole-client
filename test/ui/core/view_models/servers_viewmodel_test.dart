@@ -162,6 +162,82 @@ void main() async {
       });
     });
 
+    group('replaceServer Command', () {
+      const newServer = Server(
+        address: 'http://192.168.1.10:8081',
+        alias: 'test v6',
+        defaultServer: false,
+        apiVersion: 'v6',
+        allowUntrustedCert: true,
+        ignoreCertificateErrors: false,
+      );
+
+      test('replaces a server and notifies listeners', () async {
+        await serversViewModel.addServer.runAsync(server);
+        listenerCalled = false;
+
+        await serversViewModel.replaceServer.runAsync((
+          oldAddress: server.address,
+          newServer: newServer,
+        ));
+
+        expect(serversViewModel.replaceServer.errors.value, isNull);
+        expect(serversViewModel.getServersList.contains(server), false);
+        expect(serversViewModel.getServersList.contains(newServer), true);
+        expect(repository.lastReplacedOldAddress, server.address);
+        expect(repository.lastReplacedNewServer, newServer);
+        expect(listenerCalled, true);
+      });
+
+      test('updates selectedServer when the old address matches', () async {
+        await serversViewModel.addServer.runAsync(server);
+        serversViewModel.setselectedServer(server: server);
+
+        await serversViewModel.replaceServer.runAsync((
+          oldAddress: server.address,
+          newServer: newServer,
+        ));
+
+        expect(serversViewModel.replaceServer.errors.value, isNull);
+        expect(serversViewModel.selectedServer?.address, newServer.address);
+      });
+
+      test('with defaultServer=true sets default and notifies', () async {
+        await serversViewModel.addServer.runAsync(server);
+
+        final defaultNewServer = newServer.copyWith(defaultServer: true);
+        await serversViewModel.replaceServer.runAsync((
+          oldAddress: server.address,
+          newServer: defaultNewServer,
+        ));
+
+        expect(serversViewModel.replaceServer.errors.value, isNull);
+        expect(
+          serversViewModel.getServersList
+              .firstWhere((s) => s.address == newServer.address)
+              .defaultServer,
+          true,
+        );
+        expect(listenerCalled, true);
+      });
+
+      test('sets error on failure', () async {
+        await serversViewModel.addServer.runAsync(server);
+        repository.shouldFailReplace = true;
+        try {
+          await serversViewModel.replaceServer.runAsync((
+            oldAddress: server.address,
+            newServer: newServer,
+          ));
+        } catch (_) {}
+
+        expect(serversViewModel.replaceServer.errors.value, isNotNull);
+        // The old server remains untouched on failure.
+        expect(serversViewModel.getServersList.contains(server), true);
+        expect(listenerCalled, true);
+      });
+    });
+
     group('removeServer Command', () {
       test('removes a server and notifies listeners', () async {
         await serversViewModel.addServer.runAsync(server);

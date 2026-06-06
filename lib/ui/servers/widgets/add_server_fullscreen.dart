@@ -549,8 +549,52 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         pinnedCertificateSha256 = null;
       }
 
+      final oldServer = widget.server!;
+      final oldAddress = oldServer.address;
+      final newUrl =
+          '${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}';
+      final isAddressChanged = newUrl != oldAddress;
+
+      // When the address (primary key) changes, make sure the new URL is not
+      // already used by another server before doing anything destructive.
+      if (isAddressChanged) {
+        final exists = await serversViewModel.checkUrlExists(newUrl);
+        if (!context.mounted) return;
+        if (exists['result'] == 'success' && exists['exists'] == true) {
+          setState(() {
+            isConnecting = false;
+          });
+          showErrorSnackBar(
+            context: context,
+            appConfigViewModel: appConfigViewModel,
+            label: AppLocalizations.of(context)!.connectionAlreadyExists,
+          );
+          return;
+        } else if (exists['result'] == 'fail') {
+          setState(() {
+            isConnecting = false;
+          });
+          showErrorSnackBar(
+            context: context,
+            appConfigViewModel: appConfigViewModel,
+            label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
+          );
+          return;
+        }
+      }
+
+      final targetAddress = isAddressChanged ? newUrl : oldAddress;
+
+      // When the address changes the target is effectively a different host, so
+      // any pinned certificate carried over from the old server is stale. Reset
+      // it to null so the certificate check re-runs against the new host
+      // instead of silently reusing the old fingerprint.
+      if (isAddressChanged) {
+        pinnedCertificateSha256 = null;
+      }
+
       var serverObj = Server(
-        address: widget.server!.address,
+        address: targetAddress,
         alias: aliasFieldController.text,
         apiVersion: piHoleVersion,
         allowUntrustedCert: allowUntrustedCert,
@@ -558,11 +602,11 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         pinnedCertificateSha256: pinnedCertificateSha256,
       );
       await serversViewModel.savePassword(
-        widget.server!.address,
+        targetAddress,
         passwordFieldController.text,
       );
       await serversViewModel.saveToken(
-        widget.server!.address,
+        targetAddress,
         tokenFieldController.text,
       );
       if (serversViewModel.selectedServer != null) {
@@ -588,6 +632,15 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       serverObj = updatedServer;
 
+      // Removes secrets written under the new address so a failed
+      // address-changing edit leaves no orphaned credentials behind.
+      Future<void> discardNewAddressSecrets() async {
+        if (isAddressChanged) {
+          await serversViewModel.deletePassword(targetAddress);
+          await serversViewModel.deleteToken(targetAddress);
+        }
+      }
+
       void handleSaveError(Exception e) {
         if (context.mounted) {
           setState(() {
@@ -609,26 +662,40 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       final bundle = saveCreateBundle(server: serverObj);
       var sessionJustCreated = false;
       if (serverObj.apiVersion == SupportedApiVersions.v6) {
-        // Check if the existing session is still valid before creating a new one.
-        // Only re-authenticate on 401/SidNotFoundException to avoid session
-        // multiplication when the server is temporarily unreachable (503/504/timeout).
-        final preCheck = await bundle.dns.fetchBlockingStatus(
-          skipRenewal: true,
-        );
-        if (preCheck.isError()) {
-          final err = preCheck.exceptionOrNull();
-          if (!isReauthRequired(err)) {
-            handleSaveError(err!);
-            return;
-          }
+        if (isAddressChanged) {
+          // The new address has no existing session, so always create one.
           final authResult = await bundle.auth.createSession(
             passwordFieldController.text,
           );
           if (authResult.isError()) {
+            await discardNewAddressSecrets();
             handleSaveError(authResult.exceptionOrNull()!);
             return;
           }
           sessionJustCreated = true;
+        } else {
+          // Same address: check if the existing session is still valid before
+          // creating a new one. Only re-authenticate on 401/SidNotFoundException
+          // to avoid session multiplication when the server is temporarily
+          // unreachable (503/504/timeout).
+          final preCheck = await bundle.dns.fetchBlockingStatus(
+            skipRenewal: true,
+          );
+          if (preCheck.isError()) {
+            final err = preCheck.exceptionOrNull();
+            if (!isReauthRequired(err)) {
+              handleSaveError(err!);
+              return;
+            }
+            final authResult = await bundle.auth.createSession(
+              passwordFieldController.text,
+            );
+            if (authResult.isError()) {
+              handleSaveError(authResult.exceptionOrNull()!);
+              return;
+            }
+            sessionJustCreated = true;
+          }
         }
       }
       // skipRenewal: true only when a new session was just created above to
@@ -639,13 +706,43 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       if (result.isSuccess()) {
         final server = serverObj.copyWith(defaultServer: defaultCheckbox);
+
+        // The new connection is confirmed working. When the address changed,
+        // terminate the old session on the Pi-hole server before deleting the
+        // local data. Best-effort: the old address is often unreachable (e.g.
+        // the user is fixing a wrong IP), so failures are logged and ignored.
+        if (isAddressChanged &&
+            oldServer.apiVersion == SupportedApiVersions.v6) {
+          try {
+            final oldBundle = saveCreateBundle(server: oldServer);
+            await oldBundle.auth.deleteCurrentSession();
+          } catch (e, s) {
+            logger.w(
+              'Failed to delete old session on server',
+              error: e,
+              stackTrace: s,
+            );
+          }
+        }
+
+        Object? cmdError;
         try {
-          await serversViewModel.editServer.runAsync(server);
+          if (isAddressChanged) {
+            await serversViewModel.replaceServer.runAsync((
+              oldAddress: oldAddress,
+              newServer: server,
+            ));
+            cmdError = serversViewModel.replaceServer.errors.value;
+          } else {
+            await serversViewModel.editServer.runAsync(server);
+            cmdError = serversViewModel.editServer.errors.value;
+          }
         } catch (e, s) {
           logger.e('Failed to save server', error: e, stackTrace: s);
+          cmdError = e;
         }
         if (context.mounted) {
-          if (serversViewModel.editServer.errors.value == null) {
+          if (cmdError == null) {
             await Navigator.maybePop(context);
             if (!context.mounted) return;
 
@@ -666,6 +763,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           }
         }
       } else {
+        await discardNewAddressSecrets();
         if (context.mounted) {
           setState(() {
             isConnecting = false;
@@ -857,16 +955,14 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   width: double.maxFinite,
                   child: SegmentedButton<ConnectionType>(
-                    segments: [
+                    segments: const [
                       ButtonSegment(
                         value: ConnectionType.http,
-                        label: const Text('HTTP'),
-                        enabled: widget.server != null ? false : true,
+                        label: Text('HTTP'),
                       ),
                       ButtonSegment(
                         value: ConnectionType.https,
-                        label: const Text('HTTPS'),
-                        enabled: widget.server != null ? false : true,
+                        label: Text('HTTPS'),
                       ),
                     ],
                     selected: <ConnectionType>{connectionType},
@@ -883,7 +979,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   child: TextFormField(
                     onChanged: validateAddress,
                     controller: addressFieldController,
-                    enabled: widget.server != null ? false : true,
                     decoration: InputDecoration(
                       errorText: addressFieldError,
                       prefixIcon: const Icon(Icons.link),
@@ -899,7 +994,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   child: TextFormField(
                     onChanged: validatePort,
                     controller: portFieldController,
-                    enabled: widget.server != null ? false : true,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       errorText: portFieldError,
@@ -935,7 +1029,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       TextFormField(
                         onChanged: validateSubroute,
                         controller: subrouteFieldController,
-                        enabled: widget.server != null ? false : true,
                         decoration: InputDecoration(
                           errorText: subrouteFieldError,
                           prefixIcon: const Icon(Icons.route_rounded),
@@ -1039,16 +1132,14 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   width: double.maxFinite,
                   child: SegmentedButton<String>(
-                    segments: [
+                    segments: const [
                       ButtonSegment(
                         value: SupportedApiVersions.v5,
-                        label: const Text(SupportedApiVersions.v5),
-                        enabled: widget.server != null ? false : true,
+                        label: Text(SupportedApiVersions.v5),
                       ),
                       ButtonSegment(
                         value: SupportedApiVersions.v6,
-                        label: const Text(SupportedApiVersions.v6),
-                        enabled: widget.server != null ? false : true,
+                        label: Text(SupportedApiVersions.v6),
                       ),
                     ],
                     selected: <String>{piHoleVersion},
