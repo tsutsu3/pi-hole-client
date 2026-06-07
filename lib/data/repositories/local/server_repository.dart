@@ -211,6 +211,38 @@ class LocalServerRepository implements ServerRepository {
     try {
       await openDbIfNeeded(_database);
 
+      // DB first: a failed transaction must not wipe the old server's
+      // credentials, or it becomes unrecoverable.
+      final result = await _database.transaction<int>((txn) async {
+        final deleted = await txn.delete(
+          'servers',
+          where: 'address = ?',
+          whereArgs: [oldAddress],
+        );
+        if (deleted == 0) {
+          logger.w(
+            'replaceServer: no existing row found for $oldAddress; '
+            'inserting the new server without removing a previous one',
+          );
+        }
+        // Keep "only one default" invariant atomic with the insert.
+        if (newServer.defaultServer) {
+          await txn.update('servers', {'isDefaultServer': 0});
+        }
+        return txn.insert('servers', {
+          'address': newServer.address,
+          'alias': newServer.alias,
+          'isDefaultServer': newServer.defaultServer ? 1 : 0,
+          'apiVersion': newServer.apiVersion,
+          'allowUntrustedCert': newServer.allowUntrustedCert ? 1 : 0,
+          'ignoreCertificateErrors': newServer.ignoreCertificateErrors ? 1 : 0,
+          'pinnedCertificateSha256': newServer.pinnedCertificateSha256,
+        });
+      });
+
+      if (result.isError()) return result;
+
+      // Committed: now safe to migrate credentials.
       await _secureStorage.deleteValue('${oldAddress}_token');
       await _secureStorage.deleteValue('${oldAddress}_password');
       await _secureStorage.deleteValue('${oldAddress}_sid');
@@ -228,22 +260,7 @@ class LocalServerRepository implements ServerRepository {
         await _secureStorage.saveValue('${newServer.address}_sid', sid);
       }
 
-      return await _database.transaction<int>((txn) async {
-        await txn.delete(
-          'servers',
-          where: 'address = ?',
-          whereArgs: [oldAddress],
-        );
-        return txn.insert('servers', {
-          'address': newServer.address,
-          'alias': newServer.alias,
-          'isDefaultServer': newServer.defaultServer ? 1 : 0,
-          'apiVersion': newServer.apiVersion,
-          'allowUntrustedCert': newServer.allowUntrustedCert ? 1 : 0,
-          'ignoreCertificateErrors': newServer.ignoreCertificateErrors ? 1 : 0,
-          'pinnedCertificateSha256': newServer.pinnedCertificateSha256,
-        });
-      });
+      return result;
     } catch (e, st) {
       logger.e('Failed to replace server: $e\n$st');
       return Failure(Exception('Failed to replace server: $e\n$st'));
@@ -350,13 +367,11 @@ class LocalServerRepository implements ServerRepository {
       final keysToDelete = <String>[];
 
       for (final key in keys.getOrThrow().keys) {
-        if (key.endsWith('_token') ||
-            key.endsWith('_password') ||
-            key.endsWith('_sid')) {
-          final address = key.split('_').first;
-          if (!serverAddresses.contains(address)) {
-            keysToDelete.add(key);
-          }
+        final address = _serverAddressFromSecretKey(key);
+        if (address == null) continue;
+
+        if (!serverAddresses.contains(address)) {
+          keysToDelete.add(key);
         }
       }
 
@@ -444,5 +459,28 @@ class LocalServerRepository implements ServerRepository {
       logger.e('Failed to delete token: $e\n$st');
       return Failure(Exception('Failed to delete token: $e\n$st'));
     }
+  }
+
+  @override
+  Future<Result<void>> deleteSid(String address) async {
+    try {
+      await _secureStorage.deleteValue('${address}_sid');
+      return Success.unit();
+    } catch (e, st) {
+      logger.e('Failed to delete sid: $e\n$st');
+      return Failure(Exception('Failed to delete sid: $e\n$st'));
+    }
+  }
+
+  String? _serverAddressFromSecretKey(String key) {
+    const suffixes = ['_token', '_password', '_sid'];
+
+    for (final suffix in suffixes) {
+      if (key.endsWith(suffix)) {
+        return key.substring(0, key.length - suffix.length);
+      }
+    }
+
+    return null;
   }
 }

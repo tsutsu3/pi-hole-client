@@ -20,6 +20,10 @@ class FakeServerRepository implements ServerRepository {
   String? lastDeletedAddress;
   int updateDefaultCallCount = 0;
   String? lastUpdatedDefaultAddress;
+  int savePasswordCallCount = 0;
+  String? lastSavedPasswordAddress;
+  int saveTokenCallCount = 0;
+  String? lastSavedTokenAddress;
 
   @override
   Future<Result<List<Server>>> fetchServers() async {
@@ -141,11 +145,15 @@ class FakeServerRepository implements ServerRepository {
 
   @override
   Future<Result<void>> savePassword(String address, String password) async {
+    savePasswordCallCount++;
+    lastSavedPasswordAddress = address;
     return Success.unit();
   }
 
   @override
   Future<Result<void>> saveToken(String address, String token) async {
+    saveTokenCallCount++;
+    lastSavedTokenAddress = address;
     return Success.unit();
   }
 
@@ -156,6 +164,11 @@ class FakeServerRepository implements ServerRepository {
 
   @override
   Future<Result<void>> deleteToken(String address) async {
+    return Success.unit();
+  }
+
+  @override
+  Future<Result<void>> deleteSid(String address) async {
     return Success.unit();
   }
 }

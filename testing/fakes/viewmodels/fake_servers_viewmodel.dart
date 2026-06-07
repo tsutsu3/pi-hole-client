@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:result_dart/result_dart.dart';
 
 import '../repositories/local/fake_server_repository.dart';
 
@@ -51,6 +52,14 @@ class FakeServersViewModel extends ServersViewModel {
   int get replaceServerCallCount => _fakeRepo.replaceCallCount;
   String? get lastReplacedOldAddress => _fakeRepo.lastReplacedOldAddress;
   Server? get lastReplacedNewServer => _fakeRepo.lastReplacedNewServer;
+  int get savePasswordCallCount => _fakeRepo.savePasswordCallCount;
+  String? get lastSavedPasswordAddress => _fakeRepo.lastSavedPasswordAddress;
+  int get saveTokenCallCount => _fakeRepo.saveTokenCallCount;
+  String? get lastSavedTokenAddress => _fakeRepo.lastSavedTokenAddress;
+
+  /// Counts calls to `deleteSid`. The production wrapper is added later; until
+  /// then this stays 0, which is what the state-integrity tests assert against.
+  int deleteSidCallCount = 0;
 
   /// Controls the result returned by [checkUrlExists] in tests.
   bool urlExistsResult = false;
@@ -142,6 +151,12 @@ class FakeServersViewModel extends ServersViewModel {
     setUnverifiedBannerDismissedCallCount++;
     lastUnverifiedBannerDismissedValue = dismissed;
     notifyListeners();
+  }
+
+  @override
+  Future<Result<void>> deleteSid(String address) async {
+    deleteSidCallCount++;
+    return Success.unit();
   }
 
   @override

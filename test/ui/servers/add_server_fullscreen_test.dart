@@ -63,6 +63,15 @@ const _serverHttpsIgnore = Server(
   ignoreCertificateErrors: true,
 );
 
+const _serverHttpsNoPin = Server(
+  address: 'https://pi.hole',
+  alias: 'https v6',
+  defaultServer: false,
+  apiVersion: 'v6',
+  allowUntrustedCert: true,
+  ignoreCertificateErrors: false,
+);
+
 TlsCertificateInfo _certInfo({String sha256 = 'new:fingerprint'}) {
   return TlsCertificateInfo(
     sha256: sha256,
@@ -912,105 +921,148 @@ void main() async {
     // TLS handshake. R27 (retry without re-prompt) is out of scope until the
     // _certValidatedForAddress memory lands on this branch.
 
-    testWidgets(
-      'R25: HTTPS edit without address change reuses the existing pin '
-      'and shows no dialog',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('HTTPS edit without address change reuses the existing pin '
+        'and shows no dialog', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        final fetcher = _FakeFetcher(onStrict: _certInfo());
+      final fetcher = _FakeFetcher(onStrict: _certInfo());
 
-        await tester.pumpWidget(
-          buildWidget(
-            AddServerFullscreen(
-              window: false,
-              title: 'test',
-              server: _serverHttpsPinned,
-              fetchTlsCertificate: fetcher.call,
-            ),
+      await tester.pumpWidget(
+        buildWidget(
+          AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverHttpsPinned,
+            fetchTlsCertificate: fetcher.call,
           ),
-        );
+        ),
+      );
 
-        // Change only the alias so the address (primary key) is unchanged.
-        await tester.enterText(find.byType(TextField).at(0), 'renamed');
+      // Change only the alias so the address (primary key) is unchanged.
+      await tester.enterText(find.byType(TextField).at(0), 'renamed');
 
-        await tester.tap(find.byIcon(Icons.save_rounded));
-        await tester.pump(const Duration(milliseconds: 1000));
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
 
-        expect(find.byType(CertificateDetailsDialog), findsNothing);
-        expect(fetcher.callCount, 0);
-        expect(serversViewModel.editServerCallCount, 1);
-        expect(serversViewModel.replaceServerCallCount, 0);
-      },
-    );
+      expect(find.byType(CertificateDetailsDialog), findsNothing);
+      expect(fetcher.callCount, 0);
+      expect(serversViewModel.editServerCallCount, 1);
+      expect(serversViewModel.replaceServerCallCount, 0);
+    });
 
-    testWidgets(
-      'R26: HTTPS address change resets the pin, prompts the dialog and '
-      'pins the new fingerprint on confirm',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('HTTPS address change resets the pin, prompts the dialog and '
+        'pins the new fingerprint on confirm', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        final fetcher = _FakeFetcher(
-          strictError: const HandshakeException(),
-          onAllowBad: _certInfo(sha256: 'new:fingerprint'),
-        );
+      final fetcher = _FakeFetcher(
+        strictError: const HandshakeException(),
+        onAllowBad: _certInfo(sha256: 'new:fingerprint'),
+      );
 
-        await tester.pumpWidget(
-          buildWidget(
-            AddServerFullscreen(
-              window: false,
-              title: 'test',
-              server: _serverHttpsPinned,
-              fetchTlsCertificate: fetcher.call,
-            ),
+      await tester.pumpWidget(
+        buildWidget(
+          AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverHttpsPinned,
+            fetchTlsCertificate: fetcher.call,
           ),
-        );
+        ),
+      );
 
-        // Change the host so the resulting URL (primary key) differs.
-        await tester.enterText(find.byType(TextField).at(1), 'pi.hole.new');
+      // Change the host so the resulting URL (primary key) differs.
+      await tester.enterText(find.byType(TextField).at(1), 'pi.hole.new');
 
-        await tester.tap(find.byIcon(Icons.save_rounded));
-        // Cannot pumpAndSettle: the in-progress spinner animates indefinitely.
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 500));
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      // Cannot pumpAndSettle: the in-progress spinner animates indefinitely.
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
-        expect(find.byType(CertificateDetailsDialog), findsOneWidget);
+      expect(find.byType(CertificateDetailsDialog), findsOneWidget);
 
-        await tester.tap(find.widgetWithText(TextButton, 'Confirm'));
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 1000));
+      await tester.tap(find.widgetWithText(TextButton, 'Confirm'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 1000));
 
-        expect(serversViewModel.replaceServerCallCount, 1);
-        expect(
-          serversViewModel.lastReplacedOldAddress,
-          _serverHttpsPinned.address,
-        );
-        expect(
-          serversViewModel.lastReplacedNewServer?.address,
-          'https://pi.hole.new',
-        );
-        expect(
-          serversViewModel.lastReplacedNewServer?.pinnedCertificateSha256,
-          'new:fingerprint',
-        );
-      },
-    );
+      expect(serversViewModel.replaceServerCallCount, 1);
+      expect(
+        serversViewModel.lastReplacedOldAddress,
+        _serverHttpsPinned.address,
+      );
+      expect(
+        serversViewModel.lastReplacedNewServer?.address,
+        'https://pi.hole.new',
+      );
+      expect(
+        serversViewModel.lastReplacedNewServer?.pinnedCertificateSha256,
+        'new:fingerprint',
+      );
+    });
+
+    testWidgets('cancelling the certificate dialog aborts the save and keeps '
+        'the old server', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      final fetcher = _FakeFetcher(
+        strictError: const HandshakeException(),
+        onAllowBad: _certInfo(),
+      );
+
+      await tester.pumpWidget(
+        buildWidget(
+          AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverHttpsPinned,
+            fetchTlsCertificate: fetcher.call,
+          ),
+        ),
+      );
+
+      await tester.enterText(find.byType(TextField).at(1), 'pi.hole.new');
+
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      // Cannot pumpAndSettle: the in-progress spinner animates indefinitely.
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+
+      expect(find.byType(CertificateDetailsDialog), findsOneWidget);
+
+      await tester.tap(find.widgetWithText(TextButton, 'Cancel'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      expect(find.byType(CertificateDetailsDialog), findsNothing);
+      expect(serversViewModel.replaceServerCallCount, 0);
+      expect(serversViewModel.editServerCallCount, 0);
+      expect(find.text('Server settings updated successfully.'), findsNothing);
+      // No secret may be persisted for the new address: cancelling the
+      // certificate dialog must not leave orphaned credentials behind.
+      expect(serversViewModel.savePasswordCallCount, 0);
+      expect(serversViewModel.saveTokenCallCount, 0);
+    });
 
     testWidgets(
-      'R28: cancelling the certificate dialog aborts the save and keeps '
-      'the old server',
+      'cancelling the certificate dialog on a same-address edit keeps '
+      "the existing server's credentials untouched",
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
@@ -1030,13 +1082,14 @@ void main() async {
             AddServerFullscreen(
               window: false,
               title: 'test',
-              server: _serverHttpsPinned,
+              server: _serverHttpsNoPin,
               fetchTlsCertificate: fetcher.call,
             ),
           ),
         );
 
-        await tester.enterText(find.byType(TextField).at(1), 'pi.hole.new');
+        // Change only the alias so the address (primary key) is unchanged.
+        await tester.enterText(find.byType(TextField).at(0), 'renamed');
 
         await tester.tap(find.byIcon(Icons.save_rounded));
         // Cannot pumpAndSettle: the in-progress spinner animates indefinitely.
@@ -1052,10 +1105,8 @@ void main() async {
         expect(find.byType(CertificateDetailsDialog), findsNothing);
         expect(serversViewModel.replaceServerCallCount, 0);
         expect(serversViewModel.editServerCallCount, 0);
-        expect(
-          find.text('Server settings updated successfully.'),
-          findsNothing,
-        );
+        expect(serversViewModel.savePasswordCallCount, 0);
+        expect(serversViewModel.saveTokenCallCount, 0);
       },
     );
 
@@ -1425,6 +1476,249 @@ void main() async {
       expect(
         find.text('Server settings updated successfully.'),
         findsOneWidget,
+      );
+    });
+
+    testWidgets(
+      'replace DB failure keeps the old session and cleans up the new one',
+      (WidgetTester tester) async {
+        useLargeView(tester);
+
+        serversViewModel.shouldFailReplaceServer = true;
+
+        final oldAuth = FakeAuthRepository();
+        final newAuth = FakeAuthRepository();
+
+        await tester.pumpWidget(
+          buildWidget(
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: _serverV6,
+            ),
+            authByAddress: {
+              _serverV6.address: oldAuth,
+              'http://192.168.1.10:8081': newAuth,
+            },
+          ),
+        );
+
+        await tester.enterText(find.byType(TextField).at(1), '192.168.1.10');
+
+        await tester.tap(find.byIcon(Icons.save_rounded));
+        await tester.pump(const Duration(milliseconds: 1000));
+
+        // Old session must survive a failed commit.
+        expect(oldAuth.deleteCurrentSessionCallCount, 0);
+        // New-address session + SID must be reclaimed.
+        expect(newAuth.deleteCurrentSessionCallCount, 1);
+        expect(serversViewModel.deleteSidCallCount, 1);
+      },
+    );
+
+    testWidgets(
+      'connection failure cleans up the newly created session and SID',
+      (WidgetTester tester) async {
+        useLargeView(tester);
+
+        fakeDnsRepository
+          ..shouldFail = true
+          ..failureException = HttpStatusCodeException(503);
+
+        final newAuth = FakeAuthRepository();
+
+        await tester.pumpWidget(
+          buildWidget(
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: _serverV6,
+            ),
+            authByAddress: {'http://192.168.1.10:8081': newAuth},
+          ),
+        );
+
+        await tester.enterText(find.byType(TextField).at(1), '192.168.1.10');
+
+        await tester.tap(find.byIcon(Icons.save_rounded));
+        await tester.pump(const Duration(milliseconds: 1000));
+
+        expect(newAuth.createSessionCallCount, 1);
+        expect(newAuth.deleteCurrentSessionCallCount, 1);
+        expect(serversViewModel.deleteSidCallCount, 1);
+      },
+    );
+
+    Finder apiVersionSegment(String label) => find.descendant(
+      of: find.byType(SegmentedButton<String>),
+      matching: find.text(label),
+    );
+
+    Finder connectionTypeSegment(String label) => find.descendant(
+      of: find.byType(SegmentedButton<ConnectionType>),
+      matching: find.text(label),
+    );
+
+    testWidgets(
+      'switching a same-address server from v6 to v5 logs out the old '
+      'session and drops its SID',
+      (WidgetTester tester) async {
+        useLargeView(tester);
+
+        final oldAuth = FakeAuthRepository();
+
+        await tester.pumpWidget(
+          buildWidget(
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: _serverV6,
+            ),
+            authByAddress: {_serverV6.address: oldAuth},
+          ),
+        );
+
+        await tester.tap(apiVersionSegment('v5'));
+        await tester.pump();
+
+        await tester.tap(find.byIcon(Icons.save_rounded));
+        await tester.pump(const Duration(milliseconds: 1000));
+
+        // Same address: editServer, not replaceServer.
+        expect(serversViewModel.editServerCallCount, 1);
+        expect(serversViewModel.replaceServerCallCount, 0);
+        // The orphaned v6 session and SID must be cleaned up.
+        expect(oldAuth.deleteCurrentSessionCallCount, 1);
+        expect(serversViewModel.deleteSidCallCount, 1);
+      },
+    );
+
+    testWidgets('a same-address v6 edit keeps the session and SID intact', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      final oldAuth = FakeAuthRepository();
+
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverV6,
+          ),
+          authByAddress: {_serverV6.address: oldAuth},
+        ),
+      );
+
+      // Change only the alias; stay on v6 and the same address.
+      await tester.enterText(find.byType(TextField).at(0), 'renamed');
+
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      expect(serversViewModel.editServerCallCount, 1);
+      expect(serversViewModel.replaceServerCallCount, 0);
+      // No teardown: the v6 session is still in use under the same address.
+      expect(oldAuth.deleteCurrentSessionCallCount, 0);
+      expect(serversViewModel.deleteSidCallCount, 0);
+    });
+
+    testWidgets(
+      'B3: switching a same-address server from v5 to v6 edits in place',
+      (WidgetTester tester) async {
+        useLargeView(tester);
+
+        await tester.pumpWidget(
+          buildWidget(
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: _serverV5,
+            ),
+          ),
+        );
+
+        await tester.tap(apiVersionSegment('v6'));
+        await tester.pump();
+
+        await tester.tap(find.byIcon(Icons.save_rounded));
+        await tester.pump(const Duration(milliseconds: 1000));
+
+        expect(serversViewModel.editServerCallCount, 1);
+        expect(serversViewModel.replaceServerCallCount, 0);
+        // The old server was v5, so there is no v6 session/SID to reclaim.
+        expect(serversViewModel.deleteSidCallCount, 0);
+      },
+    );
+
+    testWidgets(
+      'switching HTTPS to HTTP changes the address, clears the pin and '
+      'replaces the server',
+      (WidgetTester tester) async {
+        useLargeView(tester);
+
+        await tester.pumpWidget(
+          buildWidget(
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: _serverHttpsPinned,
+            ),
+          ),
+        );
+
+        await tester.tap(connectionTypeSegment('HTTP'));
+        await tester.pump();
+
+        await tester.tap(find.byIcon(Icons.save_rounded));
+        await tester.pump(const Duration(milliseconds: 1000));
+
+        expect(serversViewModel.replaceServerCallCount, 1);
+        expect(serversViewModel.lastReplacedOldAddress, 'https://pi.hole');
+        // Dropping TLS must drop the stale pinned fingerprint.
+        expect(
+          serversViewModel.lastReplacedNewServer?.address,
+          'http://pi.hole',
+        );
+        expect(
+          serversViewModel.lastReplacedNewServer?.pinnedCertificateSha256,
+          null,
+        );
+      },
+    );
+
+    testWidgets('switching HTTP to HTTPS changes the address and pins the new '
+        'fingerprint', (WidgetTester tester) async {
+      useLargeView(tester);
+
+      final fetcher = _FakeFetcher(onStrict: _certInfo());
+
+      await tester.pumpWidget(
+        buildWidget(
+          AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverV6,
+            fetchTlsCertificate: fetcher.call,
+          ),
+        ),
+      );
+
+      await tester.tap(connectionTypeSegment('HTTPS'));
+      await tester.pump();
+
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      expect(serversViewModel.replaceServerCallCount, 1);
+      expect(
+        serversViewModel.lastReplacedNewServer?.address,
+        'https://localhost:8081',
+      );
+      expect(
+        serversViewModel.lastReplacedNewServer?.pinnedCertificateSha256,
+        'new:fingerprint',
       );
     });
   });

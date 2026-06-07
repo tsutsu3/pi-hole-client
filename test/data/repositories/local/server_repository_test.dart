@@ -433,8 +433,9 @@ void main() {
       );
       // New secrets are stored under the new address.
       expect(
-        (await ssSerivce.getValue('${newServerV6.address}_password'))
-            .getOrNull(),
+        (await ssSerivce.getValue(
+          '${newServerV6.address}_password',
+        )).getOrNull(),
         'pass-new',
       );
       expect(
@@ -463,8 +464,35 @@ void main() {
       expect(gl.getOrNull()?.length, 0);
     });
 
-    test('returns Failure and keeps the old row on transaction error', () async {
-      await repository.insertServer(serverV6);
+    test(
+      'returns Failure and keeps the old row on transaction error',
+      () async {
+        await repository.insertServer(serverV6);
+        dbService.shouldThrowOnTransaction = true;
+
+        final result = await repository.replaceServer(
+          serverV6.address,
+          newServerV6,
+        );
+        expect(result.isError(), true);
+        expect(
+          result.exceptionOrNull()?.toString(),
+          contains('Failed to replace server'),
+        );
+
+        final servers = await repository.fetchServers();
+        final addresses = servers.getOrNull()!.map((s) => s.address).toList();
+        expect(addresses.contains(serverV6.address), true);
+      },
+    );
+
+    test('keeps the old secrets when the replace transaction fails', () async {
+      await repository.insertServer(
+        serverV6,
+        token: 'token-old',
+        password: 'pass-old',
+        sid: 'sid-old',
+      );
       dbService.shouldThrowOnTransaction = true;
 
       final result = await repository.replaceServer(
@@ -472,14 +500,38 @@ void main() {
         newServerV6,
       );
       expect(result.isError(), true);
-      expect(
-        result.exceptionOrNull()?.toString(),
-        contains('Failed to replace server'),
-      );
 
-      final servers = await repository.fetchServers();
-      final addresses = servers.getOrNull()!.map((s) => s.address).toList();
-      expect(addresses.contains(serverV6.address), true);
+      expect(
+        (await ssSerivce.getValue('${serverV6.address}_password')).getOrNull(),
+        'pass-old',
+      );
+      expect(
+        (await ssSerivce.getValue('${serverV6.address}_token')).getOrNull(),
+        'token-old',
+      );
+      expect(
+        (await ssSerivce.getValue('${serverV6.address}_sid')).getOrNull(),
+        'sid-old',
+      );
+    });
+
+    test('clears the default flag on other servers when replacing into a '
+        'default server', () async {
+      await repository.insertServer(serverV6); // defaultServer: true
+      await repository.insertServer(serverV5); // defaultServer: false
+
+      final result = await repository.replaceServer(
+        serverV5.address,
+        newServerV6, // defaultServer: true
+      );
+      expect(result.isSuccess(), true);
+
+      final servers = (await repository.fetchServers()).getOrNull()!;
+      final defaults = servers
+          .where((s) => s.defaultServer)
+          .map((s) => s.address)
+          .toList();
+      expect(defaults, [newServerV6.address]);
     });
   });
 
@@ -648,6 +700,30 @@ void main() {
       expect(
         result.exceptionOrNull()?.toString(),
         contains('Exception: Failed to delete unused server secrets'),
+      );
+    });
+
+    test('handles addresses with underscores correctly', () async {
+      final server = serverV6.copyWith(address: 'http://local_host');
+      await repository.insertServer(server);
+      await ssSerivce.saveValue('${server.address}_token', 'token123');
+      await ssSerivce.saveValue('${server.address}_sid', 'sid123');
+      await ssSerivce.saveValue('${server.address}_password', 'pass123');
+
+      final result = await repository.deleteUnusedServerSecrets();
+      expect(result.isSuccess(), true);
+
+      expect(
+        (await ssSerivce.getValue('${server.address}_token')).getOrNull(),
+        'token123',
+      );
+      expect(
+        (await ssSerivce.getValue('${server.address}_sid')).getOrNull(),
+        'sid123',
+      );
+      expect(
+        (await ssSerivce.getValue('${server.address}_password')).getOrNull(),
+        'pass123',
       );
     });
   });

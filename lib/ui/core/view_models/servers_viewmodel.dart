@@ -236,8 +236,16 @@ class ServersViewModel with ChangeNotifier {
       _selectedServer = params.newServer;
     }
 
+    // The repository already cleared other defaults inside the replace
+    // transaction; mirror that in memory without a second DB write.
     if (params.newServer.defaultServer == true) {
-      await _setDefaultServer(params.newServer);
+      _serversList = _serversList
+          .map(
+            (s) => s.copyWith(
+              defaultServer: s.address == params.newServer.address,
+            ),
+          )
+          .toList();
     }
 
     await WidgetChannel.sendServerRemoved(params.oldAddress);
@@ -374,6 +382,9 @@ class ServersViewModel with ChangeNotifier {
 
   Future<Result<void>> deleteToken(String address) =>
       _repository.deleteToken(address);
+
+  Future<Result<void>> deleteSid(String address) =>
+      _repository.deleteSid(address);
 
   @override
   void dispose() {

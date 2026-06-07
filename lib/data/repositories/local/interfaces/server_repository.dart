@@ -44,4 +44,5 @@ abstract interface class ServerRepository {
   Future<Result<void>> saveToken(String address, String token);
   Future<Result<void>> deletePassword(String address);
   Future<Result<void>> deleteToken(String address);
+  Future<Result<void>> deleteSid(String address);
 }

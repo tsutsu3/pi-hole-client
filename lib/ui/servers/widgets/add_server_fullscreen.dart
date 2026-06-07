@@ -601,14 +601,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         ignoreCertificateErrors: ignoreCertificateErrors,
         pinnedCertificateSha256: pinnedCertificateSha256,
       );
-      await serversViewModel.savePassword(
-        targetAddress,
-        passwordFieldController.text,
-      );
-      await serversViewModel.saveToken(
-        targetAddress,
-        tokenFieldController.text,
-      );
       if (serversViewModel.selectedServer != null) {
         statusViewModel.stopAutoRefresh();
       }
@@ -632,12 +624,36 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       serverObj = updatedServer;
 
-      // Removes secrets written under the new address so a failed
-      // address-changing edit leaves no orphaned credentials behind.
-      Future<void> discardNewAddressSecrets() async {
-        if (isAddressChanged) {
-          await serversViewModel.deletePassword(targetAddress);
-          await serversViewModel.deleteToken(targetAddress);
+      await serversViewModel.savePassword(
+        targetAddress,
+        passwordFieldController.text,
+      );
+      await serversViewModel.saveToken(
+        targetAddress,
+        tokenFieldController.text,
+      );
+
+      // Rolls back everything written under the new address on a failed
+      // address-changing save: credentials, SID, and the freshly created remote
+      // session. Same-address edits keep their secrets (handled by the caller).
+      Future<void> discardNewAddressArtifacts({
+        required RepositoryBundle bundle,
+        required bool sessionCreated,
+      }) async {
+        if (!isAddressChanged) return;
+        await serversViewModel.deletePassword(targetAddress);
+        await serversViewModel.deleteToken(targetAddress);
+        await serversViewModel.deleteSid(targetAddress);
+        if (sessionCreated) {
+          try {
+            await bundle.auth.deleteCurrentSession();
+          } catch (e, s) {
+            logger.w(
+              'Failed to delete new session on server',
+              error: e,
+              stackTrace: s,
+            );
+          }
         }
       }
 
@@ -668,7 +684,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             passwordFieldController.text,
           );
           if (authResult.isError()) {
-            await discardNewAddressSecrets();
+            await discardNewAddressArtifacts(
+              bundle: bundle,
+              sessionCreated: false,
+            );
             handleSaveError(authResult.exceptionOrNull()!);
             return;
           }
@@ -707,24 +726,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       if (result.isSuccess()) {
         final server = serverObj.copyWith(defaultServer: defaultCheckbox);
 
-        // The new connection is confirmed working. When the address changed,
-        // terminate the old session on the Pi-hole server before deleting the
-        // local data. Best-effort: the old address is often unreachable (e.g.
-        // the user is fixing a wrong IP), so failures are logged and ignored.
-        if (isAddressChanged &&
-            oldServer.apiVersion == SupportedApiVersions.v6) {
-          try {
-            final oldBundle = saveCreateBundle(server: oldServer);
-            await oldBundle.auth.deleteCurrentSession();
-          } catch (e, s) {
-            logger.w(
-              'Failed to delete old session on server',
-              error: e,
-              stackTrace: s,
-            );
-          }
-        }
-
         Object? cmdError;
         try {
           if (isAddressChanged) {
@@ -741,8 +742,30 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           logger.e('Failed to save server', error: e, stackTrace: s);
           cmdError = e;
         }
-        if (context.mounted) {
-          if (cmdError == null) {
+
+        if (cmdError == null) {
+          // The old v6 session is orphaned on an address change or a switch
+          // away from v6 (e.g. v6 -> v5). Tear it down and drop the unused SID.
+          // Run only after the DB commit so a failed save can't kill a live
+          // session; best-effort since the old host is often unreachable.
+          final oldWasV6 = oldServer.apiVersion == SupportedApiVersions.v6;
+          final newIsV6 = serverObj.apiVersion == SupportedApiVersions.v6;
+          if (oldWasV6 && (isAddressChanged || !newIsV6)) {
+            try {
+              final oldBundle = saveCreateBundle(server: oldServer);
+              await oldBundle.auth.deleteCurrentSession();
+            } catch (e, s) {
+              logger.w(
+                'Failed to delete old session on server',
+                error: e,
+                stackTrace: s,
+              );
+            }
+            if (!isAddressChanged) {
+              await serversViewModel.deleteSid(targetAddress);
+            }
+          }
+          if (context.mounted) {
             await Navigator.maybePop(context);
             if (!context.mounted) return;
 
@@ -751,7 +774,16 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               appConfigViewModel: appConfigViewModel,
               label: AppLocalizations.of(context)!.editServerSuccessfully,
             );
-          } else {
+          }
+        } else {
+          // DB write failed: roll back the new-address artifacts; the old
+          // server (row, credentials, session) is left fully intact.
+          await discardNewAddressArtifacts(
+            bundle: bundle,
+            sessionCreated: sessionJustCreated,
+          );
+          if (!isAddressChanged) await _restoreSecrets();
+          if (context.mounted) {
             setState(() {
               isConnecting = false;
             });
@@ -763,11 +795,14 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           }
         }
       } else {
-        await discardNewAddressSecrets();
+        await discardNewAddressArtifacts(
+          bundle: bundle,
+          sessionCreated: sessionJustCreated,
+        );
+        if (!isAddressChanged) await _restoreSecrets();
         if (context.mounted) {
           setState(() {
             isConnecting = false;
-            _restoreSecrets();
           });
 
           handleApiErrorResult(
