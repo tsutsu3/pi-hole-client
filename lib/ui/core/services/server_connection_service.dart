@@ -343,9 +343,15 @@ class ServerConnectionService {
     }
 
     if (error == null || !_isSslError(error)) return;
-    if (targetContext == null) return;
-    if (!targetContext.mounted) return;
+    if (targetContext == null || !targetContext.mounted) return;
 
+    await _promptCertificateRecovery(targetContext);
+  }
+
+  // Caution snackbar + dialog offering a pin update (on mismatch) or edit,
+  // then reconnects on a successful pin update. Callers ensure the error is an
+  // SSL error and [targetContext] is mounted.
+  Future<void> _promptCertificateRecovery(BuildContext targetContext) async {
     final isPinMismatch = await _isPinnedCertificateMismatch(server);
 
     if (!targetContext.mounted) return;
@@ -407,6 +413,14 @@ class ServerConnectionService {
         _openEditServer(targetContext, server);
       }
     }
+  }
+
+  /// Recovery entry for an already-selected server (e.g. auto-refresh hit a pin
+  /// mismatch). Unlike [connect]/[_onFailure] it does not restart auto-refresh,
+  /// so dismissing the dialog avoids looping on the same 495.
+  Future<void> showCertificateErrorRecovery(Exception error) async {
+    if (!_isSslError(error) || !context.mounted) return;
+    await _promptCertificateRecovery(context);
   }
 
   Future<Server?> _openUpdatePinnedFingerprint(

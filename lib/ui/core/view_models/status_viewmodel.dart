@@ -66,6 +66,10 @@ class StatusViewModel with ChangeNotifier {
   int? _previousRefreshTime;
   bool _isAutoRefreshRunning = false;
 
+  // Raised when auto-refresh stops on a TLS error (e.g. pin mismatch); the UI
+  // shows the recovery dialog, then clears it.
+  Exception? _fatalConnectionError;
+
   // ---------------------------------------------------------------------------
   // Getters — API unchanged from the former StatusViewModel so that all 15+
   // UI widgets using `context.select<StatusViewModel, ...>` need zero changes.
@@ -99,6 +103,12 @@ class StatusViewModel with ChangeNotifier {
   LoadStatus get getOvertimeDataLoadStatus => _overtimeDataLoading;
 
   bool get isAutoRefreshRunning => _isAutoRefreshRunning;
+
+  Exception? get fatalConnectionError => _fatalConnectionError;
+
+  void clearFatalConnectionError() {
+    _fatalConnectionError = null;
+  }
 
   /// Derived getter: extracts client hostnames from the current
   /// [RealtimeStatus]. Used by `LogsViewModel` via ProxyProvider to replace
@@ -297,6 +307,26 @@ class StatusViewModel with ChangeNotifier {
     _setupMetricsDataTimer(runImmediately: runImmediately, isDelay: isDelay);
   }
 
+  bool _isSslError(Object? error) =>
+      error is HttpStatusCodeException && error.statusCode == 495;
+
+  // Stops auto-refresh and signals the UI on a TLS error. Returns true if
+  // handled, so callers skip their normal error handling.
+  bool _handleSslErrorIfNeeded(Object? error, String? selectedUrlBefore) {
+    if (!_isSslError(error) || selectedUrlBefore != _selectedServerAddress) {
+      return false;
+    }
+    logger.w('TLS error during status refresh; stopping auto-refresh: $error');
+    _serverStatus = LoadStatus.error;
+    _statusLoading = LoadStatus.error;
+    _stopAutoRefresh(showLoadingIndicator: false);
+    _fatalConnectionError = error is Exception
+        ? error
+        : Exception(error.toString());
+    notifyListeners();
+    return true;
+  }
+
   void _stopAutoRefresh({bool showLoadingIndicator = true}) {
     if (showLoadingIndicator) {
       _statusLoading = LoadStatus.loading;
@@ -369,6 +399,7 @@ class StatusViewModel with ChangeNotifier {
 
   Future<bool> _fetchStatusData() async {
     if (_selectedServerAddress == null) return false;
+    final selectedUrlBefore = _selectedServerAddress;
 
     final useCase = _createRealtimeStatusUseCase();
     if (useCase == null) return false;
@@ -384,6 +415,7 @@ class StatusViewModel with ChangeNotifier {
         return true;
       },
       (error) {
+        if (_handleSslErrorIfNeeded(error, selectedUrlBefore)) return false;
         _statusLoading = LoadStatus.error;
         notifyListeners();
         return false;
@@ -511,6 +543,7 @@ class StatusViewModel with ChangeNotifier {
           }
         },
         (error) {
+          if (_handleSslErrorIfNeeded(error, selectedUrlBefore)) return;
           if (selectedUrlBefore == _selectedServerAddress) {
             var changed = false;
             if (_serverStatus == LoadStatus.loaded) {
