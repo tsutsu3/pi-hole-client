@@ -67,7 +67,18 @@ List<SingleChildWidget> createProviders({
       update: (_, servers, storage, previous) {
         final server = servers.selectedServer;
         if (server == null) return null;
-        if (previous?.serverAddress == server.address) return previous;
+        // Reuse the existing bundle only when nothing affecting the HTTP
+        // connection changed.
+        if (previous != null &&
+            previous.serverAddress == server.address &&
+            previous.apiVersion == server.apiVersion &&
+            previous.allowUntrustedCert == server.allowUntrustedCert &&
+            previous.ignoreCertificateErrors ==
+                server.ignoreCertificateErrors &&
+            previous.pinnedCertificateSha256 ==
+                server.pinnedCertificateSha256) {
+          return previous;
+        }
         return RepositoryBundleFactory.create(server: server, storage: storage);
       },
     ),

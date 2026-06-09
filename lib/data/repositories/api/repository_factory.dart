@@ -97,6 +97,9 @@ class RepositoryBundleFactory {
           ),
           serverAddress: server.address,
           apiVersion: server.apiVersion,
+          allowUntrustedCert: server.allowUntrustedCert,
+          ignoreCertificateErrors: server.ignoreCertificateErrors,
+          pinnedCertificateSha256: server.pinnedCertificateSha256,
         );
       default:
         final client = PiholeV5ApiClient(
@@ -125,6 +128,9 @@ class RepositoryBundleFactory {
           ),
           serverAddress: server.address,
           apiVersion: server.apiVersion,
+          allowUntrustedCert: server.allowUntrustedCert,
+          ignoreCertificateErrors: server.ignoreCertificateErrors,
+          pinnedCertificateSha256: server.pinnedCertificateSha256,
         );
     }
   }
