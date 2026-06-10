@@ -46,6 +46,17 @@ class _HomeScreenState extends State<HomeScreen> {
     widget.statusViewModel.addListener(_onStatusViewModelChanged);
   }
 
+  @override
+  void didUpdateWidget(covariant HomeScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // statusViewModel is an app singleton so this rarely changes, but re-bind
+    // the listener defensively if a new instance is ever passed in.
+    if (oldWidget.statusViewModel != widget.statusViewModel) {
+      oldWidget.statusViewModel.removeListener(_onStatusViewModelChanged);
+      widget.statusViewModel.addListener(_onStatusViewModelChanged);
+    }
+  }
+
   // Show the certificate recovery dialog when auto-refresh stops on a TLS error.
   void _onStatusViewModelChanged() {
     final error = widget.statusViewModel.fatalConnectionError;
@@ -80,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     scrollController.removeListener(_scrollListener);
+    scrollController.dispose();
     widget.statusViewModel.removeListener(_onStatusViewModelChanged);
     super.dispose();
   }
