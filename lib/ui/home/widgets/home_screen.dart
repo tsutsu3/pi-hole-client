@@ -53,11 +53,9 @@ class _HomeScreenState extends State<HomeScreen> {
     _handlingCertError = true;
     widget.statusViewModel.clearFatalConnectionError();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (mounted) {
-        await handleCertificateRecovery(context, error);
-      }
-      if (mounted) {
-        await refreshServerStatus(context);
+      // Refresh immediately only when the pin was updated.
+      if (mounted && await handleCertificateRecovery(context, error)) {
+        if (mounted) await refreshServerStatus(context);
       }
       _handlingCertError = false;
     });

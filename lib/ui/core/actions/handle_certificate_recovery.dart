@@ -6,7 +6,9 @@ import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-Future<void> handleCertificateRecovery(
+/// Returns true when the pin was updated and a reconnect was attempted, so the
+/// caller can refresh data immediately instead of waiting for the next tick.
+Future<bool> handleCertificateRecovery(
   BuildContext context,
   Exception error,
 ) async {
@@ -15,7 +17,7 @@ Future<void> handleCertificateRecovery(
     listen: false,
   );
   final server = serversViewModel.selectedServer;
-  if (server == null) return;
+  if (server == null) return false;
 
   final service = ServerConnectionService(
     context: context,
@@ -26,5 +28,5 @@ Future<void> handleCertificateRecovery(
     createBundle: Provider.of<CreateRepositoryBundle>(context, listen: false),
   );
 
-  await service.showCertificateErrorRecovery(error);
+  return service.showCertificateErrorRecovery(error);
 }

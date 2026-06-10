@@ -349,12 +349,13 @@ class ServerConnectionService {
   }
 
   // Caution snackbar + dialog offering a pin update (on mismatch) or edit,
-  // then reconnects on a successful pin update. Callers ensure the error is an
-  // SSL error and [targetContext] is mounted.
-  Future<void> _promptCertificateRecovery(BuildContext targetContext) async {
+  // then reconnects on a successful pin update. Returns true when the pin was
+  // updated and a reconnect was attempted. Callers ensure the error is an SSL
+  // error and [targetContext] is mounted.
+  Future<bool> _promptCertificateRecovery(BuildContext targetContext) async {
     final isPinMismatch = await _isPinnedCertificateMismatch(server);
 
-    if (!targetContext.mounted) return;
+    if (!targetContext.mounted) return false;
     final loc = AppLocalizations.of(targetContext)!;
 
     showCautionSnackBar(
@@ -408,19 +409,22 @@ class ServerConnectionService {
             showModal: showModal,
             fetchTlsCertificate: fetchTlsCertificate,
           ).connect();
+          return true;
         }
       } else {
         _openEditServer(targetContext, server);
       }
     }
+    return false;
   }
 
   /// Recovery entry for an already-selected server (e.g. auto-refresh hit a pin
   /// mismatch). Unlike [connect]/[_onFailure] it does not restart auto-refresh,
-  /// so dismissing the dialog avoids looping on the same 495.
-  Future<void> showCertificateErrorRecovery(Exception error) async {
-    if (!_isSslError(error) || !context.mounted) return;
-    await _promptCertificateRecovery(context);
+  /// so dismissing the dialog avoids looping on the same 495. Returns true when
+  /// the pin was updated and a reconnect was attempted.
+  Future<bool> showCertificateErrorRecovery(Exception error) async {
+    if (!_isSslError(error) || !context.mounted) return false;
+    return _promptCertificateRecovery(context);
   }
 
   Future<Server?> _openUpdatePinnedFingerprint(
