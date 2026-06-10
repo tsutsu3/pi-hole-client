@@ -45,7 +45,12 @@ class RepositoryBundleFactory {
 
     switch (server.apiVersion) {
       case SupportedApiVersions.v6:
-        final client = PiholeV6ApiClient(url: server.address);
+        final client = PiholeV6ApiClient(
+          url: server.address,
+          allowUntrustedCert: server.allowUntrustedCert,
+          ignoreCertificateErrors: server.ignoreCertificateErrors,
+          pinnedCertificateSha256: server.pinnedCertificateSha256,
+        );
         final sessionCache = V6SessionCache(creds: creds, client: client);
 
         return RepositoryBundle(
@@ -92,9 +97,17 @@ class RepositoryBundleFactory {
           ),
           serverAddress: server.address,
           apiVersion: server.apiVersion,
+          allowUntrustedCert: server.allowUntrustedCert,
+          ignoreCertificateErrors: server.ignoreCertificateErrors,
+          pinnedCertificateSha256: server.pinnedCertificateSha256,
         );
       default:
-        final client = PiholeV5ApiClient(url: server.address);
+        final client = PiholeV5ApiClient(
+          url: server.address,
+          allowUntrustedCert: server.allowUntrustedCert,
+          ignoreCertificateErrors: server.ignoreCertificateErrors,
+          pinnedCertificateSha256: server.pinnedCertificateSha256,
+        );
         return RepositoryBundle(
           actions: ActionsRepositoryV5(client: client, creds: creds),
           adlist: AdlistRepositoryV5(client: client, creds: creds),
@@ -115,6 +128,9 @@ class RepositoryBundleFactory {
           ),
           serverAddress: server.address,
           apiVersion: server.apiVersion,
+          allowUntrustedCert: server.allowUntrustedCert,
+          ignoreCertificateErrors: server.ignoreCertificateErrors,
+          pinnedCertificateSha256: server.pinnedCertificateSha256,
         );
     }
   }

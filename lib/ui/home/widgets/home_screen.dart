@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
+import 'package:pi_hole_client/ui/core/actions/handle_certificate_recovery.dart';
 import 'package:pi_hole_client/ui/core/actions/refresh_server_status.dart';
 import 'package:pi_hole_client/ui/core/actions/server_management.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
@@ -34,6 +35,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late bool isVisible;
   final ScrollController scrollController = ScrollController();
+  bool _handlingCertError = false;
 
   @override
   void initState() {
@@ -41,6 +43,33 @@ class _HomeScreenState extends State<HomeScreen> {
 
     isVisible = true;
     scrollController.addListener(_scrollListener);
+    widget.statusViewModel.addListener(_onStatusViewModelChanged);
+  }
+
+  @override
+  void didUpdateWidget(covariant HomeScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // statusViewModel is an app singleton so this rarely changes, but re-bind
+    // the listener defensively if a new instance is ever passed in.
+    if (oldWidget.statusViewModel != widget.statusViewModel) {
+      oldWidget.statusViewModel.removeListener(_onStatusViewModelChanged);
+      widget.statusViewModel.addListener(_onStatusViewModelChanged);
+    }
+  }
+
+  // Show the certificate recovery dialog when auto-refresh stops on a TLS error.
+  void _onStatusViewModelChanged() {
+    final error = widget.statusViewModel.fatalConnectionError;
+    if (error == null || _handlingCertError) return;
+    _handlingCertError = true;
+    widget.statusViewModel.clearFatalConnectionError();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // Refresh immediately only when the pin was updated.
+      if (mounted && await handleCertificateRecovery(context, error)) {
+        if (mounted) await refreshServerStatus(context);
+      }
+      _handlingCertError = false;
+    });
   }
 
   void _scrollListener() {
@@ -62,6 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     scrollController.removeListener(_scrollListener);
+    scrollController.dispose();
+    widget.statusViewModel.removeListener(_onStatusViewModelChanged);
     super.dispose();
   }
 

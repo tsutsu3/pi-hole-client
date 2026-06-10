@@ -7,10 +7,16 @@ import '../../../models/v5/realtime_status.dart';
 class FakeRealTimeStatusRepository implements RealtimeStatusRepository {
   bool shouldFail = false;
 
+  /// Error returned when [shouldFail] is true. Lets tests inject a specific
+  /// failure (e.g. a 495 TLS error) instead of the generic one.
+  Exception? failureError;
+
   @override
   Future<Result<RealtimeStatus>> fetchRealtimeStatus() async {
     if (shouldFail) {
-      return Failure(Exception('Failed to fetch real-time status'));
+      return Failure(
+        failureError ?? Exception('Failed to fetch real-time status'),
+      );
     }
     return Success(kRepoFetchRealTimeStatus);
   }

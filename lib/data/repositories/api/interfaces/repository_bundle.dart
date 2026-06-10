@@ -38,6 +38,9 @@ class RepositoryBundle {
     required this.realtimeStatus,
     required this.serverAddress,
     required this.apiVersion,
+    this.allowUntrustedCert = false,
+    this.ignoreCertificateErrors = false,
+    this.pinnedCertificateSha256,
   });
 
   final ActionsRepository actions;
@@ -56,4 +59,7 @@ class RepositoryBundle {
   final RealtimeStatusRepository realtimeStatus;
   final String serverAddress;
   final String apiVersion;
+  final bool allowUntrustedCert;
+  final bool ignoreCertificateErrors;
+  final String? pinnedCertificateSha256;
 }

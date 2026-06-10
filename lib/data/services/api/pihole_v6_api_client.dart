@@ -47,6 +47,7 @@ class PiholeV6ApiClient {
     http.Client? client,
     bool? allowUntrustedCert,
     bool? ignoreCertificateErrors,
+    String? pinnedCertificateSha256,
   }) : _url = url,
        _client =
            client ??
@@ -54,6 +55,7 @@ class PiholeV6ApiClient {
              createHttpClient(
                allowUntrustedCert: allowUntrustedCert ?? true,
                ignoreCertificateErrors: ignoreCertificateErrors ?? false,
+               pinnedCertificateSha256: pinnedCertificateSha256,
              ),
            );
 

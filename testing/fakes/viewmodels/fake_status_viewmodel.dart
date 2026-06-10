@@ -19,6 +19,7 @@ class FakeStatusViewModel extends StatusViewModel {
   FtlDnsMetrics? _ftlDnsMetrics;
   FtlSystem? _ftlSystem;
   FtlSensor? _ftlSensor;
+  Exception? _fatalConnectionError;
 
   @override
   LoadStatus get getStatusLoading => _statusLoading;
@@ -52,6 +53,19 @@ class FakeStatusViewModel extends StatusViewModel {
 
   @override
   FtlSensor? get getFtlSensor => _ftlSensor;
+
+  @override
+  Exception? get fatalConnectionError => _fatalConnectionError;
+
+  @override
+  void clearFatalConnectionError() {
+    _fatalConnectionError = null;
+  }
+
+  set fatalConnectionError(Exception? value) {
+    _fatalConnectionError = value;
+    notifyListeners();
+  }
 
   @override
   double? get getQueriesPerMinute {
