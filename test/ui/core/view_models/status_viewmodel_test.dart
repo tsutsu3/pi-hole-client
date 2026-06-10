@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 
 import '../../../../testing/fakes/repositories/api/fake_dns_repository.dart';
 import '../../../../testing/fakes/repositories/api/fake_ftl_repository.dart';
@@ -224,6 +225,50 @@ void main() {
       expect(vm.getServerStatus, LoadStatus.loading);
       final ok = await vm.refreshOnce();
       expect(ok, isFalse);
+    });
+  });
+
+  group('StatusViewModel - TLS (495) error handling', () {
+    late StatusViewModel vm;
+
+    tearDown(() => vm.dispose());
+
+    test('a 495 TLS error raises fatalConnectionError', () async {
+      vm = StatusViewModel();
+      final failingRepo = FakeRealTimeStatusRepository()
+        ..shouldFail = true
+        ..failureError = HttpStatusCodeException(495, 'SSL handshake failed');
+      _setup(vm, realtimeStatusRepository: failingRepo);
+
+      await vm.refreshOnce();
+
+      expect(vm.fatalConnectionError, isA<HttpStatusCodeException>());
+      expect(vm.getServerStatus, LoadStatus.error);
+    });
+
+    test('a non-TLS failure does not raise fatalConnectionError', () async {
+      vm = StatusViewModel();
+      final failingRepo = FakeRealTimeStatusRepository()..shouldFail = true;
+      _setup(vm, realtimeStatusRepository: failingRepo);
+
+      await vm.refreshOnce();
+
+      expect(vm.fatalConnectionError, isNull);
+      expect(vm.getServerStatus, LoadStatus.error);
+    });
+
+    test('clearFatalConnectionError resets the signal', () async {
+      vm = StatusViewModel();
+      final failingRepo = FakeRealTimeStatusRepository()
+        ..shouldFail = true
+        ..failureError = HttpStatusCodeException(495, 'SSL handshake failed');
+      _setup(vm, realtimeStatusRepository: failingRepo);
+
+      await vm.refreshOnce();
+      expect(vm.fatalConnectionError, isNotNull);
+
+      vm.clearFatalConnectionError();
+      expect(vm.fatalConnectionError, isNull);
     });
   });
 

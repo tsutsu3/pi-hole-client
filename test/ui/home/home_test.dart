@@ -11,6 +11,7 @@ import 'package:pi_hole_client/ui/home/widgets/home_appbar/switch_server_modal.d
 import 'package:pi_hole_client/ui/home/widgets/home_screen.dart';
 import 'package:pi_hole_client/ui/home/widgets/server_status_chips.dart';
 import 'package:pi_hole_client/ui/servers/widgets/servers_screen.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
@@ -114,6 +115,39 @@ void main() async {
       // clients graph
       expect(find.text('Client activity last 24 hours'), findsOneWidget);
     });
+
+    testWidgets(
+      'shows the certificate recovery dialog when auto-refresh hits a TLS error',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(
+          buildTestApp(
+            HomeScreen(
+              serversViewModel: serversViewModel,
+              appConfigViewModel: appConfigViewModel,
+              statusViewModel: statusViewModel,
+            ),
+            appConfigViewModel: appConfigViewModel,
+            serversViewModel: serversViewModel,
+            statusViewModel: statusViewModel,
+            logsViewModel: logsViewModel,
+            repositoryBundle: createFakeRepositoryBundle(),
+            createRepositoryBundle: ({required server}) =>
+                createFakeRepositoryBundle(),
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(find.byType(AlertDialog), findsNothing);
+
+        // Simulate auto-refresh detecting a pinned-certificate mismatch.
+        statusViewModel.fatalConnectionError = HttpStatusCodeException(
+          495,
+          'SSL handshake failed',
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.byType(AlertDialog), findsOneWidget);
+      },
+    );
 
     testWidgets('should show status chips for v6 server', (
       WidgetTester tester,
