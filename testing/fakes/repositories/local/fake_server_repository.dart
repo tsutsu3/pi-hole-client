@@ -22,8 +22,10 @@ class FakeServerRepository implements ServerRepository {
   String? lastUpdatedDefaultAddress;
   int savePasswordCallCount = 0;
   String? lastSavedPasswordAddress;
+  String? lastSavedPassword;
   int saveTokenCallCount = 0;
   String? lastSavedTokenAddress;
+  String? lastSavedToken;
 
   @override
   Future<Result<List<Server>>> fetchServers() async {
@@ -78,13 +80,7 @@ class FakeServerRepository implements ServerRepository {
   }
 
   @override
-  Future<Result<int>> replaceServer(
-    String oldAddress,
-    Server newServer, {
-    String? token,
-    String? password,
-    String? sid,
-  }) async {
+  Future<Result<int>> replaceServer(String oldAddress, Server newServer) async {
     replaceCallCount++;
     lastReplacedOldAddress = oldAddress;
     lastReplacedNewServer = newServer;
@@ -131,22 +127,40 @@ class FakeServerRepository implements ServerRepository {
     return Success.unit();
   }
 
+  /// Stored credentials returned by [fetchPassword]/[fetchCredentials].
+  ///
+  /// Defaults to non-empty values so that an edit screen loads with a populated
+  /// password/token, matching a real saved server. Tests can override these to
+  /// simulate a server with no stored secret.
+  String fakePassword = 'stored-pass';
+  String fakeToken = 'stored-token';
+
+  /// When true, [fetchCredentials] returns a [Failure], simulating a transient
+  /// secure-storage read error on edit-screen load.
+  bool shouldFailFetchCredentials = false;
+
   @override
   Future<Result<String>> fetchPassword(String address) async {
-    return const Success('');
+    return Success(fakePassword);
   }
 
   @override
   Future<Result<({String token, String password})>> fetchCredentials(
     String address,
   ) async {
-    return const Success((token: '', password: ''));
+    if (shouldFailFetchCredentials) {
+      return Failure(
+        Exception('FakeServerRepository: fetchCredentials failed'),
+      );
+    }
+    return Success((token: fakeToken, password: fakePassword));
   }
 
   @override
   Future<Result<void>> savePassword(String address, String password) async {
     savePasswordCallCount++;
     lastSavedPasswordAddress = address;
+    lastSavedPassword = password;
     return Success.unit();
   }
 
@@ -154,6 +168,7 @@ class FakeServerRepository implements ServerRepository {
   Future<Result<void>> saveToken(String address, String token) async {
     saveTokenCallCount++;
     lastSavedTokenAddress = address;
+    lastSavedToken = token;
     return Success.unit();
   }
 

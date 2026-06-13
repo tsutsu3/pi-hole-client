@@ -658,6 +658,103 @@ void main() async {
     });
 
     testWidgets(
+      'preserves a multi-segment subroute and an alias-only edit stays in place',
+      (WidgetTester tester) async {
+        useLargeView(tester);
+
+        const serverMultiSeg = Server(
+          address: 'http://localhost:8081/api/v1',
+          alias: 'multi',
+          defaultServer: false,
+          apiVersion: 'v6',
+          allowUntrustedCert: true,
+          ignoreCertificateErrors: false,
+        );
+
+        await tester.pumpWidget(
+          buildWidget(
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: serverMultiSeg,
+            ),
+          ),
+        );
+        await tester.pump();
+
+        await tester.enterText(find.byType(TextField).at(0), 'renamed');
+        await tester.tap(find.byIcon(Icons.save_rounded));
+        await tester.pump(const Duration(milliseconds: 1000));
+
+        expect(serversViewModel.editServerCallCount, 1);
+        expect(serversViewModel.replaceServerCallCount, 0);
+      },
+    );
+
+    testWidgets('uppercase host with an alias-only edit stays in place', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      const serverUpper = Server(
+        address: 'http://MyPi',
+        alias: 'upper',
+        defaultServer: false,
+        apiVersion: 'v6',
+        allowUntrustedCert: true,
+        ignoreCertificateErrors: false,
+      );
+
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: serverUpper,
+          ),
+        ),
+      );
+      await tester.pump();
+
+      // Alias-only edit: the host case difference must not trigger replace.
+      await tester.enterText(find.byType(TextField).at(0), 'renamed');
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      expect(serversViewModel.editServerCallCount, 1);
+      expect(serversViewModel.replaceServerCallCount, 0);
+    });
+
+    testWidgets('clearing the password disables Save for a v6 server', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverV6,
+          ),
+        ),
+      );
+      await tester.pump();
+
+      // password field is the last visible TextField (index 3).
+      await tester.enterText(find.byType(TextField).at(3), '');
+      await tester.pump();
+
+      final saveButton = tester.widget<IconButton>(
+        find.ancestor(
+          of: find.byIcon(Icons.save_rounded),
+          matching: find.byType(IconButton),
+        ),
+      );
+      expect(saveButton.onPressed, isNull);
+    });
+
+    testWidgets(
       'should show the failed snackbar when editing a server (socketError)',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(1080, 2400);
@@ -1721,5 +1818,116 @@ void main() async {
         'new:fingerprint',
       );
     });
+
+    testWidgets(
+      'same-address v6 password change validates the new password and aborts the save when authentication fails',
+      (WidgetTester tester) async {
+        useLargeView(tester);
+
+        // The bundle for the (unchanged) address must re-authenticate with the
+        // edited password; force that createSession to fail.
+        final failingAuth = FakeAuthRepository()..shouldFail = true;
+
+        await tester.pumpWidget(
+          buildWidget(
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: _serverV6,
+            ),
+            authByAddress: {_serverV6.address: failingAuth},
+          ),
+        );
+        await tester.pump();
+
+        // Change only the password (address stays the same).
+        await tester.enterText(find.byType(TextField).at(3), 'new-password');
+
+        await tester.tap(find.byIcon(Icons.save_rounded));
+        await tester.pump(const Duration(milliseconds: 1000));
+
+        // The edited password is validated up-front and the save is aborted.
+        expect(failingAuth.createSessionCallCount, 1);
+        expect(serversViewModel.editServerCallCount, 0);
+        expect(find.text('Failed. Unknown error.'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'same-address v6 password change re-authenticates with the new password',
+      (WidgetTester tester) async {
+        useLargeView(tester);
+
+        final auth = FakeAuthRepository();
+
+        await tester.pumpWidget(
+          buildWidget(
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: _serverV6,
+            ),
+            authByAddress: {_serverV6.address: auth},
+          ),
+        );
+        await tester.pump();
+
+        await tester.enterText(find.byType(TextField).at(3), 'new-password');
+
+        await tester.tap(find.byIcon(Icons.save_rounded));
+        await tester.pump(const Duration(milliseconds: 1000));
+
+        // Editing the password forces a session create to validate it, but the
+        // edit still commits in place.
+        expect(auth.createSessionCallCount, 1);
+        expect(serversViewModel.editServerCallCount, 1);
+        expect(serversViewModel.replaceServerCallCount, 0);
+        expect(
+          find.text('Server settings updated successfully.'),
+          findsOneWidget,
+        );
+      },
+    );
+
+    testWidgets(
+      'a failed credential load does not wipe the stored secret when the save '
+      'fails',
+      (WidgetTester tester) async {
+        useLargeView(tester);
+
+        // Secure-storage read fails on load, so initPassword is an empty
+        // placeholder even though a real secret still exists in storage.
+        serversViewModel.failFetchCredentials = true;
+        fakeDnsRepository
+          ..shouldFail = true
+          ..failureException = HttpStatusCodeException(503);
+
+        await tester.pumpWidget(
+          buildWidget(
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: _serverV6,
+            ),
+          ),
+        );
+        // Let the (failing) credential load settle before editing the field so
+        // it can't overwrite the value entered below. pumpAndSettle is unusable
+        // here because the connecting spinner animates indefinitely.
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 500));
+
+        // Re-enter the (correct) password and save; the connection then fails.
+        await tester.enterText(find.byType(TextField).at(3), 'real-pass');
+        await tester.pump();
+
+        await tester.tap(find.byIcon(Icons.save_rounded));
+        await tester.pump(const Duration(milliseconds: 1000));
+
+        // The rollback must not restore the empty placeholder over the secret.
+        expect(find.text('Failed. Check address.'), findsOneWidget);
+        expect(serversViewModel.lastSavedPassword, 'real-pass');
+      },
+    );
   });
 }

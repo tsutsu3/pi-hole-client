@@ -42,6 +42,9 @@ class FakeServersViewModel extends ServersViewModel {
   set shouldFailSetDefaultServer(bool value) =>
       _fakeRepo.shouldFailUpdateDefault = value;
 
+  set failFetchCredentials(bool value) =>
+      _fakeRepo.shouldFailFetchCredentials = value;
+
   // --- Call tracking (delegate to repo) ---
 
   int get removeServerCallCount => _fakeRepo.deleteCallCount;
@@ -54,8 +57,10 @@ class FakeServersViewModel extends ServersViewModel {
   Server? get lastReplacedNewServer => _fakeRepo.lastReplacedNewServer;
   int get savePasswordCallCount => _fakeRepo.savePasswordCallCount;
   String? get lastSavedPasswordAddress => _fakeRepo.lastSavedPasswordAddress;
+  String? get lastSavedPassword => _fakeRepo.lastSavedPassword;
   int get saveTokenCallCount => _fakeRepo.saveTokenCallCount;
   String? get lastSavedTokenAddress => _fakeRepo.lastSavedTokenAddress;
+  String? get lastSavedToken => _fakeRepo.lastSavedToken;
 
   /// Counts calls to `deleteSid`. The production wrapper is added later; until
   /// then this stays 0, which is what the state-integrity tests assert against.

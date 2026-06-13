@@ -184,10 +184,16 @@ class ServersViewModel with ChangeNotifier {
     if (saved.isError()) {
       throw saved.exceptionOrNull()!;
     }
-    if (server.defaultServer == true) {
-      await _setDefaultServer(server);
-    }
     _serversList = [..._serversList, server];
+
+    // insertServer already cleared the other defaults inside its transaction;
+    // mirror that in memory without a second DB write.
+    if (server.defaultServer == true) {
+      _serversList = _serversList
+          .map((s) => s.copyWith(defaultServer: s.address == server.address))
+          .toList();
+    }
+
     await WidgetChannel.sendServersUpdated(_serversList);
     notifyListeners();
   }
@@ -206,8 +212,12 @@ class ServersViewModel with ChangeNotifier {
       _selectedServer = server;
     }
 
+    // updateServer already cleared the other defaults inside its transaction;
+    // mirror that in memory without a second DB write.
     if (server.defaultServer == true) {
-      await _setDefaultServer(server);
+      _serversList = _serversList
+          .map((s) => s.copyWith(defaultServer: s.address == server.address))
+          .toList();
     }
 
     await WidgetChannel.sendServersUpdated(_serversList);

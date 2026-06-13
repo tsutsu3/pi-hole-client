@@ -17,13 +17,7 @@ abstract interface class ServerRepository {
   });
   Future<Result<int>> updateDefaultServer(String url);
 
-  Future<Result<int>> replaceServer(
-    String oldAddress,
-    Server newServer, {
-    String? token,
-    String? password,
-    String? sid,
-  });
+  Future<Result<int>> replaceServer(String oldAddress, Server newServer);
 
   Future<Result<int>> deleteServer(String address);
   Future<Result<int>> deleteAllServers();

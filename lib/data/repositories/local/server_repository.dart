@@ -4,7 +4,6 @@ import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/data/services/utils/database_utils.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
-import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -96,14 +95,20 @@ class LocalServerRepository implements ServerRepository {
         await _secureStorage.saveValue('${server.address}_sid', sid);
       }
 
-      return await _database.insert('servers', {
-        'address': server.address,
-        'alias': server.alias,
-        'isDefaultServer': server.defaultServer ? 1 : 0,
-        'apiVersion': server.apiVersion,
-        'allowUntrustedCert': server.allowUntrustedCert ? 1 : 0,
-        'ignoreCertificateErrors': server.ignoreCertificateErrors ? 1 : 0,
-        'pinnedCertificateSha256': server.pinnedCertificateSha256,
+      return await _database.transaction<int>((txn) async {
+        // Keep "only one default" invariant atomic with the insert.
+        if (server.defaultServer) {
+          await txn.update('servers', {'isDefaultServer': 0});
+        }
+        return txn.insert('servers', {
+          'address': server.address,
+          'alias': server.alias,
+          'isDefaultServer': server.defaultServer ? 1 : 0,
+          'apiVersion': server.apiVersion,
+          'allowUntrustedCert': server.allowUntrustedCert ? 1 : 0,
+          'ignoreCertificateErrors': server.ignoreCertificateErrors ? 1 : 0,
+          'pinnedCertificateSha256': server.pinnedCertificateSha256,
+        });
       });
     } catch (e, st) {
       logger.e('Failed to save server: $e\n$st');
@@ -141,19 +146,25 @@ class LocalServerRepository implements ServerRepository {
         await _secureStorage.saveValue('${server.address}_sid', sid);
       }
 
-      return await _database.update(
-        'servers',
-        {
-          'alias': server.alias,
-          'isDefaultServer': convertFromBoolToInt(server.defaultServer),
-          'apiVersion': server.apiVersion,
-          'allowUntrustedCert': server.allowUntrustedCert ? 1 : 0,
-          'ignoreCertificateErrors': server.ignoreCertificateErrors ? 1 : 0,
-          'pinnedCertificateSha256': server.pinnedCertificateSha256,
-        },
-        where: 'address = ?',
-        whereArgs: [server.address],
-      );
+      return await _database.transaction<int>((txn) async {
+        // Keep "only one default" invariant atomic with the update
+        if (server.defaultServer) {
+          await txn.update('servers', {'isDefaultServer': 0});
+        }
+        return txn.update(
+          'servers',
+          {
+            'alias': server.alias,
+            'isDefaultServer': server.defaultServer ? 1 : 0,
+            'apiVersion': server.apiVersion,
+            'allowUntrustedCert': server.allowUntrustedCert ? 1 : 0,
+            'ignoreCertificateErrors': server.ignoreCertificateErrors ? 1 : 0,
+            'pinnedCertificateSha256': server.pinnedCertificateSha256,
+          },
+          where: 'address = ?',
+          whereArgs: [server.address],
+        );
+      });
     } catch (e, st) {
       logger.e('Failed to edit server: $e\n$st');
       return Failure(Exception('Failed to edit server: $e\n$st'));
@@ -192,28 +203,21 @@ class LocalServerRepository implements ServerRepository {
     }
   }
 
-  /// Replaces the server identified by [oldAddress] with [newServer].
+  /// Replaces the server identified by [oldAddress] with [newServer] at the
+  /// database level only.
   ///
-  /// Deletes the old secrets, stores any provided new secrets under the new
-  /// server address, then in a single transaction removes the old row and
-  /// inserts the new one. Gravity child rows referencing [oldAddress] are
-  /// removed automatically by the `ON DELETE CASCADE` foreign keys.
+  /// In a single transaction this removes the old row, clears the default flag
+  /// on the other servers when [newServer] is the default, and inserts the new
+  /// row. Gravity child rows referencing [oldAddress] are removed automatically
+  /// by the `ON DELETE CASCADE` foreign keys.
   ///
   /// Returns the inserted row id on success, or a [Failure] if it fails.
   @override
-  Future<Result<int>> replaceServer(
-    String oldAddress,
-    Server newServer, {
-    String? token,
-    String? password,
-    String? sid,
-  }) async {
+  Future<Result<int>> replaceServer(String oldAddress, Server newServer) async {
     try {
       await openDbIfNeeded(_database);
 
-      // DB first: a failed transaction must not wipe the old server's
-      // credentials, or it becomes unrecoverable.
-      final result = await _database.transaction<int>((txn) async {
+      return await _database.transaction<int>((txn) async {
         final deleted = await txn.delete(
           'servers',
           where: 'address = ?',
@@ -239,28 +243,6 @@ class LocalServerRepository implements ServerRepository {
           'pinnedCertificateSha256': newServer.pinnedCertificateSha256,
         });
       });
-
-      if (result.isError()) return result;
-
-      // Committed: now safe to migrate credentials.
-      await _secureStorage.deleteValue('${oldAddress}_token');
-      await _secureStorage.deleteValue('${oldAddress}_password');
-      await _secureStorage.deleteValue('${oldAddress}_sid');
-
-      if (token != null && token.isNotEmpty) {
-        await _secureStorage.saveValue('${newServer.address}_token', token);
-      }
-      if (password != null && password.isNotEmpty) {
-        await _secureStorage.saveValue(
-          '${newServer.address}_password',
-          password,
-        );
-      }
-      if (sid != null && sid.isNotEmpty) {
-        await _secureStorage.saveValue('${newServer.address}_sid', sid);
-      }
-
-      return result;
     } catch (e, st) {
       logger.e('Failed to replace server: $e\n$st');
       return Failure(Exception('Failed to replace server: $e\n$st'));

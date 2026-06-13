@@ -161,8 +161,9 @@ void main() {
     });
 
     test('returns Failure when unexpexted error', () async {
-      dbService.shouldThrowOnInsert = true;
-      await repository.insertServer(serverV6);
+      // insertServer now wraps the write in a transaction (atomic default
+      // clearing), so the transaction is what throws.
+      dbService.shouldThrowOnTransaction = true;
 
       final result = await repository.insertServer(serverV6);
       expect(result.isError(), true);
@@ -171,6 +172,21 @@ void main() {
         contains('Exception: Failed to save server'),
       );
     });
+
+    test(
+      'clears the previous default when inserting a new default server',
+      () async {
+        await repository.insertServer(serverV5.copyWith(defaultServer: true));
+        await repository.insertServer(serverV6); // defaultServer: true
+
+        final servers = (await repository.fetchServers()).getOrNull()!;
+        final defaults = servers
+            .where((s) => s.defaultServer)
+            .map((s) => s.address)
+            .toList();
+        expect(defaults, [serverV6.address]);
+      },
+    );
   });
 
   group('ServerRepository.updateServer', () {
@@ -231,8 +247,10 @@ void main() {
     });
 
     test('returns Failure when unexpected error', () async {
-      dbService.shouldThrowOnUpdate = true;
       await repository.insertServer(serverV6);
+      // updateServer now wraps the write in a transaction (atomic default
+      // clearing), so the transaction is what throws.
+      dbService.shouldThrowOnTransaction = true;
 
       final updatedServer = serverV6.copyWith(alias: 'updated6');
       final result = await repository.updateServer(updatedServer);
@@ -242,6 +260,26 @@ void main() {
         contains('Exception: Failed to edit server'),
       );
     });
+
+    test(
+      'clears the default flag on other servers when updating into a default server',
+      () async {
+        await repository.insertServer(serverV5.copyWith(defaultServer: true));
+        await repository.insertServer(serverV6.copyWith(defaultServer: false));
+
+        final result = await repository.updateServer(
+          serverV6.copyWith(defaultServer: true),
+        );
+        expect(result.isSuccess(), true);
+
+        final servers = (await repository.fetchServers()).getOrNull()!;
+        final defaults = servers
+            .where((s) => s.defaultServer)
+            .map((s) => s.address)
+            .toList();
+        expect(defaults, [serverV6.address]);
+      },
+    );
   });
 
   group('ServerRepository.updateDefaultServer', () {
@@ -402,7 +440,7 @@ void main() {
       }
     });
 
-    test('moves the row and swaps secret keys', () async {
+    test('moves the row and leaves secrets untouched (DB only)', () async {
       await repository.insertServer(
         serverV6,
         password: 'pass-old',
@@ -412,8 +450,6 @@ void main() {
       final result = await repository.replaceServer(
         serverV6.address,
         newServerV6,
-        password: 'pass-new',
-        sid: 'sid-new',
       );
       expect(result.isSuccess(), true);
 
@@ -422,25 +458,24 @@ void main() {
       expect(addresses.contains(serverV6.address), false);
       expect(addresses.contains(newServerV6.address), true);
 
-      // Old secrets are removed.
+      // replaceServer is DB-only: secret migration is owned by the caller so a
+      // failed transaction can leave the old session/credentials recoverable.
+      // The old secrets remain and no new-address secrets are created here.
       expect(
-        (await ssSerivce.getValue('${serverV6.address}_password')).isError(),
+        (await ssSerivce.getValue('${serverV6.address}_password')).getOrNull(),
+        'pass-old',
+      );
+      expect(
+        (await ssSerivce.getValue('${serverV6.address}_sid')).getOrNull(),
+        'sid-old',
+      );
+      expect(
+        (await ssSerivce.getValue('${newServerV6.address}_password')).isError(),
         true,
       );
       expect(
-        (await ssSerivce.getValue('${serverV6.address}_sid')).isError(),
+        (await ssSerivce.getValue('${newServerV6.address}_sid')).isError(),
         true,
-      );
-      // New secrets are stored under the new address.
-      expect(
-        (await ssSerivce.getValue(
-          '${newServerV6.address}_password',
-        )).getOrNull(),
-        'pass-new',
-      );
-      expect(
-        (await ssSerivce.getValue('${newServerV6.address}_sid')).getOrNull(),
-        'sid-new',
       );
     });
 

@@ -19,6 +19,7 @@ import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
+import 'package:pi_hole_client/utils/url.dart';
 import 'package:provider/provider.dart';
 
 class AddServerFullscreen extends StatefulWidget {
@@ -70,21 +71,31 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   String? initPassword;
   bool _advancedOptionsExpanded = false;
 
+  /// Whether the edit screen has finished loading the stored secrets. Always
+  /// true in add mode; false until [_loadSecrets] completes in edit mode so the
+  /// Save button can't fire (and overwrite credentials) before they are ready.
+  bool _secretsLoaded = true;
+
+  /// Whether [_loadSecrets] actually read the stored secrets. Stays false when
+  /// the secure-storage read fails, so [_restoreSecrets] won't write back the
+  /// empty placeholders and wipe a credential that is still present.
+  bool _secretsLoadSucceeded = false;
+
   @override
   void initState() {
     super.initState();
     if (widget.server != null) {
-      final splitted = widget.server!.address.split(':');
-      addressFieldController.text = splitted[1].split('/')[2];
-      portFieldController.text = splitted.length > 2
-          ? splitted[2].split('/')[0]
-          : '';
-      subrouteFieldController.text =
-          widget.server!.address.split('/').length > 3
-          ? '/${widget.server!.address.split('/')[3]}'
-          : '';
+      // Parse the stored URL with Uri so multi-segment subroutes (e.g.
+      // `/api/v1`) survive and the host/port are extracted reliably instead of
+      // via fragile manual `split` calls.
+      final uri = Uri.parse(widget.server!.address);
+      addressFieldController.text = uri.host;
+      portFieldController.text = uri.hasPort ? '${uri.port}' : '';
+      // A bare '/' carries no routing info and trips the subroute validator, so
+      // normalise it to empty; otherwise keep the full path.
+      subrouteFieldController.text = uri.path == '/' ? '' : uri.path;
       aliasFieldController.text = widget.server!.alias;
-      connectionType = widget.server!.address.split(':')[0] == 'https'
+      connectionType = uri.scheme == 'https'
           ? ConnectionType.https
           : ConnectionType.http;
       piHoleVersion = widget.server!.apiVersion;
@@ -94,6 +105,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       pinnedCertificateSha256 = widget.server!.pinnedCertificateSha256;
       // For edit mode, expand Advanced Options if HTTPS
       _advancedOptionsExpanded = connectionType == ConnectionType.https;
+      _secretsLoaded = false;
       _loadSecrets();
     }
   }
@@ -181,6 +193,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   }
 
   Future<void> _loadSecrets() async {
+    var password = '';
+    var token = '';
+    var loaded = false;
     if (widget.server != null) {
       try {
         final serversViewModel = context.read<ServersViewModel>();
@@ -188,45 +203,41 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           widget.server!.address,
         );
         final creds = result.getOrNull();
-
-        if (mounted) {
-          setState(() {
-            passwordFieldController.text = creds?.password ?? '';
-            tokenFieldController.text = creds?.token ?? '';
-            initToken = creds?.token ?? '';
-            initPassword = creds?.password ?? '';
-          });
+        if (creds != null) {
+          password = creds.password;
+          token = creds.token;
+          loaded = true;
         }
       } catch (e) {
-        if (mounted) {
-          setState(() {
-            passwordFieldController.text = '';
-            tokenFieldController.text = '';
-            initToken = '';
-            initPassword = '';
-          });
-        }
+        password = '';
+        token = '';
       }
-    } else {
-      if (mounted) {
-        setState(() {
-          passwordFieldController.text = '';
-          tokenFieldController.text = '';
-          initToken = '';
-          initPassword = '';
-        });
-      }
+    }
+    // Mark loaded on both the success and failure paths so the Save button is
+    // never permanently disabled if the credential read throws.
+    if (mounted) {
+      setState(() {
+        passwordFieldController.text = password;
+        tokenFieldController.text = token;
+        initToken = token;
+        initPassword = password;
+        _secretsLoadSucceeded = loaded;
+        _secretsLoaded = true;
+      });
     }
   }
 
   Future<void> _restoreSecrets() async {
-    if (widget.server != null) {
+    // Only restore when the original secrets were actually read. If the initial
+    // load failed, initPassword/initToken are empty placeholders and writing
+    // them back would wipe a credential that is still in secure storage.
+    if (widget.server != null && _secretsLoadSucceeded) {
       final serversViewModel = context.read<ServersViewModel>();
       await serversViewModel.savePassword(
         widget.server!.address,
-        initPassword!,
+        initPassword ?? '',
       );
-      await serversViewModel.saveToken(widget.server!.address, initToken!);
+      await serversViewModel.saveToken(widget.server!.address, initToken ?? '');
     }
   }
 
@@ -479,8 +490,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             if (mounted) {
               setState(() {
                 isConnecting = false;
-                _restoreSecrets();
               });
+              await _restoreSecrets();
               await serversViewModel.deletePassword(url);
               await serversViewModel.deleteToken(url);
               if (!context.mounted) return;
@@ -518,8 +529,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           if (mounted) {
             setState(() {
               isConnecting = false;
-              _restoreSecrets();
             });
+            await _restoreSecrets();
 
             await serversViewModel.deletePassword(url);
             await serversViewModel.deleteToken(url);
@@ -553,7 +564,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       final oldAddress = oldServer.address;
       final newUrl =
           '${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}';
-      final isAddressChanged = newUrl != oldAddress;
+      // Normalised comparison: a host-case-only or trailing-slash difference is
+      // NOT an address change and must stay on the in-place editServer path.
+      final isAddressChanged = !isSameEndpoint(oldAddress, newUrl);
 
       // When the address (primary key) changes, make sure the new URL is not
       // already used by another server before doing anything destructive.
@@ -633,18 +646,19 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         tokenFieldController.text,
       );
 
-      // Rolls back everything written under the new address on a failed
-      // address-changing save: credentials, SID, and the freshly created remote
-      // session. Same-address edits keep their secrets (handled by the caller).
-      Future<void> discardNewAddressArtifacts({
+      // Rolls back everything written for THIS save attempt on failure, always
+      // leaving the old server (row, credentials, session) untouched.
+      //
+      // - Address change: remove the credentials and SID written under the new
+      //   address plus the freshly created remote session.
+      // - Same address: restore the old credentials and, when a new session was
+      //   created during this attempt, tear it down so it does not leak.
+      Future<void> rollbackFailedSave({
         required RepositoryBundle bundle,
         required bool sessionCreated,
       }) async {
-        if (!isAddressChanged) return;
-        await serversViewModel.deletePassword(targetAddress);
-        await serversViewModel.deleteToken(targetAddress);
-        await serversViewModel.deleteSid(targetAddress);
-        if (sessionCreated) {
+        Future<void> deleteNewSession() async {
+          if (!sessionCreated) return;
           try {
             await bundle.auth.deleteCurrentSession();
           } catch (e, s) {
@@ -655,20 +669,32 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             );
           }
         }
+
+        if (isAddressChanged) {
+          await serversViewModel.deletePassword(targetAddress);
+          await serversViewModel.deleteToken(targetAddress);
+          await serversViewModel.deleteSid(targetAddress);
+          await deleteNewSession();
+        } else {
+          await deleteNewSession();
+          await _restoreSecrets();
+        }
       }
 
-      void handleSaveError(Exception e) {
+      Future<void> handleSaveError(Exception e) async {
         if (context.mounted) {
           setState(() {
             isConnecting = false;
-            _restoreSecrets();
           });
-          handleApiErrorResult(
-            context: context,
-            appConfigViewModel: appConfigViewModel,
-            error: e,
-            version: piHoleVersion,
-          );
+          await _restoreSecrets();
+          if (context.mounted) {
+            handleApiErrorResult(
+              context: context,
+              appConfigViewModel: appConfigViewModel,
+              error: e,
+              version: piHoleVersion,
+            );
+          }
         }
         if (serversViewModel.selectedServer != null) {
           statusViewModel.startAutoRefresh();
@@ -684,18 +710,28 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             passwordFieldController.text,
           );
           if (authResult.isError()) {
-            await discardNewAddressArtifacts(
-              bundle: bundle,
-              sessionCreated: false,
-            );
-            handleSaveError(authResult.exceptionOrNull()!);
+            await rollbackFailedSave(bundle: bundle, sessionCreated: false);
+            await handleSaveError(authResult.exceptionOrNull()!);
+            return;
+          }
+          sessionJustCreated = true;
+        } else if (passwordFieldController.text != (initPassword ?? '')) {
+          // Same address but the password was edited. Validate it now by
+          // creating a session: an unverified (possibly wrong) password would
+          // otherwise silently overwrite the known-good one and lock the user
+          // out the moment the current SID is invalidated.
+          final authResult = await bundle.auth.createSession(
+            passwordFieldController.text,
+          );
+          if (authResult.isError()) {
+            await handleSaveError(authResult.exceptionOrNull()!);
             return;
           }
           sessionJustCreated = true;
         } else {
-          // Same address: check if the existing session is still valid before
-          // creating a new one. Only re-authenticate on 401/SidNotFoundException
-          // to avoid session multiplication when the server is temporarily
+          // Same address, unchanged password: reuse the existing session if it
+          // is still valid. Only re-authenticate on 401/SidNotFoundException to
+          // avoid session multiplication when the server is temporarily
           // unreachable (503/504/timeout).
           final preCheck = await bundle.dns.fetchBlockingStatus(
             skipRenewal: true,
@@ -703,14 +739,14 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           if (preCheck.isError()) {
             final err = preCheck.exceptionOrNull();
             if (!isReauthRequired(err)) {
-              handleSaveError(err!);
+              await handleSaveError(err!);
               return;
             }
             final authResult = await bundle.auth.createSession(
               passwordFieldController.text,
             );
             if (authResult.isError()) {
-              handleSaveError(authResult.exceptionOrNull()!);
+              await handleSaveError(authResult.exceptionOrNull()!);
               return;
             }
             sessionJustCreated = true;
@@ -745,11 +781,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
         if (cmdError == null) {
           // The old v6 session is orphaned on an address change or a switch
-          // away from v6 (e.g. v6 -> v5). Tear it down and drop the unused SID.
-          // Run only after the DB commit so a failed save can't kill a live
-          // session; best-effort since the old host is often unreachable.
+          // away from v6 (e.g. v6 -> v5). Run only after the DB commit so a
+          // failed save can't kill a live session.
           final oldWasV6 = oldServer.apiVersion == SupportedApiVersions.v6;
           final newIsV6 = serverObj.apiVersion == SupportedApiVersions.v6;
+
+          // 1. Log out the old v6 session.
           if (oldWasV6 && (isAddressChanged || !newIsV6)) {
             try {
               final oldBundle = saveCreateBundle(server: oldServer);
@@ -761,9 +798,18 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 stackTrace: s,
               );
             }
-            if (!isAddressChanged) {
-              await serversViewModel.deleteSid(targetAddress);
-            }
+          }
+
+          // 2. Now safe to drop the old server's credentials.
+          if (isAddressChanged) {
+            // New credentials already live under the new address; remove the
+            // stale ones left behind under the old address.
+            await serversViewModel.deleteToken(oldAddress);
+            await serversViewModel.deletePassword(oldAddress);
+            await serversViewModel.deleteSid(oldAddress);
+          } else if (oldWasV6 && !newIsV6) {
+            // Same address, v6 -> v5: the SID is now unused.
+            await serversViewModel.deleteSid(targetAddress);
           }
           if (context.mounted) {
             await Navigator.maybePop(context);
@@ -776,13 +822,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             );
           }
         } else {
-          // DB write failed: roll back the new-address artifacts; the old
+          // DB write failed: roll back this attempt's artifacts; the old
           // server (row, credentials, session) is left fully intact.
-          await discardNewAddressArtifacts(
+          await rollbackFailedSave(
             bundle: bundle,
             sessionCreated: sessionJustCreated,
           );
-          if (!isAddressChanged) await _restoreSecrets();
           if (context.mounted) {
             setState(() {
               isConnecting = false;
@@ -795,11 +840,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           }
         }
       } else {
-        await discardNewAddressArtifacts(
+        await rollbackFailedSave(
           bundle: bundle,
           sessionCreated: sessionJustCreated,
         );
-        if (!isAddressChanged) await _restoreSecrets();
         if (context.mounted) {
           setState(() {
             isConnecting = false;
@@ -825,7 +869,15 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       if (addressFieldController.text != '' &&
           subrouteFieldError == null &&
           addressFieldError == null &&
+          portFieldError == null &&
           aliasFieldController.text != '') {
+        if (widget.server != null) {
+          if (!_secretsLoaded) return false;
+          final hasCredential = piHoleVersion == SupportedApiVersions.v6
+              ? passwordFieldController.text != ''
+              : tokenFieldController.text != '';
+          if (!hasCredential) return false;
+        }
         return true;
       } else {
         return false;
