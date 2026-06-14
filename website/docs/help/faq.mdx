@@ -150,3 +150,34 @@ The widget may show an offline or error state for several reasons:
 4. The widget will update with the latest status
 
 For more details, see the [Android Home Widget Guide](../../user-manual/android-home-widget).
+
+---
+
+## ❓ Q7. Pi-hole v5: Connects fine but enabling/disabling blocking fails
+
+### 💡 Answer
+
+This affects **Pi-hole v5** servers that have **no web password set**.
+
+Unlike v6, the v5 API does not bypass authentication when no password is
+configured — it still rejects any request that sends a non-empty API token.
+So if the connection's **Token** field holds a leftover token (for example,
+the server used to have a password that was later removed), the situation is:
+
+- Connecting and reading status **succeeds** (status queries need no auth).
+- Turning blocking **ON/OFF fails** with **"Couldn't disable server."** (or
+  **"Couldn't enable server."**).
+
+### 🛠 How to Fix
+
+**Clear the token, then reconnect.**
+
+1. Open the server's settings and edit the connection
+2. **Delete the value in the Token field** (leave it empty)
+3. Save and reconnect to the server
+4. Blocking ON/OFF now works
+
+:::info
+For a password-less Pi-hole **v5** server, the Token field should be left
+**empty**. Only set a token when the server actually has a password configured.
+:::
