@@ -14,10 +14,17 @@ import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:result_dart/result_dart.dart';
 
+/// Parameters for [ServersViewModel.replaceServer]: the address of the server
+/// being replaced and the new server that takes its place.
+typedef ReplaceServerParams = ({String oldAddress, Server newServer});
+
 class ServersViewModel with ChangeNotifier {
   ServersViewModel(this._repository) {
     addServer = Command.createAsyncNoResult<Server>(_addServer);
     editServer = Command.createAsyncNoResult<Server>(_editServer);
+    replaceServer = Command.createAsyncNoResult<ReplaceServerParams>(
+      _replaceServer,
+    );
     removeServer = Command.createAsyncNoResult<String>(_removeServer);
     setDefaultServer = Command.createAsyncNoResult<Server>(_setDefaultServer);
 
@@ -25,6 +32,8 @@ class ServersViewModel with ChangeNotifier {
     addServer.errors.addListener(notifyListeners);
     editServer.addListener(notifyListeners);
     editServer.errors.addListener(notifyListeners);
+    replaceServer.addListener(notifyListeners);
+    replaceServer.errors.addListener(notifyListeners);
     removeServer.addListener(notifyListeners);
     removeServer.errors.addListener(notifyListeners);
     setDefaultServer.addListener(notifyListeners);
@@ -49,6 +58,7 @@ class ServersViewModel with ChangeNotifier {
   // --- Commands ---
   late final Command<Server, void> addServer;
   late final Command<Server, void> editServer;
+  late final Command<ReplaceServerParams, void> replaceServer;
   late final Command<String, void> removeServer;
   late final Command<Server, void> setDefaultServer;
 
@@ -174,10 +184,16 @@ class ServersViewModel with ChangeNotifier {
     if (saved.isError()) {
       throw saved.exceptionOrNull()!;
     }
-    if (server.defaultServer == true) {
-      await _setDefaultServer(server);
-    }
     _serversList = [..._serversList, server];
+
+    // insertServer already cleared the other defaults inside its transaction;
+    // mirror that in memory without a second DB write.
+    if (server.defaultServer == true) {
+      _serversList = _serversList
+          .map((s) => s.copyWith(defaultServer: s.address == server.address))
+          .toList();
+    }
+
     await WidgetChannel.sendServersUpdated(_serversList);
     notifyListeners();
   }
@@ -196,10 +212,53 @@ class ServersViewModel with ChangeNotifier {
       _selectedServer = server;
     }
 
+    // updateServer already cleared the other defaults inside its transaction;
+    // mirror that in memory without a second DB write.
     if (server.defaultServer == true) {
-      await _setDefaultServer(server);
+      _serversList = _serversList
+          .map((s) => s.copyWith(defaultServer: s.address == server.address))
+          .toList();
     }
 
+    await WidgetChannel.sendServersUpdated(_serversList);
+    notifyListeners();
+  }
+
+  /// Replaces an existing server when its address (primary key) changes.
+  ///
+  /// Deletes the old row (and its cascaded data) and inserts the new one. The
+  /// new server's credentials/session are expected to already be stored under
+  /// the new address by the caller (the edit screen) before this runs.
+  Future<void> _replaceServer(ReplaceServerParams params) async {
+    final result = await _repository.replaceServer(
+      params.oldAddress,
+      params.newServer,
+    );
+    if (result.isError()) {
+      throw result.exceptionOrNull()!;
+    }
+
+    _serversList = _serversList
+        .map((s) => s.address == params.oldAddress ? params.newServer : s)
+        .toList();
+
+    if (_selectedServer?.address == params.oldAddress) {
+      _selectedServer = params.newServer;
+    }
+
+    // The repository already cleared other defaults inside the replace
+    // transaction; mirror that in memory without a second DB write.
+    if (params.newServer.defaultServer == true) {
+      _serversList = _serversList
+          .map(
+            (s) => s.copyWith(
+              defaultServer: s.address == params.newServer.address,
+            ),
+          )
+          .toList();
+    }
+
+    await WidgetChannel.sendServerRemoved(params.oldAddress);
     await WidgetChannel.sendServersUpdated(_serversList);
     notifyListeners();
   }
@@ -334,18 +393,24 @@ class ServersViewModel with ChangeNotifier {
   Future<Result<void>> deleteToken(String address) =>
       _repository.deleteToken(address);
 
+  Future<Result<void>> deleteSid(String address) =>
+      _repository.deleteSid(address);
+
   @override
   void dispose() {
     addServer.removeListener(notifyListeners);
     addServer.errors.removeListener(notifyListeners);
     editServer.removeListener(notifyListeners);
     editServer.errors.removeListener(notifyListeners);
+    replaceServer.removeListener(notifyListeners);
+    replaceServer.errors.removeListener(notifyListeners);
     removeServer.removeListener(notifyListeners);
     removeServer.errors.removeListener(notifyListeners);
     setDefaultServer.removeListener(notifyListeners);
     setDefaultServer.errors.removeListener(notifyListeners);
     addServer.dispose();
     editServer.dispose();
+    replaceServer.dispose();
     removeServer.dispose();
     setDefaultServer.dispose();
     super.dispose();

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:result_dart/result_dart.dart';
 
 import '../repositories/local/fake_server_repository.dart';
 
@@ -33,8 +34,16 @@ class FakeServersViewModel extends ServersViewModel {
 
   set shouldFailRemoveServer(bool value) => _fakeRepo.shouldFailDelete = value;
 
+  set shouldFailReplaceServer(bool value) =>
+      _fakeRepo.shouldFailReplace = value;
+
+  set shouldFailEditServer(bool value) => _fakeRepo.shouldFailUpdate = value;
+
   set shouldFailSetDefaultServer(bool value) =>
       _fakeRepo.shouldFailUpdateDefault = value;
+
+  set failFetchCredentials(bool value) =>
+      _fakeRepo.shouldFailFetchCredentials = value;
 
   // --- Call tracking (delegate to repo) ---
 
@@ -43,6 +52,26 @@ class FakeServersViewModel extends ServersViewModel {
   int get setDefaultServerCallCount => _fakeRepo.updateDefaultCallCount;
   int get addServerCallCount => _fakeRepo.insertCallCount;
   int get editServerCallCount => _fakeRepo.updateCallCount;
+  int get replaceServerCallCount => _fakeRepo.replaceCallCount;
+  String? get lastReplacedOldAddress => _fakeRepo.lastReplacedOldAddress;
+  Server? get lastReplacedNewServer => _fakeRepo.lastReplacedNewServer;
+  int get savePasswordCallCount => _fakeRepo.savePasswordCallCount;
+  String? get lastSavedPasswordAddress => _fakeRepo.lastSavedPasswordAddress;
+  String? get lastSavedPassword => _fakeRepo.lastSavedPassword;
+  int get saveTokenCallCount => _fakeRepo.saveTokenCallCount;
+  String? get lastSavedTokenAddress => _fakeRepo.lastSavedTokenAddress;
+  String? get lastSavedToken => _fakeRepo.lastSavedToken;
+
+  /// Counts calls to `deleteSid`. The production wrapper is added later; until
+  /// then this stays 0, which is what the state-integrity tests assert against.
+  int deleteSidCallCount = 0;
+
+  /// Controls the result returned by [checkUrlExists] in tests.
+  bool urlExistsResult = false;
+
+  /// When true, [checkUrlExists] returns `result: 'fail'` to simulate an
+  /// inconclusive uniqueness check.
+  bool checkUrlExistsFails = false;
 
   // Additional call-tracking fields for non-Command methods
   int setselectedServerCallCount = 0;
@@ -130,7 +159,16 @@ class FakeServersViewModel extends ServersViewModel {
   }
 
   @override
+  Future<Result<void>> deleteSid(String address) async {
+    deleteSidCallCount++;
+    return Success.unit();
+  }
+
+  @override
   FutureOr<Map<String, dynamic>> checkUrlExists(String url) async {
-    return {'result': 'success', 'exists': false};
+    if (checkUrlExistsFails) {
+      return {'result': 'fail', 'exists': false};
+    }
+    return {'result': 'success', 'exists': urlExistsResult};
   }
 }

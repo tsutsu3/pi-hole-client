@@ -161,8 +161,9 @@ void main() {
     });
 
     test('returns Failure when unexpexted error', () async {
-      dbService.shouldThrowOnInsert = true;
-      await repository.insertServer(serverV6);
+      // insertServer now wraps the write in a transaction (atomic default
+      // clearing), so the transaction is what throws.
+      dbService.shouldThrowOnTransaction = true;
 
       final result = await repository.insertServer(serverV6);
       expect(result.isError(), true);
@@ -171,6 +172,21 @@ void main() {
         contains('Exception: Failed to save server'),
       );
     });
+
+    test(
+      'clears the previous default when inserting a new default server',
+      () async {
+        await repository.insertServer(serverV5.copyWith(defaultServer: true));
+        await repository.insertServer(serverV6); // defaultServer: true
+
+        final servers = (await repository.fetchServers()).getOrNull()!;
+        final defaults = servers
+            .where((s) => s.defaultServer)
+            .map((s) => s.address)
+            .toList();
+        expect(defaults, [serverV6.address]);
+      },
+    );
   });
 
   group('ServerRepository.updateServer', () {
@@ -231,8 +247,10 @@ void main() {
     });
 
     test('returns Failure when unexpected error', () async {
-      dbService.shouldThrowOnUpdate = true;
       await repository.insertServer(serverV6);
+      // updateServer now wraps the write in a transaction (atomic default
+      // clearing), so the transaction is what throws.
+      dbService.shouldThrowOnTransaction = true;
 
       final updatedServer = serverV6.copyWith(alias: 'updated6');
       final result = await repository.updateServer(updatedServer);
@@ -242,6 +260,26 @@ void main() {
         contains('Exception: Failed to edit server'),
       );
     });
+
+    test(
+      'clears the default flag on other servers when updating into a default server',
+      () async {
+        await repository.insertServer(serverV5.copyWith(defaultServer: true));
+        await repository.insertServer(serverV6.copyWith(defaultServer: false));
+
+        final result = await repository.updateServer(
+          serverV6.copyWith(defaultServer: true),
+        );
+        expect(result.isSuccess(), true);
+
+        final servers = (await repository.fetchServers()).getOrNull()!;
+        final defaults = servers
+            .where((s) => s.defaultServer)
+            .map((s) => s.address)
+            .toList();
+        expect(defaults, [serverV6.address]);
+      },
+    );
   });
 
   group('ServerRepository.updateDefaultServer', () {
@@ -371,6 +409,164 @@ void main() {
         result.exceptionOrNull()?.toString(),
         contains('Exception: Failed to remove server'),
       );
+    });
+  });
+
+  group('ServerRepository.replaceServer', () {
+    late LocalServerRepository repository;
+    late FakeDatabaseService dbService;
+    late FakeSecureStorageService ssSerivce;
+
+    const newServerV6 = Server(
+      address: 'http://192.168.1.50',
+      alias: 'test6-moved',
+      defaultServer: true,
+      apiVersion: 'v6',
+      allowUntrustedCert: true,
+      ignoreCertificateErrors: false,
+    );
+
+    setUp(() async {
+      dbService = FakeDatabaseService(path: dbName);
+      ssSerivce = FakeSecureStorageService();
+      repository = LocalServerRepository(dbService, ssSerivce);
+      await dbService.open();
+    });
+
+    tearDown(() async {
+      await dbService.close();
+      if (await databaseExists(dbName)) {
+        await deleteDatabase(dbName);
+      }
+    });
+
+    test('moves the row and leaves secrets untouched (DB only)', () async {
+      await repository.insertServer(
+        serverV6,
+        password: 'pass-old',
+        sid: 'sid-old',
+      );
+
+      final result = await repository.replaceServer(
+        serverV6.address,
+        newServerV6,
+      );
+      expect(result.isSuccess(), true);
+
+      final servers = await repository.fetchServers();
+      final addresses = servers.getOrNull()!.map((s) => s.address).toList();
+      expect(addresses.contains(serverV6.address), false);
+      expect(addresses.contains(newServerV6.address), true);
+
+      // replaceServer is DB-only: secret migration is owned by the caller so a
+      // failed transaction can leave the old session/credentials recoverable.
+      // The old secrets remain and no new-address secrets are created here.
+      expect(
+        (await ssSerivce.getValue('${serverV6.address}_password')).getOrNull(),
+        'pass-old',
+      );
+      expect(
+        (await ssSerivce.getValue('${serverV6.address}_sid')).getOrNull(),
+        'sid-old',
+      );
+      expect(
+        (await ssSerivce.getValue('${newServerV6.address}_password')).isError(),
+        true,
+      );
+      expect(
+        (await ssSerivce.getValue('${newServerV6.address}_sid')).isError(),
+        true,
+      );
+    });
+
+    test('removes cascade data for the old address', () async {
+      await repository.insertServer(serverV6);
+      await dbService.insert('gravity_updates', gravityUpdateDataJson);
+      await dbService.insert('gravity_messages', gravityMessagesDataJson);
+      await dbService.insert('gravity_logs', gravityLogsDataJson);
+
+      final result = await repository.replaceServer(
+        serverV6.address,
+        newServerV6,
+      );
+      expect(result.isSuccess(), true);
+
+      final gu = await dbService.query('gravity_updates');
+      expect(gu.getOrNull()?.length, 0);
+      final gm = await dbService.query('gravity_messages');
+      expect(gm.getOrNull()?.length, 0);
+      final gl = await dbService.query('gravity_logs');
+      expect(gl.getOrNull()?.length, 0);
+    });
+
+    test(
+      'returns Failure and keeps the old row on transaction error',
+      () async {
+        await repository.insertServer(serverV6);
+        dbService.shouldThrowOnTransaction = true;
+
+        final result = await repository.replaceServer(
+          serverV6.address,
+          newServerV6,
+        );
+        expect(result.isError(), true);
+        expect(
+          result.exceptionOrNull()?.toString(),
+          contains('Failed to replace server'),
+        );
+
+        final servers = await repository.fetchServers();
+        final addresses = servers.getOrNull()!.map((s) => s.address).toList();
+        expect(addresses.contains(serverV6.address), true);
+      },
+    );
+
+    test('keeps the old secrets when the replace transaction fails', () async {
+      await repository.insertServer(
+        serverV6,
+        token: 'token-old',
+        password: 'pass-old',
+        sid: 'sid-old',
+      );
+      dbService.shouldThrowOnTransaction = true;
+
+      final result = await repository.replaceServer(
+        serverV6.address,
+        newServerV6,
+      );
+      expect(result.isError(), true);
+
+      expect(
+        (await ssSerivce.getValue('${serverV6.address}_password')).getOrNull(),
+        'pass-old',
+      );
+      expect(
+        (await ssSerivce.getValue('${serverV6.address}_token')).getOrNull(),
+        'token-old',
+      );
+      expect(
+        (await ssSerivce.getValue('${serverV6.address}_sid')).getOrNull(),
+        'sid-old',
+      );
+    });
+
+    test('clears the default flag on other servers when replacing into a '
+        'default server', () async {
+      await repository.insertServer(serverV6); // defaultServer: true
+      await repository.insertServer(serverV5); // defaultServer: false
+
+      final result = await repository.replaceServer(
+        serverV5.address,
+        newServerV6, // defaultServer: true
+      );
+      expect(result.isSuccess(), true);
+
+      final servers = (await repository.fetchServers()).getOrNull()!;
+      final defaults = servers
+          .where((s) => s.defaultServer)
+          .map((s) => s.address)
+          .toList();
+      expect(defaults, [newServerV6.address]);
     });
   });
 
@@ -539,6 +735,30 @@ void main() {
       expect(
         result.exceptionOrNull()?.toString(),
         contains('Exception: Failed to delete unused server secrets'),
+      );
+    });
+
+    test('handles addresses with underscores correctly', () async {
+      final server = serverV6.copyWith(address: 'http://local_host');
+      await repository.insertServer(server);
+      await ssSerivce.saveValue('${server.address}_token', 'token123');
+      await ssSerivce.saveValue('${server.address}_sid', 'sid123');
+      await ssSerivce.saveValue('${server.address}_password', 'pass123');
+
+      final result = await repository.deleteUnusedServerSecrets();
+      expect(result.isSuccess(), true);
+
+      expect(
+        (await ssSerivce.getValue('${server.address}_token')).getOrNull(),
+        'token123',
+      );
+      expect(
+        (await ssSerivce.getValue('${server.address}_sid')).getOrNull(),
+        'sid123',
+      );
+      expect(
+        (await ssSerivce.getValue('${server.address}_password')).getOrNull(),
+        'pass123',
       );
     });
   });

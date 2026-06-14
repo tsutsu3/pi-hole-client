@@ -4,7 +4,6 @@ import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/data/services/utils/database_utils.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
-import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -96,14 +95,20 @@ class LocalServerRepository implements ServerRepository {
         await _secureStorage.saveValue('${server.address}_sid', sid);
       }
 
-      return await _database.insert('servers', {
-        'address': server.address,
-        'alias': server.alias,
-        'isDefaultServer': server.defaultServer ? 1 : 0,
-        'apiVersion': server.apiVersion,
-        'allowUntrustedCert': server.allowUntrustedCert ? 1 : 0,
-        'ignoreCertificateErrors': server.ignoreCertificateErrors ? 1 : 0,
-        'pinnedCertificateSha256': server.pinnedCertificateSha256,
+      return await _database.transaction<int>((txn) async {
+        // Keep "only one default" invariant atomic with the insert.
+        if (server.defaultServer) {
+          await txn.update('servers', {'isDefaultServer': 0});
+        }
+        return txn.insert('servers', {
+          'address': server.address,
+          'alias': server.alias,
+          'isDefaultServer': server.defaultServer ? 1 : 0,
+          'apiVersion': server.apiVersion,
+          'allowUntrustedCert': server.allowUntrustedCert ? 1 : 0,
+          'ignoreCertificateErrors': server.ignoreCertificateErrors ? 1 : 0,
+          'pinnedCertificateSha256': server.pinnedCertificateSha256,
+        });
       });
     } catch (e, st) {
       logger.e('Failed to save server: $e\n$st');
@@ -141,19 +146,25 @@ class LocalServerRepository implements ServerRepository {
         await _secureStorage.saveValue('${server.address}_sid', sid);
       }
 
-      return await _database.update(
-        'servers',
-        {
-          'alias': server.alias,
-          'isDefaultServer': convertFromBoolToInt(server.defaultServer),
-          'apiVersion': server.apiVersion,
-          'allowUntrustedCert': server.allowUntrustedCert ? 1 : 0,
-          'ignoreCertificateErrors': server.ignoreCertificateErrors ? 1 : 0,
-          'pinnedCertificateSha256': server.pinnedCertificateSha256,
-        },
-        where: 'address = ?',
-        whereArgs: [server.address],
-      );
+      return await _database.transaction<int>((txn) async {
+        // Keep "only one default" invariant atomic with the update
+        if (server.defaultServer) {
+          await txn.update('servers', {'isDefaultServer': 0});
+        }
+        return txn.update(
+          'servers',
+          {
+            'alias': server.alias,
+            'isDefaultServer': server.defaultServer ? 1 : 0,
+            'apiVersion': server.apiVersion,
+            'allowUntrustedCert': server.allowUntrustedCert ? 1 : 0,
+            'ignoreCertificateErrors': server.ignoreCertificateErrors ? 1 : 0,
+            'pinnedCertificateSha256': server.pinnedCertificateSha256,
+          },
+          where: 'address = ?',
+          whereArgs: [server.address],
+        );
+      });
     } catch (e, st) {
       logger.e('Failed to edit server: $e\n$st');
       return Failure(Exception('Failed to edit server: $e\n$st'));
@@ -189,6 +200,52 @@ class LocalServerRepository implements ServerRepository {
     } catch (e, st) {
       logger.e('Failed to set default server: $e\n$st');
       return Failure(Exception('Failed to set default server: $e\n$st'));
+    }
+  }
+
+  /// Replaces the server identified by [oldAddress] with [newServer] at the
+  /// database level only.
+  ///
+  /// In a single transaction this removes the old row, clears the default flag
+  /// on the other servers when [newServer] is the default, and inserts the new
+  /// row. Gravity child rows referencing [oldAddress] are removed automatically
+  /// by the `ON DELETE CASCADE` foreign keys.
+  ///
+  /// Returns the inserted row id on success, or a [Failure] if it fails.
+  @override
+  Future<Result<int>> replaceServer(String oldAddress, Server newServer) async {
+    try {
+      await openDbIfNeeded(_database);
+
+      return await _database.transaction<int>((txn) async {
+        final deleted = await txn.delete(
+          'servers',
+          where: 'address = ?',
+          whereArgs: [oldAddress],
+        );
+        if (deleted == 0) {
+          logger.w(
+            'replaceServer: no existing row found for $oldAddress; '
+            'inserting the new server without removing a previous one',
+          );
+        }
+        // Keep "only one default" invariant atomic with the insert.
+        if (newServer.defaultServer) {
+          await txn.update('servers', {'isDefaultServer': 0});
+        }
+        return txn.insert('servers', {
+          'address': newServer.address,
+          'alias': newServer.alias,
+          'isDefaultServer': newServer.defaultServer ? 1 : 0,
+          'apiVersion': newServer.apiVersion,
+          'allowUntrustedCert': newServer.allowUntrustedCert ? 1 : 0,
+          'ignoreCertificateErrors': newServer.ignoreCertificateErrors ? 1 : 0,
+          'pinnedCertificateSha256': newServer.pinnedCertificateSha256,
+        });
+      });
+    } catch (e, st) {
+      logger.e('Failed to replace server: $e\n$st');
+      return Failure(Exception('Failed to replace server: $e\n$st'));
     }
   }
 
@@ -292,13 +349,11 @@ class LocalServerRepository implements ServerRepository {
       final keysToDelete = <String>[];
 
       for (final key in keys.getOrThrow().keys) {
-        if (key.endsWith('_token') ||
-            key.endsWith('_password') ||
-            key.endsWith('_sid')) {
-          final address = key.split('_').first;
-          if (!serverAddresses.contains(address)) {
-            keysToDelete.add(key);
-          }
+        final address = _serverAddressFromSecretKey(key);
+        if (address == null) continue;
+
+        if (!serverAddresses.contains(address)) {
+          keysToDelete.add(key);
         }
       }
 
@@ -386,5 +441,28 @@ class LocalServerRepository implements ServerRepository {
       logger.e('Failed to delete token: $e\n$st');
       return Failure(Exception('Failed to delete token: $e\n$st'));
     }
+  }
+
+  @override
+  Future<Result<void>> deleteSid(String address) async {
+    try {
+      await _secureStorage.deleteValue('${address}_sid');
+      return Success.unit();
+    } catch (e, st) {
+      logger.e('Failed to delete sid: $e\n$st');
+      return Failure(Exception('Failed to delete sid: $e\n$st'));
+    }
+  }
+
+  String? _serverAddressFromSecretKey(String key) {
+    const suffixes = ['_token', '_password', '_sid'];
+
+    for (final suffix in suffixes) {
+      if (key.endsWith(suffix)) {
+        return key.substring(0, key.length - suffix.length);
+      }
+    }
+
+    return null;
   }
 }

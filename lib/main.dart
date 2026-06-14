@@ -220,6 +220,16 @@ void main() async {
   }
   await WidgetChannel.sendServersUpdated(serversViewModel.getServersList);
 
+  // Reclaim secure-storage entries (token/password/sid) orphaned by servers
+  // that no longer exist (e.g. after a failed edit). Best-effort.
+  final secretCleanup = await serverRepository.deleteUnusedServerSecrets();
+  if (secretCleanup.isError()) {
+    logger.w(
+      'Failed to reclaim orphaned server secrets: '
+      '${secretCleanup.exceptionOrNull()}',
+    );
+  }
+
   // 5. Platform-specific setup
   await initializeBiometrics(configProvider, appConfigRepository);
   await initializeVibration(configProvider);

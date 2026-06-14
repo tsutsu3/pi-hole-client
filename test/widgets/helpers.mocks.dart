@@ -541,6 +541,19 @@ class MockServersViewModel extends _i1.Mock implements _i14.ServersViewModel {
           as _i3.Command<_i15.Server, void>);
 
   @override
+  _i3.Command<({_i15.Server newServer, String oldAddress}), void>
+  get replaceServer =>
+      (super.noSuchMethod(
+            Invocation.getter(#replaceServer),
+            returnValue:
+                _FakeCommand_1<
+                  ({_i15.Server newServer, String oldAddress}),
+                  void
+                >(this, Invocation.getter(#replaceServer)),
+          )
+          as _i3.Command<({_i15.Server newServer, String oldAddress}), void>);
+
+  @override
   _i3.Command<String, void> get removeServer =>
       (super.noSuchMethod(
             Invocation.getter(#removeServer),
@@ -607,6 +620,14 @@ class MockServersViewModel extends _i1.Mock implements _i14.ServersViewModel {
   @override
   set editServer(_i3.Command<_i15.Server, void>? value) => super.noSuchMethod(
     Invocation.setter(#editServer, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set replaceServer(
+    _i3.Command<({_i15.Server newServer, String oldAddress}), void>? value,
+  ) => super.noSuchMethod(
+    Invocation.setter(#replaceServer, value),
     returnValueForMissingStub: null,
   );
 
@@ -1529,6 +1550,14 @@ class MockDomainsViewModel extends _i1.Mock implements _i27.DomainsViewModel {
           as _i7.LoadStatus);
 
   @override
+  bool get isRevalidating =>
+      (super.noSuchMethod(
+            Invocation.getter(#isRevalidating),
+            returnValue: false,
+          )
+          as bool);
+
+  @override
   set loadDomains(_i3.Command<void, void>? value) => super.noSuchMethod(
     Invocation.setter(#loadDomains, value),
     returnValueForMissingStub: null,
@@ -1562,6 +1591,12 @@ class MockDomainsViewModel extends _i1.Mock implements _i27.DomainsViewModel {
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
+
+  @override
+  void update({_i22.DomainRepository? domainRepository}) => super.noSuchMethod(
+    Invocation.method(#update, [], {#domainRepository: domainRepository}),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setSelectedTab(int? tab) => super.noSuchMethod(

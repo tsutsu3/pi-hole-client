@@ -1,7 +1,11 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/servers/widgets/transport_security_indicator.dart';
+import 'package:pi_hole_client/utils/tls_certificate.dart';
 
 import '../../../../testing/test_app.dart';
 
@@ -23,6 +27,39 @@ void main() async {
       ignoreCertificateErrors: ignoreCertificateErrors,
       pinnedCertificateSha256: pinnedCertificateSha256,
     );
+  }
+
+  TlsCertificateInfo makeCertInfo({String sha256 = 'aa:bb:cc'}) {
+    return TlsCertificateInfo(
+      sha256: sha256,
+      subject: 'CN=pi.hole',
+      issuer: 'CN=test',
+      startValidity: DateTime(2020),
+      endValidity: DateTime(2030),
+    );
+  }
+
+  /// Builds a fake [TlsCertificateFetcher].
+  ///
+  /// When [allowBadCertificates] is `false` (strict platform validation) it
+  /// returns [onStrict] or throws [strictError]; when `true` it returns
+  /// [onAllowBad]. This mirrors the two ways the indicator probes a server.
+  TlsCertificateFetcher fakeFetcher({
+    TlsCertificateInfo? onStrict,
+    Exception? strictError,
+    TlsCertificateInfo? onAllowBad,
+  }) {
+    return (
+      Uri uri, {
+      required bool allowBadCertificates,
+      Duration timeout = const Duration(seconds: 5),
+    }) async {
+      if (!allowBadCertificates) {
+        if (strictError != null) throw strictError;
+        return onStrict;
+      }
+      return onAllowBad;
+    };
   }
 
   group('TransportSecurityIndicator', () {
@@ -117,6 +154,138 @@ void main() async {
       await tester.pumpAndSettle();
 
       expect(find.text('HTTP'), findsOneWidget);
+    });
+  });
+
+  group('TransportSecurityIndicator (injected fetcher)', () {
+    testWidgets('trusted cert without pin shows verified icon', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          TransportSecurityIndicator(
+            server: makeServer(address: 'https://pi.hole'),
+            fetchTlsCertificate: fakeFetcher(onStrict: makeCertInfo()),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byIcon(Icons.verified_user), findsOneWidget);
+    });
+
+    testWidgets('trusted cert with pin shows pinned icon', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          TransportSecurityIndicator(
+            server: makeServer(
+              address: 'https://pi.hole',
+              pinnedCertificateSha256: 'aa:bb:cc',
+            ),
+            fetchTlsCertificate: fakeFetcher(onStrict: makeCertInfo()),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byIcon(Icons.push_pin), findsOneWidget);
+    });
+
+    testWidgets('untrusted cert blocked shows gpp_bad icon', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          TransportSecurityIndicator(
+            server: makeServer(address: 'https://pi.hole'),
+            fetchTlsCertificate: fakeFetcher(
+              strictError: const HandshakeException(),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byIcon(Icons.gpp_bad), findsOneWidget);
+    });
+
+    testWidgets('untrusted cert allowed without pin shows gpp_maybe icon', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          TransportSecurityIndicator(
+            server: makeServer(
+              address: 'https://pi.hole',
+              allowUntrustedCert: true,
+            ),
+            fetchTlsCertificate: fakeFetcher(
+              strictError: const HandshakeException(),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byIcon(Icons.gpp_maybe), findsOneWidget);
+    });
+
+    testWidgets('untrusted cert with matching pin shows pinned icon', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          TransportSecurityIndicator(
+            server: makeServer(
+              address: 'https://pi.hole',
+              allowUntrustedCert: true,
+              pinnedCertificateSha256: 'aa:bb:cc',
+            ),
+            fetchTlsCertificate: fakeFetcher(
+              strictError: const HandshakeException(),
+              onAllowBad: makeCertInfo(sha256: 'aa:bb:cc'),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byIcon(Icons.push_pin), findsOneWidget);
+    });
+
+    testWidgets('untrusted cert with mismatching pin shows error icon', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          TransportSecurityIndicator(
+            server: makeServer(
+              address: 'https://pi.hole',
+              allowUntrustedCert: true,
+              pinnedCertificateSha256: 'aa:bb:cc',
+            ),
+            fetchTlsCertificate: fakeFetcher(
+              strictError: const HandshakeException(),
+              onAllowBad: makeCertInfo(sha256: 'dd:ee:ff'),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byIcon(Icons.error), findsOneWidget);
+    });
+
+    testWidgets('timeout on strict probe shows unknown icon', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          TransportSecurityIndicator(
+            server: makeServer(address: 'https://pi.hole'),
+            fetchTlsCertificate: fakeFetcher(
+              strictError: TimeoutException('timed out'),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byIcon(Icons.help_outline), findsOneWidget);
     });
   });
 }

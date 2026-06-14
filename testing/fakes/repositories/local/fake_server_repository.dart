@@ -6,16 +6,26 @@ class FakeServerRepository implements ServerRepository {
   // Failure controls
   bool shouldFailInsert = false;
   bool shouldFailUpdate = false;
+  bool shouldFailReplace = false;
   bool shouldFailDelete = false;
   bool shouldFailUpdateDefault = false;
 
   // Call tracking
   int insertCallCount = 0;
   int updateCallCount = 0;
+  int replaceCallCount = 0;
+  String? lastReplacedOldAddress;
+  Server? lastReplacedNewServer;
   int deleteCallCount = 0;
   String? lastDeletedAddress;
   int updateDefaultCallCount = 0;
   String? lastUpdatedDefaultAddress;
+  int savePasswordCallCount = 0;
+  String? lastSavedPasswordAddress;
+  String? lastSavedPassword;
+  int saveTokenCallCount = 0;
+  String? lastSavedTokenAddress;
+  String? lastSavedToken;
 
   @override
   Future<Result<List<Server>>> fetchServers() async {
@@ -70,6 +80,17 @@ class FakeServerRepository implements ServerRepository {
   }
 
   @override
+  Future<Result<int>> replaceServer(String oldAddress, Server newServer) async {
+    replaceCallCount++;
+    lastReplacedOldAddress = oldAddress;
+    lastReplacedNewServer = newServer;
+    if (shouldFailReplace) {
+      return Failure(Exception('FakeServerRepository: replaceServer failed'));
+    }
+    return const Success(1);
+  }
+
+  @override
   Future<Result<int>> updateDefaultServer(String url) async {
     updateDefaultCallCount++;
     lastUpdatedDefaultAddress = url;
@@ -106,25 +127,48 @@ class FakeServerRepository implements ServerRepository {
     return Success.unit();
   }
 
+  /// Stored credentials returned by [fetchPassword]/[fetchCredentials].
+  ///
+  /// Defaults to non-empty values so that an edit screen loads with a populated
+  /// password/token, matching a real saved server. Tests can override these to
+  /// simulate a server with no stored secret.
+  String fakePassword = 'stored-pass';
+  String fakeToken = 'stored-token';
+
+  /// When true, [fetchCredentials] returns a [Failure], simulating a transient
+  /// secure-storage read error on edit-screen load.
+  bool shouldFailFetchCredentials = false;
+
   @override
   Future<Result<String>> fetchPassword(String address) async {
-    return const Success('');
+    return Success(fakePassword);
   }
 
   @override
   Future<Result<({String token, String password})>> fetchCredentials(
     String address,
   ) async {
-    return const Success((token: '', password: ''));
+    if (shouldFailFetchCredentials) {
+      return Failure(
+        Exception('FakeServerRepository: fetchCredentials failed'),
+      );
+    }
+    return Success((token: fakeToken, password: fakePassword));
   }
 
   @override
   Future<Result<void>> savePassword(String address, String password) async {
+    savePasswordCallCount++;
+    lastSavedPasswordAddress = address;
+    lastSavedPassword = password;
     return Success.unit();
   }
 
   @override
   Future<Result<void>> saveToken(String address, String token) async {
+    saveTokenCallCount++;
+    lastSavedTokenAddress = address;
+    lastSavedToken = token;
     return Success.unit();
   }
 
@@ -135,6 +179,11 @@ class FakeServerRepository implements ServerRepository {
 
   @override
   Future<Result<void>> deleteToken(String address) async {
+    return Success.unit();
+  }
+
+  @override
+  Future<Result<void>> deleteSid(String address) async {
     return Success.unit();
   }
 }

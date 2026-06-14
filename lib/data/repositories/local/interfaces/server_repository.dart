@@ -16,6 +16,9 @@ abstract interface class ServerRepository {
     String? sid,
   });
   Future<Result<int>> updateDefaultServer(String url);
+
+  Future<Result<int>> replaceServer(String oldAddress, Server newServer);
+
   Future<Result<int>> deleteServer(String address);
   Future<Result<int>> deleteAllServers();
   Future<Result<bool>> doesServerExist(String url);
@@ -35,4 +38,5 @@ abstract interface class ServerRepository {
   Future<Result<void>> saveToken(String address, String token);
   Future<Result<void>> deletePassword(String address);
   Future<Result<void>> deleteToken(String address);
+  Future<Result<void>> deleteSid(String address);
 }
