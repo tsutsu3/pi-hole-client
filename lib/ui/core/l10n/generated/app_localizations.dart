@@ -2354,11 +2354,23 @@ abstract class AppLocalizations {
   /// **'Log details'**
   String get logDetails;
 
+  /// No description provided for @loginPasswordIncorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed. The app password is incorrect.'**
+  String get loginPasswordIncorrect;
+
   /// No description provided for @loginTime.
   ///
   /// In en, this message translates to:
   /// **'Login Time'**
   String get loginTime;
+
+  /// No description provided for @loginTokenInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed. The API token is invalid.'**
+  String get loginTokenInvalid;
 
   /// No description provided for @logs.
   ///

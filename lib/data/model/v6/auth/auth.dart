@@ -26,8 +26,8 @@ sealed class SessionDetail with _$SessionDetail {
   factory SessionDetail({
     required bool valid,
     required bool totp,
-    required String sid,
-    required String csrf,
+    required String? sid,
+    required String? csrf,
     required int validity,
     required String message,
   }) = _SessionDetail;

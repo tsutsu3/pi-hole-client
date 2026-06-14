@@ -1208,7 +1208,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get logDetails => 'Log Details';
 
   @override
+  String get loginPasswordIncorrect =>
+      'Anmeldung fehlgeschlagen. Das App-Passwort ist falsch.';
+
+  @override
   String get loginTime => 'Anmeldezeit';
+
+  @override
+  String get loginTokenInvalid =>
+      'Anmeldung fehlgeschlagen. Das API-Token ist ungültig.';
 
   @override
   String get logs => 'Logs';

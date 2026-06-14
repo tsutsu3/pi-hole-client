@@ -60,6 +60,7 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   bool shouldFail = false;
   bool shouldFlushNetworkReturn404 = false;
   bool shouldPostDnsBlockingReturnEnabled = false;
+  bool shouldReturnNoPasswordSession = false;
   int postAuthCallCount = 0;
   Completer<void>? authPauseCompleter;
   bool shouldGetInfoVersionWithDocker = false;
@@ -78,6 +79,9 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     if (authPauseCompleter != null) await authPauseCompleter!.future;
     if (shouldFail) {
       return Failure(Exception('Forced postAuth failure'));
+    }
+    if (shouldReturnNoPasswordSession) {
+      return Success(kSrvPostAuthNoPassword);
     }
     return Success(kSrvPostAuth);
   }

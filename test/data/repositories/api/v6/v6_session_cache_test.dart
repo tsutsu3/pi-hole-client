@@ -63,6 +63,25 @@ void main() {
       final sid = await cache.getSid();
       expect(sid, 'sid123');
     });
+
+    test(
+      'returns empty SID when no SID stored and password is empty',
+      () async {
+        // No app password configured: the server needs no session.
+        creds
+          ..shouldFailSidRead = true
+          ..addressPassword = '';
+        final sid = await cache.getSid();
+        expect(sid, '');
+      },
+    );
+
+    test('throws when no SID stored but a password is set', () async {
+      creds
+        ..shouldFailSidRead = true
+        ..addressPassword = 'secret';
+      await expectLater(cache.getSid(), throwsA(isA<SidNotFoundException>()));
+    });
   });
 
   // ---------------------------------------------------------------------------

@@ -550,7 +550,7 @@ $SessionDetailCopyWith<$Res> get session {
 /// @nodoc
 mixin _$SessionDetail {
 
- bool get valid; bool get totp; String get sid; String get csrf; int get validity; String get message;
+ bool get valid; bool get totp; String? get sid; String? get csrf; int get validity; String get message;
 /// Create a copy of SessionDetail
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -583,7 +583,7 @@ abstract mixin class $SessionDetailCopyWith<$Res>  {
   factory $SessionDetailCopyWith(SessionDetail value, $Res Function(SessionDetail) _then) = _$SessionDetailCopyWithImpl;
 @useResult
 $Res call({
- bool valid, bool totp, String sid, String csrf, int validity, String message
+ bool valid, bool totp, String? sid, String? csrf, int validity, String message
 });
 
 
@@ -600,13 +600,13 @@ class _$SessionDetailCopyWithImpl<$Res>
 
 /// Create a copy of SessionDetail
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? valid = null,Object? totp = null,Object? sid = null,Object? csrf = null,Object? validity = null,Object? message = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? valid = null,Object? totp = null,Object? sid = freezed,Object? csrf = freezed,Object? validity = null,Object? message = null,}) {
   return _then(_self.copyWith(
 valid: null == valid ? _self.valid : valid // ignore: cast_nullable_to_non_nullable
 as bool,totp: null == totp ? _self.totp : totp // ignore: cast_nullable_to_non_nullable
-as bool,sid: null == sid ? _self.sid : sid // ignore: cast_nullable_to_non_nullable
-as String,csrf: null == csrf ? _self.csrf : csrf // ignore: cast_nullable_to_non_nullable
-as String,validity: null == validity ? _self.validity : validity // ignore: cast_nullable_to_non_nullable
+as bool,sid: freezed == sid ? _self.sid : sid // ignore: cast_nullable_to_non_nullable
+as String?,csrf: freezed == csrf ? _self.csrf : csrf // ignore: cast_nullable_to_non_nullable
+as String?,validity: null == validity ? _self.validity : validity // ignore: cast_nullable_to_non_nullable
 as int,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -690,7 +690,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool valid,  bool totp,  String sid,  String csrf,  int validity,  String message)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool valid,  bool totp,  String? sid,  String? csrf,  int validity,  String message)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SessionDetail() when $default != null:
 return $default(_that.valid,_that.totp,_that.sid,_that.csrf,_that.validity,_that.message);case _:
@@ -711,7 +711,7 @@ return $default(_that.valid,_that.totp,_that.sid,_that.csrf,_that.validity,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool valid,  bool totp,  String sid,  String csrf,  int validity,  String message)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool valid,  bool totp,  String? sid,  String? csrf,  int validity,  String message)  $default,) {final _that = this;
 switch (_that) {
 case _SessionDetail():
 return $default(_that.valid,_that.totp,_that.sid,_that.csrf,_that.validity,_that.message);}
@@ -728,7 +728,7 @@ return $default(_that.valid,_that.totp,_that.sid,_that.csrf,_that.validity,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool valid,  bool totp,  String sid,  String csrf,  int validity,  String message)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool valid,  bool totp,  String? sid,  String? csrf,  int validity,  String message)?  $default,) {final _that = this;
 switch (_that) {
 case _SessionDetail() when $default != null:
 return $default(_that.valid,_that.totp,_that.sid,_that.csrf,_that.validity,_that.message);case _:
@@ -748,8 +748,8 @@ class _SessionDetail implements SessionDetail {
 
 @override final  bool valid;
 @override final  bool totp;
-@override final  String sid;
-@override final  String csrf;
+@override final  String? sid;
+@override final  String? csrf;
 @override final  int validity;
 @override final  String message;
 
@@ -786,7 +786,7 @@ abstract mixin class _$SessionDetailCopyWith<$Res> implements $SessionDetailCopy
   factory _$SessionDetailCopyWith(_SessionDetail value, $Res Function(_SessionDetail) _then) = __$SessionDetailCopyWithImpl;
 @override @useResult
 $Res call({
- bool valid, bool totp, String sid, String csrf, int validity, String message
+ bool valid, bool totp, String? sid, String? csrf, int validity, String message
 });
 
 
@@ -803,13 +803,13 @@ class __$SessionDetailCopyWithImpl<$Res>
 
 /// Create a copy of SessionDetail
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? valid = null,Object? totp = null,Object? sid = null,Object? csrf = null,Object? validity = null,Object? message = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? valid = null,Object? totp = null,Object? sid = freezed,Object? csrf = freezed,Object? validity = null,Object? message = null,}) {
   return _then(_SessionDetail(
 valid: null == valid ? _self.valid : valid // ignore: cast_nullable_to_non_nullable
 as bool,totp: null == totp ? _self.totp : totp // ignore: cast_nullable_to_non_nullable
-as bool,sid: null == sid ? _self.sid : sid // ignore: cast_nullable_to_non_nullable
-as String,csrf: null == csrf ? _self.csrf : csrf // ignore: cast_nullable_to_non_nullable
-as String,validity: null == validity ? _self.validity : validity // ignore: cast_nullable_to_non_nullable
+as bool,sid: freezed == sid ? _self.sid : sid // ignore: cast_nullable_to_non_nullable
+as String?,csrf: freezed == csrf ? _self.csrf : csrf // ignore: cast_nullable_to_non_nullable
+as String?,validity: null == validity ? _self.validity : validity // ignore: cast_nullable_to_non_nullable
 as int,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));

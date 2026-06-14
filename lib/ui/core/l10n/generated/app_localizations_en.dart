@@ -1181,7 +1181,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logDetails => 'Log details';
 
   @override
+  String get loginPasswordIncorrect =>
+      'Login failed. The app password is incorrect.';
+
+  @override
   String get loginTime => 'Login Time';
+
+  @override
+  String get loginTokenInvalid => 'Login failed. The API token is invalid.';
 
   @override
   String get logs => 'Logs';

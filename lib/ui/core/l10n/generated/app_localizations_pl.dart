@@ -1192,7 +1192,15 @@ class AppLocalizationsPl extends AppLocalizations {
   String get logDetails => 'Szczegóły dziennika';
 
   @override
+  String get loginPasswordIncorrect =>
+      'Logowanie nie powiodło się. Hasło aplikacji jest nieprawidłowe.';
+
+  @override
   String get loginTime => 'Czas logowania';
+
+  @override
+  String get loginTokenInvalid =>
+      'Logowanie nie powiodło się. Token API jest nieprawidłowy.';
 
   @override
   String get logs => 'Logi';

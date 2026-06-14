@@ -830,6 +830,19 @@ class MockServersViewModel extends _i1.Mock implements _i14.ServersViewModel {
           as _i11.Future<_i17.ResultDart<void, Exception>>);
 
   @override
+  _i11.Future<_i17.ResultDart<void, Exception>> deleteSid(String? address) =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteSid, [address]),
+            returnValue: _i11.Future<_i17.ResultDart<void, Exception>>.value(
+              _i6.dummyValue<_i17.ResultDart<void, Exception>>(
+                this,
+                Invocation.method(#deleteSid, [address]),
+              ),
+            ),
+          )
+          as _i11.Future<_i17.ResultDart<void, Exception>>);
+
+  @override
   void dispose() => super.noSuchMethod(
     Invocation.method(#dispose, []),
     returnValueForMissingStub: null,
@@ -1345,6 +1358,12 @@ class MockStatusViewModel extends _i1.Mock implements _i23.StatusViewModel {
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
+
+  @override
+  void clearFatalConnectionError() => super.noSuchMethod(
+    Invocation.method(#clearFatalConnectionError, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void update({

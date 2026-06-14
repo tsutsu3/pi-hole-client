@@ -39,7 +39,15 @@ class V6SessionCache {
   /// Concurrent calls share one in-flight [Future].
   Future<String> getSid() => _getOrLoad(() async {
     final r = await _creds.sid;
-    if (r.isError()) throw SidNotFoundException();
+    if (r.isError()) {
+      // No SID + empty password = no-auth server: use an empty SID. A failed
+      // password read is a real storage error, so still throw in that case.
+      final pwResult = await _creds.password;
+      if (pwResult.isSuccess() && (pwResult.getOrNull() ?? '').isEmpty) {
+        return '';
+      }
+      throw SidNotFoundException();
+    }
     final sid = r.getOrThrow();
     await WidgetChannel.sendSidUpdated(serverAddress: serverAddress, sid: sid);
     return sid;
@@ -100,7 +108,9 @@ class V6SessionCache {
   Future<void> _renew() async {
     final pw = (await _creds.password).getOrNull() ?? '';
     if (pw.isEmpty) {
-      throw Exception('Cannot renew session: no password configured');
+      _clear();
+      await _creds.deleteSid();
+      return;
     }
     // Purge the stale SID from storage before POST /api/auth.
     // If postAuth succeeds, saveSid() restores it.

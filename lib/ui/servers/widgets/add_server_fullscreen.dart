@@ -115,9 +115,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         addressFieldError == null &&
         subrouteFieldError == null &&
         portFieldError == null &&
-        aliasFieldController.text != '' &&
-        tokenFieldController.text != '' &&
-        passwordFieldController.text != '') {
+        aliasFieldController.text != '') {
       setState(() {
         allDataValid = true;
       });
@@ -263,16 +261,17 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       if (error is HttpStatusCodeException) {
         switch (error.statusCode) {
+          case 401:
+            // Authentication failure - distinct from a network problem.
+            label = version == SupportedApiVersions.v6
+                ? loc.loginPasswordIncorrect
+                : loc.loginTokenInvalid;
+          case 495:
+            label = loc.sslErrorLong;
           case 503:
             label = loc.checkAddress;
           case 504:
             label = loc.connectionTimeout;
-          case 495:
-            label = loc.sslErrorLong;
-          case 401:
-            label = version == SupportedApiVersions.v6
-                ? loc.passwordNotValid
-                : loc.tokenNotValid;
           default:
             label = loc.cantReachServer;
         }
@@ -873,10 +872,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           aliasFieldController.text != '') {
         if (widget.server != null) {
           if (!_secretsLoaded) return false;
-          final hasCredential = piHoleVersion == SupportedApiVersions.v6
-              ? passwordFieldController.text != ''
-              : tokenFieldController.text != '';
-          if (!hasCredential) return false;
         }
         return true;
       } else {

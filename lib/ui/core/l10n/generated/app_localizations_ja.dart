@@ -1150,7 +1150,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get logDetails => 'ログの詳細';
 
   @override
+  String get loginPasswordIncorrect => 'ログインに失敗しました。アプリパスワードが正しくありません。';
+
+  @override
   String get loginTime => 'ログイン時間';
+
+  @override
+  String get loginTokenInvalid => 'ログインに失敗しました。APIトークンが無効です。';
 
   @override
   String get logs => 'ログ';

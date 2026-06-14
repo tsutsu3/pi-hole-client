@@ -51,6 +51,31 @@ void main() {
       expectSuccess(result, respJson);
     });
 
+    test('parses no-password response (valid, null sid/csrf)', () async {
+      final respJson = {
+        'session': {
+          'valid': true,
+          'totp': false,
+          'sid': null,
+          'csrf': null,
+          'validity': -1,
+          'message': 'no password set',
+        },
+        'took': 0.03,
+      };
+      final response = http.Response(jsonEncode(respJson), 200);
+
+      mockPost(mockClient, url, response);
+
+      final result = await apiClient.postAuth(password: '');
+
+      expect(result.isSuccess(), isTrue);
+      final session = result.getOrNull()!;
+      expect(session.session.valid, isTrue);
+      expect(session.session.sid, isNull);
+      expect(session.session.csrf, isNull);
+    });
+
     test('returns error when password is incorrect (401)', () async {
       final response = http.Response(
         jsonEncode({
