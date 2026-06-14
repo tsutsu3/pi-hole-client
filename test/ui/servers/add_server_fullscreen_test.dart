@@ -284,10 +284,7 @@ void main() async {
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
-        expect(
-          find.text("Can't reach the server. Check IP address and port."),
-          findsOneWidget,
-        );
+        expect(find.text('Failed. Check address.'), findsOneWidget);
       },
     );
 
@@ -368,7 +365,10 @@ void main() async {
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
-        expect(find.text('Failed. Unknown error.'), findsOneWidget);
+        expect(
+          find.text("Can't reach the server. Check IP address and port."),
+          findsOneWidget,
+        );
       },
     );
 
@@ -826,10 +826,7 @@ void main() async {
         await tester.tap(find.byIcon(Icons.save_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
-        expect(
-          find.text("Can't reach the server. Check IP address and port."),
-          findsOneWidget,
-        );
+        expect(find.text('Failed. Check address.'), findsOneWidget);
       },
     );
 
@@ -916,7 +913,10 @@ void main() async {
         await tester.tap(find.byIcon(Icons.save_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
-        expect(find.text('Failed. Unknown error.'), findsOneWidget);
+        expect(
+          find.text("Can't reach the server. Check IP address and port."),
+          findsOneWidget,
+        );
       },
     );
 
@@ -1311,10 +1311,7 @@ void main() async {
         await tester.pump(const Duration(milliseconds: 1000));
 
         expect(serversViewModel.replaceServerCallCount, 0);
-        expect(
-          find.text("Can't reach the server. Check IP address and port."),
-          findsOneWidget,
-        );
+        expect(find.text('Failed. Check address.'), findsOneWidget);
       },
     );
 
@@ -1966,10 +1963,7 @@ void main() async {
         await tester.pump(const Duration(milliseconds: 1000));
 
         // The rollback must not restore the empty placeholder over the secret.
-        expect(
-          find.text("Can't reach the server. Check IP address and port."),
-          findsOneWidget,
-        );
+        expect(find.text('Failed. Check address.'), findsOneWidget);
         expect(serversViewModel.lastSavedPassword, 'real-pass');
       },
     );

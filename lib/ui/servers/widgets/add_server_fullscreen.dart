@@ -269,13 +269,11 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           case 495:
             label = loc.sslErrorLong;
           case 503:
-            // Connectivity failure (e.g. SocketException).
-            label = loc.cantReachServer;
+            label = loc.checkAddress;
           case 504:
             label = loc.connectionTimeout;
           default:
-            // Unexpected/parse errors (500/422/…): not necessarily network.
-            label = loc.unknownError;
+            label = loc.cantReachServer;
         }
       } else {
         label = loc.unknownError;
