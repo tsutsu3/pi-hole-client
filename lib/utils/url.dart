@@ -1,3 +1,14 @@
+/// Builds a server URL from its component parts.
+String buildServerUrl({
+  required String scheme,
+  required String host,
+  String port = '',
+  String subroute = '',
+}) {
+  final portSegment = port != '' ? ':$port' : '';
+  return '$scheme://$host$portSegment$subroute';
+}
+
 /// Compares two server URLs ignoring scheme/host case, a trailing slash and a
 /// scheme's default port.
 ///

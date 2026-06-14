@@ -2,6 +2,45 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/utils/url.dart';
 
 void main() {
+  group('buildServerUrl', () {
+    test('builds a bare scheme://host when port and subroute are empty', () {
+      expect(buildServerUrl(scheme: 'http', host: 'pi.hole'), 'http://pi.hole');
+    });
+
+    test('includes the port with a colon when provided', () {
+      expect(
+        buildServerUrl(scheme: 'http', host: 'pi.hole', port: '8080'),
+        'http://pi.hole:8080',
+      );
+    });
+
+    test('omits the colon entirely for an empty port', () {
+      expect(
+        buildServerUrl(scheme: 'https', host: 'pi.hole', port: ''),
+        'https://pi.hole',
+      );
+    });
+
+    test('appends the subroute as-is', () {
+      expect(
+        buildServerUrl(scheme: 'https', host: 'pi.hole', subroute: '/admin'),
+        'https://pi.hole/admin',
+      );
+    });
+
+    test('combines scheme, host, port and subroute', () {
+      expect(
+        buildServerUrl(
+          scheme: 'https',
+          host: 'pi.hole',
+          port: '443',
+          subroute: '/api/v1',
+        ),
+        'https://pi.hole:443/api/v1',
+      );
+    });
+  });
+
   group('isSameEndpoint', () {
     test('returns true for identical URLs', () {
       expect(isSameEndpoint('https://pi.hole', 'https://pi.hole'), isTrue);

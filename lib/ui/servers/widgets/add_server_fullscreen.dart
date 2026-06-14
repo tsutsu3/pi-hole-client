@@ -432,8 +432,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         pinnedCertificateSha256 = null;
       }
 
-      final url =
-          '${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}';
+      final url = buildServerUrl(
+        scheme: connectionType.name,
+        host: addressFieldController.text,
+        port: portFieldController.text,
+        subroute: subrouteFieldController.text,
+      );
       final exists = await serversViewModel.checkUrlExists(url);
 
       if (!context.mounted) return;
@@ -561,8 +565,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       final oldServer = widget.server!;
       final oldAddress = oldServer.address;
-      final newUrl =
-          '${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}';
+      final newUrl = buildServerUrl(
+        scheme: connectionType.name,
+        host: addressFieldController.text,
+        port: portFieldController.text,
+        subroute: subrouteFieldController.text,
+      );
       // Normalised comparison: a host-case-only or trailing-slash difference is
       // NOT an address change and must stay on the in-place editServer path.
       final isAddressChanged = !isSameEndpoint(oldAddress, newUrl);
@@ -1006,7 +1014,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   child: Column(
                     children: [
                       Text(
-                        '${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}',
+                        buildServerUrl(
+                          scheme: connectionType.name,
+                          host: addressFieldController.text,
+                          port: portFieldController.text,
+                          subroute: subrouteFieldController.text,
+                        ),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.primary,
