@@ -33,6 +33,20 @@ void main() {
       final result = await repository.createSession('password123');
       expectError(result, messageContains: 'Forced postAuth failure');
     });
+
+    test(
+      'succeeds without persisting a sid when no app password is set',
+      () async {
+        client.shouldReturnNoPasswordSession = true;
+
+        final result = await repository.createSession('');
+
+        expect(result.isSuccess(), isTrue);
+        expect(result.getOrNull()!.valid, isTrue);
+        expect(result.getOrNull()!.sid, '');
+        expect(creds.saveSidCallCount, 0);
+      },
+    );
   });
 
   group('deleteCurrentSession', () {

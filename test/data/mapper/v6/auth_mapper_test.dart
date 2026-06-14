@@ -42,6 +42,27 @@ void main() {
       expect(domain.validity, 1800);
       expect(domain.message, 'OK');
     });
+
+    test('maps null sid/csrf (no app password) to empty strings', () {
+      final source = s.Session(
+        session: s.SessionDetail(
+          valid: true,
+          totp: false,
+          sid: null,
+          csrf: null,
+          validity: -1,
+          message: 'no password set',
+        ),
+        took: 0.001,
+      );
+
+      final domain = source.toDomain();
+
+      expect(domain.valid, isTrue);
+      expect(domain.sid, '');
+      expect(domain.csrf, '');
+      expect(domain.message, 'no password set');
+    });
   });
 
   group('AuthSessionsMapper (v6)', () {

@@ -8,8 +8,8 @@ extension SessionMapper on s.Session {
     return d.Auth(
       valid: session.valid,
       totp: session.totp,
-      sid: session.sid,
-      csrf: session.csrf,
+      sid: session.sid ?? '',
+      csrf: session.csrf ?? '',
       validity: session.validity,
       message: session.message,
     );

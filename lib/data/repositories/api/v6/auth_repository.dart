@@ -24,7 +24,8 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
         final result = await _client.postAuth(password: password);
         final auth = result.map((e) => e.toDomain());
         final value = auth.getOrNull();
-        if (value != null && value.valid) {
+        // A valid session with an empty sid means the server has no app password.
+        if (value != null && value.valid && value.sid.isNotEmpty) {
           await saveSid(value.sid);
           await WidgetChannel.sendSidUpdated(
             serverAddress: serverAddress,

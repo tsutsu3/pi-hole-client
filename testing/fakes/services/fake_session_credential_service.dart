@@ -4,8 +4,11 @@ import 'package:result_dart/result_dart.dart';
 class FakeSessionCredentialService implements SessionCredentialService {
   bool shouldFailSave = false;
   bool shouldFailRead = false;
+  bool shouldFailSidRead = false;
   bool shouldFailDelete = false;
   int deleteSidCallCount = 0;
+  int saveSidCallCount = 0;
+  String? lastSavedSid;
 
   String addressPassword = 'pass123';
   String addressToken = 'token123';
@@ -32,7 +35,7 @@ class FakeSessionCredentialService implements SessionCredentialService {
 
   @override
   Future<Result<String>> get sid async {
-    if (shouldFailRead) {
+    if (shouldFailRead || shouldFailSidRead) {
       return Failure(Exception('Forced read failure'));
     }
     return Success(addressSid);
@@ -40,6 +43,8 @@ class FakeSessionCredentialService implements SessionCredentialService {
 
   @override
   Future<Result<void>> saveSid(String sid) async {
+    saveSidCallCount++;
+    lastSavedSid = sid;
     if (shouldFailSave) {
       return Failure(Exception('Forced save failure'));
     }

@@ -27,8 +27,8 @@ _SessionDetail _$SessionDetailFromJson(Map<String, dynamic> json) =>
     _SessionDetail(
       valid: json['valid'] as bool,
       totp: json['totp'] as bool,
-      sid: json['sid'] as String,
-      csrf: json['csrf'] as String,
+      sid: json['sid'] as String?,
+      csrf: json['csrf'] as String?,
       validity: (json['validity'] as num).toInt(),
       message: json['message'] as String,
     );

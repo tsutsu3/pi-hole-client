@@ -219,6 +219,37 @@ void main() async {
       expect(find.text('Connected to server successfully.'), findsOneWidget);
     });
 
+    testWidgets('connects a v6 server with no app password (empty password)', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      await tester.pumpWidget(
+        buildWidget(const AddServerFullscreen(window: false, title: 'test')),
+      );
+
+      expect(find.byIcon(Icons.login_rounded), findsOneWidget);
+
+      await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
+      await tester.enterText(
+        find.byType(TextField).at(1),
+        'localhost',
+      ); // IP Address
+      await tester.pump();
+
+      final loginButton = tester.widget<IconButton>(
+        find.ancestor(
+          of: find.byIcon(Icons.login_rounded),
+          matching: find.byType(IconButton),
+        ),
+      );
+      expect(loginButton.onPressed, isNotNull);
+
+      await tester.tap(find.byIcon(Icons.login_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+      expect(find.text('Connected to server successfully.'), findsOneWidget);
+    });
+
     testWidgets(
       'should show the error snackbar when adding a server (socket exception)',
       (WidgetTester tester) async {
@@ -253,7 +284,10 @@ void main() async {
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
-        expect(find.text('Failed. Check address.'), findsOneWidget);
+        expect(
+          find.text("Can't reach the server. Check IP address and port."),
+          findsOneWidget,
+        );
       },
     );
 
@@ -334,10 +368,7 @@ void main() async {
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
-        expect(
-          find.text("Can't reach the server. Check IP address and port."),
-          findsOneWidget,
-        );
+        expect(find.text('Failed. Unknown error.'), findsOneWidget);
       },
     );
 
@@ -375,7 +406,10 @@ void main() async {
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
-        expect(find.text('Failed. Password not valid.'), findsOneWidget);
+        expect(
+          find.text('Login failed. The app password is incorrect.'),
+          findsOneWidget,
+        );
       },
     );
 
@@ -725,7 +759,7 @@ void main() async {
       expect(serversViewModel.replaceServerCallCount, 0);
     });
 
-    testWidgets('clearing the password disables Save for a v6 server', (
+    testWidgets('clearing the password keeps Save enabled for a v6 server', (
       WidgetTester tester,
     ) async {
       useLargeView(tester);
@@ -741,7 +775,8 @@ void main() async {
       );
       await tester.pump();
 
-      // password field is the last visible TextField (index 3).
+      // password field is the last visible TextField (index 3). A password-less
+      // Pi-hole is valid, so clearing it must not disable Save.
       await tester.enterText(find.byType(TextField).at(3), '');
       await tester.pump();
 
@@ -751,7 +786,7 @@ void main() async {
           matching: find.byType(IconButton),
         ),
       );
-      expect(saveButton.onPressed, isNull);
+      expect(saveButton.onPressed, isNotNull);
     });
 
     testWidgets(
@@ -791,7 +826,10 @@ void main() async {
         await tester.tap(find.byIcon(Icons.save_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
-        expect(find.text('Failed. Check address.'), findsOneWidget);
+        expect(
+          find.text("Can't reach the server. Check IP address and port."),
+          findsOneWidget,
+        );
       },
     );
 
@@ -878,10 +916,7 @@ void main() async {
         await tester.tap(find.byIcon(Icons.save_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
-        expect(
-          find.text("Can't reach the server. Check IP address and port."),
-          findsOneWidget,
-        );
+        expect(find.text('Failed. Unknown error.'), findsOneWidget);
       },
     );
 
@@ -922,7 +957,10 @@ void main() async {
         await tester.tap(find.byIcon(Icons.save_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
-        expect(find.text('Failed. Password not valid.'), findsOneWidget);
+        expect(
+          find.text('Login failed. The app password is incorrect.'),
+          findsOneWidget,
+        );
       },
     );
 
@@ -1273,7 +1311,10 @@ void main() async {
         await tester.pump(const Duration(milliseconds: 1000));
 
         expect(serversViewModel.replaceServerCallCount, 0);
-        expect(find.text('Failed. Check address.'), findsOneWidget);
+        expect(
+          find.text("Can't reach the server. Check IP address and port."),
+          findsOneWidget,
+        );
       },
     );
 
@@ -1925,7 +1966,10 @@ void main() async {
         await tester.pump(const Duration(milliseconds: 1000));
 
         // The rollback must not restore the empty placeholder over the secret.
-        expect(find.text('Failed. Check address.'), findsOneWidget);
+        expect(
+          find.text("Can't reach the server. Check IP address and port."),
+          findsOneWidget,
+        );
         expect(serversViewModel.lastSavedPassword, 'real-pass');
       },
     );

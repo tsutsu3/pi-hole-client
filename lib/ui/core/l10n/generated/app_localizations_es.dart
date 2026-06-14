@@ -1205,7 +1205,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get logDetails => 'Detalles del registro';
 
   @override
+  String get loginPasswordIncorrect =>
+      'Error de inicio de sesión. La contraseña de la aplicación es incorrecta.';
+
+  @override
   String get loginTime => 'Hora de inicio de sesión';
+
+  @override
+  String get loginTokenInvalid =>
+      'Error de inicio de sesión. El token de API no es válido.';
 
   @override
   String get logs => 'Registros';

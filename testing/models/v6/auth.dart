@@ -18,6 +18,20 @@ final kSrvPostAuth = srv.Session(
   took: 0.003,
 );
 
+// Pi-hole v6 response when no app password is configured: valid session with
+// null sid/csrf and no authentication required.
+final kSrvPostAuthNoPassword = srv.Session(
+  session: srv.SessionDetail(
+    valid: true,
+    totp: false,
+    sid: null,
+    csrf: null,
+    validity: -1,
+    message: 'no password set',
+  ),
+  took: 0.003,
+);
+
 const kSrvGetAuthSessions = srv.AuthSessions(
   sessions: [
     srv.SessionData(
