@@ -550,8 +550,7 @@ $SessionDetailCopyWith<$Res> get session {
 /// @nodoc
 mixin _$SessionDetail {
 
- bool get valid; bool get totp;// Pi-hole v6 returns null for sid/csrf when no app password is configured.
- String? get sid; String? get csrf; int get validity; String get message;
+ bool get valid; bool get totp; String? get sid; String? get csrf; int get validity; String get message;
 /// Create a copy of SessionDetail
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -749,7 +748,6 @@ class _SessionDetail implements SessionDetail {
 
 @override final  bool valid;
 @override final  bool totp;
-// Pi-hole v6 returns null for sid/csrf when no app password is configured.
 @override final  String? sid;
 @override final  String? csrf;
 @override final  int validity;
