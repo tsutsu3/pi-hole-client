@@ -14,6 +14,7 @@ import 'package:pi_hole_client/ui/core/ui/modals/scan_token_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
+import 'package:pi_hole_client/ui/servers/view_models/add_server_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
@@ -67,6 +68,11 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   bool isConnecting = false;
 
+  /// Created lazily on the first connect/save so that simply opening this
+  /// screen (e.g. the add-server dialog) does not require the repository-bundle
+  /// factory and status view model to be in scope.
+  AddServerViewModel? _viewModel;
+
   String? initToken;
   String? initPassword;
   bool _advancedOptionsExpanded = false;
@@ -77,8 +83,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   bool _secretsLoaded = true;
 
   /// Whether [_loadSecrets] actually read the stored secrets. Stays false when
-  /// the secure-storage read fails, so [_restoreSecrets] won't write back the
-  /// empty placeholders and wipe a credential that is still present.
+  /// the secure-storage read fails, so the save rollback won't write back the
+  /// empty placeholders and wipe a credential that is still present. Forwarded
+  /// to the view model via [SaveRequest.secretsLoadSucceeded].
   bool _secretsLoadSucceeded = false;
 
   @override
@@ -108,6 +115,22 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       _secretsLoaded = false;
       _loadSecrets();
     }
+  }
+
+  @override
+  void dispose() {
+    _viewModel?.dispose();
+    super.dispose();
+  }
+
+  /// Lazily builds the view model on first use, reading its dependencies from
+  /// the provider scope only when a connect/save is actually triggered.
+  AddServerViewModel _ensureViewModel() {
+    return _viewModel ??= AddServerViewModel(
+      serversViewModel: context.read<ServersViewModel>(),
+      statusViewModel: context.read<StatusViewModel>(),
+      createBundle: context.read<CreateRepositoryBundle>(),
+    );
   }
 
   void checkDataValid() {
@@ -225,1061 +248,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     }
   }
 
-  Future<void> _restoreSecrets() async {
-    // Only restore when the original secrets were actually read. If the initial
-    // load failed, initPassword/initToken are empty placeholders and writing
-    // them back would wipe a credential that is still in secure storage.
-    if (widget.server != null && _secretsLoadSucceeded) {
-      final serversViewModel = context.read<ServersViewModel>();
-      await serversViewModel.savePassword(
-        widget.server!.address,
-        initPassword ?? '',
-      );
-      await serversViewModel.saveToken(widget.server!.address, initToken ?? '');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final serversViewModel = Provider.of<ServersViewModel>(context);
-    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
-    final statusViewModel = context.read<StatusViewModel>();
-    final appColors = Theme.of(context).extension<AppColors>()!;
-
     final mediaQuery = MediaQuery.of(context);
-
-    /// Shows a snackbar with an error message
-    void handleApiErrorResult({
-      required BuildContext context,
-      required AppConfigViewModel appConfigViewModel,
-      required Exception error,
-      required String version,
-    }) {
-      final loc = AppLocalizations.of(context)!;
-
-      String label;
-
-      if (error is HttpStatusCodeException) {
-        switch (error.statusCode) {
-          case 401:
-            // Authentication failure - distinct from a network problem.
-            label = version == SupportedApiVersions.v6
-                ? loc.loginPasswordIncorrect
-                : loc.loginTokenInvalid;
-          case 495:
-            label = loc.sslErrorLong;
-          case 503:
-            label = loc.checkAddress;
-          case 504:
-            label = loc.connectionTimeout;
-          default:
-            label = loc.cantReachServer;
-        }
-      } else {
-        label = loc.unknownError;
-      }
-
-      showErrorSnackBar(
-        context: context,
-        appConfigViewModel: appConfigViewModel,
-        label: label,
-      );
-
-      appConfigViewModel.addLog(
-        AppLog(
-          type: 'login',
-          dateTime: DateTime.now(),
-          message: error.toString(),
-        ),
-      );
-    }
-
-    Future<String?> ensurePinnedFingerprint({
-      required BuildContext context,
-      required Uri uri,
-      required String? existingPin,
-    }) async {
-      if (existingPin != null && existingPin.isNotEmpty) {
-        return existingPin;
-      }
-
-      try {
-        // If the certificate is trusted by the platform, pin it automatically.
-        final info = await widget.fetchTlsCertificate(
-          uri,
-          allowBadCertificates: false,
-        );
-        if (info != null) {
-          return info.sha256;
-        }
-        return '';
-      } on HandshakeException {
-        // Untrusted certificate (likely self-signed). Retrieve fingerprint for user verification.
-      } catch (_) {
-        // Fall back to existing behavior without pin prompt on non-TLS failures.
-        return '';
-      }
-
-      TlsCertificateInfo? certificateInfo;
-      try {
-        certificateInfo = await widget.fetchTlsCertificate(
-          uri,
-          allowBadCertificates: true,
-        );
-      } catch (_) {
-        // If we cannot obtain the fingerprint, block the connection.
-        // This typically happens with reverse proxies where certificate
-        // pinning cannot work reliably.
-        return null;
-      }
-      if (!context.mounted || certificateInfo == null) {
-        return null;
-      }
-
-      final info = certificateInfo;
-      final confirmed = await showDialog<bool>(
-        context: context,
-        builder: (dialogContext) => CertificateDetailsDialog(
-          title: AppLocalizations.of(dialogContext)!.allowUntrustedCert,
-          description: AppLocalizations.of(
-            dialogContext,
-          )!.serverCertificateUpdatePinHelp,
-          certificateInfo: info,
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext, false),
-              child: Text(AppLocalizations.of(dialogContext)!.cancel),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext, true),
-              child: Text(AppLocalizations.of(dialogContext)!.confirm),
-            ),
-          ],
-        ),
-      );
-
-      return confirmed == true ? info.sha256 : null;
-    }
-
-    /// Validates and updates the server's certificate configuration.
-    ///
-    /// This method handles certificate validation and pinning for HTTPS connections.
-    /// It returns the updated Server object if validation succeeds, or null if the
-    /// user cancels or validation fails.
-    ///
-    /// Parameters:
-    /// - [serverObj]: The server object to validate
-    /// - [onValidationFailed]: Optional callback for handling additional cleanup on failure
-    Future<Server?> validateAndUpdateServerCertificate({
-      required Server serverObj,
-      VoidCallback? onValidationFailed,
-    }) async {
-      if (connectionType != ConnectionType.https || ignoreCertificateErrors) {
-        // ignore: avoid_redundant_argument_values
-        return serverObj.copyWith(pinnedCertificateSha256: null);
-      }
-
-      final uri = Uri.parse(serverObj.address);
-
-      if (allowUntrustedCert) {
-        // Allow self-signed: prompt user to pin the certificate
-        if (!context.mounted) return null;
-        final pin = await ensurePinnedFingerprint(
-          context: context,
-          uri: uri,
-          existingPin: serverObj.pinnedCertificateSha256,
-        );
-        if (!context.mounted) return null;
-        if (pin == null) {
-          onValidationFailed?.call();
-          return null;
-        }
-        return serverObj.copyWith(
-          pinnedCertificateSha256: pin.isEmpty ? null : pin,
-        );
-      } else {
-        // Strict mode: verify certificate is trusted by the platform
-        try {
-          await widget.fetchTlsCertificate(uri, allowBadCertificates: false);
-          // Certificate is trusted, proceed without pin
-          // ignore: avoid_redundant_argument_values
-          return serverObj.copyWith(pinnedCertificateSha256: null);
-        } on HandshakeException {
-          // Certificate not trusted - block connection
-          if (!context.mounted) return null;
-          onValidationFailed?.call();
-          if (!context.mounted) return null;
-          showErrorSnackBar(
-            context: context,
-            appConfigViewModel: appConfigViewModel,
-            label: AppLocalizations.of(context)!.sslErrorLong,
-          );
-          return null;
-        } catch (e) {
-          // Other network errors - let connection test handle them
-          // ignore: avoid_redundant_argument_values
-          return serverObj.copyWith(pinnedCertificateSha256: null);
-        }
-      }
-    }
-
-    Future<void> connect() async {
-      FocusManager.instance.primaryFocus?.unfocus();
-      setState(() {
-        isConnecting = true;
-      });
-      if (!allowUntrustedCert) {
-        pinnedCertificateSha256 = null;
-      }
-
-      final url = buildServerUrl(
-        scheme: connectionType.name,
-        host: addressFieldController.text,
-        port: portFieldController.text,
-        subroute: subrouteFieldController.text,
-      );
-      final exists = await serversViewModel.checkUrlExists(url);
-
-      if (!context.mounted) return;
-      final createBundle = context.read<CreateRepositoryBundle>();
-
-      if (exists['result'] == 'success' && exists['exists'] == true) {
-        setState(() {
-          isConnecting = false;
-        });
-        showErrorSnackBar(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.connectionAlreadyExists,
-        );
-      } else if (exists['result'] == 'fail') {
-        setState(() {
-          isConnecting = false;
-        });
-        showErrorSnackBar(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
-        );
-      } else {
-        var serverObj = Server(
-          address: url,
-          alias: aliasFieldController.text,
-          apiVersion: piHoleVersion,
-          allowUntrustedCert: allowUntrustedCert,
-          ignoreCertificateErrors: ignoreCertificateErrors,
-          pinnedCertificateSha256: pinnedCertificateSha256,
-        );
-        await serversViewModel.savePassword(url, passwordFieldController.text);
-        await serversViewModel.saveToken(url, tokenFieldController.text);
-
-        serverObj =
-            await validateAndUpdateServerCertificate(
-              serverObj: serverObj,
-              onValidationFailed: () {
-                setState(() {
-                  isConnecting = false;
-                });
-              },
-            ) ??
-            serverObj;
-
-        final bundle = createBundle(server: serverObj);
-        if (serverObj.apiVersion == SupportedApiVersions.v6) {
-          final authResult = await bundle.auth.createSession(
-            passwordFieldController.text,
-          );
-          if (authResult.isError()) {
-            if (mounted) {
-              setState(() {
-                isConnecting = false;
-              });
-              await _restoreSecrets();
-              await serversViewModel.deletePassword(url);
-              await serversViewModel.deleteToken(url);
-              if (!context.mounted) return;
-              handleApiErrorResult(
-                context: context,
-                appConfigViewModel: appConfigViewModel,
-                error: authResult.exceptionOrNull()!,
-                version: piHoleVersion,
-              );
-            }
-            return;
-          }
-        }
-        // Use skipRenewal: true because the session was just created above.
-        // Retrying with clearAndRenewSid would create a duplicate session.
-        // Transient errors (e.g. network timeout) are still retried.
-        final result = await bundle.dns.fetchBlockingStatus(skipRenewal: true);
-        if (!context.mounted) return;
-        if (result.isSuccess()) {
-          await Navigator.maybePop(context);
-          if (!context.mounted) return;
-          showSuccessSnackBar(
-            context: context,
-            appConfigViewModel: appConfigViewModel,
-            label: AppLocalizations.of(context)!.connectedSuccessfully,
-          );
-          try {
-            await serversViewModel.addServer.runAsync(
-              serverObj.copyWith(defaultServer: defaultCheckbox),
-            );
-          } catch (e, s) {
-            logger.e('Failed to save server', error: e, stackTrace: s);
-          }
-        } else {
-          if (mounted) {
-            setState(() {
-              isConnecting = false;
-            });
-            await _restoreSecrets();
-
-            await serversViewModel.deletePassword(url);
-            await serversViewModel.deleteToken(url);
-            if (!context.mounted) return;
-
-            handleApiErrorResult(
-              context: context,
-              appConfigViewModel: appConfigViewModel,
-              error: result.exceptionOrNull()!,
-              version: piHoleVersion,
-            );
-          } else {
-            isConnecting = false;
-          }
-        }
-      }
-    }
-
-    Future<void> save() async {
-      FocusManager.instance.primaryFocus?.unfocus();
-      final saveCreateBundle = context.read<CreateRepositoryBundle>();
-      setState(() {
-        isConnecting = true;
-      });
-
-      if (!allowUntrustedCert) {
-        pinnedCertificateSha256 = null;
-      }
-
-      final oldServer = widget.server!;
-      final oldAddress = oldServer.address;
-      final newUrl = buildServerUrl(
-        scheme: connectionType.name,
-        host: addressFieldController.text,
-        port: portFieldController.text,
-        subroute: subrouteFieldController.text,
-      );
-      // Normalised comparison: a host-case-only or trailing-slash difference is
-      // NOT an address change and must stay on the in-place editServer path.
-      final isAddressChanged = !isSameEndpoint(oldAddress, newUrl);
-
-      // When the address (primary key) changes, make sure the new URL is not
-      // already used by another server before doing anything destructive.
-      if (isAddressChanged) {
-        final exists = await serversViewModel.checkUrlExists(newUrl);
-        if (!context.mounted) return;
-        if (exists['result'] == 'success' && exists['exists'] == true) {
-          setState(() {
-            isConnecting = false;
-          });
-          showErrorSnackBar(
-            context: context,
-            appConfigViewModel: appConfigViewModel,
-            label: AppLocalizations.of(context)!.connectionAlreadyExists,
-          );
-          return;
-        } else if (exists['result'] == 'fail') {
-          setState(() {
-            isConnecting = false;
-          });
-          showErrorSnackBar(
-            context: context,
-            appConfigViewModel: appConfigViewModel,
-            label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
-          );
-          return;
-        }
-      }
-
-      final targetAddress = isAddressChanged ? newUrl : oldAddress;
-
-      // When the address changes the target is effectively a different host, so
-      // any pinned certificate carried over from the old server is stale. Reset
-      // it to null so the certificate check re-runs against the new host
-      // instead of silently reusing the old fingerprint.
-      if (isAddressChanged) {
-        pinnedCertificateSha256 = null;
-      }
-
-      var serverObj = Server(
-        address: targetAddress,
-        alias: aliasFieldController.text,
-        apiVersion: piHoleVersion,
-        allowUntrustedCert: allowUntrustedCert,
-        ignoreCertificateErrors: ignoreCertificateErrors,
-        pinnedCertificateSha256: pinnedCertificateSha256,
-      );
-      if (serversViewModel.selectedServer != null) {
-        statusViewModel.stopAutoRefresh();
-      }
-
-      // Validate certificate BEFORE connection test (same as connect())
-      final updatedServer = await validateAndUpdateServerCertificate(
-        serverObj: serverObj,
-        onValidationFailed: () {
-          setState(() {
-            isConnecting = false;
-          });
-          if (serversViewModel.selectedServer != null) {
-            statusViewModel.startAutoRefresh();
-          }
-        },
-      );
-
-      if (updatedServer == null) {
-        return;
-      }
-
-      serverObj = updatedServer;
-
-      await serversViewModel.savePassword(
-        targetAddress,
-        passwordFieldController.text,
-      );
-      await serversViewModel.saveToken(
-        targetAddress,
-        tokenFieldController.text,
-      );
-
-      // Rolls back everything written for THIS save attempt on failure, always
-      // leaving the old server (row, credentials, session) untouched.
-      //
-      // - Address change: remove the credentials and SID written under the new
-      //   address plus the freshly created remote session.
-      // - Same address: restore the old credentials and, when a new session was
-      //   created during this attempt, tear it down so it does not leak.
-      Future<void> rollbackFailedSave({
-        required RepositoryBundle bundle,
-        required bool sessionCreated,
-      }) async {
-        Future<void> deleteNewSession() async {
-          if (!sessionCreated) return;
-          try {
-            await bundle.auth.deleteCurrentSession();
-          } catch (e, s) {
-            logger.w(
-              'Failed to delete new session on server',
-              error: e,
-              stackTrace: s,
-            );
-          }
-        }
-
-        if (isAddressChanged) {
-          await serversViewModel.deletePassword(targetAddress);
-          await serversViewModel.deleteToken(targetAddress);
-          await serversViewModel.deleteSid(targetAddress);
-          await deleteNewSession();
-        } else {
-          await deleteNewSession();
-          await _restoreSecrets();
-        }
-      }
-
-      Future<void> handleSaveError(Exception e) async {
-        if (context.mounted) {
-          setState(() {
-            isConnecting = false;
-          });
-          await _restoreSecrets();
-          if (context.mounted) {
-            handleApiErrorResult(
-              context: context,
-              appConfigViewModel: appConfigViewModel,
-              error: e,
-              version: piHoleVersion,
-            );
-          }
-        }
-        if (serversViewModel.selectedServer != null) {
-          statusViewModel.startAutoRefresh();
-        }
-      }
-
-      final bundle = saveCreateBundle(server: serverObj);
-      var sessionJustCreated = false;
-      if (serverObj.apiVersion == SupportedApiVersions.v6) {
-        if (isAddressChanged) {
-          // The new address has no existing session, so always create one.
-          final authResult = await bundle.auth.createSession(
-            passwordFieldController.text,
-          );
-          if (authResult.isError()) {
-            await rollbackFailedSave(bundle: bundle, sessionCreated: false);
-            await handleSaveError(authResult.exceptionOrNull()!);
-            return;
-          }
-          sessionJustCreated = true;
-        } else if (passwordFieldController.text != (initPassword ?? '')) {
-          // Same address but the password was edited. Validate it now by
-          // creating a session: an unverified (possibly wrong) password would
-          // otherwise silently overwrite the known-good one and lock the user
-          // out the moment the current SID is invalidated.
-          final authResult = await bundle.auth.createSession(
-            passwordFieldController.text,
-          );
-          if (authResult.isError()) {
-            await handleSaveError(authResult.exceptionOrNull()!);
-            return;
-          }
-          sessionJustCreated = true;
-        } else {
-          // Same address, unchanged password: reuse the existing session if it
-          // is still valid. Only re-authenticate on 401/SidNotFoundException to
-          // avoid session multiplication when the server is temporarily
-          // unreachable (503/504/timeout).
-          final preCheck = await bundle.dns.fetchBlockingStatus(
-            skipRenewal: true,
-          );
-          if (preCheck.isError()) {
-            final err = preCheck.exceptionOrNull();
-            if (!isReauthRequired(err)) {
-              await handleSaveError(err!);
-              return;
-            }
-            final authResult = await bundle.auth.createSession(
-              passwordFieldController.text,
-            );
-            if (authResult.isError()) {
-              await handleSaveError(authResult.exceptionOrNull()!);
-              return;
-            }
-            sessionJustCreated = true;
-          }
-        }
-      }
-      // skipRenewal: true only when a new session was just created above to
-      // avoid creating a duplicate session on transient retry failures.
-      final result = await bundle.dns.fetchBlockingStatus(
-        skipRenewal: sessionJustCreated,
-      );
-
-      if (result.isSuccess()) {
-        final server = serverObj.copyWith(defaultServer: defaultCheckbox);
-
-        Object? cmdError;
-        try {
-          if (isAddressChanged) {
-            await serversViewModel.replaceServer.runAsync((
-              oldAddress: oldAddress,
-              newServer: server,
-            ));
-            cmdError = serversViewModel.replaceServer.errors.value;
-          } else {
-            await serversViewModel.editServer.runAsync(server);
-            cmdError = serversViewModel.editServer.errors.value;
-          }
-        } catch (e, s) {
-          logger.e('Failed to save server', error: e, stackTrace: s);
-          cmdError = e;
-        }
-
-        if (cmdError == null) {
-          // The old v6 session is orphaned on an address change or a switch
-          // away from v6 (e.g. v6 -> v5). Run only after the DB commit so a
-          // failed save can't kill a live session.
-          final oldWasV6 = oldServer.apiVersion == SupportedApiVersions.v6;
-          final newIsV6 = serverObj.apiVersion == SupportedApiVersions.v6;
-
-          // 1. Log out the old v6 session.
-          if (oldWasV6 && (isAddressChanged || !newIsV6)) {
-            try {
-              final oldBundle = saveCreateBundle(server: oldServer);
-              await oldBundle.auth.deleteCurrentSession();
-            } catch (e, s) {
-              logger.w(
-                'Failed to delete old session on server',
-                error: e,
-                stackTrace: s,
-              );
-            }
-          }
-
-          // 2. Now safe to drop the old server's credentials.
-          if (isAddressChanged) {
-            // New credentials already live under the new address; remove the
-            // stale ones left behind under the old address.
-            await serversViewModel.deleteToken(oldAddress);
-            await serversViewModel.deletePassword(oldAddress);
-            await serversViewModel.deleteSid(oldAddress);
-          } else if (oldWasV6 && !newIsV6) {
-            // Same address, v6 -> v5: the SID is now unused.
-            await serversViewModel.deleteSid(targetAddress);
-          }
-          if (context.mounted) {
-            await Navigator.maybePop(context);
-            if (!context.mounted) return;
-
-            showSuccessSnackBar(
-              context: context,
-              appConfigViewModel: appConfigViewModel,
-              label: AppLocalizations.of(context)!.editServerSuccessfully,
-            );
-          }
-        } else {
-          // DB write failed: roll back this attempt's artifacts; the old
-          // server (row, credentials, session) is left fully intact.
-          await rollbackFailedSave(
-            bundle: bundle,
-            sessionCreated: sessionJustCreated,
-          );
-          if (context.mounted) {
-            setState(() {
-              isConnecting = false;
-            });
-            showErrorSnackBar(
-              context: context,
-              appConfigViewModel: appConfigViewModel,
-              label: AppLocalizations.of(context)!.cantSaveConnectionData,
-            );
-          }
-        }
-      } else {
-        await rollbackFailedSave(
-          bundle: bundle,
-          sessionCreated: sessionJustCreated,
-        );
-        if (context.mounted) {
-          setState(() {
-            isConnecting = false;
-          });
-
-          handleApiErrorResult(
-            context: context,
-            appConfigViewModel: appConfigViewModel,
-            error: result.exceptionOrNull()!,
-            version: piHoleVersion,
-          );
-        } else {
-          isConnecting = false;
-        }
-      }
-
-      if (serversViewModel.selectedServer != null) {
-        statusViewModel.startAutoRefresh();
-      }
-    }
-
-    bool validData() {
-      if (addressFieldController.text != '' &&
-          subrouteFieldError == null &&
-          addressFieldError == null &&
-          portFieldError == null &&
-          aliasFieldController.text != '') {
-        if (widget.server != null) {
-          if (!_secretsLoaded) return false;
-        }
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-    void openScanTokenModal() {
-      showDialog(
-        context: context,
-        useRootNavigator:
-            false, // Prevents unexpected app exit on mobile when pressing back
-        builder: (context) => ScanTokenModal(
-          qrScanned: (value) =>
-              setState(() => tokenFieldController.text = value),
-        ),
-      );
-    }
-
-    Widget buildV5Settings(BuildContext context) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: TextField(
-                    obscureText: true,
-                    keyboardType: TextInputType.visiblePassword,
-                    controller: tokenFieldController,
-                    onChanged: (value) => checkDataValid(),
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.key_rounded),
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      labelText: AppLocalizations.of(context)!.token,
-                    ),
-                  ),
-                ),
-                if (Platform.isAndroid || Platform.isIOS) ...[
-                  const SizedBox(width: 16),
-                  IconButton(
-                    onPressed: openScanTokenModal,
-                    icon: const Icon(Icons.qr_code_rounded),
-                    tooltip: AppLocalizations.of(context)!.scanQrCode,
-                  ),
-                ],
-              ],
-            ),
-          ),
-          Card(
-            margin: const EdgeInsets.only(top: 10, bottom: 10),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.info_rounded,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                  const SizedBox(width: 16),
-                  Flexible(
-                    child: Text(
-                      AppLocalizations.of(context)!.tokenInstructions,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-
-    Widget buildV6Settings(BuildContext context) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: TextField(
-                    obscureText: true,
-                    keyboardType: TextInputType.visiblePassword,
-                    controller: passwordFieldController,
-                    onChanged: (value) => checkDataValid(),
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.key_rounded),
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      labelText: AppLocalizations.of(context)!.password,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    }
-
-    Widget formItems() {
-      return ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 10,
-                  ),
-                  margin: const EdgeInsets.only(bottom: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.primary.withValues(alpha: 0.05),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        buildServerUrl(
-                          scheme: connectionType.name,
-                          host: addressFieldController.text,
-                          port: portFieldController.text,
-                          subroute: subrouteFieldController.text,
-                        ),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SectionLabel(
-                  label: AppLocalizations.of(context)!.connection,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: TextField(
-                    controller: aliasFieldController,
-                    onChanged: (value) => checkDataValid(),
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.badge_outlined),
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      labelText: AppLocalizations.of(context)!.serverName,
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  width: double.maxFinite,
-                  child: SegmentedButton<ConnectionType>(
-                    segments: const [
-                      ButtonSegment(
-                        value: ConnectionType.http,
-                        label: Text('HTTP'),
-                      ),
-                      ButtonSegment(
-                        value: ConnectionType.https,
-                        label: Text('HTTPS'),
-                      ),
-                    ],
-                    selected: <ConnectionType>{connectionType},
-                    onSelectionChanged: (value) => setState(() {
-                      connectionType = value.first;
-                      // Expand Advanced Options when HTTPS is selected, collapse for HTTP
-                      _advancedOptionsExpanded =
-                          connectionType == ConnectionType.https;
-                    }),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: TextFormField(
-                    onChanged: validateAddress,
-                    controller: addressFieldController,
-                    decoration: InputDecoration(
-                      errorText: addressFieldError,
-                      prefixIcon: const Icon(Icons.link),
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      labelText: AppLocalizations.of(context)!.address,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: TextFormField(
-                    onChanged: validatePort,
-                    controller: portFieldController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      errorText: portFieldError,
-                      prefixIcon: const Icon(Icons.numbers),
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      labelText: AppLocalizations.of(context)!.port,
-                    ),
-                  ),
-                ),
-                Theme(
-                  data: Theme.of(context).copyWith(
-                    dividerColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                  ),
-                  child: ExpansionTile(
-                    key: ValueKey(_advancedOptionsExpanded),
-                    tilePadding: EdgeInsets.zero,
-                    initiallyExpanded: _advancedOptionsExpanded,
-                    onExpansionChanged: (expanded) {
-                      setState(() {
-                        _advancedOptionsExpanded = expanded;
-                      });
-                    },
-                    title: SectionLabel(
-                      label: AppLocalizations.of(context)!.advancedOptions,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    children: [
-                      TextFormField(
-                        onChanged: validateSubroute,
-                        controller: subrouteFieldController,
-                        decoration: InputDecoration(
-                          errorText: subrouteFieldError,
-                          prefixIcon: const Icon(Icons.route_rounded),
-                          border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          labelText: AppLocalizations.of(
-                            context,
-                          )!.subrouteField,
-                          hintText: AppLocalizations.of(
-                            context,
-                          )!.subrouteExample,
-                          helperText: AppLocalizations.of(
-                            context,
-                          )!.subrouteHelper,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      CheckboxListTile(
-                        contentPadding: const EdgeInsets.only(right: 8),
-                        value: allowUntrustedCert,
-                        onChanged:
-                            connectionType == ConnectionType.https &&
-                                !ignoreCertificateErrors
-                            ? (v) => setState(() {
-                                allowUntrustedCert = v!;
-                                if (!allowUntrustedCert) {
-                                  pinnedCertificateSha256 = null;
-                                }
-                              })
-                            : null,
-                        title: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                AppLocalizations.of(
-                                  context,
-                                )!.allowUntrustedCert,
-                              ),
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.help_outline_rounded),
-                              onPressed: () => openUrl(Urls.certConfigGuide),
-                              tooltip: AppLocalizations.of(
-                                context,
-                              )!.learnMoreAboutCertificates,
-                              padding: EdgeInsets.zero,
-                              constraints: const BoxConstraints(
-                                minWidth: 40,
-                                minHeight: 40,
-                              ),
-                            ),
-                          ],
-                        ),
-                        subtitle: Text(
-                          AppLocalizations.of(
-                            context,
-                          )!.allowUntrustedCertDescription,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: appColors.queryOrange,
-                          ),
-                        ),
-                      ),
-                      CheckboxListTile(
-                        contentPadding: const EdgeInsets.only(right: 8),
-                        value: ignoreCertificateErrors,
-                        onChanged: connectionType == ConnectionType.https
-                            ? (v) =>
-                                  setState(() => ignoreCertificateErrors = v!)
-                            : null,
-                        title: Text(
-                          AppLocalizations.of(context)!.dontCheckCertificate,
-                        ),
-                        subtitle: Text(
-                          AppLocalizations.of(
-                            context,
-                          )!.dontCheckCertificateDescription,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: appColors.queryRed,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
-                ),
-                SectionLabel(
-                  label: AppLocalizations.of(context)!.version,
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    AppLocalizations.of(context)!.versionDescription,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  width: double.maxFinite,
-                  child: SegmentedButton<String>(
-                    segments: const [
-                      ButtonSegment(
-                        value: SupportedApiVersions.v5,
-                        label: Text(SupportedApiVersions.v5),
-                      ),
-                      ButtonSegment(
-                        value: SupportedApiVersions.v6,
-                        label: Text(SupportedApiVersions.v6),
-                      ),
-                    ],
-                    selected: <String>{piHoleVersion},
-                    onSelectionChanged: (value) =>
-                        setState(() => piHoleVersion = value.first),
-                  ),
-                ),
-                SectionLabel(
-                  label: AppLocalizations.of(context)!.authentication,
-                  padding: const EdgeInsets.only(top: 20),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: piHoleVersion == SupportedApiVersions.v5
-                      ? buildV5Settings(context)
-                      : buildV6Settings(context),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Checkbox(
-                      value: defaultCheckbox,
-                      onChanged: (value) => {
-                        setState(() => defaultCheckbox = !defaultCheckbox),
-                      },
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => {
-                        setState(() => defaultCheckbox = !defaultCheckbox),
-                      },
-                      child: Text(
-                        AppLocalizations.of(context)!.defaultConnection,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    }
 
     if (widget.window == true) {
       return Dialog(
@@ -1371,11 +342,11 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             body: formItems(),
           ),
           AnimatedOpacity(
-            opacity: isConnecting == true ? 1 : 0,
+            opacity: isConnecting ? 1 : 0,
             duration: const Duration(milliseconds: 250),
             curve: Curves.easeInOut,
             child: IgnorePointer(
-              ignoring: isConnecting == true ? false : true,
+              ignoring: !isConnecting,
               child: Scaffold(
                 backgroundColor: Colors.transparent,
                 body: Container(
@@ -1404,5 +375,741 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         ],
       );
     }
+  }
+
+  /// Shows a snackbar with an error message
+  void handleApiErrorResult({
+    required BuildContext context,
+    required AppConfigViewModel appConfigViewModel,
+    required Exception error,
+    required String version,
+  }) {
+    final loc = AppLocalizations.of(context)!;
+
+    String label;
+
+    if (error is HttpStatusCodeException) {
+      switch (error.statusCode) {
+        case 401:
+          // Authentication failure - distinct from a network problem.
+          label = version == SupportedApiVersions.v6
+              ? loc.loginPasswordIncorrect
+              : loc.loginTokenInvalid;
+        case 495:
+          label = loc.sslErrorLong;
+        case 503:
+          label = loc.checkAddress;
+        case 504:
+          label = loc.connectionTimeout;
+        default:
+          label = loc.cantReachServer;
+      }
+    } else {
+      label = loc.unknownError;
+    }
+
+    showErrorSnackBar(
+      context: context,
+      appConfigViewModel: appConfigViewModel,
+      label: label,
+    );
+
+    appConfigViewModel.addLog(
+      AppLog(
+        type: 'login',
+        dateTime: DateTime.now(),
+        message: error.toString(),
+      ),
+    );
+  }
+
+  Future<String?> ensurePinnedFingerprint({
+    required BuildContext context,
+    required Uri uri,
+    required String? existingPin,
+  }) async {
+    if (existingPin != null && existingPin.isNotEmpty) {
+      return existingPin;
+    }
+
+    try {
+      // If the certificate is trusted by the platform, pin it automatically.
+      final info = await widget.fetchTlsCertificate(
+        uri,
+        allowBadCertificates: false,
+      );
+      if (info != null) {
+        return info.sha256;
+      }
+      return '';
+    } on HandshakeException {
+      // Untrusted certificate (likely self-signed). Retrieve fingerprint for user verification.
+    } catch (_) {
+      // Fall back to existing behavior without pin prompt on non-TLS failures.
+      return '';
+    }
+
+    TlsCertificateInfo? certificateInfo;
+    try {
+      certificateInfo = await widget.fetchTlsCertificate(
+        uri,
+        allowBadCertificates: true,
+      );
+    } catch (_) {
+      // If we cannot obtain the fingerprint, block the connection.
+      // This typically happens with reverse proxies where certificate
+      // pinning cannot work reliably.
+      return null;
+    }
+    if (!context.mounted || certificateInfo == null) {
+      return null;
+    }
+
+    final info = certificateInfo;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => CertificateDetailsDialog(
+        title: AppLocalizations.of(dialogContext)!.allowUntrustedCert,
+        description: AppLocalizations.of(
+          dialogContext,
+        )!.serverCertificateUpdatePinHelp,
+        certificateInfo: info,
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(AppLocalizations.of(dialogContext)!.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(AppLocalizations.of(dialogContext)!.confirm),
+          ),
+        ],
+      ),
+    );
+
+    return confirmed == true ? info.sha256 : null;
+  }
+
+  /// Validates and updates the server's certificate configuration.
+  ///
+  /// This method handles certificate validation and pinning for HTTPS connections.
+  /// It returns the updated Server object if validation succeeds, or null if the
+  /// user cancels or validation fails.
+  ///
+  /// Parameters:
+  /// - [serverObj]: The server object to validate
+  /// - [onValidationFailed]: Optional callback for handling additional cleanup on failure
+  Future<Server?> validateAndUpdateServerCertificate({
+    required Server serverObj,
+    VoidCallback? onValidationFailed,
+  }) async {
+    final appConfigViewModel = context.read<AppConfigViewModel>();
+    if (connectionType != ConnectionType.https || ignoreCertificateErrors) {
+      // ignore: avoid_redundant_argument_values
+      return serverObj.copyWith(pinnedCertificateSha256: null);
+    }
+
+    final uri = Uri.parse(serverObj.address);
+
+    if (allowUntrustedCert) {
+      // Allow self-signed: prompt user to pin the certificate
+      if (!mounted) return null;
+      final pin = await ensurePinnedFingerprint(
+        context: context,
+        uri: uri,
+        existingPin: serverObj.pinnedCertificateSha256,
+      );
+      if (!mounted) return null;
+      if (pin == null) {
+        onValidationFailed?.call();
+        return null;
+      }
+      return serverObj.copyWith(
+        pinnedCertificateSha256: pin.isEmpty ? null : pin,
+      );
+    } else {
+      // Strict mode: verify certificate is trusted by the platform
+      try {
+        await widget.fetchTlsCertificate(uri, allowBadCertificates: false);
+        // Certificate is trusted, proceed without pin
+        // ignore: avoid_redundant_argument_values
+        return serverObj.copyWith(pinnedCertificateSha256: null);
+      } on HandshakeException {
+        // Certificate not trusted - block connection
+        if (!mounted) return null;
+        onValidationFailed?.call();
+        if (!mounted) return null;
+        showErrorSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: AppLocalizations.of(context)!.sslErrorLong,
+        );
+        return null;
+      } catch (e) {
+        // Other network errors - let connection test handle them
+        // ignore: avoid_redundant_argument_values
+        return serverObj.copyWith(pinnedCertificateSha256: null);
+      }
+    }
+  }
+
+  Future<void> connect() async {
+    final serversViewModel = context.read<ServersViewModel>();
+    final appConfigViewModel = context.read<AppConfigViewModel>();
+    final viewModel = _ensureViewModel();
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() {
+      isConnecting = true;
+    });
+    if (!allowUntrustedCert) {
+      pinnedCertificateSha256 = null;
+    }
+
+    final url = buildServerUrl(
+      scheme: connectionType.name,
+      host: addressFieldController.text,
+      port: portFieldController.text,
+      subroute: subrouteFieldController.text,
+    );
+
+    final outcome = await viewModel.connect.runAsync(
+      ConnectRequest(
+        url: url,
+        alias: aliasFieldController.text,
+        apiVersion: piHoleVersion,
+        allowUntrustedCert: allowUntrustedCert,
+        ignoreCertificateErrors: ignoreCertificateErrors,
+        pinnedCertificateSha256: pinnedCertificateSha256,
+        password: passwordFieldController.text,
+        token: tokenFieldController.text,
+        defaultServer: defaultCheckbox,
+        resolveCertificate: (serverObj) =>
+            validateAndUpdateServerCertificate(serverObj: serverObj),
+      ),
+    );
+
+    if (!mounted) return;
+    setState(() {
+      isConnecting = false;
+    });
+    switch (outcome) {
+      case ConnectInitial():
+        break;
+      case ConnectDuplicateUrl():
+        showErrorSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: AppLocalizations.of(context)!.connectionAlreadyExists,
+        );
+      case ConnectUrlCheckFailed():
+        showErrorSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
+        );
+      case ConnectApiError(:final error, :final version):
+        handleApiErrorResult(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          error: error,
+          version: version,
+        );
+      case ConnectSuccess(:final server):
+        await Navigator.maybePop(context);
+        if (!mounted) return;
+        showSuccessSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: AppLocalizations.of(context)!.connectedSuccessfully,
+        );
+        try {
+          await serversViewModel.addServer.runAsync(server);
+        } catch (e, s) {
+          logger.e('Failed to save server', error: e, stackTrace: s);
+        }
+    }
+  }
+
+  Future<void> save() async {
+    final appConfigViewModel = context.read<AppConfigViewModel>();
+    final viewModel = _ensureViewModel();
+    FocusManager.instance.primaryFocus?.unfocus();
+    setState(() {
+      isConnecting = true;
+    });
+
+    if (!allowUntrustedCert) {
+      pinnedCertificateSha256 = null;
+    }
+
+    final newUrl = buildServerUrl(
+      scheme: connectionType.name,
+      host: addressFieldController.text,
+      port: portFieldController.text,
+      subroute: subrouteFieldController.text,
+    );
+
+    final outcome = await viewModel.save.runAsync(
+      SaveRequest(
+        url: newUrl,
+        alias: aliasFieldController.text,
+        apiVersion: piHoleVersion,
+        allowUntrustedCert: allowUntrustedCert,
+        ignoreCertificateErrors: ignoreCertificateErrors,
+        pinnedCertificateSha256: pinnedCertificateSha256,
+        password: passwordFieldController.text,
+        token: tokenFieldController.text,
+        defaultServer: defaultCheckbox,
+        oldServer: widget.server!,
+        initPassword: initPassword ?? '',
+        initToken: initToken ?? '',
+        secretsLoadSucceeded: _secretsLoadSucceeded,
+        resolveCertificate: (serverObj) =>
+            validateAndUpdateServerCertificate(serverObj: serverObj),
+      ),
+    );
+
+    if (!mounted) return;
+    setState(() {
+      isConnecting = false;
+    });
+    switch (outcome) {
+      case SaveInitial():
+      case SaveCancelled():
+        break;
+      case SaveDuplicateUrl():
+        showErrorSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: AppLocalizations.of(context)!.connectionAlreadyExists,
+        );
+      case SaveUrlCheckFailed():
+        showErrorSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
+        );
+      case SaveApiError(:final error, :final version):
+        handleApiErrorResult(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          error: error,
+          version: version,
+        );
+      case SaveDbError():
+        showErrorSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: AppLocalizations.of(context)!.cantSaveConnectionData,
+        );
+      case SaveSuccess():
+        await Navigator.maybePop(context);
+        if (!mounted) return;
+        showSuccessSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: AppLocalizations.of(context)!.editServerSuccessfully,
+        );
+    }
+  }
+
+  bool validData() {
+    if (addressFieldController.text != '' &&
+        subrouteFieldError == null &&
+        addressFieldError == null &&
+        portFieldError == null &&
+        aliasFieldController.text != '') {
+      if (widget.server != null) {
+        if (!_secretsLoaded) return false;
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void openScanTokenModal() {
+    showDialog(
+      context: context,
+      useRootNavigator:
+          false, // Prevents unexpected app exit on mobile when pressing back
+      builder: (context) => ScanTokenModal(
+        qrScanned: (value) => setState(() => tokenFieldController.text = value),
+      ),
+    );
+  }
+
+  Widget buildV5Settings(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: TextField(
+                  obscureText: true,
+                  keyboardType: TextInputType.visiblePassword,
+                  controller: tokenFieldController,
+                  onChanged: (value) => checkDataValid(),
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.key_rounded),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    labelText: AppLocalizations.of(context)!.token,
+                  ),
+                ),
+              ),
+              if (Platform.isAndroid || Platform.isIOS) ...[
+                const SizedBox(width: 16),
+                IconButton(
+                  onPressed: openScanTokenModal,
+                  icon: const Icon(Icons.qr_code_rounded),
+                  tooltip: AppLocalizations.of(context)!.scanQrCode,
+                ),
+              ],
+            ],
+          ),
+        ),
+        Card(
+          margin: const EdgeInsets.only(top: 10, bottom: 10),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.info_rounded,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(width: 16),
+                Flexible(
+                  child: Text(AppLocalizations.of(context)!.tokenInstructions),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildV6Settings(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: TextField(
+                  obscureText: true,
+                  keyboardType: TextInputType.visiblePassword,
+                  controller: passwordFieldController,
+                  onChanged: (value) => checkDataValid(),
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.key_rounded),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    labelText: AppLocalizations.of(context)!.password,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget formItems() {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 10,
+                ),
+                margin: const EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.primary.withValues(alpha: 0.05),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      buildServerUrl(
+                        scheme: connectionType.name,
+                        host: addressFieldController.text,
+                        port: portFieldController.text,
+                        subroute: subrouteFieldController.text,
+                      ),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SectionLabel(
+                label: AppLocalizations.of(context)!.connection,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: TextField(
+                  controller: aliasFieldController,
+                  onChanged: (value) => checkDataValid(),
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.badge_outlined),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    labelText: AppLocalizations.of(context)!.serverName,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                width: double.maxFinite,
+                child: SegmentedButton<ConnectionType>(
+                  segments: const [
+                    ButtonSegment(
+                      value: ConnectionType.http,
+                      label: Text('HTTP'),
+                    ),
+                    ButtonSegment(
+                      value: ConnectionType.https,
+                      label: Text('HTTPS'),
+                    ),
+                  ],
+                  selected: <ConnectionType>{connectionType},
+                  onSelectionChanged: (value) => setState(() {
+                    connectionType = value.first;
+                    // Expand Advanced Options when HTTPS is selected, collapse for HTTP
+                    _advancedOptionsExpanded =
+                        connectionType == ConnectionType.https;
+                  }),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: TextFormField(
+                  onChanged: validateAddress,
+                  controller: addressFieldController,
+                  decoration: InputDecoration(
+                    errorText: addressFieldError,
+                    prefixIcon: const Icon(Icons.link),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    labelText: AppLocalizations.of(context)!.address,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: TextFormField(
+                  onChanged: validatePort,
+                  controller: portFieldController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    errorText: portFieldError,
+                    prefixIcon: const Icon(Icons.numbers),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    labelText: AppLocalizations.of(context)!.port,
+                  ),
+                ),
+              ),
+              Theme(
+                data: Theme.of(context).copyWith(
+                  dividerColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
+                child: ExpansionTile(
+                  key: ValueKey(_advancedOptionsExpanded),
+                  tilePadding: EdgeInsets.zero,
+                  initiallyExpanded: _advancedOptionsExpanded,
+                  onExpansionChanged: (expanded) {
+                    setState(() {
+                      _advancedOptionsExpanded = expanded;
+                    });
+                  },
+                  title: SectionLabel(
+                    label: AppLocalizations.of(context)!.advancedOptions,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  ),
+                  children: [
+                    TextFormField(
+                      onChanged: validateSubroute,
+                      controller: subrouteFieldController,
+                      decoration: InputDecoration(
+                        errorText: subrouteFieldError,
+                        prefixIcon: const Icon(Icons.route_rounded),
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        labelText: AppLocalizations.of(context)!.subrouteField,
+                        hintText: AppLocalizations.of(context)!.subrouteExample,
+                        helperText: AppLocalizations.of(
+                          context,
+                        )!.subrouteHelper,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    CheckboxListTile(
+                      contentPadding: const EdgeInsets.only(right: 8),
+                      value: allowUntrustedCert,
+                      onChanged:
+                          connectionType == ConnectionType.https &&
+                              !ignoreCertificateErrors
+                          ? (v) => setState(() {
+                              allowUntrustedCert = v!;
+                              if (!allowUntrustedCert) {
+                                pinnedCertificateSha256 = null;
+                              }
+                            })
+                          : null,
+                      title: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              AppLocalizations.of(context)!.allowUntrustedCert,
+                            ),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.help_outline_rounded),
+                            onPressed: () => openUrl(Urls.certConfigGuide),
+                            tooltip: AppLocalizations.of(
+                              context,
+                            )!.learnMoreAboutCertificates,
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(
+                              minWidth: 40,
+                              minHeight: 40,
+                            ),
+                          ),
+                        ],
+                      ),
+                      subtitle: Text(
+                        AppLocalizations.of(
+                          context,
+                        )!.allowUntrustedCertDescription,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: appColors.queryOrange,
+                        ),
+                      ),
+                    ),
+                    CheckboxListTile(
+                      contentPadding: const EdgeInsets.only(right: 8),
+                      value: ignoreCertificateErrors,
+                      onChanged: connectionType == ConnectionType.https
+                          ? (v) => setState(() => ignoreCertificateErrors = v!)
+                          : null,
+                      title: Text(
+                        AppLocalizations.of(context)!.dontCheckCertificate,
+                      ),
+                      subtitle: Text(
+                        AppLocalizations.of(
+                          context,
+                        )!.dontCheckCertificateDescription,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: appColors.queryRed,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              ),
+              SectionLabel(
+                label: AppLocalizations.of(context)!.version,
+                padding: const EdgeInsets.only(top: 10, bottom: 10),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  AppLocalizations.of(context)!.versionDescription,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                width: double.maxFinite,
+                child: SegmentedButton<String>(
+                  segments: const [
+                    ButtonSegment(
+                      value: SupportedApiVersions.v5,
+                      label: Text(SupportedApiVersions.v5),
+                    ),
+                    ButtonSegment(
+                      value: SupportedApiVersions.v6,
+                      label: Text(SupportedApiVersions.v6),
+                    ),
+                  ],
+                  selected: <String>{piHoleVersion},
+                  onSelectionChanged: (value) =>
+                      setState(() => piHoleVersion = value.first),
+                ),
+              ),
+              SectionLabel(
+                label: AppLocalizations.of(context)!.authentication,
+                padding: const EdgeInsets.only(top: 20),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: piHoleVersion == SupportedApiVersions.v5
+                    ? buildV5Settings(context)
+                    : buildV6Settings(context),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Checkbox(
+                    value: defaultCheckbox,
+                    onChanged: (value) => {
+                      setState(() => defaultCheckbox = !defaultCheckbox),
+                    },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => {
+                      setState(() => defaultCheckbox = !defaultCheckbox),
+                    },
+                    child: Text(
+                      AppLocalizations.of(context)!.defaultConnection,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
