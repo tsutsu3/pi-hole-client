@@ -85,7 +85,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   /// Whether [_loadSecrets] actually read the stored secrets. Stays false when
   /// the secure-storage read fails, so the save rollback won't write back the
   /// empty placeholders and wipe a credential that is still present. Forwarded
-  /// to the view model via [SaveRequest.secretsLoadSucceeded].
+  /// to the view model via [UpdateServerRequest.secretsLoadSucceeded].
   bool _secretsLoadSucceeded = false;
 
   @override
@@ -291,8 +291,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                               : AppLocalizations.of(context)!.connect,
                           onPressed: validData()
                               ? widget.server != null
-                                    ? save
-                                    : connect
+                                    ? updateServer
+                                    : createServer
                               : null,
                           icon: widget.server != null
                               ? const Icon(Icons.save_rounded)
@@ -328,8 +328,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                         : AppLocalizations.of(context)!.connect,
                     onPressed: validData()
                         ? widget.server != null
-                              ? save
-                              : connect
+                              ? updateServer
+                              : createServer
                         : null,
                     icon: widget.server != null
                         ? const Icon(Icons.save_rounded)
@@ -553,7 +553,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     }
   }
 
-  Future<void> connect() async {
+  Future<void> createServer() async {
     final serversViewModel = context.read<ServersViewModel>();
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final viewModel = _ensureViewModel();
@@ -572,8 +572,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       subroute: subrouteFieldController.text,
     );
 
-    final outcome = await viewModel.connect.runAsync(
-      ConnectRequest(
+    final outcome = await viewModel.createServer.runAsync(
+      CreateServerRequest(
         url: url,
         alias: aliasFieldController.text,
         apiVersion: piHoleVersion,
@@ -593,28 +593,28 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       isConnecting = false;
     });
     switch (outcome) {
-      case ConnectInitial():
+      case CreateInitial():
         break;
-      case ConnectDuplicateUrl():
+      case CreateDuplicateUrl():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.connectionAlreadyExists,
         );
-      case ConnectUrlCheckFailed():
+      case CreateUrlCheckFailed():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
         );
-      case ConnectApiError(:final error, :final version):
+      case CreateApiError(:final error, :final version):
         handleApiErrorResult(
           context: context,
           appConfigViewModel: appConfigViewModel,
           error: error,
           version: version,
         );
-      case ConnectSuccess(:final server):
+      case CreateSuccess(:final server):
         await Navigator.maybePop(context);
         if (!mounted) return;
         showSuccessSnackBar(
@@ -630,7 +630,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     }
   }
 
-  Future<void> save() async {
+  Future<void> updateServer() async {
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final viewModel = _ensureViewModel();
     FocusManager.instance.primaryFocus?.unfocus();
@@ -649,8 +649,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       subroute: subrouteFieldController.text,
     );
 
-    final outcome = await viewModel.save.runAsync(
-      SaveRequest(
+    final outcome = await viewModel.updateServer.runAsync(
+      UpdateServerRequest(
         url: newUrl,
         alias: aliasFieldController.text,
         apiVersion: piHoleVersion,
@@ -674,35 +674,35 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       isConnecting = false;
     });
     switch (outcome) {
-      case SaveInitial():
-      case SaveCancelled():
+      case UpdateInitial():
+      case UpdateCancelled():
         break;
-      case SaveDuplicateUrl():
+      case UpdateDuplicateUrl():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.connectionAlreadyExists,
         );
-      case SaveUrlCheckFailed():
+      case UpdateUrlCheckFailed():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
         );
-      case SaveApiError(:final error, :final version):
+      case UpdateApiError(:final error, :final version):
         handleApiErrorResult(
           context: context,
           appConfigViewModel: appConfigViewModel,
           error: error,
           version: version,
         );
-      case SaveDbError():
+      case UpdateDbError():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.cantSaveConnectionData,
         );
-      case SaveSuccess():
+      case UpdateSuccess():
         await Navigator.maybePop(context);
         if (!mounted) return;
         showSuccessSnackBar(

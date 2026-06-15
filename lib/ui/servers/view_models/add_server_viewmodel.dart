@@ -21,9 +21,9 @@ import 'package:pi_hole_client/utils/url.dart';
 /// widget; the view model only decides what to do with the result.
 typedef ResolveCertificate = Future<Server?> Function(Server server);
 
-/// Request for [AddServerViewModel.connect] (adding a new server).
-class ConnectRequest {
-  const ConnectRequest({
+/// Request for [AddServerViewModel.createServer] (adding a new server).
+class CreateServerRequest {
+  const CreateServerRequest({
     required this.url,
     required this.alias,
     required this.apiVersion,
@@ -48,9 +48,9 @@ class ConnectRequest {
   final ResolveCertificate resolveCertificate;
 }
 
-/// Request for [AddServerViewModel.save] (editing an existing server).
-class SaveRequest {
-  const SaveRequest({
+/// Request for [AddServerViewModel.updateServer] (editing an existing server).
+class UpdateServerRequest {
+  const UpdateServerRequest({
     required this.url,
     required this.alias,
     required this.apiVersion,
@@ -94,29 +94,29 @@ class SaveRequest {
 // ==================================================================
 // Outcome of [AddServerViewModel.connect], mapped to UI reactions by the widget.
 // ==================================================================
-sealed class ConnectOutcome {
-  const ConnectOutcome();
+sealed class CreateOutcome {
+  const CreateOutcome();
 }
 
-final class ConnectInitial extends ConnectOutcome {
-  const ConnectInitial();
+final class CreateInitial extends CreateOutcome {
+  const CreateInitial();
 }
 
-final class ConnectSuccess extends ConnectOutcome {
-  const ConnectSuccess(this.server);
+final class CreateSuccess extends CreateOutcome {
+  const CreateSuccess(this.server);
   final Server server;
 }
 
-final class ConnectDuplicateUrl extends ConnectOutcome {
-  const ConnectDuplicateUrl();
+final class CreateDuplicateUrl extends CreateOutcome {
+  const CreateDuplicateUrl();
 }
 
-final class ConnectUrlCheckFailed extends ConnectOutcome {
-  const ConnectUrlCheckFailed();
+final class CreateUrlCheckFailed extends CreateOutcome {
+  const CreateUrlCheckFailed();
 }
 
-final class ConnectApiError extends ConnectOutcome {
-  const ConnectApiError(this.error, this.version);
+final class CreateApiError extends CreateOutcome {
+  const CreateApiError(this.error, this.version);
   final Exception error;
   final String version;
 }
@@ -124,41 +124,42 @@ final class ConnectApiError extends ConnectOutcome {
 // ==================================================================
 // Outcome of [AddServerViewModel.save], mapped to UI reactions by the widget.
 // ==================================================================
-sealed class SaveOutcome {
-  const SaveOutcome();
+sealed class UpdateOutcome {
+  const UpdateOutcome();
 }
 
-final class SaveInitial extends SaveOutcome {
-  const SaveInitial();
+final class UpdateInitial extends UpdateOutcome {
+  const UpdateInitial();
 }
 
-final class SaveSuccess extends SaveOutcome {
-  const SaveSuccess();
+final class UpdateSuccess extends UpdateOutcome {
+  const UpdateSuccess();
 }
 
-final class SaveCancelled extends SaveOutcome {
-  const SaveCancelled();
+final class UpdateCancelled extends UpdateOutcome {
+  const UpdateCancelled();
 }
 
-final class SaveDuplicateUrl extends SaveOutcome {
-  const SaveDuplicateUrl();
+final class UpdateDuplicateUrl extends UpdateOutcome {
+  const UpdateDuplicateUrl();
 }
 
-final class SaveUrlCheckFailed extends SaveOutcome {
-  const SaveUrlCheckFailed();
+final class UpdateUrlCheckFailed extends UpdateOutcome {
+  const UpdateUrlCheckFailed();
 }
 
-final class SaveApiError extends SaveOutcome {
-  const SaveApiError(this.error, this.version);
+final class UpdateApiError extends UpdateOutcome {
+  const UpdateApiError(this.error, this.version);
   final Exception error;
   final String version;
 }
 
-final class SaveDbError extends SaveOutcome {
-  const SaveDbError();
+final class UpdateDbError extends UpdateOutcome {
+  const UpdateDbError();
 }
 
-/// Orchestrates adding ([connect]) and editing ([save]) a Pi-hole server.
+/// Orchestrates adding ([createServer]) and editing ([updateServer]) a Pi-hole
+/// server.
 ///
 /// The view model owns the pure orchestration (URL uniqueness check, credential
 /// storage, session creation/teardown, blocking-status probe, DB commit and
@@ -173,42 +174,42 @@ class AddServerViewModel extends ChangeNotifier {
   }) : _serversViewModel = serversViewModel,
        _statusViewModel = statusViewModel,
        _createBundle = createBundle {
-    connect = Command.createAsync<ConnectRequest, ConnectOutcome>(
-      _connect,
-      initialValue: const ConnectInitial(),
+    createServer = Command.createAsync<CreateServerRequest, CreateOutcome>(
+      _createServer,
+      initialValue: const CreateInitial(),
     );
-    save = Command.createAsync<SaveRequest, SaveOutcome>(
-      _save,
-      initialValue: const SaveInitial(),
+    updateServer = Command.createAsync<UpdateServerRequest, UpdateOutcome>(
+      _updateServer,
+      initialValue: const UpdateInitial(),
     );
-    connect.addListener(notifyListeners);
-    save.addListener(notifyListeners);
+    createServer.addListener(notifyListeners);
+    updateServer.addListener(notifyListeners);
   }
 
   final ServersViewModel _serversViewModel;
   final StatusViewModel _statusViewModel;
   final CreateRepositoryBundle _createBundle;
 
-  late final Command<ConnectRequest, ConnectOutcome> connect;
-  late final Command<SaveRequest, SaveOutcome> save;
+  late final Command<CreateServerRequest, CreateOutcome> createServer;
+  late final Command<UpdateServerRequest, UpdateOutcome> updateServer;
 
   /// Adds a new server: checks the URL is not in use, saves the credentials,
   /// resolves the certificate, creates a v6 session if needed and checks the
   /// blocking status. Credentials saved during the attempt are removed on
   /// failure.
   ///
-  /// A cancelled or blocked certificate does not stop connect here (unlike
-  /// [_save]): it keeps the original server and the connection test below
-  /// reports any error.
+  /// A cancelled or blocked certificate does not stop create here (unlike
+  /// [_updateServer]): it keeps the original server and the connection test
+  /// below reports any error.
   ///
-  /// Returns [ConnectSuccess] with the server for the widget to save, or
-  /// [ConnectDuplicateUrl] / [ConnectUrlCheckFailed] / [ConnectApiError].
-  Future<ConnectOutcome> _connect(ConnectRequest req) async {
+  /// Returns [CreateSuccess] with the server for the widget to save, or
+  /// [CreateDuplicateUrl] / [CreateUrlCheckFailed] / [CreateApiError].
+  Future<CreateOutcome> _createServer(CreateServerRequest req) async {
     final exists = await _serversViewModel.checkUrlExists(req.url);
     if (exists['result'] == 'success' && exists['exists'] == true) {
-      return const ConnectDuplicateUrl();
+      return const CreateDuplicateUrl();
     } else if (exists['result'] == 'fail') {
-      return const ConnectUrlCheckFailed();
+      return const CreateUrlCheckFailed();
     }
 
     var serverObj = Server(
@@ -232,7 +233,7 @@ class AddServerViewModel extends ChangeNotifier {
       if (authResult.isError()) {
         await _serversViewModel.deletePassword(req.url);
         await _serversViewModel.deleteToken(req.url);
-        return ConnectApiError(authResult.exceptionOrNull()!, req.apiVersion);
+        return CreateApiError(authResult.exceptionOrNull()!, req.apiVersion);
       }
     }
     // Use skipRenewal: true because the session was just created above.
@@ -240,13 +241,13 @@ class AddServerViewModel extends ChangeNotifier {
     // Transient errors (e.g. network timeout) are still retried.
     final result = await bundle.dns.fetchBlockingStatus(skipRenewal: true);
     if (result.isSuccess()) {
-      return ConnectSuccess(
+      return CreateSuccess(
         serverObj.copyWith(defaultServer: req.defaultServer),
       );
     }
     await _serversViewModel.deletePassword(req.url);
     await _serversViewModel.deleteToken(req.url);
-    return ConnectApiError(result.exceptionOrNull()!, req.apiVersion);
+    return CreateApiError(result.exceptionOrNull()!, req.apiVersion);
   }
 
   /// Edits an existing server, keeping the old server's row, credentials and
@@ -259,12 +260,12 @@ class AddServerViewModel extends ChangeNotifier {
   /// rollback/old-session cleanup. Auto refresh is stopped while it runs and
   /// started again on every exit path.
   ///
-  /// A cancelled or blocked certificate stops the save ([SaveCancelled]); the
-  /// message was already shown by [SaveRequest.resolveCertificate].
+  /// A cancelled or blocked certificate stops the save ([UpdateCancelled]); the
+  /// message was already shown by [UpdateServerRequest.resolveCertificate].
   ///
-  /// Returns [SaveSuccess], [SaveCancelled], [SaveDuplicateUrl],
-  /// [SaveUrlCheckFailed], [SaveApiError] or [SaveDbError].
-  Future<SaveOutcome> _save(SaveRequest req) async {
+  /// Returns [UpdateSuccess], [UpdateCancelled], [UpdateDuplicateUrl],
+  /// [UpdateUrlCheckFailed], [UpdateApiError] or [UpdateDbError].
+  Future<UpdateOutcome> _updateServer(UpdateServerRequest req) async {
     final oldServer = req.oldServer;
     final oldAddress = oldServer.address;
     final newUrl = req.url;
@@ -277,9 +278,9 @@ class AddServerViewModel extends ChangeNotifier {
     if (isAddressChanged) {
       final exists = await _serversViewModel.checkUrlExists(newUrl);
       if (exists['result'] == 'success' && exists['exists'] == true) {
-        return const SaveDuplicateUrl();
+        return const UpdateDuplicateUrl();
       } else if (exists['result'] == 'fail') {
-        return const SaveUrlCheckFailed();
+        return const UpdateUrlCheckFailed();
       }
     }
 
@@ -313,7 +314,7 @@ class AddServerViewModel extends ChangeNotifier {
     final updatedServer = await req.resolveCertificate(serverObj);
     if (updatedServer == null) {
       restartAutoRefresh();
-      return const SaveCancelled();
+      return const UpdateCancelled();
     }
     serverObj = updatedServer;
 
@@ -365,10 +366,10 @@ class AddServerViewModel extends ChangeNotifier {
       }
     }
 
-    Future<SaveOutcome> handleSaveError(Exception e) async {
+    Future<UpdateOutcome> handleSaveError(Exception e) async {
       await restoreSecrets();
       restartAutoRefresh();
-      return SaveApiError(e, req.apiVersion);
+      return UpdateApiError(e, req.apiVersion);
     }
 
     final bundle = _createBundle(server: serverObj);
@@ -472,7 +473,7 @@ class AddServerViewModel extends ChangeNotifier {
           await _serversViewModel.deleteSid(targetAddress);
         }
         restartAutoRefresh();
-        return const SaveSuccess();
+        return const UpdateSuccess();
       } else {
         // DB write failed: roll back this attempt's artifacts; the old server
         // (row, credentials, session) is left fully intact.
@@ -481,7 +482,7 @@ class AddServerViewModel extends ChangeNotifier {
           sessionCreated: sessionJustCreated,
         );
         restartAutoRefresh();
-        return const SaveDbError();
+        return const UpdateDbError();
       }
     } else {
       await rollbackFailedSave(
@@ -489,14 +490,14 @@ class AddServerViewModel extends ChangeNotifier {
         sessionCreated: sessionJustCreated,
       );
       restartAutoRefresh();
-      return SaveApiError(result.exceptionOrNull()!, req.apiVersion);
+      return UpdateApiError(result.exceptionOrNull()!, req.apiVersion);
     }
   }
 
   @override
   void dispose() {
-    connect.removeListener(notifyListeners);
-    save.removeListener(notifyListeners);
+    createServer.removeListener(notifyListeners);
+    updateServer.removeListener(notifyListeners);
     super.dispose();
   }
 }
