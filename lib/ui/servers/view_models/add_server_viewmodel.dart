@@ -158,6 +158,9 @@ final class UpdateDbError extends UpdateOutcome {
   const UpdateDbError();
 }
 
+/// Result of a server-URL uniqueness check.
+enum _UrlCheck { available, duplicate, failed }
+
 /// Orchestrates adding ([createServer]) and editing ([updateServer]) a Pi-hole
 /// server.
 ///
@@ -193,6 +196,13 @@ class AddServerViewModel extends ChangeNotifier {
   late final Command<CreateServerRequest, CreateOutcome> createServer;
   late final Command<UpdateServerRequest, UpdateOutcome> updateServer;
 
+  /// Maps [ServersViewModel.checkUrlExists]'s map result to a typed [_UrlCheck].
+  Future<_UrlCheck> _checkUrl(String url) async {
+    final result = await _serversViewModel.checkUrlExists(url);
+    if (result['result'] == 'fail') return _UrlCheck.failed;
+    return result['exists'] == true ? _UrlCheck.duplicate : _UrlCheck.available;
+  }
+
   /// Adds a new server: checks the URL is not in use, saves the credentials,
   /// resolves the certificate, creates a v6 session if needed and checks the
   /// blocking status. Credentials saved during the attempt are removed on
@@ -205,11 +215,13 @@ class AddServerViewModel extends ChangeNotifier {
   /// Returns [CreateSuccess] with the server for the widget to save, or
   /// [CreateDuplicateUrl] / [CreateUrlCheckFailed] / [CreateApiError].
   Future<CreateOutcome> _createServer(CreateServerRequest req) async {
-    final exists = await _serversViewModel.checkUrlExists(req.url);
-    if (exists['result'] == 'success' && exists['exists'] == true) {
-      return const CreateDuplicateUrl();
-    } else if (exists['result'] == 'fail') {
-      return const CreateUrlCheckFailed();
+    switch (await _checkUrl(req.url)) {
+      case _UrlCheck.duplicate:
+        return const CreateDuplicateUrl();
+      case _UrlCheck.failed:
+        return const CreateUrlCheckFailed();
+      case _UrlCheck.available:
+        break;
     }
 
     var serverObj = Server(
@@ -276,11 +288,13 @@ class AddServerViewModel extends ChangeNotifier {
     // When the address (primary key) changes, make sure the new URL is not
     // already used by another server before doing anything destructive.
     if (isAddressChanged) {
-      final exists = await _serversViewModel.checkUrlExists(newUrl);
-      if (exists['result'] == 'success' && exists['exists'] == true) {
-        return const UpdateDuplicateUrl();
-      } else if (exists['result'] == 'fail') {
-        return const UpdateUrlCheckFailed();
+      switch (await _checkUrl(newUrl)) {
+        case _UrlCheck.duplicate:
+          return const UpdateDuplicateUrl();
+        case _UrlCheck.failed:
+          return const UpdateUrlCheckFailed();
+        case _UrlCheck.available:
+          break;
       }
     }
 
