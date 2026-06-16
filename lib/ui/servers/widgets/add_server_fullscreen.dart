@@ -21,6 +21,7 @@ import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
 import 'package:pi_hole_client/utils/url.dart';
+import 'package:pi_hole_client/utils/validators.dart';
 import 'package:provider/provider.dart';
 
 class AddServerFullscreen extends StatefulWidget {
@@ -134,13 +135,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   void validateAddress(String? value) {
     if (value != null && value != '') {
-      final ipAddress = RegExp(
-        r'^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$',
-      );
-      final domain = RegExp(
-        r'^(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)|((\w|-)+)$',
-      );
-      if (ipAddress.hasMatch(value) == true || domain.hasMatch(value) == true) {
+      if (isValidServerAddress(value)) {
         setState(() {
           addressFieldError = null;
         });
@@ -159,8 +154,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   void validateSubroute(String? value) {
     if (value != null && value != '') {
-      final subrouteRegexp = RegExp(r'^\/\b([A-Za-z0-9_\-~/]*)[^\/|\.|\:]$');
-      if (subrouteRegexp.hasMatch(value) == true) {
+      if (isValidSubroute(value)) {
         setState(() {
           subrouteFieldError = null;
         });
@@ -179,7 +173,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   void validatePort(String? value) {
     if (value != null && value != '') {
-      if (int.tryParse(value) != null && int.parse(value) <= 65535) {
+      if (isValidPort(value)) {
         setState(() {
           portFieldError = null;
         });
