@@ -60,12 +60,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   bool ignoreCertificateErrors = false;
   String? pinnedCertificateSha256;
 
-  bool allDataValid = false;
-
-  String errorMessage = 'Failed';
-
-  bool isTokenModalOpen = false;
-
   bool isConnecting = false;
 
   /// Created lazily on the first connect/save so that simply opening this
@@ -133,20 +127,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     );
   }
 
+  /// Rebuilds so the Save/Connect button re-evaluates [validData].
   void checkDataValid() {
-    if (addressFieldController.text != '' &&
-        addressFieldError == null &&
-        subrouteFieldError == null &&
-        portFieldError == null &&
-        aliasFieldController.text != '') {
-      setState(() {
-        allDataValid = true;
-      });
-    } else {
-      setState(() {
-        allDataValid = false;
-      });
-    }
+    setState(() {});
   }
 
   void validateAddress(String? value) {
