@@ -473,6 +473,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     required Server serverObj,
     VoidCallback? onValidationFailed,
   }) async {
+    if (!mounted) return null;
     final appConfigViewModel = context.read<AppConfigViewModel>();
     if (connectionType != ConnectionType.https || ignoreCertificateErrors) {
       // ignore: avoid_redundant_argument_values
