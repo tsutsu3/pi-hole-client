@@ -172,7 +172,7 @@ enum _UrlCheck { available, duplicate, failed }
 /// storage, session creation/teardown, blocking-status probe, DB commit and
 /// rollback). UI reactions (snackbars, navigation, the certificate dialog and
 /// the connecting overlay) stay in the widget and are driven by the returned
-/// sealed outcomes and the Commands' [Command.isRunning].
+/// sealed outcomes.
 class AddServerViewModel extends ChangeNotifier {
   AddServerViewModel({
     required ServersViewModel serversViewModel,
