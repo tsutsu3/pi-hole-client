@@ -133,62 +133,48 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     setState(() {});
   }
 
-  void validateAddress(String? value) {
+  /// Runs [isValid] on a non-empty [value] and stores the resulting error via
+  /// [setError]: [invalidMessage] when invalid, [emptyMessage] when empty.
+  void _validateField(
+    String? value, {
+    required bool Function(String) isValid,
+    required String invalidMessage,
+    required String? emptyMessage,
+    required void Function(String?) setError,
+  }) {
+    final String? error;
     if (value != null && value != '') {
-      if (isValidServerAddress(value)) {
-        setState(() {
-          addressFieldError = null;
-        });
-      } else {
-        setState(() {
-          addressFieldError = AppLocalizations.of(context)!.invalidAddress;
-        });
-      }
+      error = isValid(value) ? null : invalidMessage;
     } else {
-      setState(() {
-        addressFieldError = AppLocalizations.of(context)!.ipCannotEmpty;
-      });
+      error = emptyMessage;
     }
+    setState(() => setError(error));
     checkDataValid();
   }
 
-  void validateSubroute(String? value) {
-    if (value != null && value != '') {
-      if (isValidSubroute(value)) {
-        setState(() {
-          subrouteFieldError = null;
-        });
-      } else {
-        setState(() {
-          subrouteFieldError = AppLocalizations.of(context)!.invalidSubroute;
-        });
-      }
-    } else {
-      setState(() {
-        subrouteFieldError = null;
-      });
-    }
-    checkDataValid();
-  }
+  void validateAddress(String? value) => _validateField(
+    value,
+    isValid: isValidServerAddress,
+    invalidMessage: AppLocalizations.of(context)!.invalidAddress,
+    emptyMessage: AppLocalizations.of(context)!.ipCannotEmpty,
+    setError: (e) => addressFieldError = e,
+  );
 
-  void validatePort(String? value) {
-    if (value != null && value != '') {
-      if (isValidPort(value)) {
-        setState(() {
-          portFieldError = null;
-        });
-      } else {
-        setState(() {
-          portFieldError = AppLocalizations.of(context)!.invalidPort;
-        });
-      }
-    } else {
-      setState(() {
-        portFieldError = null;
-      });
-    }
-    checkDataValid();
-  }
+  void validateSubroute(String? value) => _validateField(
+    value,
+    isValid: isValidSubroute,
+    invalidMessage: AppLocalizations.of(context)!.invalidSubroute,
+    emptyMessage: null,
+    setError: (e) => subrouteFieldError = e,
+  );
+
+  void validatePort(String? value) => _validateField(
+    value,
+    isValid: isValidPort,
+    invalidMessage: AppLocalizations.of(context)!.invalidPort,
+    emptyMessage: null,
+    setError: (e) => portFieldError = e,
+  );
 
   Future<void> _loadSecrets() async {
     var password = '';
@@ -692,18 +678,20 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   }
 
   bool validData() {
-    if (addressFieldController.text != '' &&
+    final fieldsFilled =
+        addressFieldController.text != '' &&
         subrouteFieldError == null &&
         addressFieldError == null &&
         portFieldError == null &&
-        aliasFieldController.text != '') {
-      if (widget.server != null) {
-        if (!_secretsLoaded) return false;
-      }
-      return true;
-    } else {
-      return false;
-    }
+        aliasFieldController.text != '';
+    if (!fieldsFilled) return false;
+
+    // In edit mode the Save button stays disabled until the stored secrets have
+    // loaded, so a save can't overwrite credentials before they are ready.
+    final isEditMode = widget.server != null;
+    if (isEditMode && !_secretsLoaded) return false;
+
+    return true;
   }
 
   void openScanTokenModal() {
