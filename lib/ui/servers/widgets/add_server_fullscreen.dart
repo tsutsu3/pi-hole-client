@@ -176,6 +176,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     setError: (e) => portFieldError = e,
   );
 
+  String _serverUrlFromForm() => buildServerUrl(
+    scheme: connectionType.name,
+    host: addressFieldController.text,
+    port: portFieldController.text,
+    subroute: subrouteFieldController.text,
+  );
+
   Future<void> _loadSecrets() async {
     var password = '';
     var token = '';
@@ -528,12 +535,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       pinnedCertificateSha256 = null;
     }
 
-    final url = buildServerUrl(
-      scheme: connectionType.name,
-      host: addressFieldController.text,
-      port: portFieldController.text,
-      subroute: subrouteFieldController.text,
-    );
+    final url = _serverUrlFromForm();
 
     final outcome = await viewModel.createServer.runAsync(
       CreateServerRequest(
@@ -606,12 +608,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       pinnedCertificateSha256 = null;
     }
 
-    final newUrl = buildServerUrl(
-      scheme: connectionType.name,
-      host: addressFieldController.text,
-      port: portFieldController.text,
-      subroute: subrouteFieldController.text,
-    );
+    final newUrl = _serverUrlFromForm();
 
     final outcome = await viewModel.updateServer.runAsync(
       UpdateServerRequest(
@@ -819,12 +816,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 child: Column(
                   children: [
                     Text(
-                      buildServerUrl(
-                        scheme: connectionType.name,
-                        host: addressFieldController.text,
-                        port: portFieldController.text,
-                        subroute: subrouteFieldController.text,
-                      ),
+                      _serverUrlFromForm(),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.primary,
