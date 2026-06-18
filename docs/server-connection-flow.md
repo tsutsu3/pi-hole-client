@@ -26,7 +26,8 @@ flowchart LR
 ## Add a new server - `createServer`
 
 A cancelled/blocked certificate **aborts** the add (`CreateCancelled`),
-mirroring `updateServer`; the credentials saved above are removed first.
+mirroring `updateServer`; no credentials or remote session are created before
+the abort.
 
 ```mermaid
 flowchart TD
@@ -121,9 +122,9 @@ sequenceDiagram
   U->>W: tap Connect
   W->>VM: createServer.runAsync(req)
   VM->>SV: checkUrlExists(url)
-  VM->>SV: savePassword / saveToken
   VM->>W: resolveCertificate(server)
   Note over W: pin dialog / ssl-error snackbar (UI)
+  VM->>SV: savePassword / saveToken
   opt apiVersion == v6
     VM->>B: auth.createSession(password)
   end
