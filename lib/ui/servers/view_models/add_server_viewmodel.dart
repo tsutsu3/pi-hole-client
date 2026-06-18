@@ -303,41 +303,6 @@ class AddServerViewModel extends ChangeNotifier {
 
     final targetAddress = isAddressChanged ? newUrl : oldAddress;
 
-    var serverObj = Server(
-      address: targetAddress,
-      alias: req.alias,
-      apiVersion: req.apiVersion,
-      allowUntrustedCert: req.allowUntrustedCert,
-      ignoreCertificateErrors: req.ignoreCertificateErrors,
-      // When the address changes the target is effectively a different host, so
-      // any pinned certificate carried over from the old server is stale. Reset
-      // it to null so the certificate check re-runs against the new host.
-      pinnedCertificateSha256: isAddressChanged
-          ? null
-          : req.pinnedCertificateSha256,
-    );
-
-    if (_serversViewModel.selectedServer != null) {
-      _statusViewModel.stopAutoRefresh();
-    }
-
-    void restartAutoRefresh() {
-      if (_serversViewModel.selectedServer != null) {
-        _statusViewModel.startAutoRefresh();
-      }
-    }
-
-    // Validate certificate BEFORE connection test (same as connect()).
-    final updatedServer = await req.resolveCertificate(serverObj);
-    if (updatedServer == null) {
-      restartAutoRefresh();
-      return const UpdateCancelled();
-    }
-    serverObj = updatedServer;
-
-    await _serversViewModel.savePassword(targetAddress, req.password);
-    await _serversViewModel.saveToken(targetAddress, req.token);
-
     // Only restore when the original secrets were actually read. If the initial
     // load failed, initPassword/initToken are empty placeholders and writing
     // them back would wipe a credential that is still in secure storage.
@@ -346,6 +311,18 @@ class AddServerViewModel extends ChangeNotifier {
         await _serversViewModel.savePassword(oldAddress, req.initPassword);
         await _serversViewModel.saveToken(oldAddress, req.initToken);
       }
+    }
+
+    void restartAutoRefresh() {
+      if (_serversViewModel.selectedServer != null) {
+        _statusViewModel.startAutoRefresh();
+      }
+    }
+
+    Future<UpdateOutcome> handleSaveError(Exception e) async {
+      await restoreSecrets();
+      restartAutoRefresh();
+      return UpdateApiError(e, req.apiVersion);
     }
 
     // Rolls back everything written for THIS save attempt on failure, always
@@ -383,11 +360,34 @@ class AddServerViewModel extends ChangeNotifier {
       }
     }
 
-    Future<UpdateOutcome> handleSaveError(Exception e) async {
-      await restoreSecrets();
-      restartAutoRefresh();
-      return UpdateApiError(e, req.apiVersion);
+    var serverObj = Server(
+      address: targetAddress,
+      alias: req.alias,
+      apiVersion: req.apiVersion,
+      allowUntrustedCert: req.allowUntrustedCert,
+      ignoreCertificateErrors: req.ignoreCertificateErrors,
+      // When the address changes the target is effectively a different host, so
+      // any pinned certificate carried over from the old server is stale. Reset
+      // it to null so the certificate check re-runs against the new host.
+      pinnedCertificateSha256: isAddressChanged
+          ? null
+          : req.pinnedCertificateSha256,
+    );
+
+    if (_serversViewModel.selectedServer != null) {
+      _statusViewModel.stopAutoRefresh();
     }
+
+    // Validate certificate BEFORE connection test (same as connect()).
+    final updatedServer = await req.resolveCertificate(serverObj);
+    if (updatedServer == null) {
+      restartAutoRefresh();
+      return const UpdateCancelled();
+    }
+    serverObj = updatedServer;
+
+    await _serversViewModel.savePassword(targetAddress, req.password);
+    await _serversViewModel.saveToken(targetAddress, req.token);
 
     final bundle = _createBundle(server: serverObj);
     final auth = await _authenticate(
@@ -403,17 +403,16 @@ class AddServerViewModel extends ChangeNotifier {
       }
       return handleSaveError(auth.error!);
     }
-    final sessionJustCreated = auth.sessionCreated;
     // skipRenewal: true only when a new session was just created above to avoid
     // creating a duplicate session on transient retry failures.
     final result = await bundle.dns.fetchBlockingStatus(
-      skipRenewal: sessionJustCreated,
+      skipRenewal: auth.sessionCreated,
     );
 
     if (result.isError()) {
       await rollbackFailedSave(
         bundle: bundle,
-        sessionCreated: sessionJustCreated,
+        sessionCreated: auth.sessionCreated,
       );
       restartAutoRefresh();
       return UpdateApiError(result.exceptionOrNull()!, req.apiVersion);
@@ -430,7 +429,7 @@ class AddServerViewModel extends ChangeNotifier {
       // (row, credentials, session) is left fully intact.
       await rollbackFailedSave(
         bundle: bundle,
-        sessionCreated: sessionJustCreated,
+        sessionCreated: auth.sessionCreated,
       );
       restartAutoRefresh();
       return const UpdateDbError();
