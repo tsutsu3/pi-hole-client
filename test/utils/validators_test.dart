@@ -35,6 +35,10 @@ void main() {
       expect(isValidPort('99999'), isFalse);
     });
 
+    test('rejects ports below the minimum', () {
+      expect(isValidPort('-1'), isFalse);
+    });
+
     test('rejects non-numeric values', () {
       expect(isValidPort('abc'), isFalse);
       expect(isValidPort('80a'), isFalse);

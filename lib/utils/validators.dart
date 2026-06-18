@@ -14,7 +14,7 @@ bool isValidServerAddress(String value) =>
 /// Whether [value] is a valid port number (an integer in 0..65535).
 bool isValidPort(String value) {
   final port = int.tryParse(value);
-  return port != null && port <= 65535;
+  return port != null && port >= 0 && port <= 65535;
 }
 
 /// Whether [value] is a valid subroute (leading slash, allowed characters,
