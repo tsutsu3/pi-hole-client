@@ -107,6 +107,10 @@ final class CreateSuccess extends CreateOutcome {
   final Server server;
 }
 
+final class CreateCancelled extends CreateOutcome {
+  const CreateCancelled();
+}
+
 final class CreateDuplicateUrl extends CreateOutcome {
   const CreateDuplicateUrl();
 }
@@ -203,17 +207,17 @@ class AddServerViewModel extends ChangeNotifier {
     return result['exists'] == true ? _UrlCheck.duplicate : _UrlCheck.available;
   }
 
-  /// Adds a new server: checks the URL is not in use, saves the credentials,
-  /// resolves the certificate, creates a v6 session if needed and checks the
+  /// Adds a new server: checks the URL is not in use, resolves the certificate,
+  /// saves the credentials, creates a v6 session if needed and checks the
   /// blocking status. Credentials saved during the attempt are removed on
   /// failure.
   ///
-  /// A cancelled or blocked certificate does not stop create here (unlike
-  /// [_updateServer]): it keeps the original server and the connection test
-  /// below reports any error.
+  /// A cancelled or blocked certificate aborts the add ([CreateCancelled])
+  /// before anything is saved.
   ///
   /// Returns [CreateSuccess] with the server for the widget to save, or
-  /// [CreateDuplicateUrl] / [CreateUrlCheckFailed] / [CreateApiError].
+  /// [CreateCancelled] / [CreateDuplicateUrl] / [CreateUrlCheckFailed] /
+  /// [CreateApiError].
   Future<CreateOutcome> _createServer(CreateServerRequest req) async {
     switch (await _checkUrl(req.url)) {
       case _UrlCheck.duplicate:
@@ -232,12 +236,17 @@ class AddServerViewModel extends ChangeNotifier {
       ignoreCertificateErrors: req.ignoreCertificateErrors,
       pinnedCertificateSha256: req.pinnedCertificateSha256,
     );
+
+    // Resolve the certificate before saving anything, so a cancel/block aborts
+    // cleanly with nothing to undo (same order as updateServer).
+    final resolved = await req.resolveCertificate(serverObj);
+    if (resolved == null) {
+      return const CreateCancelled();
+    }
+    serverObj = resolved;
+
     await _serversViewModel.savePassword(req.url, req.password);
     await _serversViewModel.saveToken(req.url, req.token);
-
-    // A cancelled/blocked certificate falls back to the original server; the
-    // connection test below reports the error (same as the old widget).
-    serverObj = await req.resolveCertificate(serverObj) ?? serverObj;
 
     final bundle = _createBundle(server: serverObj);
     if (serverObj.apiVersion == SupportedApiVersions.v6) {

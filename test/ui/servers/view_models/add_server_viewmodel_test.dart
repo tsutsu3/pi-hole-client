@@ -200,21 +200,16 @@ void main() {
         },
       );
 
-      test(
-        'a cancelled certificate does not stop create (legacy behaviour)',
-        () async {
-          final vm = buildViewModel();
+      test('a cancelled certificate aborts with CreateCancelled', () async {
+        final vm = buildViewModel();
 
-          // resolveCertificate returns null (user cancelled). create keeps the
-          // original server and the connection test still runs, so a reachable
-          // server still succeeds.
-          final outcome = await vm.createServer.runAsync(
-            createReq(resolveCertificate: (_) async => null),
-          );
+        final outcome = await vm.createServer.runAsync(
+          createReq(resolveCertificate: (_) async => null),
+        );
 
-          expect(outcome, isA<CreateSuccess>());
-        },
-      );
+        expect(outcome, isA<CreateCancelled>());
+        expect(authRepository.createSessionCallCount, 0);
+      });
     });
 
     group('updateServer', () {

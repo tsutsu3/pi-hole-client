@@ -25,17 +25,18 @@ flowchart LR
 
 ## Add a new server - `createServer`
 
-A cancelled/blocked certificate does **not** stop create: it keeps the
-original server and the connection test below reports the error.
+A cancelled/blocked certificate **aborts** the add (`CreateCancelled`),
+mirroring `updateServer`; the credentials saved above are removed first.
 
 ```mermaid
 flowchart TD
   A([createServer req]) --> B{checkUrl}
   B -- duplicate --> BD([CreateDuplicateUrl])
   B -- failed --> BF([CreateUrlCheckFailed])
-  B -- available --> C[savePassword + saveToken]
-  C --> D[resolveCertificate<br/>cancel/blocked: keep original, continue]
-  D --> E{apiVersion == v6?}
+  B -- available --> D[resolveCertificate]
+  D -- cancelled/blocked --> DX([CreateCancelled])
+  D -- ok --> C[savePassword + saveToken]
+  C --> E{apiVersion == v6?}
   E -- yes --> F[auth.createSession]
   F -- error --> G[deletePassword + deleteToken] --> H([CreateApiError])
   F -- ok --> I[dns.fetchBlockingStatus<br/>skipRenewal: true]
@@ -127,12 +128,14 @@ sequenceDiagram
     VM->>B: auth.createSession(password)
   end
   VM->>B: dns.fetchBlockingStatus(skipRenewal: true)
-  VM-->>W: CreateSuccess(server) | CreateApiError | CreateDuplicateUrl | CreateUrlCheckFailed
+  VM-->>W: CreateSuccess(server) | CreateCancelled | CreateApiError | CreateDuplicateUrl | CreateUrlCheckFailed
   alt success
     W->>W: Navigator.maybePop + success snackbar
     W->>SV: addServer.runAsync(server)
   else failure
     W->>W: error snackbar
+  else cancelled
+    W->>W: nothing (message already shown by resolveCertificate)
   end
 ```
 
@@ -185,13 +188,14 @@ sequenceDiagram
 | `CreateUrlCheckFailed` / `UpdateUrlCheckFailed` | "cannot check URL" snackbar                                            |
 | `CreateApiError` / `UpdateApiError`             | status-code-specific error snackbar + log (`handleApiErrorResult`)     |
 | `UpdateDbError`                                 | "cannot save connection data" snackbar                                 |
-| `UpdateCancelled`                               | nothing - the certificate dialog / SSL error already informed the user |
+| `CreateCancelled` / `UpdateCancelled`           | nothing - the certificate dialog / SSL error already informed the user |
 
 ## Notes
 
-- **Create vs edit certificate-cancel asymmetry is intentional**: `createServer`
-  continues after a cancelled/blocked certificate (the connection test then
-  surfaces the error), while `updateServer` aborts with `UpdateCancelled`.
+- **Create and edit behave symmetrically on certificate cancel**: both
+  `createServer` and `updateServer` abort (`CreateCancelled` / `UpdateCancelled`)
+  when the pin dialog is cancelled or the certificate is blocked; no connection
+  is attempted.
 - The view model never shows UI itself. The certificate pin dialog and SSL-error
   snackbar live in the widget and are reached via the `resolveCertificate`
   callback passed in the request.

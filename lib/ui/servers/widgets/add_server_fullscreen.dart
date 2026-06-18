@@ -571,6 +571,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     });
     switch (outcome) {
       case CreateInitial():
+      case CreateCancelled():
         break;
       case CreateDuplicateUrl():
         showErrorSnackBar(
