@@ -92,7 +92,7 @@ class UpdateServerRequest {
 }
 
 // ==================================================================
-// Outcome of [AddServerViewModel.connect], mapped to UI reactions by the widget.
+// Outcome of [AddServerViewModel.createServer], mapped to UI by the widget.
 // ==================================================================
 sealed class CreateOutcome {
   const CreateOutcome();
@@ -122,7 +122,7 @@ final class CreateApiError extends CreateOutcome {
 }
 
 // ==================================================================
-// Outcome of [AddServerViewModel.save], mapped to UI reactions by the widget.
+// Outcome of [AddServerViewModel.updateServer], mapped to UI by the widget.
 // ==================================================================
 sealed class UpdateOutcome {
   const UpdateOutcome();
@@ -248,6 +248,7 @@ class AddServerViewModel extends ChangeNotifier {
         return CreateApiError(authResult.exceptionOrNull()!, req.apiVersion);
       }
     }
+
     // Use skipRenewal: true because the session was just created above.
     // Retrying with clearAndRenewSid would create a duplicate session.
     // Transient errors (e.g. network timeout) are still retried.
@@ -257,6 +258,8 @@ class AddServerViewModel extends ChangeNotifier {
         serverObj.copyWith(defaultServer: req.defaultServer),
       );
     }
+
+    // Clean up the credentials saved for this attempt; the server was not added
     await _serversViewModel.deletePassword(req.url);
     await _serversViewModel.deleteToken(req.url);
     return CreateApiError(result.exceptionOrNull()!, req.apiVersion);
@@ -387,124 +390,192 @@ class AddServerViewModel extends ChangeNotifier {
     }
 
     final bundle = _createBundle(server: serverObj);
-    var sessionJustCreated = false;
-    if (serverObj.apiVersion == SupportedApiVersions.v6) {
-      if (isAddressChanged) {
-        // The new address has no existing session, so always create one.
-        final authResult = await bundle.auth.createSession(req.password);
-        if (authResult.isError()) {
-          await rollbackFailedSave(bundle: bundle, sessionCreated: false);
-          return handleSaveError(authResult.exceptionOrNull()!);
-        }
-        sessionJustCreated = true;
-      } else if (req.password != req.initPassword) {
-        // Same address but the password was edited. Validate it now by creating
-        // a session: an unverified (possibly wrong) password would otherwise
-        // silently overwrite the known-good one and lock the user out the
-        // moment the current SID is invalidated.
-        final authResult = await bundle.auth.createSession(req.password);
-        if (authResult.isError()) {
-          return handleSaveError(authResult.exceptionOrNull()!);
-        }
-        sessionJustCreated = true;
-      } else {
-        // Same address, unchanged password: reuse the existing session if it is
-        // still valid. Only re-authenticate on 401/SidNotFoundException to
-        // avoid session multiplication when the server is temporarily
-        // unreachable (503/504/timeout).
-        final preCheck = await bundle.dns.fetchBlockingStatus(
-          skipRenewal: true,
-        );
-        if (preCheck.isError()) {
-          final err = preCheck.exceptionOrNull();
-          if (!isReauthRequired(err)) {
-            return handleSaveError(err!);
-          }
-          final authResult = await bundle.auth.createSession(req.password);
-          if (authResult.isError()) {
-            return handleSaveError(authResult.exceptionOrNull()!);
-          }
-          sessionJustCreated = true;
-        }
+    final auth = await _authenticate(
+      bundle: bundle,
+      req: req,
+      isAddressChanged: isAddressChanged,
+    );
+    if (auth.error != null) {
+      // Only the address-changed branch wrote credentials under a new address,
+      // so it is the only one that needs a rollback before reporting the error.
+      if (auth.needsRollback) {
+        await rollbackFailedSave(bundle: bundle, sessionCreated: false);
       }
+      return handleSaveError(auth.error!);
     }
+    final sessionJustCreated = auth.sessionCreated;
     // skipRenewal: true only when a new session was just created above to avoid
     // creating a duplicate session on transient retry failures.
     final result = await bundle.dns.fetchBlockingStatus(
       skipRenewal: sessionJustCreated,
     );
 
-    if (result.isSuccess()) {
-      final server = serverObj.copyWith(defaultServer: req.defaultServer);
-
-      Object? cmdError;
-      try {
-        if (isAddressChanged) {
-          await _serversViewModel.replaceServer.runAsync((
-            oldAddress: oldAddress,
-            newServer: server,
-          ));
-          cmdError = _serversViewModel.replaceServer.errors.value;
-        } else {
-          await _serversViewModel.editServer.runAsync(server);
-          cmdError = _serversViewModel.editServer.errors.value;
-        }
-      } catch (e, s) {
-        logger.e('Failed to save server', error: e, stackTrace: s);
-        cmdError = e;
-      }
-
-      if (cmdError == null) {
-        // The old v6 session is orphaned on an address change or a switch away
-        // from v6 (e.g. v6 -> v5). Run only after the DB commit so a failed
-        // save can't kill a live session.
-        final oldWasV6 = oldServer.apiVersion == SupportedApiVersions.v6;
-        final newIsV6 = serverObj.apiVersion == SupportedApiVersions.v6;
-
-        // 1. Log out the old v6 session.
-        if (oldWasV6 && (isAddressChanged || !newIsV6)) {
-          try {
-            final oldBundle = _createBundle(server: oldServer);
-            await oldBundle.auth.deleteCurrentSession();
-          } catch (e, s) {
-            logger.w(
-              'Failed to delete old session on server',
-              error: e,
-              stackTrace: s,
-            );
-          }
-        }
-
-        // 2. Now safe to drop the old server's credentials.
-        if (isAddressChanged) {
-          // New credentials already live under the new address; remove the
-          // stale ones left behind under the old address.
-          await _serversViewModel.deleteToken(oldAddress);
-          await _serversViewModel.deletePassword(oldAddress);
-          await _serversViewModel.deleteSid(oldAddress);
-        } else if (oldWasV6 && !newIsV6) {
-          // Same address, v6 -> v5: the SID is now unused.
-          await _serversViewModel.deleteSid(targetAddress);
-        }
-        restartAutoRefresh();
-        return const UpdateSuccess();
-      } else {
-        // DB write failed: roll back this attempt's artifacts; the old server
-        // (row, credentials, session) is left fully intact.
-        await rollbackFailedSave(
-          bundle: bundle,
-          sessionCreated: sessionJustCreated,
-        );
-        restartAutoRefresh();
-        return const UpdateDbError();
-      }
-    } else {
+    if (result.isError()) {
       await rollbackFailedSave(
         bundle: bundle,
         sessionCreated: sessionJustCreated,
       );
       restartAutoRefresh();
       return UpdateApiError(result.exceptionOrNull()!, req.apiVersion);
+    }
+
+    final server = serverObj.copyWith(defaultServer: req.defaultServer);
+    final cmdError = await _commit(
+      server: server,
+      oldAddress: oldAddress,
+      isAddressChanged: isAddressChanged,
+    );
+    if (cmdError != null) {
+      // DB write failed: roll back this attempt's artifacts; the old server
+      // (row, credentials, session) is left fully intact.
+      await rollbackFailedSave(
+        bundle: bundle,
+        sessionCreated: sessionJustCreated,
+      );
+      restartAutoRefresh();
+      return const UpdateDbError();
+    }
+
+    await _cleanupAfterCommit(
+      oldServer: oldServer,
+      newApiVersion: req.apiVersion,
+      isAddressChanged: isAddressChanged,
+      oldAddress: oldAddress,
+      targetAddress: targetAddress,
+    );
+    restartAutoRefresh();
+    return const UpdateSuccess();
+  }
+
+  /// Ensures a valid v6 session exists before the connection test.
+  ///
+  /// - Non-v6: nothing to do.
+  /// - Address changed: the new host has no session, so always create one.
+  /// - Same address, password changed: validate the new password by creating a
+  ///   session (so an unverified password can't silently replace the good one).
+  /// - Same address, password unchanged: reuse the current session and only log
+  ///   in again on a 401/SID-missing (avoids duplicate sessions on 503/504).
+  ///
+  /// On failure returns the error and `needsRollback` (true only for the
+  /// address-changed branch, which already wrote new-address credentials).
+  Future<({bool sessionCreated, Exception? error, bool needsRollback})>
+  _authenticate({
+    required RepositoryBundle bundle,
+    required UpdateServerRequest req,
+    required bool isAddressChanged,
+  }) async {
+    // Non-v6
+    if (req.apiVersion != SupportedApiVersions.v6) {
+      return (sessionCreated: false, error: null, needsRollback: false);
+    }
+
+    // Address changed
+    if (isAddressChanged) {
+      final authResult = await bundle.auth.createSession(req.password);
+      if (authResult.isError()) {
+        return (
+          sessionCreated: false,
+          error: authResult.exceptionOrNull()!,
+          needsRollback: true,
+        );
+      }
+      return (sessionCreated: true, error: null, needsRollback: false);
+    }
+
+    // Same address, password changed
+    if (req.password != req.initPassword) {
+      final authResult = await bundle.auth.createSession(req.password);
+      if (authResult.isError()) {
+        return (
+          sessionCreated: false,
+          error: authResult.exceptionOrNull()!,
+          needsRollback: false,
+        );
+      }
+      return (sessionCreated: true, error: null, needsRollback: false);
+    }
+
+    // Same address, password unchanged
+    final preCheck = await bundle.dns.fetchBlockingStatus(skipRenewal: true);
+    if (preCheck.isError()) {
+      final err = preCheck.exceptionOrNull();
+      if (!isReauthRequired(err)) {
+        return (sessionCreated: false, error: err, needsRollback: false);
+      }
+      final authResult = await bundle.auth.createSession(req.password);
+      if (authResult.isError()) {
+        return (
+          sessionCreated: false,
+          error: authResult.exceptionOrNull()!,
+          needsRollback: false,
+        );
+      }
+      return (sessionCreated: true, error: null, needsRollback: false);
+    }
+
+    return (sessionCreated: false, error: null, needsRollback: false);
+  }
+
+  /// Writes [server] to the DB: replace when the address changed, otherwise edit
+  /// in place. Returns the command error, or null on success.
+  Future<Object?> _commit({
+    required Server server,
+    required String oldAddress,
+    required bool isAddressChanged,
+  }) async {
+    try {
+      if (isAddressChanged) {
+        await _serversViewModel.replaceServer.runAsync((
+          oldAddress: oldAddress,
+          newServer: server,
+        ));
+        return _serversViewModel.replaceServer.errors.value;
+      }
+      await _serversViewModel.editServer.runAsync(server);
+      return _serversViewModel.editServer.errors.value;
+    } catch (e, s) {
+      logger.e('Failed to save server', error: e, stackTrace: s);
+      return e;
+    }
+  }
+
+  /// After a successful commit, logs out the now-orphaned old v6 session and
+  /// drops the old server's stale credentials/SID. Runs only after the commit so
+  /// a failed save can't kill a live session.
+  Future<void> _cleanupAfterCommit({
+    required Server oldServer,
+    required String newApiVersion,
+    required bool isAddressChanged,
+    required String oldAddress,
+    required String targetAddress,
+  }) async {
+    final oldWasV6 = oldServer.apiVersion == SupportedApiVersions.v6;
+    final newIsV6 = newApiVersion == SupportedApiVersions.v6;
+
+    // 1. Log out the old v6 session (orphaned on address change or v6 -> v5).
+    if (oldWasV6 && (isAddressChanged || !newIsV6)) {
+      try {
+        final oldBundle = _createBundle(server: oldServer);
+        await oldBundle.auth.deleteCurrentSession();
+      } catch (e, s) {
+        logger.w(
+          'Failed to delete old session on server',
+          error: e,
+          stackTrace: s,
+        );
+      }
+    }
+
+    // 2. Now safe to drop the old server's credentials.
+    if (isAddressChanged) {
+      // New credentials already live under the new address; remove the stale
+      // ones left behind under the old address.
+      await _serversViewModel.deleteToken(oldAddress);
+      await _serversViewModel.deletePassword(oldAddress);
+      await _serversViewModel.deleteSid(oldAddress);
+    } else if (oldWasV6 && !newIsV6) {
+      // Same address, v6 -> v5: the SID is now unused.
+      await _serversViewModel.deleteSid(targetAddress);
     }
   }
 
