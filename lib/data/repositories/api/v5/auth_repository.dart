@@ -17,7 +17,7 @@ class AuthRepositoryV5 extends BaseV5TokenRepository implements AuthRepository {
   }
 
   @override
-  Future<Result<Auth>> createSession(String password) {
+  Future<Result<Auth>> createSession(String password, {String? totp}) {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );

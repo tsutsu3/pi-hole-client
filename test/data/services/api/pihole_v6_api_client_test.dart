@@ -101,6 +101,126 @@ void main() {
         messageContains: 'password incorrect',
       );
     });
+
+    test(
+      'returns TotpRequiredException when 2FA is required (400 bad_request)',
+      () async {
+        final response = http.Response(
+          jsonEncode({
+            'error': {
+              'key': 'bad_request',
+              'message': 'No 2FA token found in JSON payload',
+              'hint': null,
+            },
+            'took': 0.03,
+          }),
+          400,
+        );
+
+        mockPost(mockClient, url, response);
+
+        final result = await apiClient.postAuth(password: 'correct');
+
+        expect(result.isError(), isTrue);
+        expect(result.exceptionOrNull(), isA<TotpRequiredException>());
+      },
+    );
+
+    test(
+      'returns TotpInvalidException when the TOTP code is rejected (401)',
+      () async {
+        final response = http.Response(
+          jsonEncode({
+            'error': {
+              'key': 'unauthorized',
+              'message': 'Invalid 2FA token',
+              'hint': null,
+            },
+            'took': 0.03,
+          }),
+          401,
+        );
+
+        mockPost(mockClient, url, response);
+
+        final result = await apiClient.postAuth(password: 'correct', totp: '0');
+
+        expect(result.isError(), isTrue);
+        expect(result.exceptionOrNull(), isA<TotpInvalidException>());
+      },
+    );
+
+    test(
+      'returns TotpReusedException when the TOTP code is reused (401)',
+      () async {
+        final response = http.Response(
+          jsonEncode({
+            'error': {
+              'key': 'unauthorized',
+              'message': 'Reused 2FA token',
+              'hint': 'wait for new token',
+            },
+            'took': 0.03,
+          }),
+          401,
+        );
+
+        mockPost(mockClient, url, response);
+
+        final result = await apiClient.postAuth(password: 'correct', totp: '0');
+
+        expect(result.isError(), isTrue);
+        expect(result.exceptionOrNull(), isA<TotpReusedException>());
+      },
+    );
+
+    test(
+      'returns TotpRateLimitException when 2FA is rate limited (429)',
+      () async {
+        final response = http.Response(
+          jsonEncode({
+            'error': {
+              'key': 'rate_limiting',
+              'message': 'Rate-limiting 2FA token requests, try again later',
+              'hint': null,
+            },
+            'took': 0.03,
+          }),
+          429,
+        );
+
+        mockPost(mockClient, url, response);
+
+        final result = await apiClient.postAuth(password: 'correct', totp: '0');
+
+        expect(result.isError(), isTrue);
+        expect(result.exceptionOrNull(), isA<TotpRateLimitException>());
+      },
+    );
+
+    test('a generic login rate-limit (429) is a plain HTTP error', () async {
+      final response = http.Response(
+        jsonEncode({
+          'error': {
+            'key': 'rate_limiting',
+            'message': 'Rate-limiting login attempts',
+            'hint': null,
+          },
+          'took': 0.03,
+        }),
+        429,
+      );
+
+      mockPost(mockClient, url, response);
+
+      final result = await apiClient.postAuth(password: 'wrong');
+
+      expectHttpError(
+        result,
+        statusCode: 429,
+        messageContains: 'Rate-limiting',
+      );
+    });
   });
 
   group('deleteAuth', () {

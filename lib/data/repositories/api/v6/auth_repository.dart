@@ -16,12 +16,15 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
   final PiholeV6ApiClient _client;
 
   @override
-  Future<Result<Auth>> createSession(String password) async {
+  Future<Result<Auth>> createSession(String password, {String? totp}) async {
     return runWithResultRetry<Auth>(
       // POST /api/auth is non-idempotent - retrying creates duplicate sessions
       maxRetries: 0,
       action: () async {
-        final result = await _client.postAuth(password: password);
+        final result = await _client.postAuth(
+          password: password,
+          totp: totp != null ? int.parse(totp) : null,
+        );
         final auth = result.map((e) => e.toDomain());
         final value = auth.getOrNull();
         // Persist only a real sid. An empty sid (no app password) is
