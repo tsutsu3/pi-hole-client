@@ -1267,6 +1267,31 @@ class AppLocalizationsDe extends AppLocalizations {
   String get messages => 'Nachrichten';
 
   @override
+  String get mfaCodeLabel => 'Authentifizierungscode';
+
+  @override
+  String get mfaDialogDescription =>
+      'Dieser Server erfordert eine Zwei-Faktor-Authentifizierung.';
+
+  @override
+  String get mfaDialogInstruction =>
+      'Gib den 6-stelligen Code aus deiner Authenticator-App ein.';
+
+  @override
+  String get mfaDialogTitle => 'Zwei-Faktor-Authentifizierung';
+
+  @override
+  String get mfaInvalidCode => 'Ungültiger Code. Bitte versuche es erneut.';
+
+  @override
+  String get mfaRateLimited =>
+      'Zu viele Versuche. Bitte warte einen Moment und versuche es erneut.';
+
+  @override
+  String get mfaReusedCode =>
+      'Dieser Code wurde bereits verwendet. Warte auf einen neuen Code und versuche es erneut.';
+
+  @override
   String get min => 'min';
 
   @override

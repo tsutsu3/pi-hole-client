@@ -1205,6 +1205,27 @@ class AppLocalizationsJa extends AppLocalizations {
   String get messages => 'メッセージ';
 
   @override
+  String get mfaCodeLabel => '認証コード';
+
+  @override
+  String get mfaDialogDescription => 'このサーバーは二要素認証が必要です。';
+
+  @override
+  String get mfaDialogInstruction => '認証アプリの6桁のコードを入力してください。';
+
+  @override
+  String get mfaDialogTitle => '二要素認証';
+
+  @override
+  String get mfaInvalidCode => 'コードが正しくありません。もう一度入力してください。';
+
+  @override
+  String get mfaRateLimited => '試行回数が多すぎます。しばらく待ってからもう一度お試しください。';
+
+  @override
+  String get mfaReusedCode => 'このコードは使用済みです。次のコードに変わるまで待ってから入力してください。';
+
+  @override
   String get min => '最小';
 
   @override
