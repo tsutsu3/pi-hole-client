@@ -216,4 +216,62 @@ void main() {
       expect(client.postAuthCallCount, 2);
     });
   });
+
+  // ---------------------------------------------------------------------------
+  // Interactive re-auth gate (2FA servers)
+  // ---------------------------------------------------------------------------
+  group('interactive re-auth gate (2FA)', () {
+    test('clearAndRenewSid rethrows TotpRequiredException on a 2FA server', () {
+      client.shouldRequireTotp = true;
+      return expectLater(
+        cache.clearAndRenewSid(),
+        throwsA(isA<TotpRequiredException>()),
+      );
+    });
+
+    test('once gated, getSid fails fast without another postAuth', () async {
+      client.shouldRequireTotp = true;
+      await expectLater(
+        cache.clearAndRenewSid(),
+        throwsA(isA<TotpRequiredException>()),
+      );
+      final callsBefore = client.postAuthCallCount;
+
+      await expectLater(cache.getSid(), throwsA(isA<TotpRequiredException>()));
+      // No extra postAuth — this is what protects against the 2FA rate limit.
+      expect(client.postAuthCallCount, callsBefore);
+    });
+
+    test(
+      'once gated, clearAndRenewSid fails fast without another postAuth',
+      () async {
+        client.shouldRequireTotp = true;
+        await expectLater(
+          cache.clearAndRenewSid(),
+          throwsA(isA<TotpRequiredException>()),
+        );
+        final callsBefore = client.postAuthCallCount;
+
+        await expectLater(
+          cache.clearAndRenewSid(),
+          throwsA(isA<TotpRequiredException>()),
+        );
+        expect(client.postAuthCallCount, callsBefore);
+      },
+    );
+
+    test('saveSid lifts the gate so getSid works again', () async {
+      client.shouldRequireTotp = true;
+      await expectLater(
+        cache.clearAndRenewSid(),
+        throwsA(isA<TotpRequiredException>()),
+      );
+
+      // Simulates a successful interactive re-auth persisting a fresh SID.
+      await cache.saveSid('sid_after_reauth');
+      creds.shouldFailRead = true;
+      final sid = await cache.getSid();
+      expect(sid, 'sid_after_reauth');
+    });
+  });
 }

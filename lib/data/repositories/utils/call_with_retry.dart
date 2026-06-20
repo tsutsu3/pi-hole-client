@@ -108,7 +108,13 @@ Future<Result<T>> runWithResultRetry<T extends Object>({
       }
       lastFailure = result;
     } catch (e, st) {
-      return Failure(Exception('Exception on attempt $attempt: $e\n$st'));
+      // Preserve the original exception type so callers (e.g. isReauthRequired,
+      // the TOTP recovery flow) can match on it. Only wrap non-Exception throws.
+      return Failure(
+        e is Exception
+            ? e
+            : Exception('Exception on attempt $attempt: $e\n$st'),
+      );
     }
 
     attempt++;
@@ -120,7 +126,11 @@ Future<Result<T>> runWithResultRetry<T extends Object>({
               Exception('Unknown failure on attempt ${attempt - 1}');
           await onRetry(attempt, error);
         } catch (e, st) {
-          return Failure(Exception('Exception on onRetry $attempt: $e\n$st'));
+          return Failure(
+            e is Exception
+                ? e
+                : Exception('Exception on onRetry $attempt: $e\n$st'),
+          );
         }
       }
       await Future.delayed(delay);

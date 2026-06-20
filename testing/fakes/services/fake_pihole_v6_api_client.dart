@@ -70,10 +70,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
 
   /// When set, a login whose totp does not equal this value fails with
   /// [TotpInvalidException].
-  String? validTotp;
+  int? validTotp;
 
   /// The totp passed to the most recent [postAuth] call.
-  String? lastTotp;
+  int? lastTotp;
   bool shouldGetInfoVersionWithDocker = false;
   bool shouldGetInfoSystemOld = false;
   bool shouldGetInfoFtlV63 = false;
@@ -87,7 +87,7 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   @override
   Future<Result<Session>> postAuth({
     required String password,
-    String? totp,
+    int? totp,
   }) async {
     postAuthCallCount++;
     lastTotp = totp;

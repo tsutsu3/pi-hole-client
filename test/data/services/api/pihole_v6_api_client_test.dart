@@ -143,7 +143,7 @@ void main() {
 
         mockPost(mockClient, url, response);
 
-        final result = await apiClient.postAuth(password: 'correct', totp: '0');
+        final result = await apiClient.postAuth(password: 'correct', totp: 0);
 
         expect(result.isError(), isTrue);
         expect(result.exceptionOrNull(), isA<TotpInvalidException>());
@@ -167,7 +167,7 @@ void main() {
 
         mockPost(mockClient, url, response);
 
-        final result = await apiClient.postAuth(password: 'correct', totp: '0');
+        final result = await apiClient.postAuth(password: 'correct', totp: 0);
 
         expect(result.isError(), isTrue);
         expect(result.exceptionOrNull(), isA<TotpReusedException>());
@@ -191,7 +191,7 @@ void main() {
 
         mockPost(mockClient, url, response);
 
-        final result = await apiClient.postAuth(password: 'correct', totp: '0');
+        final result = await apiClient.postAuth(password: 'correct', totp: 0);
 
         expect(result.isError(), isTrue);
         expect(result.exceptionOrNull(), isA<TotpRateLimitException>());

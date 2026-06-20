@@ -49,10 +49,10 @@ void main() {
       },
     );
 
-    test('forwards the totp code to the API client', () async {
+    test('forwards the totp code to the API client as an int', () async {
       await repository.createSession('password123', totp: '123456');
 
-      expect(client.lastTotp, '123456');
+      expect(client.lastTotp, 123456);
     });
 
     test('propagates TotpRequiredException from a 2FA server', () async {
@@ -66,7 +66,7 @@ void main() {
 
     test('propagates TotpInvalidException from a 2FA server', () async {
       client.shouldRequireTotp = true;
-      client.validTotp = '123456';
+      client.validTotp = 123456;
 
       final result = await repository.createSession(
         'password123',

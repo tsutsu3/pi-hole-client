@@ -94,12 +94,13 @@ class HttpStatusCodeException extends HttpException {
 }
 
 /// Returns true when [error] indicates an expired or missing session and
-/// re-authentication via postAuth is appropriate.
+/// re-authentication is appropriate.
 ///
 /// Returns false for transient failures (503/504/timeout/500/495) where
 /// calling postAuth would create a duplicate session on the Pi-hole side.
 bool isReauthRequired(Object? error) {
   if (error is HttpStatusCodeException && error.statusCode == 401) return true;
   if (error is SidNotFoundException) return true;
+  if (error is TotpRequiredException) return true;
   return false;
 }

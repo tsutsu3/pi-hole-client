@@ -2,6 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:result_dart/result_dart.dart';
 
+class DummyException implements Exception {}
+
 void main() {
   group('runWithRetry', () {
     test(
@@ -110,6 +112,24 @@ void main() {
       expect(receivedErrors.length, 2);
       expect(receivedErrors[0].toString(), contains('error 1'));
       expect(receivedErrors[1].toString(), contains('error 2'));
+    });
+
+    test('preserves the exception type when action throws', () async {
+      final result = await runWithResultRetry<String>(
+        action: () async => throw DummyException(),
+      );
+      expect(result.isError(), isTrue);
+      expect(result.exceptionOrNull(), isA<DummyException>());
+    });
+
+    test('preserves the exception type when onRetry throws', () async {
+      final result = await runWithResultRetry<String>(
+        action: () async => Failure(Exception('Failed')),
+        maxRetries: 1,
+        onRetry: (attempt, error) async => throw DummyException(),
+      );
+      expect(result.isError(), isTrue);
+      expect(result.exceptionOrNull(), isA<DummyException>());
     });
   });
 }

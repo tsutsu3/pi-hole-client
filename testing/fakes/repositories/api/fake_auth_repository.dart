@@ -24,7 +24,6 @@ class FakeAuthRepository implements AuthRepository {
   /// final success.
   final List<Exception> totpFailures = [];
   int _totpFailureIndex = 0;
-  int _rateLimitFailureCount = 1;
 
   /// The totp passed to the most recent [createSession] call.
   String? lastTotp;
@@ -41,10 +40,6 @@ class FakeAuthRepository implements AuthRepository {
     }
     if (validTotp != null && totp != null && totp != validTotp) {
       return Failure(TotpInvalidException());
-    }
-    if (totp != null && _rateLimitFailureCount > 0) {
-      _rateLimitFailureCount--;
-      return Failure(TotpRateLimitException());
     }
     if (shouldFail) {
       return Failure(Exception('Force createSession failure'));

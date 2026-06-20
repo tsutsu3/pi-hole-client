@@ -29,6 +29,9 @@ class V6SessionCache {
   Future<void>? _pendingRenewal;
   DateTime? _lastRenewalCompletedAt;
 
+  // Set when password-only renewal hits a 2FA server (TotpRequiredException).
+  bool _interactiveReauthRequired = false;
+
   String get serverAddress => _creds.address;
 
   // ---------------------------------------------------------------------------
@@ -37,24 +40,35 @@ class V6SessionCache {
 
   /// Returns the cached SID, loading from storage on a cache miss.
   /// Concurrent calls share one in-flight [Future].
-  Future<String> getSid() => _getOrLoad(() async {
-    final r = await _creds.sid;
-    if (r.isError()) {
-      // No SID + empty password = no-auth server: use an empty SID. A failed
-      // password read is a real storage error, so still throw in that case.
-      final pwResult = await _creds.password;
-      if (pwResult.isSuccess() && (pwResult.getOrNull() ?? '').isEmpty) {
-        return '';
-      }
-      throw SidNotFoundException();
+  Future<String> getSid() {
+    // A 2FA server is waiting for interactive re-auth; fail fast without a
+    // network call so callers surface TotpRequiredException, not a stale SID.
+    if (_interactiveReauthRequired) {
+      return Future.error(TotpRequiredException());
     }
-    final sid = r.getOrThrow();
-    await WidgetChannel.sendSidUpdated(serverAddress: serverAddress, sid: sid);
-    return sid;
-  });
+    return _getOrLoad(() async {
+      final r = await _creds.sid;
+      if (r.isError()) {
+        // No SID + empty password = no-auth server: use an empty SID. A failed
+        // password read is a real storage error, so still throw in that case.
+        final pwResult = await _creds.password;
+        if (pwResult.isSuccess() && (pwResult.getOrNull() ?? '').isEmpty) {
+          return '';
+        }
+        throw SidNotFoundException();
+      }
+      final sid = r.getOrThrow();
+      await WidgetChannel.sendSidUpdated(
+        serverAddress: serverAddress,
+        sid: sid,
+      );
+      return sid;
+    });
+  }
 
   /// Saves [sid] to the shared cache and persists it to secure storage.
   Future<void> saveSid(String sid) async {
+    _interactiveReauthRequired = false;
     _set(sid);
     await _creds.saveSid(sid);
   }
@@ -65,8 +79,18 @@ class V6SessionCache {
   /// Clears the cache and triggers session renewal, deduplicating concurrent
   /// calls so that only one re-authentication request is made.
   Future<void> clearAndRenewSid() async {
+    // Already waiting for interactive re-auth — don't retry postAuth, which
+    // would only fail again and risk the server's 2FA rate limit.
+    if (_interactiveReauthRequired) {
+      throw TotpRequiredException();
+    }
     try {
       await _renewOnce();
+    } on TotpRequiredException {
+      // 2FA server: password-only renewal can never succeed. Gate further
+      // postAuth attempts and propagate so the UI prompts for a TOTP code.
+      _interactiveReauthRequired = true;
+      rethrow;
     } catch (e) {
       logger.w('[V6SessionCache] Session renewal failed: $e');
       await WidgetChannel.sendSidInvalidated(serverAddress: _creds.address);
