@@ -310,13 +310,18 @@ class StatusViewModel with ChangeNotifier {
   bool _isSslError(Object? error) =>
       error is HttpStatusCodeException && error.statusCode == 495;
 
-  // Stops auto-refresh and signals the UI on a TLS error. Returns true if
-  // handled, so callers skip their normal error handling.
-  bool _handleSslErrorIfNeeded(Object? error, String? selectedUrlBefore) {
-    if (!_isSslError(error) || selectedUrlBefore != _selectedServerAddress) {
+  // Stops auto-refresh and signals the UI on a fatal connection error that
+  // needs interactive recovery: a TLS error (pin mismatch) or a 2FA server
+  // requiring a TOTP code (TotpRequiredException).
+  bool _handleFatalConnectionError(Object? error, String? selectedUrlBefore) {
+    final isFatal = _isSslError(error) || error is TotpRequiredException;
+    if (!isFatal || selectedUrlBefore != _selectedServerAddress) {
       return false;
     }
-    logger.w('TLS error during status refresh; stopping auto-refresh: $error');
+    logger.w(
+      'Fatal connection error during status refresh; '
+      'stopping auto-refresh: $error',
+    );
     _serverStatus = LoadStatus.error;
     _statusLoading = LoadStatus.error;
     _stopAutoRefresh(showLoadingIndicator: false);
@@ -415,7 +420,7 @@ class StatusViewModel with ChangeNotifier {
         return true;
       },
       (error) {
-        if (_handleSslErrorIfNeeded(error, selectedUrlBefore)) return false;
+        if (_handleFatalConnectionError(error, selectedUrlBefore)) return false;
         _statusLoading = LoadStatus.error;
         notifyListeners();
         return false;
@@ -543,7 +548,7 @@ class StatusViewModel with ChangeNotifier {
           }
         },
         (error) {
-          if (_handleSslErrorIfNeeded(error, selectedUrlBefore)) return;
+          if (_handleFatalConnectionError(error, selectedUrlBefore)) return;
           if (selectedUrlBefore == _selectedServerAddress) {
             var changed = false;
             if (_serverStatus == LoadStatus.loaded) {

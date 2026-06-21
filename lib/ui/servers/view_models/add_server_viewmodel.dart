@@ -7,13 +7,16 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/domain/model/auth/auth.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/ui/core/types/resolve_totp.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/url.dart';
+import 'package:result_dart/result_dart.dart';
 
 /// Resolves and validates the certificate for [server], returning the updated
 /// server (possibly with a pinned fingerprint) or `null` when the user cancels
@@ -34,6 +37,7 @@ class CreateServerRequest {
     required this.token,
     required this.defaultServer,
     required this.resolveCertificate,
+    required this.resolveTotp,
   });
 
   final String url;
@@ -46,6 +50,7 @@ class CreateServerRequest {
   final String token;
   final bool defaultServer;
   final ResolveCertificate resolveCertificate;
+  final ResolveTotp resolveTotp;
 }
 
 /// Request for [AddServerViewModel.updateServer] (editing an existing server).
@@ -65,6 +70,7 @@ class UpdateServerRequest {
     required this.initToken,
     required this.secretsLoadSucceeded,
     required this.resolveCertificate,
+    required this.resolveTotp,
   });
 
   final String url;
@@ -89,6 +95,7 @@ class UpdateServerRequest {
   final bool secretsLoadSucceeded;
 
   final ResolveCertificate resolveCertificate;
+  final ResolveTotp resolveTotp;
 }
 
 // ==================================================================
@@ -250,11 +257,20 @@ class AddServerViewModel extends ChangeNotifier {
 
     final bundle = _createBundle(server: serverObj);
     if (serverObj.apiVersion == SupportedApiVersions.v6) {
-      final authResult = await bundle.auth.createSession(req.password);
-      if (authResult.isError()) {
+      final login = await _loginWithTotp(
+        bundle: bundle,
+        password: req.password,
+        resolveTotp: req.resolveTotp,
+      );
+      if (login.cancelled) {
         await _serversViewModel.deletePassword(req.url);
         await _serversViewModel.deleteToken(req.url);
-        return CreateApiError(authResult.exceptionOrNull()!, req.apiVersion);
+        return const CreateCancelled();
+      }
+      if (login.result.isError()) {
+        await _serversViewModel.deletePassword(req.url);
+        await _serversViewModel.deleteToken(req.url);
+        return CreateApiError(login.result.exceptionOrNull()!, req.apiVersion);
       }
     }
 
@@ -404,6 +420,16 @@ class AddServerViewModel extends ChangeNotifier {
       req: req,
       isAddressChanged: isAddressChanged,
     );
+    if (auth.cancelled) {
+      // User dismissed the TOTP prompt: undo this attempt's writes and keep the
+      // old server (row, credentials, session) intact, same as a failed save.
+      if (auth.needsRollback) {
+        await rollbackFailedSave(bundle: bundle, sessionCreated: false);
+      }
+      await restoreSecrets();
+      restartAutoRefresh();
+      return const UpdateCancelled();
+    }
     if (auth.error != null) {
       // Only the address-changed branch wrote credentials under a new address,
       // so it is the only one that needs a rollback before reporting the error.
@@ -466,41 +492,79 @@ class AddServerViewModel extends ChangeNotifier {
   ///
   /// On failure returns the error and `needsRollback` (true only for the
   /// address-changed branch, which already wrote new-address credentials).
-  Future<({bool sessionCreated, Exception? error, bool needsRollback})>
+  /// `cancelled` is true when the user dismissed the TOTP prompt.
+  Future<
+    ({
+      bool sessionCreated,
+      Exception? error,
+      bool needsRollback,
+      bool cancelled,
+    })
+  >
   _authenticate({
     required RepositoryBundle bundle,
     required UpdateServerRequest req,
     required bool isAddressChanged,
   }) async {
-    // Non-v6
-    if (req.apiVersion != SupportedApiVersions.v6) {
-      return (sessionCreated: false, error: null, needsRollback: false);
-    }
-
-    // Address changed
-    if (isAddressChanged) {
-      final authResult = await bundle.auth.createSession(req.password);
-      if (authResult.isError()) {
+    // Maps a login attempt to the _authenticate result record. [needsRollback]
+    // is carried through unchanged for the failure/cancel paths.
+    Future<
+      ({
+        bool sessionCreated,
+        Exception? error,
+        bool needsRollback,
+        bool cancelled,
+      })
+    >
+    login({required bool needsRollback}) async {
+      final result = await _loginWithTotp(
+        bundle: bundle,
+        password: req.password,
+        resolveTotp: req.resolveTotp,
+      );
+      if (result.cancelled) {
         return (
           sessionCreated: false,
-          error: authResult.exceptionOrNull()!,
-          needsRollback: true,
+          error: null,
+          needsRollback: needsRollback,
+          cancelled: true,
         );
       }
-      return (sessionCreated: true, error: null, needsRollback: false);
+      if (result.result.isError()) {
+        return (
+          sessionCreated: false,
+          error: result.result.exceptionOrNull()!,
+          needsRollback: needsRollback,
+          cancelled: false,
+        );
+      }
+      return (
+        sessionCreated: true,
+        error: null,
+        needsRollback: false,
+        cancelled: false,
+      );
+    }
+
+    // Non-v6
+    if (req.apiVersion != SupportedApiVersions.v6) {
+      return (
+        sessionCreated: false,
+        error: null,
+        needsRollback: false,
+        cancelled: false,
+      );
+    }
+
+    // Address changed: new-address credentials were already written, so a
+    // failure/cancel needs a rollback.
+    if (isAddressChanged) {
+      return login(needsRollback: true);
     }
 
     // Same address, password changed
     if (req.password != req.initPassword) {
-      final authResult = await bundle.auth.createSession(req.password);
-      if (authResult.isError()) {
-        return (
-          sessionCreated: false,
-          error: authResult.exceptionOrNull()!,
-          needsRollback: false,
-        );
-      }
-      return (sessionCreated: true, error: null, needsRollback: false);
+      return login(needsRollback: false);
     }
 
     // Same address, password unchanged
@@ -508,20 +572,64 @@ class AddServerViewModel extends ChangeNotifier {
     if (preCheck.isError()) {
       final err = preCheck.exceptionOrNull();
       if (!isReauthRequired(err)) {
-        return (sessionCreated: false, error: err, needsRollback: false);
-      }
-      final authResult = await bundle.auth.createSession(req.password);
-      if (authResult.isError()) {
         return (
           sessionCreated: false,
-          error: authResult.exceptionOrNull()!,
+          error: err,
           needsRollback: false,
+          cancelled: false,
         );
       }
-      return (sessionCreated: true, error: null, needsRollback: false);
+      return login(needsRollback: false);
     }
 
-    return (sessionCreated: false, error: null, needsRollback: false);
+    return (
+      sessionCreated: false,
+      error: null,
+      needsRollback: false,
+      cancelled: false,
+    );
+  }
+
+  /// Logs in, prompting for a 6-digit TOTP code when the server requires 2FA
+  /// and re-prompting on a rejected code. Returns the auth result, or
+  /// `cancelled: true` when the user dismisses the prompt.
+  ///
+  /// The first attempt sends the password only. A 2FA server answers with
+  /// [TotpRequiredException]; the loop then collects a code via [resolveTotp]
+  /// and retries with `password + totp`, looping on [TotpInvalidException].
+  /// Any other failure is returned as-is.
+  Future<({bool cancelled, Result<Auth> result})> _loginWithTotp({
+    required RepositoryBundle bundle,
+    required String password,
+    required ResolveTotp resolveTotp,
+  }) async {
+    var result = await bundle.auth.createSession(password);
+    if (result.isSuccess()) return (cancelled: false, result: result);
+    if (result.exceptionOrNull() is! TotpRequiredException) {
+      return (cancelled: false, result: result);
+    }
+
+    // 2FA required
+    TotpPromptError? promptError;
+    while (true) {
+      final code = await resolveTotp(error: promptError);
+      if (code == null) return (cancelled: true, result: result);
+
+      result = await bundle.auth.createSession(password, totp: code);
+      if (result.isSuccess()) return (cancelled: false, result: result);
+
+      final err = result.exceptionOrNull();
+      if (err is TotpInvalidException) {
+        promptError = TotpPromptError.invalid;
+        continue;
+      }
+      if (err is TotpReusedException) {
+        promptError = TotpPromptError.reused;
+        continue;
+      }
+      // Rate limit or any other error is terminal — stop re-prompting.
+      return (cancelled: false, result: result);
+    }
   }
 
   /// Writes [server] to the DB: replace when the address changed, otherwise edit

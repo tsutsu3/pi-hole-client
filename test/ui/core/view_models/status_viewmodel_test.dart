@@ -257,6 +257,19 @@ void main() {
       expect(vm.getServerStatus, LoadStatus.error);
     });
 
+    test('a TotpRequiredException raises fatalConnectionError', () async {
+      vm = StatusViewModel();
+      final failingRepo = FakeRealTimeStatusRepository()
+        ..shouldFail = true
+        ..failureError = TotpRequiredException();
+      _setup(vm, realtimeStatusRepository: failingRepo);
+
+      await vm.refreshOnce();
+
+      expect(vm.fatalConnectionError, isA<TotpRequiredException>());
+      expect(vm.getServerStatus, LoadStatus.error);
+    });
+
     test('clearFatalConnectionError resets the signal', () async {
       vm = StatusViewModel();
       final failingRepo = FakeRealTimeStatusRepository()

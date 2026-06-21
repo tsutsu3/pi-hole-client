@@ -7,12 +7,14 @@ import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-/// Returns true when the pin was updated and a reconnect was attempted, so the
-/// caller can refresh data immediately instead of waiting for the next tick.
-Future<bool> handleCertificateRecovery(
-  BuildContext context,
-  Exception error,
-) async {
+/// Re-authenticates the selected server after a background refresh detected an
+/// expired 2FA session (TotpRequiredException).
+///
+/// Prompts for a TOTP code via [ServerConnectionService.connect], which reconnects
+/// and restarts auto-refresh on success.
+///
+/// Returns true when a reconnect was attempted.
+Future<bool> handleTotpReauth(BuildContext context) async {
   final serversViewModel = context.read<ServersViewModel>();
   final server = serversViewModel.selectedServer;
   if (server == null) return false;
@@ -25,7 +27,10 @@ Future<bool> handleCertificateRecovery(
     server: server,
     createBundle: context.read<CreateRepositoryBundle>(),
     resolveTotp: ({error}) => showTotpInputModal(context, error: error),
+    useRootContextOnFailure: true,
+    showModal: true,
   );
 
-  return service.showCertificateErrorRecovery(error);
+  await service.connect();
+  return true;
 }

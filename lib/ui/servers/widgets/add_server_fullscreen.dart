@@ -8,6 +8,7 @@ import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
+import 'package:pi_hole_client/ui/core/ui/components/totp_input_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/urls.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/scan_token_modal.dart';
@@ -358,7 +359,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
     String label;
 
-    if (error is HttpStatusCodeException) {
+    if (error is TotpRateLimitException) {
+      label = loc.mfaRateLimited;
+    } else if (error is HttpStatusCodeException) {
       switch (error.statusCode) {
         case 401:
           // Authentication failure - distinct from a network problem.
@@ -551,6 +554,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         defaultServer: defaultCheckbox,
         resolveCertificate: (serverObj) =>
             validateAndUpdateServerCertificate(serverObj: serverObj),
+        resolveTotp: ({error}) => showTotpInputModal(context, error: error),
       ),
     );
 
@@ -628,6 +632,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         secretsLoadSucceeded: _secretsLoadSucceeded,
         resolveCertificate: (serverObj) =>
             validateAndUpdateServerCertificate(serverObj: serverObj),
+        resolveTotp: ({error}) => showTotpInputModal(context, error: error),
       ),
     );
 

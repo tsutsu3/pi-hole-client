@@ -8,6 +8,7 @@ import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/types/resolve_totp.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/globals.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
@@ -45,6 +46,7 @@ import 'package:result_dart/result_dart.dart';
 ///   serversViewModel: serversViewModel,
 ///   server: server,
 ///   createBundle: createBundle,
+/// 　resolveTotp: ({error}) => showTotpInputModal(context, error: error),
 ///   showModal: true,
 /// );
 /// await service.connect();
@@ -63,6 +65,7 @@ class ServerConnectionService {
     required this.serversViewModel,
     required this.server,
     required this.createBundle,
+    required this.resolveTotp,
     this.useRootContextOnFailure = false,
     this.showModal = false,
     this.fetchTlsCertificate = fetchTlsCertificateInfo,
@@ -74,6 +77,7 @@ class ServerConnectionService {
   final ServersViewModel serversViewModel;
   final Server server;
   final CreateRepositoryBundle createBundle;
+  final ResolveTotp resolveTotp;
   final bool useRootContextOnFailure;
   final bool showModal;
   final TlsCertificateFetcher fetchTlsCertificate;
@@ -197,13 +201,17 @@ class ServerConnectionService {
             preCheckErr ?? Exception('connection pre-check failed'),
           );
         }
-        // Session is missing or expired — re-authenticate.
-        final authResult = await bundle.auth.createSession(pw);
-        if (authResult.isError()) {
+        // Session is missing or expired — re-authenticate, prompting for a
+        // TOTP code when the server requires 2FA.
+        final login = await _createSessionWithTotp(bundle, pw, process);
+        if (login.cancelled) {
           process?.close();
-          return Failure(
-            authResult.exceptionOrNull() ?? Exception('Auth failed'),
-          );
+          return Failure(login.error ?? Exception('TOTP entry cancelled'));
+        }
+
+        if (login.error != null) {
+          process?.close();
+          return Failure(login.error!);
         }
         sessionJustCreated = true;
       }
@@ -216,6 +224,60 @@ class ServerConnectionService {
     );
     process?.close();
     return result;
+  }
+
+  /// Re-authenticates, prompting for a 6-digit TOTP code when the server
+  /// requires 2FA and re-prompting on a rejected code.
+  ///
+  /// The first attempt sends the password only. A 2FA server answers with
+  /// [TotpRequiredException]; the loop then collects a code via [resolveTotp]
+  /// and retries with `password + totp`, looping on [TotpInvalidException].
+  ///
+  /// Returns `cancelled: true` when the user dismisses the prompt, otherwise
+  /// the failing error (null on success).
+  ///
+  /// [process] is the "Connecting..." overlay; it is hidden while the TOTP
+  /// prompt is shown (otherwise it floats on top and blocks the prompt) and
+  /// re-shown while the entered code is validated.
+  Future<({bool cancelled, Exception? error})> _createSessionWithTotp(
+    RepositoryBundle bundle,
+    String password,
+    ProcessModal? process,
+  ) async {
+    var result = await bundle.auth.createSession(password);
+    if (result.isSuccess()) return (cancelled: false, error: null);
+    if (result.exceptionOrNull() is! TotpRequiredException) {
+      return (cancelled: false, error: result.exceptionOrNull());
+    }
+
+    // Server requires 2FA
+    TotpPromptError? promptError;
+    while (true) {
+      // Hide the connecting overlay so the TOTP prompt is on top and usable.
+      process?.close();
+      final code = await resolveTotp(error: promptError);
+      if (code == null) return (cancelled: true, error: null);
+
+      // Re-show the connecting overlay while the code is validated.
+      if (context.mounted) {
+        process?.open(AppLocalizations.of(context)!.connecting);
+      }
+      result = await bundle.auth.createSession(password, totp: code);
+      if (result.isSuccess()) return (cancelled: false, error: null);
+
+      final err = result.exceptionOrNull();
+      if (err is TotpInvalidException) {
+        promptError = TotpPromptError.invalid;
+        continue;
+      }
+      if (err is TotpReusedException) {
+        promptError = TotpPromptError.reused;
+        continue;
+      }
+
+      // Rate limit or any other error is terminal - stop re-prompting.
+      return (cancelled: false, error: err);
+    }
   }
 
   Future<void> _onSuccess(Blocking blocking, Server connectedServer) async {
@@ -405,6 +467,7 @@ class ServerConnectionService {
             serversViewModel: serversViewModel,
             server: updated,
             createBundle: createBundle,
+            resolveTotp: resolveTotp,
             useRootContextOnFailure: useRootContextOnFailure,
             showModal: showModal,
             fetchTlsCertificate: fetchTlsCertificate,
