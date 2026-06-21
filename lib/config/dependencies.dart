@@ -1,5 +1,6 @@
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache_store.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/app_config_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
@@ -33,16 +34,22 @@ List<SingleChildWidget> createProviders({
   required LogsViewModel logsViewModel,
   required DomainsViewModel domainsViewModel,
   required GravityUpdateViewModel gravityUpdateViewModel,
+  required V6SessionCacheStore sessionCacheStore,
 }) {
   return [
     // Layer 1: Services
     Provider<DatabaseService>(create: (_) => dbService),
     Provider<SecureStorageService>(create: (_) => secureStorageService),
+    Provider<V6SessionCacheStore>.value(value: sessionCacheStore),
     Provider<CreateRepositoryBundle>(
       create: (context) {
         final storage = context.read<SecureStorageService>();
-        return ({required Server server}) =>
-            RepositoryBundleFactory.create(server: server, storage: storage);
+        final store = context.read<V6SessionCacheStore>();
+        return ({required Server server}) => RepositoryBundleFactory.create(
+          server: server,
+          storage: storage,
+          sessionCacheStore: store,
+        );
       },
     ),
 
@@ -63,8 +70,13 @@ List<SingleChildWidget> createProviders({
     // Provides version-specific API repositories (v5/v6)
     // for route-level ViewModel creation via context.read().
     // Recreated only when the selected server changes.
-    ProxyProvider2<ServersViewModel, SecureStorageService, RepositoryBundle?>(
-      update: (_, servers, storage, previous) {
+    ProxyProvider3<
+      ServersViewModel,
+      SecureStorageService,
+      V6SessionCacheStore,
+      RepositoryBundle?
+    >(
+      update: (_, servers, storage, store, previous) {
         final server = servers.selectedServer;
         if (server == null) return null;
         // Reuse the existing bundle only when nothing affecting the HTTP
@@ -79,7 +91,11 @@ List<SingleChildWidget> createProviders({
                 server.pinnedCertificateSha256) {
           return previous;
         }
-        return RepositoryBundleFactory.create(server: server, storage: storage);
+        return RepositoryBundleFactory.create(
+          server: server,
+          storage: storage,
+          sessionCacheStore: store,
+        );
       },
     ),
 

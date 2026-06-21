@@ -20,8 +20,8 @@ class V6SessionCache {
   }) : _creds = creds,
        _client = client;
 
-  final SessionCredentialService _creds;
-  final PiholeV6ApiClient _client;
+  SessionCredentialService _creds;
+  PiholeV6ApiClient _client;
   final Duration renewalCooldown;
 
   String? _sid;
@@ -37,6 +37,15 @@ class V6SessionCache {
   // ---------------------------------------------------------------------------
   // Public API
   // ---------------------------------------------------------------------------
+  /// Swaps in a freshly built [creds]/[client] while keeping the session state
+  /// (`_sid` and the 2FA gate) intact, so a new bundle reuses this cache.
+  void rebind({
+    required SessionCredentialService creds,
+    required PiholeV6ApiClient client,
+  }) {
+    _creds = creds;
+    _client = client;
+  }
 
   /// Returns the cached SID, loading from storage on a cache miss.
   /// Concurrent calls share one in-flight [Future].

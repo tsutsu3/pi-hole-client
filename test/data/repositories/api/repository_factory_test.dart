@@ -4,9 +4,12 @@ import 'package:pi_hole_client/data/repositories/api/v5/auth_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/auth_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/ftl_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache_store.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 
+import '../../../../testing/fakes/services/fake_pihole_v6_api_client.dart';
 import '../../../../testing/fakes/services/fake_secure_storage_service.dart';
+import '../../../../testing/fakes/services/fake_session_credential_service.dart';
 
 void main() {
   late FakeSecureStorageService fakeStorage;
@@ -71,5 +74,30 @@ void main() {
     );
 
     expect(bundle.serverAddress, 'http://192.168.1.100:8080');
+  });
+
+  test('reuses the per-address session cache from the store', () async {
+    final store = V6SessionCacheStore();
+
+    final seeded = store.getOrCreate(
+      address: 'http://shared',
+      creds: FakeSessionCredentialService(),
+      client: FakePiholeV6ApiClient(),
+    );
+    await seeded.saveSid('sid_primed');
+
+    RepositoryBundleFactory.create(
+      server: createServer(apiVersion: 'v6', address: 'http://shared'),
+      storage: fakeStorage,
+      sessionCacheStore: store,
+    );
+
+    final afterBundle = store.getOrCreate(
+      address: 'http://shared',
+      creds: FakeSessionCredentialService(),
+      client: FakePiholeV6ApiClient(),
+    );
+    expect(identical(seeded, afterBundle), isTrue);
+    expect(await afterBundle.getSid(), 'sid_primed');
   });
 }

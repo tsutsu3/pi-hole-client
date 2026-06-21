@@ -274,4 +274,56 @@ void main() {
       expect(sid, 'sid_after_reauth');
     });
   });
+
+  // ---------------------------------------------------------------------------
+  // rebind (shared cache reused across bundles)
+  // ---------------------------------------------------------------------------
+  group('rebind', () {
+    test('keeps the cached SID after rebinding to fresh deps', () async {
+      await cache.saveSid('sid_shared');
+
+      cache.rebind(
+        creds: FakeSessionCredentialService(),
+        client: FakePiholeV6ApiClient(),
+      );
+
+      expect(await cache.getSid(), 'sid_shared');
+    });
+
+    test('keeps the 2FA gate raised across a rebind', () async {
+      client.shouldRequireTotp = true;
+      await expectLater(
+        cache.clearAndRenewSid(),
+        throwsA(isA<TotpRequiredException>()),
+      );
+
+      final newClient = FakePiholeV6ApiClient();
+      cache.rebind(creds: FakeSessionCredentialService(), client: newClient);
+
+      await expectLater(cache.getSid(), throwsA(isA<TotpRequiredException>()));
+      expect(newClient.postAuthCallCount, 0);
+    });
+
+    test('renewal goes to the rebound client, not the old one', () async {
+      final renewCache = V6SessionCache(
+        creds: creds,
+        client: client,
+        renewalCooldown: Duration.zero,
+      );
+
+      await renewCache.clearAndRenewSid();
+      expect(client.postAuthCallCount, 1);
+
+      final newClient = FakePiholeV6ApiClient();
+      renewCache.rebind(
+        creds: FakeSessionCredentialService(),
+        client: newClient,
+      );
+
+      await renewCache.clearAndRenewSid();
+
+      expect(newClient.postAuthCallCount, 1);
+      expect(client.postAuthCallCount, 1);
+    });
+  });
 }

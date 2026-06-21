@@ -11,6 +11,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/config/dependencies.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache_store.dart';
 import 'package:pi_hole_client/data/repositories/local/app_config_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/app_config_repository.dart';
@@ -192,7 +193,11 @@ void main() async {
 
   // 3. ViewModels
   final gravityRepository = LocalGravityRepository(dbService);
-  final serversViewModel = ServersViewModel(serverRepository);
+  final sessionCacheStore = V6SessionCacheStore();
+  final serversViewModel = ServersViewModel(
+    serverRepository,
+    sessionCacheStore: sessionCacheStore,
+  );
   final configProvider = AppConfigViewModel(appConfigRepository);
   final statusViewModel = StatusViewModel();
   final logsViewModel = LogsViewModel();
@@ -257,6 +262,7 @@ void main() async {
         logsViewModel: logsViewModel,
         domainsViewModel: domainsViewModel,
         gravityUpdateViewModel: gravityUpdateViewModel,
+        sessionCacheStore: sessionCacheStore,
       ),
       child: SentryWidget(child: Phoenix(child: const PiHoleClient())),
     ),
