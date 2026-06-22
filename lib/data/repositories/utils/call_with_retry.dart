@@ -108,9 +108,8 @@ Future<Result<T>> runWithResultRetry<T extends Object>({
       }
       lastFailure = result;
     } catch (e, st) {
-      // Preserve the original exception type so callers (e.g. isReauthRequired,
-      // the TOTP recovery flow) can match on it. Only wrap non-Exception throws.
-      return Failure(
+      // Treat a thrown exception like a Failure so onRetry (e.g. session renewal)
+      lastFailure = Failure(
         e is Exception
             ? e
             : Exception('Exception on attempt $attempt: $e\n$st'),
