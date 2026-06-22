@@ -2218,6 +2218,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get serverCertificateFetchFailed => '証明書情報を取得できませんでした。';
 
   @override
+  String get serverTwoFactorBadgeTooltip => '二要素認証（2FA）が必要です';
+
+  @override
   String unverifiedCertificatesBannerTitle(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

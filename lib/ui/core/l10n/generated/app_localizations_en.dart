@@ -2281,6 +2281,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Could not fetch certificate information.';
 
   @override
+  String get serverTwoFactorBadgeTooltip =>
+      'Requires two-factor authentication (2FA)';
+
+  @override
   String unverifiedCertificatesBannerTitle(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

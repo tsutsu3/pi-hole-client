@@ -82,6 +82,9 @@ class ServerConnectionService {
   final bool showModal;
   final TlsCertificateFetcher fetchTlsCertificate;
 
+  /// The server's 2FA status read from `GET /api/auth` during this connection.
+  bool? _useTotp;
+
   Future<void> connect() async {
     // Prevent a second concurrent connection attempt to the same server.
     // Two callers (e.g. home screen + server list) can both trigger connect()
@@ -175,6 +178,9 @@ class ServerConnectionService {
     // by clearAndRenewSid if a transient error occurs right after login.
     var sessionJustCreated = false;
     if (serverForLogin.apiVersion == SupportedApiVersions.v6) {
+      final authStatus = await bundle.auth.getAuth(useSid: false);
+      _useTotp = authStatus.getOrNull()?.totp;
+
       final creds = await serversViewModel.fetchCredentials(
         serverForLogin.address,
       );
@@ -296,6 +302,22 @@ class ServerConnectionService {
 
     statusViewModel.setServerStatus(LoadStatus.loaded);
     statusViewModel.startAutoRefresh();
+
+    await _syncUsesTotpFlag(connectedServer);
+  }
+
+  /// Persists the observed 2FA status onto the server record when it changed,
+  /// so the server list can mark 2FA servers. Best-effort and display-only.
+  Future<void> _syncUsesTotpFlag(Server connectedServer) async {
+    final observed = _useTotp;
+    if (observed == null || observed == connectedServer.usesTotp) return;
+    try {
+      await serversViewModel.editServer.runAsync(
+        connectedServer.copyWith(usesTotp: observed),
+      );
+    } catch (e, s) {
+      logger.w('Failed to persist 2FA flag', error: e, stackTrace: s);
+    }
   }
 
   Future<Server?> _ensurePinnedFingerprintIfNeeded(Server server) async {

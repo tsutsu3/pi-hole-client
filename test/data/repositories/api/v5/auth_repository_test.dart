@@ -25,6 +25,11 @@ void main() {
       expectError(result, messageContains: kNotSupportedInV5Message);
     });
 
+    test('getAuth should return NotSupportedException', () async {
+      final result = await repository.getAuth();
+      expectError(result, messageContains: kNotSupportedInV5Message);
+    });
+
     test('deleteCurrentSession should return NotSupportedException', () async {
       final result = await repository.deleteCurrentSession();
       expectError(result, messageContains: kNotSupportedInV5Message);

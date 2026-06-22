@@ -43,6 +43,19 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
   }
 
   @override
+  Future<Result<Auth>> getAuth({bool useSid = true}) async {
+    // [useSid] false reads the server's 2FA status unauthenticated.
+    return runWithResultRetry<Auth>(
+      action: () async {
+        final sid = useSid ? await getSid() : null;
+        final result = await _client.getAuth(sid);
+        return result.map((e) => e.toDomain());
+      },
+      onRetry: useSid ? (_, e) => renewSidIfExpired(e) : null,
+    );
+  }
+
+  @override
   Future<Result<Unit>> deleteCurrentSession() async {
     return runWithResultRetry<Unit>(
       action: () async {

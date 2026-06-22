@@ -10,6 +10,9 @@ abstract interface class AuthRepository {
   /// code fails with [TotpInvalidException].
   Future<Result<Auth>> createSession(String password, {String? totp});
 
+  /// Check if authentication is required
+  Future<Result<Auth>> getAuth({bool useSid = true});
+
   /// Get current session
   Future<Result<Unit>> deleteCurrentSession();
 

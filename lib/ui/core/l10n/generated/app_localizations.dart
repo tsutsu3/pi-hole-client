@@ -4430,6 +4430,12 @@ abstract class AppLocalizations {
   /// **'Could not fetch certificate information.'**
   String get serverCertificateFetchFailed;
 
+  /// No description provided for @serverTwoFactorBadgeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Requires two-factor authentication (2FA)'**
+  String get serverTwoFactorBadgeTooltip;
+
   /// No description provided for @unverifiedCertificatesBannerTitle.
   ///
   /// In en, this message translates to:

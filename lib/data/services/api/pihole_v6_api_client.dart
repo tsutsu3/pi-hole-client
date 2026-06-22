@@ -139,6 +139,27 @@ class PiholeV6ApiClient {
     return null;
   }
 
+  Future<Result<Session>> getAuth(String? sid) async {
+    return safeApiCall<Session>(() async {
+      final resp = await _sendRequest(
+        method: HttpMethod.get,
+        path: '/api/auth',
+        sid: sid,
+      );
+
+      try {
+        final decoded = jsonDecode(resp.body);
+        if (decoded is Map<String, dynamic> && decoded['session'] != null) {
+          return Session.fromJson(decoded);
+        }
+      } on FormatException {
+        // Non-JSON body — fall through to the HTTP error below.
+      }
+
+      throw HttpStatusCodeException(resp.statusCode, resp.body);
+    });
+  }
+
   Future<Result<Unit>> deleteAuth(String sid) async {
     return safeApiCall<Unit>(() async {
       final resp = await _sendRequest(

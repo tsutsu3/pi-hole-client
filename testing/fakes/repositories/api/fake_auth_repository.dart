@@ -28,6 +28,20 @@ class FakeAuthRepository implements AuthRepository {
   /// The totp passed to the most recent [createSession] call.
   String? lastTotp;
 
+  int getAuthCallCount = 0;
+
+  /// Server-reported 2FA status returned by [getAuth] (`Auth.totp`).
+  bool serverUsesTotp = false;
+
+  @override
+  Future<Result<Auth>> getAuth({bool useSid = true}) async {
+    getAuthCallCount++;
+    if (shouldFail) {
+      return Failure(Exception('Force getAuth failure'));
+    }
+    return Success(kRepoCreateSession.copyWith(totp: serverUsesTotp));
+  }
+
   @override
   Future<Result<Auth>> createSession(String password, {String? totp}) async {
     createSessionCallCount++;

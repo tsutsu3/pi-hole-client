@@ -142,6 +142,8 @@ void main() {
           final server = (outcome as CreateSuccess).server;
           expect(server.address, 'http://localhost:8081');
           expect(server.defaultServer, isTrue);
+          // getAuth reports no 2FA, so the display flag stays off.
+          expect(server.usesTotp, isFalse);
           expect(authRepository.createSessionCallCount, 1);
           expect(serversViewModel.savePasswordCallCount, 1);
           expect(serversViewModel.saveTokenCallCount, 1);
@@ -221,7 +223,8 @@ void main() {
         () async {
           authRepository
             ..shouldRequireTotp = true
-            ..validTotp = '123456';
+            ..validTotp = '123456'
+            ..serverUsesTotp = true;
           final vm = buildViewModel();
 
           final outcome = await vm.createServer.runAsync(
@@ -229,6 +232,8 @@ void main() {
           );
 
           expect(outcome, isA<CreateSuccess>());
+          // getAuth reported 2FA, so the display flag is set on the record.
+          expect((outcome as CreateSuccess).server.usesTotp, isTrue);
           // First password-only attempt + the password+totp retry.
           expect(authRepository.createSessionCallCount, 2);
           expect(authRepository.lastTotp, '123456');

@@ -338,6 +338,66 @@ void main() {
     });
   });
 
+  group('getAuth', () {
+    final url = Uri.parse('$baseUrl/api/auth');
+
+    test('parses session.totp from an unauthenticated 401 body', () async {
+      final data = {
+        'session': {
+          'valid': false,
+          'totp': true,
+          'sid': null,
+          'csrf': null,
+          'validity': -1,
+          'message': 'no SID provided',
+        },
+        'took': 0.0001,
+      };
+      final response = http.Response(jsonEncode(data), 401);
+      mockGet(mockClient, url, response);
+
+      final result = await apiClient.getAuth(null);
+
+      expect(result.isSuccess(), isTrue);
+      expect(result.getOrNull()!.session.totp, isTrue);
+      expect(result.getOrNull()!.session.valid, isFalse);
+    });
+
+    test('returns Session on a 200 response', () async {
+      final data = {
+        'session': {
+          'valid': true,
+          'totp': false,
+          'sid': 'abc',
+          'csrf': 'x',
+          'validity': 300,
+          'message': 'ok',
+        },
+        'took': 0.0001,
+      };
+      final response = http.Response(jsonEncode(data), 200);
+      mockGet(mockClient, url, response);
+
+      final result = await apiClient.getAuth('abc');
+
+      expect(result.getOrNull()!.session.totp, isFalse);
+    });
+
+    test('returns HTTP error when the body has no session block', () async {
+      final response = http.Response(
+        jsonEncode({
+          'error': {'key': 'internal', 'message': 'test', 'hint': null},
+        }),
+        500,
+      );
+      mockGet(mockClient, url, response);
+
+      final result = await apiClient.getAuth(null);
+
+      expectHttpError(result, statusCode: 500, messageContains: 'test');
+    });
+  });
+
   group('deleteAuthSession', () {
     final url = Uri.parse('$baseUrl/api/auth/session/1');
 

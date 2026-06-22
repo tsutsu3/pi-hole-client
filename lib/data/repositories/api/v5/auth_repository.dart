@@ -24,6 +24,13 @@ class AuthRepositoryV5 extends BaseV5TokenRepository implements AuthRepository {
   }
 
   @override
+  Future<Result<Auth>> getAuth({bool useSid = true}) async {
+    return Future.value(
+      Failure(NotSupportedException(kNotSupportedInV5Message)),
+    );
+  }
+
+  @override
   Future<Result<Unit>> deleteCurrentSession() async {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),

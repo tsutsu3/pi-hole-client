@@ -726,6 +726,7 @@
   "serverCertificateUpdatePinTitle": "Angepinnter Fingerabdruck aktualisieren",
   "serverCertificateUpdatePinHelp": "Dies ersetzt den angepinnten SHA-256-Fingerabdruck, der bei unzuverlässigen Zertifikaten verwendet wird. Nur fortfahren, wenn das Zertifikat anderweitig geprüft wurde.",
   "serverCertificateFetchFailed": "Zertifikatsinformationen konnten nicht abgerufen werden.",
+  "serverTwoFactorBadgeTooltip": "Erfordert Zwei-Faktor-Authentifizierung (2FA)",
   "unverifiedCertificatesBannerTitle": "{count, plural, =1{1 Server erlaubt nicht verifizierte Zertifikate} other{{count} Server erlauben nicht verifizierte Zertifikate}}",
   "@unverifiedCertificatesBannerTitle": {
     "placeholders": {

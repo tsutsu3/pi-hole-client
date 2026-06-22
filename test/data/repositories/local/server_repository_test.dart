@@ -97,6 +97,20 @@ void main() {
         contains('Failed to load servers'),
       );
     });
+
+    test('persists and reads back the usesTotp flag', () async {
+      await repository.insertServer(serverV6.copyWith(usesTotp: true));
+
+      final result = await repository.fetchServers();
+      expect(result.getOrNull()?.first.usesTotp, true);
+    });
+
+    test('defaults usesTotp to false when not set', () async {
+      await repository.insertServer(serverV5);
+
+      final result = await repository.fetchServers();
+      expect(result.getOrNull()?.first.usesTotp, false);
+    });
   });
 
   group('ServerRepository.insertServer', () {
@@ -227,6 +241,18 @@ void main() {
       expect(servers.isSuccess(), true);
       expect(servers.getOrNull()?.length, 1);
       expect(servers.getOrNull()?.first.alias, 'updated6');
+    });
+
+    test('updates the usesTotp flag', () async {
+      await repository.insertServer(serverV6, password: 'pass123');
+
+      await repository.updateServer(
+        serverV6.copyWith(usesTotp: true),
+        password: 'pass123',
+      );
+
+      final servers = await repository.fetchServers();
+      expect(servers.getOrNull()?.first.usesTotp, true);
     });
 
     test('updates server when user logged in v5', () async {

@@ -78,6 +78,31 @@ void main() {
     });
   });
 
+  group('getAuth', () {
+    test('reports the server 2FA status (disabled)', () async {
+      final result = await repository.getAuth(useSid: false);
+
+      expect(result.getOrNull()?.totp, isFalse);
+      expect(client.getAuthCallCount, 1);
+    });
+
+    test('reports when the server has 2FA enabled', () async {
+      client.serverTotpEnabled = true;
+
+      final result = await repository.getAuth(useSid: false);
+
+      expect(result.getOrNull()?.totp, isTrue);
+    });
+
+    test('returns error when the API fails', () async {
+      client.shouldFail = true;
+
+      final result = await repository.getAuth(useSid: false);
+
+      expectError(result, messageContains: 'Forced getAuth failure');
+    });
+  });
+
   group('deleteCurrentSession', () {
     test('should delete the current session successfully', () async {
       final result = await repository.deleteCurrentSession();

@@ -2298,6 +2298,10 @@ class AppLocalizationsPl extends AppLocalizations {
       'Nie udało się pobrać informacji o certyfikacie.';
 
   @override
+  String get serverTwoFactorBadgeTooltip =>
+      'Wymaga uwierzytelniania dwuskładnikowego (2FA)';
+
+  @override
   String unverifiedCertificatesBannerTitle(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

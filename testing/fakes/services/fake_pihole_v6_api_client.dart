@@ -107,6 +107,24 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     return Success(kSrvPostAuth);
   }
 
+  int getAuthCallCount = 0;
+
+  /// Server-reported 2FA status returned by [getAuth] (`session.totp`).
+  bool serverTotpEnabled = false;
+
+  @override
+  Future<Result<Session>> getAuth(String? sid) async {
+    getAuthCallCount++;
+    if (shouldFail) {
+      return Failure(Exception('Forced getAuth failure'));
+    }
+    return Success(
+      kSrvPostAuth.copyWith(
+        session: kSrvPostAuth.session.copyWith(totp: serverTotpEnabled),
+      ),
+    );
+  }
+
   @override
   Future<Result<Unit>> deleteAuth(String sid) async {
     if (shouldFail) {

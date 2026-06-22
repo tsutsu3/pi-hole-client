@@ -2313,6 +2313,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'No se pudo obtener la información del certificado.';
 
   @override
+  String get serverTwoFactorBadgeTooltip =>
+      'Requiere autenticación de dos factores (2FA)';
+
+  @override
   String unverifiedCertificatesBannerTitle(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
