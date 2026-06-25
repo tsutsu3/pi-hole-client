@@ -12,6 +12,5 @@ sealed class Server with _$Server {
     @Default(false) bool allowUntrustedCert,
     @Default(false) bool ignoreCertificateErrors,
     String? pinnedCertificateSha256,
-    @Default(false) bool usesTotp,
   }) = _Server;
 }

@@ -55,7 +55,6 @@ class LocalServerRepository implements ServerRepository {
           ignoreCertificateErrors:
               ((map['ignoreCertificateErrors'] as int?) ?? 0) == 1,
           pinnedCertificateSha256: map['pinnedCertificateSha256'] as String?,
-          usesTotp: ((map['usesTotp'] as int?) ?? 0) == 1,
         );
       }).toList();
 
@@ -109,7 +108,6 @@ class LocalServerRepository implements ServerRepository {
           'allowUntrustedCert': server.allowUntrustedCert ? 1 : 0,
           'ignoreCertificateErrors': server.ignoreCertificateErrors ? 1 : 0,
           'pinnedCertificateSha256': server.pinnedCertificateSha256,
-          'usesTotp': server.usesTotp ? 1 : 0,
         });
       });
     } catch (e, st) {
@@ -162,7 +160,6 @@ class LocalServerRepository implements ServerRepository {
             'allowUntrustedCert': server.allowUntrustedCert ? 1 : 0,
             'ignoreCertificateErrors': server.ignoreCertificateErrors ? 1 : 0,
             'pinnedCertificateSha256': server.pinnedCertificateSha256,
-            'usesTotp': server.usesTotp ? 1 : 0,
           },
           where: 'address = ?',
           whereArgs: [server.address],
@@ -244,7 +241,6 @@ class LocalServerRepository implements ServerRepository {
           'allowUntrustedCert': newServer.allowUntrustedCert ? 1 : 0,
           'ignoreCertificateErrors': newServer.ignoreCertificateErrors ? 1 : 0,
           'pinnedCertificateSha256': newServer.pinnedCertificateSha256,
-          'usesTotp': newServer.usesTotp ? 1 : 0,
         });
       });
     } catch (e, st) {

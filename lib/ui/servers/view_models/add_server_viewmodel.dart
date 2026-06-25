@@ -256,7 +256,6 @@ class AddServerViewModel extends ChangeNotifier {
     await _serversViewModel.saveToken(req.url, req.token);
 
     final bundle = _createBundle(server: serverObj);
-    var usesTotp = false; // Display-only flag
     if (serverObj.apiVersion == SupportedApiVersions.v6) {
       final login = await _loginWithTotp(
         bundle: bundle,
@@ -273,8 +272,6 @@ class AddServerViewModel extends ChangeNotifier {
         await _serversViewModel.deleteToken(req.url);
         return CreateApiError(login.result.exceptionOrNull()!, req.apiVersion);
       }
-      usesTotp =
-          (await bundle.auth.getAuth(useSid: false)).getOrNull()?.totp ?? false;
     }
 
     // Use skipRenewal: true because the session was just created above.
@@ -283,10 +280,7 @@ class AddServerViewModel extends ChangeNotifier {
     final result = await bundle.dns.fetchBlockingStatus(skipRenewal: true);
     if (result.isSuccess()) {
       return CreateSuccess(
-        serverObj.copyWith(
-          defaultServer: req.defaultServer,
-          usesTotp: usesTotp,
-        ),
+        serverObj.copyWith(defaultServer: req.defaultServer),
       );
     }
 
@@ -459,13 +453,7 @@ class AddServerViewModel extends ChangeNotifier {
       return UpdateApiError(result.exceptionOrNull()!, req.apiVersion);
     }
 
-    final usesTotp =
-        (await bundle.auth.getAuth(useSid: false)).getOrNull()?.totp ??
-        req.oldServer.usesTotp;
-    final server = serverObj.copyWith(
-      defaultServer: req.defaultServer,
-      usesTotp: usesTotp,
-    );
+    final server = serverObj.copyWith(defaultServer: req.defaultServer);
 
     final cmdError = await _commit(
       server: server,

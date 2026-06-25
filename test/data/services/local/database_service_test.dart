@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -56,83 +54,6 @@ void main() {
       expect(queryResult.getOrNull()?[0]['isDefaultServer'], 1);
       expect(queryResult.getOrNull()?[0]['apiVersion'], 'v6');
       expect(queryResult.getOrNull()?[0]['allowUntrustedCert'], 1);
-    });
-
-    test('servers table stores usesTotp and defaults it to 0', () async {
-      // Omits usesTotp → relies on the column default.
-      await dbService.insert('servers', {
-        'address': '127.0.0.1',
-        'alias': 'Plain',
-        'isDefaultServer': 1,
-        'apiVersion': 'v6',
-        'allowUntrustedCert': 1,
-        'ignoreCertificateErrors': 0,
-        'pinnedCertificateSha256': null,
-      });
-      await dbService.insert('servers', {
-        'address': '127.0.0.2',
-        'alias': 'Totp',
-        'isDefaultServer': 0,
-        'apiVersion': 'v6',
-        'allowUntrustedCert': 1,
-        'ignoreCertificateErrors': 0,
-        'pinnedCertificateSha256': null,
-        'usesTotp': 1,
-      });
-
-      final rows = (await dbService.query('servers')).getOrNull()!;
-      final usesTotpByAddress = {
-        for (final r in rows) r['address']: r['usesTotp'],
-      };
-      expect(usesTotpByAddress['127.0.0.1'], 0);
-      expect(usesTotpByAddress['127.0.0.2'], 1);
-    });
-
-    test('v11 migration adds usesTotp to an existing v10 servers table', () async {
-      final dir = await Directory.systemTemp.createTemp('pihole_db_test');
-      addTearDown(() => dir.delete(recursive: true));
-      final path = '${dir.path}/migrate_v11.db';
-
-      // Build a v10-shaped servers table (no usesTotp column) with one row.
-      final v10 = await databaseFactory.openDatabase(
-        path,
-        options: OpenDatabaseOptions(
-          version: 10,
-          onCreate: (db, _) async {
-            await db.execute('''
-              CREATE TABLE servers (
-                address TEXT PRIMARY KEY NOT NULL,
-                alias TEXT NOT NULL,
-                isDefaultServer NUMERIC NOT NULL,
-                apiVersion TEXT NOT NULL,
-                allowUntrustedCert NUMERIC NOT NULL,
-                ignoreCertificateErrors NUMERIC NOT NULL,
-                pinnedCertificateSha256 TEXT
-              )
-            ''');
-          },
-        ),
-      );
-      await v10.insert('servers', {
-        'address': '127.0.0.1',
-        'alias': 'Local',
-        'isDefaultServer': 1,
-        'apiVersion': 'v6',
-        'allowUntrustedCert': 1,
-        'ignoreCertificateErrors': 0,
-        'pinnedCertificateSha256': null,
-      });
-      await v10.close();
-
-      // Reopen at v11 → _upgradeToV11 runs the ADD COLUMN migration.
-      final svc = DatabaseService(path: path);
-      final opened = await svc.open(latestVersion: 11);
-      expect(opened.isSuccess(), isTrue);
-
-      final rows = (await svc.query('servers')).getOrNull()!;
-      expect(rows.length, 1);
-      expect(rows[0]['usesTotp'], 0);
-      await svc.close();
     });
 
     test('Update servers table', () async {

@@ -26,37 +26,6 @@ class SwitchServerModal extends StatelessWidget {
     return null;
   }
 
-  Widget? _buildTotpIcon(BuildContext context, Server server) {
-    if (!server.usesTotp) return null;
-    return Tooltip(
-      message: AppLocalizations.of(context)!.serverTwoFactorBadgeTooltip,
-      child: Icon(
-        Icons.lock_person_rounded,
-        color: Theme.of(context).colorScheme.primary,
-        size: 16,
-      ),
-    );
-  }
-
-  /// Combines the 2FA and certificate badges, or returns null when neither
-  /// applies.
-  Widget? _buildTrailing(BuildContext context, Server server) {
-    final icons = <Widget>[
-      ?_buildTotpIcon(context, server),
-      ?_buildCertStatusIcon(context, server),
-    ];
-    if (icons.isEmpty) return null;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        for (var i = 0; i < icons.length; i++) ...[
-          if (i > 0) const SizedBox(width: 6),
-          icons[i],
-        ],
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final serversViewModel = Provider.of<ServersViewModel>(context);
@@ -84,7 +53,7 @@ class SwitchServerModal extends StatelessWidget {
           itemBuilder: (context, index) => ListTile(
             title: Text(serversViewModel.getServersList[index].alias),
             subtitle: Text(serversViewModel.getServersList[index].address),
-            trailing: _buildTrailing(
+            trailing: _buildCertStatusIcon(
               context,
               serversViewModel.getServersList[index],
             ),

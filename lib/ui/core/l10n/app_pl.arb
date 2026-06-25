@@ -726,7 +726,6 @@
   "serverCertificateUpdatePinTitle": "Zaktualizuj przypięty odcisk",
   "serverCertificateUpdatePinHelp": "Spowoduje to zastąpienie przypiętego odcisku SHA-256 używanego przy zezwalaniu na niezaufane certyfikaty. Kontynuuj tylko, jeśli zweryfikowałeś certyfikat inną metodą.",
   "serverCertificateFetchFailed": "Nie udało się pobrać informacji o certyfikacie.",
-  "serverTwoFactorBadgeTooltip": "Wymaga uwierzytelniania dwuskładnikowego (2FA)",
   "unverifiedCertificatesBannerTitle": "{count, plural, =1{1 serwer dopuszcza niezweryfikowane certyfikaty} other{{count} serwery dopuszczają niezweryfikowane certyfikaty}}",
   "@unverifiedCertificatesBannerTitle": {
     "placeholders": {
