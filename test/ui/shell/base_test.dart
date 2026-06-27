@@ -196,5 +196,109 @@ void main() async {
         expect(find.byType(AlertDialog), findsOneWidget);
       },
     );
+
+    testWidgets(
+      'cold start with a selected server fetches status and starts auto-refresh',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        final repo = FakeAppConfigRepository()..importantInfoReadenValue = true;
+        final appConfigViewModel = AppConfigViewModel(repo);
+        appConfigViewModel.saveFromDb(repo.appConfig.getOrThrow());
+        serversViewModel.selectedServer = _serverV6;
+
+        await tester.pumpWidget(
+          buildTestApp(
+            const Base(child: SizedBox()),
+            appConfigViewModel: appConfigViewModel,
+            serversViewModel: serversViewModel,
+            statusViewModel: statusViewModel,
+            repositoryBundle: createFakeRepositoryBundle(),
+            createRepositoryBundle: ({required server}) =>
+                createFakeRepositoryBundle(),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(
+          serversViewModel.updateselectedServerStatusCallCount,
+          greaterThanOrEqualTo(1),
+        );
+        expect(
+          statusViewModel.startAutoRefreshCallCount,
+          greaterThanOrEqualTo(1),
+        );
+      },
+    );
+
+    testWidgets('cold start without a selected server does not auto-connect', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      final repo = FakeAppConfigRepository()..importantInfoReadenValue = true;
+      final appConfigViewModel = AppConfigViewModel(repo);
+      appConfigViewModel.saveFromDb(repo.appConfig.getOrThrow());
+      // selectedServer stays null (no default server).
+
+      await tester.pumpWidget(
+        buildTestApp(
+          const Base(child: SizedBox()),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+          createRepositoryBundle: ({required server}) =>
+              createFakeRepositoryBundle(),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(statusViewModel.startAutoRefreshCallCount, 0);
+      expect(serversViewModel.updateselectedServerStatusCallCount, 0);
+    });
+
+    testWidgets('app pause stops auto-refresh', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      final repo = FakeAppConfigRepository()..importantInfoReadenValue = true;
+      final appConfigViewModel = AppConfigViewModel(repo);
+      appConfigViewModel.saveFromDb(repo.appConfig.getOrThrow());
+      serversViewModel.selectedServer = _serverV6;
+
+      await tester.pumpWidget(
+        buildTestApp(
+          const Base(child: SizedBox()),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+          createRepositoryBundle: ({required server}) =>
+              createFakeRepositoryBundle(),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final before = statusViewModel.stopAutoRefreshCallCount;
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      await tester.pump();
+
+      expect(statusViewModel.stopAutoRefreshCallCount, greaterThan(before));
+    });
   });
 }
