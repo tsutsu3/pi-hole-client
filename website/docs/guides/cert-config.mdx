@@ -32,15 +32,15 @@ The app displays the connection security status for each server. Here are all po
 
 <img width="320" alt="All certificate statuses" src={imgStatusAll} />
 
-| Status                      | Security Level | Description                         |
-| --------------------------- | -------------- | ----------------------------------- |
-| HTTPS Verified              | Highest        | Valid CA-signed certificate         |
-| HTTPS Pinned                | High           | Certificate fingerprint verified    |
-| Don't check SSL certificate | Low            | All certificate validation disabled |
+| Status                      | Security Level | Description                                          |
+| --------------------------- | -------------- | ---------------------------------------------------- |
+| HTTPS Verified              | Highest        | Valid CA-signed certificate                          |
+| HTTPS Pinned                | High           | Certificate fingerprint verified                     |
+| Don't check SSL certificate | Low            | All certificate validation disabled                  |
 | HTTPS Untrusted Allowed     | Low            | Untrusted certificates or incomplete chains accepted |
-| HTTP                        | None           | Unencrypted connection              |
-| HTTPS Pin Mismatch          | Error          | Pinned fingerprint doesn't match    |
-| HTTPS Untrusted Blocked     | Error          | Self-signed certificate rejected    |
+| HTTP                        | None           | Unencrypted connection                               |
+| HTTPS Pin Mismatch          | Error          | Pinned fingerprint doesn't match                     |
+| HTTPS Untrusted Blocked     | Error          | Self-signed certificate rejected                     |
 
 ---
 
@@ -350,13 +350,13 @@ pihole.local {
 
 ## Recommended Configuration by Use Case
 
-| Use Case                                        | Recommended Setting                                       | Expected Status |
-| ----------------------------------------------- | --------------------------------------------------------- | --------------- |
-| Valid CA certificate with full chain (Let's Encrypt + `fullchain.pem`) | **Allow untrusted certificates: OFF** | HTTPS Verified  |
-| Let's Encrypt with incomplete chain (`cert.pem`) | Fix server to use `fullchain.pem` — or enable **Allow untrusted certificates: ON** as a workaround | HTTPS Verified / HTTPS Pinned |
-| Self-signed certificate                         | **Allow untrusted certificates: ON**, Pin the cert        | HTTPS Pinned    |
-| Docker without reverse proxy                    | **Don't check SSL certificate: ON**                       | Don't check SSL |
-| Local HTTP only                                 | -                                                         | HTTP            |
+| Use Case                                                               | Recommended Setting                                                                                | Expected Status               |
+| ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------- |
+| Valid CA certificate with full chain (Let's Encrypt + `fullchain.pem`) | **Allow untrusted certificates: OFF**                                                              | HTTPS Verified                |
+| Let's Encrypt with incomplete chain (`cert.pem`)                       | Fix server to use `fullchain.pem` — or enable **Allow untrusted certificates: ON** as a workaround | HTTPS Verified / HTTPS Pinned |
+| Self-signed certificate                                                | **Allow untrusted certificates: ON**, Pin the cert                                                 | HTTPS Pinned                  |
+| Docker without reverse proxy                                           | **Don't check SSL certificate: ON**                                                                | Don't check SSL               |
+| Local HTTP only                                                        | -                                                                                                  | HTTP                          |
 
 ---
 
@@ -370,6 +370,7 @@ Flutter's HTTP client requires the server to provide the **complete chain**.
 This typically happens when the server is configured with `cert.pem` instead of `fullchain.pem`.
 
 **Symptoms:**
+
 - SSL error when connecting through the app
 - The connection works fine in a web browser
 - The certificate appears valid when viewed in a browser
