@@ -23,7 +23,7 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
       action: () async {
         final result = await _client.postAuth(
           password: password,
-          totp: totp != null ? int.parse(totp) : null,
+          totp: totp != null ? int.tryParse(totp) : null,
         );
         final auth = result.map((e) => e.toDomain());
         final value = auth.getOrNull();

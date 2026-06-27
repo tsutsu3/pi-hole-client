@@ -8,6 +8,7 @@ import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/services/totp_login.dart';
 import 'package:pi_hole_client/ui/core/types/resolve_totp.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/globals.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
@@ -244,40 +245,24 @@ class ServerConnectionService {
     String password,
     ProcessModal? process,
   ) async {
-    var result = await bundle.auth.createSession(password);
-    if (result.isSuccess()) return (cancelled: false, error: null);
-    if (result.exceptionOrNull() is! TotpRequiredException) {
-      return (cancelled: false, error: result.exceptionOrNull());
-    }
-
-    // Server requires 2FA
-    TotpPromptError? promptError;
-    while (true) {
-      // Hide the connecting overlay so the TOTP prompt is on top and usable.
-      process?.close();
-      final code = await resolveTotp(error: promptError);
-      if (code == null) return (cancelled: true, error: null);
-
-      // Re-show the connecting overlay while the code is validated.
-      if (context.mounted) {
-        process?.open(AppLocalizations.of(context)!.connecting);
-      }
-      result = await bundle.auth.createSession(password, totp: code);
-      if (result.isSuccess()) return (cancelled: false, error: null);
-
-      final err = result.exceptionOrNull();
-      if (err is TotpInvalidException) {
-        promptError = TotpPromptError.invalid;
-        continue;
-      }
-      if (err is TotpReusedException) {
-        promptError = TotpPromptError.reused;
-        continue;
-      }
-
-      // Rate limit or any other error is terminal - stop re-prompting.
-      return (cancelled: false, error: err);
-    }
+    final outcome = await runTotpLogin(
+      auth: bundle.auth,
+      password: password,
+      resolveTotp: ({error}) async {
+        // Hide the connecting overlay so the TOTP prompt is on top and usable.
+        process?.close();
+        final code = await resolveTotp(error: error);
+        // Re-show the connecting overlay while the entered code is validated.
+        if (code != null && context.mounted) {
+          process?.open(AppLocalizations.of(context)!.connecting);
+        }
+        return code;
+      },
+    );
+    return (
+      cancelled: outcome.cancelled,
+      error: outcome.result.exceptionOrNull(),
+    );
   }
 
   Future<void> _onSuccess(Blocking blocking, Server connectedServer) async {

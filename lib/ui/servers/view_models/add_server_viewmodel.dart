@@ -7,16 +7,15 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
-import 'package:pi_hole_client/domain/model/auth/auth.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/ui/core/services/totp_login.dart';
 import 'package:pi_hole_client/ui/core/types/resolve_totp.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/url.dart';
-import 'package:result_dart/result_dart.dart';
 
 /// Resolves and validates the certificate for [server], returning the updated
 /// server (possibly with a pinned fingerprint) or `null` when the user cancels
@@ -257,8 +256,8 @@ class AddServerViewModel extends ChangeNotifier {
 
     final bundle = _createBundle(server: serverObj);
     if (serverObj.apiVersion == SupportedApiVersions.v6) {
-      final login = await _loginWithTotp(
-        bundle: bundle,
+      final login = await runTotpLogin(
+        auth: bundle.auth,
         password: req.password,
         resolveTotp: req.resolveTotp,
       );
@@ -518,8 +517,8 @@ class AddServerViewModel extends ChangeNotifier {
       })
     >
     login({required bool needsRollback}) async {
-      final result = await _loginWithTotp(
-        bundle: bundle,
+      final result = await runTotpLogin(
+        auth: bundle.auth,
         password: req.password,
         resolveTotp: req.resolveTotp,
       );
@@ -589,48 +588,6 @@ class AddServerViewModel extends ChangeNotifier {
       needsRollback: false,
       cancelled: false,
     );
-  }
-
-  /// Logs in, prompting for a 6-digit TOTP code when the server requires 2FA
-  /// and re-prompting on a rejected code. Returns the auth result, or
-  /// `cancelled: true` when the user dismisses the prompt.
-  ///
-  /// The first attempt sends the password only. A 2FA server answers with
-  /// [TotpRequiredException]; the loop then collects a code via [resolveTotp]
-  /// and retries with `password + totp`, looping on [TotpInvalidException].
-  /// Any other failure is returned as-is.
-  Future<({bool cancelled, Result<Auth> result})> _loginWithTotp({
-    required RepositoryBundle bundle,
-    required String password,
-    required ResolveTotp resolveTotp,
-  }) async {
-    var result = await bundle.auth.createSession(password);
-    if (result.isSuccess()) return (cancelled: false, result: result);
-    if (result.exceptionOrNull() is! TotpRequiredException) {
-      return (cancelled: false, result: result);
-    }
-
-    // 2FA required
-    TotpPromptError? promptError;
-    while (true) {
-      final code = await resolveTotp(error: promptError);
-      if (code == null) return (cancelled: true, result: result);
-
-      result = await bundle.auth.createSession(password, totp: code);
-      if (result.isSuccess()) return (cancelled: false, result: result);
-
-      final err = result.exceptionOrNull();
-      if (err is TotpInvalidException) {
-        promptError = TotpPromptError.invalid;
-        continue;
-      }
-      if (err is TotpReusedException) {
-        promptError = TotpPromptError.reused;
-        continue;
-      }
-      // Rate limit or any other error is terminal - stop re-prompting.
-      return (cancelled: false, result: result);
-    }
   }
 
   /// Writes [server] to the DB: replace when the address changed, otherwise edit
