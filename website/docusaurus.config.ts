@@ -32,7 +32,7 @@ const config: Config = {
       ssgWorkerThreads: true,
       mdxCrossCompilerCache: true,
     },
-    experimental_router: "hash",
+    // experimental_router: "hash",
   },
 
   // Set the production url of your site here
