@@ -1034,8 +1034,17 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     ),
                   ],
                   selected: <String>{piHoleVersion},
-                  onSelectionChanged: (value) =>
-                      setState(() => piHoleVersion = value.first),
+                  onSelectionChanged: (value) {
+                    final newVersion = value.first;
+                    setState(() {
+                      piHoleVersion = newVersion;
+                      if (newVersion == SupportedApiVersions.v5) {
+                        passwordFieldController.clear();
+                      } else {
+                        tokenFieldController.clear();
+                      }
+                    });
+                  },
                 ),
               ),
               SectionLabel(

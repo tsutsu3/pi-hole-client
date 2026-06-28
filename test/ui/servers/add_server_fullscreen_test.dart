@@ -1788,6 +1788,75 @@ void main() async {
     );
 
     testWidgets(
+      'switching v5 -> v6 -> v5 clears the v5 token so it does not reappear',
+      (WidgetTester tester) async {
+        useLargeView(tester);
+
+        await tester.pumpWidget(
+          buildWidget(
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: _serverV5,
+            ),
+          ),
+        );
+        // Let the stored credentials load into the fields.
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 500));
+
+        TextField authField() =>
+            tester.widget<TextField>(find.byType(TextField).at(3));
+
+        // v5 loads with its stored token populated.
+        expect(authField().controller!.text, 'stored-token');
+
+        // Leaving v5 for v6 clears the v5 token.
+        await tester.tap(apiVersionSegment('v6'));
+        await tester.pump();
+
+        // Returning to v5 must show an empty token, not the previous value.
+        await tester.tap(apiVersionSegment('v5'));
+        await tester.pump();
+        expect(authField().controller!.text, '');
+      },
+    );
+
+    testWidgets(
+      'switching v6 -> v5 -> v6 clears the v6 password so it does not reappear',
+      (WidgetTester tester) async {
+        useLargeView(tester);
+
+        await tester.pumpWidget(
+          buildWidget(
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: _serverV6,
+            ),
+          ),
+        );
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 500));
+
+        TextField authField() =>
+            tester.widget<TextField>(find.byType(TextField).at(3));
+
+        // v6 loads with its stored password populated.
+        expect(authField().controller!.text, 'stored-pass');
+
+        // Leaving v6 for v5 clears the v6 password.
+        await tester.tap(apiVersionSegment('v5'));
+        await tester.pump();
+
+        // Returning to v6 must show an empty password, not the previous value.
+        await tester.tap(apiVersionSegment('v6'));
+        await tester.pump();
+        expect(authField().controller!.text, '');
+      },
+    );
+
+    testWidgets(
       'switching HTTPS to HTTP changes the address, clears the pin and '
       'replaces the server',
       (WidgetTester tester) async {
