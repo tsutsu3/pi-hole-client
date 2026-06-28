@@ -8,9 +8,13 @@ How the **Add / Edit server** screen connects to a Pi-hole and persists it.
 
 The view model owns the orchestration and returns a sealed outcome
 (`CreateOutcome` / `UpdateOutcome`). The widget builds the request, awaits the
-command and maps the outcome to UI (snackbar / navigation). The certificate
-dialog and the SSL-error snackbar stay in the widget and are injected per
-request through the `resolveCertificate` callback.
+command and maps the outcome to UI (snackbar / navigation). UI that the
+orchestration needs mid-flow is injected per request as callbacks, so the view
+model never touches `BuildContext`:
+
+- `resolveCertificate` — the certificate pin dialog + SSL-error snackbar.
+- `resolveTotp` — the 6-digit TOTP (2FA) input modal, used on v6 login when the
+  server requires two-factor auth. Returns the entered code or `null` on cancel.
 
 ## Layers
 
@@ -21,13 +25,15 @@ flowchart LR
   VM --> ST[StatusViewModel<br/>auto-refresh]
   VM --> B[RepositoryBundle<br/>auth + dns]
   W -. resolveCertificate callback .-> VM
+  W -. resolveTotp callback .-> VM
 ```
 
 ## Add a new server - `createServer`
 
 A cancelled/blocked certificate **aborts** the add (`CreateCancelled`),
 mirroring `updateServer`; no credentials or remote session are created before
-the abort.
+the abort. A cancelled TOTP prompt aborts the same way (`CreateCancelled`),
+rolling back the just-saved credentials.
 
 ```mermaid
 flowchart TD
@@ -38,7 +44,8 @@ flowchart TD
   D -- cancelled/blocked --> DX([CreateCancelled])
   D -- ok --> C[savePassword + saveToken]
   C --> E{apiVersion == v6?}
-  E -- yes --> F[auth.createSession]
+  E -- yes --> F[loginWithTotp<br/>see TOTP login]
+  F -- cancelled --> FC[deletePassword + deleteToken] --> FX([CreateCancelled])
   F -- error --> G[deletePassword + deleteToken] --> H([CreateApiError])
   F -- ok --> I[dns.fetchBlockingStatus<br/>skipRenewal: true]
   E -- no --> I
@@ -86,27 +93,55 @@ On `UpdateSuccess` the widget pops and shows the success snackbar.
 ### Session handling inside `updateServer` - `_authenticate`
 
 Only re-authenticates when needed, to avoid duplicate sessions on transient
-failures (503/504/timeout).
+failures (503/504/timeout). Every `createSession` step below goes through
+`_loginWithTotp`, so any of them can prompt for a 2FA code; a cancelled prompt
+returns `cancelled = true` and `updateServer` maps it to `UpdateCancelled`
+(after rollback / restore + auto-refresh restart).
 
 ```mermaid
 flowchart TD
   A([authenticate]) --> Z{apiVersion == v6?}
   Z -- no --> N0([sessionCreated = false])
   Z -- yes --> B{address changed?}
-  B -- yes --> C[auth.createSession]
+  B -- yes --> C[loginWithTotp]
+  C -- cancelled --> CC([cancelled = true])
   C -- error --> CE([error, needsRollback = true])
   C -- ok --> CS([sessionCreated = true])
   B -- no --> D{password changed?}
-  D -- yes --> E[auth.createSession]
+  D -- yes --> E[loginWithTotp]
+  E -- cancelled --> EC([cancelled = true])
   E -- error --> EE([error])
   E -- ok --> ES([sessionCreated = true])
   D -- no --> P[preCheck: dns.fetchBlockingStatus]
   P -- ok --> N1([reuse current session])
   P -- error --> R{reauthRequired?<br/>401 / SidNotFound}
   R -- no --> RE([error])
-  R -- yes --> H[auth.createSession]
+  R -- yes --> H[loginWithTotp]
+  H -- cancelled --> HC([cancelled = true])
   H -- error --> HE([error])
   H -- ok --> HS([sessionCreated = true])
+```
+
+### TOTP login - `_loginWithTotp`
+
+Shared by `createServer` and `_authenticate`. The first attempt sends the
+password only; a 2FA server answers with `TotpRequiredException`, then the loop
+collects a code via `resolveTotp` and retries with `password + totp`. A wrong or
+reused code re-prompts (with a localized reason); a `null` code (user dismissed)
+cancels. Rate-limit or any other error is terminal.
+
+```mermaid
+flowchart TD
+  A([loginWithTotp]) --> B[auth.createSession password]
+  B -- success --> S([ok])
+  B -- not TotpRequired --> T([error as-is])
+  B -- TotpRequiredException --> L[resolveTotp error]
+  L -- null / cancel --> X([cancelled])
+  L -- code --> R[auth.createSession password + totp]
+  R -- success --> S
+  R -- TotpInvalid --> LI[promptError = invalid] --> L
+  R -- TotpReused --> LR[promptError = reused] --> L
+  R -- other error --> E([error as-is])
 ```
 
 ## Sequence - add a new server
@@ -127,6 +162,11 @@ sequenceDiagram
   VM->>SV: savePassword / saveToken
   opt apiVersion == v6
     VM->>B: auth.createSession(password)
+    opt server requires 2FA
+      VM->>W: resolveTotp(error?)
+      Note over W: TOTP input modal (UI), re-prompted on wrong/reused code
+      VM->>B: auth.createSession(password, totp)
+    end
   end
   VM->>B: dns.fetchBlockingStatus(skipRenewal: true)
   VM-->>W: CreateSuccess(server) | CreateCancelled | CreateApiError | CreateDuplicateUrl | CreateUrlCheckFailed
@@ -159,6 +199,10 @@ sequenceDiagram
   VM->>ST: stopAutoRefresh
   VM->>W: resolveCertificate(server)
   VM->>SV: savePassword / saveToken (target)
+  opt v6 login requires 2FA
+    VM->>W: resolveTotp(error?)
+    Note over W: TOTP input modal (UI), re-prompted on wrong/reused code
+  end
   VM->>B: auth.createSession / dns.fetchBlockingStatus (see _authenticate)
   VM->>B: dns.fetchBlockingStatus(skipRenewal: sessionCreated)
   alt connection ok
@@ -181,15 +225,15 @@ sequenceDiagram
 
 ## Outcome → UI mapping
 
-| Outcome                                         | Widget reaction                                                        |
-| ----------------------------------------------- | ---------------------------------------------------------------------- |
-| `CreateSuccess(server)`                         | pop → "connected successfully" → `addServer.runAsync(server)`          |
-| `UpdateSuccess`                                 | pop → "edited successfully"                                            |
-| `CreateDuplicateUrl` / `UpdateDuplicateUrl`     | "connection already exists" snackbar                                   |
-| `CreateUrlCheckFailed` / `UpdateUrlCheckFailed` | "cannot check URL" snackbar                                            |
-| `CreateApiError` / `UpdateApiError`             | status-code-specific error snackbar + log (`handleApiErrorResult`)     |
-| `UpdateDbError`                                 | "cannot save connection data" snackbar                                 |
-| `CreateCancelled` / `UpdateCancelled`           | nothing - the certificate dialog / SSL error already informed the user |
+| Outcome                                         | Widget reaction                                                      |
+| ----------------------------------------------- | -------------------------------------------------------------------- |
+| `CreateSuccess(server)`                         | pop → "connected successfully" → `addServer.runAsync(server)`        |
+| `UpdateSuccess`                                 | pop → "edited successfully"                                          |
+| `CreateDuplicateUrl` / `UpdateDuplicateUrl`     | "connection already exists" snackbar                                 |
+| `CreateUrlCheckFailed` / `UpdateUrlCheckFailed` | "cannot check URL" snackbar                                          |
+| `CreateApiError` / `UpdateApiError`             | status-code-specific error snackbar + log (`handleApiErrorResult`)   |
+| `UpdateDbError`                                 | "cannot save connection data" snackbar                               |
+| `CreateCancelled` / `UpdateCancelled`           | nothing - certificate dialog / SSL error / TOTP prompt already shown |
 
 ## Notes
 
@@ -200,6 +244,11 @@ sequenceDiagram
 - The view model never shows UI itself. The certificate pin dialog and SSL-error
   snackbar live in the widget and are reached via the `resolveCertificate`
   callback passed in the request.
+- **TOTP (2FA) is v6-only and handled inside login** (`_loginWithTotp`, shared by
+  `createServer` and `_authenticate`). The view model never shows the prompt; it
+  calls the injected `resolveTotp` callback, which the widget backs with the TOTP
+  input modal. Wrong / reused codes re-prompt with a localized reason; a
+  dismissed prompt cancels the whole flow (`CreateCancelled` / `UpdateCancelled`).
 - The connecting overlay is driven by a local `isConnecting` flag toggled around
   `runAsync`.
 - See also: [ARCHITECTURE.md](ARCHITECTURE.md).

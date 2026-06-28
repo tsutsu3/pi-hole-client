@@ -5,6 +5,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundl
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/services/server_connection_service.dart';
+import 'package:pi_hole_client/ui/core/ui/components/totp_input_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
@@ -143,6 +144,7 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
       serversViewModel: serversViewModel,
       server: server,
       createBundle: context.read<CreateRepositoryBundle>(),
+      resolveTotp: ({error}) => showTotpInputModal(context, error: error),
       showModal: true,
       useRootContextOnFailure: true,
     );

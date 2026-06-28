@@ -2462,6 +2462,48 @@ abstract class AppLocalizations {
   /// **'Messages'**
   String get messages;
 
+  /// No description provided for @mfaCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication code'**
+  String get mfaCodeLabel;
+
+  /// No description provided for @mfaDialogDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'This server requires two-factor authentication.'**
+  String get mfaDialogDescription;
+
+  /// No description provided for @mfaDialogInstruction.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the 6-digit code from your authenticator app.'**
+  String get mfaDialogInstruction;
+
+  /// No description provided for @mfaDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-factor authentication'**
+  String get mfaDialogTitle;
+
+  /// No description provided for @mfaInvalidCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid code. Please try again.'**
+  String get mfaInvalidCode;
+
+  /// No description provided for @mfaRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Please wait a moment and try again.'**
+  String get mfaRateLimited;
+
+  /// No description provided for @mfaReusedCode.
+  ///
+  /// In en, this message translates to:
+  /// **'This code was already used. Wait for a new code and try again.'**
+  String get mfaReusedCode;
+
   /// No description provided for @min.
   ///
   /// In en, this message translates to:

@@ -63,6 +63,17 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   bool shouldReturnNoPasswordSession = false;
   int postAuthCallCount = 0;
   Completer<void>? authPauseCompleter;
+
+  /// When true, a password-only login (totp == null) fails with
+  /// [TotpRequiredException], mimicking a 2FA-enabled server.
+  bool shouldRequireTotp = false;
+
+  /// When set, a login whose totp does not equal this value fails with
+  /// [TotpInvalidException].
+  int? validTotp;
+
+  /// The totp passed to the most recent [postAuth] call.
+  int? lastTotp;
   bool shouldGetInfoVersionWithDocker = false;
   bool shouldGetInfoSystemOld = false;
   bool shouldGetInfoFtlV63 = false;
@@ -74,9 +85,19 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   // Authentication
   // ==========================================================================
   @override
-  Future<Result<Session>> postAuth({required String password}) async {
+  Future<Result<Session>> postAuth({
+    required String password,
+    int? totp,
+  }) async {
     postAuthCallCount++;
+    lastTotp = totp;
     if (authPauseCompleter != null) await authPauseCompleter!.future;
+    if (shouldRequireTotp && totp == null) {
+      return Failure(TotpRequiredException());
+    }
+    if (validTotp != null && totp != null && totp != validTotp) {
+      return Failure(TotpInvalidException());
+    }
     if (shouldFail) {
       return Failure(Exception('Forced postAuth failure'));
     }
@@ -84,6 +105,24 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
       return Success(kSrvPostAuthNoPassword);
     }
     return Success(kSrvPostAuth);
+  }
+
+  int getAuthCallCount = 0;
+
+  /// Server-reported 2FA status returned by [getAuth] (`session.totp`).
+  bool serverTotpEnabled = false;
+
+  @override
+  Future<Result<Session>> getAuth(String? sid) async {
+    getAuthCallCount++;
+    if (shouldFail) {
+      return Failure(Exception('Forced getAuth failure'));
+    }
+    return Success(
+      kSrvPostAuth.copyWith(
+        session: kSrvPostAuth.session.copyWith(totp: serverTotpEnabled),
+      ),
+    );
   }
 
   @override

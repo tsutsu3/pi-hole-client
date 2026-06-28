@@ -97,6 +97,7 @@ void main() {
         contains('Failed to load servers'),
       );
     });
+
   });
 
   group('ServerRepository.insertServer', () {

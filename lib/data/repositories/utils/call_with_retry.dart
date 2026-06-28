@@ -56,8 +56,10 @@ Future<T> runWithRetry<T>({
 /// Executes an asynchronous [action] returning a [Result] with retry logic.
 ///
 /// Similar to [runWithRetry], but specialized for functions that return a [Result] type
-/// (such as from the `result_dart` package). Retries are only performed if the result is a [Failure].
-/// If [action] throws an exception, the retry loop stops and returns a [Failure] containing the exception.
+/// (such as from the `result_dart` package). Retries are performed when the
+/// result is a [Failure] or when [action] throws an exception. Thrown
+/// exceptions are converted to [Failure] so [onRetry] receives the same error
+/// that will be returned if all retry attempts fail.
 ///
 /// This is useful when the operation itself already captures domain-specific failures in [Result]
 /// but still may need retrying for transient errors.
@@ -68,7 +70,7 @@ Future<T> runWithRetry<T>({
 ///   action: () => repository.fetchData(),
 ///   maxRetries: 2,
 ///   delay: Duration(milliseconds: 100),
-///   onRetry: (attempt) => repository.clearCache(),
+///   onRetry: (attempt, error) => repository.clearCache(),
 /// );
 /// if (result.isError()) {
 ///   logger.e('Operation failed: ${result.asError().error}');
@@ -90,7 +92,8 @@ Future<T> runWithRetry<T>({
 ///   or the last [Failure] if all retry attempts fail.
 ///
 /// Exceptions:
-/// - If [action] throws, returns a [Failure] containing the thrown exception without further retries.
+/// - If [action] keeps throwing through all retry attempts, returns a [Failure]
+///   containing the last thrown exception.
 Future<Result<T>> runWithResultRetry<T extends Object>({
   required Future<Result<T>> Function() action,
   int maxRetries = 1,
@@ -108,7 +111,12 @@ Future<Result<T>> runWithResultRetry<T extends Object>({
       }
       lastFailure = result;
     } catch (e, st) {
-      return Failure(Exception('Exception on attempt $attempt: $e\n$st'));
+      // Treat a thrown exception like a Failure so onRetry (e.g. session renewal)
+      lastFailure = Failure(
+        e is Exception
+            ? e
+            : Exception('Exception on attempt $attempt: $e\n$st'),
+      );
     }
 
     attempt++;
@@ -120,7 +128,11 @@ Future<Result<T>> runWithResultRetry<T extends Object>({
               Exception('Unknown failure on attempt ${attempt - 1}');
           await onRetry(attempt, error);
         } catch (e, st) {
-          return Failure(Exception('Exception on onRetry $attempt: $e\n$st'));
+          return Failure(
+            e is Exception
+                ? e
+                : Exception('Exception on onRetry $attempt: $e\n$st'),
+          );
         }
       }
       await Future.delayed(delay);

@@ -3,6 +3,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundl
 
 import 'package:pi_hole_client/ui/core/services/server_connection_service.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
+import 'package:pi_hole_client/ui/core/ui/components/totp_input_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
@@ -103,6 +104,7 @@ class ServerLabel extends StatelessWidget {
             serversViewModel: serversViewModel,
             server: server,
             createBundle: context.read<CreateRepositoryBundle>(),
+            resolveTotp: ({error}) => showTotpInputModal(context, error: error),
           );
 
           await service.connect();

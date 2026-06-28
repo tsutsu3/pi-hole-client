@@ -35,6 +35,18 @@ Future<Result<T>> safeApiCall<T extends Object>(
   try {
     final result = await apiCall();
     return Success(result);
+  } on TotpRequiredException catch (e) {
+    logger.e('TOTP code required: ${e.message}');
+    return Failure(e);
+  } on TotpInvalidException catch (e) {
+    logger.e('Invalid TOTP code: ${e.message}');
+    return Failure(e);
+  } on TotpReusedException catch (e) {
+    logger.e('Reused TOTP code: ${e.message}');
+    return Failure(e);
+  } on TotpRateLimitException catch (e) {
+    logger.e('TOTP rate limited: ${e.message}');
+    return Failure(e);
   } on HttpStatusCodeException catch (e) {
     logger.e('HTTP error occurred: ${e.message}');
     return Failure(e);

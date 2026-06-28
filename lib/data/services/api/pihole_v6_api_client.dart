@@ -69,16 +69,91 @@ class PiholeV6ApiClient {
   // ==========================================================================
   // Authentication
   // ==========================================================================
-  Future<Result<Session>> postAuth({required String password}) async {
+  Future<Result<Session>> postAuth({
+    required String password,
+    int? totp,
+  }) async {
     return safeApiCall<Session>(() async {
+      final body = <String, dynamic>{'password': password};
+      if (totp != null) {
+        body['totp'] = totp;
+      }
       final resp = await _sendRequest(
         method: HttpMethod.post,
         path: '/api/auth',
-        body: {'password': password},
+        body: body,
       );
 
       if (resp.statusCode == 200) {
         return Session.fromJson(jsonDecode(resp.body));
+      }
+
+      // Check for TOTP-related errors before throwing a generic HTTP exception
+      final totpError = _parseTotpError(resp.statusCode, resp.body);
+      if (totpError != null) {
+        throw totpError;
+      }
+
+      throw HttpStatusCodeException(resp.statusCode, resp.body);
+    });
+  }
+
+  /// Maps a Pi-hole v6 2FA error response to [TotpRequiredException] /
+  /// [TotpInvalidException], or null when the response is not a TOTP error.
+  Exception? _parseTotpError(int statusCode, String body) {
+    if (statusCode != 400 && statusCode != 401 && statusCode != 429) {
+      return null;
+    }
+
+    try {
+      final decoded = jsonDecode(body);
+      if (decoded is! Map<String, dynamic>) return null;
+
+      final error = decoded['error'];
+      if (error is! Map<String, dynamic>) return null;
+
+      final key = error['key'] as String?;
+      final message = error['message'] as String? ?? '';
+      if (!message.contains('2FA token')) return null;
+
+      if (statusCode == 400 &&
+          key == 'bad_request' &&
+          message.contains('No 2FA token found in JSON payload')) {
+        return TotpRequiredException(message);
+      }
+      if (statusCode == 401 && key == 'unauthorized') {
+        if (message.contains('Reused 2FA token')) {
+          return TotpReusedException(message);
+        }
+        if (message.contains('Invalid 2FA token')) {
+          return TotpInvalidException(message);
+        }
+      }
+      if (statusCode == 429 && key == 'rate_limiting') {
+        // Rate-limiting 2FA token requests, try again later
+        return TotpRateLimitException(message);
+      }
+    } catch (_) {
+      // Fall through to the default HttpStatusCodeException.
+    }
+    return null;
+  }
+
+  Future<Result<Session>> getAuth(String? sid) async {
+    return safeApiCall<Session>(() async {
+      final resp = await _sendRequest(
+        method: HttpMethod.get,
+        path: '/api/auth',
+        sid: sid,
+      );
+
+      try {
+        final decoded = jsonDecode(resp.body);
+        if (decoded is Map<String, dynamic> && decoded['session'] != null) {
+          return Session.fromJson(decoded);
+        }
+      } on FormatException {
+        // Non-JSON body — fall through to the HTTP error below.
       }
 
       throw HttpStatusCodeException(resp.statusCode, resp.body);

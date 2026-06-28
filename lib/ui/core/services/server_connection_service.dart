@@ -8,6 +8,8 @@ import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/services/totp_login.dart';
+import 'package:pi_hole_client/ui/core/types/resolve_totp.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/globals.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
@@ -45,6 +47,7 @@ import 'package:result_dart/result_dart.dart';
 ///   serversViewModel: serversViewModel,
 ///   server: server,
 ///   createBundle: createBundle,
+/// 　resolveTotp: ({error}) => showTotpInputModal(context, error: error),
 ///   showModal: true,
 /// );
 /// await service.connect();
@@ -63,6 +66,7 @@ class ServerConnectionService {
     required this.serversViewModel,
     required this.server,
     required this.createBundle,
+    required this.resolveTotp,
     this.useRootContextOnFailure = false,
     this.showModal = false,
     this.fetchTlsCertificate = fetchTlsCertificateInfo,
@@ -74,6 +78,7 @@ class ServerConnectionService {
   final ServersViewModel serversViewModel;
   final Server server;
   final CreateRepositoryBundle createBundle;
+  final ResolveTotp resolveTotp;
   final bool useRootContextOnFailure;
   final bool showModal;
   final TlsCertificateFetcher fetchTlsCertificate;
@@ -89,6 +94,7 @@ class ServerConnectionService {
     }
 
     final previouslySelectedServer = serversViewModel.selectedServer;
+    final previousStatus = statusViewModel.getServerStatus;
 
     _startConnection();
 
@@ -119,13 +125,17 @@ class ServerConnectionService {
     serversViewModel.clearConnectingServer();
 
     if (result == null || result.isError()) {
+      final error = result?.exceptionOrNull();
+      if (error is TotpCancelledException) {
+        _onTotpCancelled(previouslySelectedServer);
+        return;
+      }
       logger.d(
         'Fallback to previously selected server: '
         '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
         '<- ${server.address}(${server.alias})',
       );
-      final error = result?.exceptionOrNull();
-      await _onFailure(previouslySelectedServer, error);
+      await _onFailure(previouslySelectedServer, error, previousStatus);
       return;
     }
 
@@ -197,13 +207,17 @@ class ServerConnectionService {
             preCheckErr ?? Exception('connection pre-check failed'),
           );
         }
-        // Session is missing or expired — re-authenticate.
-        final authResult = await bundle.auth.createSession(pw);
-        if (authResult.isError()) {
+        // Session is missing or expired — re-authenticate, prompting for a
+        // TOTP code when the server requires 2FA.
+        final login = await _createSessionWithTotp(bundle, pw, process);
+        if (login.cancelled) {
           process?.close();
-          return Failure(
-            authResult.exceptionOrNull() ?? Exception('Auth failed'),
-          );
+          return Failure(TotpCancelledException());
+        }
+
+        if (login.error != null) {
+          process?.close();
+          return Failure(login.error!);
         }
         sessionJustCreated = true;
       }
@@ -218,7 +232,47 @@ class ServerConnectionService {
     return result;
   }
 
+  /// Re-authenticates, prompting for a 6-digit TOTP code when the server
+  /// requires 2FA and re-prompting on a rejected code.
+  ///
+  /// The first attempt sends the password only. A 2FA server answers with
+  /// [TotpRequiredException]; the loop then collects a code via [resolveTotp]
+  /// and retries with `password + totp`, looping on [TotpInvalidException].
+  ///
+  /// Returns `cancelled: true` when the user dismisses the prompt, otherwise
+  /// the failing error (null on success).
+  ///
+  /// [process] is the "Connecting..." overlay; it is hidden while the TOTP
+  /// prompt is shown (otherwise it floats on top and blocks the prompt) and
+  /// re-shown while the entered code is validated.
+  Future<({bool cancelled, Exception? error})> _createSessionWithTotp(
+    RepositoryBundle bundle,
+    String password,
+    ProcessModal? process,
+  ) async {
+    final outcome = await runTotpLogin(
+      auth: bundle.auth,
+      password: password,
+      resolveTotp: ({error}) async {
+        // Hide the connecting overlay so the TOTP prompt is on top and usable.
+        process?.close();
+        final code = await resolveTotp(error: error);
+        // Re-show the connecting overlay while the entered code is validated.
+        if (code != null && context.mounted) {
+          process?.open(AppLocalizations.of(context)!.connecting);
+        }
+        return code;
+      },
+    );
+    return (
+      cancelled: outcome.cancelled,
+      error: outcome.result.exceptionOrNull(),
+    );
+  }
+
   Future<void> _onSuccess(Blocking blocking, Server connectedServer) async {
+    serversViewModel.clearTotpReauthDeclined(connectedServer.address);
+
     if (serversViewModel.selectedServer == null &&
         appConfigViewModel.selectedTab == 1) {
       appConfigViewModel.setSelectedTab(4);
@@ -280,13 +334,45 @@ class ServerConnectionService {
     return error is HttpStatusCodeException && error.statusCode == 495;
   }
 
-  Future<void> _onFailure(Server? fallback, Exception? error) async {
-    if (fallback != null) {
-      serversViewModel.setselectedServer(server: fallback);
+  /// Handles a user-cancelled TOTP prompt.
+  ///
+  /// Never restarts auto-refresh on the same server being re-authenticated
+  /// (that would re-prompt in a loop); falling back to a different, working
+  /// server resumes its auto-refresh.
+  void _onTotpCancelled(Server? fallback) {
+    serversViewModel.markTotpReauthDeclined(server.address);
+
+    if (fallback == null) {
+      statusViewModel.setServerStatus(LoadStatus.error);
+      return;
+    }
+    serversViewModel.setselectedServer(server: fallback);
+    if (fallback != server) {
       statusViewModel.setServerStatus(LoadStatus.loading);
       statusViewModel.startAutoRefresh();
     } else {
       statusViewModel.setServerStatus(LoadStatus.error);
+    }
+  }
+
+  Future<void> _onFailure(
+    Server? fallback,
+    Exception? error,
+    LoadStatus previousStatus,
+  ) async {
+    if (fallback == null) {
+      statusViewModel.setServerStatus(LoadStatus.error);
+    } else {
+      if (previousStatus == LoadStatus.loaded) {
+        // The fallback was working before this attempt - resume it.
+        serversViewModel.setselectedServer(server: fallback);
+        statusViewModel.setServerStatus(LoadStatus.loading);
+        statusViewModel.startAutoRefresh();
+      } else {
+        // The fallback was not healthy (e.g. a cancelled-2FA server).
+        serversViewModel.setselectedServer(server: fallback);
+        statusViewModel.setServerStatus(LoadStatus.error);
+      }
     }
 
     // If the system back button is pressed and the user returns to the Home
@@ -405,6 +491,7 @@ class ServerConnectionService {
             serversViewModel: serversViewModel,
             server: updated,
             createBundle: createBundle,
+            resolveTotp: resolveTotp,
             useRootContextOnFailure: useRootContextOnFailure,
             showModal: showModal,
             fetchTlsCertificate: fetchTlsCertificate,

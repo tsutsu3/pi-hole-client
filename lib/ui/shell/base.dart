@@ -5,10 +5,14 @@ import 'package:flutter/services.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/ui/core/actions/handle_certificate_recovery.dart';
+import 'package:pi_hole_client/ui/core/actions/handle_totp_reauth.dart';
+import 'package:pi_hole_client/ui/core/actions/refresh_server_status.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/start_warning_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +34,11 @@ class Base extends StatefulWidget {
 
 class _BaseState extends State<Base>
     with WidgetsBindingObserver, WindowListener {
+  StatusViewModel? _statusViewModel;
+
+  // Guards against re-entrant recovery while a dialog is already showing.
+  bool _handlingFatalError = false;
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +52,11 @@ class _BaseState extends State<Base>
       }
 
       setupWidgetChannel();
+
+      // Watch for fatal connection errors (TLS pin mismatch / expired 2FA
+      // session) at the shell level so recovery works on every screen.
+      _statusViewModel = context.read<StatusViewModel>();
+      _statusViewModel!.addListener(_onFatalConnectionError);
 
       final serversViewModel = context.read<ServersViewModel>();
 
@@ -106,6 +120,8 @@ class _BaseState extends State<Base>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
 
+    _statusViewModel?.removeListener(_onFatalConnectionError);
+
     if (isDesktopPlatform()) {
       windowManager.removeListener(this);
     }
@@ -113,6 +129,35 @@ class _BaseState extends State<Base>
     const MethodChannel('pihole/widget').setMethodCallHandler(null);
 
     super.dispose();
+  }
+
+  /// Handles a fatal connection error raised by auto-refresh, dispatching to
+  /// the right interactive recovery: a TOTP prompt for an expired 2FA session,
+  /// or the certificate dialog for a TLS pin mismatch. Runs at the shell level
+  /// so it works regardless of which screen is currently visible.
+  void _onFatalConnectionError() {
+    final vm = _statusViewModel;
+    if (vm == null) return;
+
+    final error = vm.fatalConnectionError;
+    if (error == null || _handlingFatalError) return;
+
+    _handlingFatalError = true;
+    vm.clearFatalConnectionError();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) {
+        _handlingFatalError = false;
+        return;
+      }
+      final recovered = error is TotpRequiredException
+          ? await handleTotpReauth(context)
+          : await handleCertificateRecovery(context, error);
+      if (recovered && mounted) {
+        await refreshServerStatus(context);
+      }
+      _handlingFatalError = false;
+    });
   }
 
   @override

@@ -1264,6 +1264,31 @@ class AppLocalizationsEs extends AppLocalizations {
   String get messages => 'Mensajes';
 
   @override
+  String get mfaCodeLabel => 'Código de autenticación';
+
+  @override
+  String get mfaDialogDescription =>
+      'Este servidor requiere autenticación de dos factores.';
+
+  @override
+  String get mfaDialogInstruction =>
+      'Introduce el código de 6 dígitos de tu aplicación de autenticación.';
+
+  @override
+  String get mfaDialogTitle => 'Autenticación de dos factores';
+
+  @override
+  String get mfaInvalidCode => 'Código no válido. Inténtalo de nuevo.';
+
+  @override
+  String get mfaRateLimited =>
+      'Demasiados intentos. Espera un momento e inténtalo de nuevo.';
+
+  @override
+  String get mfaReusedCode =>
+      'Este código ya se ha usado. Espera a un nuevo código e inténtalo de nuevo.';
+
+  @override
   String get min => 'mín';
 
   @override

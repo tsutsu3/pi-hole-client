@@ -1,12 +1,15 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache_store.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/query_types.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 
 import '../../../../testing/fakes/repositories/local/fake_server_repository.dart';
+import '../../../../testing/fakes/services/fake_pihole_v6_api_client.dart';
+import '../../../../testing/fakes/services/fake_session_credential_service.dart';
 
 void main() async {
   await dotenv.load();
@@ -364,6 +367,23 @@ void main() async {
       expect(listenerCalled, false);
     });
 
+    test('markTotpReauthDeclined records a cancelled 2FA address', () {
+      expect(serversViewModel.isTotpReauthDeclined(server.address), false);
+
+      serversViewModel.markTotpReauthDeclined(server.address);
+
+      expect(serversViewModel.isTotpReauthDeclined(server.address), true);
+      expect(listenerCalled, false);
+    });
+
+    test('clearTotpReauthDeclined removes the cancelled 2FA address', () {
+      serversViewModel.markTotpReauthDeclined(server.address);
+      serversViewModel.clearTotpReauthDeclined(server.address);
+
+      expect(serversViewModel.isTotpReauthDeclined(server.address), false);
+      expect(listenerCalled, false);
+    });
+
     test('setUnverifiedBannerDismissed updates and notifies listeners', () {
       serversViewModel.setUnverifiedBannerDismissed(true);
 
@@ -494,6 +514,58 @@ void main() async {
         unverified.any((s) => s.address == serverWithEmptyPin.address),
         isTrue,
       );
+    });
+  });
+
+  group('ServersViewModel session-cache removal', () {
+    late FakeServerRepository repository;
+    late V6SessionCacheStore store;
+    late ServersViewModel vm;
+
+    const address = 'http://localhost:8081';
+
+    setUp(() {
+      Command.globalExceptionHandler = (_, _) {};
+      repository = FakeServerRepository();
+      store = V6SessionCacheStore();
+      vm = ServersViewModel(repository, sessionCacheStore: store);
+    });
+
+    tearDown(() {
+      vm.dispose();
+      Command.globalExceptionHandler = null;
+    });
+
+    Future<Object> seedCache() async {
+      final cache = store.getOrCreate(
+        address: address,
+        creds: FakeSessionCredentialService(),
+        client: FakePiholeV6ApiClient(),
+      );
+      await cache.saveSid('sid_seed');
+      return cache;
+    }
+
+    Object getOrCreateAgain() => store.getOrCreate(
+      address: address,
+      creds: FakeSessionCredentialService(),
+      client: FakePiholeV6ApiClient(),
+    );
+
+    test('removeServer drops the shared session cache', () async {
+      final seeded = await seedCache();
+
+      await vm.removeServer.runAsync(address);
+
+      expect(identical(seeded, getOrCreateAgain()), isFalse);
+    });
+
+    test('deleteSid drops the shared session cache', () async {
+      final seeded = await seedCache();
+
+      await vm.deleteSid(address);
+
+      expect(identical(seeded, getOrCreateAgain()), isFalse);
     });
   });
 }

@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/domain/model/dns/dns.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/ui/core/types/resolve_totp.dart';
 import 'package:pi_hole_client/ui/servers/view_models/add_server_viewmodel.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
@@ -81,6 +82,7 @@ void main() {
       String password = 'pass',
       bool defaultServer = false,
       ResolveCertificate? resolveCertificate,
+      ResolveTotp? resolveTotp,
     }) {
       return CreateServerRequest(
         url: url,
@@ -93,6 +95,7 @@ void main() {
         token: 'token',
         defaultServer: defaultServer,
         resolveCertificate: resolveCertificate ?? (server) async => server,
+        resolveTotp: resolveTotp ?? ({error}) async => null,
       );
     }
 
@@ -104,6 +107,7 @@ void main() {
       bool secretsLoadSucceeded = true,
       Server oldServer = _oldServer,
       ResolveCertificate? resolveCertificate,
+      ResolveTotp? resolveTotp,
     }) {
       return UpdateServerRequest(
         url: url ?? oldServer.address,
@@ -120,6 +124,7 @@ void main() {
         initToken: 'token',
         secretsLoadSucceeded: secretsLoadSucceeded,
         resolveCertificate: resolveCertificate ?? (server) async => server,
+        resolveTotp: resolveTotp ?? ({error}) async => null,
       );
     }
 
@@ -210,6 +215,118 @@ void main() {
         expect(outcome, isA<CreateCancelled>());
         expect(authRepository.createSessionCallCount, 0);
       });
+
+      test(
+        '2FA server: prompts for a code then returns CreateSuccess',
+        () async {
+          authRepository
+            ..shouldRequireTotp = true
+            ..validTotp = '123456'
+            ..serverUsesTotp = true;
+          final vm = buildViewModel();
+
+          final outcome = await vm.createServer.runAsync(
+            createReq(resolveTotp: ({error}) async => '123456'),
+          );
+
+          expect(outcome, isA<CreateSuccess>());
+          // First password-only attempt + the password+totp retry.
+          expect(authRepository.createSessionCallCount, 2);
+          expect(authRepository.lastTotp, '123456');
+        },
+      );
+
+      test('2FA cancel aborts with CreateCancelled and cleans up', () async {
+        authRepository.shouldRequireTotp = true;
+        final vm = buildViewModel();
+
+        final outcome = await vm.createServer.runAsync(
+          createReq(resolveTotp: ({error}) async => null),
+        );
+
+        expect(outcome, isA<CreateCancelled>());
+        // Only the password-only attempt ran; no retry after the user cancelled.
+        expect(authRepository.createSessionCallCount, 1);
+      });
+
+      test('2FA re-prompts on an invalid code then succeeds', () async {
+        authRepository
+          ..shouldRequireTotp = true
+          ..validTotp = '999999';
+        final vm = buildViewModel();
+
+        final codes = ['000000', '999999'];
+        final errors = <TotpPromptError?>[];
+        var attempt = 0;
+
+        final outcome = await vm.createServer.runAsync(
+          createReq(
+            resolveTotp: ({error}) async {
+              errors.add(error);
+              return codes[attempt++];
+            },
+          ),
+        );
+
+        expect(outcome, isA<CreateSuccess>());
+        // password-only + invalid code + valid code.
+        expect(authRepository.createSessionCallCount, 3);
+        expect(attempt, 2);
+        // First prompt has no error; the re-prompt flags the invalid code.
+        expect(errors, [null, TotpPromptError.invalid]);
+      });
+
+      test('2FA re-prompts on a reused code then succeeds', () async {
+        authRepository
+          ..shouldRequireTotp = true
+          ..totpFailures.add(TotpReusedException());
+        final vm = buildViewModel();
+
+        final errors = <TotpPromptError?>[];
+
+        final outcome = await vm.createServer.runAsync(
+          createReq(
+            resolveTotp: ({error}) async {
+              errors.add(error);
+              return '123456';
+            },
+          ),
+        );
+
+        expect(outcome, isA<CreateSuccess>());
+        // password-only + reused code + accepted code.
+        expect(authRepository.createSessionCallCount, 3);
+        expect(errors, [null, TotpPromptError.reused]);
+      });
+
+      test(
+        '2FA rate limit is terminal (CreateApiError, no re-prompt)',
+        () async {
+          authRepository
+            ..shouldRequireTotp = true
+            ..totpFailures.add(TotpRateLimitException());
+          final vm = buildViewModel();
+
+          var promptCount = 0;
+
+          final outcome = await vm.createServer.runAsync(
+            createReq(
+              resolveTotp: ({error}) async {
+                promptCount++;
+                return '123456';
+              },
+            ),
+          );
+
+          expect(outcome, isA<CreateApiError>());
+          expect(
+            (outcome as CreateApiError).error,
+            isA<TotpRateLimitException>(),
+          );
+          // Prompted once; the rate-limit response stops the loop.
+          expect(promptCount, 1);
+        },
+      );
     });
 
     group('updateServer', () {

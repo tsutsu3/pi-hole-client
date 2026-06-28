@@ -1251,6 +1251,31 @@ class AppLocalizationsPl extends AppLocalizations {
   String get messages => 'Wiadomości';
 
   @override
+  String get mfaCodeLabel => 'Kod uwierzytelniający';
+
+  @override
+  String get mfaDialogDescription =>
+      'Ten serwer wymaga uwierzytelniania dwuskładnikowego.';
+
+  @override
+  String get mfaDialogInstruction =>
+      'Wprowadź 6-cyfrowy kod z aplikacji uwierzytelniającej.';
+
+  @override
+  String get mfaDialogTitle => 'Uwierzytelnianie dwuskładnikowe';
+
+  @override
+  String get mfaInvalidCode => 'Nieprawidłowy kod. Spróbuj ponownie.';
+
+  @override
+  String get mfaRateLimited =>
+      'Zbyt wiele prób. Poczekaj chwilę i spróbuj ponownie.';
+
+  @override
+  String get mfaReusedCode =>
+      'Ten kod został już użyty. Poczekaj na nowy kod i spróbuj ponownie.';
+
+  @override
   String get min => 'min';
 
   @override

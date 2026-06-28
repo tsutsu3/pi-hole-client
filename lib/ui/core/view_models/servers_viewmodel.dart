@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache_store.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/domain/model/enum_converters.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
@@ -19,7 +20,8 @@ import 'package:result_dart/result_dart.dart';
 typedef ReplaceServerParams = ({String oldAddress, Server newServer});
 
 class ServersViewModel with ChangeNotifier {
-  ServersViewModel(this._repository) {
+  ServersViewModel(this._repository, {V6SessionCacheStore? sessionCacheStore})
+    : _sessionCacheStore = sessionCacheStore {
     addServer = Command.createAsyncNoResult<Server>(_addServer);
     editServer = Command.createAsyncNoResult<Server>(_editServer);
     replaceServer = Command.createAsyncNoResult<ReplaceServerParams>(
@@ -42,6 +44,7 @@ class ServersViewModel with ChangeNotifier {
 
   VoidCallback? _onServerSelected;
   final ServerRepository _repository;
+  final V6SessionCacheStore? _sessionCacheStore;
   final List<QueryStatus> _queryStatusesV5 = queryStatusesV5;
   final List<QueryStatus> _queryStatusesV6 = queryStatusesV6;
 
@@ -54,6 +57,9 @@ class ServersViewModel with ChangeNotifier {
 
   Server? _connectingServer;
   bool _unverifiedBannerDismissed = false;
+
+  // Addresses whose 2FA prompt the user has cancelled.
+  final Set<String> _totpReauthDeclined = {};
 
   // --- Commands ---
   late final Command<Server, void> addServer;
@@ -125,6 +131,21 @@ class ServersViewModel with ChangeNotifier {
 
   void clearConnectingServer() {
     _connectingServer = null;
+  }
+
+  /// Marks [address] as having a user-cancelled 2FA prompt, so background
+  /// paths (auto-refresh fallback, app resume, refresh) won't auto-prompt again.
+  void markTotpReauthDeclined(String address) {
+    _totpReauthDeclined.add(address);
+  }
+
+  /// Clears the cancelled-2FA mark for [address] (e.g. after a successful login).
+  void clearTotpReauthDeclined(String address) {
+    _totpReauthDeclined.remove(address);
+  }
+
+  bool isTotpReauthDeclined(String address) {
+    return _totpReauthDeclined.contains(address);
   }
 
   void setUnverifiedBannerDismissed(bool dismissed) {
@@ -268,6 +289,8 @@ class ServersViewModel with ChangeNotifier {
     if (result.isError()) {
       throw result.exceptionOrNull()!;
     }
+    _sessionCacheStore?.remove(serverAddress);
+    _totpReauthDeclined.remove(serverAddress);
     _serversList = _serversList
         .where((s) => s.address != serverAddress)
         .toList();
@@ -393,8 +416,11 @@ class ServersViewModel with ChangeNotifier {
   Future<Result<void>> deleteToken(String address) =>
       _repository.deleteToken(address);
 
-  Future<Result<void>> deleteSid(String address) =>
-      _repository.deleteSid(address);
+  Future<Result<void>> deleteSid(String address) async {
+    final result = await _repository.deleteSid(address);
+    _sessionCacheStore?.remove(address);
+    return result;
+  }
 
   @override
   void dispose() {

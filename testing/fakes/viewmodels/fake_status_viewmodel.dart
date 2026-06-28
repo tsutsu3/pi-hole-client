@@ -28,6 +28,12 @@ class FakeStatusViewModel extends StatusViewModel {
   LoadStatus get getServerStatus => _serverStatus;
 
   @override
+  void setServerStatus(LoadStatus status) {
+    _serverStatus = status;
+    notifyListeners();
+  }
+
+  @override
   bool get isServerLoading => _serverStatus == LoadStatus.loading;
 
   @override

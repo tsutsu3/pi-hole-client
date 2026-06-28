@@ -29,6 +29,7 @@ import 'package:pi_hole_client/data/repositories/api/v6/network_repository.dart'
 import 'package:pi_hole_client/data/repositories/api/v6/realtime_status_repository.dart'
     as v6;
 import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache_store.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
@@ -40,6 +41,7 @@ class RepositoryBundleFactory {
   static RepositoryBundle create({
     required Server server,
     required SecureStorageService storage,
+    V6SessionCacheStore? sessionCacheStore,
   }) {
     final creds = SessionCredentialService(storage, server.address);
 
@@ -51,7 +53,13 @@ class RepositoryBundleFactory {
           ignoreCertificateErrors: server.ignoreCertificateErrors,
           pinnedCertificateSha256: server.pinnedCertificateSha256,
         );
-        final sessionCache = V6SessionCache(creds: creds, client: client);
+        final sessionCache =
+            sessionCacheStore?.getOrCreate(
+              address: server.address,
+              creds: creds,
+              client: client,
+            ) ??
+            V6SessionCache(creds: creds, client: client);
 
         return RepositoryBundle(
           actions: ActionsRepositoryV6(
