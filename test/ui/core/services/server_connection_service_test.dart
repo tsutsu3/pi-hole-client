@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/domain/model/dns/dns.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/services/server_connection_service.dart';
@@ -257,6 +258,101 @@ void main() async {
       expect(authRepository.createSessionCallCount, 1);
       expect(serversViewModel.selectedServer, _otherV6);
       expect(serversViewModel.connectingServer, isNull);
+      expect(
+        statusViewModel.startAutoRefreshCallCount,
+        greaterThanOrEqualTo(1),
+      );
+    });
+
+    testWidgets(
+      'cancelling re-auth of the current server stops without auto-refresh',
+      (tester) async {
+        // Re-auth of the already-selected server (e.g. expired 2FA session):
+        // the fallback is the same server that just failed, so auto-refresh must
+        // NOT restart (otherwise it re-detects the missing session and loops
+        // re-prompting the TOTP modal).
+        serversViewModel.selectedServer = _serverV6;
+        authRepository.shouldRequireTotp = true;
+        final ctx = await pumpContext(tester);
+
+        await buildService(
+          ctx,
+          server: _serverV6,
+          dns: _SeqDns([HttpStatusCodeException(401, 'unauthorized')]),
+          resolveTotp: ({error}) async => null, // user cancels
+        ).connect();
+        await tester.pump();
+
+        expect(authRepository.createSessionCallCount, 1);
+        expect(serversViewModel.selectedServer, _serverV6);
+        expect(serversViewModel.connectingServer, isNull);
+        expect(statusViewModel.startAutoRefreshCallCount, 0);
+        expect(statusViewModel.getServerStatus, LoadStatus.error);
+        expect(
+          serversViewModel.isTotpReauthDeclined(_serverV6.address),
+          isTrue,
+        );
+      },
+    );
+
+    testWidgets('a successful connection clears a prior 2FA cancellation', (
+      tester,
+    ) async {
+      serversViewModel
+        ..selectedServer = _serverV6
+        ..markTotpReauthDeclined(_serverV6.address);
+      final ctx = await pumpContext(tester);
+
+      await buildService(
+        ctx,
+        server: _serverV6,
+        dns: FakeDnsRepository(),
+      ).connect();
+      await tester.pump();
+
+      expect(serversViewModel.isTotpReauthDeclined(_serverV6.address), isFalse);
+    });
+
+    testWidgets(
+      'a failed switch does not revive auto-refresh on a broken fallback',
+      (tester) async {
+        // Fallback server was already in error (e.g. its 2FA was cancelled).
+        serversViewModel.selectedServer = _otherV6;
+        statusViewModel.serverStatus = LoadStatus.error;
+        final dns = FakeDnsRepository()
+          ..shouldFail = true
+          ..failureException = HttpStatusCodeException(503, 'unavailable');
+        final ctx = await pumpContext(tester);
+
+        await buildService(ctx, server: _serverV6, dns: dns).connect();
+        await tester.pump();
+
+        expect(serversViewModel.selectedServer, _otherV6);
+        expect(statusViewModel.startAutoRefreshCallCount, 0);
+        expect(statusViewModel.getServerStatus, LoadStatus.error);
+      },
+    );
+
+    testWidgets('a failed switch resumes auto-refresh on a healthy fallback', (
+      tester,
+    ) async {
+      // Fallback server was loaded (working) before the switch attempt, so a
+      // transient failure should resume its auto-refresh.
+      serversViewModel.selectedServer = _otherV6;
+      statusViewModel.serverStatus = LoadStatus.loaded;
+      final dns = FakeDnsRepository()
+        ..shouldFail = true
+        ..failureException = HttpStatusCodeException(503, 'unavailable');
+      final ctx = await pumpContext(tester);
+
+      await buildService(ctx, server: _serverV6, dns: dns).connect();
+      await tester.pump();
+
+      expect(serversViewModel.selectedServer, _otherV6);
+      expect(
+        statusViewModel.startAutoRefreshCallCount,
+        greaterThanOrEqualTo(1),
+      );
     });
 
     testWidgets('transient 503 does not create a session', (tester) async {

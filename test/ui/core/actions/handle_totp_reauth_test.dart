@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/actions/handle_totp_reauth.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 
 import '../../../../testing/fakes/repositories/api/fake_auth_repository.dart';
 import '../../../../testing/fakes/repositories/api/fake_dns_repository.dart';
@@ -90,5 +92,38 @@ void main() async {
       expect(authRepository.createSessionCallCount, 0);
       expect(serversViewModel.selectedServer, _serverV6);
     });
+
+    testWidgets('returns false when the reconnect does not succeed', (
+      tester,
+    ) async {
+      // A reconnect that does not reach a loaded state must report false so the
+      // caller (base) does not trigger a follow-up refresh.
+      serversViewModel.selectedServer = _serverV6;
+      dnsRepository
+        ..shouldFail = true
+        ..failureException = HttpStatusCodeException(503, 'unavailable');
+      final ctx = await pumpContext(tester);
+
+      final result = await handleTotpReauth(ctx);
+      await tester.pumpAndSettle();
+
+      expect(result, isFalse);
+      expect(statusViewModel.getServerStatus, isNot(LoadStatus.loaded));
+    });
+
+    testWidgets(
+      'returns false without connecting when 2FA was cancelled for the server',
+      (tester) async {
+        serversViewModel.selectedServer = _serverV6;
+        serversViewModel.markTotpReauthDeclined(_serverV6.address);
+        final ctx = await pumpContext(tester);
+
+        final result = await handleTotpReauth(ctx);
+        await tester.pumpAndSettle();
+
+        expect(result, isFalse);
+        expect(authRepository.createSessionCallCount, 0);
+      },
+    );
   });
 }

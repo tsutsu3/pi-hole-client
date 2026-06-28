@@ -29,6 +29,7 @@ class FakeServersViewModel extends ServersViewModel {
   List<Server> _serversWithUnverifiedCertificates = [];
   bool _unverifiedBannerDismissed = false;
   Server? _connectingServer;
+  final Set<String> _totpReauthDeclined = {};
 
   // --- Failure controls (delegate to repo) ---
 
@@ -78,6 +79,10 @@ class FakeServersViewModel extends ServersViewModel {
   int updateselectedServerStatusCallCount = 0;
   int setUnverifiedBannerDismissedCallCount = 0;
   bool? lastUnverifiedBannerDismissedValue;
+  int markTotpReauthDeclinedCallCount = 0;
+  String? lastMarkedTotpReauthDeclinedAddress;
+  int clearTotpReauthDeclinedCallCount = 0;
+  String? lastClearedTotpReauthDeclinedAddress;
 
   // --- Getters ---
 
@@ -149,6 +154,24 @@ class FakeServersViewModel extends ServersViewModel {
   void clearConnectingServer() {
     _connectingServer = null;
   }
+
+  @override
+  void markTotpReauthDeclined(String address) {
+    _totpReauthDeclined.add(address);
+    markTotpReauthDeclinedCallCount++;
+    lastMarkedTotpReauthDeclinedAddress = address;
+  }
+
+  @override
+  void clearTotpReauthDeclined(String address) {
+    _totpReauthDeclined.remove(address);
+    clearTotpReauthDeclinedCallCount++;
+    lastClearedTotpReauthDeclinedAddress = address;
+  }
+
+  @override
+  bool isTotpReauthDeclined(String address) =>
+      _totpReauthDeclined.contains(address);
 
   @override
   void setUnverifiedBannerDismissed(bool dismissed) {

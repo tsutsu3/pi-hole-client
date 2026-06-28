@@ -178,6 +178,7 @@ class StatusViewModel with ChangeNotifier {
     if (serverChanged) {
       final wasRunning = _isAutoRefreshRunning;
       stopAutoRefresh();
+      _fatalConnectionError = null;
       _realtimeStatus = null;
       _overtimeData = null;
       _ftlDnsMetrics = null;

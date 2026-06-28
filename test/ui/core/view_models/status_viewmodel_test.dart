@@ -283,6 +283,26 @@ void main() {
       vm.clearFatalConnectionError();
       expect(vm.fatalConnectionError, isNull);
     });
+
+    test('switching servers clears a pending fatalConnectionError', () async {
+      vm = StatusViewModel();
+      final failingRepo = FakeRealTimeStatusRepository()
+        ..shouldFail = true
+        ..failureError = TotpRequiredException();
+      _setup(
+        vm,
+        serverAddress: 'http://server-a',
+        realtimeStatusRepository: failingRepo,
+      );
+
+      await vm.refreshOnce();
+      expect(vm.fatalConnectionError, isA<TotpRequiredException>());
+
+      // Switching to a different server must not carry the previous server's
+      // fatal error over (otherwise its 2FA prompt re-fires on the new server).
+      _setup(vm, serverAddress: 'http://server-b');
+      expect(vm.fatalConnectionError, isNull);
+    });
   });
 
   group('StatusViewModel – refreshOnce() V6', () {

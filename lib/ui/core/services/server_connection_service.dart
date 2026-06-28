@@ -94,6 +94,7 @@ class ServerConnectionService {
     }
 
     final previouslySelectedServer = serversViewModel.selectedServer;
+    final previousStatus = statusViewModel.getServerStatus;
 
     _startConnection();
 
@@ -124,13 +125,17 @@ class ServerConnectionService {
     serversViewModel.clearConnectingServer();
 
     if (result == null || result.isError()) {
+      final error = result?.exceptionOrNull();
+      if (error is TotpCancelledException) {
+        _onTotpCancelled(previouslySelectedServer);
+        return;
+      }
       logger.d(
         'Fallback to previously selected server: '
         '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
         '<- ${server.address}(${server.alias})',
       );
-      final error = result?.exceptionOrNull();
-      await _onFailure(previouslySelectedServer, error);
+      await _onFailure(previouslySelectedServer, error, previousStatus);
       return;
     }
 
@@ -207,7 +212,7 @@ class ServerConnectionService {
         final login = await _createSessionWithTotp(bundle, pw, process);
         if (login.cancelled) {
           process?.close();
-          return Failure(login.error ?? Exception('TOTP entry cancelled'));
+          return Failure(TotpCancelledException());
         }
 
         if (login.error != null) {
@@ -266,6 +271,8 @@ class ServerConnectionService {
   }
 
   Future<void> _onSuccess(Blocking blocking, Server connectedServer) async {
+    serversViewModel.clearTotpReauthDeclined(connectedServer.address);
+
     if (serversViewModel.selectedServer == null &&
         appConfigViewModel.selectedTab == 1) {
       appConfigViewModel.setSelectedTab(4);
@@ -327,13 +334,45 @@ class ServerConnectionService {
     return error is HttpStatusCodeException && error.statusCode == 495;
   }
 
-  Future<void> _onFailure(Server? fallback, Exception? error) async {
-    if (fallback != null) {
-      serversViewModel.setselectedServer(server: fallback);
+  /// Handles a user-cancelled TOTP prompt.
+  ///
+  /// Never restarts auto-refresh on the same server being re-authenticated
+  /// (that would re-prompt in a loop); falling back to a different, working
+  /// server resumes its auto-refresh.
+  void _onTotpCancelled(Server? fallback) {
+    serversViewModel.markTotpReauthDeclined(server.address);
+
+    if (fallback == null) {
+      statusViewModel.setServerStatus(LoadStatus.error);
+      return;
+    }
+    serversViewModel.setselectedServer(server: fallback);
+    if (fallback != server) {
       statusViewModel.setServerStatus(LoadStatus.loading);
       statusViewModel.startAutoRefresh();
     } else {
       statusViewModel.setServerStatus(LoadStatus.error);
+    }
+  }
+
+  Future<void> _onFailure(
+    Server? fallback,
+    Exception? error,
+    LoadStatus previousStatus,
+  ) async {
+    if (fallback == null) {
+      statusViewModel.setServerStatus(LoadStatus.error);
+    } else {
+      if (previousStatus == LoadStatus.loaded) {
+        // The fallback was working before this attempt - resume it.
+        serversViewModel.setselectedServer(server: fallback);
+        statusViewModel.setServerStatus(LoadStatus.loading);
+        statusViewModel.startAutoRefresh();
+      } else {
+        // The fallback was not healthy (e.g. a cancelled-2FA server).
+        serversViewModel.setselectedServer(server: fallback);
+        statusViewModel.setServerStatus(LoadStatus.error);
+      }
     }
 
     // If the system back button is pressed and the user returns to the Home

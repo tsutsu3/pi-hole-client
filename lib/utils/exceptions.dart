@@ -65,6 +65,17 @@ class TotpReusedException implements Exception {
   String toString() => 'TotpReusedException: $message';
 }
 
+/// Exception indicating the user dismissed the TOTP (2FA) prompt instead of
+/// entering a code.
+class TotpCancelledException implements Exception {
+  /// Creates a TotpCancelledException with an optional [message].
+  TotpCancelledException([this.message = 'TOTP entry cancelled.']);
+  final String message;
+
+  @override
+  String toString() => 'TotpCancelledException: $message';
+}
+
 /// Exception indicating the server is throttling 2FA login attempts. Pi-hole v6
 /// returns this when codes are submitted too quickly (HTTP 429, error key
 /// `rate_limiting`). Retrying immediately keeps failing, so the login flow must
