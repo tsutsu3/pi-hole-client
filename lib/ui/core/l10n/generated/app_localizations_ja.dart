@@ -1196,6 +1196,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get memoryUsage => 'メモリ使用量';
 
   @override
+  String get mfa => 'MFA';
+
+  @override
   String get messageDeleteFailed => 'メッセージの削除に失敗しました';
 
   @override
@@ -1308,6 +1311,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get noServerSelected => 'サーバーが選択されていません';
+
+  @override
+  String get notApplicable => 'N/A';
 
   @override
   String get notBlocked => '未ブロック';

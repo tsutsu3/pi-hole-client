@@ -2444,6 +2444,12 @@ abstract class AppLocalizations {
   /// **'Memory Usage'**
   String get memoryUsage;
 
+  /// No description provided for @mfa.
+  ///
+  /// In en, this message translates to:
+  /// **'MFA'**
+  String get mfa;
+
   /// No description provided for @messageDeleteFailed.
   ///
   /// In en, this message translates to:
@@ -2671,6 +2677,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No server is selected'**
   String get noServerSelected;
+
+  /// No description provided for @notApplicable.
+  ///
+  /// In en, this message translates to:
+  /// **'N/A'**
+  String get notApplicable;
 
   /// No description provided for @notBlocked.
   ///

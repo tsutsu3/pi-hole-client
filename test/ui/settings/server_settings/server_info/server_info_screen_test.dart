@@ -9,6 +9,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/server_info/widgets/p
 import 'package:pi_hole_client/ui/settings/server_settings/server_info/widgets/server_connection_section.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info/widgets/server_info_screen.dart';
 
+import '../../../../../testing/fakes/repositories/api/fake_auth_repository.dart';
 import '../../../../../testing/fakes/repositories/api/fake_ftl_repository.dart';
 import '../../../../../testing/test_app.dart';
 
@@ -17,12 +18,17 @@ void main() async {
 
   group('ServerInfoScreen tests', () {
     late FakeFtlRepository fakeFtlRepository;
+    late FakeAuthRepository fakeAuthRepository;
     late ServerInfoViewModel viewModel;
 
     setUp(() async {
       Command.globalExceptionHandler = (_, _) {};
       fakeFtlRepository = FakeFtlRepository();
-      viewModel = ServerInfoViewModel(ftlRepository: fakeFtlRepository);
+      fakeAuthRepository = FakeAuthRepository();
+      viewModel = ServerInfoViewModel(
+        ftlRepository: fakeFtlRepository,
+        authRepository: fakeAuthRepository,
+      );
     });
 
     tearDown(() {
@@ -114,6 +120,67 @@ void main() async {
       expect(find.byIcon(Icons.refresh_rounded), findsOneWidget);
       await tester.tap(find.byIcon(Icons.refresh_rounded));
       await tester.pumpAndSettle();
+    });
+
+    testWidgets('should show MFA enabled when server uses 2FA', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      fakeAuthRepository.serverUsesTotp = true;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(buildServerInfoWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.text('MFA'), findsOneWidget);
+      expect(find.text('Enabled'), findsOneWidget);
+    });
+
+    testWidgets('should show MFA disabled when server does not use 2FA', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      fakeAuthRepository.serverUsesTotp = false;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(buildServerInfoWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.text('MFA'), findsOneWidget);
+      expect(find.text('Disabled'), findsOneWidget);
+    });
+
+    testWidgets('should show MFA N/A when 2FA status is unavailable', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      // getAuth failure mimics v5, which has no MFA support.
+      fakeAuthRepository.shouldFail = true;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(buildServerInfoWidget());
+      await tester.pumpAndSettle();
+
+      expect(find.text('MFA'), findsOneWidget);
+      expect(find.text('N/A'), findsOneWidget);
     });
   });
 }

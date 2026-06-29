@@ -9,8 +9,10 @@ Widget createServerInfoScreen({
   required String serverAddress,
 }) {
   return ServerInfoScreen(
-    viewModel: ServerInfoViewModel(ftlRepository: bundle.ftl)
-      ..loadServerInfo.run(),
+    viewModel: ServerInfoViewModel(
+      ftlRepository: bundle.ftl,
+      authRepository: bundle.auth,
+    )..loadServerInfo.run(),
     serverAlias: serverAlias,
     serverAddress: serverAddress,
   );

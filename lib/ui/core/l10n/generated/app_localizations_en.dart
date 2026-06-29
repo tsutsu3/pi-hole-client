@@ -1230,6 +1230,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get memoryUsage => 'Memory Usage';
 
   @override
+  String get mfa => 'MFA';
+
+  @override
   String get messageDeleteFailed => 'Failed to delete message';
 
   @override
@@ -1348,6 +1351,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noServerSelected => 'No server is selected';
+
+  @override
+  String get notApplicable => 'N/A';
 
   @override
   String get notBlocked => 'Not blocked';
