@@ -4,18 +4,24 @@ import 'package:command_it/command_it.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info/view_models/server_info_viewmodel.dart';
 
+import '../../../../../../testing/fakes/repositories/api/fake_auth_repository.dart';
 import '../../../../../../testing/fakes/repositories/api/fake_ftl_repository.dart';
 import '../../../../../../testing/models/v6/ftl.dart';
 
 void main() {
   group('ServerInfoViewModel', () {
     late FakeFtlRepository fakeFtlRepository;
+    late FakeAuthRepository fakeAuthRepository;
     late ServerInfoViewModel viewModel;
 
     setUp(() {
       Command.globalExceptionHandler = (_, _) {};
       fakeFtlRepository = FakeFtlRepository();
-      viewModel = ServerInfoViewModel(ftlRepository: fakeFtlRepository);
+      fakeAuthRepository = FakeAuthRepository();
+      viewModel = ServerInfoViewModel(
+        ftlRepository: fakeFtlRepository,
+        authRepository: fakeAuthRepository,
+      );
     });
 
     tearDown(() {
@@ -61,6 +67,25 @@ void main() {
       await viewModel.loadServerInfo.runAsync();
 
       expect(notifyCount, greaterThan(0));
+    });
+
+    test('mfaEnabled is true when server uses 2FA', () async {
+      fakeAuthRepository.serverUsesTotp = true;
+      await viewModel.loadServerInfo.runAsync();
+      expect(viewModel.mfaEnabled, isTrue);
+    });
+
+    test('mfaEnabled is false when server does not use 2FA', () async {
+      fakeAuthRepository.serverUsesTotp = false;
+      await viewModel.loadServerInfo.runAsync();
+      expect(viewModel.mfaEnabled, isFalse);
+    });
+
+    test('mfaEnabled is null when 2FA status is unavailable', () async {
+      // getAuth failure mimics v5, which has no 2FA support.
+      fakeAuthRepository.shouldFail = true;
+      await viewModel.loadServerInfo.runAsync();
+      expect(viewModel.mfaEnabled, isNull);
     });
   });
 }

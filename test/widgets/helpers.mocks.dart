@@ -668,6 +668,26 @@ class MockServersViewModel extends _i1.Mock implements _i14.ServersViewModel {
   );
 
   @override
+  void markTotpReauthDeclined(String? address) => super.noSuchMethod(
+    Invocation.method(#markTotpReauthDeclined, [address]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void clearTotpReauthDeclined(String? address) => super.noSuchMethod(
+    Invocation.method(#clearTotpReauthDeclined, [address]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  bool isTotpReauthDeclined(String? address) =>
+      (super.noSuchMethod(
+            Invocation.method(#isTotpReauthDeclined, [address]),
+            returnValue: false,
+          )
+          as bool);
+
+  @override
   void setUnverifiedBannerDismissed(bool? dismissed) => super.noSuchMethod(
     Invocation.method(#setUnverifiedBannerDismissed, [dismissed]),
     returnValueForMissingStub: null,

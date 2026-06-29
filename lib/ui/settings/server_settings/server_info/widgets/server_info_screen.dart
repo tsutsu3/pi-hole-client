@@ -134,6 +134,7 @@ class ServerInfoScreen extends StatelessWidget {
           ServerConnectionSection(
             serverAlias: serverAlias,
             serverAddress: serverAddress,
+            mfaEnabled: viewModel.mfaEnabled,
           ),
           const SizedBox(height: 20),
           if (serverInfo.host != null) ...[
