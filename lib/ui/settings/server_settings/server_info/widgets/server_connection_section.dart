@@ -46,8 +46,10 @@ class ServerConnectionSection extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          leading: const Icon(Icons.lock_person_rounded),
-          title: listTileTitleNoPadding(locale.mfa, colorScheme: colorScheme),
+          leading: const Skeleton.keep(child: Icon(Icons.lock_person_rounded)),
+          title: Skeleton.keep(
+            child: listTileTitleNoPadding(locale.mfa, colorScheme: colorScheme),
+          ),
           trailing: Text(
             switch (mfaEnabled) {
               true => locale.enabled,
