@@ -103,11 +103,18 @@ Middleware requireFTLSid() {
         'api/config',
       ];
 
+      final excludedMethodsWithPrefixes = {
+        'GET': ['api/auth'],
+      };
+
+      final excludedPrefixesForMethod =
+          excludedMethodsWithPrefixes[request.method];
+
       final needsAuth = protectedPrefixes.any(
         (prefix) => path.startsWith(prefix),
       );
 
-      if (needsAuth) {
+      if (needsAuth && !(excludedPrefixesForMethod?.contains(path) ?? false)) {
         final sid = request.headers['X-FTL-SID'];
         if (sid == null || sid.isEmpty) {
           return Response.unauthorized(
@@ -213,15 +220,12 @@ void main(List<String> args) async {
     }
 
     try {
-      final context = SecurityContext.defaultContext
-        ..useCertificateChain(certPath)
-        ..usePrivateKey(keyPath);
+      final context =
+          SecurityContext.defaultContext
+            ..useCertificateChain(certPath)
+            ..usePrivateKey(keyPath);
 
-      final httpsServer = await HttpServer.bindSecure(
-        address,
-        8888,
-        context,
-      );
+      final httpsServer = await HttpServer.bindSecure(address, 8888, context);
 
       io.serveRequests(httpsServer, handler);
 
