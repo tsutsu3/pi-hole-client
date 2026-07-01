@@ -713,7 +713,7 @@ void main() async {
         );
         await tester.pumpAndSettle();
 
-        // fetchTlsCertificateInfo throws → error snackbar shown
+        // inspectCertificate returns null -> error snackbar shown
         expect(
           find.text('Could not fetch certificate information.'),
           findsOneWidget,

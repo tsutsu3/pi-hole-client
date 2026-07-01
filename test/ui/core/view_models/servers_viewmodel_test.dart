@@ -4,10 +4,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache_store.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/query_types.dart';
+import 'package:pi_hole_client/domain/model/server/certificate_inspection.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 
 import '../../../../testing/fakes/repositories/local/fake_server_repository.dart';
+import '../../../../testing/fakes/repositories/network/fake_certificate_repository.dart';
 import '../../../../testing/fakes/services/fake_pihole_v6_api_client.dart';
 import '../../../../testing/fakes/services/fake_session_credential_service.dart';
 
@@ -566,6 +568,109 @@ void main() async {
       await vm.deleteSid(address);
 
       expect(identical(seeded, getOrCreateAgain()), isFalse);
+    });
+  });
+
+  group('ServersViewModel transport security', () {
+    late ServersViewModel vm;
+    late FakeCertificateRepository certRepo;
+
+    const httpsServer = Server(
+      address: 'https://pi.hole',
+      alias: 'secure',
+      apiVersion: 'v6',
+    );
+
+    CertificateInspection inspection({bool trusted = true}) =>
+        CertificateInspection(
+          sha256: 'aa:bb:cc',
+          subject: 'CN=pi.hole',
+          issuer: 'CN=test',
+          startValidity: DateTime(2020),
+          endValidity: DateTime(2030),
+          trustedByPlatform: trusted,
+        );
+
+    setUp(() {
+      Command.globalExceptionHandler = (_, _) {};
+      certRepo = FakeCertificateRepository();
+      vm = ServersViewModel(
+        FakeServerRepository(),
+        certificateRepository: certRepo,
+      );
+    });
+
+    tearDown(() {
+      vm.dispose();
+      Command.globalExceptionHandler = null;
+    });
+
+    test('transportSecurityOf is unknown before any inspection', () {
+      expect(
+        vm.transportSecurityOf(httpsServer),
+        TransportSecurityStatus.unknown,
+      );
+    });
+
+    test('inspectCertificate stores the inspection and notifies', () async {
+      certRepo.inspection = inspection();
+      var notified = false;
+      vm.addListener(() => notified = true);
+
+      final result = await vm.inspectCertificate(httpsServer);
+
+      expect(result, isNotNull);
+      expect(certRepo.inspectCallCount, 1);
+      expect(
+        vm.transportSecurityOf(httpsServer),
+        TransportSecurityStatus.httpsVerified,
+      );
+      expect(notified, true);
+    });
+
+    test('a failed inspection does not downgrade a known status', () async {
+      certRepo.inspection = inspection();
+      await vm.inspectCertificate(httpsServer);
+      expect(
+        vm.transportSecurityOf(httpsServer),
+        TransportSecurityStatus.httpsVerified,
+      );
+
+      // A later inspection fails (e.g. timeout) and returns null.
+      certRepo.inspection = null;
+      await vm.inspectCertificate(httpsServer);
+
+      expect(
+        vm.transportSecurityOf(httpsServer),
+        TransportSecurityStatus.httpsVerified,
+      );
+    });
+
+    test(
+      'resolveTransportSecurity inspects once, then reads from cache',
+      () async {
+        certRepo.inspection = inspection();
+
+        await vm.resolveTransportSecurity(httpsServer);
+        expect(certRepo.inspectCallCount, 1);
+
+        // Already inspected — no further handshake.
+        await vm.resolveTransportSecurity(httpsServer);
+        expect(certRepo.inspectCallCount, 1);
+      },
+    );
+
+    test('resolveTransportSecurity skips config-only servers', () async {
+      const httpServer = Server(
+        address: 'http://pi.hole',
+        alias: 'plain',
+        apiVersion: 'v6',
+      );
+
+      await vm.resolveTransportSecurity(httpServer);
+
+      expect(certRepo.inspectCallCount, 0);
+      expect(vm.transportSecurityOf(httpServer), TransportSecurityStatus.http);
     });
   });
 }

@@ -20,7 +20,6 @@ import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dar
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
-import 'package:pi_hole_client/utils/tls_certificate.dart';
 import 'package:pi_hole_client/utils/url.dart';
 import 'package:pi_hole_client/utils/validators.dart';
 import 'package:provider/provider.dart';
@@ -31,13 +30,11 @@ class AddServerFullscreen extends StatefulWidget {
     required this.title,
     super.key,
     this.server,
-    this.fetchTlsCertificate = fetchTlsCertificateInfo,
   });
 
   final Server? server;
   final bool window;
   final String title;
-  final TlsCertificateFetcher fetchTlsCertificate;
 
   @override
   State<AddServerFullscreen> createState() => _AddServerFullscreenState();
@@ -398,47 +395,27 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   Future<String?> ensurePinnedFingerprint({
     required BuildContext context,
-    required Uri uri,
-    required String? existingPin,
+    required Server server,
   }) async {
+    final existingPin = server.pinnedCertificateSha256;
     if (existingPin != null && existingPin.isNotEmpty) {
       return existingPin;
     }
 
-    try {
-      // If the certificate is trusted by the platform, pin it automatically.
-      final info = await widget.fetchTlsCertificate(
-        uri,
-        allowBadCertificates: false,
-      );
-      if (info != null) {
-        return info.sha256;
-      }
-      return '';
-    } on HandshakeException {
-      // Untrusted certificate (likely self-signed). Retrieve fingerprint for user verification.
-    } catch (_) {
-      // Fall back to existing behavior without pin prompt on non-TLS failures.
+    final inspection = await context
+        .read<ServersViewModel>()
+        .inspectCertificate(server);
+    if (inspection == null) {
+      // Could not obtain the certificate (network error). Proceed without pin.
       return '';
     }
-
-    TlsCertificateInfo? certificateInfo;
-    try {
-      certificateInfo = await widget.fetchTlsCertificate(
-        uri,
-        allowBadCertificates: true,
-      );
-    } catch (_) {
-      // If we cannot obtain the fingerprint, block the connection.
-      // This typically happens with reverse proxies where certificate
-      // pinning cannot work reliably.
-      return null;
-    }
-    if (!context.mounted || certificateInfo == null) {
-      return null;
+    if (inspection.trustedByPlatform) {
+      // Trusted by the platform — pin its fingerprint automatically.
+      return inspection.sha256;
     }
 
-    final info = certificateInfo;
+    // Untrusted (likely self-signed): show the fingerprint for user confirmation.
+    if (!context.mounted) return null;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => CertificateDetailsDialog(
@@ -446,7 +423,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         description: AppLocalizations.of(
           dialogContext,
         )!.serverCertificateUpdatePinHelp,
-        certificateInfo: info,
+        certificateInfo: inspection,
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
@@ -460,7 +437,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       ),
     );
 
-    return confirmed == true ? info.sha256 : null;
+    return confirmed == true ? inspection.sha256 : null;
   }
 
   /// Validates and updates the server's certificate configuration.
@@ -483,15 +460,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       return serverObj.copyWith(pinnedCertificateSha256: null);
     }
 
-    final uri = Uri.parse(serverObj.address);
-
     if (allowUntrustedCert) {
       // Allow self-signed: prompt user to pin the certificate
       if (!mounted) return null;
       final pin = await ensurePinnedFingerprint(
         context: context,
-        uri: uri,
-        existingPin: serverObj.pinnedCertificateSha256,
+        server: serverObj,
       );
       if (!mounted) return null;
       if (pin == null) {
@@ -502,28 +476,29 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         pinnedCertificateSha256: pin.isEmpty ? null : pin,
       );
     } else {
-      // Strict mode: verify certificate is trusted by the platform
-      try {
-        await widget.fetchTlsCertificate(uri, allowBadCertificates: false);
-        // Certificate is trusted, proceed without pin
-        // ignore: avoid_redundant_argument_values
-        return serverObj.copyWith(pinnedCertificateSha256: null);
-      } on HandshakeException {
-        // Certificate not trusted - block connection
-        if (!mounted) return null;
-        onValidationFailed?.call();
-        if (!mounted) return null;
-        showErrorSnackBar(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.sslErrorLong,
-        );
-        return null;
-      } catch (e) {
-        // Other network errors - let connection test handle them
+      // Strict mode: verify the certificate is trusted by the platform.
+      final inspection = await context
+          .read<ServersViewModel>()
+          .inspectCertificate(serverObj);
+      if (!mounted) return null;
+      if (inspection == null) {
+        // Network error - let the connection test handle it.
         // ignore: avoid_redundant_argument_values
         return serverObj.copyWith(pinnedCertificateSha256: null);
       }
+      if (inspection.trustedByPlatform) {
+        // Certificate is trusted, proceed without pin.
+        return serverObj.copyWith(pinnedCertificateSha256: null);
+      }
+      // Certificate not trusted - block connection.
+      onValidationFailed?.call();
+      if (!mounted) return null;
+      showErrorSnackBar(
+        context: context,
+        appConfigViewModel: appConfigViewModel,
+        label: AppLocalizations.of(context)!.sslErrorLong,
+      );
+      return null;
     }
   }
 

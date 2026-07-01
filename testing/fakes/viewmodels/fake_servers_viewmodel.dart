@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:pi_hole_client/domain/model/server/certificate_inspection.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:result_dart/result_dart.dart';
@@ -193,5 +194,15 @@ class FakeServersViewModel extends ServersViewModel {
       return {'result': 'fail', 'exists': false};
     }
     return {'result': 'success', 'exists': urlExistsResult};
+  }
+
+  /// Controls the result returned by [inspectCertificate] in tests.
+  CertificateInspection? certificateInspection;
+  int inspectCertificateCallCount = 0;
+
+  @override
+  Future<CertificateInspection?> inspectCertificate(Server server) async {
+    inspectCertificateCallCount++;
+    return certificateInspection;
   }
 }
