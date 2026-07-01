@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
@@ -21,7 +20,6 @@ import 'package:pi_hole_client/ui/servers/widgets/add_server_fullscreen.dart';
 import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
-import 'package:pi_hole_client/utils/tls_certificate.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -69,7 +67,6 @@ class ServerConnectionService {
     required this.resolveTotp,
     this.useRootContextOnFailure = false,
     this.showModal = false,
-    this.fetchTlsCertificate = fetchTlsCertificateInfo,
   });
 
   final BuildContext context;
@@ -81,7 +78,6 @@ class ServerConnectionService {
   final ResolveTotp resolveTotp;
   final bool useRootContextOnFailure;
   final bool showModal;
-  final TlsCertificateFetcher fetchTlsCertificate;
 
   Future<void> connect() async {
     // Prevent a second concurrent connection attempt to the same server.
@@ -293,39 +289,27 @@ class ServerConnectionService {
   Future<Server?> _ensurePinnedFingerprintIfNeeded(Server server) async {
     if (!context.mounted) return server;
 
-    Uri uri;
-    try {
-      uri = Uri.parse(server.address);
-    } catch (_) {
-      return server;
-    }
-
     final pin = server.pinnedCertificateSha256;
     final hasPin = pin != null && pin.trim().isNotEmpty;
-    if (uri.scheme != 'https' ||
+    final uri = Uri.tryParse(server.address);
+    if (uri == null ||
+        uri.scheme != 'https' ||
         server.ignoreCertificateErrors ||
         !server.allowUntrustedCert ||
         hasPin) {
       return server;
     }
 
-    // If the platform TLS validation succeeds, treat the connection as verified
+    // If the platform trusts the certificate, treat the connection as verified
     // and do not require pin setup (user may still choose to pin manually).
-    try {
-      await fetchTlsCertificate(
-        uri,
-        allowBadCertificates: false,
-        timeout: const Duration(seconds: 3),
-      );
-      return server;
-    } on HandshakeException {
-      // Untrusted certificate + allowUntrustedCert enabled + no pin:
-      // prompt the user to pin before connecting.
-    } catch (_) {
-      // Network issues etc. are handled by the normal connection flow.
+    // A null inspection (network issue) is handled by the normal connection flow.
+    final inspection = await serversViewModel.inspectCertificate(server);
+    if (inspection == null || inspection.trustedByPlatform) {
       return server;
     }
 
+    // Untrusted certificate + allowUntrustedCert enabled + no pin:
+    // prompt the user to pin before connecting.
     if (!context.mounted) return null;
     return _openUpdatePinnedFingerprint(context, server);
   }
@@ -494,7 +478,6 @@ class ServerConnectionService {
             resolveTotp: resolveTotp,
             useRootContextOnFailure: useRootContextOnFailure,
             showModal: showModal,
-            fetchTlsCertificate: fetchTlsCertificate,
           ).connect();
           return true;
         }
@@ -518,25 +501,12 @@ class ServerConnectionService {
     BuildContext context,
     Server server,
   ) async {
-    Uri uri;
-    try {
-      uri = Uri.parse(server.address);
-    } catch (_) {
-      return null;
-    }
-    if (uri.scheme != 'https') return null;
+    final uri = Uri.tryParse(server.address);
+    if (uri == null || uri.scheme != 'https') return null;
 
     final loc = AppLocalizations.of(context)!;
 
-    TlsCertificateInfo? certificateInfo;
-    try {
-      certificateInfo = await fetchTlsCertificate(
-        uri,
-        allowBadCertificates: true,
-      );
-    } catch (_) {
-      certificateInfo = null;
-    }
+    final certificateInfo = await serversViewModel.inspectCertificate(server);
 
     if (!context.mounted) return null;
 
@@ -630,32 +600,19 @@ class ServerConnectionService {
     final pin = server.pinnedCertificateSha256;
     if (pin == null || pin.trim().isEmpty) return false;
 
-    Uri uri;
-    try {
-      uri = Uri.parse(server.address);
-    } catch (_) {
-      return false;
-    }
-    if (uri.scheme != 'https') return false;
+    final uri = Uri.tryParse(server.address);
+    if (uri == null || uri.scheme != 'https') return false;
 
     // Only attempt mismatch detection when the app is configured to allow
     // untrusted certificates (pin fallback path).
     if (server.ignoreCertificateErrors) return false;
     if (!server.allowUntrustedCert) return false;
 
-    try {
-      final info = await fetchTlsCertificate(
-        uri,
-        allowBadCertificates: true,
-        timeout: const Duration(seconds: 3),
-      );
-      if (info == null) return false;
+    final inspection = await serversViewModel.inspectCertificate(server);
+    if (inspection == null) return false;
 
-      String normalize(String value) =>
-          value.replaceAll(':', '').toLowerCase().trim();
-      return normalize(info.sha256) != normalize(pin);
-    } catch (_) {
-      return false;
-    }
+    String normalize(String value) =>
+        value.replaceAll(':', '').toLowerCase().trim();
+    return normalize(inspection.sha256) != normalize(pin);
   }
 }
