@@ -1,11 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/domain/model/dns/dns.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/start_warning_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/shell/base.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
+import 'package:result_dart/result_dart.dart';
+import 'package:window_manager/window_manager.dart';
 
+import '../../../testing/fakes/repositories/api/fake_dns_repository.dart';
 import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
 import '../../../testing/fakes/viewmodels/fake_status_viewmodel.dart';
@@ -19,6 +25,32 @@ const _serverV6 = Server(
   allowUntrustedCert: true,
   ignoreCertificateErrors: false,
 );
+
+const _serverV6Other = Server(
+  address: 'http://localhost:8082',
+  alias: 'test v6 other',
+  defaultServer: false,
+  apiVersion: 'v6',
+  allowUntrustedCert: true,
+  ignoreCertificateErrors: false,
+);
+
+/// A [FakeDnsRepository] whose [fetchBlockingStatus] hangs until the test
+/// calls [allowCompletion] -- lets a test interleave a state change (e.g.
+/// changing the selected server) while a fetch is still in flight.
+class _DelayedDns extends FakeDnsRepository {
+  final _completer = Completer<void>();
+
+  void allowCompletion() => _completer.complete();
+
+  @override
+  Future<Result<Blocking>> fetchBlockingStatus({
+    bool skipRenewal = false,
+  }) async {
+    await _completer.future;
+    return super.fetchBlockingStatus(skipRenewal: skipRenewal);
+  }
+}
 
 void main() async {
   await initTestApp();
@@ -300,5 +332,104 @@ void main() async {
 
       expect(statusViewModel.stopAutoRefreshCallCount, greaterThan(before));
     });
+
+    testWidgets('(AP3) resuming from background re-fetches status and restarts '
+        'auto-refresh', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      final repo = FakeAppConfigRepository()..importantInfoReadenValue = true;
+      final appConfigViewModel = AppConfigViewModel(repo);
+      appConfigViewModel.saveFromDb(repo.appConfig.getOrThrow());
+      serversViewModel.selectedServer = _serverV6;
+
+      await tester.pumpWidget(
+        buildTestApp(
+          const Base(child: SizedBox()),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+          createRepositoryBundle: ({required server}) =>
+              createFakeRepositoryBundle(),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      await tester.pump();
+
+      final fetchBefore = serversViewModel.updateselectedServerStatusCallCount;
+      final refreshBefore = statusViewModel.startAutoRefreshCallCount;
+      // `didChangeAppLifecycleState(resumed)` is a no-op on desktop
+      (tester.state(find.byType(Base)) as WindowListener).onWindowRestore();
+      await tester.pumpAndSettle();
+
+      expect(
+        serversViewModel.updateselectedServerStatusCallCount,
+        greaterThan(fetchBefore),
+        reason:
+            "resuming must re-fetch the selected server's status, "
+            'exactly like a cold start does',
+      );
+      expect(
+        statusViewModel.startAutoRefreshCallCount,
+        greaterThan(refreshBefore),
+        reason: 'resuming must restart auto-refresh after pause stopped it',
+      );
+    });
+
+    testWidgets(
+      '(AP5) discards a stale resume fetch when the selected server changes '
+      'mid-flight (TODO FIX)',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        final repo = FakeAppConfigRepository()..importantInfoReadenValue = true;
+        final appConfigViewModel = AppConfigViewModel(repo);
+        appConfigViewModel.saveFromDb(repo.appConfig.getOrThrow());
+        serversViewModel.selectedServer = _serverV6;
+
+        final delayedDns = _DelayedDns();
+
+        await tester.pumpWidget(
+          buildTestApp(
+            const Base(child: SizedBox()),
+            appConfigViewModel: appConfigViewModel,
+            serversViewModel: serversViewModel,
+            statusViewModel: statusViewModel,
+            repositoryBundle: createFakeRepositoryBundle(dns: delayedDns),
+            createRepositoryBundle: ({required server}) =>
+                createFakeRepositoryBundle(dns: delayedDns),
+          ),
+        );
+        await tester.pump();
+
+        // The cold-start fetch for _serverV6 is now in flight (blocked on
+        // _DelayedDns). Before it completes, the selected server changes --
+        // e.g. the user deleted it, or switched to another one.
+        serversViewModel.selectedServer = _serverV6Other;
+        delayedDns.allowCompletion();
+        await tester.pumpAndSettle();
+
+        expect(
+          serversViewModel.updateselectedServerStatusCallCount,
+          0,
+          reason:
+              'a fetch that started for a server which is no longer '
+              'selected by the time it completes must be discarded, not '
+              'applied to whatever is selected now',
+        );
+      },
+    );
   });
 }

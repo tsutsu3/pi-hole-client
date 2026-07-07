@@ -383,6 +383,21 @@ void main() {
       expect(vm.getRealtimeStatus, isNotNull);
       expect(vm.getStatusLoading, LoadStatus.loaded);
     });
+
+    test('(AP6) an auto-refresh tick that hits TotpRequiredException on a v6 '
+        'server sets fatalConnectionError', () async {
+      final failingDns = FakeDnsRepository()
+        ..shouldFail = true
+        ..failureException = TotpRequiredException();
+      _setup(vm, apiVersion: 'v6', dnsRepository: failingDns);
+
+      vm.startAutoRefresh();
+      // Pump the event queue to let the immediate timerFn() complete.
+      await Future<void>.delayed(Duration.zero);
+      await pumpEventQueue();
+
+      expect(vm.fatalConnectionError, isA<TotpRequiredException>());
+    });
   });
 
   // ---------------------------------------------------------------------------

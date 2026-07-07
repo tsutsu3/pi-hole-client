@@ -1,0 +1,70 @@
+# Dedicated Pi-hole stack for the integration / e2e tests.
+#
+# This is SEPARATE from the development stack at the repo root
+# (`docker-compose.yaml`). Ports use the 19xxx range so both can run at once.
+# 2FA is left disabled (TOTP flows are covered by the fake-server layer).
+#
+#   docker compose -f e2e/docker-compose.yml up -d
+#   docker compose -f e2e/docker-compose.yml down
+#
+# From an Android emulator the host is reachable at 10.0.2.2:
+#   http://10.0.2.2:19080    v6 (direct)              pass: test001
+#   http://10.0.2.2:19085    v5 (direct)              WEBPASSWORD: test123
+#   http://10.0.2.2:19081    caddy pass         -> v6
+#   http://10.0.2.2:19082    caddy fault        -> v6  (/api/dns/blocking = 503)
+#   http://10.0.2.2:19086    caddy fault-delete -> v6  (DELETE /api/auth* = 401)
+#   https://10.0.2.2:19443   caddy TLS (self-signed, untrusted) -> v6
+services:
+  pihole-v6-test:
+    container_name: pihole-v6-test
+    image: pihole/pihole:latest
+    environment:
+      TZ: "Asia/Tokyo"
+      FTLCONF_webserver_api_password: "test001"
+    ports:
+      - "19080:80"
+    restart: unless-stopped
+
+  pihole-v5-test:
+    container_name: pihole-v5-test
+    image: pihole/pihole:2024.07.0
+    environment:
+      TZ: "Asia/Tokyo"
+      WEBPASSWORD: "test123"
+    ports:
+      - "19083:80"
+    restart: unless-stopped
+
+  pihole-v6-nopass-test:
+    container_name: pihole-v6-nopass-test
+    image: pihole/pihole:latest
+    environment:
+      TZ: "Asia/Tokyo"
+      FTLCONF_webserver_api_password: ""
+    ports:
+      - "19084:80"
+    restart: unless-stopped
+
+  pihole-v5-nopass-test:
+    container_name: pihole-v5-nopass-test
+    image: pihole/pihole:2024.07.0
+    environment:
+      TZ: "Asia/Tokyo"
+      WEBPASSWORD: ""
+    ports:
+      - "19085:80"
+    restart: unless-stopped
+
+  caddy-test:
+    container_name: caddy-test
+    image: caddy:2
+    depends_on:
+      - pihole-v6-test
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    ports:
+      - "19081:81"
+      - "19082:82"
+      - "19086:83"
+      - "19443:443"
+    restart: unless-stopped

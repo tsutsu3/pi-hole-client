@@ -1,0 +1,35 @@
+# Caddy config for the e2e test stack (see e2e/docker-compose.yml).
+{
+	admin off
+}
+
+# :81 - plain pass-through to the v6 Pi-hole.
+:81 {
+	reverse_proxy pihole-v6-test:80
+}
+
+# :82 - fault injection: /api/auth passes through (a real session is created),
+# but the blocking-status probe returns 503.
+:82 {
+	@blocking path /api/dns/blocking*
+	respond @blocking 503
+	reverse_proxy pihole-v6-test:80
+}
+
+# :443 - self-signed HTTPS (Caddy internal CA, untrusted by the device) for the
+# allowUntrustedCert / pinned-certificate scenarios.
+:443 {
+	tls internal
+	reverse_proxy pihole-v6-test:80
+}
+
+# :83 - otherwise-normal pass-through
+:83 {
+	@deleteAuth {
+		method DELETE
+		path /api/auth*
+	}
+	respond @deleteAuth 401
+
+	reverse_proxy pihole-v6-test:80
+}
