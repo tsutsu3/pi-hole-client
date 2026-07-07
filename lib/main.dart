@@ -172,26 +172,31 @@ Future<void> initializeSentry(AppConfigViewModel configProvider) async {
   }
 }
 
-void main() async {
-  // 1. System init
-  await initializeFlutter();
-  await initializeDesktop();
-  await dotenv.load();
-
-  // 2. Services & Repositories
-  final dbService = DatabaseService();
+/// Builds the full application widget tree: services, repositories, view models
+/// and the provider tree, then returns the root widget ready for [runApp] or
+/// `tester.pumpWidget`.
+///
+/// Extracted from [main] so integration tests can pump the real app with real
+/// DI while disabling side effects and isolating storage:
+/// - [enableSentry] / [enableBiometrics]: skipped in tests.
+/// - [databaseService] / [secureStorageService]: inject test-owned instances so
+///   the test can reset and assert on the same storage the app uses.
+///
+/// Production behaviour is unchanged — [main] calls this with all defaults.
+Future<Widget> bootstrapApp({
+  bool enableSentry = true,
+  bool enableBiometrics = true,
+  DatabaseService? databaseService,
+  SecureStorageService? secureStorageService,
+}) async {
+  // Services & Repositories
+  final dbService = databaseService ?? DatabaseService();
   await dbService.open();
-  final secureStorageService = SecureStorageService();
-  final appConfigRepository = LocalAppConfigRepository(
-    dbService,
-    secureStorageService,
-  );
-  final serverRepository = LocalServerRepository(
-    dbService,
-    secureStorageService,
-  );
+  final storage = secureStorageService ?? SecureStorageService();
+  final appConfigRepository = LocalAppConfigRepository(dbService, storage);
+  final serverRepository = LocalServerRepository(dbService, storage);
 
-  // 3. ViewModels
+  // ViewModels
   final gravityRepository = LocalGravityRepository(dbService);
   final sessionCacheStore = V6SessionCacheStore();
   final serversViewModel = ServersViewModel(
@@ -206,7 +211,7 @@ void main() async {
     repository: gravityRepository,
   );
 
-  // 4. Load persisted data
+  // Load persisted data
   final appdata = await appConfigRepository.fetchAppConfig();
   final servers = await serverRepository.fetchServers();
   switch (appdata) {
@@ -235,36 +240,47 @@ void main() async {
     );
   }
 
-  // 5. Platform-specific setup
-  await initializeBiometrics(configProvider, appConfigRepository);
+  // Platform-specific setup
+  if (enableBiometrics) {
+    await initializeBiometrics(configProvider, appConfigRepository);
+  }
   await initializeVibration(configProvider);
   await initializeDeviceInfo(configProvider);
   configProvider.setAppInfo(await loadAppInfo());
 
-  // 6. Error handling & Sentry
+  // Error handling & Sentry
   Command.globalExceptionHandler = (error, stackTrace) {
     Sentry.captureException(error.error, stackTrace: stackTrace);
     logger.e('Command error: ${error.error}', stackTrace: stackTrace);
   };
-  await initializeSentry(configProvider);
+  if (enableSentry) {
+    await initializeSentry(configProvider);
+  }
 
-  // 7. Launch
-  runApp(
-    MultiProvider(
-      providers: createProviders(
-        dbService: dbService,
-        secureStorageService: secureStorageService,
-        appConfigRepository: appConfigRepository,
-        serverRepository: serverRepository,
-        configProvider: configProvider,
-        serversViewModel: serversViewModel,
-        statusViewModel: statusViewModel,
-        logsViewModel: logsViewModel,
-        domainsViewModel: domainsViewModel,
-        gravityUpdateViewModel: gravityUpdateViewModel,
-        sessionCacheStore: sessionCacheStore,
-      ),
-      child: SentryWidget(child: Phoenix(child: const PiHoleClient())),
+  return MultiProvider(
+    providers: createProviders(
+      dbService: dbService,
+      secureStorageService: storage,
+      appConfigRepository: appConfigRepository,
+      serverRepository: serverRepository,
+      configProvider: configProvider,
+      serversViewModel: serversViewModel,
+      statusViewModel: statusViewModel,
+      logsViewModel: logsViewModel,
+      domainsViewModel: domainsViewModel,
+      gravityUpdateViewModel: gravityUpdateViewModel,
+      sessionCacheStore: sessionCacheStore,
     ),
+    child: SentryWidget(child: Phoenix(child: const PiHoleClient())),
   );
+}
+
+void main() async {
+  // 1. System init
+  await initializeFlutter();
+  await initializeDesktop();
+  await dotenv.load();
+
+  // 2. Build + launch (all side effects enabled, real storage)
+  runApp(await bootstrapApp());
 }
