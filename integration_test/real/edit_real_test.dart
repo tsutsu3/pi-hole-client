@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -271,7 +272,8 @@ void main() {
       expect(
         secrets.where((k) => k.startsWith(oldAddress)),
         isEmpty,
-        reason: 'a v5 address-change replace must not leave old-address secrets',
+        reason:
+            'a v5 address-change replace must not leave old-address secrets',
       );
     });
   });
@@ -299,6 +301,14 @@ void main() {
         final oldAddress = app.servers.getServersList.single.address;
         final oldSid = await app.sidOf(oldAddress);
         expect(oldSid, isNotNull);
+
+        // Settings > Servers (the bottom nav has no direct "connect" tab).
+        await tester.tap(
+          find.widgetWithText(NavigationDestination, app.l10n.settings),
+        );
+        await app.settle(frames: 10);
+        await tester.tap(find.widgetWithText(ListTile, app.l10n.servers));
+        await app.settle(frames: 10);
 
         final newUri = Uri.parse(RealPiholeEnv.v5Base);
         await app.editServer(
