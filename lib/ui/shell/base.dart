@@ -216,6 +216,15 @@ class _BaseState extends State<Base>
 
     final result = await bundle.dns.fetchBlockingStatus();
 
+    if (serversViewModel.selectedServer?.address != server.address) {
+      logger.d(
+        'Skipping stale status update: selected server changed during fetch '
+        '(fetched for ${server.address}, '
+        'now selected ${serversViewModel.selectedServer?.address})',
+      );
+      return;
+    }
+
     serversViewModel.updateselectedServerStatus(
       result.getOrNull()?.status == DnsBlockingStatus.enabled,
     );
