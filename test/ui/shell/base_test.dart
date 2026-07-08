@@ -385,7 +385,7 @@ void main() async {
 
     testWidgets(
       '(AP5) discards a stale resume fetch when the selected server changes '
-      'mid-flight (TODO FIX)',
+      'mid-flight',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
