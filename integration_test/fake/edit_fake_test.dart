@@ -96,7 +96,7 @@ void main() {
 
   group('edit success clears a declined TOTP reauth', () {
     testWidgets(
-      '(E9) a successful edit clears a previously-declined TOTP reauth (TODO FIX)',
+      '(E9) a successful edit clears a previously-declined TOTP reauth',
       (tester) async {
         final app = AppHarness(tester);
         await app.boot();
@@ -133,7 +133,7 @@ void main() {
 
   group('edit-time TOTP cancel', () {
     testWidgets(
-      '(E8) cancelling the TOTP prompt during an edit marks reauth declined (TODO FIX)',
+      '(E8) cancelling the TOTP prompt during an edit marks reauth declined',
       (tester) async {
         final app = AppHarness(tester);
         await app.boot();
@@ -456,7 +456,7 @@ void main() {
 
   group('address replace and declined TOTP reauth', () {
     testWidgets(
-      "(X6) replacing a server clears the old address's declined TOTP reauth (TODO FIX)",
+      "(X6) replacing a server clears the old address's declined TOTP reauth",
       (tester) async {
         final app = AppHarness(tester);
         await app.boot();

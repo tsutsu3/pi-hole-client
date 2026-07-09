@@ -90,6 +90,48 @@ flowchart TD
 
 On `UpdateSuccess` the widget pops and shows the success snackbar.
 
+### `restartAutoRefresh` can trigger a second, independent TOTP prompt
+
+`restartAutoRefresh` (called on every `updateServer` exit path, including
+`UpdateCancelled`) just calls `StatusViewModel.startAutoRefresh()` — but that
+runs its first tick **immediately** (`runImmediately: true`), not after the
+configured interval. If the edit's own `_authenticate`/`_loginWithTotp` TOTP
+prompt is dismissed because the session is genuinely invalid server-side, that
+immediate tick re-fetches status for the same server, hits the same
+`TotpRequiredException`, and — via a completely separate subsystem outside
+this file — surfaces a **second** TOTP prompt. Cancelling the edit's own
+prompt does not (currently — see `(E8)`/`(E9)`/`(X6)` in the MFA decision
+table) mark the address as reauth-declined, so this second prompt is not
+suppressed.
+
+The second prompt does not come back through `AddServerViewModel`; it is
+raised by the shell-level auto-refresh error handler and goes through the
+connect/switch flow instead:
+
+```mermaid
+sequenceDiagram
+  participant VM as AddServerViewModel
+  participant ST as StatusViewModel
+  participant Base as _BaseState (base.dart)
+  participant H as handleTotpReauth
+  participant SCS as ServerConnectionService
+
+  VM->>ST: restartAutoRefresh -> startAutoRefresh(runImmediately: true)
+  ST->>ST: immediate tick: fetchRealtimeStatus() -> TotpRequiredException
+  ST->>ST: _handleFatalConnectionError: stop, set fatalConnectionError, notify
+  ST-->>Base: listener callback (_onFatalConnectionError)
+  Base->>H: handleTotpReauth(context)
+  H->>SCS: ServerConnectionService(...).connect()
+  Note over SCS: shows the TOTP modal (2nd prompt)
+  SCS->>SCS: on cancel: _onTotpCancelled -> markTotpReauthDeclined(address)
+```
+
+Confirmed on a real device (not just the fake-server test): the two prompts
+appear back-to-back, deterministically, every time — not a timing
+coincidence. See `lib/ui/shell/base.dart` (`_onFatalConnectionError`,
+`StatusViewModel` listener registered in `initState`) and
+`lib/ui/core/actions/handle_totp_reauth.dart`.
+
 ### Session handling inside `updateServer` - `_authenticate`
 
 Only re-authenticates when needed, to avoid duplicate sessions on transient

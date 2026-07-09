@@ -422,6 +422,7 @@ class AddServerViewModel extends ChangeNotifier {
     if (auth.cancelled) {
       // User dismissed the TOTP prompt: undo this attempt's writes and keep the
       // old server (row, credentials, session) intact, same as a failed save.
+      _serversViewModel.markTotpReauthDeclined(targetAddress);
       if (auth.needsRollback) {
         await rollbackFailedSave(bundle: bundle, sessionCreated: false);
       }
@@ -477,6 +478,7 @@ class AddServerViewModel extends ChangeNotifier {
       oldAddress: oldAddress,
       targetAddress: targetAddress,
     );
+    _serversViewModel.clearTotpReauthDeclined(targetAddress);
     restartAutoRefresh();
     return const UpdateSuccess();
   }
@@ -643,10 +645,11 @@ class AddServerViewModel extends ChangeNotifier {
     // 2. Now safe to drop the old server's credentials.
     if (isAddressChanged) {
       // New credentials already live under the new address; remove the stale
-      // ones left behind under the old address.
+      // ones left behind under the old address, including its 2FA-declined mark.
       await _serversViewModel.deleteToken(oldAddress);
       await _serversViewModel.deletePassword(oldAddress);
       await _serversViewModel.deleteSid(oldAddress);
+      _serversViewModel.clearTotpReauthDeclined(oldAddress);
     } else if (oldWasV6 && !newIsV6) {
       // Same address, v6 -> v5: the SID is now unused.
       await _serversViewModel.deleteSid(targetAddress);
