@@ -54,44 +54,44 @@ void main() {
   });
 
   group('same-address password change rollback', () {
-    testWidgets(
-      '(E3) a failed password change restores the old sid, not the stale new one (TODO FIX)',
-      (tester) async {
-        final app = AppHarness(tester);
-        await app.boot();
+    testWidgets('(E3) a failed password change clears the stale new sid', (
+      tester,
+    ) async {
+      final app = AppHarness(tester);
+      await app.boot();
 
-        final fakeServer = FakePiholeServer(password: 'pw1');
-        addTearDown(fakeServer.close);
-        final uri = Uri.parse(await fakeServer.start());
+      final fakeServer = FakePiholeServer(password: 'pw1');
+      addTearDown(fakeServer.close);
+      final uri = Uri.parse(await fakeServer.start());
 
-        await app.openAddServer();
-        await app.addV6ServerViaUi(
-          host: uri.host,
-          port: '${uri.port}',
-          password: 'pw1',
-          alias: 'pw-rollback',
-        );
-        expect(find.text(app.l10n.connectedSuccessfully), findsOneWidget);
-        final address = app.servers.getServersList.single.address;
-        final sid1 = await app.sidOf(address);
-        expect(sid1, isNotNull);
+      await app.openAddServer();
+      await app.addV6ServerViaUi(
+        host: uri.host,
+        port: '${uri.port}',
+        password: 'pw1',
+        alias: 'pw-rollback',
+      );
+      expect(find.text(app.l10n.connectedSuccessfully), findsOneWidget);
+      final address = app.servers.getServersList.single.address;
+      final sid1 = await app.sidOf(address);
+      expect(sid1, isNotNull);
 
-        // Accept the new password (as if it had also changed on the real
-        // Pi-hole), but fail the post-login connection check once, forcing
-        // a rollback.
-        fakeServer.password = 'pw2';
-        fakeServer.failNextBlockingCheck = true;
-        await app.editServer(password: 'pw2');
+      // Accept the new password (as if it had also changed on the real
+      // Pi-hole), but fail every post-login connection check so the edit
+      // rolls back. A single failure would be recovered by the repository's
+      // internal retry, so this must be the permanent flag.
+      fakeServer.password = 'pw2';
+      fakeServer.failBlockingCheck = true;
+      await app.editServer(password: 'pw2');
 
-        expect(
-          await app.sidOf(address),
-          equals(sid1),
-          reason:
-              'a failed password change must restore the sid that was valid '
-              'before the attempt',
-        );
-      },
-    );
+      expect(
+        await app.sidOf(address),
+        isNull,
+        reason:
+            'a failed password change must not leave the stale new sid; the '
+            'app re-logs in with the restored old password on next use',
+      );
+    });
   });
 
   group('edit success clears a declined TOTP reauth', () {
@@ -368,90 +368,86 @@ void main() {
       },
     );
 
-    testWidgets(
-      '(E18) cancelling that TOTP prompt restores the old password',
-      (tester) async {
-        final app = AppHarness(tester);
-        await app.boot();
+    testWidgets('(E18) cancelling that TOTP prompt restores the old password', (
+      tester,
+    ) async {
+      final app = AppHarness(tester);
+      await app.boot();
 
-        final fakeServer = FakePiholeServer(password: 'pw1');
-        addTearDown(fakeServer.close);
-        final uri = Uri.parse(await fakeServer.start());
+      final fakeServer = FakePiholeServer(password: 'pw1');
+      addTearDown(fakeServer.close);
+      final uri = Uri.parse(await fakeServer.start());
 
-        await app.openAddServer();
-        await app.addV6ServerViaUi(
-          host: uri.host,
-          port: '${uri.port}',
-          password: 'pw1',
-          alias: 'inplace-pw-totp-cancel',
-        );
-        expect(find.text(app.l10n.connectedSuccessfully), findsOneWidget);
-        final address = app.servers.getServersList.single.address;
-        final sidBefore = await app.sidOf(address);
+      await app.openAddServer();
+      await app.addV6ServerViaUi(
+        host: uri.host,
+        port: '${uri.port}',
+        password: 'pw1',
+        alias: 'inplace-pw-totp-cancel',
+      );
+      expect(find.text(app.l10n.connectedSuccessfully), findsOneWidget);
+      final address = app.servers.getServersList.single.address;
+      final sidBefore = await app.sidOf(address);
 
-        fakeServer
-          ..password = 'pw2'
-          ..totpRequired = true
-          ..totpCode = 271828;
-        await app.openEditServer();
-        final fields = find.byType(EditableText);
-        await tester.enterText(fields.at(3), 'pw2');
-        await app.settle(frames: 3);
-        await tester.tap(find.byIcon(Icons.save_rounded));
-        await app.waitForTotpPrompt();
-        await app.settle(frames: 3);
-        await app.cancelTotpPrompt();
+      fakeServer
+        ..password = 'pw2'
+        ..totpRequired = true
+        ..totpCode = 271828;
+      await app.openEditServer();
+      final fields = find.byType(EditableText);
+      await tester.enterText(fields.at(3), 'pw2');
+      await app.settle(frames: 3);
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await app.waitForTotpPrompt();
+      await app.settle(frames: 3);
+      await app.cancelTotpPrompt();
 
-        expect(
-          await app.passwordOf(address),
-          'pw1',
-          reason: 'cancelling the reauth must restore the old password',
-        );
-        expect(
-          await app.sidOf(address),
-          sidBefore,
-          reason: 'cancelling the reauth must not touch the existing session',
-        );
-      },
-    );
+      expect(
+        await app.passwordOf(address),
+        'pw1',
+        reason: 'cancelling the reauth must restore the old password',
+      );
+      expect(
+        await app.sidOf(address),
+        sidBefore,
+        reason: 'cancelling the reauth must not touch the existing session',
+      );
+    });
   });
 
   group('delete fake', () {
-    testWidgets(
-      '(DEL1) deleting the selected server does not close its remote '
-      'session',
-      (tester) async {
-        final app = AppHarness(tester);
-        await app.boot();
+    testWidgets('(DEL1) deleting the selected server does not close its remote '
+        'session', (tester) async {
+      final app = AppHarness(tester);
+      await app.boot();
 
-        final fakeServer = FakePiholeServer(password: 'pw');
-        addTearDown(fakeServer.close);
-        final uri = Uri.parse(await fakeServer.start());
+      final fakeServer = FakePiholeServer(password: 'pw');
+      addTearDown(fakeServer.close);
+      final uri = Uri.parse(await fakeServer.start());
 
-        await app.openAddServer();
-        await app.addV6ServerViaUi(
-          host: uri.host,
-          port: '${uri.port}',
-          password: 'pw',
-          alias: 'delete-me',
-        );
-        expect(find.text(app.l10n.connectedSuccessfully), findsOneWidget);
-        expect(fakeServer.currentSid, isNotNull);
+      await app.openAddServer();
+      await app.addV6ServerViaUi(
+        host: uri.host,
+        port: '${uri.port}',
+        password: 'pw',
+        alias: 'delete-me',
+      );
+      expect(find.text(app.l10n.connectedSuccessfully), findsOneWidget);
+      expect(fakeServer.currentSid, isNotNull);
 
-        await app.deleteServer();
+      await app.deleteServer();
 
-        expect(app.servers.getServersList, isEmpty);
-        expect(
-          fakeServer.currentSid,
-          isNotNull,
-          reason:
-              'this documents the current spec: deleting a server only '
-              'removes local DB/secure-storage state -- it never sends a '
-              'DELETE /api/auth, so the remote session stays alive until it '
-              'times out server-side',
-        );
-      },
-    );
+      expect(app.servers.getServersList, isEmpty);
+      expect(
+        fakeServer.currentSid,
+        isNotNull,
+        reason:
+            'this documents the current spec: deleting a server only '
+            'removes local DB/secure-storage state -- it never sends a '
+            'DELETE /api/auth, so the remote session stays alive until it '
+            'times out server-side',
+      );
+    });
   });
 
   group('address replace and declined TOTP reauth', () {

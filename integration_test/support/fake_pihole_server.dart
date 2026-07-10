@@ -40,6 +40,12 @@ class FakePiholeServer {
   /// post-login connection check to fail.
   bool failNextBlockingCheck = false;
 
+  /// When true, *every* `GET /api/dns/blocking` returns 503 (even with a valid
+  /// sid) until cleared. Unlike [failNextBlockingCheck], this survives the
+  /// repository's internal retry, so it actually forces a rollback rather than
+  /// being recovered on the second attempt.
+  bool failBlockingCheck = false;
+
   String? _sid;
   int _sidCounter = 0;
   final Set<int> _usedTotpCodes = {};
@@ -192,7 +198,7 @@ class FakePiholeServer {
       });
       return;
     }
-    if (failNextBlockingCheck) {
+    if (failBlockingCheck || failNextBlockingCheck) {
       failNextBlockingCheck = false;
       await _respond(request, 503, {
         'error': {'key': 'unavailable', 'message': 'Service unavailable'},

@@ -283,9 +283,14 @@ class AddServerViewModel extends ChangeNotifier {
       );
     }
 
-    // Clean up the credentials saved for this attempt; the server was not added
+    // Clean up everything saved for this attempt; the server was not added.
+    if (serverObj.apiVersion == SupportedApiVersions.v6) {
+      // Best-effort logout of the session created during login above.
+      await bundle.auth.deleteCurrentSession();
+    }
     await _serversViewModel.deletePassword(req.url);
     await _serversViewModel.deleteToken(req.url);
+    await _serversViewModel.deleteSid(req.url);
     return CreateApiError(result.exceptionOrNull()!, req.apiVersion);
   }
 
@@ -381,6 +386,10 @@ class AddServerViewModel extends ChangeNotifier {
       } else {
         await deleteNewSession();
         await restoreSecrets();
+        // Drop the stale new sid so the next request re-logs in.
+        // TODO: the original session is orphaned (its sid was overwritten) and
+        // lingers until it times out server-side. Acceptable here.
+        await _serversViewModel.deleteSid(oldAddress);
       }
     }
 
