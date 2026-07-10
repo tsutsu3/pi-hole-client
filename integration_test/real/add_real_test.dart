@@ -166,7 +166,7 @@ void main() {
     });
 
     testWidgets(
-      '(C13) a failed connection check after successful auth does not leave a sid behind (TODO FIX)',
+      '(C13) a failed connection check after successful auth does not leave a sid behind',
       (tester) async {
         final app = AppHarness(tester);
         await app.boot();
@@ -186,7 +186,8 @@ void main() {
         expect(
           app.servers.getServersList,
           isEmpty,
-          reason: 'the connection check failed, so the server must not be saved',
+          reason:
+              'the connection check failed, so the server must not be saved',
         );
         expect(find.byType(AddServerFullscreen), findsOneWidget);
 
@@ -201,34 +202,31 @@ void main() {
   });
 
   group('add (v6, HTTPS strict)', () {
-    testWidgets(
-      '(C19) an untrusted certificate is blocked with no dialog when '
-      '"allow untrusted certificate" is off',
-      (tester) async {
-        final app = AppHarness(tester);
-        await app.boot();
-        final uri = Uri.parse(RealPiholeEnv.v6HttpsBase);
+    testWidgets('(C19) an untrusted certificate is blocked with no dialog when '
+        '"allow untrusted certificate" is off', (tester) async {
+      final app = AppHarness(tester);
+      await app.boot();
+      final uri = Uri.parse(RealPiholeEnv.v6HttpsBase);
 
-        await app.openAddServer();
-        await app.addV6ServerHttpsViaUi(
-          host: uri.host,
-          port: uri.hasPort ? '${uri.port}' : '',
-          password: RealPiholeEnv.v6Password,
-          alias: 'https-strict-blocked',
-          allowUntrustedCert: false,
-        );
+      await app.openAddServer();
+      await app.addV6ServerHttpsViaUi(
+        host: uri.host,
+        port: uri.hasPort ? '${uri.port}' : '',
+        password: RealPiholeEnv.v6Password,
+        alias: 'https-strict-blocked',
+        allowUntrustedCert: false,
+      );
 
-        expect(
-          find.text(app.l10n.sslErrorLong),
-          findsOneWidget,
-          reason:
-              'strict mode must block an untrusted/self-signed certificate '
-              'with an SSL error, not a certificate dialog',
-        );
-        expect(app.servers.getServersList, isEmpty);
-        expect(find.byType(AddServerFullscreen), findsOneWidget);
-      },
-    );
+      expect(
+        find.text(app.l10n.sslErrorLong),
+        findsOneWidget,
+        reason:
+            'strict mode must block an untrusted/self-signed certificate '
+            'with an SSL error, not a certificate dialog',
+      );
+      expect(app.servers.getServersList, isEmpty);
+      expect(find.byType(AddServerFullscreen), findsOneWidget);
+    });
   });
 
   group('add (v5, HTTP)', () {
