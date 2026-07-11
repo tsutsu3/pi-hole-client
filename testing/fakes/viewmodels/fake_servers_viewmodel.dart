@@ -33,6 +33,8 @@ class FakeServersViewModel extends ServersViewModel {
 
   // --- Failure controls (delegate to repo) ---
 
+  set shouldFailAddServer(bool value) => _fakeRepo.shouldFailInsert = value;
+
   set shouldFailRemoveServer(bool value) => _fakeRepo.shouldFailDelete = value;
 
   set shouldFailReplaceServer(bool value) =>

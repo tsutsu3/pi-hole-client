@@ -260,17 +260,17 @@ class LocalServerRepository implements ServerRepository {
     try {
       await openDbIfNeeded(_database);
 
-      await _secureStorage.deleteValue('${address}_token');
-      await _secureStorage.deleteValue('${address}_password');
-      await _secureStorage.deleteValue('${address}_sid');
-
-      logger.d((await _secureStorage.readAll()).toString());
-
-      return await _database.delete(
+      final deleted = await _database.delete(
         'servers',
         where: 'address = ?',
         whereArgs: [address],
       );
+      if (deleted.isSuccess()) {
+        await _secureStorage.deleteValue('${address}_token');
+        await _secureStorage.deleteValue('${address}_password');
+        await _secureStorage.deleteValue('${address}_sid');
+      }
+      return deleted;
     } catch (e, st) {
       logger.e('Failed to remove server: $e\n$st');
       return Failure(Exception('Failed to remove server: $e\n$st'));
@@ -288,9 +288,14 @@ class LocalServerRepository implements ServerRepository {
     try {
       await openDbIfNeeded(_database);
 
-      await _secureStorage.clearAll();
-
-      return await _database.delete('servers');
+      // Delete the rows first; only clear secrets if that succeeded. A failed
+      // clearAll then leaves orphan secrets (harmless, reclaimed by
+      // deleteUnusedServerSecrets) rather than credential-less server rows.
+      final deleted = await _database.delete('servers');
+      if (deleted.isSuccess()) {
+        await _secureStorage.clearAll();
+      }
+      return deleted;
     } catch (e, st) {
       logger.e('Failed to delete all servers data: $e\n$st');
       return Failure(Exception('Failed to delete all servers data: $e\n$st'));

@@ -567,5 +567,16 @@ void main() async {
 
       expect(identical(seeded, getOrCreateAgain()), isFalse);
     });
+
+    test('deleteDbData clears session caches and declined marks', () async {
+      final seeded = await seedCache();
+      vm.markTotpReauthDeclined(address);
+
+      final ok = await vm.deleteDbData();
+
+      expect(ok, isTrue);
+      expect(identical(seeded, getOrCreateAgain()), isFalse);
+      expect(vm.isTotpReauthDeclined(address), isFalse);
+    });
   });
 }

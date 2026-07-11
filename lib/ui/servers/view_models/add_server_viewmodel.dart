@@ -131,6 +131,10 @@ final class CreateApiError extends CreateOutcome {
   final String version;
 }
 
+final class CreateDbError extends CreateOutcome {
+  const CreateDbError();
+}
+
 // ==================================================================
 // Outcome of [AddServerViewModel.updateServer], mapped to UI by the widget.
 // ==================================================================
@@ -277,21 +281,37 @@ class AddServerViewModel extends ChangeNotifier {
     // Retrying with clearAndRenewSid would create a duplicate session.
     // Transient errors (e.g. network timeout) are still retried.
     final result = await bundle.dns.fetchBlockingStatus(skipRenewal: true);
-    if (result.isSuccess()) {
-      return CreateSuccess(
-        serverObj.copyWith(defaultServer: req.defaultServer),
-      );
+    if (result.isError()) {
+      // Connection test failed: clean up everything saved for this attempt.
+      await _cleanupCreateAttempt(bundle, req);
+      return CreateApiError(result.exceptionOrNull()!, req.apiVersion);
     }
 
-    // Clean up everything saved for this attempt; the server was not added.
-    if (serverObj.apiVersion == SupportedApiVersions.v6) {
+    // Persist the server row BEFORE reporting success.
+    final server = serverObj.copyWith(defaultServer: req.defaultServer);
+    try {
+      await _serversViewModel.addServer.runAsync(server);
+    } catch (e, s) {
+      logger.e('Failed to save new server', error: e, stackTrace: s);
+      await _cleanupCreateAttempt(bundle, req);
+      return const CreateDbError();
+    }
+    return CreateSuccess(server);
+  }
+
+  /// Best-effort teardown of everything saved during a failed add-server
+  /// attempt: the remote v6 session plus the stored password/token/sid.
+  Future<void> _cleanupCreateAttempt(
+    RepositoryBundle bundle,
+    CreateServerRequest req,
+  ) async {
+    if (req.apiVersion == SupportedApiVersions.v6) {
       // Best-effort logout of the session created during login above.
       await bundle.auth.deleteCurrentSession();
     }
     await _serversViewModel.deletePassword(req.url);
     await _serversViewModel.deleteToken(req.url);
     await _serversViewModel.deleteSid(req.url);
-    return CreateApiError(result.exceptionOrNull()!, req.apiVersion);
   }
 
   /// Edits an existing server, keeping the old server's row, credentials and
