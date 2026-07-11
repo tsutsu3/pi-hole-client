@@ -378,6 +378,8 @@ class ServersViewModel with ChangeNotifier {
         _serversList = [];
         _selectedServer = null;
         _selectedServerEnabled = null;
+        _sessionCacheStore?.clear();
+        _totpReauthDeclined.clear();
         notifyListeners();
         return true;
       } else {
