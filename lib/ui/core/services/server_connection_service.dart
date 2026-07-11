@@ -148,7 +148,8 @@ class ServerConnectionService {
       await _onSuccess(result.getOrNull()!, serverForLogin);
     } catch (e, st) {
       logger.e(
-        'Unexpected error during server connection',
+        'Unexpected error during server connection: '
+        '${server.address}(${server.alias})',
         error: e,
         stackTrace: st,
       );

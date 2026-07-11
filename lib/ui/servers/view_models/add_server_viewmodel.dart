@@ -299,7 +299,8 @@ class AddServerViewModel extends ChangeNotifier {
     return CreateSuccess(server);
   }
 
-  /// Best-effort teardown of everything a failed
+  /// Best-effort teardown of everything saved during a failed add-server
+  /// attempt: the remote v6 session plus the stored password/token/sid.
   Future<void> _cleanupCreateAttempt(
     RepositoryBundle bundle,
     CreateServerRequest req,
