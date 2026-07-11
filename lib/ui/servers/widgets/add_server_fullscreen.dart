@@ -18,7 +18,6 @@ import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/view_models/add_server_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
-import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
 import 'package:pi_hole_client/utils/url.dart';
@@ -528,7 +527,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   }
 
   Future<void> createServer() async {
-    final serversViewModel = context.read<ServersViewModel>();
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final viewModel = _ensureViewModel();
     FocusManager.instance.primaryFocus?.unfocus();
@@ -585,7 +583,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           error: error,
           version: version,
         );
-      case CreateSuccess(:final server):
+      case CreateDbError():
+        showErrorSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: AppLocalizations.of(context)!.cantSaveConnectionData,
+        );
+      case CreateSuccess():
         await Navigator.maybePop(context);
         if (!mounted) return;
         showSuccessSnackBar(
@@ -593,11 +597,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.connectedSuccessfully,
         );
-        try {
-          await serversViewModel.addServer.runAsync(server);
-        } catch (e, s) {
-          logger.e('Failed to save server', error: e, stackTrace: s);
-        }
     }
   }
 

@@ -214,6 +214,19 @@ void main() {
         },
       );
 
+      test('returns CreateDbError and cleans up creds/session when the DB '
+          'write fails', () async {
+        serversViewModel.shouldFailAddServer = true;
+        final vm = buildViewModel();
+
+        final outcome = await vm.createServer.runAsync(createReq());
+
+        expect(outcome, isA<CreateDbError>());
+        expect(serversViewModel.addServerCallCount, 1);
+        expect(authRepository.deleteCurrentSessionCallCount, 1);
+        expect(serversViewModel.deleteSidCallCount, 1);
+      });
+
       test('a cancelled certificate aborts with CreateCancelled', () async {
         final vm = buildViewModel();
 
@@ -493,55 +506,49 @@ void main() {
         },
       );
 
-      test(
-        '(E15) same-address v6->v5 version switch deletes the old SID, '
-        'no login',
-        () async {
-          final vm = buildViewModel();
+      test('(E15) same-address v6->v5 version switch deletes the old SID, '
+          'no login', () async {
+        final vm = buildViewModel();
 
-          final outcome = await vm.updateServer.runAsync(
-            updateReq(apiVersion: SupportedApiVersions.v5),
-          );
+        final outcome = await vm.updateServer.runAsync(
+          updateReq(apiVersion: SupportedApiVersions.v5),
+        );
 
-          expect(outcome, isA<UpdateSuccess>());
-          expect(serversViewModel.editServerCallCount, 1);
-          expect(serversViewModel.replaceServerCallCount, 0);
-          // v5 has no session concept -- no login attempt at all.
-          expect(authRepository.createSessionCallCount, 0);
-          // The now-unused v6 session is logged out and its SID dropped.
-          expect(authRepository.deleteCurrentSessionCallCount, 1);
-          expect(serversViewModel.deleteSidCallCount, 1);
-        },
-      );
+        expect(outcome, isA<UpdateSuccess>());
+        expect(serversViewModel.editServerCallCount, 1);
+        expect(serversViewModel.replaceServerCallCount, 0);
+        // v5 has no session concept -- no login attempt at all.
+        expect(authRepository.createSessionCallCount, 0);
+        // The now-unused v6 session is logged out and its SID dropped.
+        expect(authRepository.deleteCurrentSessionCallCount, 1);
+        expect(serversViewModel.deleteSidCallCount, 1);
+      });
 
-      test(
-        '(E16) same-address v5->v6 version switch logs in with the new '
-        'password (2FA required)',
-        () async {
-          authRepository
-            ..shouldRequireTotp = true
-            ..validTotp = '123456'
-            ..serverUsesTotp = true;
-          final vm = buildViewModel();
+      test('(E16) same-address v5->v6 version switch logs in with the new '
+          'password (2FA required)', () async {
+        authRepository
+          ..shouldRequireTotp = true
+          ..validTotp = '123456'
+          ..serverUsesTotp = true;
+        final vm = buildViewModel();
 
-          final outcome = await vm.updateServer.runAsync(
-            updateReq(
-              oldServer: _oldServerV5,
-              apiVersion: SupportedApiVersions.v6,
-              password: 'new-v6-pass',
-              initPassword: '',
-              resolveTotp: ({error}) async => '123456',
-            ),
-          );
+        final outcome = await vm.updateServer.runAsync(
+          updateReq(
+            oldServer: _oldServerV5,
+            apiVersion: SupportedApiVersions.v6,
+            password: 'new-v6-pass',
+            initPassword: '',
+            resolveTotp: ({error}) async => '123456',
+          ),
+        );
 
-          expect(outcome, isA<UpdateSuccess>());
-          expect(serversViewModel.editServerCallCount, 1);
-          expect(serversViewModel.replaceServerCallCount, 0);
-          // First password-only attempt + the password+totp retry.
-          expect(authRepository.createSessionCallCount, 2);
-          expect(authRepository.lastTotp, '123456');
-        },
-      );
+        expect(outcome, isA<UpdateSuccess>());
+        expect(serversViewModel.editServerCallCount, 1);
+        expect(serversViewModel.replaceServerCallCount, 0);
+        // First password-only attempt + the password+totp retry.
+        expect(authRepository.createSessionCallCount, 2);
+        expect(authRepository.lastTotp, '123456');
+      });
     });
   });
 }

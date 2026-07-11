@@ -49,12 +49,16 @@ flowchart TD
   F -- error --> G[deletePassword + deleteToken] --> H([CreateApiError])
   F -- ok --> I[dns.fetchBlockingStatus<br/>skipRenewal: true]
   E -- no --> I
-  I -- success --> J([CreateSuccess server])
-  I -- error --> K[deletePassword + deleteToken] --> L([CreateApiError])
+  I -- success --> M[addServer.runAsync<br/>persist row]
+  I -- error --> K[cleanup session + creds] --> L([CreateApiError])
+  M -- ok --> J([CreateSuccess server])
+  M -- error --> N[cleanup session + creds] --> DB([CreateDbError])
 ```
 
-On `CreateSuccess` the widget pops, shows the success snackbar, then persists
-the server (`serversViewModel.addServer.runAsync`, fire-and-forget).
+`createServer` persists the server row (`addServer.runAsync`) before returning
+`CreateSuccess`, so the widget only pops and shows the success snackbar. A failed
+DB write returns `CreateDbError` after tearing down the session/credentials, so
+the user sees an error instead of a false "connected" message.
 
 ## Edit an existing server - `updateServer`
 
@@ -211,10 +215,10 @@ sequenceDiagram
     end
   end
   VM->>B: dns.fetchBlockingStatus(skipRenewal: true)
-  VM-->>W: CreateSuccess(server) | CreateCancelled | CreateApiError | CreateDuplicateUrl | CreateUrlCheckFailed
+  VM->>SV: addServer.runAsync(server)
+  VM-->>W: CreateSuccess(server) | CreateDbError | CreateCancelled | CreateApiError | CreateDuplicateUrl | CreateUrlCheckFailed
   alt success
     W->>W: Navigator.maybePop + success snackbar
-    W->>SV: addServer.runAsync(server)
   else failure
     W->>W: error snackbar
   else cancelled
