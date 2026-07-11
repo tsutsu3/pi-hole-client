@@ -169,6 +169,27 @@ void main() async {
       expect(serversViewModel.connectingServer, isNull);
     });
 
+    testWidgets('an unexpected error still releases the connecting guard', (
+      tester,
+    ) async {
+      serversViewModel.selectedServer = _serverV6;
+      authRepository.shouldRequireTotp = true;
+      final ctx = await pumpContext(tester);
+
+      await buildService(
+        ctx,
+        server: _serverV6,
+        // preCheck 401 -> re-auth -> the TOTP prompt throws unexpectedly.
+        dns: _SeqDns([HttpStatusCodeException(401, 'unauthorized')]),
+        resolveTotp: ({error}) async => throw Exception('boom'),
+      ).connect();
+      await tester.pump();
+
+      // Without the catch, connectingServer would stay set to this server and
+      // silently no-op every future reconnect attempt until an app restart.
+      expect(serversViewModel.connectingServer, isNull);
+    });
+
     testWidgets('invalid TOTP re-prompts then connects', (tester) async {
       serversViewModel.selectedServer = _serverV6;
       authRepository

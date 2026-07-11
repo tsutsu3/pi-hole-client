@@ -98,53 +98,64 @@ class ServerConnectionService {
 
     _startConnection();
 
-    final serverForLogin = await _ensurePinnedFingerprintIfNeeded(server);
-    if (serverForLogin == null) {
-      _abortConnection(previouslySelectedServer);
-      return;
-    }
-
-    if (serversViewModel.connectingServer != server) {
-      return;
-    }
-
-    final result = await _runLoginQuery(serverForLogin);
-
-    // If another server (other than B) is selected while switching from server A to B, abort the process.
-    // Without this check, it may appear as if the app is connected to B, even though a different server was actually selected.
-    if (serversViewModel.connectingServer != server) {
-      logger.w(
-        'Server switch interrupted: '
-        '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
-        '-> ${server.address}(${server.alias}) '
-        '-> ${serversViewModel.selectedServer?.address}(${serversViewModel.selectedServer?.alias})',
-      );
-      return;
-    }
-
-    serversViewModel.clearConnectingServer();
-
-    if (result == null || result.isError()) {
-      final error = result?.exceptionOrNull();
-      if (error is TotpCancelledException) {
-        _onTotpCancelled(previouslySelectedServer);
+    try {
+      final serverForLogin = await _ensurePinnedFingerprintIfNeeded(server);
+      if (serverForLogin == null) {
+        _abortConnection(previouslySelectedServer);
         return;
       }
-      logger.d(
-        'Fallback to previously selected server: '
-        '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
-        '<- ${server.address}(${server.alias})',
-      );
-      await _onFailure(previouslySelectedServer, error, previousStatus);
-      return;
-    }
 
-    logger.d(
-      '<*> Server connection successful: '
-      '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
-      '-> ${server.address}(${server.alias})',
-    );
-    await _onSuccess(result.getOrNull()!, serverForLogin);
+      if (serversViewModel.connectingServer != server) {
+        return;
+      }
+
+      final result = await _runLoginQuery(serverForLogin);
+
+      // If another server (other than B) is selected while switching from server A to B, abort the process.
+      // Without this check, it may appear as if the app is connected to B, even though a different server was actually selected.
+      if (serversViewModel.connectingServer != server) {
+        logger.w(
+          'Server switch interrupted: '
+          '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
+          '-> ${server.address}(${server.alias}) '
+          '-> ${serversViewModel.selectedServer?.address}(${serversViewModel.selectedServer?.alias})',
+        );
+        return;
+      }
+
+      serversViewModel.clearConnectingServer();
+
+      if (result == null || result.isError()) {
+        final error = result?.exceptionOrNull();
+        if (error is TotpCancelledException) {
+          _onTotpCancelled(previouslySelectedServer);
+          return;
+        }
+        logger.d(
+          'Fallback to previously selected server: '
+          '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
+          '<- ${server.address}(${server.alias})',
+        );
+        await _onFailure(previouslySelectedServer, error, previousStatus);
+        return;
+      }
+
+      logger.d(
+        '<*> Server connection successful: '
+        '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
+        '-> ${server.address}(${server.alias})',
+      );
+      await _onSuccess(result.getOrNull()!, serverForLogin);
+    } catch (e, st) {
+      logger.e(
+        'Unexpected error during server connection',
+        error: e,
+        stackTrace: st,
+      );
+      if (serversViewModel.connectingServer == server) {
+        _abortConnection(previouslySelectedServer);
+      }
+    }
   }
 
   void _startConnection() {
