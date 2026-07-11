@@ -97,7 +97,6 @@ void main() {
         contains('Failed to load servers'),
       );
     });
-
   });
 
   group('ServerRepository.insertServer', () {
@@ -411,6 +410,19 @@ void main() {
         contains('Exception: Failed to remove server'),
       );
     });
+
+    test('keeps secrets when the DB row delete fails', () async {
+      await repository.insertServer(serverV6);
+      await repository.savePassword(serverV6.address, 'secret-pass');
+      dbService.shouldThrowOnDelete = true;
+
+      final result = await repository.deleteServer(serverV6.address);
+      expect(result.isError(), true);
+
+      final password = await secureDataRepository.password;
+      expect(password.isSuccess(), true);
+      expect(password.getOrNull(), 'secret-pass');
+    });
   });
 
   group('ServerRepository.replaceServer', () {
@@ -642,6 +654,19 @@ void main() {
         result.exceptionOrNull()?.toString(),
         contains('Exception: Failed to delete all servers data'),
       );
+    });
+
+    test('keeps secrets when the DB rows delete fails', () async {
+      await repository.insertServer(serverV6);
+      await repository.savePassword(serverV6.address, 'secret-pass');
+      dbService.shouldThrowOnDelete = true;
+
+      final result = await repository.deleteAllServers();
+      expect(result.isError(), true);
+
+      final password = await secureDataRepository.password;
+      expect(password.isSuccess(), true);
+      expect(password.getOrNull(), 'secret-pass');
     });
   });
 
