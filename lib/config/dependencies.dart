@@ -114,7 +114,7 @@ List<SingleChildWidget> createProviders({
           dnsRepository: bundle?.dns,
           ftlRepository: bundle?.ftl,
           apiVersion: bundle?.apiVersion,
-          selectedServerAddress: servers.selectedServer?.address,
+          selectedServerAddress: bundle?.serverAddress,
           selectedServerAlias: servers.selectedServer?.alias,
           isConnecting: servers.connectingServer != null,
           onUpdateServerStatus: servers.updateselectedServerStatus,

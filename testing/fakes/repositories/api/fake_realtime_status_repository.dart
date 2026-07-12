@@ -11,6 +11,9 @@ class FakeRealTimeStatusRepository implements RealtimeStatusRepository {
   /// failure (e.g. a 495 TLS error) instead of the generic one.
   Exception? failureError;
 
+  /// Optional override for the returned status.
+  RealtimeStatus? response;
+
   @override
   Future<Result<RealtimeStatus>> fetchRealtimeStatus() async {
     if (shouldFail) {
@@ -18,6 +21,6 @@ class FakeRealTimeStatusRepository implements RealtimeStatusRepository {
         failureError ?? Exception('Failed to fetch real-time status'),
       );
     }
-    return Success(kRepoFetchRealTimeStatus);
+    return Success(response ?? kRepoFetchRealTimeStatus);
   }
 }

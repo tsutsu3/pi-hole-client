@@ -354,6 +354,7 @@ class StatusViewModel with ChangeNotifier {
   // ---------------------------------------------------------------------------
 
   Future<bool> _refreshOnce() async {
+    final selectedUrlBefore = _selectedServerAddress;
     // _fetchStatusData issues multiple HTTP requests, so we start it
     // immediately to give it a head start. The others are slightly delayed
     // to avoid overwhelming the connection pool.
@@ -369,6 +370,14 @@ class StatusViewModel with ChangeNotifier {
         const Duration(milliseconds: 100),
       ).then((_) => _fetchSlowSystemData()),
     ).wait;
+
+    if (_selectedServerAddress != selectedUrlBefore) {
+      logger.d(
+        'Skipping stale refreshOnce result: server was changed during fetch. '
+        'Previous: $selectedUrlBefore, Selected: $_selectedServerAddress',
+      );
+      return false;
+    }
 
     if (statusOk && overtimeOk && metricsOk) {
       _serverStatus = LoadStatus.loaded;
@@ -412,6 +421,14 @@ class StatusViewModel with ChangeNotifier {
 
     final result = await useCase.fetchRealtimeStatus();
 
+    if (_selectedServerAddress != selectedUrlBefore) {
+      logger.d(
+        'Skipping stale status update: server was changed during fetch. '
+        'Previous: $selectedUrlBefore, Selected: $_selectedServerAddress',
+      );
+      return false;
+    }
+
     return result.fold(
       (status) {
         _realtimeStatus = status;
@@ -431,11 +448,20 @@ class StatusViewModel with ChangeNotifier {
 
   Future<bool> _fetchOverTimeData() async {
     if (_selectedServerAddress == null) return false;
+    final selectedUrlBefore = _selectedServerAddress;
 
     final metricsRepo = _metricsRepository;
     if (metricsRepo == null) return false;
 
     final result = await metricsRepo.fetchOverTime();
+
+    if (_selectedServerAddress != selectedUrlBefore) {
+      logger.d(
+        'Skipping stale overtime data update: server was changed during '
+        'fetch. Previous: $selectedUrlBefore, Selected: $_selectedServerAddress',
+      );
+      return false;
+    }
 
     return result.fold(
       (overTime) {
@@ -455,11 +481,20 @@ class StatusViewModel with ChangeNotifier {
 
   Future<bool> _fetchMetricsData() async {
     if (_selectedServerAddress == null) return false;
+    final selectedUrlBefore = _selectedServerAddress;
 
     final ftlRepo = _ftlRepository;
     if (ftlRepo == null) return false;
 
     final result = await ftlRepo.fetchInfoMetrics();
+
+    if (_selectedServerAddress != selectedUrlBefore) {
+      logger.d(
+        'Skipping stale metrics update: server was changed during fetch. '
+        'Previous: $selectedUrlBefore, Selected: $_selectedServerAddress',
+      );
+      return false;
+    }
 
     return result.fold(
       (metrics) {
@@ -479,6 +514,7 @@ class StatusViewModel with ChangeNotifier {
   // Fetched at overtime-timer frequency (slow): system stats + temperature
   Future<bool> _fetchSlowSystemData() async {
     if (_selectedServerAddress == null) return false;
+    final selectedUrlBefore = _selectedServerAddress;
     final ftlRepo = _ftlRepository;
     if (ftlRepo == null) return false;
 
@@ -486,6 +522,15 @@ class StatusViewModel with ChangeNotifier {
       ftlRepo.fetchInfoSystem(),
       ftlRepo.fetchInfoSensors(),
     ).wait;
+
+    // Drop the result when the selected server changed during the fetch.
+    if (_selectedServerAddress != selectedUrlBefore) {
+      logger.d(
+        'Skipping stale system data update: server was changed during fetch. '
+        'Previous: $selectedUrlBefore, Selected: $_selectedServerAddress',
+      );
+      return false;
+    }
 
     systemResult.fold((system) => _ftlSystem = system, (_) {});
     sensorResult.fold((sensor) => _ftlSensor = sensor, (_) {});
