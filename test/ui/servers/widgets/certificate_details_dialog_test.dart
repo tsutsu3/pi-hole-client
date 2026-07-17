@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/domain/model/server/certificate_inspection.dart';
 import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dart';
-import 'package:pi_hole_client/utils/tls_certificate.dart';
 
 import '../../../../testing/test_app.dart';
 
 void main() async {
   await initTestApp();
 
-  final certInfo = TlsCertificateInfo(
+  final certInfo = CertificateInspection(
     sha256: 'AA:BB:CC:DD',
     subject: 'CN=pi.hole',
     issuer: 'CN=My CA',
     startValidity: DateTime(2024, 1, 1),
     endValidity: DateTime(2025, 1, 1),
+    trustedByPlatform: true,
   );
 
   group('CertificateDetailsDialog', () {
