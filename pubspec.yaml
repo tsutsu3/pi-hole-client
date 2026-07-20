@@ -41,7 +41,7 @@ dependencies:
   sqflite: ^2.4.3
   http: ^1.5.0
   expandable: ^5.0.1
-  package_info_plus: ^10.1.0
+  package_info_plus: ^10.2.1
   flutter_phoenix: ^1.0.0
   intl: ^0.20.2
   html: ^0.15.6
@@ -51,28 +51,28 @@ dependencies:
   animations: ^2.2.0
   permission_handler: ^12.0.3
   dynamic_color: ^1.6.5
-  device_info_plus: ^13.1.0
-  vibration: ^3.1.8
+  device_info_plus: ^13.2.0
+  vibration: ^3.2.0
   url_launcher: ^6.2.4
   percent_indicator: ^4.2.5
   flutter_app_lock: ^4.3.0
-  sqlite3: ^3.3.2
-  sqflite_common_ffi: ^2.4.1
-  sentry_flutter: ^9.21.0
+  sqlite3: ^3.5.0
+  sqflite_common_ffi: ^2.4.2
+  sentry_flutter: ^9.24.0
   flutter_dotenv: ^6.0.1
   contextmenu: ^3.0.0
   window_size:
     git:
       url: https://github.com/google/flutter-desktop-embedding
       path: plugins/window_size
-  local_auth: ^3.0.1
-  mobile_scanner: ^7.2.0
+  local_auth: ^3.0.2
+  mobile_scanner: ^7.4.0
   logger: ^2.7.0
   freezed_annotation: ^3.0.0
   json_annotation: ^4.12.0
   flutter_secure_storage: ^10.3.1
   collection: ^1.18.0
-  window_manager: ^0.5.0
+  window_manager: ^0.5.2
   skeletonizer: ^2.1.3
   loading_animation_widget: ^1.3.0
   command_it: ^9.5.1
@@ -81,7 +81,7 @@ dependencies:
   # OpenAPI generated v6 API client
   pihole_v6_api:
     path: lib/data/services/api/generated/v6
-  dio: ^5.9.2
+  dio: ^5.10.0
   meta: ^1.17.0
   go_router: ^17.3.0
 
@@ -93,7 +93,7 @@ dev_dependencies:
     sdk: flutter
   flutter_launcher_icons: ^0.14.3
   flutter_native_splash: ^2.4.8
-  build_runner: ^2.15.0
+  build_runner: ^2.15.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -101,9 +101,9 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
-  freezed: ^3.2.5
+  freezed: ^4.0.0-dev.3
   json_serializable: ^6.13.1
-  mockito: ^5.6.4
+  mockito: ^5.7.0
   full_coverage: ^1.0.0
   flutter_svg_test: ^1.0.3
   pub_version_plus: ^3.1.3
