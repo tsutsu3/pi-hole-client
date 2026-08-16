@@ -17,6 +17,17 @@ cases. There may be other configurations that aren't covered by this guide.
   - **v5**: Requires an API **token** (See: [Getting the API token (v5 only)](../get-api-token)).
   - **v6**: Requires a **password** to log in to the web UI.
 
+:::warning
+Known issue in app v1.9.x
+
+App versions **1.9.0 – 1.9.2** cannot connect to a **Pi-hole v6** server that has
+**no password** set. This is a regression, and a fix is **planned for v1.10.0**.
+
+Until that release ships, set a password on your Pi-hole and enter it in the app.
+See [FAQ Q8](../../help/faq#-q8-pi-hole-v6-cannot-connect-when-no-password-is-set)
+for details.
+:::
+
 ## 1. Basic connection
 
 The simplest case. The Pi-hole server usually is installed on a Raspberry Pi
