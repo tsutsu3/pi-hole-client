@@ -181,3 +181,52 @@ the server used to have a password that was later removed), the situation is:
 For a password-less Pi-hole **v5** server, the Token field should be left
 **empty**. Only set a token when the server actually has a password configured.
 :::
+
+---
+
+## ❓ Q8. Pi-hole v6: Cannot connect when no password is set
+
+:::warning
+Known issue in app v1.9.x
+
+This is a regression. It affects app versions **1.9.0, 1.9.1 and 1.9.2**. A fix
+is **planned for v1.10.0** and is not available yet. Versions up to 1.8.0 are not
+affected.
+:::
+
+### 💡 Answer
+
+If your **Pi-hole v6** server has **no password** set (the web interface opens
+without a login), app v1.9.x cannot connect to it. Adding the server, or using a
+server that was added earlier, fails with a connection error.
+
+A password-less Pi-hole v6 replies to the login request with a valid session
+that carries **no** `sid` and **no** `csrf`:
+
+```json
+{
+  "session": {
+    "valid": true,
+    "totp": false,
+    "sid": null,
+    "csrf": null,
+    "validity": -1,
+    "message": "no password set"
+  }
+}
+```
+
+App v1.9.x expects both fields to always be present, so it treats this reply as
+a failure and the connection never completes.
+
+### 🛠 Temporary Workaround
+
+**Set a password on your Pi-hole and enter it in the app.**
+
+1. Open the Pi-hole web interface and go to `Settings > Web interface / API`
+2. Set a password
+3. In the app, edit the connection and enter the same password
+
+We plan to fix this in **v1.10.0**, so that the app accepts the empty session and
+connects without a password. Until that release ships, the workaround above is
+the only way to connect.
