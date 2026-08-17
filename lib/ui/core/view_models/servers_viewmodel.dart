@@ -133,8 +133,9 @@ class ServersViewModel with ChangeNotifier {
     _connectingServer = null;
   }
 
-  /// Marks [address] as having a user-cancelled 2FA prompt, so background
-  /// paths (auto-refresh fallback, app resume, refresh) won't auto-prompt again.
+  /// Marks [address] as having a user-cancelled 2FA prompt, so automatic paths
+  /// (auto-refresh ticks, app resume) won't prompt again. A refresh the user
+  /// asks for clears the mark instead — see `refreshServerStatus`.
   void markTotpReauthDeclined(String address) {
     _totpReauthDeclined.add(address);
   }
