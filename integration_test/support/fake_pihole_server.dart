@@ -21,6 +21,12 @@ class FakePiholeServer {
   /// The password `POST /api/auth` must match to succeed.
   String password;
 
+  /// When true, the fake behaves like a Pi-hole with no web password set:
+  /// `POST /api/auth` returns a valid session carrying no sid, and every other
+  /// endpoint answers without looking at the sid header. Flip it at runtime to
+  /// simulate the admin removing the password on a live server.
+  bool noPassword = false;
+
   /// When true, a correct password alone isn't enough — the request must
   /// also include a `totp` matching [totpCode].
   bool totpRequired = false;
@@ -100,7 +106,7 @@ class FakePiholeServer {
           await _postBlocking(request, body, sid);
         default:
           // Not a faithful re-implementation of every v6 endpoint
-          if (sid == null || sid != _sid) {
+          if (!_authorized(sid)) {
             await _respond(request, 401, {
               'error': {'key': 'unauthorized', 'message': 'Invalid session'},
             });
@@ -115,7 +121,16 @@ class FakePiholeServer {
     }
   }
 
+  /// A password-less Pi-hole ignores the sid header, so everything is allowed;
+  /// otherwise the presented sid must be the live one.
+  bool _authorized(String? sid) => noPassword || (sid != null && sid == _sid);
+
   Future<void> _postAuth(HttpRequest request, String body) async {
+    if (noPassword) {
+      await _respond(request, 200, _noPasswordSessionJson());
+      return;
+    }
+
     final json = body.isEmpty
         ? <String, dynamic>{}
         : jsonDecode(body) as Map<String, dynamic>;
@@ -171,6 +186,11 @@ class FakePiholeServer {
   }
 
   Future<void> _getAuth(HttpRequest request, String? sid) async {
+    if (noPassword) {
+      await _respond(request, 200, _noPasswordSessionJson());
+      return;
+    }
+
     final valid = sid != null && sid == _sid;
     await _respond(
       request,
@@ -192,7 +212,7 @@ class FakePiholeServer {
   }
 
   Future<void> _getBlocking(HttpRequest request, String? sid) async {
-    if (sid == null || sid != _sid) {
+    if (!_authorized(sid)) {
       await _respond(request, 401, {
         'error': {'key': 'unauthorized', 'message': 'Invalid session'},
       });
@@ -213,7 +233,7 @@ class FakePiholeServer {
     String body,
     String? sid,
   ) async {
-    if (sid == null || sid != _sid) {
+    if (!_authorized(sid)) {
       await _respond(request, 401, {
         'error': {'key': 'unauthorized', 'message': 'Invalid session'},
       });
@@ -235,6 +255,20 @@ class FakePiholeServer {
       'csrf': 'fake-csrf',
       'validity': 1800,
       'message': valid ? 'session valid' : 'session invalid',
+    },
+    'took': 0.001,
+  };
+
+  /// What a v6 Pi-hole with no password answers to `POST /api/auth`: the
+  /// session is valid but carries no sid and no csrf.
+  Map<String, dynamic> _noPasswordSessionJson() => {
+    'session': {
+      'valid': true,
+      'totp': false,
+      'sid': null,
+      'csrf': null,
+      'validity': -1,
+      'message': 'no password set',
     },
     'took': 0.001,
   };

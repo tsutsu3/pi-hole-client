@@ -53,6 +53,44 @@ void main() {
     );
   });
 
+  group('same-address password removal', () {
+    testWidgets(
+      'clearing the password logs in password-less and keeps the old sid',
+      (tester) async {
+        final app = AppHarness(tester);
+        await app.boot();
+
+        final fakeServer = FakePiholeServer(password: 'pw');
+        addTearDown(fakeServer.close);
+        final uri = Uri.parse(await fakeServer.start());
+
+        await app.openAddServer();
+        await app.addV6ServerViaUi(
+          host: uri.host,
+          port: '${uri.port}',
+          password: 'pw',
+          alias: 'pw-removed',
+        );
+        expect(find.text(app.l10n.connectedSuccessfully), findsOneWidget);
+        final address = app.servers.getServersList.single.address;
+        final sidBefore = await app.sidOf(address);
+        expect(sidBefore, isNotNull);
+
+        // The admin removed the password on the Pi-hole, which also drops the
+        // session it had issued; the user now clears the field in the app. The
+        // stored sid is therefore stale on top of being unused.
+        fakeServer
+          ..noPassword = true
+          ..invalidateSession();
+        await app.editServer(password: '');
+
+        expect(find.text(app.l10n.editServerSuccessfully), findsOneWidget);
+        expect(await app.passwordOf(address) ?? '', isEmpty);
+        expect(await app.sidOf(address), sidBefore);
+      },
+    );
+  });
+
   group('same-address password change rollback', () {
     testWidgets('(E3) a failed password change clears the stale new sid', (
       tester,
