@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 /// Refreshes the selected server, in response to a user gesture (pull to
 /// refresh, the app bar's refresh / try-reconnect action).
-Future<dynamic> refreshServerStatus(BuildContext context) async {
+Future<void> refreshServerStatus(BuildContext context) async {
   final statusViewModel = Provider.of<StatusViewModel>(context, listen: false);
   final appConfigViewModel = Provider.of<AppConfigViewModel>(
     context,
