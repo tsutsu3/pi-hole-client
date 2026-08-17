@@ -134,6 +134,16 @@ class FakeStatusViewModel extends StatusViewModel {
   int startAutoRefreshCallCount = 0;
   int stopAutoRefreshCallCount = 0;
 
+  // Call tracking for one-shot refreshes, plus the result they report back.
+  int refreshOnceCallCount = 0;
+  bool refreshOnceResult = true;
+
+  @override
+  Future<bool> refreshOnce() async {
+    refreshOnceCallCount++;
+    return refreshOnceResult;
+  }
+
   @override
   void startAutoRefresh({
     bool runImmediately = true,
