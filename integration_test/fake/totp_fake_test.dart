@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:pi_hole_client/ui/home/widgets/home_screen.dart';
 
 import '../support/app_harness.dart';
 import '../support/fake_pihole_server.dart';
@@ -176,6 +177,51 @@ void main() {
 
       expect(app.servers.getServersList, isEmpty);
     });
+  });
+
+  group('totp fake - manual refresh after a cancelled prompt', () {
+    testWidgets(
+      'a refresh the user asks for prompts again, unlike an auto-refresh tick',
+      (tester) async {
+        final app = AppHarness(tester);
+        await app.boot();
+
+        final fakeServer = FakePiholeServer(password: 'pw')
+          ..totpRequired = true
+          ..totpCode = 246813;
+        addTearDown(fakeServer.close);
+        final uri = Uri.parse(await fakeServer.start());
+
+        await fillAddV6Form(
+          tester,
+          app,
+          host: uri.host,
+          port: '${uri.port}',
+          password: 'pw',
+          alias: 'refresh-after-cancel',
+        );
+        await app.completeTotpPrompt('246813');
+        expect(find.text(app.l10n.connectedSuccessfully), findsOneWidget);
+        final address = app.servers.getServersList.single.address;
+
+        await app.connectServer();
+        expect(find.byType(HomeScreen), findsOneWidget);
+
+        // Session gone server-side and a prompt already declined.
+        fakeServer
+          ..invalidateSession()
+          ..totpCode = 314157;
+        app.servers.markTotpReauthDeclined(address);
+
+        // Tap the refresh button in the home menu, which is a user-initiated refresh.
+        await app.refreshFromHomeMenu();
+
+        expect(await app.waitForTotpPrompt(), isTrue);
+        await app.completeTotpPrompt('314157');
+
+        expect(app.servers.isTotpReauthDeclined(address), isFalse);
+      },
+    );
   });
 
   group('totp fake - edit', () {

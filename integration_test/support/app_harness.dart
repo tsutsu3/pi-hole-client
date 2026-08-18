@@ -373,6 +373,19 @@ class AppHarness {
     await settle(frames: 4);
   }
 
+  /// Taps the refresh entry in the home app bar's action menu, which reads
+  /// "Refresh" while connected and "Try reconnect" once the server is in an
+  /// error state.
+  Future<void> refreshFromHomeMenu() async {
+    await tester.tap(find.byIcon(Icons.more_vert));
+    await settle(frames: 5);
+    final refresh = find.text(l10n.refresh);
+    await tester.tap(
+      refresh.evaluate().isNotEmpty ? refresh : find.text(l10n.tryReconnect),
+    );
+    await settle(frames: 5);
+  }
+
   /// Waits for the TOTP prompt to appear.
   Future<bool> waitForTotpPrompt() => waitFor(find.text(l10n.confirm));
 

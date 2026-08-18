@@ -471,6 +471,53 @@ void main() async {
       await tester.pump(const Duration(seconds: 1));
     });
 
+    testWidgets('"Try reconnect" clears an earlier 2FA cancellation', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      // cancelled 2FA prompt
+      statusViewModel.serverStatus = LoadStatus.loading;
+      serversViewModel.markTotpReauthDeclined(_serverV6.address);
+
+      await tester.pumpWidget(
+        buildTestApp(
+          HomeScreen(
+            serversViewModel: serversViewModel,
+            appConfigViewModel: appConfigViewModel,
+            statusViewModel: statusViewModel,
+          ),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          logsViewModel: logsViewModel,
+          repositoryBundle: createFakeRepositoryBundle(),
+        ),
+      );
+
+      // The disconnected screen shimmers forever, so settle by pumping fixed
+      // frames rather than pumpAndSettle.
+      Future<void> pumpFrames() async {
+        for (var i = 0; i < 6; i++) {
+          await tester.pump(const Duration(milliseconds: 100));
+        }
+      }
+
+      await tester.tap(find.byIcon(Icons.more_vert));
+      await pumpFrames();
+      await tester.tap(find.text('Try reconnect'));
+      await pumpFrames();
+
+      expect(statusViewModel.refreshOnceCallCount, 1);
+      expect(serversViewModel.isTotpReauthDeclined(_serverV6.address), isFalse);
+    });
+
     testWidgets('should show servers page', (WidgetTester tester) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
