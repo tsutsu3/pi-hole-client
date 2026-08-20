@@ -27,15 +27,16 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
         );
         final auth = result.map((e) => e.toDomain());
         final value = auth.getOrNull();
-        // Persist only a real sid. An empty sid (no app password) is
-        // intentionally not saved; any leftover sid is harmless since a
-        // password-less v6 server ignores the sid header.
-        if (value != null && value.valid && value.sid.isNotEmpty) {
+        // Save on every valid session, even when the sid is empty. A
+        // password-less v6 server answers 200 with `sid: null`.
+        if (value != null && value.valid) {
           await saveSid(value.sid);
-          await WidgetChannel.sendSidUpdated(
-            serverAddress: serverAddress,
-            sid: value.sid,
-          );
+          if (value.sid.isNotEmpty) {
+            await WidgetChannel.sendSidUpdated(
+              serverAddress: serverAddress,
+              sid: value.sid,
+            );
+          }
         }
         return auth;
       },
