@@ -269,7 +269,7 @@ void main() {
   });
 
   group('add (v6, no password)', () {
-    testWidgets('(C2) password-less v6 connects and stores no sid', (
+    testWidgets('password-less v6 connects and stores an empty sid', (
       tester,
     ) async {
       final app = AppHarness(tester);
@@ -293,11 +293,7 @@ void main() {
       final saved = app.servers.getServersList.first;
       expect(await app.passwordOf(saved.address), '');
       final sid = await app.sidOf(saved.address);
-      expect(
-        sid == null || sid.isEmpty,
-        isTrue,
-        reason: 'a password-less v6 server should not persist a sid',
-      );
+      expect(sid == null || sid.isEmpty, isTrue);
     });
   });
 

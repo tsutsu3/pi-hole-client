@@ -47,8 +47,8 @@ Future<Result<T>> safeApiCall<T extends Object>(
   } on TotpRateLimitException catch (e) {
     logger.e('TOTP rate limited: ${e.message}');
     return Failure(e);
-  } on HttpStatusCodeException catch (e) {
-    logger.e('HTTP error occurred: ${e.message}');
+  } on HttpStatusCodeException catch (e, st) {
+    logger.e('HTTP error occurred: [${e.statusCode}] ${e.message}\n$st');
     return Failure(e);
   } on SocketException catch (e) {
     final msg = 'Network connection failed. ${e.message}';
@@ -105,8 +105,8 @@ Stream<Result<T>> safeApiCallStream<T extends Object>(
     await for (final result in apiCall()) {
       yield Success(result);
     }
-  } on HttpStatusCodeException catch (e) {
-    logger.e('HTTP error occurred: ${e.message}');
+  } on HttpStatusCodeException catch (e, st) {
+    logger.e('HTTP error occurred: [${e.statusCode}] ${e.message}\n$st');
     yield Failure(e);
   } on SocketException catch (e) {
     final msg = 'Network connection failed. ${e.message}';

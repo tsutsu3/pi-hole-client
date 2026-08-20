@@ -55,7 +55,7 @@ void main() {
 
   group('same-address password removal', () {
     testWidgets(
-      'clearing the password logs in password-less and keeps the old sid',
+      'clearing the password logs in password-less and stores an empty sid',
       (tester) async {
         final app = AppHarness(tester);
         await app.boot();
@@ -86,9 +86,36 @@ void main() {
 
         expect(find.text(app.l10n.editServerSuccessfully), findsOneWidget);
         expect(await app.passwordOf(address) ?? '', isEmpty);
-        expect(await app.sidOf(address), sidBefore);
+        expect(await app.sidOf(address) ?? '', isEmpty);
       },
     );
+
+    testWidgets('adding a password to a password-less server still connects', (
+      tester,
+    ) async {
+      final app = AppHarness(tester);
+      await app.boot();
+
+      final fakeServer = FakePiholeServer()..noPassword = true;
+      addTearDown(fakeServer.close);
+      final uri = Uri.parse(await fakeServer.start());
+
+      await app.openAddServer();
+      await app.addV6ServerViaUi(
+        host: uri.host,
+        port: '${uri.port}',
+        password: '',
+        alias: 'no-pw-then-pw',
+      );
+      expect(find.text(app.l10n.connectedSuccessfully), findsOneWidget);
+      final address = app.servers.getServersList.single.address;
+
+      await app.editServer(password: 'typed-by-mistake');
+
+      expect(find.text(app.l10n.editServerSuccessfully), findsOneWidget);
+      expect(await app.passwordOf(address), 'typed-by-mistake');
+      expect(await app.sidOf(address) ?? '', isEmpty);
+    });
   });
 
   group('same-address password change rollback', () {

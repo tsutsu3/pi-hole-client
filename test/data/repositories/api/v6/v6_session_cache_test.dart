@@ -82,6 +82,16 @@ void main() {
         ..addressPassword = 'secret';
       await expectLater(cache.getSid(), throwsA(isA<SidNotFoundException>()));
     });
+
+    test('returns the stored empty SID even when a password is set', () async {
+      // A password-less login stores an empty SID. Reading it back must not be
+      // confused with "no SID stored", whatever password the user typed.
+      creds
+        ..addressSid = ''
+        ..addressPassword = 'typed-by-mistake';
+      final sid = await cache.getSid();
+      expect(sid, '');
+    });
   });
 
   // ---------------------------------------------------------------------------

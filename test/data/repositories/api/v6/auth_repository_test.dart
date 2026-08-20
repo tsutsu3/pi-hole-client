@@ -35,17 +35,31 @@ void main() {
       expectError(result, messageContains: 'Forced postAuth failure');
     });
 
+    test('persists an empty sid when no app password is set', () async {
+      client.shouldReturnNoPasswordSession = true;
+
+      final result = await repository.createSession('');
+
+      expect(result.isSuccess(), isTrue);
+      expect(result.getOrNull()!.valid, isTrue);
+      expect(result.getOrNull()!.sid, '');
+      expect(creds.saveSidCallCount, 1);
+      expect(creds.lastSavedSid, '');
+    });
+
     test(
-      'succeeds without persisting a sid when no app password is set',
+      'a password-less login leaves a usable session even when a password is stored',
       () async {
         client.shouldReturnNoPasswordSession = true;
+        creds
+          ..shouldFailSidRead = true
+          ..addressPassword = 'typed-by-mistake';
 
-        final result = await repository.createSession('');
+        final result = await repository.createSession('typed-by-mistake');
 
         expect(result.isSuccess(), isTrue);
-        expect(result.getOrNull()!.valid, isTrue);
-        expect(result.getOrNull()!.sid, '');
-        expect(creds.saveSidCallCount, 0);
+        expect(creds.lastSavedSid, '');
+        expect(await repository.getSid(), '');
       },
     );
 
