@@ -95,6 +95,71 @@ analysis steps:
    flutter analyze
    ```
 
+### Testing
+
+#### Flutter unit and widget tests
+
+`full_coverage` regenerates `test/full_coverage_test.dart`, which imports every
+file under `lib/` so coverage is not under-reported. Run it before a coverage
+run, or whenever files are added to `lib/`.
+
+```bash
+dart run full_coverage
+flutter test
+```
+
+With coverage:
+
+```bash
+dart run full_coverage
+flutter test --coverage
+```
+
+A single file:
+
+```bash
+flutter test test/ut/providers/servers_provider_test.dart
+```
+
+#### Integration tests
+
+These drive the real app and need a connected device or emulator. They come in
+two flavours.
+
+**`integration_test/fake/`** runs against an in-process fake Pi-hole server
+(`integration_test/support/fake_pihole_server.dart`), so no containers are
+needed:
+
+```bash
+flutter test integration_test/fake -d <DEVICE_ID>
+```
+
+**`integration_test/real/`** runs against real Pi-hole containers. Start them
+first:
+
+```bash
+docker compose -f e2e/docker-compose.yml up -d
+flutter test integration_test/real -d <DEVICE_ID>
+```
+
+#### Android widget tests (Kotlin)
+
+The home screen widgets are native Kotlin, so they have their own JVM unit tests.
+
+```bash
+cd android
+./gradlew :app:testDebugUnitTest
+```
+
+A single test class:
+
+```bash
+cd android
+./gradlew :app:testDebugUnitTest --tests "*ServerPaddWorkerTest"
+```
+
+Results are written to `build/app/reports/tests/testDebugUnitTest/index.html`.
+
 ### CI/CD Secrets Management
 
 To store and manage secrets required for GitHub Actions, refer to the
