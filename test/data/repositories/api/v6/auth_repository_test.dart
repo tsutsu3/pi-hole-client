@@ -5,6 +5,7 @@ import 'package:pi_hole_client/utils/exceptions.dart';
 
 import '../../../../../testing/fakes/services/fake_pihole_v6_api_client.dart';
 import '../../../../../testing/fakes/services/fake_session_credential_service.dart';
+import '../../../../../testing/fakes/services/fake_widget_channel.dart';
 import '../../../../../testing/helper/test_helper.dart';
 import '../../../../../testing/models/v6/auth.dart';
 
@@ -12,8 +13,10 @@ void main() {
   late AuthRepositoryV6 repository;
   late FakePiholeV6ApiClient client;
   late FakeSessionCredentialService creds;
+  late FakeWidgetChannel widgetChannel;
 
   setUp(() {
+    widgetChannel = FakeWidgetChannel()..init();
     client = FakePiholeV6ApiClient();
     creds = FakeSessionCredentialService();
     repository = AuthRepositoryV6(
@@ -22,7 +25,46 @@ void main() {
     );
   });
 
+  tearDown(() => widgetChannel.dispose());
+
   group('createSession', () {
+    test(
+      'notifies the widget with an empty sid for a password-less server',
+      () async {
+        client.shouldReturnNoPasswordSession = true;
+
+        final result = await repository.createSession('');
+
+        expect(result.isSuccess(), isTrue);
+        expect(widgetChannel.sidUpdates, ['']);
+      },
+    );
+
+    test('notifies the widget with the real sid for a normal login', () async {
+      final result = await repository.createSession('password123');
+
+      expect(result.isSuccess(), isTrue);
+      expect(widgetChannel.sidUpdates, [kRepoCreateSession.sid]);
+    });
+
+    test('does not notify the widget when the API fails', () async {
+      client.shouldFail = true;
+
+      final result = await repository.createSession('password123');
+
+      expect(result.isSuccess(), isFalse);
+      expect(widgetChannel.sidUpdates, isEmpty);
+    });
+
+    test('a failed widget notification does not fail the login', () async {
+      widgetChannel.shouldThrow = true;
+
+      final result = await repository.createSession('password123');
+
+      expect(result.isSuccess(), isTrue);
+      expect(widgetChannel.sidUpdates, [kRepoCreateSession.sid]);
+    });
+
     test('should create a session successfully', () async {
       final result = await repository.createSession('password123');
       expect(result.getOrNull(), kRepoCreateSession);
