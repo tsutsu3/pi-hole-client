@@ -25,7 +25,11 @@ class MainActivity : FlutterFragmentActivity() {
             when (call.method) {
                 "sidUpdated" -> {
                     val serverId = requireServerId(call, result) ?: return@setMethodCallHandler
-                    val sid = call.argument<String>("sid").orEmpty()
+                    val sid = call.argument<String>("sid")
+                    if (sid == null) {
+                        result.error("invalid_args", "sid is required", null)
+                        return@setMethodCallHandler
+                    }
                     prefs.saveSid(serverId, sid)
                     prefs.setSidValid(serverId, true)
                     WidgetUpdateHelper.refreshWidgetsForServer(

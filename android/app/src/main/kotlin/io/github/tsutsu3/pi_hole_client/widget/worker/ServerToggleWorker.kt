@@ -63,11 +63,12 @@ class ServerToggleWorker(
             return Result.success()
         }
 
-        val sid = prefs.getSid(serverId)
-        if (!prefs.isSidValid(serverId) || sid.isNullOrEmpty()) {
+        if (!prefs.hasUsableSession(serverId)) {
             broadcast(serverId, prefs, ToggleWidgetState(serverId, server.alias, WidgetStatus.AUTH_REQUIRED, false))
             return Result.success()
         }
+
+        val sid = prefs.getSid(serverId)
 
         val client = PiHoleApiClient(
             allowUntrustedCert = server.allowUntrustedCert,

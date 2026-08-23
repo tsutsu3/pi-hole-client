@@ -6,17 +6,22 @@ import 'package:pi_hole_client/utils/exceptions.dart';
 
 import '../../../../../testing/fakes/services/fake_pihole_v6_api_client.dart';
 import '../../../../../testing/fakes/services/fake_session_credential_service.dart';
+import '../../../../../testing/fakes/services/fake_widget_channel.dart';
 
 void main() {
   late V6SessionCache cache;
   late FakeSessionCredentialService creds;
   late FakePiholeV6ApiClient client;
+  late FakeWidgetChannel widgetChannel;
 
   setUp(() {
+    widgetChannel = FakeWidgetChannel()..init();
     creds = FakeSessionCredentialService();
     client = FakePiholeV6ApiClient();
     cache = V6SessionCache(creds: creds, client: client);
   });
+
+  tearDown(() => widgetChannel.dispose());
 
   // ---------------------------------------------------------------------------
   // getSid
@@ -73,6 +78,7 @@ void main() {
           ..addressPassword = '';
         final sid = await cache.getSid();
         expect(sid, '');
+        expect(widgetChannel.sidUpdates, ['']);
       },
     );
 
@@ -91,6 +97,33 @@ void main() {
         ..addressPassword = 'typed-by-mistake';
       final sid = await cache.getSid();
       expect(sid, '');
+    });
+
+    test('notifies the widget with the stored sid', () async {
+      final sid = await cache.getSid();
+
+      expect(sid, 'sid123');
+      expect(widgetChannel.sidUpdates, ['sid123']);
+    });
+
+    test(
+      'does not notify the widget when the SID read is a real error',
+      () async {
+        creds
+          ..shouldFailSidRead = true
+          ..addressPassword = 'secret';
+
+        await expectLater(cache.getSid(), throwsA(isA<SidNotFoundException>()));
+        expect(widgetChannel.sidUpdates, isEmpty);
+      },
+    );
+
+    test('a cached read does not notify the widget twice', () async {
+      await cache.getSid();
+      final sid = await cache.getSid();
+
+      expect(sid, 'sid123');
+      expect(widgetChannel.sidUpdates, ['sid123']);
     });
   });
 

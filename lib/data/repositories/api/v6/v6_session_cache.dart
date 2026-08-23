@@ -57,16 +57,19 @@ class V6SessionCache {
     }
     return _getOrLoad(() async {
       final r = await _creds.sid;
+      final String sid;
       if (r.isError()) {
         // No SID + empty password = no-auth server: use an empty SID. A failed
         // password read is a real storage error, so still throw in that case.
         final pwResult = await _creds.password;
         if (pwResult.isSuccess() && (pwResult.getOrNull() ?? '').isEmpty) {
-          return '';
+          sid = '';
+        } else {
+          throw SidNotFoundException();
         }
-        throw SidNotFoundException();
+      } else {
+        sid = r.getOrThrow();
       }
-      final sid = r.getOrThrow();
       await WidgetChannel.sendSidUpdated(
         serverAddress: serverAddress,
         sid: sid,

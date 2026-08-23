@@ -5,6 +5,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
@@ -76,6 +77,12 @@ class WidgetPrefs private constructor(context: Context) {
             return instance ?: synchronized(this) {
                 instance ?: WidgetPrefs(context.applicationContext).also { instance = it }
             }
+        }
+
+        /** Drops the cached singleton so each test starts from a clean store. */
+        @VisibleForTesting
+        internal fun clearInstanceForTest() {
+            synchronized(this) { instance = null }
         }
     }
 
@@ -188,6 +195,16 @@ class WidgetPrefs private constructor(context: Context) {
      */
     fun isSidValid(serverId: String): Boolean {
         return prefs.getBoolean(keyForSidValid(serverId), false)
+    }
+
+    /**
+     * Returns true when Flutter has pushed a session and it is still valid.
+     *
+     * An empty SID is a real value: a password-less v6 server has no session
+     * token, so Flutter pushes "". Only a missing key means "never pushed".
+     */
+    fun hasUsableSession(serverId: String): Boolean {
+        return getSid(serverId) != null && isSidValid(serverId)
     }
 
     /**

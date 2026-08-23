@@ -31,12 +31,10 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
         // password-less v6 server answers 200 with `sid: null`.
         if (value != null && value.valid) {
           await saveSid(value.sid);
-          if (value.sid.isNotEmpty) {
-            await WidgetChannel.sendSidUpdated(
-              serverAddress: serverAddress,
-              sid: value.sid,
-            );
-          }
+          await WidgetChannel.sendSidUpdated(
+            serverAddress: serverAddress,
+            sid: value.sid,
+          );
         }
         return auth;
       },

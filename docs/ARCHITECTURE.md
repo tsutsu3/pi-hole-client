@@ -145,6 +145,9 @@ re-authenticates and notifies Android to refresh the widget.
 
 - SID is stored in Android SharedPreferences as `sid_<serverId>` with
   `sid_valid_<serverId> = true/false`.
+- An empty `sid_<serverId>` is a real value: the server has no password, so
+  requests go out with no `X-FTL-SID` header. Only a missing key means
+  "never authenticated".
 - The widget treats HTTP 401/403 or "unauthorized/forbidden" responses as SID
   invalid.
 - The widget never calls the auth API. This prevents credential exposure and

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/utils/logger.dart';
@@ -7,7 +8,11 @@ import 'package:pi_hole_client/utils/logger.dart';
 class WidgetChannel {
   static const MethodChannel _channel = MethodChannel('pihole/widget');
 
-  static bool _isSupported() => Platform.isAndroid;
+  /// Test-only switch for [_isSupported]. Never set outside tests.
+  @visibleForTesting
+  static bool? debugIsSupportedOverride;
+
+  static bool _isSupported() => debugIsSupportedOverride ?? Platform.isAndroid;
 
   static Future<void> sendSidUpdated({
     required String serverAddress,
