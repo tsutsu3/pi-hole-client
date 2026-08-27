@@ -2324,6 +2324,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Zertifikatsinformationen konnten nicht abgerufen werden.';
 
   @override
+  String get serverCertificateHandshakeFailed =>
+      'Sichere Verbindung konnte nicht hergestellt werden. Prüfen Sie, ob der Server auf diesem Port HTTPS verwendet.';
+
+  @override
   String unverifiedCertificatesBannerTitle(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

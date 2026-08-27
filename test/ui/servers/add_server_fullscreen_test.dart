@@ -72,6 +72,10 @@ const _serverHttpsNoPin = Server(
   ignoreCertificateErrors: false,
 );
 
+const _handshakeFailedMessage =
+    "Couldn't establish a secure connection. "
+    'Check that the server uses HTTPS on this port.';
+
 TlsCertificateInfo _certInfo({String sha256 = 'new:fingerprint'}) {
   return TlsCertificateInfo(
     sha256: sha256,
@@ -84,11 +88,17 @@ TlsCertificateInfo _certInfo({String sha256 = 'new:fingerprint'}) {
 
 /// A recording [TlsCertificateFetcher] for the certificate-flow tests.
 class _FakeFetcher {
-  _FakeFetcher({this.onStrict, this.strictError, this.onAllowBad});
+  _FakeFetcher({
+    this.onStrict,
+    this.strictError,
+    this.onAllowBad,
+    this.allowBadError,
+  });
 
   final TlsCertificateInfo? onStrict;
   final Exception? strictError;
   final TlsCertificateInfo? onAllowBad;
+  final Exception? allowBadError;
   int callCount = 0;
 
   Future<TlsCertificateInfo?> call(
@@ -101,6 +111,7 @@ class _FakeFetcher {
       if (strictError != null) throw strictError!;
       return onStrict;
     }
+    if (allowBadError != null) throw allowBadError!;
     return onAllowBad;
   }
 }
@@ -1189,6 +1200,7 @@ void main() async {
       expect(serversViewModel.replaceServerCallCount, 0);
       expect(serversViewModel.editServerCallCount, 0);
       expect(find.text('Server settings updated successfully.'), findsNothing);
+      expect(find.byType(SnackBar), findsNothing);
       // No secret may be persisted for the new address: cancelling the
       // certificate dialog must not leave orphaned credentials behind.
       expect(serversViewModel.savePasswordCallCount, 0);
@@ -1242,6 +1254,7 @@ void main() async {
         expect(serversViewModel.editServerCallCount, 0);
         expect(serversViewModel.savePasswordCallCount, 0);
         expect(serversViewModel.saveTokenCallCount, 0);
+        expect(find.byType(SnackBar), findsNothing);
       },
     );
 
@@ -1282,6 +1295,79 @@ void main() async {
           serversViewModel.lastReplacedNewServer?.pinnedCertificateSha256,
           isNull,
         );
+      },
+    );
+
+    testWidgets(
+      'HTTPS against a plain HTTP port shows an error and does not save',
+      (WidgetTester tester) async {
+        useLargeView(tester);
+
+        // Both probes fail.
+        final fetcher = _FakeFetcher(
+          strictError: const HandshakeException(),
+          allowBadError: const HandshakeException(),
+        );
+
+        await tester.pumpWidget(
+          buildWidget(
+            AddServerFullscreen(
+              window: false,
+              title: 'test',
+              fetchTlsCertificate: fetcher.call,
+            ),
+          ),
+        );
+
+        await tester.tap(find.text('HTTPS'));
+        await tester.pump();
+
+        await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
+        await tester.enterText(find.byType(TextField).at(1), 'localhost');
+        await tester.enterText(find.byType(TextField).at(2), '8080');
+        await tester.tap(find.byIcon(Icons.login_rounded));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 1000));
+
+        expect(fetcher.callCount, 2);
+        expect(find.byType(CertificateDetailsDialog), findsNothing);
+        expect(find.text(_handshakeFailedMessage), findsOneWidget);
+        expect(serversViewModel.addServerCallCount, 0);
+        expect(serversViewModel.savePasswordCallCount, 0);
+      },
+    );
+
+    testWidgets(
+      'HTTPS address change to a plain HTTP port shows an error and does not replace',
+      (WidgetTester tester) async {
+        useLargeView(tester);
+
+        final fetcher = _FakeFetcher(
+          strictError: const HandshakeException(),
+          allowBadError: const HandshakeException(),
+        );
+
+        await tester.pumpWidget(
+          buildWidget(
+            AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: _serverHttpsPinned,
+              fetchTlsCertificate: fetcher.call,
+            ),
+          ),
+        );
+
+        await tester.enterText(find.byType(TextField).at(1), 'pi.hole.new');
+        await tester.tap(find.byIcon(Icons.save_rounded));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 1000));
+
+        expect(find.byType(CertificateDetailsDialog), findsNothing);
+        expect(find.text(_handshakeFailedMessage), findsOneWidget);
+        expect(serversViewModel.replaceServerCallCount, 0);
+        expect(serversViewModel.editServerCallCount, 0);
+        expect(serversViewModel.savePasswordCallCount, 0);
       },
     );
 

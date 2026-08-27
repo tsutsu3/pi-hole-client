@@ -735,6 +735,7 @@
   "serverCertificateUpdatePinTitle": "ピン留めを更新",
   "serverCertificateUpdatePinHelp": "未検証の証明書を許可する際に使う SHA-256 のピン留めを更新します。証明書を別手段で確認した場合のみ続行してください。",
   "serverCertificateFetchFailed": "証明書情報を取得できませんでした。",
+  "serverCertificateHandshakeFailed": "セキュア接続を確立できませんでした。このポートでHTTPSが有効か確認してください。",
   "unverifiedCertificatesBannerTitle": "{count, plural, =1{未検証の証明書が許可されているサーバーが1件あります} other{未検証の証明書が許可されているサーバーが{count}件あります}}",
   "@unverifiedCertificatesBannerTitle": {
     "placeholders": {
