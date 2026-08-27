@@ -1,14 +1,12 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
+import 'package:pi_hole_client/domain/model/server/certificate_inspection.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/widgets/add_server_fullscreen.dart';
 import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
-import 'package:pi_hole_client/utils/tls_certificate.dart';
 
 import '../../../testing/fakes/repositories/api/fake_auth_repository.dart';
 import '../../../testing/fakes/repositories/api/fake_dns_repository.dart';
@@ -72,37 +70,20 @@ const _serverHttpsNoPin = Server(
   ignoreCertificateErrors: false,
 );
 
-TlsCertificateInfo _certInfo({String sha256 = 'new:fingerprint'}) {
-  return TlsCertificateInfo(
+/// Builds a certificate inspection for the certificate-flow tests. A trusted
+/// inspection auto-pins; an untrusted one drives the pin-confirmation dialog.
+CertificateInspection _inspection({
+  required bool trusted,
+  String sha256 = 'new:fingerprint',
+}) {
+  return CertificateInspection(
     sha256: sha256,
     subject: 'CN=pi.hole',
     issuer: 'CN=test',
     startValidity: DateTime(2020),
     endValidity: DateTime(2030),
+    trustedByPlatform: trusted,
   );
-}
-
-/// A recording [TlsCertificateFetcher] for the certificate-flow tests.
-class _FakeFetcher {
-  _FakeFetcher({this.onStrict, this.strictError, this.onAllowBad});
-
-  final TlsCertificateInfo? onStrict;
-  final Exception? strictError;
-  final TlsCertificateInfo? onAllowBad;
-  int callCount = 0;
-
-  Future<TlsCertificateInfo?> call(
-    Uri uri, {
-    required bool allowBadCertificates,
-    Duration timeout = const Duration(seconds: 5),
-  }) async {
-    callCount++;
-    if (!allowBadCertificates) {
-      if (strictError != null) throw strictError!;
-      return onStrict;
-    }
-    return onAllowBad;
-  }
 }
 
 void main() async {
@@ -1051,8 +1032,8 @@ void main() async {
       },
     );
 
-    // Certificate flow tests (R25/R26/R28/R29) — exercise the injected
-    // TlsCertificateFetcher so the pin/dialog branches run without a real
+    // Certificate flow tests (R25/R26/R28/R29) — drive the pin/dialog branches
+    // via FakeServersViewModel.certificateInspection so they run without a real
     // TLS handshake. R27 (retry without re-prompt) is out of scope until the
     // _certValidatedForAddress memory lands on this branch.
 
@@ -1066,15 +1047,14 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      final fetcher = _FakeFetcher(onStrict: _certInfo());
+      serversViewModel.certificateInspection = _inspection(trusted: true);
 
       await tester.pumpWidget(
         buildWidget(
-          AddServerFullscreen(
+          const AddServerFullscreen(
             window: false,
             title: 'test',
             server: _serverHttpsPinned,
-            fetchTlsCertificate: fetcher.call,
           ),
         ),
       );
@@ -1086,7 +1066,7 @@ void main() async {
       await tester.pump(const Duration(milliseconds: 1000));
 
       expect(find.byType(CertificateDetailsDialog), findsNothing);
-      expect(fetcher.callCount, 0);
+      expect(serversViewModel.inspectCertificateCallCount, 0);
       expect(serversViewModel.editServerCallCount, 1);
       expect(serversViewModel.replaceServerCallCount, 0);
     });
@@ -1101,18 +1081,17 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      final fetcher = _FakeFetcher(
-        strictError: const HandshakeException(),
-        onAllowBad: _certInfo(sha256: 'new:fingerprint'),
+      serversViewModel.certificateInspection = _inspection(
+        trusted: false,
+        sha256: 'new:fingerprint',
       );
 
       await tester.pumpWidget(
         buildWidget(
-          AddServerFullscreen(
+          const AddServerFullscreen(
             window: false,
             title: 'test',
             server: _serverHttpsPinned,
-            fetchTlsCertificate: fetcher.call,
           ),
         ),
       );
@@ -1156,18 +1135,14 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      final fetcher = _FakeFetcher(
-        strictError: const HandshakeException(),
-        onAllowBad: _certInfo(),
-      );
+      serversViewModel.certificateInspection = _inspection(trusted: false);
 
       await tester.pumpWidget(
         buildWidget(
-          AddServerFullscreen(
+          const AddServerFullscreen(
             window: false,
             title: 'test',
             server: _serverHttpsPinned,
-            fetchTlsCertificate: fetcher.call,
           ),
         ),
       );
@@ -1207,18 +1182,14 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        final fetcher = _FakeFetcher(
-          strictError: const HandshakeException(),
-          onAllowBad: _certInfo(),
-        );
+        serversViewModel.certificateInspection = _inspection(trusted: false);
 
         await tester.pumpWidget(
           buildWidget(
-            AddServerFullscreen(
+            const AddServerFullscreen(
               window: false,
               title: 'test',
               server: _serverHttpsNoPin,
-              fetchTlsCertificate: fetcher.call,
             ),
           ),
         );
@@ -1257,15 +1228,14 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        final fetcher = _FakeFetcher(onStrict: _certInfo());
+        serversViewModel.certificateInspection = _inspection(trusted: true);
 
         await tester.pumpWidget(
           buildWidget(
-            AddServerFullscreen(
+            const AddServerFullscreen(
               window: false,
               title: 'test',
               server: _serverHttpsIgnore,
-              fetchTlsCertificate: fetcher.call,
             ),
           ),
         );
@@ -1276,7 +1246,7 @@ void main() async {
         await tester.pump(const Duration(milliseconds: 1000));
 
         expect(find.byType(CertificateDetailsDialog), findsNothing);
-        expect(fetcher.callCount, 0);
+        expect(serversViewModel.inspectCertificateCallCount, 0);
         expect(serversViewModel.replaceServerCallCount, 1);
         expect(
           serversViewModel.lastReplacedNewServer?.pinnedCertificateSha256,
@@ -1896,15 +1866,14 @@ void main() async {
         'fingerprint', (WidgetTester tester) async {
       useLargeView(tester);
 
-      final fetcher = _FakeFetcher(onStrict: _certInfo());
+      serversViewModel.certificateInspection = _inspection(trusted: true);
 
       await tester.pumpWidget(
         buildWidget(
-          AddServerFullscreen(
+          const AddServerFullscreen(
             window: false,
             title: 'test',
             server: _serverV6,
-            fetchTlsCertificate: fetcher.call,
           ),
         ),
       );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/domain/model/server/certificate_inspection.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -10,7 +11,6 @@ import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dart';
 import 'package:pi_hole_client/ui/servers/widgets/transport_security_indicator.dart';
 import 'package:pi_hole_client/utils/logger.dart';
-import 'package:pi_hole_client/utils/tls_certificate.dart';
 import 'package:provider/provider.dart';
 
 /// A widget that displays action buttons for a server tile, including options to
@@ -31,7 +31,6 @@ class ServerTileActions extends StatelessWidget {
     required this.onDelete,
     required this.onSetDefault,
     super.key,
-    this.fetchTlsCertificate = fetchTlsCertificateInfo,
   });
 
   final Server server;
@@ -39,7 +38,6 @@ class ServerTileActions extends StatelessWidget {
   final VoidCallback onEdit;
   final VoidCallback onDelete;
   final VoidCallback onSetDefault;
-  final TlsCertificateFetcher fetchTlsCertificate;
 
   @override
   Widget build(BuildContext context) {
@@ -155,22 +153,15 @@ class ServerTileActions extends StatelessWidget {
     }
   }
 
-  Future<TlsCertificateInfo?> _fetchAndValidateCertificate(
+  Future<CertificateInspection?> _fetchAndValidateCertificate(
     BuildContext context,
-    Uri uri,
+    Server server,
   ) async {
     final loc = AppLocalizations.of(context)!;
     final appConfigViewModel = context.read<AppConfigViewModel>();
+    final serversViewModel = context.read<ServersViewModel>();
 
-    TlsCertificateInfo? certificateInfo;
-    try {
-      certificateInfo = await fetchTlsCertificate(
-        uri,
-        allowBadCertificates: true,
-      );
-    } catch (_) {
-      certificateInfo = null;
-    }
+    final certificateInfo = await serversViewModel.inspectCertificate(server);
 
     if (!context.mounted) return null;
 
@@ -194,7 +185,7 @@ class ServerTileActions extends StatelessWidget {
     if (uri == null) return;
 
     final loc = AppLocalizations.of(context)!;
-    final certificateInfo = await _fetchAndValidateCertificate(context, uri);
+    final certificateInfo = await _fetchAndValidateCertificate(context, server);
     if (certificateInfo == null) return;
 
     if (!context.mounted) return;
@@ -225,7 +216,7 @@ class ServerTileActions extends StatelessWidget {
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final serversViewModel = context.read<ServersViewModel>();
 
-    final certificateInfo = await _fetchAndValidateCertificate(context, uri);
+    final certificateInfo = await _fetchAndValidateCertificate(context, server);
     if (certificateInfo == null) return;
 
     if (!context.mounted) return;

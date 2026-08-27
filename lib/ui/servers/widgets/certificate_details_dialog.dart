@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/domain/model/server/certificate_inspection.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/utils/tls_certificate.dart';
 
 class CertificateDetailsDialog extends StatelessWidget {
   const CertificateDetailsDialog({
@@ -13,7 +13,7 @@ class CertificateDetailsDialog extends StatelessWidget {
 
   final String title;
   final String? description;
-  final TlsCertificateInfo certificateInfo;
+  final CertificateInspection certificateInfo;
   final List<Widget>? actions;
 
   @override

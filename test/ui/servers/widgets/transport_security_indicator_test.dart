@@ -1,12 +1,12 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/domain/model/server/certificate_inspection.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/widgets/transport_security_indicator.dart';
-import 'package:pi_hole_client/utils/tls_certificate.dart';
 
+import '../../../../testing/fakes/repositories/local/fake_server_repository.dart';
+import '../../../../testing/fakes/repositories/network/fake_certificate_repository.dart';
 import '../../../../testing/test_app.dart';
 
 void main() async {
@@ -21,7 +21,6 @@ void main() async {
     return Server(
       address: address,
       alias: 'test',
-      defaultServer: false,
       apiVersion: 'v6',
       allowUntrustedCert: allowUntrustedCert,
       ignoreCertificateErrors: ignoreCertificateErrors,
@@ -29,263 +28,103 @@ void main() async {
     );
   }
 
-  TlsCertificateInfo makeCertInfo({String sha256 = 'aa:bb:cc'}) {
-    return TlsCertificateInfo(
-      sha256: sha256,
-      subject: 'CN=pi.hole',
-      issuer: 'CN=test',
-      startValidity: DateTime(2020),
-      endValidity: DateTime(2030),
+  CertificateInspection makeInspection({
+    required bool trusted,
+    String sha256 = 'aa:bb:cc',
+  }) => CertificateInspection(
+    sha256: sha256,
+    subject: 'CN=pi.hole',
+    issuer: 'CN=test',
+    startValidity: DateTime(2020),
+    endValidity: DateTime(2030),
+    trustedByPlatform: trusted,
+  );
+
+  ServersViewModel makeViewModel({CertificateInspection? inspection}) {
+    return ServersViewModel(
+      FakeServerRepository(),
+      certificateRepository: FakeCertificateRepository(inspection: inspection),
     );
   }
 
-  /// Builds a fake [TlsCertificateFetcher].
-  ///
-  /// When [allowBadCertificates] is `false` (strict platform validation) it
-  /// returns [onStrict] or throws [strictError]; when `true` it returns
-  /// [onAllowBad]. This mirrors the two ways the indicator probes a server.
-  TlsCertificateFetcher fakeFetcher({
-    TlsCertificateInfo? onStrict,
-    Exception? strictError,
-    TlsCertificateInfo? onAllowBad,
-  }) {
-    return (
-      Uri uri, {
-      required bool allowBadCertificates,
-      Duration timeout = const Duration(seconds: 5),
-    }) async {
-      if (!allowBadCertificates) {
-        if (strictError != null) throw strictError;
-        return onStrict;
-      }
-      return onAllowBad;
-    };
+  Future<void> pumpIndicator(
+    WidgetTester tester,
+    Server server, {
+    CertificateInspection? inspection,
+  }) async {
+    await tester.pumpWidget(
+      buildTestApp(
+        TransportSecurityIndicator(server: server),
+        serversViewModel: makeViewModel(inspection: inspection),
+      ),
+    );
+    await tester.pumpAndSettle();
   }
 
   group('TransportSecurityIndicator', () {
     testWidgets('shows HTTP label for http scheme', (tester) async {
-      await tester.pumpWidget(
-        buildTestApp(
-          TransportSecurityIndicator(
-            server: makeServer(address: 'http://pi.hole'),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
+      await pumpIndicator(tester, makeServer(address: 'http://pi.hole'));
       expect(find.text('HTTP'), findsOneWidget);
     });
 
-    testWidgets('shows cert-ignored label when ignoreCertificateErrors=true', (
+    testWidgets('shows cert-ignored icon when ignoreCertificateErrors=true', (
       tester,
     ) async {
-      // ignoreCertificateErrors skips network call and returns httpsCertIgnored
-      // directly — but only after _resolveHttps is awaited.
-      // On test environment without real TLS, _isPlatformTlsTrusted times out
-      // so we can only check the loading/unknown state, but ignoreCertificateErrors
-      // is handled before that check, so it returns early.
-      await tester.pumpWidget(
-        buildTestApp(
-          TransportSecurityIndicator(
-            server: makeServer(
-              address: 'http://pi.hole',
-              ignoreCertificateErrors: true,
-            ),
-          ),
-        ),
+      await pumpIndicator(
+        tester,
+        makeServer(address: 'https://pi.hole', ignoreCertificateErrors: true),
       );
-      await tester.pumpAndSettle();
-
-      // http scheme returns immediately as 'HTTP' (ignoreCertificateErrors
-      // only affects https branch)
-      expect(find.text('HTTP'), findsOneWidget);
+      expect(find.byIcon(Icons.warning_amber_rounded), findsOneWidget);
     });
 
-    testWidgets(
-      'shows cert-ignored icon for https server with ignoreCertificateErrors=true',
-      (tester) async {
-        // ignoreCertificateErrors=true with https returns httpsCertIgnored
-        // immediately without any network call.
-        await tester.pumpWidget(
-          buildTestApp(
-            TransportSecurityIndicator(
-              server: makeServer(
-                address: 'https://pi.hole',
-                ignoreCertificateErrors: true,
-              ),
-            ),
-          ),
-        );
-        await tester.pumpAndSettle();
-
-        expect(find.byIcon(Icons.warning_amber_rounded), findsOneWidget);
-      },
-    );
-
-    testWidgets('shows unknown label for invalid address', (tester) async {
-      await tester.pumpWidget(
-        buildTestApp(
-          TransportSecurityIndicator(server: makeServer(address: 'not-a-url')),
-        ),
-      );
-      // Before pumpAndSettle — FutureBuilder may show unknown
-      await tester.pump();
-      // Just check widget renders without crash
-      expect(find.byType(Row), findsWidgets);
+    testWidgets('shows unknown icon when not yet inspected', (tester) async {
+      await pumpIndicator(tester, makeServer(address: 'https://pi.hole'));
+      expect(find.byIcon(Icons.help_outline), findsOneWidget);
     });
 
-    testWidgets('rebuilds when server address changes', (tester) async {
-      final notifier = ValueNotifier<Server>(makeServer(address: 'http://a'));
-
-      await tester.pumpWidget(
-        buildTestApp(
-          ValueListenableBuilder<Server>(
-            valueListenable: notifier,
-            builder: (_, server, _) =>
-                TransportSecurityIndicator(server: server),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.text('HTTP'), findsOneWidget);
-
-      notifier.value = makeServer(address: 'http://b');
-      await tester.pumpAndSettle();
-
-      expect(find.text('HTTP'), findsOneWidget);
-    });
-  });
-
-  group('TransportSecurityIndicator (injected fetcher)', () {
     testWidgets('trusted cert without pin shows verified icon', (tester) async {
-      await tester.pumpWidget(
-        buildTestApp(
-          TransportSecurityIndicator(
-            server: makeServer(address: 'https://pi.hole'),
-            fetchTlsCertificate: fakeFetcher(onStrict: makeCertInfo()),
-          ),
-        ),
+      await pumpIndicator(
+        tester,
+        makeServer(address: 'https://pi.hole'),
+        inspection: makeInspection(trusted: true),
       );
-      await tester.pumpAndSettle();
-
       expect(find.byIcon(Icons.verified_user), findsOneWidget);
     });
 
     testWidgets('trusted cert with pin shows pinned icon', (tester) async {
-      await tester.pumpWidget(
-        buildTestApp(
-          TransportSecurityIndicator(
-            server: makeServer(
-              address: 'https://pi.hole',
-              pinnedCertificateSha256: 'aa:bb:cc',
-            ),
-            fetchTlsCertificate: fakeFetcher(onStrict: makeCertInfo()),
-          ),
+      await pumpIndicator(
+        tester,
+        makeServer(
+          address: 'https://pi.hole',
+          pinnedCertificateSha256: 'aa:bb:cc',
         ),
+        inspection: makeInspection(trusted: true),
       );
-      await tester.pumpAndSettle();
-
       expect(find.byIcon(Icons.push_pin), findsOneWidget);
     });
 
     testWidgets('untrusted cert blocked shows gpp_bad icon', (tester) async {
-      await tester.pumpWidget(
-        buildTestApp(
-          TransportSecurityIndicator(
-            server: makeServer(address: 'https://pi.hole'),
-            fetchTlsCertificate: fakeFetcher(
-              strictError: const HandshakeException(),
-            ),
-          ),
-        ),
+      await pumpIndicator(
+        tester,
+        makeServer(address: 'https://pi.hole'),
+        inspection: makeInspection(trusted: false),
       );
-      await tester.pumpAndSettle();
-
       expect(find.byIcon(Icons.gpp_bad), findsOneWidget);
-    });
-
-    testWidgets('untrusted cert allowed without pin shows gpp_maybe icon', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        buildTestApp(
-          TransportSecurityIndicator(
-            server: makeServer(
-              address: 'https://pi.hole',
-              allowUntrustedCert: true,
-            ),
-            fetchTlsCertificate: fakeFetcher(
-              strictError: const HandshakeException(),
-            ),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.byIcon(Icons.gpp_maybe), findsOneWidget);
-    });
-
-    testWidgets('untrusted cert with matching pin shows pinned icon', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        buildTestApp(
-          TransportSecurityIndicator(
-            server: makeServer(
-              address: 'https://pi.hole',
-              allowUntrustedCert: true,
-              pinnedCertificateSha256: 'aa:bb:cc',
-            ),
-            fetchTlsCertificate: fakeFetcher(
-              strictError: const HandshakeException(),
-              onAllowBad: makeCertInfo(sha256: 'aa:bb:cc'),
-            ),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.byIcon(Icons.push_pin), findsOneWidget);
     });
 
     testWidgets('untrusted cert with mismatching pin shows error icon', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        buildTestApp(
-          TransportSecurityIndicator(
-            server: makeServer(
-              address: 'https://pi.hole',
-              allowUntrustedCert: true,
-              pinnedCertificateSha256: 'aa:bb:cc',
-            ),
-            fetchTlsCertificate: fakeFetcher(
-              strictError: const HandshakeException(),
-              onAllowBad: makeCertInfo(sha256: 'dd:ee:ff'),
-            ),
-          ),
+      await pumpIndicator(
+        tester,
+        makeServer(
+          address: 'https://pi.hole',
+          allowUntrustedCert: true,
+          pinnedCertificateSha256: 'aa:bb:cc',
         ),
+        inspection: makeInspection(sha256: 'dd:ee:ff', trusted: false),
       );
-      await tester.pumpAndSettle();
-
       expect(find.byIcon(Icons.error), findsOneWidget);
-    });
-
-    testWidgets('timeout on strict probe shows unknown icon', (tester) async {
-      await tester.pumpWidget(
-        buildTestApp(
-          TransportSecurityIndicator(
-            server: makeServer(address: 'https://pi.hole'),
-            fetchTlsCertificate: fakeFetcher(
-              strictError: TimeoutException('timed out'),
-            ),
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      expect(find.byIcon(Icons.help_outline), findsOneWidget);
     });
   });
 }

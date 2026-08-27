@@ -5,12 +5,16 @@ import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache_store.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
+import 'package:pi_hole_client/data/repositories/network/interfaces/certificate_repository.dart';
+import 'package:pi_hole_client/data/repositories/network/tls_certificate_repository.dart';
 import 'package:pi_hole_client/domain/model/enum_converters.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/query_status.dart';
 import 'package:pi_hole_client/domain/model/query_types.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
+import 'package:pi_hole_client/domain/model/server/certificate_inspection.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/domain/use_cases/compute_transport_security_status.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:result_dart/result_dart.dart';
@@ -20,8 +24,12 @@ import 'package:result_dart/result_dart.dart';
 typedef ReplaceServerParams = ({String oldAddress, Server newServer});
 
 class ServersViewModel with ChangeNotifier {
-  ServersViewModel(this._repository, {V6SessionCacheStore? sessionCacheStore})
-    : _sessionCacheStore = sessionCacheStore {
+  ServersViewModel(
+    this._repository, {
+    V6SessionCacheStore? sessionCacheStore,
+    CertificateRepository? certificateRepository,
+  }) : _sessionCacheStore = sessionCacheStore,
+       _certRepo = certificateRepository ?? TlsCertificateRepository() {
     addServer = Command.createAsyncNoResult<Server>(_addServer);
     editServer = Command.createAsyncNoResult<Server>(_editServer);
     replaceServer = Command.createAsyncNoResult<ReplaceServerParams>(
@@ -45,6 +53,12 @@ class ServersViewModel with ChangeNotifier {
   VoidCallback? _onServerSelected;
   final ServerRepository _repository;
   final V6SessionCacheStore? _sessionCacheStore;
+  final CertificateRepository _certRepo;
+
+  /// Live certificate inspections keyed by [_securityKey]. Shared source of
+  /// truth for the transport security badge, populated by any flow that
+  /// inspects a certificate (badge fallback, connection, pinning).
+  final Map<String, CertificateInspection> _inspections = {};
   final List<QueryStatus> _queryStatusesV5 = queryStatusesV5;
   final List<QueryStatus> _queryStatusesV6 = queryStatusesV6;
 
@@ -98,6 +112,54 @@ class ServersViewModel with ChangeNotifier {
         (server.pinnedCertificateSha256 == null ||
             server.pinnedCertificateSha256!.isEmpty);
   }
+
+  /// Transport security status shown on [server]'s tile, derived from its config
+  /// plus the cached certificate inspection (or unknown if not yet inspected).
+  TransportSecurityStatus transportSecurityOf(Server server) =>
+      computeTransportSecurityStatus(
+        server,
+        _inspections[_securityKey(server)],
+      );
+
+  /// Inspects [server]'s live certificate and records the result in the shared
+  /// store, then returns it.
+  ///
+  /// This is the single entry point for TLS inspection used by every flow
+  /// (connection, pinning, certificate dialog). Recording the result keeps the
+  /// transport security badge in sync without a dedicated handshake. A failed
+  /// inspection (timeout/error -> `null`) never clears a previously known one, so
+  /// a flaky handshake does not downgrade the badge back to unknown.
+  Future<CertificateInspection?> inspectCertificate(Server server) async {
+    final uri = Uri.tryParse(server.address);
+    if (uri == null || uri.scheme != 'https') return null;
+
+    final inspection = await _certRepo.inspect(uri);
+    if (inspection != null) {
+      _inspections[_securityKey(server)] = inspection;
+      notifyListeners();
+    }
+    return inspection;
+  }
+
+  /// Fallback used by the badge: inspects only when the certificate has not been
+  /// seen yet. Once populated (by the badge fallback or a real operation such as
+  /// connecting), no further dedicated handshake runs.
+  Future<void> resolveTransportSecurity(Server server) async {
+    if (!_needsInspection(server)) return;
+    if (_inspections.containsKey(_securityKey(server))) return;
+    await inspectCertificate(server);
+  }
+
+  /// Whether [server] requires a live inspection to determine its status.
+  /// HTTP, non-HTTPS, and ignore-certificate-errors are config-only.
+  bool _needsInspection(Server server) {
+    if (server.ignoreCertificateErrors) return false;
+    return Uri.tryParse(server.address)?.scheme == 'https';
+  }
+
+  /// Cache key over the fields that affect the resolved status.
+  String _securityKey(Server s) =>
+      '${s.address}|${s.allowUntrustedCert}|${s.ignoreCertificateErrors}|${s.pinnedCertificateSha256 ?? ''}';
 
   int get numShown {
     switch (_selectedServer?.apiVersion) {

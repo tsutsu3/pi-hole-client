@@ -111,6 +111,36 @@ enum AppThemeMode {
   dark, // index 2
 }
 
+/// Transport security status shown on a server tile.
+///
+/// Derived from the server configuration plus the live certificate observation
+/// by `computeTransportSecurityStatus`.
+enum TransportSecurityStatus {
+  /// Plain HTTP (no transport encryption).
+  http,
+
+  /// HTTPS with a certificate the platform trusts (no pin configured).
+  httpsVerified,
+
+  /// HTTPS pinned to a specific certificate, and the live cert matches.
+  httpsPinned,
+
+  /// HTTPS with an untrusted certificate that the user allows (no pin).
+  httpsUntrustedAllowed,
+
+  /// HTTPS with an untrusted certificate that is not allowed.
+  httpsUntrustedBlocked,
+
+  /// HTTPS pinned, but the live certificate does not match the pin.
+  httpsPinMismatch,
+
+  /// HTTPS with certificate checks turned off by the user.
+  httpsCertIgnored,
+
+  /// Status not yet known (e.g. not observed, or the handshake timed out).
+  unknown,
+}
+
 /// TLS Status
 enum TlsStatus {
   /// 0: Session is end-to-end encrypted
