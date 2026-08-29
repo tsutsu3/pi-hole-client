@@ -229,6 +229,36 @@ void main() {
     });
   });
 
+  group('add (v6, HTTPS against a plain HTTP port)', () {
+    testWidgets(
+      '(C24) selecting HTTPS for a plain HTTP port shows an error instead of failing silently',
+      (tester) async {
+        final app = AppHarness(tester);
+        await app.boot();
+
+        final uri = Uri.parse(RealPiholeEnv.v6Base);
+
+        await app.openAddServer();
+        await app.addV6ServerHttpsViaUi(
+          host: uri.host,
+          port: uri.hasPort ? '${uri.port}' : '',
+          password: RealPiholeEnv.v6Password,
+          alias: 'https-on-http-port',
+        );
+
+        expect(
+          find.text(app.l10n.serverCertificateHandshakeFailed),
+          findsOneWidget,
+          reason:
+              'a blocked certificate must explain itself; returning to an '
+              'idle form with no message at all is the #670 bug',
+        );
+        expect(app.servers.getServersList, isEmpty);
+        expect(find.byType(AddServerFullscreen), findsOneWidget);
+      },
+    );
+  });
+
   group('add (v5, HTTP)', () {
     testWidgets('(C3) add + connect a real v5 server saves it to the list', (
       tester,
