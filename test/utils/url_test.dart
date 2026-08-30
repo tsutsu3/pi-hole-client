@@ -91,18 +91,27 @@ void main() {
       );
     });
 
-    test('treats the default https port as equal to an omitted port', () {
-      expect(isSameEndpoint('https://pi.hole', 'https://pi.hole:443'), isTrue);
-    });
+    test(
+      'distinguishes an explicit default https port from an omitted port',
+      () {
+        expect(
+          isSameEndpoint('https://pi.hole', 'https://pi.hole:443'),
+          isFalse,
+        );
+      },
+    );
 
-    test('treats the default http port as equal to an omitted port', () {
-      expect(isSameEndpoint('http://pi.hole', 'http://pi.hole:80'), isTrue);
-    });
+    test(
+      'distinguishes an explicit default http port from an omitted port',
+      () {
+        expect(isSameEndpoint('http://pi.hole', 'http://pi.hole:80'), isFalse);
+      },
+    );
 
-    test('normalises the default port alongside a subroute', () {
+    test('distinguishes an explicit default port on the same subroute', () {
       expect(
         isSameEndpoint('https://pi.hole/admin', 'https://pi.hole:443/admin'),
-        isTrue,
+        isFalse,
       );
     });
 
