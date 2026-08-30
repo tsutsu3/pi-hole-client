@@ -87,14 +87,21 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   void initState() {
     super.initState();
     if (widget.server != null) {
-      // Parse the stored URL with Uri so multi-segment subroutes (e.g.
-      // `/api/v1`) survive and the host/port are extracted reliably instead of
-      // via fragile manual `split` calls.
-      final uri = Uri.parse(widget.server!.address);
+      final address = widget.server!.address;
+      final uri = Uri.parse(address);
+      final splitted = address.split(':');
+
+      // Use Uri for the host and path so multi-segment subroutes such as
+      // `/api/v1` are handled correctly.
       addressFieldController.text = uri.host;
-      portFieldController.text = uri.hasPort ? '${uri.port}' : '';
-      // A bare '/' carries no routing info and trips the subroute validator, so
-      // normalise it to empty; otherwise keep the full path.
+
+      // Uri normalizes explicit default ports such as :80 and :443, so preserve
+      // the port from the original URL instead.
+      portFieldController.text = splitted.length > 2
+          ? splitted[2].split('/')[0]
+          : '';
+
+      // A bare '/' carries no routing information, so normalize it to empty.
       subrouteFieldController.text = uri.path == '/' ? '' : uri.path;
       aliasFieldController.text = widget.server!.alias;
       connectionType = uri.scheme == 'https'
