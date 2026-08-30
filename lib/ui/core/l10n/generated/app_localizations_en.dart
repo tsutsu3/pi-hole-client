@@ -2287,6 +2287,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Could not fetch certificate information.';
 
   @override
+  String get serverCertificateHandshakeFailed =>
+      'Couldn\'t establish a secure connection. Check that the server uses HTTPS on this port.';
+
+  @override
   String unverifiedCertificatesBannerTitle(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

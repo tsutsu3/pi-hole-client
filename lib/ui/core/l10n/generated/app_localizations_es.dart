@@ -2319,6 +2319,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'No se pudo obtener la información del certificado.';
 
   @override
+  String get serverCertificateHandshakeFailed =>
+      'No se pudo establecer una conexión segura. Comprueba que el servidor use HTTPS en este puerto.';
+
+  @override
   String unverifiedCertificatesBannerTitle(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

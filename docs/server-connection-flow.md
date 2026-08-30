@@ -289,7 +289,10 @@ sequenceDiagram
   is attempted.
 - The view model never shows UI itself. The certificate pin dialog and SSL-error
   snackbar live in the widget and are reached via the `resolveCertificate`
-  callback passed in the request.
+  callback passed in the request. Every path that blocks on a certificate must
+  show its own message there, including the one where the fingerprint cannot be
+  fetched at all (e.g. HTTPS picked for a plain HTTP port) - otherwise the
+  `Cancelled` outcome maps to a silent no-op and the user sees nothing.
 - **TOTP (2FA) is v6-only and handled inside login** (`_loginWithTotp`, shared by
   `createServer` and `_authenticate`). The view model never shows the prompt; it
   calls the injected `resolveTotp` callback, which the widget backs with the TOTP

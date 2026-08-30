@@ -2224,6 +2224,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get serverCertificateFetchFailed => '証明書情報を取得できませんでした。';
 
   @override
+  String get serverCertificateHandshakeFailed =>
+      'セキュア接続を確立できませんでした。このポートでHTTPSが有効か確認してください。';
+
+  @override
   String unverifiedCertificatesBannerTitle(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

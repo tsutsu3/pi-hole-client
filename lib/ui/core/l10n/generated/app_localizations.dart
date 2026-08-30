@@ -4442,6 +4442,12 @@ abstract class AppLocalizations {
   /// **'Could not fetch certificate information.'**
   String get serverCertificateFetchFailed;
 
+  /// No description provided for @serverCertificateHandshakeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t establish a secure connection. Check that the server uses HTTPS on this port.'**
+  String get serverCertificateHandshakeFailed;
+
   /// No description provided for @unverifiedCertificatesBannerTitle.
   ///
   /// In en, this message translates to:

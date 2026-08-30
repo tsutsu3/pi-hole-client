@@ -397,6 +397,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   Future<String?> ensurePinnedFingerprint({
     required BuildContext context,
+    required AppConfigViewModel appConfigViewModel,
     required Uri uri,
     required String? existingPin,
   }) async {
@@ -428,12 +429,22 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         allowBadCertificates: true,
       );
     } catch (_) {
-      // If we cannot obtain the fingerprint, block the connection.
-      // This typically happens with reverse proxies where certificate
-      // pinning cannot work reliably.
+      certificateInfo = null;
+    }
+    if (!context.mounted) {
       return null;
     }
-    if (!context.mounted || certificateInfo == null) {
+    if (certificateInfo == null) {
+      // Bad certificates are accepted here, so a failure means the port is not
+      // speaking TLS at all (e.g. HTTPS picked for a plain HTTP port), or a
+      // reverse proxy blocks the socket and pinning cannot work reliably.
+      // Either way the connection is blocked, so say why instead of returning
+      // to an idle form with no message.
+      showErrorSnackBar(
+        context: context,
+        appConfigViewModel: appConfigViewModel,
+        label: AppLocalizations.of(context)!.serverCertificateHandshakeFailed,
+      );
       return null;
     }
 
@@ -489,6 +500,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       if (!mounted) return null;
       final pin = await ensurePinnedFingerprint(
         context: context,
+        appConfigViewModel: appConfigViewModel,
         uri: uri,
         existingPin: serverObj.pinnedCertificateSha256,
       );
