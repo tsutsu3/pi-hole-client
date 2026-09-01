@@ -19,6 +19,7 @@
 
 - *(auth)* Connect to a password-less Pi-hole with a password entered ([#672](https://github.com/tsutsu3/pi-hole-client/issues/672)) - ([3b66f4b](https://github.com/tsutsu3/pi-hole-client/commit/3b66f4bcfd9c95e0fc8f159dea16e29fad29e317))
 - *(fetch)* Skip stale status updates when the selected server changes ([#649](https://github.com/tsutsu3/pi-hole-client/issues/649)) - ([e3dfe2f](https://github.com/tsutsu3/pi-hole-client/commit/e3dfe2fd96fb60ddf0dcc00b6db198c4bb5ac227))
+- *(scanner)* Update mobile_scanner to fix QR scanning in release builds ([#684](https://github.com/tsutsu3/pi-hole-client/issues/684)) - ([4c8f1bd](https://github.com/tsutsu3/pi-hole-client/commit/4c8f1bd29e8608b3bec81b91134b83a5ffbaec16))
 - *(server)* Preserve explicit default ports in endpoint comparison ([#677](https://github.com/tsutsu3/pi-hole-client/issues/677)) - ([a9e9df7](https://github.com/tsutsu3/pi-hole-client/commit/a9e9df71c720c76125f49cfb8eac790fed7b3e35))
 - *(server)* Cleanup on failure paths ([#652](https://github.com/tsutsu3/pi-hole-client/issues/652)) - ([deafd5b](https://github.com/tsutsu3/pi-hole-client/commit/deafd5bdde6747c9dcc8e5a9f739fe7a57328988))
 - *(servers)* Mark/clear TOTP reauth-declined flag in the edit flow ([#650](https://github.com/tsutsu3/pi-hole-client/issues/650)) - ([5ff6d35](https://github.com/tsutsu3/pi-hole-client/commit/5ff6d35f1e3b2b0dadd4f4e771c7b22a9df42618))
