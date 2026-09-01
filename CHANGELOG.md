@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.10.0](https://github.com/tsutsu3/pi-hole-client/compare/1.9.2_(99)..1.10.0) - 2026-08-30
+## [1.10.0](https://github.com/tsutsu3/pi-hole-client/compare/1.9.2_(99)..1.10.0) - 2026-09-01
 
 ### 🚀 Features
 
@@ -27,6 +27,7 @@
 - *(status)* Drop stale fetch results after switching servers ([#653](https://github.com/tsutsu3/pi-hole-client/issues/653)) - ([2ab9a02](https://github.com/tsutsu3/pi-hole-client/commit/2ab9a02f498011f5c8f52880a8cd5812870c97c5))
 - *(tests)* Add error handling for HTTPS on a plain HTTP port ([#676](https://github.com/tsutsu3/pi-hole-client/issues/676)) - ([52ad53d](https://github.com/tsutsu3/pi-hole-client/commit/52ad53d14509f1e9a1d8db2ec8c03545c940fa20))
 - *(totp)* Re-prompt for a 2FA code on a user-requested refresh ([#664](https://github.com/tsutsu3/pi-hole-client/issues/664)) - ([673618a](https://github.com/tsutsu3/pi-hole-client/commit/673618a11c38970b149aaeaa2415bcc6d2588444))
+- *(widget)* Prevent R8 from breaking widget actions ([#682](https://github.com/tsutsu3/pi-hole-client/issues/682)) - ([0b62a19](https://github.com/tsutsu3/pi-hole-client/commit/0b62a197ef19f89f1fb9e654c03ba7a9285dcc2f))
 - *(widget)* Show widget data for a passwordless Pi-hole v6 server ([#674](https://github.com/tsutsu3/pi-hole-client/issues/674)) - ([9899641](https://github.com/tsutsu3/pi-hole-client/commit/9899641a9470c60a039700c01d5c385dbdc13e23))
 
 ### 🚜 Refactor
