@@ -1,0 +1,29 @@
+---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import LandingPage from "../components/landing/LandingPage";
+---
+
+<StarlightPage
+  frontmatter={{
+    title: "Pi-hole Client",
+    description:
+      "The unofficial Pi-hole client for Android. Monitor and manage your Pi-hole on your home network with a clean, modern interface.",
+    template: "splash",
+    tableOfContents: false,
+    pagefind: false,
+  }}
+>
+  <LandingPage />
+</StarlightPage>
+
+<style is:global>
+  /* Starlight always renders a panel for the page title, but this page suppresses
+     that title (see overrides/PageTitle.astro). Drop the resulting empty panel so
+     the hero starts directly below the header, like the previous site. */
+  main > .content-panel:first-child {
+    display: none;
+  }
+  main > .content-panel {
+    padding-top: 0;
+  }
+</style>

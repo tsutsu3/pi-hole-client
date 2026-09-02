@@ -1,0 +1,83 @@
+---
+import LanguageSelect from "@astrojs/starlight/components/LanguageSelect.astro";
+import Search from "@astrojs/starlight/components/Search.astro";
+import SiteTitle from "@astrojs/starlight/components/SiteTitle.astro";
+import ThemeSelect from "@astrojs/starlight/components/ThemeSelect.astro";
+import SocialIcons from "./SocialIcons.astro";
+
+// Same order as the previous Docusaurus navbar: title and Docs on the left,
+// social icons, theme switch and search on the right.
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<div class="header">
+  <div class="title-wrapper sl-flex">
+    <SiteTitle />
+    <a class="nav-link sl-hidden md:sl-flex" href={`${base}/docs/intro/`}>Docs</a>
+  </div>
+  <div class="sl-hidden md:sl-flex print:hidden right-group">
+    <div class="sl-flex social-icons">
+      <SocialIcons />
+    </div>
+    <ThemeSelect />
+    <LanguageSelect />
+  </div>
+  <div class="search-wrapper sl-flex print:hidden">
+    <Search />
+  </div>
+</div>
+
+<style>
+  .header {
+    display: flex;
+    gap: var(--sl-nav-gap);
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+
+  .title-wrapper {
+    /* Prevent long titles overflowing and covering the search and menu buttons on narrow viewports. */
+    overflow: clip;
+    /* Avoid clipping focus ring around link inside title wrapper. */
+    padding: 0.25rem;
+    margin: -0.25rem;
+    min-width: 0;
+    flex: 1 1 auto;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    align-items: center;
+    color: var(--sl-color-white);
+    font-size: var(--sl-text-base);
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav-link:hover {
+    color: var(--sl-color-text-accent);
+  }
+
+  .right-group,
+  .social-icons {
+    gap: 1rem;
+    align-items: center;
+  }
+  .social-icons::after {
+    content: "";
+    height: 2rem;
+    border-inline-end: 1px solid var(--sl-color-gray-5);
+  }
+
+  .search-wrapper {
+    flex: 0 0 auto;
+  }
+
+  @media (min-width: 50rem) {
+    .search-wrapper {
+      width: 16rem;
+    }
+  }
+</style>

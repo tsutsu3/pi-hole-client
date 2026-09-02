@@ -1,11 +1,11 @@
 # Dependencies
 /node_modules
 
-# Production
-/build
+# Build output
+/dist
 
 # Generated files
-.docusaurus
+.astro
 .cache-loader
 
 # Misc

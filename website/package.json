@@ -3,53 +3,49 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "build": "docusaurus build",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
-    "clear": "docusaurus clear",
-    "serve": "docusaurus serve",
-    "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc",
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "serve": "astro preview",
+    "astro": "astro",
+    "check": "astro check",
+    "typecheck": "astro check",
+    "verify:urls": "node scripts/verify-urls.mjs",
     "lint": "eslint",
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@docusaurus/core": "^3.10.2",
-    "@docusaurus/faster": "^3.10.2",
-    "@docusaurus/preset-classic": "^3.10.2",
-    "@mdx-js/react": "^3.1.1",
+    "@astrojs/react": "^6.0.5",
+    "@astrojs/starlight": "^0.41.11",
     "@types/react": "^19.2.18",
+    "astro": "^7.2.10",
     "clsx": "^2.1.1",
     "lucide-react": "^1.31.0",
-    "prism-react-renderer": "^2.4.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "@docusaurus/eslint-plugin": "^3.10.2",
-    "@docusaurus/module-type-aliases": "^3.10.2",
-    "@docusaurus/tsconfig": "^3.10.2",
-    "@docusaurus/types": "^3.10.2",
-    "eslint": "^8.57.1",
+    "@astrojs/check": "^0.9.10",
+    "@eslint/js": "^10.0.1",
+    "@types/react-dom": "^19.2.5",
+    "eslint": "^10.9.1",
+    "eslint-plugin-astro": "^3.1.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "globals": "^17.12.0",
     "prettier": "^3.9.6",
-    "typescript": "~6.0.3"
-  },
-  "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 3 chrome version",
-      "last 3 firefox version",
-      "last 5 safari version"
-    ]
+    "prettier-plugin-astro": "^0.14.1",
+    "starlight-links-validator": "^0.25.3",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.69.0"
   },
   "engines": {
-    "node": ">=18.0"
+    "node": ">=22.12.0"
+  },
+  "type": "module",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }

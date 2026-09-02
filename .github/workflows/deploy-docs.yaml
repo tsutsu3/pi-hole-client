@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    name: Build Docusaurus
+    name: Build Astro
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -36,10 +36,13 @@ jobs:
       - name: Build website
         run: pnpm build
 
+      - name: Verify URLs
+        run: pnpm verify:urls
+
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: website/build
+          path: website/dist
 
   deploy:
     name: Deploy to GitHub Pages

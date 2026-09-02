@@ -7,6 +7,7 @@ on:
     paths:
       - 'website/**'
       - '.github/workflows/deploy-docs.yaml'
+      - '.github/workflows/test-deploy-docs.yaml'
 
 jobs:
   test-deploy:
@@ -40,3 +41,6 @@ jobs:
 
       - name: Test build website
         run: pnpm build
+
+      - name: Verify URLs
+        run: pnpm verify:urls
