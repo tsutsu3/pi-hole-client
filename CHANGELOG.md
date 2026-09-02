@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.10.0](https://github.com/tsutsu3/pi-hole-client/compare/1.9.2_(99)..1.10.0) - 2026-09-01
+## [1.10.0](https://github.com/tsutsu3/pi-hole-client/compare/1.9.2_(99)..1.10.0) - 2026-09-02
 
 ### 🚀 Features
 
@@ -19,6 +19,7 @@
 
 - *(auth)* Connect to a password-less Pi-hole with a password entered ([#672](https://github.com/tsutsu3/pi-hole-client/issues/672)) - ([3b66f4b](https://github.com/tsutsu3/pi-hole-client/commit/3b66f4bcfd9c95e0fc8f159dea16e29fad29e317))
 - *(fetch)* Skip stale status updates when the selected server changes ([#649](https://github.com/tsutsu3/pi-hole-client/issues/649)) - ([e3dfe2f](https://github.com/tsutsu3/pi-hole-client/commit/e3dfe2fd96fb60ddf0dcc00b6db198c4bb5ac227))
+- *(ime)* Close the keyboard before the app leaves the foreground ([#687](https://github.com/tsutsu3/pi-hole-client/issues/687)) - ([3aabd59](https://github.com/tsutsu3/pi-hole-client/commit/3aabd5939e3acb81d2b5d5b18322410e118bb6b5))
 - *(scanner)* Update mobile_scanner to fix QR scanning in release builds ([#684](https://github.com/tsutsu3/pi-hole-client/issues/684)) - ([4c8f1bd](https://github.com/tsutsu3/pi-hole-client/commit/4c8f1bd29e8608b3bec81b91134b83a5ffbaec16))
 - *(server)* Preserve explicit default ports in endpoint comparison ([#677](https://github.com/tsutsu3/pi-hole-client/issues/677)) - ([a9e9df7](https://github.com/tsutsu3/pi-hole-client/commit/a9e9df71c720c76125f49cfb8eac790fed7b3e35))
 - *(server)* Cleanup on failure paths ([#652](https://github.com/tsutsu3/pi-hole-client/issues/652)) - ([deafd5b](https://github.com/tsutsu3/pi-hole-client/commit/deafd5bdde6747c9dcc8e5a9f739fe7a57328988))
