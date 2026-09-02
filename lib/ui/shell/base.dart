@@ -162,6 +162,11 @@ class _BaseState extends State<Base>
 
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.inactive ||
+        state == AppLifecycleState.hidden) {
+      dismissKeyboard();
+    }
+
     if (state == AppLifecycleState.resumed) {
       // Only for desktop when restored from minimized
       if (!isDesktopPlatform()) {
@@ -170,6 +175,17 @@ class _BaseState extends State<Base>
     } else if (state == AppLifecycleState.paused) {
       onPaused();
     }
+  }
+
+  /// Closes the keyboard before the app leaves the foreground.
+  void dismissKeyboard() {
+    if (!Platform.isAndroid) return;
+
+    final focus = FocusManager.instance.primaryFocus;
+    if (focus == null || !focus.hasFocus) return;
+
+    focus.unfocus();
+    SystemChannels.textInput.invokeMethod<void>('TextInput.hide');
   }
 
   @override
