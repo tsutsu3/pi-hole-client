@@ -4,6 +4,8 @@
   --sl-color-accent: hsl(5, 90%, 55%);
   --sl-color-accent-high: hsl(5, 100%, 74%); /* #ff857b */
 
+  --sl-hue-blue: 195;
+
   --chart-1: oklch(0.74 0.22 195); /* hsl(195 89% 45%) */
   --chart-2: oklch(0.65 0.24 27); /* hsl(0 80% 60%) */
   --chart-3: oklch(0.82 0.22 95); /* hsl(45 90% 50%) */
@@ -11,6 +13,9 @@
   --chart-5: oklch(0.82 0.2 66); /* hsl(27 87% 67%) */
 
   --phc-sidebar-active-bg: var(--sl-color-gray-5);
+
+  /* --- Content column and table of contents --- */
+  --phc-toc-width: 15rem;
 }
 
 :root[data-theme="light"] {
@@ -32,6 +37,53 @@
 
 [data-theme="dark"] .themedImage--dark {
   display: initial;
+}
+
+header.header {
+  background-color: #ffffff;
+}
+
+[data-theme="dark"] header.header {
+  background-color: #242526;
+}
+
+.starlight-aside {
+  border-radius: 8px;
+}
+
+/* --- Asides --- */
+.starlight-aside--tip {
+  --sl-color-asides-text-accent: var(--sl-color-green-high);
+  --sl-color-asides-border: var(--sl-color-green);
+  background-color: var(--sl-color-green-low);
+}
+
+:root[data-has-sidebar] {
+  --sl-content-width: 53rem;
+}
+
+.right-sidebar-panel .sl-container {
+  width: calc(var(--phc-toc-width) - 2 * var(--sl-sidebar-pad-x));
+}
+
+@media (min-width: 72rem) {
+  .right-sidebar-container {
+    width: max(
+      var(--phc-toc-width),
+      calc(var(--phc-toc-width) + (100% - var(--sl-content-width) - var(--phc-toc-width)) / 2)
+    );
+  }
+
+  [data-has-sidebar][data-has-toc] .main-pane {
+    width: min(
+      calc(100% - var(--phc-toc-width)),
+      calc(var(--sl-content-width) + (100% - var(--sl-content-width) - var(--phc-toc-width)) / 2)
+    );
+  }
+
+  .right-sidebar-panel .sl-container {
+    max-width: calc(var(--phc-toc-width) - 2 * var(--sl-sidebar-pad-x));
+  }
 }
 
 /* --- Navbar: match the look of the previous Docusaurus navbar --- */
@@ -63,11 +115,4 @@
   font-weight: 600;
   color: var(--sl-color-text-accent);
   background-color: var(--phc-sidebar-active-bg);
-}
-
-header.header {
-  background-color: #ffffff;
-}
-[data-theme="dark"] header.header {
-  background-color: #242526;
 }
