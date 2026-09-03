@@ -5,6 +5,7 @@ sidebar:
   order: 1
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgHomeTop from "./images/home/home-top.png";
 import imgHomeBottom from "./images/home/home-bottom.png";
@@ -39,8 +40,8 @@ This area tells you **which server you are controlling** and **whether it is
 ready to accept actions**.
 
 <ImageRow>
-  <img width="240" alt="Home top area with server name and summary tiles" src={imgHomeTop.src} />
-  <img width="240" alt="Home bottom area" src={imgHomeBottom.src} />
+  <DocImage width="240" alt="Home top area with server name and summary tiles" src={imgHomeTop} />
+  <DocImage width="240" alt="Home bottom area" src={imgHomeBottom} />
 </ImageRow>
 
 The shield icon represents the current state:
@@ -54,13 +55,13 @@ The shield icon represents the current state:
 - **Gray shield outline**:
   The app is still connecting or loading data.
 
-<img width="320" alt="Home status icon legend" src={imgHomeStatusIcon.src} />
+<DocImage width="320" alt="Home status icon legend" src={imgHomeStatusIcon} />
 
 ### Server certificate warning
 
 Next to the server name, you may also see a **certificate warning icon** (⚠️).
 
-<img width="512" alt="Home certificate warning icon" src={imgHomeCertIcon.src} />
+<DocImage width="512" alt="Home certificate warning icon" src={imgHomeCertIcon} />
 
 This warning icon indicates that there is a **connection issue with the server's SSL/TLS certificate**.
 It can appear in two places:
@@ -92,7 +93,7 @@ stabilizes.
 
 Tap the three-dot icon in the top-right corner to open quick actions.
 
-<img width="320" alt="Home menu actions" src={imgHomeMenu.src} />
+<DocImage width="320" alt="Home menu actions" src={imgHomeMenu} />
 
 Depending on the current state, you may see:
 
@@ -113,7 +114,7 @@ This indicates that server switching is available.
 
 Tap the server name area to open the server switch dialog.
 
-<img width="320" alt="Server selection screen" src={imgHomeServerSelect.src} />
+<DocImage width="320" alt="Server selection screen" src={imgHomeServerSelect} />
 
 In this dialog, you can:
 
@@ -142,7 +143,7 @@ Below the top status area, you see four summary tiles showing live statistics.
 
 Each tile is tappable and works as a shortcut:
 
-<img width="320" alt="Home summary tiles" src={imgHomeTiles.src} />
+<DocImage width="320" alt="Home summary tiles" src={imgHomeTiles} />
 
 - **Total Queries**
   Opens Network (showing all devices).
@@ -164,7 +165,7 @@ This means the server connection is active but the data is not ready yet.
 The floating shield button in the bottom-right corner is the fastest way to
 control blocking.
 
-<img width="320" alt="Home floating shield button" src={imgHomeFab.src} />
+<DocImage width="320" alt="Home floating shield button" src={imgHomeFab} />
 
 - When blocking is **ON**, tapping the button opens a pause dialog
 - Choose a duration (for example, 5 minutes)

@@ -5,6 +5,7 @@ sidebar:
   order: 1
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import imgServerMenu from "../../../docs/guides/images/cert-config/server-menu-view-update-cert.png";
 import imgCertUpdate from "../../../docs/guides/images/cert-config/cert-update.png";
 import imgWidgetOffline from "../../../docs/user-manual/images/widget/home-widget-offline.png";
@@ -97,11 +98,11 @@ cat /etc/letsencrypt/live/yourdomain.com/fullchain.pem \
 1. サーバー設定を開きます。
 2. サーバーメニューを開き、**「更新」**を選択します。
 
-<img width="320" alt="更新項目を含むサーバーメニュー" src={imgServerMenu.src} />
+<DocImage width="320" alt="更新項目を含むサーバーメニュー" src={imgServerMenu} />
 
 3. 新しいフィンガープリントが正しいことを確認し、**「更新」**をタップします。
 
-<img width="320" alt="ピン留めしたフィンガープリントの更新画面" src={imgCertUpdate.src} />
+<DocImage width="320" alt="ピン留めしたフィンガープリントの更新画面" src={imgCertUpdate} />
 
 4. 新しいフィンガープリントが保存され、サーバーに「HTTPS（ピン留め）」ステータスが表示されます。
 
@@ -132,7 +133,7 @@ cat /etc/letsencrypt/live/yourdomain.com/fullchain.pem \
 
 ## ❓ Q6. Androidホームウィジェットにオフラインまたはエラーが表示される
 
-<img width="320" alt="オフライン状態のウィジェット" src={imgWidgetOffline.src} />
+<DocImage width="320" alt="オフライン状態のウィジェット" src={imgWidgetOffline} />
 
 ### 💡 回答
 

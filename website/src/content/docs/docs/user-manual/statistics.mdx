@@ -5,6 +5,7 @@ sidebar:
   order: 2
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgQueriesServersTop from "./images/stats/queries-servers-top.png";
 import imgQueriesServersBottom from "./images/stats/queries-servers-bottom.png";
@@ -50,8 +51,8 @@ Charts are visual only and cannot be tapped.
 Use them to spot patterns, then rely on the list to take action.
 
 <ImageRow>
-  <img width="240" alt="Queries and servers chart" src={imgQueriesServersTop.src} />
-  <img width="240" alt="Queries and servers list" src={imgQueriesServersBottom.src} />
+  <DocImage width="240" alt="Queries and servers chart" src={imgQueriesServersTop} />
+  <DocImage width="240" alt="Queries and servers list" src={imgQueriesServersBottom} />
 </ImageRow>
 
 Use **Queries & Servers** as a starting point when you are not yet sure
@@ -70,8 +71,8 @@ Each row represents one domain, client, or server, along with its percentage
 of total queries.
 
 <ImageRow>
-  <img width="240" alt="Top domains list" src={imgDomainsTop.src} />
-  <img width="240" alt="Bottom domains list" src={imgDomainsBottom.src} />
+  <DocImage width="240" alt="Top domains list" src={imgDomainsTop} />
+  <DocImage width="240" alt="Bottom domains list" src={imgDomainsBottom} />
 </ImageRow>
 
 Use the chart to identify overall trends, then use the list to determine
@@ -90,8 +91,8 @@ already applied. This allows you to inspect individual queries immediately,
 without manually configuring filters.
 
 <ImageRow>
-  <img width="240" alt="Top clients statistics" src={imgClientsTop.src} />
-  <img width="240" alt="Bottom clients list" src={imgClientsBottom.src} />
+  <DocImage width="240" alt="Top clients statistics" src={imgClientsTop} />
+  <DocImage width="240" alt="Bottom clients list" src={imgClientsBottom} />
 </ImageRow>
 
 This workflow is useful when one entry dominates the list and you want to
@@ -103,8 +104,8 @@ On Pi-hole v6 servers, the **DNS** tab provides additional metrics such as
 query types and DNS behavior.
 
 <ImageRow>
-  <img width="240" alt="DNS metrics statistics" src={imgDnsTop.src} />
-  <img width="240" alt="Bottom DNS metrics list" src={imgDnsBottom.src} />
+  <DocImage width="240" alt="DNS metrics statistics" src={imgDnsTop} />
+  <DocImage width="240" alt="Bottom DNS metrics list" src={imgDnsBottom} />
 </ImageRow>
 
 Use this view to confirm that DNS activity looks balanced and normal.

@@ -5,6 +5,7 @@ sidebar:
   order: 1
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgAppSettingsMain from "../images/settings/app-settings/servers.png";
 import imgAppSettingsAdvanced from "../images/settings/app-settings/advanced settings/advanced-settings-top.png";
@@ -50,8 +51,8 @@ Use this screen to:
 Choose how the app looks.
 
 <ImageRow>
-  <img width="240" alt="Theme settings" src={imgTheme.src} />
-  <img width="240" alt="Theme settings dark" src={imgThemeDark.src} />
+  <DocImage width="240" alt="Theme settings" src={imgTheme} />
+  <DocImage width="240" alt="Theme settings dark" src={imgThemeDark} />
 </ImageRow>
 
 You can select:
@@ -67,8 +68,8 @@ Changes apply immediately and affect all screens.
 Choose the language used for the app interface.
 
 <ImageRow>
-  <img width="240" alt="Language settings" src={imgLanguage.src} />
-  <img width="240" alt="Language settings Japanese" src={imgLanguageJp.src} />
+  <DocImage width="240" alt="Language settings" src={imgLanguage} />
+  <DocImage width="240" alt="Language settings Japanese" src={imgLanguageJp} />
 </ImageRow>
 
 Available languages include:
@@ -85,7 +86,7 @@ This setting changes only the app UI, not Pi-hole server messages.
 
 The **Servers** section controls which Pi-hole instances the app can connect to.
 
-<img width="320" alt="App settings main list" src={imgAppSettingsMain.src} />
+<DocImage width="320" alt="App settings main list" src={imgAppSettingsMain} />
 
 From here, you can:
 
@@ -109,7 +110,7 @@ Add a new server when you deploy Pi-hole on another network or device.
 Advanced Setup contains **fine-grained app behavior controls**.
 These options are useful when tuning performance, data usage, or chart clarity.
 
-<img width="320" alt="App settings advanced options" src={imgAppSettingsAdvanced.src} />
+<DocImage width="320" alt="App settings advanced options" src={imgAppSettingsAdvanced} />
 
 Most changes apply immediately.
 If multiple options are changed at once, allow the app a moment to refresh.
@@ -119,7 +120,7 @@ If multiple options are changed at once, allow the app a moment to refresh.
 This setting controls how the app is **protected from unauthorized access**.
 When enabled, authentication is required before the app can be used.
 
-<img width="320" alt="App unlock settings" src={imgUnlock.src} />
+<DocImage width="320" alt="App unlock settings" src={imgUnlock} />
 
 App unlock protects the app itself.
 It does not affect Pi-hole server authentication or API access.
@@ -135,7 +136,7 @@ To set up a passcode:
 3. Enter your desired passcode
 4. Enter the same passcode again to confirm
 
-<img width="240" alt="App unlock with passcode" src={imgUnlockPasscode.src} />
+<DocImage width="240" alt="App unlock with passcode" src={imgUnlockPasscode} />
 
 Use a passcode when your device is shared or when you want consistent
 protection regardless of biometric availability.
@@ -149,7 +150,7 @@ To enable fingerprint unlock:
 1. Complete the passcode setup steps above
 2. Enable the **Use fingerprint** toggle
 
-<img width="240" alt="App unlock with fingerprint" src={imgUnlockFingerprint.src} />
+<DocImage width="240" alt="App unlock with fingerprint" src={imgUnlockFingerprint} />
 
 Fingerprint authentication is handled by the operating system.
 The app does not store or process biometric data itself.
@@ -172,8 +173,8 @@ This option controls how much data is rendered in charts.
 When **Use Reduced Data** is enabled, charts display fewer data points.
 
 <ImageRow>
-  <img width="240" alt="Reduced data off" src={imgReducedDataOff.src} />
-  <img width="240" alt="Reduced data on" src={imgReducedDataOn.src} />
+  <DocImage width="240" alt="Reduced data off" src={imgReducedDataOff} />
+  <DocImage width="240" alt="Reduced data on" src={imgReducedDataOn} />
 </ImageRow>
 
 Enable this when:
@@ -190,8 +191,8 @@ Disable it when you want the highest level of detail.
 This option removes series with zero values from charts.
 
 <ImageRow>
-  <img width="240" alt="Hide zero values off" src={imgHideZeroOff.src} />
-  <img width="240" alt="Hide zero values on" src={imgHideZeroOn.src} />
+  <DocImage width="240" alt="Hide zero values off" src={imgHideZeroOff} />
+  <DocImage width="240" alt="Hide zero values on" src={imgHideZeroOn} />
 </ImageRow>
 
 Enable it when charts feel cluttered or hard to read.
@@ -201,7 +202,7 @@ Disable it when you want to see all possible series, even inactive ones.
 
 This setting controls whether charts animate while data is loading.
 
-<img width="320" alt="Chart loading animation" src={imgShowLoadingAnimation.src} />
+<DocImage width="320" alt="Chart loading animation" src={imgShowLoadingAnimation} />
 
 Enable it if you want clear visual feedback during refresh.
 Disable it if you prefer a quieter, static interface.
@@ -210,7 +211,7 @@ Disable it if you prefer a quieter, static interface.
 
 Chart Display Mode controls **how statistics are presented**.
 
-<img width="320" alt="Chart display mode" src={imgChartDisplayMode.src} />
+<DocImage width="320" alt="Chart display mode" src={imgChartDisplayMode} />
 
 ### Home screen chart style
 
@@ -220,8 +221,8 @@ On the Home screen, you can switch between:
 - **Bar chart** (right)
 
 <ImageRow>
-  <img width="240" alt="Line chart display mode" src={imgReducedDataOn.src} />
-  <img width="240" alt="Bar chart display mode" src={imgReducedDataBarOn.src} />
+  <DocImage width="240" alt="Line chart display mode" src={imgReducedDataOn} />
+  <DocImage width="240" alt="Bar chart display mode" src={imgReducedDataBarOn} />
 </ImageRow>
 
 Use line charts to see trends over time.
@@ -235,8 +236,8 @@ On the Statistics screen, you can choose how client data is displayed:
 - **Pie chart view** (right)
 
 <ImageRow>
-  <img width="240" alt="Client list view" src={imgClientsList.src} />
-  <img width="240" alt="Client pie chart view" src={imgClientsPie.src} />
+  <DocImage width="240" alt="Client list view" src={imgClientsList} />
+  <DocImage width="240" alt="Client pie chart view" src={imgClientsPie} />
 </ImageRow>
 
 List view is best for precise numbers.
@@ -247,7 +248,7 @@ Pie charts are useful for quick visual comparison.
 This setting controls how often the **summary data fetched by the app**
 is refreshed.
 
-<img width="320" alt="Statistics refresh interval" src={imgStatsRefreshInterval.src} />
+<DocImage width="320" alt="Statistics refresh interval" src={imgStatsRefreshInterval} />
 
 It affects:
 
@@ -292,7 +293,7 @@ see [Logs](../../logs/#start-by-narrowing-down-what-you-are-looking-for).
 
 This setting controls how often **log entries are fetched on the Logs screen**.
 
-<img width="320" alt="Logs refresh interval" src={imgLogRefreshInterval.src} />
+<DocImage width="320" alt="Logs refresh interval" src={imgLogRefreshInterval} />
 
 When **Live Log is enabled**, this interval determines how frequently
 new log entries are requested and added to the list.
@@ -315,15 +316,15 @@ This setting controls how many log entries are returned per request.
 Its behavior differs between Pi-hole versions.
 
 <ImageRow>
-  <img
+  <DocImage
     width="240"
     alt="Logs quantity per request behavior on Pi-hole v6"
-    src={imgLogQuantityPerRequest.src}
+    src={imgLogQuantityPerRequest}
   />
-  <img
+  <DocImage
     width="240"
     alt="Logs quantity per request setting on Pi-hole v5"
-    src={imgLogQuantityPerRequestV5.src}
+    src={imgLogQuantityPerRequestV5}
   />
 </ImageRow>
 

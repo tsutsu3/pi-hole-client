@@ -5,6 +5,7 @@ sidebar:
   order: 1
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgHomeTop from "../../../docs/user-manual/images/home/home-top.png";
 import imgHomeBottom from "../../../docs/user-manual/images/home/home-bottom.png";
@@ -32,8 +33,8 @@ import imgHomeCertIcon from "../../../docs/user-manual/images/home/home-cert-ico
 ホームを開いたら、最初に画面上部を確認します。選択中のサーバー名と、盾のステータスアイコンが表示されます。この領域から、**操作対象のサーバー**と、**操作を受け付けられる状態か**がわかります。
 
 <ImageRow>
-  <img width="240" alt="サーバー名と概要タイルを表示したホーム画面上部" src={imgHomeTop.src} />
-  <img width="240" alt="ホーム画面下部" src={imgHomeBottom.src} />
+  <DocImage width="240" alt="サーバー名と概要タイルを表示したホーム画面上部" src={imgHomeTop} />
+  <DocImage width="240" alt="ホーム画面下部" src={imgHomeBottom} />
 </ImageRow>
 
 盾のアイコンは現在の状態を表します。
@@ -43,13 +44,13 @@ import imgHomeCertIcon from "../../../docs/user-manual/images/home/home-cert-ico
 - **感嘆符付きのオレンジの盾**：アプリがサーバーと通信できません。
 - **灰色の輪郭だけの盾**：接続中またはデータ読み込み中です。
 
-<img width="320" alt="ホーム画面のステータスアイコン" src={imgHomeStatusIcon.src} />
+<DocImage width="320" alt="ホーム画面のステータスアイコン" src={imgHomeStatusIcon} />
 
 ### サーバー証明書の警告
 
 サーバー名の横には、**証明書の警告アイコン**（⚠️）が表示されることがあります。
 
-<img width="512" alt="ホーム画面の証明書警告アイコン" src={imgHomeCertIcon.src} />
+<DocImage width="512" alt="ホーム画面の証明書警告アイコン" src={imgHomeCertIcon} />
 
 このアイコンは、サーバーのSSL/TLS証明書に接続上の問題があることを示します。ホーム画面のサーバー名の横、またはサーバー切り替え画面のサーバー一覧に表示されます。
 
@@ -69,7 +70,7 @@ import imgHomeCertIcon from "../../../docs/user-manual/images/home/home-cert-ico
 
 右上の三点アイコンをタップすると、クイック操作を開けます。
 
-<img width="320" alt="ホーム画面のメニュー操作" src={imgHomeMenu.src} />
+<DocImage width="320" alt="ホーム画面のメニュー操作" src={imgHomeMenu} />
 
 状態に応じて次の項目が表示されます。
 
@@ -83,7 +84,7 @@ import imgHomeCertIcon from "../../../docs/user-manual/images/home/home-cert-ico
 
 サーバー名の横にある **⇄** アイコンは、サーバーを切り替えられることを示します。サーバー名の領域をタップすると、サーバー切り替え画面が開きます。
 
-<img width="320" alt="サーバー選択画面" src={imgHomeServerSelect.src} />
+<DocImage width="320" alt="サーバー選択画面" src={imgHomeServerSelect} />
 
 この画面では、登録済みサーバー、現在選択中のサーバー、証明書の警告（⚠️）を確認できます。別のサーバーをタップするとすぐに切り替わります。切り替え後、統計、ステータスアイコン、操作はすべて新しいサーバーに対して行われます。
 
@@ -93,7 +94,7 @@ import imgHomeCertIcon from "../../../docs/user-manual/images/home/home-cert-ico
 
 ステータス領域の下には、リアルタイムの統計を示す4つの概要タイルがあります。各タイルはショートカットとしてタップできます。
 
-<img width="320" alt="ホーム画面の概要タイル" src={imgHomeTiles.src} />
+<DocImage width="320" alt="ホーム画面の概要タイル" src={imgHomeTiles} />
 
 - **総クエリ数**：ネットワーク画面を開き、すべての端末を表示します。
 - **ブロックされたクエリ**：ブロック済みを対象にしたログを開きます。
@@ -106,7 +107,7 @@ import imgHomeCertIcon from "../../../docs/user-manual/images/home/home-cert-ico
 
 画面右下に浮かぶ盾ボタンが、ブロックを操作する最も速い方法です。
 
-<img width="320" alt="ホーム画面右下の盾ボタン" src={imgHomeFab.src} />
+<DocImage width="320" alt="ホーム画面右下の盾ボタン" src={imgHomeFab} />
 
 - ブロックが**オン**の場合、タップすると一時停止の選択画面が開きます。
 - 5分などの時間を選択すると、指定時間後にブロックが自動で再開します。

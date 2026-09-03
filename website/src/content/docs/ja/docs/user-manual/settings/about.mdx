@@ -5,6 +5,7 @@ sidebar:
   order: 3
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import imgAboutMain from "../../../../docs/user-manual/images/settings/about/app-detail.png";
 import imgAboutPrivacy from "../../../../docs/user-manual/images/settings/about/privacy.png";
 import imgAboutLegal from "../../../../docs/user-manual/images/settings/about/legal-info.png";
@@ -28,7 +29,7 @@ import imgAboutLicenses from "../../../../docs/user-manual/images/settings/about
 
 **アプリケーションの詳細**には、バージョンやビルド情報など、アプリの基本情報が表示されます。
 
-<img width="320" alt="アプリケーションの詳細画面" src={imgAboutMain.src} />
+<DocImage width="320" alt="アプリケーションの詳細画面" src={imgAboutMain} />
 
 次のような場合に開きます。
 
@@ -42,7 +43,7 @@ import imgAboutLicenses from "../../../../docs/user-manual/images/settings/about
 
 **プライバシー**画面では、アプリがデータと診断情報をどのように扱うかを説明します。
 
-<img width="320" alt="プライバシー設定画面" src={imgAboutPrivacy.src} />
+<DocImage width="320" alt="プライバシー設定画面" src={imgAboutPrivacy} />
 
 この画面では、プライバシーポリシーを確認し、クラッシュレポートの共有を有効・無効にできます。クラッシュレポートは匿名化された診断情報を送信し、アプリの改善に役立てます。共有に同意する場合だけ有効にしてください。一部の変更は、反映のためアプリの再起動が必要になる場合があります。
 
@@ -50,7 +51,7 @@ import imgAboutLicenses from "../../../../docs/user-manual/images/settings/about
 
 **法的情報**画面には、必要な法的開示事項が表示されます。
 
-<img width="320" alt="法的情報画面" src={imgAboutLegal.src} />
+<DocImage width="320" alt="法的情報画面" src={imgAboutLegal} />
 
 この画面はアプリのNOTICE情報を表示します。参照およびコンプライアンスの目的で提供されており、アプリの動作やPi-holeの設定には影響しません。
 
@@ -58,7 +59,7 @@ import imgAboutLicenses from "../../../../docs/user-manual/images/settings/about
 
 **ライセンス**画面では、アプリが使用している第三者パッケージと、対応するライセンスを確認できます。
 
-<img width="320" alt="オープンソースライセンス画面" src={imgAboutLicenses.src} />
+<DocImage width="320" alt="オープンソースライセンス画面" src={imgAboutLicenses} />
 
 パッケージをタップすると、ライセンスの全文を確認できます。コンプライアンスと透明性の確認に役立ちます。
 

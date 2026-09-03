@@ -5,6 +5,7 @@ sidebar:
   order: 2
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgServerInfo from "../../../../docs/user-manual/images/settings/server-settings/pi-hole-server/pihole-server.png";
 import imgServerInfoExpandTop from "../../../../docs/user-manual/images/settings/server-settings/pi-hole-server/pihole-server-expand-top.png";
@@ -58,7 +59,7 @@ import imgSessionDetailInUse from "../../../../docs/user-manual/images/settings/
 
 **Pi-holeサーバー**には、現在接続しているサーバーの詳細が表示されます。正しい端末へ接続しているか、サーバーが正常に動作しているかを確認するために使用します。
 
-<img width="320" alt="Pi-holeサーバー画面" src={imgServerInfo.src} />
+<DocImage width="320" alt="Pi-holeサーバー画面" src={imgServerInfo} />
 
 確認できる主な項目は次のとおりです。
 
@@ -70,8 +71,8 @@ import imgSessionDetailInUse from "../../../../docs/user-manual/images/settings/
 下へスクロールすると、システムや環境の詳細情報も確認できます。
 
 <ImageRow>
-  <img width="240" alt="展開したPi-holeサーバー情報の上部" src={imgServerInfoExpandTop.src} />
-  <img width="240" alt="展開したPi-holeサーバー情報の下部" src={imgServerInfoExpandBottom.src} />
+  <DocImage width="240" alt="展開したPi-holeサーバー情報の上部" src={imgServerInfoExpandTop} />
+  <DocImage width="240" alt="展開したPi-holeサーバー情報の下部" src={imgServerInfoExpandBottom} />
 </ImageRow>
 
 Adlist、グループとクライアント、高度な設定を変更する前には、必ず**Pi-holeサーバー**を確認して操作対象が正しいPi-holeであることを確認してください。
@@ -80,13 +81,13 @@ Adlist、グループとクライアント、高度な設定を変更する前�
 
 Adlistでは、Pi-holeがフィルタリングデータベース（Gravity）を作るために使用する購読リストを管理します。Pi-hole v6では許可リストと拒否リストの配信元を扱えます。
 
-<img width="320" alt="Adlist画面" src={imgAdlists.src} />
+<DocImage width="320" alt="Adlist画面" src={imgAdlists} />
 
 ### リストを追加する
 
 **追加**を使用して、現在選択しているタブに新しい購読URLを登録します。
 
-<img width="320" alt="Adlist追加画面" src={imgAdlistAdd.src} />
+<DocImage width="320" alt="Adlist追加画面" src={imgAdlistAdd} />
 
 信頼できる配信元のリストだけを追加してください。期待どおりに動作することを確認してから、リストを有効のまま使用します。
 
@@ -94,7 +95,7 @@ Adlistでは、Pi-holeがフィルタリングデータベース（Gravity）を
 
 リストをタップすると、状態と詳細を確認できます。
 
-<img width="320" alt="Adlistの詳細" src={imgAdlistDetail.src} />
+<DocImage width="320" alt="Adlistの詳細" src={imgAdlistDetail} />
 
 無効にすると設定を残したまま影響だけを一時停止できます。不要になったことを確認してから削除してください。
 
@@ -102,7 +103,7 @@ Adlistでは、Pi-holeがフィルタリングデータベース（Gravity）を
 
 リストを追加または編集した後は、**Gravityの更新**を実行してブロックデータベースを再構築します。
 
-<img width="320" alt="Gravityの更新" src={imgUpdateGravity.src} />
+<DocImage width="320" alt="Gravityの更新" src={imgUpdateGravity} />
 
 この操作はPi-holeのフィルタリングデータベースを更新するため、少し時間がかかる場合があります。
 
@@ -110,17 +111,17 @@ Adlistでは、Pi-holeがフィルタリングデータベース（Gravity）を
 
 グループとクライアントでは、**どのルールをどの端末に適用するか**を制御します。アプリではPi-hole v6の機能です。
 
-<img width="320" alt="グループ一覧" src={imgGroups.src} />
+<DocImage width="320" alt="グループ一覧" src={imgGroups} />
 
 ### グループ
 
 グループは、クライアントに割り当てるポリシーのまとまりです。グループをタップすると名前や構成を編集できます。
 
-<img width="320" alt="グループ詳細" src={imgGroupDetails.src} />
+<DocImage width="320" alt="グループ詳細" src={imgGroupDetails} />
 
 **グループを追加**から新しいグループを作成できます。
 
-<img width="320" alt="グループ追加画面" src={imgAddGroup.src} />
+<DocImage width="320" alt="グループ追加画面" src={imgAddGroup} />
 
 ポリシー管理をわかりやすく保つため、実際に使用するグループだけを作成してください。
 
@@ -128,15 +129,15 @@ Adlistでは、Pi-holeがフィルタリングデータベース（Gravity）を
 
 **クライアント**タブでは、サーバーが認識している端末を確認できます。
 
-<img width="320" alt="クライアント一覧" src={imgClients.src} />
+<DocImage width="320" alt="クライアント一覧" src={imgClients} />
 
 クライアントをタップすると、識別情報とグループの割り当てを確認できます。
 
-<img width="320" alt="クライアント詳細" src={imgClientDetail.src} />
+<DocImage width="320" alt="クライアント詳細" src={imgClientDetail} />
 
 **クライアントを追加**では、IP、MACアドレス、名前で端末を手動登録できます。
 
-<img width="320" alt="クライアント追加画面" src={imgAddClients.src} />
+<DocImage width="320" alt="クライアント追加画面" src={imgAddClients} />
 
 グループを割り当て・変更する前に、端末の識別情報を必ず確認してください。
 
@@ -146,7 +147,7 @@ Adlistでは、Pi-holeがフィルタリングデータベース（Gravity）を
 
 高度な設定では、**サーバーレベルの保守・ネットワークツール**を使用できます。これらの操作はPi-holeの動作に直接影響します。
 
-<img width="320" alt="サーバーの高度な設定" src={imgAdvancedSettings.src} />
+<DocImage width="320" alt="サーバーの高度な設定" src={imgAdvancedSettings} />
 
 ### 操作
 
@@ -159,13 +160,13 @@ Adlistでは、Pi-holeがフィルタリングデータベース（Gravity）を
 
 セッションでは、アクティブおよび最近のDNS使用状況を確認できます。
 
-<img width="320" alt="セッション一覧" src={imgSessions.src} />
+<DocImage width="320" alt="セッション一覧" src={imgSessions} />
 
 セッションをタップすると詳細を表示します。使用中のセッションでは、編集できる項目が制限される場合があります。
 
 <ImageRow>
-  <img width="240" alt="セッション詳細" src={imgSessionDetail.src} />
-  <img width="240" alt="使用中のセッション" src={imgSessionDetailInUse.src} />
+  <DocImage width="240" alt="セッション詳細" src={imgSessionDetail} />
+  <DocImage width="240" alt="使用中のセッション" src={imgSessionDetailInUse} />
 </ImageRow>
 
 ## DHCP
@@ -173,13 +174,13 @@ Adlistでは、Pi-holeがフィルタリングデータベース（Gravity）を
 DHCPは、Pi-holeをDHCPサーバーとして使用している場合だけ利用してください。
 
 <ImageRow>
-  <img width="240" alt="DHCPが有効な状態" src={imgDhcp.src} />
-  <img width="240" alt="DHCPが無効な状態" src={imgDhcpOff.src} />
+  <DocImage width="240" alt="DHCPが有効な状態" src={imgDhcp} />
+  <DocImage width="240" alt="DHCPが無効な状態" src={imgDhcpOff} />
 </ImageRow>
 
 リースをタップすると詳細を確認し、IPアドレスの割り当てを確認できます。
 
-<img width="320" alt="DHCPリースの詳細" src={imgDhcpDetail.src} />
+<DocImage width="320" alt="DHCPリースの詳細" src={imgDhcpDetail} />
 
 別の機器ですでにリースを管理している場合は、DHCPを無効のままにしてください。
 
@@ -187,15 +188,15 @@ DHCPは、Pi-holeをDHCPサーバーとして使用している場合だけ利�
 
 ローカル DNSでは、ネットワーク内で使用する独自のホスト名を定義できます。
 
-<img width="320" alt="ローカル DNS一覧" src={imgLocalDns.src} />
+<DocImage width="320" alt="ローカル DNS一覧" src={imgLocalDns} />
 
 端末に固定のわかりやすい名前を付けたい場合にエントリーを追加します。
 
-<img width="320" alt="ローカル DNS追加画面" src={imgLocalDnsAdd.src} />
+<DocImage width="320" alt="ローカル DNS追加画面" src={imgLocalDnsAdd} />
 
 エントリーをタップすると確認・編集できます。
 
-<img width="320" alt="ローカル DNS詳細" src={imgLocalDnsDetail.src} />
+<DocImage width="320" alt="ローカル DNS詳細" src={imgLocalDnsDetail} />
 
 名前解決の競合を防ぐため、重複するエントリーは避けてください。
 
@@ -206,8 +207,8 @@ DHCPは、Pi-holeをDHCPサーバーとして使用している場合だけ利�
 **リスト内ドメイン検索**では、Pi-holeのどこでドメインが定義されているかを確認できます。
 
 <ImageRow>
-  <img width="240" alt="リスト内ドメイン検索の上部" src={imgFindDomainsTop.src} />
-  <img width="240" alt="リスト内ドメイン検索の下部" src={imgFindDomainsBottom.src} />
+  <DocImage width="240" alt="リスト内ドメイン検索の上部" src={imgFindDomainsTop} />
+  <DocImage width="240" alt="リスト内ドメイン検索の下部" src={imgFindDomainsBottom} />
 </ImageRow>
 
 次の場所を横断して検索します。
@@ -235,29 +236,29 @@ DHCPは、Pi-holeをDHCPサーバーとして使用している場合だけ利�
 
 インターフェースでは、Pi-holeが使用しているネットワークインターフェースを確認できます。
 
-<img width="320" alt="インターフェースの概要" src={imgInterface.src} />
+<DocImage width="320" alt="インターフェースの概要" src={imgInterface} />
 
 アドレスの詳細からIP設定を確認します。
 
-<img width="320" alt="インターフェースのアドレス" src={imgInterfaceAddress.src} />
+<DocImage width="320" alt="インターフェースのアドレス" src={imgInterfaceAddress} />
 
 統計では、通信が想定どおり流れているかを確認できます。
 
-<img width="320" alt="インターフェースの統計" src={imgInterfaceStats.src} />
+<DocImage width="320" alt="インターフェースの統計" src={imgInterfaceStats} />
 
 詳細画面は接続問題を調査する場合に使用します。
 
-<img width="320" alt="インターフェース詳細" src={imgInterfaceMore.src} />
+<DocImage width="320" alt="インターフェース詳細" src={imgInterfaceMore} />
 
 ## ネットワーク
 
 ネットワークには、ローカルネットワークで検出された端末が表示されます。
 
-<img width="320" alt="ネットワーク一覧" src={imgNetworks.src} />
+<DocImage width="320" alt="ネットワーク一覧" src={imgNetworks} />
 
 端末をタップすると、詳細とアクティビティを確認できます。
 
-<img width="320" alt="ネットワーク端末の詳細" src={imgNetworkDevice.src} />
+<DocImage width="320" alt="ネットワーク端末の詳細" src={imgNetworkDevice} />
 
 不明な端末を特定したり、ネットワーク上で端末が見えていることを確認したりする場合に役立ちます。
 

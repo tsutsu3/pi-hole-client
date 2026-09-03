@@ -5,6 +5,7 @@ sidebar:
   order: 3
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import imgLogin from "./images/01.png";
 import imgHome from "./images/02.png";
 import imgSettings from "./images/03.png";
@@ -24,25 +25,25 @@ and does not require an API token.
 
 1. Go to the admin panel of your Pi-hole® server and log in.
 
-   <img width="300" alt="login" src={imgLogin.src} />
+   <DocImage width="300" alt="login" src={imgLogin} />
 
 2. On the side menu, go to Settings.
 
-   <img width="600" alt="home" src={imgHome.src} />
+   <DocImage width="600" alt="home" src={imgHome} />
 
 3. Go to API / Web interface.
 
-   <img width="600" alt="settings" src={imgSettings.src} />
+   <DocImage width="600" alt="settings" src={imgSettings} />
 
 4. Click on Show API token.
 
-   <img width="600" alt="web" src={imgWeb.src} />
+   <DocImage width="600" alt="web" src={imgWeb} />
 
 5. Click on Yes, show API token.
 
-   <img width="600" alt="yes" src={imgYes.src} />
+   <DocImage width="600" alt="yes" src={imgYes} />
 
 6. On the application, tap the QR code button (1) and then, scan the QR code,
    or copy the API token (text under the QR code) and paste it into the Token
    field (2).
-   <img width="300" alt="app" src={imgApp.src} />
+   <DocImage width="300" alt="app" src={imgApp} />

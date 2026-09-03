@@ -5,6 +5,7 @@ sidebar:
   order: 4
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgStatusAll from "../../../docs/guides/images/cert-config/server-cert-status-all.png";
 import imgStatusVerify from "../../../docs/guides/images/cert-config/server-cert-status-01-verify.png";
@@ -28,7 +29,7 @@ import imgServerMenu from "../../../docs/guides/images/cert-config/server-menu-v
 
 アプリは、サーバーごとに接続のセキュリティ状態を表示します。表示されるステータスは次のとおりです。
 
-<img width="320" alt="すべての証明書ステータス" src={imgStatusAll.src} />
+<DocImage width="320" alt="すべての証明書ステータス" src={imgStatusAll} />
 
 | ステータス               | セキュリティレベル | 説明                                                       |
 | ------------------------ | ------------------ | ---------------------------------------------------------- |
@@ -53,7 +54,7 @@ import imgServerMenu from "../../../docs/guides/images/cert-config/server-menu-v
 
 ### HTTPS（検証済み）
 
-<img width="512" alt="HTTPS（検証済み）ステータス" src={imgStatusVerify.src} />
+<DocImage width="512" alt="HTTPS（検証済み）ステータス" src={imgStatusVerify} />
 
 **意味：**
 
@@ -79,7 +80,7 @@ import imgServerMenu from "../../../docs/guides/images/cert-config/server-menu-v
 
 ### HTTPS（ピン留め）
 
-<img width="512" alt="HTTPS（ピン留め）ステータス" src={imgStatusPinned.src} />
+<DocImage width="512" alt="HTTPS（ピン留め）ステータス" src={imgStatusPinned} />
 
 **意味：**
 
@@ -105,14 +106,14 @@ import imgServerMenu from "../../../docs/guides/images/cert-config/server-menu-v
 :::tip
 サーバーのメニューから**「証明書を表示」**または**「更新」**を選択すると、ピン留めしたフィンガープリントを確認・更新できます。
 
-<img width="320" alt="更新項目を含むサーバーメニュー" src={imgServerMenu.src} />
+<DocImage width="320" alt="更新項目を含むサーバーメニュー" src={imgServerMenu} />
 :::
 
 ---
 
 ### SSL証明書を確認しない
 
-<img width="512" alt="SSL証明書を確認しないステータス" src={imgStatusSkip.src} />
+<DocImage width="512" alt="SSL証明書を確認しないステータス" src={imgStatusSkip} />
 
 **意味：**
 
@@ -142,7 +143,7 @@ import imgServerMenu from "../../../docs/guides/images/cert-config/server-menu-v
 
 ### HTTPS（未検証 許可）
 
-<img width="512" alt="HTTPS（未検証 許可）ステータス" src={imgStatusUntrustedAllow.src} />
+<DocImage width="512" alt="HTTPS（未検証 許可）ステータス" src={imgStatusUntrustedAllow} />
 
 **意味：**
 
@@ -166,7 +167,7 @@ import imgServerMenu from "../../../docs/guides/images/cert-config/server-menu-v
 
 ### HTTP
 
-<img width="512" alt="HTTPステータス" src={imgStatusHttp.src} />
+<DocImage width="512" alt="HTTPステータス" src={imgStatusHttp} />
 
 **意味：**
 
@@ -190,7 +191,7 @@ HTTP接続では、APIトークンやパスワードが平文で送信されま�
 
 ### HTTPS（ピン不一致）
 
-<img width="512" alt="HTTPS（ピン不一致）ステータス" src={imgStatusMismatch.src} />
+<DocImage width="512" alt="HTTPS（ピン不一致）ステータス" src={imgStatusMismatch} />
 
 **意味：**
 
@@ -216,7 +217,7 @@ HTTP接続では、APIトークンやパスワードが平文で送信されま�
 
 ### HTTPS（未検証 ブロック）
 
-<img width="512" alt="HTTPS（未検証 ブロック）ステータス" src={imgStatusBlock.src} />
+<DocImage width="512" alt="HTTPS（未検証 ブロック）ステータス" src={imgStatusBlock} />
 
 **意味：**
 
@@ -243,13 +244,13 @@ HTTP接続では、APIトークンやパスワードが平文で送信されま�
 - **信頼されていない証明書を許可する：**オン
 - **SSL証明書を確認しない：**オフ
 
-<img width="320" alt="自己署名証明書の設定" src={imgSelfSignedCert.src} />
+<DocImage width="320" alt="自己署名証明書の設定" src={imgSelfSignedCert} />
 
 :::note
 Pi-holeサーバーがLet's Encryptなどの**CAが署名した有効な証明書**を使用している場合は、「HTTPS（検証済み）」にするために「信頼されていない証明書を許可する」をオフにしてください。
 :::
 
-<img width="320" alt="署名済み証明書の設定" src={imgSignedCert.src} />
+<DocImage width="320" alt="署名済み証明書の設定" src={imgSignedCert} />
 
 ---
 
@@ -267,7 +268,7 @@ v1.8.0ではSSL検証設定の構成が変更されました。既存の接続�
 
 その結果、すべてのHTTPSサーバーに**「SSL証明書を確認しない」**ステータスが表示され、次の警告バナーが表示されます。
 
-<img width="320" alt="アプリ更新後の警告バナー" src={imgWarningBar.src} />
+<DocImage width="320" alt="アプリ更新後の警告バナー" src={imgWarningBar} />
 
 :::caution
 アプリを更新した際、更新前に**「信頼されていない証明書を許可する」**がオンだった場合、すべてのHTTPSサーバーに**「SSL証明書を確認しない」**ステータスが表示されます。この構成は、証明書をピン留めする方法より安全性が低くなります。
@@ -284,8 +285,8 @@ v1.8.0ではSSL検証設定の構成が変更されました。既存の接続�
 5. 証明書のフィンガープリントを確認し、**「確認」**をタップします。
 
 <ImageRow>
-  <img width="240" alt="自己署名証明書の設定" src={imgSelfSignedCert.src} />
-  <img width="240" alt="自己署名証明書を許可する確認画面" src={imgAllowSelfSignedModal.src} />
+  <DocImage width="240" alt="自己署名証明書の設定" src={imgSelfSignedCert} />
+  <DocImage width="240" alt="自己署名証明書を許可する確認画面" src={imgAllowSelfSignedModal} />
 </ImageRow>
 
 確認後、サーバーには**「HTTPS（ピン留め）」**ステータスが表示されます。これは**「SSL証明書を確認しない」**より安全な接続です。
@@ -294,13 +295,13 @@ v1.8.0ではSSL検証設定の構成が変更されました。既存の接続�
 
 Pi-holeをDockerで実行している場合、「信頼されていない証明書を許可する」を有効にしていても、接続できないことがあります。
 
-<img width="320" alt="Docker環境での接続エラー" src={imgDockerError.src} />
+<DocImage width="320" alt="Docker環境での接続エラー" src={imgDockerError} />
 
 これは、Pi-holeのDockerコンテナに組み込まれたWebサーバー証明書を、アプリのTLS実装で正しく検証できないために発生します。
 
 ### 解決方法1：証明書の確認を無効にする（簡単）
 
-<img width="320" alt="証明書エラーを無視する設定" src={imgIgnoreCertError.src} />
+<DocImage width="320" alt="証明書エラーを無視する設定" src={imgIgnoreCertError} />
 
 1. サーバー設定で**「SSL証明書を確認しない」**を有効にします。
 2. 保存して再接続します。

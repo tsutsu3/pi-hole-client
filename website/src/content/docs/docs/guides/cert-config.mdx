@@ -5,6 +5,7 @@ sidebar:
   order: 4
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgStatusAll from "./images/cert-config/server-cert-status-all.png";
 import imgStatusVerify from "./images/cert-config/server-cert-status-01-verify.png";
@@ -30,7 +31,7 @@ and which settings to configure based on your environment.
 
 The app displays the connection security status for each server. Here are all possible statuses:
 
-<img width="320" alt="All certificate statuses" src={imgStatusAll.src} />
+<DocImage width="320" alt="All certificate statuses" src={imgStatusAll} />
 
 | Status                      | Security Level | Description                                          |
 | --------------------------- | -------------- | ---------------------------------------------------- |
@@ -48,7 +49,7 @@ The app displays the connection security status for each server. Here are all po
 
 ### HTTPS Verified
 
-<img width="512" alt="HTTPS Verified status" src={imgStatusVerify.src} />
+<DocImage width="512" alt="HTTPS Verified status" src={imgStatusVerify} />
 
 **What it means:**
 
@@ -74,7 +75,7 @@ The app displays the connection security status for each server. Here are all po
 
 ### HTTPS Pinned
 
-<img width="512" alt="HTTPS Pinned status" src={imgStatusPinned.src} />
+<DocImage width="512" alt="HTTPS Pinned status" src={imgStatusPinned} />
 
 **What it means:**
 
@@ -100,14 +101,14 @@ The app displays the connection security status for each server. Here are all po
 :::tip
 You can view and update the pinned fingerprint from the server's menu by selecting **"View certificate"** or **"Update"**.
 
-<img width="320" alt="Server menu with Update option" src={imgServerMenu.src} />
+<DocImage width="320" alt="Server menu with Update option" src={imgServerMenu} />
 :::
 
 ---
 
 ### Don't check SSL certificate
 
-<img width="512" alt="Don't check SSL certificate status" src={imgStatusSkip.src} />
+<DocImage width="512" alt="Don't check SSL certificate status" src={imgStatusSkip} />
 
 **What it means:**
 
@@ -137,7 +138,7 @@ This setting bypasses all security checks. Only use this when absolutely necessa
 
 ### HTTPS Untrusted Allowed
 
-<img width="512" alt="HTTPS Untrusted Allowed status" src={imgStatusUntrustedAllow.src} />
+<DocImage width="512" alt="HTTPS Untrusted Allowed status" src={imgStatusUntrustedAllow} />
 
 **What it means:**
 
@@ -161,7 +162,7 @@ This setting bypasses all security checks. Only use this when absolutely necessa
 
 ### HTTP
 
-<img width="512" alt="HTTP status" src={imgStatusHttp.src} />
+<DocImage width="512" alt="HTTP status" src={imgStatusHttp} />
 
 **What it means:**
 
@@ -185,7 +186,7 @@ HTTP connections transmit your API token/password in plain text. Anyone on the s
 
 ### HTTPS Pin Mismatch
 
-<img width="512" alt="HTTPS Pin Mismatch status" src={imgStatusMismatch.src} />
+<DocImage width="512" alt="HTTPS Pin Mismatch status" src={imgStatusMismatch} />
 
 **What it means:**
 
@@ -211,7 +212,7 @@ If you didn't change your certificate, this could indicate a security issue. Ver
 
 ### HTTPS Untrusted Blocked
 
-<img width="512" alt="HTTPS Untrusted Blocked status" src={imgStatusBlock.src} />
+<DocImage width="512" alt="HTTPS Untrusted Blocked status" src={imgStatusBlock} />
 
 **What it means:**
 
@@ -238,13 +239,13 @@ By default, the app has:
 - **Allow untrusted certificates:** ON
 - **Don't check SSL certificate:** OFF
 
-<img width="320" alt="Self-signed certificate setting" src={imgSelfSignedCert.src} />
+<DocImage width="320" alt="Self-signed certificate setting" src={imgSelfSignedCert} />
 
 :::note
 If your Pi-hole server uses a **valid CA-signed certificate** (e.g., Let's Encrypt), you should turn OFF "Allow untrusted certificates" to achieve the "HTTPS Verified" status.
 :::
 
-<img width="320" alt="Signed certificate setting" src={imgSignedCert.src} />
+<DocImage width="320" alt="Signed certificate setting" src={imgSignedCert} />
 
 ---
 
@@ -270,7 +271,7 @@ the update will automatically enable **both**
 As a result, all your HTTPS servers will display the
 **"Don't check SSL certificate"** status, and a warning banner will appear:
 
-<img width="320" alt="Warning banner after app update" src={imgWarningBar.src} />
+<DocImage width="320" alt="Warning banner after app update" src={imgWarningBar} />
 
 :::caution
 After the app update,
@@ -292,11 +293,11 @@ your servers will remain in either
 5. Verify the certificate fingerprint and tap **"Confirm"**
 
 <ImageRow>
-  <img width="240" alt="Self-signed certificate settings" src={imgSelfSignedCert.src} />
-  <img
+  <DocImage width="240" alt="Self-signed certificate settings" src={imgSelfSignedCert} />
+  <DocImage
     width="240"
     alt="Allow self-signed certificate confirmation modal"
-    src={imgAllowSelfSignedModal.src}
+    src={imgAllowSelfSignedModal}
   />
 </ImageRow>
 
@@ -308,13 +309,13 @@ security than **"Don't check SSL certificate"**.
 
 If you're running Pi-hole in Docker, you may encounter connection issues even with "Allow untrusted certificates" enabled.
 
-<img width="320" alt="Docker connection error" src={imgDockerError.src} />
+<DocImage width="320" alt="Docker connection error" src={imgDockerError} />
 
 This happens because the Pi-hole Docker container's built-in web server certificate cannot be properly validated by the app's TLS implementation.
 
 ### Solution 1: Disable Certificate Checking (Simple)
 
-<img width="320" alt="Ignore certificate errors setting" src={imgIgnoreCertError.src} />
+<DocImage width="320" alt="Ignore certificate errors setting" src={imgIgnoreCertError} />
 
 1. In server settings, enable **"Don't check SSL certificate"**
 2. Save and reconnect

@@ -1,7 +1,9 @@
 import React from "react";
+import type { ImageMetadata } from "astro";
+import { getImage } from "astro:assets";
 
 import type { Locale } from "../../i18n/meta";
-import ThemedImage from "./ThemedImage";
+import ThemedImage, { type ResponsiveImageSource } from "./ThemedImage";
 import styles from "./landing.module.css";
 import {
   BarChart,
@@ -45,6 +47,70 @@ import imgServerInfo from "@site/src/content/docs/docs/user-manual/images/settin
 import imgServerInfoDark from "@site/src/content/docs/docs/user-manual/images/settings/server-settings/pi-hole-server/pihole-server-dark.png";
 import imgTheme from "@site/src/content/docs/docs/user-manual/images/settings/app-settings/theme.png";
 import imgThemeDark from "@site/src/content/docs/docs/user-manual/images/settings/app-settings/theme-dark.png";
+
+const featureImageAssets = [
+  imgHomeTop,
+  imgHomeTopDark,
+  imgLogsLive,
+  imgLogsLiveDark,
+  imgLogDetails,
+  imgLogDetailsDark,
+  imgStatsQueries,
+  imgStatsQueriesDark,
+  imgStatsDomainsRed,
+  imgStatsDomainsRedDark,
+  imgDomainsList,
+  imgDomainsListDark,
+  imgServersList,
+  imgServersListDark,
+  imgCreateConnection,
+  imgCreateConnectionDark,
+  imgAdlists,
+  imgAdlistsDark,
+  imgGravity,
+  imgGravityDark,
+  imgGroups,
+  imgGroupsDark,
+  imgServerInfo,
+  imgServerInfoDark,
+  imgTheme,
+  imgThemeDark,
+] as const;
+
+async function optimizeImage(
+  source: ImageMetadata,
+  widths: number[],
+  sizes: string,
+): Promise<ResponsiveImageSource> {
+  const image = await getImage({ src: source, widths, format: "webp", quality: 85 });
+  return {
+    src: image.src,
+    srcSet: image.srcSet.attribute,
+    sizes,
+    width: source.width,
+    height: source.height,
+  };
+}
+
+const featureImages = new Map(
+  await Promise.all(
+    featureImageAssets.map(
+      async (source) => [source.src, await optimizeImage(source, [200, 400], "200px")] as const,
+    ),
+  ),
+);
+
+function featureImage(source: ImageMetadata): ResponsiveImageSource {
+  const image = featureImages.get(source.src);
+  if (!image) throw new Error(`Missing optimized landing image: ${source.src}`);
+  return image;
+}
+
+const [playStoreImage, mockLight, mockDark] = await Promise.all([
+  optimizeImage(getGooglePlayImage, [270, 540], "270px"),
+  optimizeImage(mockLightImage, [256, 512], "256px"),
+  optimizeImage(mockDarkImage, [256, 512], "256px"),
+]);
 
 const featuresByLocale = {
   en: [
@@ -471,8 +537,8 @@ const FeatureSection = ({ locale }: { locale: Locale }) => {
                       alt={item.alt}
                       className={styles.featureDetailImage}
                       sources={{
-                        light: item.src.src,
-                        dark: (item.srcDark ?? item.src).src,
+                        light: featureImage(item.src),
+                        dark: featureImage(item.srcDark ?? item.src),
                       }}
                     />
                   ))}
@@ -506,8 +572,13 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
           rel="noopener noreferrer"
         >
           <img
-            src={getGooglePlayImage.src}
+            src={playStoreImage.src}
+            srcSet={playStoreImage.srcSet}
+            sizes={playStoreImage.sizes}
+            width={playStoreImage.width}
+            height={playStoreImage.height}
             alt={text.playStoreAlt}
+            decoding="async"
             className={styles.heroPlayBtn}
           />
         </a>
@@ -516,9 +587,10 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
         <ThemedImage
           alt={text.mockupAlt}
           className={styles.heroMockImg}
+          loading="eager"
           sources={{
-            light: mockLightImage.src,
-            dark: mockDarkImage.src,
+            light: mockLight,
+            dark: mockDark,
           }}
         />
       </div>

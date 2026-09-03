@@ -5,6 +5,7 @@ sidebar:
   order: 6
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imageWidgetList from "../../../docs/user-manual/images/widget/home-widget-list.png";
 import imageWidgetPreview from "../../../docs/user-manual/images/widget/home-widget-preview.png";
@@ -26,9 +27,9 @@ Androidホームウィジェットでは、アプリを開かずにPi-hole Clien
 - 重要な統計をいつでも確認する
 
 <ImageRow>
-  <img width="240" alt="ホームウィジェットの一覧" src={imageWidgetList.src} />
-  <img width="240" alt="ホームウィジェットのプレビュー" src={imageWidgetPreview.src} />
-  <img width="240" alt="ブロック有効時の各ウィジェット" src={imageWidgetOn.src} />
+  <DocImage width="240" alt="ホームウィジェットの一覧" src={imageWidgetList} />
+  <DocImage width="240" alt="ホームウィジェットのプレビュー" src={imageWidgetPreview} />
+  <DocImage width="240" alt="ブロック有効時の各ウィジェット" src={imageWidgetOn} />
 </ImageRow>
 
 ---
@@ -55,7 +56,7 @@ Androidホームウィジェットでは、アプリを開かずにPi-hole Clien
 
 利用できないサーバーとして表示される場合、そのバージョンのサーバーではウィジェットを使用できません。別のサーバーを選択するか、アプリ内のホーム画面を使用してください。サーバー選択画面が空の場合は、アプリを一度開き、少なくとも1台のサーバーを登録してください。
 
-<img width="320" alt="ウィジェットのサーバー選択画面" src={imageWidgetSelectServer.src} />
+<DocImage width="320" alt="ウィジェットのサーバー選択画面" src={imageWidgetSelectServer} />
 
 ---
 
@@ -107,19 +108,19 @@ Androidホームウィジェットでは、アプリを開かずにPi-hole Clien
 
 統計、サーバー名、すべての操作を表示する、最も詳しいサイズです。
 
-<img width="320" alt="統計ウィジェット（大）" src={imageWidgetLarge.src} />
+<DocImage width="320" alt="統計ウィジェット（大）" src={imageWidgetLarge} />
 
 ### コンパクト（中）
 
 主要な統計と切り替え・更新操作を、より小さな領域にまとめた表示です。
 
-<img width="280" alt="コンパクトウィジェット（中）" src={imageWidgetMedium.src} />
+<DocImage width="280" alt="コンパクトウィジェット（中）" src={imageWidgetMedium} />
 
 ### 切り替え（小）
 
 状態とブロック操作だけに絞った最小のウィジェットです。
 
-<img width="128" alt="切り替えウィジェット（小）" src={imageWidgetSmall.src} />
+<DocImage width="128" alt="切り替えウィジェット（小）" src={imageWidgetSmall} />
 
 ---
 
@@ -136,7 +137,7 @@ Androidホームウィジェットでは、アプリを開かずにPi-hole Clien
 
 次のような状況で、ウィジェットにオフラインまたはエラー状態が表示されることがあります。
 
-<img width="320" alt="ウィジェットのオフライン状態" src={imageWidgetOffline.src} />
+<DocImage width="320" alt="ウィジェットのオフライン状態" src={imageWidgetOffline} />
 
 ### 主な原因
 

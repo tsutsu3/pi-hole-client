@@ -5,6 +5,7 @@ sidebar:
   order: 3
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import imgAboutMain from "../images/settings/about/app-detail.png";
 import imgAboutPrivacy from "../images/settings/about/privacy.png";
 import imgAboutLegal from "../images/settings/about/legal-info.png";
@@ -30,7 +31,7 @@ This section is safe to browse at any time.
 The **Application Detail** page shows basic information about the app,
 including version and build details.
 
-<img width="320" alt="Application detail screen" src={imgAboutMain.src} />
+<DocImage width="320" alt="Application detail screen" src={imgAboutMain} />
 
 Open this page when:
 
@@ -44,7 +45,7 @@ Support links open in your browser and do not affect the app state.
 
 The **Privacy** page explains how the app handles data and diagnostics.
 
-<img width="320" alt="Privacy settings screen" src={imgAboutPrivacy.src} />
+<DocImage width="320" alt="Privacy settings screen" src={imgAboutPrivacy} />
 
 On this page, you can:
 
@@ -60,7 +61,7 @@ Some changes may require restarting the app to take effect.
 
 The **Legal** page displays required legal disclosures.
 
-<img width="320" alt="Legal information screen" src={imgAboutLegal.src} />
+<DocImage width="320" alt="Legal information screen" src={imgAboutLegal} />
 
 This page loads the app’s NOTICE information.
 It is provided for reference and compliance purposes only.
@@ -73,7 +74,7 @@ It does not affect app behavior or Pi-hole settings.
 The **Licenses** page lists third-party packages used by the app
 and their associated licenses.
 
-<img width="320" alt="Open source licenses screen" src={imgAboutLicenses.src} />
+<DocImage width="320" alt="Open source licenses screen" src={imgAboutLicenses} />
 
 Tap a package to view its full license text.
 This information is useful for compliance and transparency.

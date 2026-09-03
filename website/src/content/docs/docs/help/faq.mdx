@@ -5,6 +5,7 @@ sidebar:
   order: 1
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import imgServerMenu from "../guides/images/cert-config/server-menu-view-update-cert.png";
 import imgCertUpdate from "../guides/images/cert-config/cert-update.png";
 import imgWidgetOffline from "../user-manual/images/widget/home-widget-offline.png";
@@ -98,11 +99,11 @@ If you renewed or regenerated your server's certificate, the app will detect tha
 1. Go to server settings
 2. Open the server menu and select **"Update"**
 
-<img width="320" alt="Server menu with Update option" src={imgServerMenu.src} />
+<DocImage width="320" alt="Server menu with Update option" src={imgServerMenu} />
 
 3. Verify the new fingerprint is legitimate and tap **"Update"**
 
-<img width="320" alt="Update pinned fingerprint dialog" src={imgCertUpdate.src} />
+<DocImage width="320" alt="Update pinned fingerprint dialog" src={imgCertUpdate} />
 
 4. The server will now show "HTTPS Pinned" status with the new fingerprint
 
@@ -130,7 +131,7 @@ For more details, see the [Certificate Configuration Guide](../../guides/cert-co
 
 ## ❓ Q6. Android Home Widget shows offline or error state
 
-<img width="320" alt="Widget offline state" src={imgWidgetOffline.src} />
+<DocImage width="320" alt="Widget offline state" src={imgWidgetOffline} />
 
 ### 💡 Answer
 

@@ -5,6 +5,7 @@ sidebar:
   order: 2
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgServersList from "./user-manual/images/settings/app-settings/servers.png";
 import imgCreateConnection from "./user-manual/images/settings/app-settings/create-a-connection.png";
@@ -53,8 +54,8 @@ Open **Settings → App Settings → Servers**, then tap **＋** to create a new
 connection.
 
 <ImageRow>
-  <img width="240" alt="Servers list in App Settings" src={imgServersList.src} />
-  <img width="240" alt="Create a connection screen" src={imgCreateConnection.src} />
+  <DocImage width="240" alt="Servers list in App Settings" src={imgServersList} />
+  <DocImage width="240" alt="Create a connection screen" src={imgCreateConnection} />
 </ImageRow>
 
 ### Fill in the connection details

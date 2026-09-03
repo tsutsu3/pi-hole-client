@@ -5,6 +5,7 @@ sidebar:
   order: 4
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import imgDomains from "../../../docs/user-manual/images/domains/domains.png";
 import imgDomainAdd from "../../../docs/user-manual/images/domains/domain-add.png";
 import imgDomainDetail from "../../../docs/user-manual/images/domains/domain-detail.png";
@@ -30,7 +31,7 @@ import imgDomainDetail from "../../../docs/user-manual/images/domains/domain-det
 
 タブをタップすると、その種類のルールだけが一覧に表示されます。
 
-<img width="320" alt="ドメイン一覧" src={imgDomains.src} />
+<DocImage width="320" alt="ドメイン一覧" src={imgDomains} />
 
 各行は1つのドメインルールを表します。新しいルールを追加する前に、すでに許可・拒否されていないかをすばやく確認できます。行をタップすると詳細画面を開きます。
 
@@ -38,7 +39,7 @@ import imgDomainDetail from "../../../docs/user-manual/images/domains/domain-det
 
 画面右下に浮かぶ**＋**ボタンをタップすると、新しいルールを作成できます。
 
-<img width="320" alt="ドメイン追加画面" src={imgDomainAdd.src} />
+<DocImage width="320" alt="ドメイン追加画面" src={imgDomainAdd} />
 
 追加画面では次の操作を行います。
 
@@ -53,7 +54,7 @@ import imgDomainDetail from "../../../docs/user-manual/images/domains/domain-det
 
 一覧のドメインをタップすると、詳細画面を開きます。
 
-<img width="320" alt="ドメイン詳細" src={imgDomainDetail.src} />
+<DocImage width="320" alt="ドメイン詳細" src={imgDomainDetail} />
 
 この画面では次の操作ができます。
 

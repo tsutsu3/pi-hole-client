@@ -5,6 +5,7 @@ sidebar:
   order: 2
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgServersList from "../../docs/user-manual/images/settings/app-settings/servers.png";
 import imgCreateConnection from "../../docs/user-manual/images/settings/app-settings/create-a-connection.png";
@@ -46,8 +47,8 @@ import imgCreateConnection from "../../docs/user-manual/images/settings/app-sett
 **設定 → アプリ設定 → サーバー**を開き、**＋**をタップして新しい接続を作成します。
 
 <ImageRow>
-  <img width="240" alt="アプリ設定のサーバー一覧" src={imgServersList.src} />
-  <img width="240" alt="接続の作成画面" src={imgCreateConnection.src} />
+  <DocImage width="240" alt="アプリ設定のサーバー一覧" src={imgServersList} />
+  <DocImage width="240" alt="接続の作成画面" src={imgCreateConnection} />
 </ImageRow>
 
 ### 接続情報を入力する

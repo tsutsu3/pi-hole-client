@@ -5,6 +5,7 @@ sidebar:
   order: 6
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imageWidgetList from "./images/widget/home-widget-list.png";
 import imageWidgetPreview from "./images/widget/home-widget-preview.png";
@@ -27,9 +28,9 @@ Use it when you want to:
 - Glance at key statistics at any time
 
 <ImageRow>
-  <img width="240" alt="Home Widget List" src={imageWidgetList.src} />
-  <img width="240" alt="Home Widget Preview" src={imageWidgetPreview.src} />
-  <img width="240" alt="All widgets with blocking enabled" src={imageWidgetOn.src} />
+  <DocImage width="240" alt="Home Widget List" src={imageWidgetList} />
+  <DocImage width="240" alt="Home Widget Preview" src={imageWidgetPreview} />
+  <DocImage width="240" alt="All widgets with blocking enabled" src={imageWidgetOn} />
 </ImageRow>
 
 ---
@@ -63,7 +64,7 @@ In that case, select a different server or use the in-app Home screen instead.
 If the server selection screen shows an empty list, open the app once and confirm you have at least
 one server configured.
 
-<img width="320" alt="Widget server selection screen" src={imageWidgetSelectServer.src} />
+<DocImage width="320" alt="Widget server selection screen" src={imageWidgetSelectServer} />
 
 ---
 
@@ -121,19 +122,19 @@ The widget comes in three sizes to fit your Home screen:
 
 The most detailed view with full statistics, server name, and all actions visible.
 
-<img width="320" alt="Stats widget (large)" src={imageWidgetLarge.src} />
+<DocImage width="320" alt="Stats widget (large)" src={imageWidgetLarge} />
 
 ### Compact (Medium)
 
 A balanced view showing key stats and toggle/refresh actions in a smaller footprint.
 
-<img width="280" alt="Compact widget (medium)" src={imageWidgetMedium.src} />
+<DocImage width="280" alt="Compact widget (medium)" src={imageWidgetMedium} />
 
 ### Toggle (Small)
 
 Minimal widget focused on the toggle action. Shows status and blocking control only.
 
-<img width="128" alt="Toggle widget (small)" src={imageWidgetSmall.src} />
+<DocImage width="128" alt="Toggle widget (small)" src={imageWidgetSmall} />
 
 ---
 
@@ -154,7 +155,7 @@ updates may be less frequent.
 
 The widget may display an offline or error state in several situations:
 
-<img width="320" alt="Widget offline state" src={imageWidgetOffline.src} />
+<DocImage width="320" alt="Widget offline state" src={imageWidgetOffline} />
 
 ### Common causes
 

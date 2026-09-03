@@ -5,6 +5,7 @@ sidebar:
   order: 4
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import imgDomains from "./images/domains/domains.png";
 import imgDomainAdd from "./images/domains/domain-add.png";
 import imgDomainDetail from "./images/domains/domain-detail.png";
@@ -33,7 +34,7 @@ At the top of the screen, you see two tabs that separate domain rules by type:
 Tap a tab to switch the list below it.
 The list immediately updates to show only rules of the selected type.
 
-<img width="320" alt="Domains list" src={imgDomains.src} />
+<DocImage width="320" alt="Domains list" src={imgDomains} />
 
 Each row represents a single domain rule.
 Use this list to quickly confirm whether a domain is already allowed or blocked
@@ -45,7 +46,7 @@ Tap a row to open its detail view.
 
 To create a new rule, tap the floating **＋** button in the bottom-right corner.
 
-<img width="320" alt="Add domain dialog" src={imgDomainAdd.src} />
+<DocImage width="320" alt="Add domain dialog" src={imgDomainAdd} />
 
 In the add dialog:
 
@@ -66,7 +67,7 @@ all subdomains, as this can affect more traffic than expected.
 
 Tap any domain in the list to open its detail screen.
 
-<img width="320" alt="Domain details" src={imgDomainDetail.src} />
+<DocImage width="320" alt="Domain details" src={imgDomainDetail} />
 
 On this screen, you can:
 

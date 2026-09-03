@@ -5,6 +5,7 @@ sidebar:
   order: 1
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgAppSettingsMain from "../../../../docs/user-manual/images/settings/app-settings/servers.png";
 import imgAppSettingsAdvanced from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/advanced-settings-top.png";
@@ -48,8 +49,8 @@ import imgLogQuantityPerRequestV5 from "../../../../docs/user-manual/images/sett
 アプリの見た目を選択します。
 
 <ImageRow>
-  <img width="240" alt="テーマ設定" src={imgTheme.src} />
-  <img width="240" alt="ダークテーマ設定" src={imgThemeDark.src} />
+  <DocImage width="240" alt="テーマ設定" src={imgTheme} />
+  <DocImage width="240" alt="ダークテーマ設定" src={imgThemeDark} />
 </ImageRow>
 
 - **ライト**：常にライトテーマを使用
@@ -63,8 +64,8 @@ import imgLogQuantityPerRequestV5 from "../../../../docs/user-manual/images/sett
 アプリの表示言語を選択します。
 
 <ImageRow>
-  <img width="240" alt="言語設定" src={imgLanguage.src} />
-  <img width="240" alt="日本語の言語設定" src={imgLanguageJp.src} />
+  <DocImage width="240" alt="言語設定" src={imgLanguage} />
+  <DocImage width="240" alt="日本語の言語設定" src={imgLanguageJp} />
 </ImageRow>
 
 English（英語、既定）、Deutsch（ドイツ語）、Español（スペイン語）、日本語、Polski（ポーランド語）などを選択できます。この設定はアプリUIだけを変更し、Pi-holeサーバーからのメッセージは変更しません。
@@ -73,7 +74,7 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 
 **サーバー**では、アプリが接続できるPi-hole環境を管理します。
 
-<img width="320" alt="アプリ設定のサーバー一覧" src={imgAppSettingsMain.src} />
+<DocImage width="320" alt="アプリ設定のサーバー一覧" src={imgAppSettingsMain} />
 
 ここから、現在のサーバーの切り替え、新しいPi-holeサーバーの追加、登録済みサーバーの編集、アプリからの削除を行えます。表示名、パスワード、既定サーバーの指定、Pi-holeのバージョンは編集できます。IPアドレス、ポート、サブルート、証明書設定などの接続情報は、作成後には変更できません。
 
@@ -85,7 +86,7 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 
 高度な設定には、**アプリ動作を細かく制御する項目**があります。パフォーマンス、データ量、グラフの見やすさを調整する場合に利用します。
 
-<img width="320" alt="アプリの高度な設定" src={imgAppSettingsAdvanced.src} />
+<DocImage width="320" alt="アプリの高度な設定" src={imgAppSettingsAdvanced} />
 
 ほとんどの変更はすぐに反映されます。複数の項目を一度に変更した場合は、アプリの更新に少し時間を置いてください。
 
@@ -93,7 +94,7 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 
 アプリロック解除では、**第三者によるアプリへのアクセスを防ぐ**設定を行います。有効にすると、アプリを使用する前に認証が必要になります。
 
-<img width="320" alt="アプリロック設定" src={imgUnlock.src} />
+<DocImage width="320" alt="アプリロック設定" src={imgUnlock} />
 
 アプリ本体を保護する機能であり、Pi-holeサーバーの認証やAPIアクセスには影響しません。
 
@@ -106,7 +107,7 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 3. 使用したいパスコードを入力します。
 4. 同じパスコードをもう一度入力して確認します。
 
-<img width="240" alt="パスコードによるアプリロック" src={imgUnlockPasscode.src} />
+<DocImage width="240" alt="パスコードによるアプリロック" src={imgUnlockPasscode} />
 
 端末を共有している場合や、生体認証の有無にかかわらず一定の保護を行いたい場合に使用します。
 
@@ -117,7 +118,7 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 1. 上記のパスコード設定を完了します。
 2. **指紋を使用**を有効にします。
 
-<img width="240" alt="指紋によるアプリロック" src={imgUnlockFingerprint.src} />
+<DocImage width="240" alt="指紋によるアプリロック" src={imgUnlockFingerprint} />
 
 指紋認証はOSが処理します。アプリが生体情報を保存・処理することはありません。
 
@@ -134,8 +135,8 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 この項目は、グラフに描画するデータ量を制御します。**データ縮小を使用**を有効にすると、グラフのデータポイントが少なくなります。
 
 <ImageRow>
-  <img width="240" alt="データ縮小がオフ" src={imgReducedDataOff.src} />
-  <img width="240" alt="データ縮小がオン" src={imgReducedDataOn.src} />
+  <DocImage width="240" alt="データ縮小がオフ" src={imgReducedDataOff} />
+  <DocImage width="240" alt="データ縮小がオン" src={imgReducedDataOn} />
 </ImageRow>
 
 低速回線や従量制回線を使用している場合、またはグラフの更新が重い場合に有効にします。最も詳細な表示を希望する場合は無効にしてください。
@@ -145,8 +146,8 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 値が0の系列をグラフから取り除きます。
 
 <ImageRow>
-  <img width="240" alt="ゼロ値を非表示がオフ" src={imgHideZeroOff.src} />
-  <img width="240" alt="ゼロ値を非表示がオン" src={imgHideZeroOn.src} />
+  <DocImage width="240" alt="ゼロ値を非表示がオフ" src={imgHideZeroOff} />
+  <DocImage width="240" alt="ゼロ値を非表示がオン" src={imgHideZeroOn} />
 </ImageRow>
 
 グラフが複雑で読みづらい場合に有効にします。使用されていない系列も含めてすべて表示したい場合は無効にしてください。
@@ -155,7 +156,7 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 
 グラフのデータを読み込む際にアニメーションを表示するかを設定します。
 
-<img width="320" alt="グラフ読み込みアニメーション" src={imgShowLoadingAnimation.src} />
+<DocImage width="320" alt="グラフ読み込みアニメーション" src={imgShowLoadingAnimation} />
 
 更新中の視覚的なフィードバックが必要な場合は有効にし、静的な表示を好む場合は無効にします。
 
@@ -163,15 +164,15 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 
 グラフ表示モードは、**統計の表示方法**を制御します。
 
-<img width="320" alt="グラフ表示モード" src={imgChartDisplayMode.src} />
+<DocImage width="320" alt="グラフ表示モード" src={imgChartDisplayMode} />
 
 ### ホーム画面のグラフ形式
 
 ホーム画面では、**折れ線グラフ**と**棒グラフ**を切り替えられます。
 
 <ImageRow>
-  <img width="240" alt="折れ線グラフ表示" src={imgReducedDataOn.src} />
-  <img width="240" alt="棒グラフ表示" src={imgReducedDataBarOn.src} />
+  <DocImage width="240" alt="折れ線グラフ表示" src={imgReducedDataOn} />
+  <DocImage width="240" alt="棒グラフ表示" src={imgReducedDataBarOn} />
 </ImageRow>
 
 時間による傾向を見る場合は折れ線グラフ、値をひと目で比較する場合は棒グラフを使用します。
@@ -181,8 +182,8 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 統計画面のクライアントデータは、**リスト表示**または**円グラフ表示**を選択できます。
 
 <ImageRow>
-  <img width="240" alt="クライアントのリスト表示" src={imgClientsList.src} />
-  <img width="240" alt="クライアントの円グラフ表示" src={imgClientsPie.src} />
+  <DocImage width="240" alt="クライアントのリスト表示" src={imgClientsList} />
+  <DocImage width="240" alt="クライアントの円グラフ表示" src={imgClientsPie} />
 </ImageRow>
 
 正確な数値を確認する場合はリスト表示、素早く視覚的に比較する場合は円グラフが適しています。
@@ -191,7 +192,7 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 
 アプリが取得する**概要データの更新頻度**を設定します。
 
-<img width="320" alt="統計の更新間隔" src={imgStatsRefreshInterval.src} />
+<DocImage width="320" alt="統計の更新間隔" src={imgStatsRefreshInterval} />
 
 ホーム画面の4つの概要タイルと、ドメイン・クライアントを含む統計画面のデータに影響します。定義済みの固定間隔のほか、秒数を入力して**カスタム間隔**を指定できます。ホーム画面と統計の最新性を重視する場合は短く、通信回数とバッテリー消費を抑える場合は長く設定します。この項目はログのライブ更新やログ画面での手動更新には影響しません。
 
@@ -207,7 +208,7 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 
 ログ画面で**ログ項目を取得する頻度**を設定します。
 
-<img width="320" alt="ログの更新間隔" src={imgLogRefreshInterval.src} />
+<DocImage width="320" alt="ログの更新間隔" src={imgLogRefreshInterval} />
 
 **ライブログ**が有効な場合、この間隔で新しいログ項目を要求し、一覧へ追加します。定義済みの固定間隔または秒数による**カスタム間隔**を選べます。問題を積極的に調査する場合は短く、負荷を抑える場合は長く設定します。ライブログが無効な場合、この設定は無視され、手動更新時だけログが更新されます。
 
@@ -216,8 +217,8 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 一度のリクエストで返すログ件数を制御します。Pi-holeのバージョンによって動作が異なります。
 
 <ImageRow>
-  <img width="240" alt="Pi-hole v6でのログ件数の動作" src={imgLogQuantityPerRequest.src} />
-  <img width="240" alt="Pi-hole v5でのログ件数設定" src={imgLogQuantityPerRequestV5.src} />
+  <DocImage width="240" alt="Pi-hole v6でのログ件数の動作" src={imgLogQuantityPerRequest} />
+  <DocImage width="240" alt="Pi-hole v5でのログ件数設定" src={imgLogQuantityPerRequestV5} />
 </ImageRow>
 
 **左：Pi-hole v6**では、この値を設定できません。ログはスクロールに応じて項目を段階的に読み込む**無限スクロール**を使用します。固定の上限がなく、大量の履歴を効率よく確認できます。

@@ -4,6 +4,7 @@ sidebar:
   label: Settings
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import imgSettingsTop from "../images/settings/settings-top.png";
 import imgSettingsMiddle from "../images/settings/settings-middle.png";
 import imgSettingsBottom from "../images/settings/settings-bottom.png";
@@ -30,7 +31,7 @@ These settings affect only the app and do not change Pi-hole server behavior.
 
 From here, you can open pages such as theme, language, and server management.
 
-<img width="320" alt="Settings screen top section" src={imgSettingsTop.src} />
+<DocImage width="320" alt="Settings screen top section" src={imgSettingsTop} />
 
 Use App Settings when you want to customize the app experience or manage
 which Pi-hole servers are available.
@@ -40,7 +41,7 @@ which Pi-hole servers are available.
 Scrolling down reveals [Server Settings](./server-settings/), which provide tools that directly
 interact with the currently selected Pi-hole server.
 
-<img width="320" alt="Settings screen middle section" src={imgSettingsMiddle.src} />
+<DocImage width="320" alt="Settings screen middle section" src={imgSettingsMiddle} />
 
 In this section, you can manage Pi-hole configuration and data, including:
 
@@ -63,7 +64,7 @@ At the bottom of Settings is the [About](./about/) section.
 These pages provide information about the app and its legal context and
 do not affect app or server behavior.
 
-<img width="320" alt="Settings screen bottom section" src={imgSettingsBottom.src} />
+<DocImage width="320" alt="Settings screen bottom section" src={imgSettingsBottom} />
 
 Here, you can open:
 

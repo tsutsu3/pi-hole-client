@@ -5,6 +5,7 @@ sidebar:
   order: 3
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgLogSearch from "./images/logs/log-search.png";
 import imgLogFilter from "./images/logs/log-filter.png";
@@ -47,9 +48,9 @@ Use it when reproducing an issue and confirming which domains are queried
 in real time.
 
 <ImageRow>
-  <img width="240" alt="Logs live on state" src={imgLogLiveOn.src} />
-  <img width="240" alt="Logs live off state" src={imgLogLiveOff.src} />
-  <img width="240" alt="Logs live disabled state" src={imgLogLiveDisabled.src} />
+  <DocImage width="240" alt="Logs live on state" src={imgLogLiveOn} />
+  <DocImage width="240" alt="Logs live off state" src={imgLogLiveOff} />
+  <DocImage width="240" alt="Logs live disabled state" src={imgLogLiveDisabled} />
 </ImageRow>
 
 **Left: Live mode ON**
@@ -89,7 +90,7 @@ as live updates can interfere with stable, filtered results.
 Tap the search icon to open the search field.
 As soon as you start typing, the log list narrows down to matching entries.
 
-<img width="320" alt="Logs search" src={imgLogSearch.src} />
+<DocImage width="320" alt="Logs search" src={imgLogSearch} />
 
 Use search when you know part of a domain name.
 Exit search using the back arrow if you want to return to the full list.
@@ -101,7 +102,7 @@ Avoid searching while the server is disconnected, as results may be incomplete.
 Tap the filter icon to open the filter sheet.
 This is the most powerful way to focus on a specific situation.
 
-<img width="320" alt="Logs filter overview" src={imgLogFilter.src} />
+<DocImage width="320" alt="Logs filter overview" src={imgLogFilter} />
 
 Inside the filter sheet, you can refine the log list step by step.
 
@@ -109,7 +110,7 @@ Inside the filter sheet, you can refine the log list step by step.
 
 Use the **From** and **To** fields to select a time window.
 
-<img width="320" alt="Logs filter date range" src={imgLogFilterDate.src} />
+<DocImage width="320" alt="Logs filter date range" src={imgLogFilterDate} />
 
 Choose a short range when investigating a recent issue.
 Very broad ranges can make it harder to spot relevant entries.
@@ -118,7 +119,7 @@ Very broad ranges can make it harder to spot relevant entries.
 
 Select one or more statuses, such as **Blocked** or **Allowed**.
 
-<img width="320" alt="Logs filter status" src={imgLogFilterStatus.src} />
+<DocImage width="320" alt="Logs filter status" src={imgLogFilterStatus} />
 
 Use **Blocked** when checking why something failed to load.
 Limit the number of selected statuses to keep results readable.
@@ -127,7 +128,7 @@ Limit the number of selected statuses to keep results readable.
 
 Select a client to show queries from a single device.
 
-<img width="320" alt="Logs filter clients" src={imgLogFilterClients.src} />
+<DocImage width="320" alt="Logs filter clients" src={imgLogFilterClients} />
 
 This is useful when one device behaves differently from the rest of the network.
 Skip client filtering if you want a complete network view.
@@ -136,7 +137,7 @@ Skip client filtering if you want a complete network view.
 
 Tap the sort icon to switch between **Latest first** and **Oldest first**.
 
-<img width="320" alt="Logs sort options" src={imgLogSort.src} />
+<DocImage width="320" alt="Logs sort options" src={imgLogSort} />
 
 Use **Latest first** when monitoring ongoing activity.
 Switch to **Oldest first** when reviewing past events in order.
@@ -156,13 +157,13 @@ Use **Whitelist** when a legitimate site or app is broken by blocking.
 This adds the domain to Pi-hole’s whitelist (allowlist), and future queries will
 be permitted.
 
-<img width="320" alt="Log detail deny action" src={imgLogDetailDeny.src} />
+<DocImage width="320" alt="Log detail deny action" src={imgLogDetailDeny} />
 
 ### Blacklist a domain
 
 Use **Blacklist** when you are confident the domain is unwanted.
 
-<img width="320" alt="Log detail allow action" src={imgLogDetailAllow.src} />
+<DocImage width="320" alt="Log detail allow action" src={imgLogDetailAllow} />
 
 Blocking adds the domain to Pi-hole’s blacklist (denylist).
 Future queries will be blocked according to this rule.

@@ -5,6 +5,7 @@ sidebar:
   order: 2
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgQueriesServersTop from "../../../docs/user-manual/images/stats/queries-servers-top.png";
 import imgQueriesServersBottom from "../../../docs/user-manual/images/stats/queries-servers-bottom.png";
@@ -41,8 +42,8 @@ import imgDnsBottom from "../../../docs/user-manual/images/stats/dns-bottom.png"
 グラフは表示専用で、タップして操作することはできません。まずグラフで傾向を見つけ、実際の操作には一覧を使用してください。
 
 <ImageRow>
-  <img width="240" alt="クエリとサーバーのグラフ" src={imgQueriesServersTop.src} />
-  <img width="240" alt="クエリとサーバーの一覧" src={imgQueriesServersBottom.src} />
+  <DocImage width="240" alt="クエリとサーバーのグラフ" src={imgQueriesServersTop} />
+  <DocImage width="240" alt="クエリとサーバーの一覧" src={imgQueriesServersBottom} />
 </ImageRow>
 
 問題がドメイン、クライアント、上流ルーティングのどれに関係するかわからない場合は、**クエリとサーバー**から確認します。**DNS**タブが表示されない場合、接続先はPi-hole v5です。これは正常な動作であり、接続エラーではありません。
@@ -52,8 +53,8 @@ import imgDnsBottom from "../../../docs/user-manual/images/stats/dns-bottom.png"
 タブを選んだら、まずグラフで時間ごと・項目ごとのトラフィック分布を確認します。その下には同じカテゴリのランキング一覧が表示され、各行にはドメイン、クライアント、サーバーと、総クエリに占める割合が表示されます。
 
 <ImageRow>
-  <img width="240" alt="上位ドメインの一覧" src={imgDomainsTop.src} />
-  <img width="240" alt="ドメイン一覧の下部" src={imgDomainsBottom.src} />
+  <DocImage width="240" alt="上位ドメインの一覧" src={imgDomainsTop} />
+  <DocImage width="240" alt="ドメイン一覧の下部" src={imgDomainsBottom} />
 </ImageRow>
 
 グラフで全体の傾向を把握してから、一覧で**その傾向の原因となる項目**を特定してください。一覧が非表示または空の場合は、Pi-holeのプライバシー設定によって詳細データが制限されている可能性があります。その場合はグラフだけで断定しないでください。
@@ -63,8 +64,8 @@ import imgDnsBottom from "../../../docs/user-manual/images/stats/dns-bottom.png"
 ランキング一覧の行はタップできます。ドメインまたはクライアントをタップすると、対応するフィルターを適用した**ログ**が開きます。フィルターを手動で設定せず、個別のクエリをすぐ確認できます。
 
 <ImageRow>
-  <img width="240" alt="クライアント統計の上部" src={imgClientsTop.src} />
-  <img width="240" alt="クライアント一覧の下部" src={imgClientsBottom.src} />
+  <DocImage width="240" alt="クライアント統計の上部" src={imgClientsTop} />
+  <DocImage width="240" alt="クライアント一覧の下部" src={imgClientsBottom} />
 </ImageRow>
 
 特定の項目が一覧の大半を占めている場合に、その通信が想定どおりか、対処が必要かを確認するために便利です。
@@ -74,8 +75,8 @@ import imgDnsBottom from "../../../docs/user-manual/images/stats/dns-bottom.png"
 Pi-hole v6では、**DNS**タブからクエリの種類やDNSの動作など、追加のメトリクスを確認できます。
 
 <ImageRow>
-  <img width="240" alt="DNSメトリクスの統計" src={imgDnsTop.src} />
-  <img width="240" alt="DNSメトリクス一覧の下部" src={imgDnsBottom.src} />
+  <DocImage width="240" alt="DNSメトリクスの統計" src={imgDnsTop} />
+  <DocImage width="240" alt="DNSメトリクス一覧の下部" src={imgDnsBottom} />
 </ImageRow>
 
 DNSの利用状況に偏りがなく、想定どおりかを確認するために使用します。このタブが表示されない場合、接続先サーバーはこれらのメトリクスに対応していません。

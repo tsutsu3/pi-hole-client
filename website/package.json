@@ -35,6 +35,7 @@
     "globals": "^17.12.0",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
+    "sharp": "^0.35.4",
     "starlight-links-validator": "^0.25.3",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.69.0"
@@ -45,7 +46,8 @@
   "type": "module",
   "pnpm": {
     "onlyBuiltDependencies": [
-      "esbuild"
+      "esbuild",
+      "sharp"
     ]
   }
 }

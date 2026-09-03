@@ -5,6 +5,7 @@ sidebar:
   order: 3
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgLogSearch from "../../../docs/user-manual/images/logs/log-search.png";
 import imgLogFilter from "../../../docs/user-manual/images/logs/log-filter.png";
@@ -41,9 +42,9 @@ import imgLogDetailDeny from "../../../docs/user-manual/images/logs/log-detail-d
 ライブモードでは、DNSクエリを**発生した時点で**確認できます。問題を再現し、どのドメインが問い合わせられているかをリアルタイムで確認したい場合に使います。
 
 <ImageRow>
-  <img width="240" alt="ログのライブモードがオンの状態" src={imgLogLiveOn.src} />
-  <img width="240" alt="ログのライブモードが一時停止中の状態" src={imgLogLiveOff.src} />
-  <img width="240" alt="ログのライブモードが無効な状態" src={imgLogLiveDisabled.src} />
+  <DocImage width="240" alt="ログのライブモードがオンの状態" src={imgLogLiveOn} />
+  <DocImage width="240" alt="ログのライブモードが一時停止中の状態" src={imgLogLiveOff} />
+  <DocImage width="240" alt="ログのライブモードが無効な状態" src={imgLogLiveDisabled} />
 </ImageRow>
 
 **左：ライブモードがオン**：新しいログ項目が自動で追加され、画面タイトルの下に **● LIVE** が表示されます。右側の一時停止アイコンをタップすると更新を止められます。
@@ -62,7 +63,7 @@ import imgLogDetailDeny from "../../../docs/user-manual/images/logs/log-detail-d
 
 検索アイコンをタップすると検索欄が開きます。入力を始めるとすぐに、ログ一覧が一致する項目に絞り込まれます。
 
-<img width="320" alt="ログの検索" src={imgLogSearch.src} />
+<DocImage width="320" alt="ログの検索" src={imgLogSearch} />
 
 ドメイン名の一部がわかっている場合に使用します。検索を終了して一覧全体に戻るには、戻る矢印を使用します。サーバーが切断されている場合、結果が不完全になることがあるため検索は避けてください。
 
@@ -70,13 +71,13 @@ import imgLogDetailDeny from "../../../docs/user-manual/images/logs/log-detail-d
 
 フィルターアイコンをタップすると、フィルターシートが開きます。特定の状況を確認するための最も強力な方法です。
 
-<img width="320" alt="ログフィルターの概要" src={imgLogFilter.src} />
+<DocImage width="320" alt="ログフィルターの概要" src={imgLogFilter} />
 
 #### 時間範囲を指定する
 
 **開始**と**終了**を使用して時間範囲を選択します。
 
-<img width="320" alt="ログフィルターの日時範囲" src={imgLogFilterDate.src} />
+<DocImage width="320" alt="ログフィルターの日時範囲" src={imgLogFilterDate} />
 
 最近の問題を調べる場合は短い範囲を選びます。範囲が広すぎると、関連する項目を見つけにくくなります。
 
@@ -84,7 +85,7 @@ import imgLogDetailDeny from "../../../docs/user-manual/images/logs/log-detail-d
 
 **ブロック済み**や**許可済み**など、1つ以上のステータスを選択します。
 
-<img width="320" alt="ログフィルターのステータス" src={imgLogFilterStatus.src} />
+<DocImage width="320" alt="ログフィルターのステータス" src={imgLogFilterStatus} />
 
 読み込めない原因を調べる場合は**ブロック済み**を使用します。見やすさを保つため、選択するステータスは必要なものに絞ってください。
 
@@ -92,7 +93,7 @@ import imgLogDetailDeny from "../../../docs/user-manual/images/logs/log-detail-d
 
 クライアントを選択すると、1台の端末からのクエリだけを表示できます。
 
-<img width="320" alt="ログフィルターのクライアント" src={imgLogFilterClients.src} />
+<DocImage width="320" alt="ログフィルターのクライアント" src={imgLogFilterClients} />
 
 ネットワーク内の特定端末だけ挙動が異なる場合に便利です。ネットワーク全体を確認したい場合は、クライアントによる絞り込みは行わないでください。
 
@@ -100,7 +101,7 @@ import imgLogDetailDeny from "../../../docs/user-manual/images/logs/log-detail-d
 
 並べ替えアイコンをタップすると、**新しい順**と**古い順**を切り替えられます。
 
-<img width="320" alt="ログの並べ替えオプション" src={imgLogSort.src} />
+<DocImage width="320" alt="ログの並べ替えオプション" src={imgLogSort} />
 
 進行中の通信を確認する場合は**新しい順**、過去のイベントを順番に確認する場合は**古い順**を使用します。変更はすぐに一覧へ反映されます。
 
@@ -112,13 +113,13 @@ import imgLogDetailDeny from "../../../docs/user-manual/images/logs/log-detail-d
 
 ブロックによって正当なWebサイトやアプリが動作しない場合は、**ホワイトリストに追加**を使用します。ドメインがPi-holeのホワイトリスト（許可リスト）へ追加され、以後のクエリが許可されます。
 
-<img width="320" alt="ログ詳細の拒否操作" src={imgLogDetailDeny.src} />
+<DocImage width="320" alt="ログ詳細の拒否操作" src={imgLogDetailDeny} />
 
 ### ドメインをブラックリストへ追加する
 
 不要なドメインだと確信できる場合は、**ブラックリストに追加**を使用します。
 
-<img width="320" alt="ログ詳細の許可操作" src={imgLogDetailAllow.src} />
+<DocImage width="320" alt="ログ詳細の許可操作" src={imgLogDetailAllow} />
 
 ドメインをブラックリスト（拒否リスト）へ追加すると、以後のクエリはこのルールに従ってブロックされます。
 
