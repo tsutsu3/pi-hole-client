@@ -4,8 +4,19 @@ export const locales = ["en", "ja"] as const;
 
 export type Locale = (typeof locales)[number];
 
+export const DEFAULT_LOCALE: Locale = "en";
+
 export function isLocale(value: string): value is Locale {
   return (locales as readonly string[]).includes(value);
+}
+
+export function resolveLocale(value: string | undefined): Locale {
+  return value && isLocale(value) ? value : DEFAULT_LOCALE;
+}
+
+export function localizedPath(locale: Locale, path: string): string {
+  const normalizedPath = path.replace(/^\/+/, "");
+  return locale === DEFAULT_LOCALE ? normalizedPath : `${locale}/${normalizedPath}`;
 }
 
 /** `og:locale` value for each locale. */

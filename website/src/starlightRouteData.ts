@@ -1,7 +1,5 @@
 import { defineRouteMiddleware, type StarlightRouteData } from "@astrojs/starlight/route-data";
-import { isLocale, meta, ogLocale } from "./i18n/meta";
-
-const DEFAULT_LOCALE = "en";
+import { DEFAULT_LOCALE, isLocale, meta, ogLocale } from "./i18n/meta";
 
 /** Attributes of the `<meta>` tag carrying `attrs`, e.g. `{ property: "og:description" }`. */
 function findMeta(head: StarlightRouteData["head"], attrs: Record<string, string>) {

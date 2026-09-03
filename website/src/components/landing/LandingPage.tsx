@@ -1,5 +1,6 @@
 import React from "react";
 
+import type { Locale } from "../../i18n/meta";
 import ThemedImage from "./ThemedImage";
 import styles from "./landing.module.css";
 import {
@@ -44,8 +45,6 @@ import imgServerInfo from "@site/src/content/docs/docs/user-manual/images/settin
 import imgServerInfoDark from "@site/src/content/docs/docs/user-manual/images/settings/server-settings/pi-hole-server/pihole-server-dark.png";
 import imgTheme from "@site/src/content/docs/docs/user-manual/images/settings/app-settings/theme.png";
 import imgThemeDark from "@site/src/content/docs/docs/user-manual/images/settings/app-settings/theme-dark.png";
-
-type Locale = "en" | "ja";
 
 const featuresByLocale = {
   en: [

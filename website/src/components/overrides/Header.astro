@@ -3,14 +3,16 @@ import LanguageSelect from "@astrojs/starlight/components/LanguageSelect.astro";
 import Search from "@astrojs/starlight/components/Search.astro";
 import SiteTitle from "@astrojs/starlight/components/SiteTitle.astro";
 import ThemeSelect from "@astrojs/starlight/components/ThemeSelect.astro";
+import { localizedPath, resolveLocale } from "../../i18n/meta";
+import { uiText } from "../../i18n/ui";
 import SocialIcons from "./SocialIcons.astro";
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
-const isJapanese = Astro.currentLocale === "ja";
+const locale = resolveLocale(Astro.currentLocale);
 const routeId = Astro.locals.starlightRoute.id;
 const isLanding = routeId === "" || routeId === Astro.currentLocale;
-const docsHref = `${base}/${isJapanese ? "ja/" : ""}docs/intro/`;
-const docsLabel = isJapanese ? "ドキュメント" : "Docs";
+const docsHref = `${base}/${localizedPath(locale, "docs/intro/")}`;
+const docsLabel = uiText[locale].nav.docs;
 ---
 
 <div class="header">
@@ -84,7 +86,7 @@ const docsLabel = isJapanese ? "ドキュメント" : "Docs";
   }
 
   @media (max-width: 49.999rem) {
-   /* On mobile, show the theme and language controls in the header as icon-only buttons. */
+    /* On mobile, show the theme and language controls in the header as icon-only buttons. */
     .right-group.mobile-landing-preferences {
       display: flex;
       gap: 0.25rem;
