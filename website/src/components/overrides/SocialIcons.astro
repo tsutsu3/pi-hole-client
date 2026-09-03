@@ -3,10 +3,11 @@ import Default from "@astrojs/starlight/components/SocialIcons.astro";
 
 const playStoreUrl =
   "https://play.google.com/store/apps/details?id=io.github.tsutsu3.pi_hole_client";
+const playStoreLabel = Astro.currentLocale === "ja" ? "Google Play ストア" : "Google Play Store";
 ---
 
 <a class="play-link sl-flex" href={playStoreUrl} rel="noopener noreferrer" target="_blank">
-  <span class="sr-only">Google Play Store</span>
+  <span class="sr-only">{playStoreLabel}</span>
   <svg
     aria-hidden="true"
     class="icon"

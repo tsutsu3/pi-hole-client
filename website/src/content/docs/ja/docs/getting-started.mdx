@@ -1,0 +1,80 @@
+---
+title: 🚀 セットアップ
+sidebar:
+  label: セットアップ
+  order: 2
+---
+
+import ImageRow from "@site/src/components/image-row";
+import imgServersList from "../../docs/user-manual/images/settings/app-settings/servers.png";
+import imgCreateConnection from "../../docs/user-manual/images/settings/app-settings/create-a-connection.png";
+
+以下の手順でアプリをPi-holeに接続し、スマートフォンから管理を始めます。
+
+## 1. アプリをインストールする
+
+**Pi-hole Client** は次のいずれかの方法で入手できます。
+
+- [Google Play](https://play.google.com/store/apps/details?id=io.github.tsutsu3.pi_hole_client) — 最も簡単なインストール方法。更新も自動で受け取れます。
+- [GitHub Releases](https://github.com/tsutsu3/pi-hole-client/releases) — APKを手動でインストールする場合や、新しいビルドを試す場合に利用します。
+
+:::tip
+**Linux** または **Windows** で使用する場合は、詳しい手順と依存関係について[インストールガイド](../guides/installation/)を参照してください。
+:::
+
+## 2. Pi-holeを準備する
+
+接続前に、次のことを確認してください。
+
+- スマートフォンから**Pi-holeのWeb管理画面に到達できる**こと（同一LAN、またはWireGuard / TailscaleなどのVPN経由）。
+- Pi-holeのバージョンが **v6** であること。
+
+  ```bash
+  pihole -v
+  ```
+
+### Pi-hole v6の場合
+
+- インストール時に設定した**Web UIパスワード**が必要です。
+
+### Pi-hole v5の場合
+
+- `Settings → API/Web interface → Show API token` から**APIトークン**を確認します。詳しくは[APIトークンの取得（v5のみ）](../guides/get-api-token/)を参照してください。
+
+## 3. アプリでサーバーを追加する
+
+**設定 → アプリ設定 → サーバー**を開き、**＋**をタップして新しい接続を作成します。
+
+<ImageRow>
+  <img width="240" alt="アプリ設定のサーバー一覧" src={imgServersList.src} />
+  <img width="240" alt="接続の作成画面" src={imgCreateConnection.src} />
+</ImageRow>
+
+### 接続情報を入力する
+
+- **サーバー名**：アプリに表示する名前（例：`自宅のPi-hole`）
+- **HTTP / HTTPS**：
+  - ローカルネットワークで使用する場合は **HTTP**
+  - リバースプロキシやTLSを通じて公開している場合は **HTTPS**
+- **アドレス**：Pi-holeのホスト名またはIPアドレス（例：`pi.hole` または `192.168.1.10`）
+- **ポート**（任意）：既定値を使用する場合は空欄（HTTPは`80`、HTTPSは`443`）
+
+### 詳細オプション（必要な場合のみ）
+
+- **サブルート**（任意）：リバースプロキシでPi-holeをパス配下に公開している場合だけ指定します（例：`/pihole`）。
+- **信頼されていない証明書を許可する**：**HTTPS**でのみ利用できます。自己署名証明書を意図して使用する場合だけ有効にしてください。
+
+### Pi-holeのバージョンと認証を選ぶ
+
+- **Pi-hole v6（推奨）**：**Web UIパスワード**を入力
+- **Pi-hole v5**：**APIトークン**を入力（モバイルではQRコードの読み取りも可能）
+
+**接続**をタップすると、入力内容を検証してサーバーを保存します。
+
+接続に失敗した場合は、Web管理画面にスマートフォンから到達できること（LAN / VPN）、Pi-holeのバージョン、認証情報を確認してください。HTTPS、自己署名証明書、リバースプロキシ（サブルート）の設定については、[Pi-holeへの接続](../guides/create-a-connection/)を参照してください。
+
+関連ページ：
+
+- [Pi-holeへの接続](../guides/create-a-connection/)
+- [APIトークンの取得（v5のみ）](../guides/get-api-token/)
+- [ユーザーマニュアル](../user-manual/)

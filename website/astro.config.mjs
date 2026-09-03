@@ -5,12 +5,12 @@ import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import react from "@astrojs/react";
 import starlightLinksValidator from "starlight-links-validator";
+import { meta } from "./src/i18n/meta";
 
 const githubUrl = "https://github.com/tsutsu3/pi-hole-client";
 const websiteUrl = "https://tsutsu3.github.io/pi-hole-client";
 const ogImageUrl = `${websiteUrl}/img/feature-image-og.png`;
-const description =
-  "Pi-hole client is a mobile application that allows you to manage your Pi-hole server from your smartphone.";
+const description = meta.description.en;
 
 /**
  * Docusaurus published the sitemap at /sitemap.xml and that URL is registered in
@@ -50,7 +50,7 @@ const head = [
     tag: "meta",
     attrs: {
       property: "og:description",
-      content: "Manage your Pi-hole server easily from your smartphone with Pi-hole client.",
+      content: meta.ogDescription.en,
     },
   },
   { tag: "meta", attrs: { property: "og:type", content: "website" } },
@@ -69,7 +69,7 @@ const head = [
     tag: "meta",
     attrs: {
       name: "twitter:description",
-      content: "Monitor and control your Pi-hole server with Pi-hole client for mobile.",
+      content: meta.twitterDescription.en,
     },
   },
   { tag: "meta", attrs: { name: "twitter:image", content: ogImageUrl } },
@@ -87,20 +87,22 @@ const head = [
 
 /** @type {import("@astrojs/starlight/types").StarlightUserConfig["sidebar"]} */
 const sidebar = [
-  { label: "Introduction", slug: "docs/intro" },
-  { label: "Getting Started", slug: "docs/getting-started" },
+  { label: "Introduction", translations: { ja: "はじめに" }, slug: "docs/intro" },
+  { label: "Getting Started", translations: { ja: "セットアップ" }, slug: "docs/getting-started" },
   {
     label: "User Manual",
+    translations: { ja: "ユーザーマニュアル" },
     items: [
-      { label: "Overview", slug: "docs/user-manual" },
+      { label: "Overview", translations: { ja: "概要" }, slug: "docs/user-manual" },
       "docs/user-manual/home",
       "docs/user-manual/statistics",
       "docs/user-manual/logs",
       "docs/user-manual/domains",
       {
         label: "Settings",
+        translations: { ja: "設定" },
         items: [
-          { label: "Overview", slug: "docs/user-manual/settings" },
+          { label: "Overview", translations: { ja: "概要" }, slug: "docs/user-manual/settings" },
           "docs/user-manual/settings/app-settings",
           "docs/user-manual/settings/server-settings",
           "docs/user-manual/settings/about",
@@ -111,6 +113,7 @@ const sidebar = [
   },
   {
     label: "Guides",
+    translations: { ja: "ガイド" },
     items: [
       "docs/guides/installation",
       "docs/guides/create-a-connection",
@@ -118,7 +121,11 @@ const sidebar = [
       "docs/guides/cert-config",
     ],
   },
-  { label: "Help", items: ["docs/help/faq", "docs/help/privacy"] },
+  {
+    label: "Help",
+    translations: { ja: "ヘルプ" },
+    items: ["docs/help/faq", "docs/help/privacy"],
+  },
 ];
 
 // https://astro.build/config
@@ -131,6 +138,11 @@ export default defineConfig({
     starlight({
       title: "Pi-hole client",
       description,
+      defaultLocale: "root",
+      locales: {
+        root: { label: "English", lang: "en" },
+        ja: { label: "日本語", lang: "ja" },
+      },
       favicon: "/img/favicon.ico",
       logo: {
         src: "./src/assets/pi-hole-client-icon-large-round.svg",
@@ -150,6 +162,8 @@ export default defineConfig({
       },
       head,
       sidebar,
+      // Rewrites the language-dependent `head` entries above on Japanese routes.
+      routeMiddleware: "./src/starlightRouteData.ts",
     }),
     legacySitemap,
   ],

@@ -1,0 +1,70 @@
+---
+title: 📦 インストールガイド
+sidebar:
+  label: インストールガイド
+  order: 1
+---
+
+このページでは、LinuxとWindowsに **Pi-hole Client** をインストールする方法を説明します。
+
+## 🐧 Linuxへのインストール
+
+### 方法1：`.deb` パッケージを使用する
+
+1. [リリースページ](https://github.com/tsutsu3/pi-hole-client/releases)から `.deb` パッケージをダウンロードします。
+2. 次のコマンドでインストールします。
+
+   ```bash
+   sudo dpkg -i PiHoleClient_<version>_Linux_amd64.deb
+   ```
+
+:::note
+アプリは次のシステムライブラリを使用します。
+
+- **libsecret-1-0**
+- **libjsoncpp1** または **libjsoncpp25**
+
+アプリが起動しない場合は、不足している依存関係を手動でインストールしてください。
+
+```bash
+sudo apt install libsecret-1-0 libjsoncpp1
+```
+
+または
+
+```bash
+sudo apt install libsecret-1-0 libjsoncpp25
+```
+
+:::
+
+## 🪟 Windowsへのインストール
+
+### 方法1：GitHub Releasesからインストールする
+
+1. [リリースページ](https://github.com/tsutsu3/pi-hole-client/releases)からWindows用インストーラー（`.exe`）をダウンロードします。
+2. インストーラーを実行し、画面の案内に従います。
+
+:::note
+このアプリには **Microsoft Visual C++ Redistributable（x64）** ランタイムが必要です。
+
+`MSVCP140.dll` または `VCRUNTIME140.dll` が見つからないというエラーが表示された場合は、Microsoftから最新のランタイムをインストールしてください。
+
+👉 [Visual C++ Redistributableをダウンロード](https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist)
+:::
+
+### 方法2：`winget` を使用する
+
+[Windows Package Manager](https://learn.microsoft.com/ja-jp/windows/package-manager/winget/)（`winget`）がインストールされている場合は、次のコマンドを実行します。
+
+```powershell
+winget install tsutsu3.Pi-hole-client
+```
+
+:::note
+権限を求める画面が表示された場合は許可するか、PowerShellを管理者として実行してください。
+:::
+
+## 🧩 次のステップ
+
+インストールが完了したら、**[セットアップ](../../getting-started/)** に進み、Pi-holeへの接続と基本操作を確認してください。

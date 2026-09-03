@@ -1,0 +1,236 @@
+---
+title: 🔧 アプリ設定
+sidebar:
+  label: アプリ設定
+  order: 1
+---
+
+import ImageRow from "@site/src/components/image-row";
+import imgAppSettingsMain from "../../../../docs/user-manual/images/settings/app-settings/servers.png";
+import imgAppSettingsAdvanced from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/advanced-settings-top.png";
+import imgReducedDataOn from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/use-reduced-data/linechart-reduce-on.png";
+import imgReducedDataOff from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/chart-display-mode/linechart-reduce-off.png";
+import imgHideZeroOn from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/hide-zero-values/hide-zero-values-on.png";
+import imgHideZeroOff from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/hide-zero-values/hide-zero-values-off.png";
+import imgShowLoadingAnimation from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/show-loading-animation/show-loading-animation.gif";
+import imgChartDisplayMode from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/chart-display-mode/chart-display-mode.png";
+import imgTheme from "../../../../docs/user-manual/images/settings/app-settings/theme.png";
+import imgThemeDark from "../../../../docs/user-manual/images/settings/app-settings/theme-dark.png";
+import imgLanguage from "../../../../docs/user-manual/images/settings/app-settings/language.png";
+import imgLanguageJp from "../../../../docs/user-manual/images/settings/app-settings/language-jp.png";
+import imgReducedDataBarOn from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/use-reduced-data/barchart-reduce-on.png";
+import imgClientsList from "../../../../docs/user-manual/images/stats/clients-top.png";
+import imgClientsPie from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/chart-display-mode/stats-client-piechart.png";
+import imgUnlock from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/app-unlock/app-unlock-with-bio.png";
+import imgUnlockPasscode from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/app-unlock/app-unlock-key.png";
+import imgUnlockFingerprint from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/app-unlock/app-unlock-fingerprint.png";
+import imgStatsRefreshInterval from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/stats-refresh-interval.png";
+import imgLogRefreshInterval from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/log-refresh-interval.png";
+import imgLogQuantityPerRequest from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/logs-quantity.png";
+import imgLogQuantityPerRequestV5 from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/logs-quantity-v5.png";
+
+## この画面でできること
+
+アプリ設定では、**端末上でのPi-hole Clientの動作**を設定します。Pi-hole自体は変更しませんが、情報の表示方法、データの更新頻度、アプリの使い心地に影響します。
+
+この画面では次のことができます。
+
+- 外観と言語をカスタマイズする
+- グラフの動作とパフォーマンスを調整する
+- アプリ側の詳細な設定を変更する
+
+---
+
+## 外観と言語
+
+### テーマ
+
+アプリの見た目を選択します。
+
+<ImageRow>
+  <img width="240" alt="テーマ設定" src={imgTheme.src} />
+  <img width="240" alt="ダークテーマ設定" src={imgThemeDark.src} />
+</ImageRow>
+
+- **ライト**：常にライトテーマを使用
+- **ダーク**：常にダークテーマを使用
+- **システムテーマ**：端末の設定に従う
+
+変更はすぐに反映され、すべての画面に適用されます。
+
+### 言語
+
+アプリの表示言語を選択します。
+
+<ImageRow>
+  <img width="240" alt="言語設定" src={imgLanguage.src} />
+  <img width="240" alt="日本語の言語設定" src={imgLanguageJp.src} />
+</ImageRow>
+
+English（英語、既定）、Deutsch（ドイツ語）、Español（スペイン語）、日本語、Polski（ポーランド語）などを選択できます。この設定はアプリUIだけを変更し、Pi-holeサーバーからのメッセージは変更しません。
+
+## Pi-holeサーバーへの接続を管理する
+
+**サーバー**では、アプリが接続できるPi-hole環境を管理します。
+
+<img width="320" alt="アプリ設定のサーバー一覧" src={imgAppSettingsMain.src} />
+
+ここから、現在のサーバーの切り替え、新しいPi-holeサーバーの追加、登録済みサーバーの編集、アプリからの削除を行えます。表示名、パスワード、既定サーバーの指定、Pi-holeのバージョンは編集できます。IPアドレス、ポート、サブルート、証明書設定などの接続情報は、作成後には変更できません。
+
+別のPi-holeを管理したい場合はサーバーを切り替えます。別ネットワークや別端末にPi-holeを構築した場合は、新しいサーバーを追加してください。
+
+---
+
+## 高度な設定
+
+高度な設定には、**アプリ動作を細かく制御する項目**があります。パフォーマンス、データ量、グラフの見やすさを調整する場合に利用します。
+
+<img width="320" alt="アプリの高度な設定" src={imgAppSettingsAdvanced.src} />
+
+ほとんどの変更はすぐに反映されます。複数の項目を一度に変更した場合は、アプリの更新に少し時間を置いてください。
+
+## アプリロック解除
+
+アプリロック解除では、**第三者によるアプリへのアクセスを防ぐ**設定を行います。有効にすると、アプリを使用する前に認証が必要になります。
+
+<img width="320" alt="アプリロック設定" src={imgUnlock.src} />
+
+アプリ本体を保護する機能であり、Pi-holeサーバーの認証やAPIアクセスには影響しません。
+
+### パスコードでロックを解除する
+
+パスコードロックでは、アプリを開くために数字のコードを使用します。
+
+1. **アプリロック解除**を開きます。
+2. **パスコードを設定**をタップします。
+3. 使用したいパスコードを入力します。
+4. 同じパスコードをもう一度入力して確認します。
+
+<img width="240" alt="パスコードによるアプリロック" src={imgUnlockPasscode.src} />
+
+端末を共有している場合や、生体認証の有無にかかわらず一定の保護を行いたい場合に使用します。
+
+### 指紋でロックを解除する
+
+指紋認証を使用すると、生体認証でアプリを開けます。
+
+1. 上記のパスコード設定を完了します。
+2. **指紋を使用**を有効にします。
+
+<img width="240" alt="指紋によるアプリロック" src={imgUnlockFingerprint.src} />
+
+指紋認証はOSが処理します。アプリが生体情報を保存・処理することはありません。
+
+### ロック方法に関する注意
+
+- 指紋によるロック解除を有効にするには、先にパスコードの設定が必要です。
+- 指紋によるロック解除はすばやく開けますが、端末が対応している場合にのみ利用できます。
+- 生体認証に失敗した場合は、パスコードが代替手段になります。
+
+ログ、設定、サーバー管理の各機能を開く前の保護を強めたい場合に、アプリロック解除を使用してください。
+
+## グラフの密度（データ縮小を使用）
+
+この項目は、グラフに描画するデータ量を制御します。**データ縮小を使用**を有効にすると、グラフのデータポイントが少なくなります。
+
+<ImageRow>
+  <img width="240" alt="データ縮小がオフ" src={imgReducedDataOff.src} />
+  <img width="240" alt="データ縮小がオン" src={imgReducedDataOn.src} />
+</ImageRow>
+
+低速回線や従量制回線を使用している場合、またはグラフの更新が重い場合に有効にします。最も詳細な表示を希望する場合は無効にしてください。
+
+## ゼロ値を非表示
+
+値が0の系列をグラフから取り除きます。
+
+<ImageRow>
+  <img width="240" alt="ゼロ値を非表示がオフ" src={imgHideZeroOff.src} />
+  <img width="240" alt="ゼロ値を非表示がオン" src={imgHideZeroOn.src} />
+</ImageRow>
+
+グラフが複雑で読みづらい場合に有効にします。使用されていない系列も含めてすべて表示したい場合は無効にしてください。
+
+## 読み込み中のアニメーションを表示
+
+グラフのデータを読み込む際にアニメーションを表示するかを設定します。
+
+<img width="320" alt="グラフ読み込みアニメーション" src={imgShowLoadingAnimation.src} />
+
+更新中の視覚的なフィードバックが必要な場合は有効にし、静的な表示を好む場合は無効にします。
+
+## グラフ表示モード
+
+グラフ表示モードは、**統計の表示方法**を制御します。
+
+<img width="320" alt="グラフ表示モード" src={imgChartDisplayMode.src} />
+
+### ホーム画面のグラフ形式
+
+ホーム画面では、**折れ線グラフ**と**棒グラフ**を切り替えられます。
+
+<ImageRow>
+  <img width="240" alt="折れ線グラフ表示" src={imgReducedDataOn.src} />
+  <img width="240" alt="棒グラフ表示" src={imgReducedDataBarOn.src} />
+</ImageRow>
+
+時間による傾向を見る場合は折れ線グラフ、値をひと目で比較する場合は棒グラフを使用します。
+
+### 統計画面のレイアウト（ドメインとクライアント）
+
+統計画面のクライアントデータは、**リスト表示**または**円グラフ表示**を選択できます。
+
+<ImageRow>
+  <img width="240" alt="クライアントのリスト表示" src={imgClientsList.src} />
+  <img width="240" alt="クライアントの円グラフ表示" src={imgClientsPie.src} />
+</ImageRow>
+
+正確な数値を確認する場合はリスト表示、素早く視覚的に比較する場合は円グラフが適しています。
+
+## 統計の更新間隔
+
+アプリが取得する**概要データの更新頻度**を設定します。
+
+<img width="320" alt="統計の更新間隔" src={imgStatsRefreshInterval.src} />
+
+ホーム画面の4つの概要タイルと、ドメイン・クライアントを含む統計画面のデータに影響します。定義済みの固定間隔のほか、秒数を入力して**カスタム間隔**を指定できます。ホーム画面と統計の最新性を重視する場合は短く、通信回数とバッテリー消費を抑える場合は長く設定します。この項目はログのライブ更新やログ画面での手動更新には影響しません。
+
+<span id="live-log"></span>
+
+## ライブログ
+
+ログ画面で**リアルタイムのログ更新**を利用するかを設定します。有効（既定）の場合、ログ画面で**ライブモード**に切り替え、発生したDNSクエリを表示できます。無効の場合、ログは手動更新のみになります。
+
+この設定はPi-holeのログ記録方法を変更せず、アプリがログ項目を取得・更新する方法だけに影響します。有効にしていても、ログ画面のライブ更新は最初は**一時停止**状態です。リアルタイム更新を始めるにはログ画面で**再開**をタップします。詳しくは[ログ](../../logs/#live-log)を参照してください。
+
+## ログの更新間隔
+
+ログ画面で**ログ項目を取得する頻度**を設定します。
+
+<img width="320" alt="ログの更新間隔" src={imgLogRefreshInterval.src} />
+
+**ライブログ**が有効な場合、この間隔で新しいログ項目を要求し、一覧へ追加します。定義済みの固定間隔または秒数による**カスタム間隔**を選べます。問題を積極的に調査する場合は短く、負荷を抑える場合は長く設定します。ライブログが無効な場合、この設定は無視され、手動更新時だけログが更新されます。
+
+## リクエストあたりのログ件数
+
+一度のリクエストで返すログ件数を制御します。Pi-holeのバージョンによって動作が異なります。
+
+<ImageRow>
+  <img width="240" alt="Pi-hole v6でのログ件数の動作" src={imgLogQuantityPerRequest.src} />
+  <img width="240" alt="Pi-hole v5でのログ件数設定" src={imgLogQuantityPerRequestV5.src} />
+</ImageRow>
+
+**左：Pi-hole v6**では、この値を設定できません。ログはスクロールに応じて項目を段階的に読み込む**無限スクロール**を使用します。固定の上限がなく、大量の履歴を効率よく確認できます。
+
+**右：Pi-hole v5**では、この設定でリクエストごとのログ件数を手動指定できます。パフォーマンスとデータ量のバランスのために必要ですが、あらかじめ固定値を選ぶ必要があります。v6を使用している場合は操作不要です。
+
+---
+
+## アプリ設定を調整する場面
+
+- 初回設定時
+- ネットワークや端末を切り替えたとき
+- グラフが遅い、情報量が多すぎる、読みにくいと感じたとき
+- アプリを自分の好みに合わせたいとき
+
+アプリ設定は安全に試せます。アプリだけに影響し、いつでも変更できます。

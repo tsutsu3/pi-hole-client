@@ -5,21 +5,38 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const githubUrl = "https://github.com/tsutsu3/pi-hole-client";
 const playStoreUrl =
   "https://play.google.com/store/apps/details?id=io.github.tsutsu3.pi_hole_client";
+const isJapanese = Astro.currentLocale === "ja";
+const docsHref = `${base}/${isJapanese ? "ja/" : ""}docs/intro/`;
 
-const columns = [
-  { title: "Documents", links: [{ label: "Docs", href: `${base}/docs/intro/` }] },
-  {
-    title: "Pi-hole Resources",
-    links: [{ label: "Pi-hole Website", href: "https://pi-hole.net/" }],
-  },
-  {
-    title: "More",
-    links: [
-      { label: "GitHub", href: githubUrl },
-      { label: "Google Play Store", href: playStoreUrl },
-    ],
-  },
-];
+const columns = isJapanese
+  ? [
+      { title: "ドキュメント", links: [{ label: "ドキュメントを見る", href: docsHref }] },
+      {
+        title: "Pi-hole関連リンク",
+        links: [{ label: "Pi-hole公式サイト", href: "https://pi-hole.net/" }],
+      },
+      {
+        title: "その他",
+        links: [
+          { label: "GitHub", href: githubUrl },
+          { label: "Google Play ストア", href: playStoreUrl },
+        ],
+      },
+    ]
+  : [
+      { title: "Documents", links: [{ label: "Docs", href: docsHref }] },
+      {
+        title: "Pi-hole Resources",
+        links: [{ label: "Pi-hole Website", href: "https://pi-hole.net/" }],
+      },
+      {
+        title: "More",
+        links: [
+          { label: "GitHub", href: githubUrl },
+          { label: "Google Play Store", href: playStoreUrl },
+        ],
+      },
+    ];
 ---
 
 <Default />

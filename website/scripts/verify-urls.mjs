@@ -81,8 +81,11 @@ for (const file of htmlFiles) {
 }
 
 // --- required pages, files and deep links ---
+// Every documentation page also exists under the `ja` locale.
 for (const page of DOC_PAGES) {
-  if (!pages.has(`${BASE}/${page}/`)) errors.push(`missing page: ${BASE}/${page}/`);
+  for (const path of [page, `ja/${page}`]) {
+    if (!pages.has(`${BASE}/${path}/`)) errors.push(`missing page: ${BASE}/${path}/`);
+  }
 }
 
 for (const file of OTHER_FILES) {
@@ -148,6 +151,6 @@ if (errors.length > 0) {
 }
 
 console.log(
-  `verify:urls ok (${DOC_PAGES.length} pages, ${OTHER_FILES.length} files, ` +
+  `verify:urls ok (${DOC_PAGES.length * 2} pages (en + ja), ${OTHER_FILES.length} files, ` +
     `${DEEP_LINKS.length} deep links, ${pages.size} HTML pages link-checked)`,
 );

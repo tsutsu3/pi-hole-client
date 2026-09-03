@@ -8,12 +8,15 @@ import SocialIcons from "./SocialIcons.astro";
 // Same order as the previous Docusaurus navbar: title and Docs on the left,
 // social icons, theme switch and search on the right.
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const isJapanese = Astro.currentLocale === "ja";
+const docsHref = `${base}/${isJapanese ? "ja/" : ""}docs/intro/`;
+const docsLabel = isJapanese ? "ドキュメント" : "Docs";
 ---
 
 <div class="header">
   <div class="title-wrapper sl-flex">
     <SiteTitle />
-    <a class="nav-link sl-hidden md:sl-flex" href={`${base}/docs/intro/`}>Docs</a>
+    <a class="nav-link sl-hidden md:sl-flex" href={docsHref}>{docsLabel}</a>
   </div>
   <div class="sl-hidden md:sl-flex print:hidden right-group">
     <div class="sl-flex social-icons">
@@ -77,7 +80,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
   @media (min-width: 50rem) {
     .search-wrapper {
-      width: 16rem;
+      width: 12rem;
     }
   }
 </style>
