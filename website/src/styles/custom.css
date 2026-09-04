@@ -117,7 +117,10 @@ header.header {
   background-color: var(--phc-sidebar-active-bg);
 }
 
-/* これがないと横に画像を並べると高さがずれる */
+/* Prevents height misalignment */
 picture {
   display: contents;
+}
+picture > source {
+  display: none;
 }
