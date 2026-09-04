@@ -1,8 +1,12 @@
 {
-  // This file is not used in compilation. It is here just for a nice editor experience.
-  "extends": "@docusaurus/tsconfig",
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "node_modules"],
   "compilerOptions": {
-    "ignoreDeprecations": "6.0"
-  },
-  "exclude": [".docusaurus", "build"]
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "paths": {
+      "@site/*": ["./*"]
+    }
+  }
 }

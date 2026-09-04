@@ -1,0 +1,61 @@
+---
+import type { ImageMetadata } from "astro";
+import { getImage } from "astro:assets";
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  width?: number | `${number}`;
+  /** Largest variant to generate, as a multiple of the displayed width. */
+  maxScale?: number;
+  /** WebP quality. Lower it for images whose file size dwarfs the rest of the page. */
+  quality?: number;
+  /** Load immediately instead of lazily. Set it on the first image of a page. */
+  priority?: boolean;
+}
+
+const { src, alt, width, maxScale = 2, quality = 85, priority = false } = Astro.props;
+const contentWidth = 832;
+const askedWidth = width === undefined ? contentWidth : Number(width);
+
+const requestedWidth = Math.min(askedWidth, src.width);
+if (askedWidth > src.width) {
+  console.warn(
+    `[doc-image] "${alt}": width=${askedWidth} is wider than the source (${src.width}px), ` +
+      `so it renders at ${src.width}px. Re-export the image at ${askedWidth * 2}px wide.`,
+  );
+}
+
+// 416, 832, 1664
+const candidateWidths = [Math.ceil(requestedWidth / 2), requestedWidth, requestedWidth * maxScale]
+  .map((candidate) => Math.min(candidate, src.width))
+  .filter(
+    (candidate, index, candidates) => candidate > 0 && candidates.indexOf(candidate) === index,
+  )
+  .sort((a, b) => a - b);
+
+const sizes = `(max-width: ${requestedWidth}px) calc(100vw - 2rem), ${requestedWidth}px`;
+const height = Math.round((requestedWidth * src.height) / src.width);
+
+const shared = { src, width: requestedWidth, widths: candidateWidths };
+const webp = await getImage({ ...shared, format: "webp", quality });
+const avif =
+  src.format === "gif" ? null : await getImage({ ...shared, format: "avif", quality: 55 });
+---
+
+<picture>
+  {avif && <source type="image/avif" srcset={avif.srcSet.attribute} sizes={sizes} />}
+  <source type="image/webp" srcset={webp.srcSet.attribute} sizes={sizes} />
+  <img
+    src={webp.src}
+    srcset={webp.srcSet.attribute}
+    sizes={sizes}
+    alt={alt}
+    width={requestedWidth}
+    height={height}
+    loading={priority ? "eager" : "lazy"}
+    fetchpriority={priority ? "high" : undefined}
+    decoding="async"
+    data-target-width={askedWidth > src.width ? askedWidth : undefined}
+  />
+</picture>

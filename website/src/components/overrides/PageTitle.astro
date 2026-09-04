@@ -1,0 +1,9 @@
+---
+import Default from "@astrojs/starlight/components/PageTitle.astro";
+
+const routeId = Astro.locals.starlightRoute.id;
+const isLanding = routeId === "" || routeId === Astro.currentLocale;
+const isNotFound = Astro.url.pathname.replace(/\/$/, "").endsWith("/404");
+---
+
+{!isLanding && !isNotFound && <Default />}

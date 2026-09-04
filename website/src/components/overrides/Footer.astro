@@ -1,0 +1,90 @@
+---
+import Default from "@astrojs/starlight/components/Footer.astro";
+import { localizedPath, resolveLocale } from "../../i18n/meta";
+import { uiText } from "../../i18n/ui";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const githubUrl = "https://github.com/tsutsu3/pi-hole-client";
+const playStoreUrl =
+  "https://play.google.com/store/apps/details?id=io.github.tsutsu3.pi_hole_client";
+const locale = resolveLocale(Astro.currentLocale);
+const docsHref = `${base}/${localizedPath(locale, "docs/intro/")}`;
+const text = uiText[locale];
+
+const columns = [
+  { title: text.footer.documents, links: [{ label: text.footer.docsLink, href: docsHref }] },
+  {
+    title: text.footer.piHoleResources,
+    links: [{ label: text.footer.piHoleWebsite, href: "https://pi-hole.net/" }],
+  },
+  {
+    title: text.footer.more,
+    links: [
+      { label: "GitHub", href: githubUrl },
+      { label: text.social.playStore, href: playStoreUrl },
+    ],
+  },
+];
+---
+
+<Default />
+
+<div class="site-footer">
+  <div class="site-footer-columns">
+    {
+      columns.map((column) => (
+        <div class="site-footer-column">
+          <div class="site-footer-title">{column.title}</div>
+          <ul>
+            {column.links.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+  <p class="site-footer-copyright">Copyright © {new Date().getFullYear()} tsutsu3.</p>
+</div>
+
+<style>
+  .site-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--sl-color-hairline);
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+  }
+  .site-footer-columns {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+  .site-footer-title {
+    font-weight: 600;
+    color: var(--sl-color-white);
+    margin-bottom: 0.5rem;
+  }
+  .site-footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .site-footer li + li {
+    margin-top: 0.35rem;
+  }
+  .site-footer a {
+    color: var(--sl-color-gray-3);
+    text-decoration: none;
+  }
+  .site-footer a:hover {
+    color: var(--sl-color-white);
+    text-decoration: underline;
+  }
+  .site-footer-copyright {
+    margin: 1.5rem 0 0;
+    text-align: center;
+  }
+</style>

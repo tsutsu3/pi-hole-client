@@ -1,0 +1,46 @@
+---
+title: 🔑 APIトークンの取得（v5のみ）
+sidebar:
+  label: APIトークンの取得（v5のみ）
+  order: 3
+---
+
+import DocImage from "@site/src/components/doc-image.astro";
+import imgLogin from "../../../docs/guides/images/01.png";
+import imgHome from "../../../docs/guides/images/02.png";
+import imgSettings from "../../../docs/guides/images/03.png";
+import imgWeb from "../../../docs/guides/images/04.png";
+import imgYes from "../../../docs/guides/images/05.png";
+import imgApp from "../../../docs/guides/images/06.png";
+
+このガイドでは、アプリをPi-holeサーバーで認証するために必要なAPIトークンの取得方法を説明します。
+
+:::note
+この手順は、Pi-holeサーバーのバージョン5.xにのみ適用されます。
+
+Pi-hole 6.xでは認証方法が異なるため、APIトークンは必要ありません。
+:::
+
+1. Pi-hole®サーバーの管理画面を開き、ログインします。
+
+   <DocImage priority width="300" alt="Pi-hole管理画面へのログイン" src={imgLogin} />
+
+2. サイドメニューから「Settings」を開きます。
+
+   <DocImage width="600" alt="Pi-hole管理画面のサイドメニュー" src={imgHome} />
+
+3. 「API / Web interface」を開きます。
+
+   <DocImage width="600" alt="Pi-holeの設定画面" src={imgSettings} />
+
+4. 「Show API token」をクリックします。
+
+   <DocImage width="600" alt="APIトークン表示ボタン" src={imgWeb} />
+
+5. 「Yes, show API token」をクリックします。
+
+   <DocImage width="600" alt="APIトークン表示の確認画面" src={imgYes} />
+
+6. アプリでQRコードボタン（1）をタップしてQRコードを読み取ります。または、QRコードの下に表示されるAPIトークンをコピーし、「トークン」欄（2）に貼り付けます。
+
+   <DocImage width="300" alt="アプリのトークン入力画面" src={imgApp} />

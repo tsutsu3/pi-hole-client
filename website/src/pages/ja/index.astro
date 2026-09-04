@@ -1,0 +1,62 @@
+---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import LandingPage from "../../components/landing/LandingPage";
+---
+
+<StarlightPage
+  frontmatter={{
+    title: "Pi-hole Client",
+    description:
+      "AndroidからPi-holeサーバーの状態確認やブロック機能、ログ、ドメインリストを手軽に管理できる非公式クライアントです。",
+    head: [
+      {
+        tag: "meta",
+        attrs: { property: "og:title", content: "Pi-hole Client" },
+      },
+      {
+        tag: "meta",
+        attrs: {
+          property: "og:description",
+          content: "AndroidからPi-holeサーバーを手軽に確認・管理できる非公式クライアントです。",
+        },
+      },
+      {
+        tag: "meta",
+        attrs: {
+          property: "og:url",
+          content: "https://tsutsu3.github.io/pi-hole-client/ja/",
+        },
+      },
+      {
+        tag: "meta",
+        attrs: { property: "og:locale", content: "ja_JP" },
+      },
+      {
+        tag: "meta",
+        attrs: { name: "twitter:title", content: "Pi-hole Client" },
+      },
+      {
+        tag: "meta",
+        attrs: {
+          name: "twitter:description",
+          content: "AndroidからPi-holeサーバーを手軽に確認・管理できる非公式クライアントです。",
+        },
+      },
+    ],
+    template: "splash",
+    tableOfContents: false,
+    pagefind: false,
+  }}
+>
+  <LandingPage locale="ja" />
+</StarlightPage>
+
+<style is:global>
+  /* PageTitleを表示しないランディングページでは、空のタイトル領域も取り除く。 */
+  main > .content-panel:first-child {
+    display: none;
+  }
+  main > .content-panel {
+    padding-top: 0;
+  }
+</style>

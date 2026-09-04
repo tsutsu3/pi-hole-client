@@ -1,0 +1,156 @@
+---
+import { Icon } from "@astrojs/starlight/components";
+import LanguageSelect from "@astrojs/starlight/components/LanguageSelect.astro";
+import Search from "@astrojs/starlight/components/Search.astro";
+import SiteTitle from "@astrojs/starlight/components/SiteTitle.astro";
+import ThemeSelect from "@astrojs/starlight/components/ThemeSelect.astro";
+import { localizedPath, resolveLocale } from "../../i18n/meta";
+import { uiText } from "../../i18n/ui";
+import SocialIcons from "./SocialIcons.astro";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const locale = resolveLocale(Astro.currentLocale);
+const routeId = Astro.locals.starlightRoute.id;
+const isLanding = routeId === "" || routeId === Astro.currentLocale;
+const docsHref = `${base}/${localizedPath(locale, "docs/intro/")}`;
+const docsLabel = uiText[locale].nav.docs;
+---
+
+<div class="header">
+  <div class="title-wrapper sl-flex">
+    <SiteTitle />
+    <a class="nav-link sl-hidden md:sl-flex" href={docsHref}>{docsLabel}</a>
+  </div>
+  <div
+    class:list={[
+      "sl-hidden md:sl-flex print:hidden right-group",
+      { "mobile-landing-preferences": isLanding },
+    ]}
+  >
+    <a class="docs-icon sl-flex" href={docsHref}>
+      <span class="sr-only">{docsLabel}</span>
+      <Icon name="document" class="icon" size="1.25rem" />
+    </a>
+    <div class="sl-hidden md:sl-flex social-icons">
+      <SocialIcons />
+    </div>
+    <ThemeSelect />
+    <LanguageSelect />
+  </div>
+  <div class="search-wrapper sl-flex print:hidden">
+    <Search />
+  </div>
+</div>
+
+<style>
+  .header {
+    display: flex;
+    gap: var(--sl-nav-gap);
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+
+  .title-wrapper {
+    /* Prevent long titles overflowing and covering the search and menu buttons on narrow viewports. */
+    overflow: clip;
+    /* Avoid clipping focus ring around link inside title wrapper. */
+    padding: 0.25rem;
+    margin: -0.25rem;
+    min-width: 0;
+    flex: 1 1 auto;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .nav-link {
+    align-items: center;
+    color: var(--sl-color-white);
+    font-size: var(--sl-text-base);
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .nav-link:hover {
+    color: var(--sl-color-text-accent);
+  }
+
+  .docs-icon {
+    display: none;
+  }
+
+  .right-group,
+  .social-icons {
+    gap: 1rem;
+    align-items: center;
+  }
+  .social-icons::after {
+    content: "";
+    height: 2rem;
+    border-inline-end: 1px solid var(--sl-color-gray-5);
+  }
+
+  .search-wrapper {
+    flex: 0 0 auto;
+  }
+
+  @media (max-width: 49.999rem) {
+    /* The text link next to the site title covers wider viewports, so the icon only
+       appears on mobile - where the landing page has no sidebar to open either. */
+    .right-group.mobile-landing-preferences .docs-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 0.25rem;
+      color: var(--sl-color-gray-2);
+    }
+    .right-group.mobile-landing-preferences .docs-icon:hover {
+      background-color: var(--sl-color-gray-6);
+      color: var(--sl-color-white);
+    }
+
+    /* On mobile, show the theme and language controls in the header as icon-only buttons. */
+    .right-group.mobile-landing-preferences {
+      display: flex;
+      gap: 0.25rem;
+    }
+    .mobile-landing-preferences :global(starlight-theme-select label),
+    .mobile-landing-preferences :global(starlight-lang-select label) {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 0.25rem;
+    }
+    .mobile-landing-preferences :global(label:hover) {
+      background-color: var(--sl-color-gray-6);
+    }
+    .mobile-landing-preferences :global(label:has(select:focus-visible)) {
+      outline: 2px solid var(--sl-color-text-accent);
+      outline-offset: 2px;
+    }
+    .mobile-landing-preferences :global(.label-icon) {
+      inset-inline-start: 50%;
+      font-size: 1.25rem;
+      transform: translate(-50%, -50%);
+    }
+    .mobile-landing-preferences :global(select) {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      opacity: 0;
+    }
+    .mobile-landing-preferences :global(.caret) {
+      display: none;
+    }
+  }
+
+  @media (min-width: 50rem) {
+    .search-wrapper {
+      width: 12rem;
+    }
+  }
+</style>

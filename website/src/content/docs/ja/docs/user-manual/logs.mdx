@@ -1,0 +1,142 @@
+---
+title: 📋 ログ
+sidebar:
+  label: ログ
+  order: 3
+---
+
+import DocImage from "@site/src/components/doc-image.astro";
+import ImageRow from "@site/src/components/image-row";
+import imgLogSearch from "../../../docs/user-manual/images/logs/log-search.png";
+import imgLogFilter from "../../../docs/user-manual/images/logs/log-filter.png";
+import imgLogFilterDate from "../../../docs/user-manual/images/logs/log-filter-date.png";
+import imgLogFilterStatus from "../../../docs/user-manual/images/logs/log-filter-status.png";
+import imgLogFilterClients from "../../../docs/user-manual/images/logs/log-filter-clients.png";
+import imgLogSort from "../../../docs/user-manual/images/logs/log-sort.png";
+import imgLogLiveOn from "../../../docs/user-manual/images/logs/log-live-on.png";
+import imgLogLiveOff from "../../../docs/user-manual/images/logs/log-live-off.png";
+import imgLogLiveDisabled from "../../../docs/user-manual/images/logs/logs-disabled-live.png";
+import imgLogDetailAllow from "../../../docs/user-manual/images/logs/log-detail-allow.png";
+import imgLogDetailDeny from "../../../docs/user-manual/images/logs/log-detail-deny.png";
+
+## この画面でできること
+
+ログ画面では、Pi-holeが処理した**個々のDNSクエリ**を確認できます。主に次の操作を行います。
+
+- ドメイン、時刻、クライアントから特定のクエリを探す
+- リクエストが許可されたかブロックされたか確認する
+- ログ項目から直接、ドメインをホワイトリストまたはブラックリストへ追加する
+
+アプリやWebサイトが動作しない、予期しないブロックが起きるといった問題を調べるための中心的な画面です。
+
+---
+
+## 目的に合わせて表示を絞り込む
+
+ログはすぐに増えるため、通常はまず**一覧を絞り込みます**。画面上部には検索、フィルター、並べ替え、ライブ更新の操作があります。これらは組み合わせて使えますが、すべてを同時に使う必要はありません。
+
+<span id="live-log"></span>
+
+### リアルタイムで通信を監視する
+
+ライブモードでは、DNSクエリを**発生した時点で**確認できます。問題を再現し、どのドメインが問い合わせられているかをリアルタイムで確認したい場合に使います。
+
+<ImageRow>
+  <DocImage priority width="240" alt="ログのライブモードがオンの状態" src={imgLogLiveOn} />
+  <DocImage width="240" alt="ログのライブモードが一時停止中の状態" src={imgLogLiveOff} />
+  <DocImage width="240" alt="ログのライブモードが無効な状態" src={imgLogLiveDisabled} />
+</ImageRow>
+
+**左：ライブモードがオン**：新しいログ項目が自動で追加され、画面タイトルの下に **● LIVE** が表示されます。右側の一時停止アイコンをタップすると更新を止められます。
+
+**中央：ライブモードがオフ（一時停止）**：更新は停止しています。右側の再開アイコンをタップすると、リアルタイム監視に戻ります。既定では**ライブログ**は有効ですが、実際のライブ更新は再開をタップするまで一時停止した状態で始まります。
+
+**右：ライブモードが無効**：アプリ設定でライブモードを無効にしています。この場合、右側には手動更新ボタンが表示されます。タップすると連続更新を有効にせず、最新のログを一度だけ取得します。
+
+ライブモードは、**設定 → アプリ設定 → 高度な設定 → [ライブログ](../settings/app-settings/#live-log)** から再び有効にできます。
+
+:::caution
+ライブモードは、問題を調べるときにフィルターを使わずに利用するのに適しています。フィルターを適用したり、過去のログを安定して確認したりする場合は、ライブ更新が結果を変えるため先に停止してください。
+:::
+
+### ドメインまたはキーワードを検索する
+
+検索アイコンをタップすると検索欄が開きます。入力を始めるとすぐに、ログ一覧が一致する項目に絞り込まれます。
+
+<DocImage width="320" alt="ログの検索" src={imgLogSearch} />
+
+ドメイン名の一部がわかっている場合に使用します。検索を終了して一覧全体に戻るには、戻る矢印を使用します。サーバーが切断されている場合、結果が不完全になることがあるため検索は避けてください。
+
+### 時刻、ステータス、クライアントでログを絞り込む
+
+フィルターアイコンをタップすると、フィルターシートが開きます。特定の状況を確認するための最も強力な方法です。
+
+<DocImage width="320" alt="ログフィルターの概要" src={imgLogFilter} />
+
+#### 時間範囲を指定する
+
+**開始**と**終了**を使用して時間範囲を選択します。
+
+<DocImage width="320" alt="ログフィルターの日時範囲" src={imgLogFilterDate} />
+
+最近の問題を調べる場合は短い範囲を選びます。範囲が広すぎると、関連する項目を見つけにくくなります。
+
+#### クエリのステータスで絞り込む
+
+**ブロック済み**や**許可済み**など、1つ以上のステータスを選択します。
+
+<DocImage width="320" alt="ログフィルターのステータス" src={imgLogFilterStatus} />
+
+読み込めない原因を調べる場合は**ブロック済み**を使用します。見やすさを保つため、選択するステータスは必要なものに絞ってください。
+
+#### 特定のクライアントに絞り込む
+
+クライアントを選択すると、1台の端末からのクエリだけを表示できます。
+
+<DocImage width="320" alt="ログフィルターのクライアント" src={imgLogFilterClients} />
+
+ネットワーク内の特定端末だけ挙動が異なる場合に便利です。ネットワーク全体を確認したい場合は、クライアントによる絞り込みは行わないでください。
+
+### ログの並び順を変更する
+
+並べ替えアイコンをタップすると、**新しい順**と**古い順**を切り替えられます。
+
+<DocImage width="320" alt="ログの並べ替えオプション" src={imgLogSort} />
+
+進行中の通信を確認する場合は**新しい順**、過去のイベントを順番に確認する場合は**古い順**を使用します。変更はすぐに一覧へ反映されます。
+
+## ログ項目を確認して操作する
+
+目的の項目を見つけたら、タップして詳細画面を開きます。詳細画面には、ドメイン、クライアント、時刻、クエリのステータスと、実行できる操作が表示されます。
+
+### ドメインをホワイトリストへ追加する
+
+ブロックによって正当なWebサイトやアプリが動作しない場合は、**ホワイトリストに追加**を使用します。ドメインがPi-holeのホワイトリスト（許可リスト）へ追加され、以後のクエリが許可されます。
+
+<DocImage width="320" alt="ログ詳細の拒否操作" src={imgLogDetailDeny} />
+
+### ドメインをブラックリストへ追加する
+
+不要なドメインだと確信できる場合は、**ブラックリストに追加**を使用します。
+
+<DocImage width="320" alt="ログ詳細の許可操作" src={imgLogDetailAllow} />
+
+ドメインをブラックリスト（拒否リスト）へ追加すると、以後のクエリはこのルールに従ってブロックされます。
+
+---
+
+## ログのよくある使い方
+
+- **Webサイトが読み込めない**：ログを開き、**ブロック済み**で絞り込み、必要に応じてドメインをホワイトリストへ追加します。
+- **特定の端末だけ挙動がおかしい**：クライアントで絞り込み、その端末の最近のクエリを確認します。
+- **リアルタイムのトラブルシューティング**：ライブモードを有効にし、問題を再現してクエリの表示を確認します。
+
+## 注意点と制限
+
+- ログはPi-holeのプライバシー設定によって制限または匿名化される場合があります。
+- 大量のデータに複雑なフィルターを適用すると時間がかかる場合があります。
+- ホワイトリスト・ブラックリストへの追加は、現在選択しているサーバーだけに適用されます。
+
+## この画面で使われるPi-holeの用語
+
+各ログ項目は、Pi-holeが処理した**DNSクエリ**です。**ステータス**はクエリが許可されたかブロックされたかを示します。ドメインをホワイトリスト・ブラックリストへ追加すると、Pi-holeのリストが更新され、以後のクエリにすぐ反映されます。

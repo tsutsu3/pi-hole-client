@@ -1,0 +1,101 @@
+---
+title: 📊 統計
+sidebar:
+  label: 統計
+  order: 2
+---
+
+import DocImage from "@site/src/components/doc-image.astro";
+import ImageRow from "@site/src/components/image-row";
+import imgQueriesServersTop from "../../../docs/user-manual/images/stats/queries-servers-top.png";
+import imgQueriesServersBottom from "../../../docs/user-manual/images/stats/queries-servers-bottom.png";
+import imgDomainsTop from "../../../docs/user-manual/images/stats/domain-top.png";
+import imgDomainsBottom from "../../../docs/user-manual/images/stats/domain-bottom.png";
+import imgClientsTop from "../../../docs/user-manual/images/stats/clients-top.png";
+import imgClientsBottom from "../../../docs/user-manual/images/stats/clients-bottom.png";
+import imgDnsTop from "../../../docs/user-manual/images/stats/dns-top.png";
+import imgDnsBottom from "../../../docs/user-manual/images/stats/dns-bottom.png";
+
+## この画面でできること
+
+統計画面では、**DNSトラフィックの発生元**と、何が通信の大半を占めているかを確認できます。主な用途は次のとおりです。
+
+- 多くの通信を発生させているドメイン、クライアント、上流サーバーを特定する
+- 特定のドメインやクライアントで絞り込んだログを直接開く
+- 現在の状態だけでなく、カテゴリごとの傾向を比較する
+
+何か異常を感じるものの原因がはっきりしない場合に、操作前の状況把握に役立ちます。
+
+---
+
+## 分析する内容を選ぶ
+
+画面上部には、統計表示を切り替える4つのタブがあります。
+
+- **クエリとサーバー**（既定）
+- **ドメイン**
+- **クライアント**
+- **DNS**（Pi-hole v6のみ）
+
+統計画面を開くと、既定では**クエリとサーバー**が選択されます。この表示では、総クエリ数と、上流サーバーへのトラフィックの分布を大まかに確認できます。別のタブをタップすると、グラフとその下のランキング一覧が同じカテゴリに更新されます。
+
+グラフは表示専用で、タップして操作することはできません。まずグラフで傾向を見つけ、実際の操作には一覧を使用してください。
+
+<ImageRow>
+  <DocImage width="240" alt="クエリとサーバーのグラフ" src={imgQueriesServersTop} />
+  <DocImage width="240" alt="クエリとサーバーの一覧" src={imgQueriesServersBottom} />
+</ImageRow>
+
+問題がドメイン、クライアント、上流ルーティングのどれに関係するかわからない場合は、**クエリとサーバー**から確認します。**DNS**タブが表示されない場合、接続先はPi-hole v5です。これは正常な動作であり、接続エラーではありません。
+
+## グラフを確認してから一覧で特定する
+
+タブを選んだら、まずグラフで時間ごと・項目ごとのトラフィック分布を確認します。その下には同じカテゴリのランキング一覧が表示され、各行にはドメイン、クライアント、サーバーと、総クエリに占める割合が表示されます。
+
+<ImageRow>
+  <DocImage width="240" alt="上位ドメインの一覧" src={imgDomainsTop} />
+  <DocImage width="240" alt="ドメイン一覧の下部" src={imgDomainsBottom} />
+</ImageRow>
+
+グラフで全体の傾向を把握してから、一覧で**その傾向の原因となる項目**を特定してください。一覧が非表示または空の場合は、Pi-holeのプライバシー設定によって詳細データが制限されている可能性があります。その場合はグラフだけで断定しないでください。
+
+## 一覧の項目からログを開く
+
+ランキング一覧の行はタップできます。ドメインまたはクライアントをタップすると、対応するフィルターを適用した**ログ**が開きます。フィルターを手動で設定せず、個別のクエリをすぐ確認できます。
+
+<ImageRow>
+  <DocImage width="240" alt="クライアント統計の上部" src={imgClientsTop} />
+  <DocImage width="240" alt="クライアント一覧の下部" src={imgClientsBottom} />
+</ImageRow>
+
+特定の項目が一覧の大半を占めている場合に、その通信が想定どおりか、対処が必要かを確認するために便利です。
+
+## DNSメトリクスを確認する（Pi-hole v6のみ）
+
+Pi-hole v6では、**DNS**タブからクエリの種類やDNSの動作など、追加のメトリクスを確認できます。
+
+<ImageRow>
+  <DocImage width="240" alt="DNSメトリクスの統計" src={imgDnsTop} />
+  <DocImage width="240" alt="DNSメトリクス一覧の下部" src={imgDnsBottom} />
+</ImageRow>
+
+DNSの利用状況に偏りがなく、想定どおりかを確認するために使用します。このタブが表示されない場合、接続先サーバーはこれらのメトリクスに対応していません。
+
+---
+
+## 統計のよくある使い方
+
+- **通信が遅く感じる**：統計を開き、ドメインまたはクライアントに切り替えて、一つの項目が通信を占有していないか確認します。
+- **予期しない通信の急増**：グラフで始まった時点を確認し、一覧の上位項目をタップしてログを調べます。
+- **サーバー側の調査**：まずクエリとサーバーを開き、上流ルーティングの状況を確認してから範囲を絞ります。
+
+## 注意点と制限
+
+- グラフは表示専用です。
+- ランキング一覧はPi-holeのプライバシー設定により非表示になる場合があります。
+- DNSタブはPi-hole v6でのみ表示されます。
+- 統計は集計データのため、リアルタイムの状態からわずかに遅れることがあります。
+
+## この画面で使われるPi-holeの用語
+
+統計は、Pi-holeが処理した**DNSクエリ**に基づいています。割合は、各ドメイン、クライアント、サーバーが総トラフィックに占める比率です。一覧の項目をタップすると、ログと同じ絞り込み条件を少ない手順で適用できます。

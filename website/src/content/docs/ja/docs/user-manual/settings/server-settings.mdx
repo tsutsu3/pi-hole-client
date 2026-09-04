@@ -1,0 +1,289 @@
+---
+title: 🔧 サーバー設定
+sidebar:
+  label: サーバー設定
+  order: 2
+---
+
+import DocImage from "@site/src/components/doc-image.astro";
+import ImageRow from "@site/src/components/image-row";
+import imgServerInfo from "../../../../docs/user-manual/images/settings/server-settings/pi-hole-server/pihole-server.png";
+import imgServerInfoExpandTop from "../../../../docs/user-manual/images/settings/server-settings/pi-hole-server/pihole-server-expand-top.png";
+import imgServerInfoExpandBottom from "../../../../docs/user-manual/images/settings/server-settings/pi-hole-server/pihole-server-expand-bottom.png";
+import imgAdlists from "../../../../docs/user-manual/images/settings/server-settings/adlists/adlists.png";
+import imgAdlistAdd from "../../../../docs/user-manual/images/settings/server-settings/adlists/add-adlist.png";
+import imgAdlistDetail from "../../../../docs/user-manual/images/settings/server-settings/adlists/adlist-detail.png";
+import imgUpdateGravity from "../../../../docs/user-manual/images/settings/server-settings/adlists/update-gravity.png";
+import imgGroups from "../../../../docs/user-manual/images/settings/server-settings/groups-clients/groups.png";
+import imgGroupDetails from "../../../../docs/user-manual/images/settings/server-settings/groups-clients/group-details.png";
+import imgAddGroup from "../../../../docs/user-manual/images/settings/server-settings/groups-clients/add-group.png";
+import imgClients from "../../../../docs/user-manual/images/settings/server-settings/groups-clients/clients.png";
+import imgClientDetail from "../../../../docs/user-manual/images/settings/server-settings/groups-clients/client-detail.png";
+import imgAddClients from "../../../../docs/user-manual/images/settings/server-settings/groups-clients/add-clients.png";
+import imgAdvancedSettings from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/advanced-settings-top.png";
+import imgDhcp from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/dhcp/dhcp.png";
+import imgDhcpOff from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/dhcp/dhcp-off.png";
+import imgDhcpDetail from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/dhcp/dhcp-detail.png";
+import imgInterface from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/interface/interface.png";
+import imgInterfaceAddress from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/interface/address.png";
+import imgInterfaceStats from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/interface/statistics.png";
+import imgInterfaceMore from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/interface/more-detail.png";
+import imgLocalDns from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/local-dns/local-dns.png";
+import imgLocalDnsAdd from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/local-dns/add-local-dns.png";
+import imgLocalDnsDetail from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/local-dns/local-dns-detail.png";
+import imgFindDomainsTop from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/find-domains/find-domains-top.png";
+import imgFindDomainsBottom from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/find-domains/find-domains-bottom.png";
+import imgNetworks from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/network/networks.png";
+import imgNetworkDevice from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/network/device.png";
+import imgSessions from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/sessions/sessions.png";
+import imgSessionDetail from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/sessions/session-detail.png";
+import imgSessionDetailInUse from "../../../../docs/user-manual/images/settings/server-settings/advanced-settings/sessions/session-detail-in-use.png";
+
+## この画面でできること
+
+サーバー設定では、**現在選択しているPi-holeサーバー自体**を管理します。アプリ設定とは異なり、ここでの操作はサーバーの動作とデータに影響します。
+
+この画面では次のことができます。
+
+- サーバーの識別情報、バージョン、状態を確認する
+- Adlist、グループ、クライアントの割り当てを管理する
+- 保守やネットワークに関する高度な操作を行う
+
+:::note
+この画面の大半のツールは**Pi-hole v6 API**を中心に設計されています。
+:::
+
+---
+
+## Pi-holeサーバー
+
+**Pi-holeサーバー**には、現在接続しているサーバーの詳細が表示されます。正しい端末へ接続しているか、サーバーが正常に動作しているかを確認するために使用します。
+
+<DocImage priority width="320" alt="Pi-holeサーバー画面" src={imgServerInfo} />
+
+確認できる主な項目は次のとおりです。
+
+- **サーバーの識別情報**：サーバー名、ホスト名、ハードウェアモデル（Raspberry Piのモデルなど）
+- **接続状態**：サーバーに到達できるか、どのサーバーが選択されているか
+- **パフォーマンス**：現在のCPU使用率、メモリー（RAM）使用率
+- **Pi-holeのバージョン**：CoreとFTLのバージョン。v5 / v6の違いなど、機能の可否を確認できます。
+
+下へスクロールすると、システムや環境の詳細情報も確認できます。
+
+<ImageRow>
+  <DocImage width="240" alt="展開したPi-holeサーバー情報の上部" src={imgServerInfoExpandTop} />
+  <DocImage width="240" alt="展開したPi-holeサーバー情報の下部" src={imgServerInfoExpandBottom} />
+</ImageRow>
+
+Adlist、グループとクライアント、高度な設定を変更する前には、必ず**Pi-holeサーバー**を確認して操作対象が正しいPi-holeであることを確認してください。
+
+## Adlist
+
+Adlistでは、Pi-holeがフィルタリングデータベース（Gravity）を作るために使用する購読リストを管理します。Pi-hole v6では許可リストと拒否リストの配信元を扱えます。
+
+<DocImage width="320" alt="Adlist画面" src={imgAdlists} />
+
+### リストを追加する
+
+**追加**を使用して、現在選択しているタブに新しい購読URLを登録します。
+
+<DocImage width="320" alt="Adlist追加画面" src={imgAdlistAdd} />
+
+信頼できる配信元のリストだけを追加してください。期待どおりに動作することを確認してから、リストを有効のまま使用します。
+
+### リストを確認・管理する
+
+リストをタップすると、状態と詳細を確認できます。
+
+<DocImage width="320" alt="Adlistの詳細" src={imgAdlistDetail} />
+
+無効にすると設定を残したまま影響だけを一時停止できます。不要になったことを確認してから削除してください。
+
+### Gravityを更新する
+
+リストを追加または編集した後は、**Gravityの更新**を実行してブロックデータベースを再構築します。
+
+<DocImage width="320" alt="Gravityの更新" src={imgUpdateGravity} />
+
+この操作はPi-holeのフィルタリングデータベースを更新するため、少し時間がかかる場合があります。
+
+## グループとクライアント
+
+グループとクライアントでは、**どのルールをどの端末に適用するか**を制御します。アプリではPi-hole v6の機能です。
+
+<DocImage width="320" alt="グループ一覧" src={imgGroups} />
+
+### グループ
+
+グループは、クライアントに割り当てるポリシーのまとまりです。グループをタップすると名前や構成を編集できます。
+
+<DocImage width="320" alt="グループ詳細" src={imgGroupDetails} />
+
+**グループを追加**から新しいグループを作成できます。
+
+<DocImage width="320" alt="グループ追加画面" src={imgAddGroup} />
+
+ポリシー管理をわかりやすく保つため、実際に使用するグループだけを作成してください。
+
+### クライアント
+
+**クライアント**タブでは、サーバーが認識している端末を確認できます。
+
+<DocImage width="320" alt="クライアント一覧" src={imgClients} />
+
+クライアントをタップすると、識別情報とグループの割り当てを確認できます。
+
+<DocImage width="320" alt="クライアント詳細" src={imgClientDetail} />
+
+**クライアントを追加**では、IP、MACアドレス、名前で端末を手動登録できます。
+
+<DocImage width="320" alt="クライアント追加画面" src={imgAddClients} />
+
+グループを割り当て・変更する前に、端末の識別情報を必ず確認してください。
+
+---
+
+## 高度な設定
+
+高度な設定では、**サーバーレベルの保守・ネットワークツール**を使用できます。これらの操作はPi-holeの動作に直接影響します。
+
+<DocImage width="320" alt="サーバーの高度な設定" src={imgAdvancedSettings} />
+
+### 操作
+
+- **クエリログを無効化・有効化**：DNSクエリの記録を一時停止します。短時間のトラブルシューティングでのみ使用してください。
+- **DNSリゾルバーを再起動**：Pi-holeのDNSサービスを再起動します。DNS名前解決が短時間中断します。
+- **ネットワークテーブルをクリア**：端末の対応付けを消去して再構築します。IPやホスト名を変更した後に役立ちます。
+- **ログをクリア**（過去24時間）：最近のクエリ履歴を削除します。分析に必要なログが残っている場合は実行しないでください。
+
+## セッション
+
+セッションでは、アクティブおよび最近のDNS使用状況を確認できます。
+
+<DocImage width="320" alt="セッション一覧" src={imgSessions} />
+
+セッションをタップすると詳細を表示します。使用中のセッションでは、編集できる項目が制限される場合があります。
+
+<ImageRow>
+  <DocImage width="240" alt="セッション詳細" src={imgSessionDetail} />
+  <DocImage width="240" alt="使用中のセッション" src={imgSessionDetailInUse} />
+</ImageRow>
+
+## DHCP
+
+DHCPは、Pi-holeをDHCPサーバーとして使用している場合だけ利用してください。
+
+<ImageRow>
+  <DocImage width="240" alt="DHCPが有効な状態" src={imgDhcp} />
+  <DocImage width="240" alt="DHCPが無効な状態" src={imgDhcpOff} />
+</ImageRow>
+
+リースをタップすると詳細を確認し、IPアドレスの割り当てを確認できます。
+
+<DocImage width="320" alt="DHCPリースの詳細" src={imgDhcpDetail} />
+
+別の機器ですでにリースを管理している場合は、DHCPを無効のままにしてください。
+
+## ローカル DNS
+
+ローカル DNSでは、ネットワーク内で使用する独自のホスト名を定義できます。
+
+<DocImage width="320" alt="ローカル DNS一覧" src={imgLocalDns} />
+
+端末に固定のわかりやすい名前を付けたい場合にエントリーを追加します。
+
+<DocImage width="320" alt="ローカル DNS追加画面" src={imgLocalDnsAdd} />
+
+エントリーをタップすると確認・編集できます。
+
+<DocImage width="320" alt="ローカル DNS詳細" src={imgLocalDnsDetail} />
+
+名前解決の競合を防ぐため、重複するエントリーは避けてください。
+
+---
+
+## リスト内ドメイン検索
+
+**リスト内ドメイン検索**では、Pi-holeのどこでドメインが定義されているかを確認できます。
+
+<ImageRow>
+  <DocImage width="240" alt="リスト内ドメイン検索の上部" src={imgFindDomainsTop} />
+  <DocImage width="240" alt="リスト内ドメイン検索の下部" src={imgFindDomainsBottom} />
+</ImageRow>
+
+次の場所を横断して検索します。
+
+- **ドメインレベルのリスト**（Whitelist / Blacklist：完全一致と正規表現）
+- **リストレベルのリスト**（許可・拒否の購読リスト：Adlist）
+
+### 使い方
+
+1. ドメインを入力します（例：`doubleclick.net`）。
+2. （任意）**部分一致を使用**を切り替えます。オン（既定）は部分一致、オフは完全一致だけを検索します。
+3. 最大結果数を設定します（既定：`20`）。
+4. **検索**をタップします。入力中には検索されません。
+
+### 結果の見方と移動
+
+結果はセクションに分けて表示されます。
+
+- **ドメインレベルのリスト**：項目をタップすると**ドメイン詳細**が開きます。
+- **リストレベルのリスト**：結果はAdlistごとにまとまります。カードをタップすると**Adlist詳細**が開きます（一致した項目は展開でき、一覧はスクロールできます）。
+
+一致しない場合は**結果が見つかりません**と表示されます。詳細画面で変更した内容は、戻ると反映されます。
+
+## インターフェース
+
+インターフェースでは、Pi-holeが使用しているネットワークインターフェースを確認できます。
+
+<DocImage width="320" alt="インターフェースの概要" src={imgInterface} />
+
+アドレスの詳細からIP設定を確認します。
+
+<DocImage width="320" alt="インターフェースのアドレス" src={imgInterfaceAddress} />
+
+統計では、通信が想定どおり流れているかを確認できます。
+
+<DocImage width="320" alt="インターフェースの統計" src={imgInterfaceStats} />
+
+詳細画面は接続問題を調査する場合に使用します。
+
+<DocImage width="320" alt="インターフェース詳細" src={imgInterfaceMore} />
+
+## ネットワーク
+
+ネットワークには、ローカルネットワークで検出された端末が表示されます。
+
+<DocImage width="320" alt="ネットワーク一覧" src={imgNetworks} />
+
+端末をタップすると、詳細とアクティビティを確認できます。
+
+<DocImage width="320" alt="ネットワーク端末の詳細" src={imgNetworkDevice} />
+
+不明な端末を特定したり、ネットワーク上で端末が見えていることを確認したりする場合に役立ちます。
+
+---
+
+## よくある利用場面
+
+- **1台だけ他と異なる動作をする**：**グループとクライアント**で端末を確認し、グループの割り当てを調整します。
+- **リスト追加後に誤検知が多い**：**Adlist**を開き、リストを一時的に無効化してからGravityを更新し、影響を確認します。
+- **DNS応答が不正または古い**：高度な設定の**DNSリゾルバーを再起動**を使用してサービスを更新します。
+- **ネットワーク構成を変更した**：ネットワークテーブルをクリアし、Pi-holeに端末の対応付けを再構築させます。
+
+## 注意点と制限
+
+サーバー設定は常に**現在選択中のPi-holeサーバー**へ適用されます。複数のサーバーを登録している場合は、変更前に**Pi-holeサーバー**で確認してください。一部の機能は**Pi-hole v6**だけで利用できます。項目が表示されない場合は、多くの場合アプリの問題ではなくサーバーのバージョンまたは構成によるものです。
+
+DNSの再起動やログの消去などの操作は、DNSサービスに短時間影響したり、診断データを削除したりする場合があります。利用の多い時間帯や調査中には実行を避けてください。
+
+## この画面で使われるPi-holeの用語
+
+**サーバー設定**は、接続しているすべてのクライアントに対するPi-holeのDNSリクエスト処理を変更します。
+
+- **Adlist**：使用する外部ブロックリストを定義
+- **グループ**：どのポリシーをどのクライアントに適用するかを制御
+- **Gravity**：Adlistから作成されるコンパイル済みのブロックデータベース
+- **FTL**：クエリ処理を担当するPi-holeのDNSエンジン
+
+これらの概念を理解すると、サーバーレベルの変更を意図的に行い、必要に応じて追跡・元に戻せます。
