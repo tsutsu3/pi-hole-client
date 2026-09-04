@@ -39,7 +39,8 @@ const height = Math.round((requestedWidth * src.height) / src.width);
 
 const shared = { src, width: requestedWidth, widths: candidateWidths };
 const webp = await getImage({ ...shared, format: "webp", quality });
-const avif = src.format === "gif" ? null : await getImage({ ...shared, format: "avif", quality: 55 });
+const avif =
+  src.format === "gif" ? null : await getImage({ ...shared, format: "avif", quality: 55 });
 ---
 
 <picture>

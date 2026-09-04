@@ -204,6 +204,7 @@ export default defineConfig({
         root: { label: "English", lang: "en" },
         ja: { label: "日本語", lang: "ja" },
       },
+      disable404Route: true,
       favicon: "/img/favicon.ico",
       logo: {
         src: "./src/assets/pi-hole-client-icon-large-round.svg",

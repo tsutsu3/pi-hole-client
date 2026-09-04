@@ -1,9 +1,9 @@
 ---
 import Default from "@astrojs/starlight/components/PageTitle.astro";
 
-// The landing page renders its own hero heading, so skip Starlight's h1 there.
 const routeId = Astro.locals.starlightRoute.id;
 const isLanding = routeId === "" || routeId === Astro.currentLocale;
+const isNotFound = Astro.url.pathname.replace(/\/$/, "").endsWith("/404");
 ---
 
-{!isLanding && <Default />}
+{!isLanding && !isNotFound && <Default />}

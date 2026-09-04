@@ -1,0 +1,90 @@
+---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+
+// GitHub Pages serves this one file for every unknown path, including the ones under
+// /ja/, so it cannot know the visitor's locale. It stays English-only rather than
+// carrying a copy of every locale's text; the header keeps search and navigation.
+---
+
+<StarlightPage
+  frontmatter={{
+    title: "404",
+    description: "The page you are looking for does not exist, or it moved.",
+    template: "splash",
+    tableOfContents: false,
+    pagefind: false,
+    head: [{ tag: "meta", attrs: { name: "robots", content: "noindex" } }],
+  }}
+>
+  <section class="not-found">
+    <div class="bg-grid" aria-hidden="true"></div>
+    <p class="code" aria-hidden="true">404</p>
+    <h1 id="_top">Page not found</h1>
+    <p class="lead">The page you are looking for does not exist, or it moved.</p>
+  </section>
+</StarlightPage>
+
+<style>
+  .not-found {
+    position: relative;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem 6rem;
+    text-align: center;
+  }
+
+  .bg-grid {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to right, #8080800a 1px, transparent 1px),
+      linear-gradient(to bottom, #8080800a 1px, transparent 1px);
+    background-size: 14px 24px;
+    z-index: 0;
+  }
+
+  .not-found > *:not(.bg-grid) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .code {
+    margin: 0;
+    font-size: clamp(5rem, 22vw, 9rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    background: linear-gradient(90deg, #f43f5e 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+
+  h1 {
+    margin: 0.75rem 0 0;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .lead {
+    margin: 1rem auto 0;
+    max-width: 34rem;
+    color: var(--sl-color-gray-3);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+</style>
+
+<style is:global>
+  /* This page renders its own heading (see overrides/PageTitle.astro), so drop the
+     panel Starlight leaves behind for the title. */
+  main > .content-panel:first-child {
+    display: none;
+  }
+  main > .content-panel {
+    padding-top: 0;
+  }
+</style>
