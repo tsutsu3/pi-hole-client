@@ -44,3 +44,6 @@ jobs:
 
       - name: Verify URLs
         run: pnpm verify:urls
+
+      - name: Verify image sources
+        run: pnpm verify:images

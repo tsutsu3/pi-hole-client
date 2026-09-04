@@ -1,5 +1,6 @@
 // @ts-check
 import fs from "node:fs";
+import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
@@ -28,6 +29,66 @@ const legacySitemap = {
       }
       fs.copyFileSync(source, new URL("./sitemap.xml", dir));
       logger.info("copied sitemap-index.xml to sitemap.xml");
+    },
+  },
+};
+
+/**
+ * Astro emits unused original images alongside optimized variants.
+ * Remove unreferenced images from _astro/ to reduce the Pages artifact size.
+ * @type {import("astro").AstroIntegration}
+ */
+const pruneUnusedAssets = {
+  name: "prune-unused-assets",
+
+  hooks: {
+    "astro:build:done": ({ dir, logger }) => {
+      const distDir = fileURLToPath(dir);
+      const astroAssetDir = path.join(distDir, "_astro");
+
+      if (!fs.existsSync(astroAssetDir)) return;
+
+      const IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg", ".gif", ".webp", ".avif", ".svg"];
+
+      /** @param {string} filePath */
+      const isImageFile = (filePath) =>
+        IMAGE_EXTENSIONS.some((ext) => filePath.toLowerCase().endsWith(ext));
+
+      /**
+       * @param {string} dirPath
+       * @returns {string[]}
+       */
+      const listFiles = (dirPath) =>
+        fs.readdirSync(dirPath, { withFileTypes: true }).flatMap((entry) => {
+          const filePath = path.join(dirPath, entry.name);
+          return entry.isDirectory() ? listFiles(filePath) : [filePath];
+        });
+
+      const referencedContent = listFiles(distDir)
+        .filter((filePath) => !isImageFile(filePath))
+        .map((filePath) => fs.readFileSync(filePath, "latin1"))
+        .join(" ");
+
+      let removedImageCount = 0;
+      let removedBytes = 0;
+
+      for (const fileName of fs.readdirSync(astroAssetDir)) {
+        if (!isImageFile(fileName) || referencedContent.includes(fileName)) {
+          continue;
+        }
+
+        const filePath = path.join(astroAssetDir, fileName);
+
+        removedBytes += fs.statSync(filePath).size;
+        fs.rmSync(filePath);
+        removedImageCount += 1;
+      }
+
+      const removedMegabytes = removedBytes / 1024 / 1024;
+
+      logger.info(
+        `removed ${removedImageCount} unreferenced image(s), ${removedMegabytes.toFixed(1)}MB`,
+      );
     },
   },
 };
@@ -166,6 +227,7 @@ export default defineConfig({
       routeMiddleware: "./src/starlightRouteData.ts",
     }),
     legacySitemap,
+    pruneUnusedAssets,
   ],
   vite: {
     resolve: {

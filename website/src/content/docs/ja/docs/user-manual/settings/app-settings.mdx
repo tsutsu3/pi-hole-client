@@ -49,7 +49,7 @@ import imgLogQuantityPerRequestV5 from "../../../../docs/user-manual/images/sett
 アプリの見た目を選択します。
 
 <ImageRow>
-  <DocImage width="240" alt="テーマ設定" src={imgTheme} />
+  <DocImage priority width="240" alt="テーマ設定" src={imgTheme} />
   <DocImage width="240" alt="ダークテーマ設定" src={imgThemeDark} />
 </ImageRow>
 
@@ -156,7 +156,13 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 
 グラフのデータを読み込む際にアニメーションを表示するかを設定します。
 
-<DocImage width="320" alt="グラフ読み込みアニメーション" src={imgShowLoadingAnimation} />
+<DocImage
+  width="320"
+  maxScale={1}
+  quality={70}
+  alt="グラフ読み込みアニメーション"
+  src={imgShowLoadingAnimation}
+/>
 
 更新中の視覚的なフィードバックが必要な場合は有効にし、静的な表示を好む場合は無効にします。
 

@@ -39,6 +39,9 @@ jobs:
       - name: Verify URLs
         run: pnpm verify:urls
 
+      - name: Verify image sources
+        run: pnpm verify:images
+
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v5
         with:

@@ -51,7 +51,7 @@ Use this screen to:
 Choose how the app looks.
 
 <ImageRow>
-  <DocImage width="240" alt="Theme settings" src={imgTheme} />
+  <DocImage priority width="240" alt="Theme settings" src={imgTheme} />
   <DocImage width="240" alt="Theme settings dark" src={imgThemeDark} />
 </ImageRow>
 
@@ -202,7 +202,13 @@ Disable it when you want to see all possible series, even inactive ones.
 
 This setting controls whether charts animate while data is loading.
 
-<DocImage width="320" alt="Chart loading animation" src={imgShowLoadingAnimation} />
+<DocImage
+  width="320"
+  maxScale={1}
+  quality={70}
+  alt="Chart loading animation"
+  src={imgShowLoadingAnimation}
+/>
 
 Enable it if you want clear visual feedback during refresh.
 Disable it if you prefer a quieter, static interface.

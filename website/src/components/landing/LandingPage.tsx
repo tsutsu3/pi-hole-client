@@ -3,7 +3,7 @@ import type { ImageMetadata } from "astro";
 import { getImage } from "astro:assets";
 
 import type { Locale } from "../../i18n/meta";
-import ThemedImage, { type ResponsiveImageSource } from "./ThemedImage";
+import ThemedImage, { ResponsiveImage, type ResponsiveImageSource } from "./ThemedImage";
 import styles from "./landing.module.css";
 import {
   BarChart,
@@ -82,10 +82,15 @@ async function optimizeImage(
   widths: number[],
   sizes: string,
 ): Promise<ResponsiveImageSource> {
-  const image = await getImage({ src: source, widths, format: "webp", quality: 85 });
+  const shared = { src: source, width: Math.min(...widths), widths };
+  const [webp, avif] = await Promise.all([
+    getImage({ ...shared, format: "webp", quality: 85 }),
+    getImage({ ...shared, format: "avif", quality: 55 }),
+  ]);
   return {
-    src: image.src,
-    srcSet: image.srcSet.attribute,
+    src: webp.src,
+    srcSet: webp.srcSet.attribute,
+    avifSrcSet: avif.srcSet.attribute,
     sizes,
     width: source.width,
     height: source.height,
@@ -571,14 +576,9 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <img
-            src={playStoreImage.src}
-            srcSet={playStoreImage.srcSet}
-            sizes={playStoreImage.sizes}
-            width={playStoreImage.width}
-            height={playStoreImage.height}
+          <ResponsiveImage
+            source={playStoreImage}
             alt={text.playStoreAlt}
-            decoding="async"
             className={styles.heroPlayBtn}
           />
         </a>
@@ -587,7 +587,6 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
         <ThemedImage
           alt={text.mockupAlt}
           className={styles.heroMockImg}
-          loading="eager"
           sources={{
             light: mockLight,
             dark: mockDark,

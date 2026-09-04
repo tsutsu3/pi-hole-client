@@ -12,6 +12,7 @@
     "check": "astro check",
     "typecheck": "astro check",
     "verify:urls": "node scripts/verify-urls.mjs",
+    "verify:images": "node scripts/verify-image-sources.mjs",
     "lint": "eslint",
     "format": "prettier --write ."
   },
