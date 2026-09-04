@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.10.0](https://github.com/tsutsu3/pi-hole-client/compare/1.9.2_(99)..1.10.0) - 2026-09-02
+## [1.10.0](https://github.com/tsutsu3/pi-hole-client/compare/1.9.2_(99)..1.10.0) - 2026-09-04
 
 ### 🚀 Features
 
