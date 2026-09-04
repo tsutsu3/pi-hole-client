@@ -1,4 +1,5 @@
 ---
+import { Icon } from "@astrojs/starlight/components";
 import LanguageSelect from "@astrojs/starlight/components/LanguageSelect.astro";
 import Search from "@astrojs/starlight/components/Search.astro";
 import SiteTitle from "@astrojs/starlight/components/SiteTitle.astro";
@@ -26,6 +27,10 @@ const docsLabel = uiText[locale].nav.docs;
       { "mobile-landing-preferences": isLanding },
     ]}
   >
+    <a class="docs-icon sl-flex" href={docsHref}>
+      <span class="sr-only">{docsLabel}</span>
+      <Icon name="document" class="icon" size="1.25rem" />
+    </a>
     <div class="sl-hidden md:sl-flex social-icons">
       <SocialIcons />
     </div>
@@ -70,6 +75,10 @@ const docsLabel = uiText[locale].nav.docs;
     color: var(--sl-color-text-accent);
   }
 
+  .docs-icon {
+    display: none;
+  }
+
   .right-group,
   .social-icons {
     gap: 1rem;
@@ -86,6 +95,22 @@ const docsLabel = uiText[locale].nav.docs;
   }
 
   @media (max-width: 49.999rem) {
+    /* The text link next to the site title covers wider viewports, so the icon only
+       appears on mobile - where the landing page has no sidebar to open either. */
+    .right-group.mobile-landing-preferences .docs-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 0.25rem;
+      color: var(--sl-color-gray-2);
+    }
+    .right-group.mobile-landing-preferences .docs-icon:hover {
+      background-color: var(--sl-color-gray-6);
+      color: var(--sl-color-white);
+    }
+
     /* On mobile, show the theme and language controls in the header as icon-only buttons. */
     .right-group.mobile-landing-preferences {
       display: flex;
