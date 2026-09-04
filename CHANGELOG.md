@@ -1,6 +1,58 @@
 # Changelog
 
-## [1.9.2](https://github.com/tsutsu3/pi-hole-client/compare/1.9.1_(97)..1.9.2) - 2026-05-15
+## [1.10.0](https://github.com/tsutsu3/pi-hole-client/compare/1.9.2_(99)..1.10.0) - 2026-09-04
+
+### 🚀 Features
+
+- *(add_server)* Improve error handling for existing connections ([#620](https://github.com/tsutsu3/pi-hole-client/issues/620)) - ([8ea88a1](https://github.com/tsutsu3/pi-hole-client/commit/8ea88a1f233903f5cf5a9f5f287865df641300ec))
+- *(adlists)* Navigate to adlist details from gravity update messages ([#618](https://github.com/tsutsu3/pi-hole-client/issues/618)) - ([03f803c](https://github.com/tsutsu3/pi-hole-client/commit/03f803c15fdc302215e61376adc197ec3a008d01))
+- *(auth)* Suport 2FA ([#637](https://github.com/tsutsu3/pi-hole-client/issues/637)) - ([5e86dc0](https://github.com/tsutsu3/pi-hole-client/commit/5e86dc03c34b5b8c509e462ba8d075c2785af544))
+- *(auth)* Support login to Pi-hole servers without an app password ([#631](https://github.com/tsutsu3/pi-hole-client/issues/631)) - ([8c042c9](https://github.com/tsutsu3/pi-hole-client/commit/8c042c90e154ce6df696d8f794061996edd9ad0b))
+- *(auth)* Enforce TLS certificate pinning end-to-end with recovery ([#629](https://github.com/tsutsu3/pi-hole-client/issues/629)) - ([89815a3](https://github.com/tsutsu3/pi-hole-client/commit/89815a335b1a644e835122e6feacda8f4a1e3e98))
+- *(domains)* Replace full-screen spinner with stale-while-revalidate ([#617](https://github.com/tsutsu3/pi-hole-client/issues/617)) - ([b6a9a33](https://github.com/tsutsu3/pi-hole-client/commit/b6a9a33dda6209f95d013ad12d37dce877029ea5))
+- *(domains)* Add Internationalized Domain Name (IDN) support ([#616](https://github.com/tsutsu3/pi-hole-client/issues/616)) - ([16efd97](https://github.com/tsutsu3/pi-hole-client/commit/16efd978dfb85c19108036dd4583d7ab3917228b))
+- *(home)* Add server status chips with real-time system metrics ([#614](https://github.com/tsutsu3/pi-hole-client/issues/614)) - ([015c64f](https://github.com/tsutsu3/pi-hole-client/commit/015c64f55093f0b8f8e953c337f6a9763a47f99a))
+- *(server)* Show MFA status on server info screen ([#644](https://github.com/tsutsu3/pi-hole-client/issues/644)) - ([63a111c](https://github.com/tsutsu3/pi-hole-client/commit/63a111c3dbf76a43b4cc090bf4a200108c992fba))
+- *(servers)* Allow editing connection fields of an existing server ([#626](https://github.com/tsutsu3/pi-hole-client/issues/626)) - ([dec29e7](https://github.com/tsutsu3/pi-hole-client/commit/dec29e7482cabf7ea3ebc8d15eee81b60f8a9555))
+
+### 🐛 Bug Fixes
+
+- *(auth)* Connect to a password-less Pi-hole with a password entered ([#672](https://github.com/tsutsu3/pi-hole-client/issues/672)) - ([3b66f4b](https://github.com/tsutsu3/pi-hole-client/commit/3b66f4bcfd9c95e0fc8f159dea16e29fad29e317))
+- *(fetch)* Skip stale status updates when the selected server changes ([#649](https://github.com/tsutsu3/pi-hole-client/issues/649)) - ([e3dfe2f](https://github.com/tsutsu3/pi-hole-client/commit/e3dfe2fd96fb60ddf0dcc00b6db198c4bb5ac227))
+- *(ime)* Close the keyboard before the app leaves the foreground ([#687](https://github.com/tsutsu3/pi-hole-client/issues/687)) - ([3aabd59](https://github.com/tsutsu3/pi-hole-client/commit/3aabd5939e3acb81d2b5d5b18322410e118bb6b5))
+- *(scanner)* Update mobile_scanner to fix QR scanning in release builds ([#684](https://github.com/tsutsu3/pi-hole-client/issues/684)) - ([4c8f1bd](https://github.com/tsutsu3/pi-hole-client/commit/4c8f1bd29e8608b3bec81b91134b83a5ffbaec16))
+- *(server)* Preserve explicit default ports in endpoint comparison ([#677](https://github.com/tsutsu3/pi-hole-client/issues/677)) - ([a9e9df7](https://github.com/tsutsu3/pi-hole-client/commit/a9e9df71c720c76125f49cfb8eac790fed7b3e35))
+- *(server)* Cleanup on failure paths ([#652](https://github.com/tsutsu3/pi-hole-client/issues/652)) - ([deafd5b](https://github.com/tsutsu3/pi-hole-client/commit/deafd5bdde6747c9dcc8e5a9f739fe7a57328988))
+- *(servers)* Mark/clear TOTP reauth-declined flag in the edit flow ([#650](https://github.com/tsutsu3/pi-hole-client/issues/650)) - ([5ff6d35](https://github.com/tsutsu3/pi-hole-client/commit/5ff6d35f1e3b2b0dadd4f4e771c7b22a9df42618))
+- *(servers)* Clear previous version's credential when switching API version ([#643](https://github.com/tsutsu3/pi-hole-client/issues/643)) - ([8675749](https://github.com/tsutsu3/pi-hole-client/commit/867574991edbf5ff05ce9a4b80e06855d64873c0))
+- *(sessions)* Clean up the sid left behind by a failed add/edit ([#651](https://github.com/tsutsu3/pi-hole-client/issues/651)) - ([41087b6](https://github.com/tsutsu3/pi-hole-client/commit/41087b6d43dacd7e834005bbe868a8850e6d3799))
+- *(status)* Drop stale fetch results after switching servers ([#653](https://github.com/tsutsu3/pi-hole-client/issues/653)) - ([2ab9a02](https://github.com/tsutsu3/pi-hole-client/commit/2ab9a02f498011f5c8f52880a8cd5812870c97c5))
+- *(tests)* Add error handling for HTTPS on a plain HTTP port ([#676](https://github.com/tsutsu3/pi-hole-client/issues/676)) - ([52ad53d](https://github.com/tsutsu3/pi-hole-client/commit/52ad53d14509f1e9a1d8db2ec8c03545c940fa20))
+- *(totp)* Re-prompt for a 2FA code on a user-requested refresh ([#664](https://github.com/tsutsu3/pi-hole-client/issues/664)) - ([673618a](https://github.com/tsutsu3/pi-hole-client/commit/673618a11c38970b149aaeaa2415bcc6d2588444))
+- *(widget)* Prevent R8 from breaking widget actions ([#682](https://github.com/tsutsu3/pi-hole-client/issues/682)) - ([0b62a19](https://github.com/tsutsu3/pi-hole-client/commit/0b62a197ef19f89f1fb9e654c03ba7a9285dcc2f))
+- *(widget)* Show widget data for a passwordless Pi-hole v6 server ([#674](https://github.com/tsutsu3/pi-hole-client/issues/674)) - ([9899641](https://github.com/tsutsu3/pi-hole-client/commit/9899641a9470c60a039700c01d5c385dbdc13e23))
+
+### 🚜 Refactor
+
+- *(servers)* Extract add/edit connection orchestration ([#635](https://github.com/tsutsu3/pi-hole-client/issues/635)) - ([5d69e84](https://github.com/tsutsu3/pi-hole-client/commit/5d69e840b84a31e8e7993326dc4eeb4698c884e8))
+- *(tls)* Make TLS certificate fetcher injectable ([#625](https://github.com/tsutsu3/pi-hole-client/issues/625)) - ([72b47f5](https://github.com/tsutsu3/pi-hole-client/commit/72b47f570724e9dcb124bcef55c1d074ef1ebe0f))
+
+### 📚 Documentation
+
+- *(development)* Add how to run unit, Kotlin and integration tests ([#673](https://github.com/tsutsu3/pi-hole-client/issues/673)) - ([2c720af](https://github.com/tsutsu3/pi-hole-client/commit/2c720af5da4ffe8a6b6d3277698d524de9b92c52))
+- *(website)* Document the v1.9.x password-less Pi-hole v6 connection issue ([#661](https://github.com/tsutsu3/pi-hole-client/issues/661)) - ([a76882c](https://github.com/tsutsu3/pi-hole-client/commit/a76882c521fd036db8420931cf3478425d934e07))
+
+### 🧪 Testing
+
+- *(e2e)* Add end-to-end and unit tests ([#648](https://github.com/tsutsu3/pi-hole-client/issues/648)) - ([9e68977](https://github.com/tsutsu3/pi-hole-client/commit/9e68977e88291ed900108ee5e09b95e350f0c87b))
+- *(servers)* Cover removing the password from a saved v6 server ([#663](https://github.com/tsutsu3/pi-hole-client/issues/663)) - ([c3caadb](https://github.com/tsutsu3/pi-hole-client/commit/c3caadb0a4dbda79b95b2322fb3fc0d1d6007a00))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(config)* Disable experimental router option in Docusaurus config ([#642](https://github.com/tsutsu3/pi-hole-client/issues/642)) - ([4bd7cde](https://github.com/tsutsu3/pi-hole-client/commit/4bd7cde209ad91de23d2895eee1369789915728f))
+- *(winget)* Winget manifest for v1.9.2 ([#613](https://github.com/tsutsu3/pi-hole-client/issues/613)) - ([4720d24](https://github.com/tsutsu3/pi-hole-client/commit/4720d24d84026ef8cfb3671273520b9bf97145f6))
+
+## [1.9.2_(99)](https://github.com/tsutsu3/pi-hole-client/compare/1.9.1_(97)..1.9.2_(99)) - 2026-05-15
 
 ### 🚀 Features
 
