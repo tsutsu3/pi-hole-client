@@ -14,7 +14,9 @@
     "verify:urls": "node scripts/verify-urls.mjs",
     "verify:images": "node scripts/verify-image-sources.mjs",
     "lint": "eslint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "preview:cf": "pnpm build && wrangler dev",
+    "deploy:cf": "pnpm build && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.5",
@@ -39,7 +41,8 @@
     "sharp": "^0.35.4",
     "starlight-links-validator": "^0.25.3",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.69.0"
+    "typescript-eslint": "^8.69.0",
+    "wrangler": "^4.129.0"
   },
   "engines": {
     "node": ">=22.12.0"

@@ -191,8 +191,8 @@ const sidebar = [
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://tsutsu3.github.io",
-  base: "/pi-hole-client",
+  site: "https://pi-hole-client.tsutsu3.com",
+  base: "/",
   trailingSlash: "always",
   integrations: [
     react(),

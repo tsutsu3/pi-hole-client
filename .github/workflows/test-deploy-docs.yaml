@@ -8,6 +8,7 @@ on:
       - 'website/**'
       - '.github/workflows/deploy-docs.yaml'
       - '.github/workflows/test-deploy-docs.yaml'
+      - '.github/workflows/deploy-docs-cloudflare.yml'
 
 jobs:
   test-deploy:
@@ -26,7 +27,7 @@ jobs:
           version: 10
       - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           cache: pnpm
           cache-dependency-path: website/pnpm-lock.yaml
 
