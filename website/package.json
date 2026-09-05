@@ -2,6 +2,7 @@
   "name": "pi-hole-client-website",
   "version": "0.0.0",
   "private": true,
+  "packageManager": "pnpm@10.31.0",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
