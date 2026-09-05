@@ -6,8 +6,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const dist = fileURLToPath(new URL("../dist/", import.meta.url));
-const BASE = "/pi-hole-client";
-const ORIGIN = "https://tsutsu3.github.io";
+const BASE = "";
+const ORIGIN = "https://pi-hole-client.tsutsu3.com";
 
 const DOC_PAGES = [
   "docs/intro",
