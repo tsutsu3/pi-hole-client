@@ -1,6 +1,12 @@
 name: Deploy to Cloudflare Workers
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'website/**'
+      - '.github/workflows/deploy-docs-cloudflare.yml'
   workflow_dispatch:
 
 concurrency:
