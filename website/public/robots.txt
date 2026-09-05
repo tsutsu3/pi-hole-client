@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pi-hole-client.tsutsu3.com/sitemap-index.xml

@@ -14,26 +14,6 @@ const ogImageUrl = `${websiteUrl}/img/feature-image-og.png`;
 const description = meta.description.en;
 
 /**
- * Docusaurus published the sitemap at /sitemap.xml and that URL is registered in
- * Google Search Console. Astro writes sitemap-index.xml, so mirror it back.
- * @type {import("astro").AstroIntegration}
- */
-const legacySitemap = {
-  name: "legacy-sitemap",
-  hooks: {
-    "astro:build:done": ({ dir, logger }) => {
-      const source = new URL("./sitemap-index.xml", dir);
-      if (!fs.existsSync(source)) {
-        logger.warn("sitemap-index.xml not found; /sitemap.xml was not created");
-        return;
-      }
-      fs.copyFileSync(source, new URL("./sitemap.xml", dir));
-      logger.info("copied sitemap-index.xml to sitemap.xml");
-    },
-  },
-};
-
-/**
  * Astro emits unused original images alongside optimized variants.
  * Remove unreferenced images from _astro/ to reduce the Pages artifact size.
  * @type {import("astro").AstroIntegration}
@@ -135,15 +115,6 @@ const head = [
   },
   { tag: "meta", attrs: { name: "twitter:image", content: ogImageUrl } },
   { tag: "meta", attrs: { name: "twitter:creator", content: "@_tsutsu3" } },
-
-  // Google Search Console
-  {
-    tag: "meta",
-    attrs: {
-      name: "google-site-verification",
-      content: "QcUHWbCbOodhUhP5h_PSpMNELHwN8H9_ATs9MfvWbSo",
-    },
-  },
 ];
 
 /** @type {import("@astrojs/starlight/types").StarlightUserConfig["sidebar"]} */
@@ -227,7 +198,6 @@ export default defineConfig({
       // Rewrites the language-dependent `head` entries above on Japanese routes.
       routeMiddleware: "./src/starlightRouteData.ts",
     }),
-    legacySitemap,
     pruneUnusedAssets,
   ],
   vite: {

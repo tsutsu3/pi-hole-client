@@ -4,7 +4,7 @@ class Urls {
 
   static const String gitHub = 'https://github.com/tsutsu3/pi-hole-client';
 
-  static const String appWebSite = 'https://tsutsu3.github.io/pi-hole-client/';
+  static const String appWebSite = 'https://pi-hole-client.tsutsu3.com/';
 
   static const String support =
       'https://docs.google.com/forms/d/e/1FAIpQLSdNm7H2iDUaQ0q-JA6hvrUSsGe50_iL5NVK6fR_2hkCsyrA-A/viewform?hl=en';
