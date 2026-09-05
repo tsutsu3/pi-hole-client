@@ -8,6 +8,7 @@ on:
       - 'website/**'
       - '.github/workflows/deploy-docs.yaml'
       - '.github/workflows/test-deploy-docs.yaml'
+      - '.github/workflows/deploy-docs-cloudflare.yml'
 
 jobs:
   test-deploy:
