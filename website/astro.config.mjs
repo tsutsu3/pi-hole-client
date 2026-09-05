@@ -9,7 +9,7 @@ import starlightLinksValidator from "starlight-links-validator";
 import { meta } from "./src/i18n/meta";
 
 const githubUrl = "https://github.com/tsutsu3/pi-hole-client";
-const websiteUrl = "https://tsutsu3.github.io/pi-hole-client";
+const websiteUrl = "https://pi-hole-client.tsutsu3.com";
 const ogImageUrl = `${websiteUrl}/img/feature-image-og.png`;
 const description = meta.description.en;
 
