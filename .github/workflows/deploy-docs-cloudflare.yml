@@ -37,8 +37,23 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: lint
+        run: pnpm lint
+
+      - name: Test build website
+        run: pnpm build
+
+      - name: Verify URLs
+        run: pnpm verify:urls
+
+      - name: Verify image sources
+        run: pnpm verify:images
+
       - name: Build and deploy
-        run: pnpm run deploy:cf
+        run: pnpm run deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

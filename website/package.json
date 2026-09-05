@@ -16,7 +16,8 @@
     "lint": "eslint",
     "format": "prettier --write .",
     "preview:cf": "pnpm build && wrangler dev",
-    "deploy:cf": "pnpm build && wrangler deploy"
+    "deploy:cf": "pnpm build && wrangler deploy",
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.5",
