@@ -135,15 +135,6 @@ const head = [
   },
   { tag: "meta", attrs: { name: "twitter:image", content: ogImageUrl } },
   { tag: "meta", attrs: { name: "twitter:creator", content: "@_tsutsu3" } },
-
-  // Google Search Console
-  {
-    tag: "meta",
-    attrs: {
-      name: "google-site-verification",
-      content: "QcUHWbCbOodhUhP5h_PSpMNELHwN8H9_ATs9MfvWbSo",
-    },
-  },
 ];
 
 /** @type {import("@astrojs/starlight/types").StarlightUserConfig["sidebar"]} */
