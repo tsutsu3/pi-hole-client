@@ -42,7 +42,7 @@ const DEEP_LINKS = [
   },
 ];
 
-const OTHER_FILES = ["index.html", "404.html", "sitemap.xml", "sitemap-index.xml"];
+const OTHER_FILES = ["index.html", "404.html", "robots.txt", "sitemap-index.xml"];
 
 const errors = [];
 

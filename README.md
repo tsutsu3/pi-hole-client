@@ -73,7 +73,7 @@ The Pi-hole client features a beautiful and modern user interface.
 
 Easily view statistics, enable or disable the server, access logs, and much more.
 
-👉 [Pi-hole client website](https://tsutsu3.github.io/pi-hole-client/)
+👉 [Pi-hole client website](https://pi-hole-client.tsutsu3.com/)
 
 ## 💡 Main features
 

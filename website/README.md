@@ -3,7 +3,7 @@
 This is the source for the **Pi-hole Client Website**, built with
 [Astro](https://astro.build/) and [Starlight](https://starlight.astro.build/).
 
-🌐 [https://tsutsu3.github.io/pi-hole-client/](https://tsutsu3.github.io/pi-hole-client/)
+🌐 [https://pi-hole-client.tsutsu3.com/](https://pi-hole-client.tsutsu3.com/)
 
 ## Installation
 
