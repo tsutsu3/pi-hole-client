@@ -36,10 +36,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get addServer => 'サーバー接続を追加';
 
   @override
-  String get addingBlacklist => '拒否リストに追加中...';
+  String get addToAllowlist => '許可リストに追加';
 
   @override
-  String get addingWhitelist => '許可リストに追加中...';
+  String get addToBlocklist => '拒否リストに追加';
+
+  @override
+  String get addingAllowlist => '許可リストに追加中...';
+
+  @override
+  String get addingBlocklist => '拒否リストに追加中...';
 
   @override
   String get additionalInformation => '追加情報';
@@ -123,6 +129,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get adlists => 'Adlist';
 
   @override
+  String get adlistsAllow => 'Adlists (許可)';
+
+  @override
+  String get adlistsBlock => 'Adlists (ブロック)';
+
+  @override
   String get adlistsNone => '表示するAdlistがありません。';
 
   @override
@@ -177,9 +189,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get allowCrashReport => 'クラッシュレポートの送信を許可しますか？';
 
   @override
-  String get allowList => '許可リスト';
-
-  @override
   String get allowUntrustedCert => '信頼されていない証明書を許可する';
 
   @override
@@ -187,22 +196,10 @@ class AppLocalizationsJa extends AppLocalizations {
       '自己署名証明書や不完全な証明書チェーン（中間CA欠落など）を含む、このデバイスが信頼していない証明書でのサーバー接続を許可します。';
 
   @override
-  String get tlsCertSubject => 'サブジェクト';
-
-  @override
-  String get tlsCertIssuer => '発行者';
-
-  @override
-  String get tlsCertValidFrom => '有効開始';
-
-  @override
-  String get tlsCertValidUntil => '有効期限';
-
-  @override
-  String get tlsCertSha256 => 'SHA-256';
-
-  @override
   String get allowed => '許可済み';
+
+  @override
+  String get allowlist => '許可リスト';
 
   @override
   String get and => 'と';
@@ -278,13 +275,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get biometricUnlockNotDisabled => '指紋によるロック解除を無効にできませんでした。';
 
   @override
-  String get blacklist => '拒否リストに追加';
-
-  @override
-  String get blockList => '拒否リスト';
-
-  @override
   String get blocked => 'ブロック済み';
+
+  @override
+  String get blocklist => '拒否リスト';
 
   @override
   String get broadcast => 'ブロードキャストアドレス';
@@ -360,10 +354,58 @@ class AppLocalizationsJa extends AppLocalizations {
   String get checkingToken => 'トークンを確認中...';
 
   @override
+  String get chipTooltipCpuLoadAverage => 'CPU負荷平均 (1分 / 5分 / 15分)';
+
+  @override
+  String get chipTooltipCpuTemperature => 'CPU温度';
+
+  @override
+  String get chipTooltipCpuUsage => 'CPU使用率';
+
+  @override
+  String get chipTooltipQueriesPerMinute => '1分あたりのクエリ数';
+
+  @override
+  String get chipTooltipRamUsage => 'メモリ使用率';
+
+  @override
+  String get chipTooltipSystemUptime => 'システム稼働時間';
+
+  @override
   String get clientActivity24 => '過去24時間のクライアントアクティビティ';
 
   @override
+  String get clientAdd => 'クライアントを追加';
+
+  @override
+  String get clientAddFailed => 'クライアントを追加できませんでした';
+
+  @override
+  String get clientAdded => 'クライアントを追加しました';
+
+  @override
+  String get clientAdding => 'クライアントを追加中...';
+
+  @override
+  String get clientAddress => 'クライアントのアドレス';
+
+  @override
+  String get clientAlreadyAdded => 'クライアントは既に追加されています';
+
+  @override
+  String get clientDelete => 'クライアントを削除';
+
+  @override
+  String get clientDeleteMessage => 'このクライアントを削除しますか？';
+
+  @override
+  String get clientDetails => 'クライアントの詳細';
+
+  @override
   String get clientId => 'クライアントID';
+
+  @override
+  String get clientInfo => 'クライアント情報';
 
   @override
   String get clientInformation => 'クライアント情報';
@@ -372,7 +414,37 @@ class AppLocalizationsJa extends AppLocalizations {
   String get clientIp => 'クライアントIPアドレス';
 
   @override
+  String get clientNotExists => 'クライアントが存在しません';
+
+  @override
+  String get clientRemoveFailed => 'クライアントを削除できませんでした';
+
+  @override
+  String get clientRemoved => 'クライアントを削除しました';
+
+  @override
+  String get clientSettings => 'クライアント設定';
+
+  @override
+  String get clientUpdateFailed => 'クライアントを更新できませんでした';
+
+  @override
+  String get clientUpdated => 'クライアントを更新しました';
+
+  @override
+  String get clientUpdating => 'クライアントを更新中...';
+
+  @override
   String get clients => 'クライアント';
+
+  @override
+  String get clientsNone => '表示するクライアントがありません。';
+
+  @override
+  String get clientsNotLoaded => 'クライアント一覧を読み込めませんでした';
+
+  @override
+  String get clientsSelectLeftColumn => '詳細を表示するクライアントを選択してください。';
 
   @override
   String get clientsSelected => '選択されたクライアント';
@@ -623,16 +695,25 @@ class AppLocalizationsJa extends AppLocalizations {
   String get domainAdding => 'ドメインを追加中...';
 
   @override
+  String get domainAllowlistAddFailed => 'ドメインを許可リストに追加できませんでした。';
+
+  @override
+  String get domainAllowlistAdded => 'ドメインが許可リストに追加されました。';
+
+  @override
+  String get domainAllowlistAlready => 'ドメインは既に許可リストにあります。';
+
+  @override
   String get domainAlreadyAdded => 'ドメインは既に追加されています';
 
   @override
-  String get domainBlacklistAddFailed => 'ドメインを拒否リストに追加できませんでした。';
+  String get domainBlocklistAddFailed => 'ドメインを拒否リストに追加できませんでした。';
 
   @override
-  String get domainBlacklistAdded => 'ドメインが拒否リストに追加されました。';
+  String get domainBlocklistAdded => 'ドメインが拒否リストに追加されました。';
 
   @override
-  String get domainBlacklistAlready => 'ドメインは既に拒否リストにあります。';
+  String get domainBlocklistAlready => 'ドメインは既に拒否リストにあります。';
 
   @override
   String get domainDelete => 'ドメインを削除';
@@ -645,6 +726,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get domainInvalid => '無効なドメイン';
+
+  @override
+  String get domainLevelLists => 'ドメインレベルのリスト';
 
   @override
   String get domainNotExists => 'ドメインが存在しません';
@@ -662,19 +746,19 @@ class AppLocalizationsJa extends AppLocalizations {
   String get domainUpdated => 'ドメインの更新に成功しました';
 
   @override
-  String get domainWhitelistAddFailed => 'ドメインを許可リストに追加できませんでした。';
-
-  @override
-  String get domainWhitelistAdded => 'ドメインが許可リストに追加されました。';
-
-  @override
-  String get domainWhitelistAlready => 'ドメインは既に許可リストにあります。';
-
-  @override
   String get domains => 'ドメイン';
 
   @override
   String get domainsAdlists => 'Adlists上のドメイン';
+
+  @override
+  String get domainsAllowlist => 'ドメイン (許可リスト)';
+
+  @override
+  String get domainsBlocklist => 'ドメイン (拒否リスト)';
+
+  @override
+  String get domainsExactMatches => 'ドメイン（完全一致）';
 
   @override
   String get domainsInvalid => '無効なドメイン';
@@ -687,6 +771,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get domainsNotLoaded => 'ドメインリストを読み込めませんでした';
+
+  @override
+  String get domainsRegexMatches => 'ドメイン（正規表現）';
 
   @override
   String get domainsSearch => 'ドメインを検索...';
@@ -803,6 +890,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get filters => 'フィルター';
 
   @override
+  String get findDomainsInLists => 'リスト内ドメイン検索';
+
+  @override
+  String get findDomainsInListsDescription => '許可/拒否リストとAdlist内のドメインを検索';
+
+  @override
+  String get findDomainsSearchLabel => 'ドメインを検索';
+
+  @override
   String get fingerprintAuthUnavailable => '指紋認証を利用できません。';
 
   @override
@@ -883,6 +979,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get gitHub => 'アプリコードはGitHubで利用可能';
 
   @override
+  String get gravityAllowMatches => '許可リストの一致';
+
+  @override
+  String get gravityBlockMatches => '拒否リストの一致';
+
+  @override
   String get gravityIsRunning => 'Gravityを実行中...';
 
   @override
@@ -895,7 +997,82 @@ class AppLocalizationsJa extends AppLocalizations {
   String get gravityUpdateFailed => 'Gravityの更新に失敗しました';
 
   @override
+  String get groupAdd => 'グループを追加';
+
+  @override
+  String get groupAddFailed => 'グループを追加できませんでした';
+
+  @override
+  String get groupAdded => 'グループを追加しました';
+
+  @override
+  String get groupAdding => 'グループを追加中...';
+
+  @override
+  String get groupAlreadyAdded => 'グループは既に追加されています';
+
+  @override
+  String get groupClientSearch => 'グループまたはクライアントを検索...';
+
+  @override
+  String get groupDelete => 'グループを削除';
+
+  @override
+  String get groupDeleteMessage => 'このグループを削除しますか？';
+
+  @override
+  String get groupDetails => 'グループの詳細';
+
+  @override
+  String get groupEdit => 'グループを編集';
+
+  @override
+  String get groupInfo => 'グループ情報';
+
+  @override
+  String get groupMembers => 'グループメンバー';
+
+  @override
+  String get groupName => 'グループ名';
+
+  @override
+  String get groupNotExists => 'グループが存在しません';
+
+  @override
+  String get groupRemoveFailed => 'グループを削除できませんでした';
+
+  @override
+  String get groupRemoved => 'グループを削除しました';
+
+  @override
+  String get groupSettings => 'グループ設定';
+
+  @override
+  String get groupUpdateFailed => 'グループを更新できませんでした';
+
+  @override
+  String get groupUpdated => 'グループを更新しました';
+
+  @override
+  String get groupUpdating => 'グループを更新中...';
+
+  @override
   String get groups => 'グループ';
+
+  @override
+  String get groupsAndClients => 'グループとクライアント';
+
+  @override
+  String get groupsAndClientsDescription => 'グループとクライアントの割り当てを管理';
+
+  @override
+  String get groupsNone => '表示するグループがありません。';
+
+  @override
+  String get groupsNotLoaded => 'グループ一覧を読み込めませんでした';
+
+  @override
+  String get groupsSelectLeftColumn => '詳細を表示するグループを選択してください。';
 
   @override
   String get hardwareAddress => 'ハードウェアアドレス';
@@ -994,6 +1171,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get invalidIpAddress => '無効なIPアドレス';
 
   @override
+  String get invalidMaxResults => '0より大きい最大件数を入力してください。';
+
+  @override
   String get invalidPort => '無効なポート';
 
   @override
@@ -1033,10 +1213,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get lastUpdated => '最終更新日時';
 
   @override
-  String get leaseInfo => 'リース情報';
+  String get learnMoreAboutCertificates => '証明書設定について詳しく';
 
   @override
-  String get learnMoreAboutCertificates => '証明書設定について詳しく';
+  String get leaseInfo => 'リース情報';
 
   @override
   String get legal => '法的情報';
@@ -1071,6 +1251,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get listDescription => 'ラベルと数値を左側に、バーを右側に表示するリストでデータを表示します。';
+
+  @override
+  String get listLevelLists => 'リストレベルのリスト';
 
   @override
   String get liveLog => 'ライブログ';
@@ -1190,13 +1373,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get macAddress => 'MACアドレス';
 
   @override
+  String get matchingEntries => '一致したエントリ：';
+
+  @override
   String get max => '最大';
 
   @override
-  String get memoryUsage => 'メモリ使用量';
+  String get maxResultsToReturnLabel => '最大取得件数';
 
   @override
-  String get mfa => 'MFA';
+  String get memoryUsage => 'メモリ使用量';
 
   @override
   String get messageDeleteFailed => 'メッセージの削除に失敗しました';
@@ -1206,6 +1392,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get messages => 'メッセージ';
+
+  @override
+  String get mfa => 'MFA';
 
   @override
   String get mfaCodeLabel => '認証コード';
@@ -1302,6 +1491,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get noMessages => 'メッセージはありません';
+
+  @override
+  String get noResultsFound => '結果が見つかりません';
 
   @override
   String get noSavedConnections => '保存された接続がありません';
@@ -1540,6 +1732,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get scope => 'スコープ';
 
   @override
+  String get search => '検索';
+
+  @override
+  String get searchTermRequired => '検索するドメインを入力してください。';
+
+  @override
   String get searchUrl => 'URLで検索...';
 
   @override
@@ -1606,6 +1804,48 @@ class AppLocalizationsJa extends AppLocalizations {
   String get serverAddress => 'サーバーアドレス';
 
   @override
+  String get serverCertificateFetchFailed => '証明書情報を取得できませんでした。';
+
+  @override
+  String get serverCertificateHandshakeFailed =>
+      'セキュア接続を確立できませんでした。このポートでHTTPSが有効か確認してください。';
+
+  @override
+  String get serverCertificateIssueDetected =>
+      '証明書の問題が検出されました。サーバーの証明書が変わった可能性があります。';
+
+  @override
+  String get serverCertificateIssueHelp =>
+      'TLS 証明書が変更された、または信頼できない状態になっている可能性があります。サーバー設定を確認し、必要に応じてピン留め（SHA-256）を更新してください。';
+
+  @override
+  String get serverCertificateIssueTitle => '証明書の問題';
+
+  @override
+  String get serverCertificatePinMismatchDetected =>
+      'ピン留め証明書が一致しません。サーバーの証明書が変わった可能性があります。';
+
+  @override
+  String get serverCertificatePinMismatchHelp =>
+      'サーバーの証明書がピン留め（SHA-256）と一致しません。証明書を確認した上で、サーバー設定からピン留めを更新してください。';
+
+  @override
+  String get serverCertificateTitle => '証明書';
+
+  @override
+  String get serverCertificateUpdatePin => '更新';
+
+  @override
+  String get serverCertificateUpdatePinHelp =>
+      '未検証の証明書を許可する際に使う SHA-256 のピン留めを更新します。証明書を別手段で確認した場合のみ続行してください。';
+
+  @override
+  String get serverCertificateUpdatePinTitle => 'ピン留めを更新';
+
+  @override
+  String get serverCertificateView => '証明書を表示';
+
+  @override
   String get serverConnectionGuide => 'サーバー接続ガイド';
 
   @override
@@ -1628,6 +1868,27 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get serverName => 'サーバー名';
+
+  @override
+  String get serverSecurityHttp => 'HTTP';
+
+  @override
+  String get serverSecurityHttpsPinMismatch => 'HTTPS（ピン不一致）';
+
+  @override
+  String get serverSecurityHttpsPinned => 'HTTPS（ピン留め）';
+
+  @override
+  String get serverSecurityHttpsUnknown => 'HTTPS（不明）';
+
+  @override
+  String get serverSecurityHttpsUntrustedAllowed => 'HTTPS（未検証 許可）';
+
+  @override
+  String get serverSecurityHttpsUntrustedBlocked => 'HTTPS（未検証 ブロック）';
+
+  @override
+  String get serverSecurityHttpsVerified => 'HTTPS（検証済み）';
 
   @override
   String get serverSettings => 'サーバー設定';
@@ -1730,6 +1991,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get subrouteHelper => 'リバースプロキシで使用';
 
   @override
+  String get summary => 'サマリー';
+
+  @override
   String get supportDeveloperSubtitle => 'Buy Me a Coffee の外部ページに遷移します。';
 
   @override
@@ -1790,6 +2054,21 @@ class AppLocalizationsJa extends AppLocalizations {
   String get timestamps => 'タイムスタンプ';
 
   @override
+  String get tlsCertIssuer => '発行者';
+
+  @override
+  String get tlsCertSha256 => 'SHA-256';
+
+  @override
+  String get tlsCertSubject => 'サブジェクト';
+
+  @override
+  String get tlsCertValidFrom => '有効開始';
+
+  @override
+  String get tlsCertValidUntil => '有効期限';
+
+  @override
   String get tlsStatus => 'TLSステータス';
 
   @override
@@ -1812,60 +2091,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tools => 'ツール';
 
   @override
-  String get search => '検索';
-
-  @override
-  String get findDomainsInLists => 'リスト内ドメイン検索';
-
-  @override
-  String get findDomainsInListsDescription => 'ホワイト/ブラックリストとAdlist内のドメインを検索';
-
-  @override
-  String get findDomainsSearchLabel => 'ドメインを検索';
-
-  @override
-  String get usePartialMatching => '部分一致を使用';
-
-  @override
-  String get maxResultsToReturnLabel => '最大取得件数';
-
-  @override
-  String get noResultsFound => '結果が見つかりません';
-
-  @override
-  String get summary => 'サマリー';
-
-  @override
-  String get total => '合計';
-
-  @override
-  String get domainsExactMatches => 'ドメイン（完全一致）';
-
-  @override
-  String get domainsRegexMatches => 'ドメイン（正規表現）';
-
-  @override
-  String get gravityAllowMatches => '許可リストの一致';
-
-  @override
-  String get gravityBlockMatches => '拒否リストの一致';
-
-  @override
-  String get domainLevelLists => 'ドメインレベルのリスト';
-
-  @override
-  String get listLevelLists => 'リストレベルのリスト';
-
-  @override
-  String get matchingEntries => '一致したエントリ：';
-
-  @override
-  String get searchTermRequired => '検索するドメインを入力してください。';
-
-  @override
-  String get invalidMaxResults => '0より大きい最大件数を入力してください。';
-
-  @override
   String get topBlockedDomains => 'ブロックされたトップドメイン';
 
   @override
@@ -1876,6 +2101,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get topPermittedDomains => '許可されたトップドメイン';
+
+  @override
+  String get total => '合計';
 
   @override
   String get totalQueries => '総クエリ数';
@@ -1932,6 +2160,26 @@ class AppLocalizationsJa extends AppLocalizations {
   String get unsupportedFeatureTitle => '未対応の機能です';
 
   @override
+  String get unverifiedCertificatesBannerCollapse => '閉じる';
+
+  @override
+  String get unverifiedCertificatesBannerExpand => '展開';
+
+  @override
+  String get unverifiedCertificatesBannerLearnMore => '詳しく見る';
+
+  @override
+  String unverifiedCertificatesBannerTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '未検証の証明書が許可されているサーバーが$count件あります',
+      one: '未検証の証明書が許可されているサーバーが1件あります',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get updateGravity => 'Gravityの更新';
 
   @override
@@ -1958,6 +2206,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get useFingerprint => '指紋を使用';
+
+  @override
+  String get usePartialMatching => '部分一致を使用';
 
   @override
   String get usedAppPassword => 'アプリパスワードの使用';
@@ -2008,260 +2259,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get welcomeToApp => 'アプリへようこそ';
 
   @override
-  String get whitelist => '許可リストに追加';
-
-  @override
   String get writeEmail => 'メールで私に書いてください。';
 
   @override
   String get writeEmailDetails =>
       'メール本文には可能な限り詳細を記載してください：Pi-holeおよびWebインターフェースのバージョン、問題の再現方法、スクリーンショットなど。\n\n提供される情報はすべて歓迎します。';
-
-  @override
-  String get groupsAndClients => 'グループとクライアント';
-
-  @override
-  String get groupsAndClientsDescription => 'グループとクライアントの割り当てを管理';
-
-  @override
-  String get groupClientSearch => 'グループまたはクライアントを検索...';
-
-  @override
-  String get groupAdd => 'グループを追加';
-
-  @override
-  String get groupAdding => 'グループを追加中...';
-
-  @override
-  String get groupAdded => 'グループを追加しました';
-
-  @override
-  String get groupAddFailed => 'グループを追加できませんでした';
-
-  @override
-  String get groupAlreadyAdded => 'グループは既に追加されています';
-
-  @override
-  String get groupRemoveFailed => 'グループを削除できませんでした';
-
-  @override
-  String get groupRemoved => 'グループを削除しました';
-
-  @override
-  String get groupNotExists => 'グループが存在しません';
-
-  @override
-  String get groupUpdateFailed => 'グループを更新できませんでした';
-
-  @override
-  String get groupUpdated => 'グループを更新しました';
-
-  @override
-  String get groupUpdating => 'グループを更新中...';
-
-  @override
-  String get groupDelete => 'グループを削除';
-
-  @override
-  String get groupDeleteMessage => 'このグループを削除しますか？';
-
-  @override
-  String get groupDetails => 'グループの詳細';
-
-  @override
-  String get groupSettings => 'グループ設定';
-
-  @override
-  String get groupInfo => 'グループ情報';
-
-  @override
-  String get groupName => 'グループ名';
-
-  @override
-  String get groupEdit => 'グループを編集';
-
-  @override
-  String get groupsNone => '表示するグループがありません。';
-
-  @override
-  String get groupsNotLoaded => 'グループ一覧を読み込めませんでした';
-
-  @override
-  String get groupsSelectLeftColumn => '詳細を表示するグループを選択してください。';
-
-  @override
-  String get groupMembers => 'グループメンバー';
-
-  @override
-  String get domainsWhitelist => 'ドメイン (許可リスト)';
-
-  @override
-  String get domainsBlacklist => 'ドメイン (拒否リスト)';
-
-  @override
-  String get adlistsAllow => 'Adlists (許可)';
-
-  @override
-  String get adlistsBlock => 'Adlists (ブロック)';
-
-  @override
-  String get clientAdd => 'クライアントを追加';
-
-  @override
-  String get clientAdding => 'クライアントを追加中...';
-
-  @override
-  String get clientAdded => 'クライアントを追加しました';
-
-  @override
-  String get clientAddFailed => 'クライアントを追加できませんでした';
-
-  @override
-  String get clientAlreadyAdded => 'クライアントは既に追加されています';
-
-  @override
-  String get clientRemoveFailed => 'クライアントを削除できませんでした';
-
-  @override
-  String get clientRemoved => 'クライアントを削除しました';
-
-  @override
-  String get clientNotExists => 'クライアントが存在しません';
-
-  @override
-  String get clientUpdateFailed => 'クライアントを更新できませんでした';
-
-  @override
-  String get clientUpdated => 'クライアントを更新しました';
-
-  @override
-  String get clientUpdating => 'クライアントを更新中...';
-
-  @override
-  String get clientDelete => 'クライアントを削除';
-
-  @override
-  String get clientDeleteMessage => 'このクライアントを削除しますか？';
-
-  @override
-  String get clientDetails => 'クライアントの詳細';
-
-  @override
-  String get clientSettings => 'クライアント設定';
-
-  @override
-  String get clientInfo => 'クライアント情報';
-
-  @override
-  String get clientAddress => 'クライアントのアドレス';
-
-  @override
-  String get clientsNone => '表示するクライアントがありません。';
-
-  @override
-  String get clientsNotLoaded => 'クライアント一覧を読み込めませんでした';
-
-  @override
-  String get clientsSelectLeftColumn => '詳細を表示するクライアントを選択してください。';
-
-  @override
-  String get serverSecurityHttp => 'HTTP';
-
-  @override
-  String get serverSecurityHttpsVerified => 'HTTPS（検証済み）';
-
-  @override
-  String get serverSecurityHttpsPinned => 'HTTPS（ピン留め）';
-
-  @override
-  String get serverSecurityHttpsUntrustedAllowed => 'HTTPS（未検証 許可）';
-
-  @override
-  String get serverSecurityHttpsUntrustedBlocked => 'HTTPS（未検証 ブロック）';
-
-  @override
-  String get serverSecurityHttpsPinMismatch => 'HTTPS（ピン不一致）';
-
-  @override
-  String get serverSecurityHttpsUnknown => 'HTTPS（不明）';
-
-  @override
-  String get serverCertificateIssueTitle => '証明書の問題';
-
-  @override
-  String get serverCertificateIssueDetected =>
-      '証明書の問題が検出されました。サーバーの証明書が変わった可能性があります。';
-
-  @override
-  String get serverCertificateIssueHelp =>
-      'TLS 証明書が変更された、または信頼できない状態になっている可能性があります。サーバー設定を確認し、必要に応じてピン留め（SHA-256）を更新してください。';
-
-  @override
-  String get serverCertificatePinMismatchDetected =>
-      'ピン留め証明書が一致しません。サーバーの証明書が変わった可能性があります。';
-
-  @override
-  String get serverCertificatePinMismatchHelp =>
-      'サーバーの証明書がピン留め（SHA-256）と一致しません。証明書を確認した上で、サーバー設定からピン留めを更新してください。';
-
-  @override
-  String get serverCertificateTitle => '証明書';
-
-  @override
-  String get serverCertificateView => '証明書を表示';
-
-  @override
-  String get serverCertificateUpdatePin => '更新';
-
-  @override
-  String get serverCertificateUpdatePinTitle => 'ピン留めを更新';
-
-  @override
-  String get serverCertificateUpdatePinHelp =>
-      '未検証の証明書を許可する際に使う SHA-256 のピン留めを更新します。証明書を別手段で確認した場合のみ続行してください。';
-
-  @override
-  String get serverCertificateFetchFailed => '証明書情報を取得できませんでした。';
-
-  @override
-  String get serverCertificateHandshakeFailed =>
-      'セキュア接続を確立できませんでした。このポートでHTTPSが有効か確認してください。';
-
-  @override
-  String unverifiedCertificatesBannerTitle(num count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '未検証の証明書が許可されているサーバーが$count件あります',
-      one: '未検証の証明書が許可されているサーバーが1件あります',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get unverifiedCertificatesBannerExpand => '展開';
-
-  @override
-  String get unverifiedCertificatesBannerCollapse => '閉じる';
-
-  @override
-  String get unverifiedCertificatesBannerLearnMore => '詳しく見る';
-
-  @override
-  String get chipTooltipQueriesPerMinute => '1分あたりのクエリ数';
-
-  @override
-  String get chipTooltipCpuLoadAverage => 'CPU負荷平均 (1分 / 5分 / 15分)';
-
-  @override
-  String get chipTooltipCpuUsage => 'CPU使用率';
-
-  @override
-  String get chipTooltipRamUsage => 'メモリ使用率';
-
-  @override
-  String get chipTooltipCpuTemperature => 'CPU温度';
-
-  @override
-  String get chipTooltipSystemUptime => 'システム稼働時間';
 }

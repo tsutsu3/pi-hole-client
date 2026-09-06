@@ -131,11 +131,11 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
                       segments: [
                         ButtonSegment(
                           value: ListType.whitelist,
-                          label: Text(AppLocalizations.of(context)!.allowList),
+                          label: Text(AppLocalizations.of(context)!.allowlist),
                         ),
                         ButtonSegment(
                           value: ListType.blacklist,
-                          label: Text(AppLocalizations.of(context)!.blockList),
+                          label: Text(AppLocalizations.of(context)!.blocklist),
                         ),
                       ],
                       selected: <ListType>{selectedType},

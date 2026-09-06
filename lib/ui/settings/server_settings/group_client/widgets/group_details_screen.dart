@@ -172,7 +172,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             ),
             _buildMemberCountTile(
               icon: Icons.check_circle_outline_rounded,
-              label: AppLocalizations.of(context)!.domainsWhitelist,
+              label: AppLocalizations.of(context)!.domainsAllowlist,
               count: domainsViewModel.whitelistDomains
                   .where((d) => d.groups.contains(_group.id))
                   .length,
@@ -180,7 +180,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             ),
             _buildMemberCountTile(
               icon: Icons.block_rounded,
-              label: AppLocalizations.of(context)!.domainsBlacklist,
+              label: AppLocalizations.of(context)!.domainsBlocklist,
               count: domainsViewModel.blacklistDomains
                   .where((d) => d.groups.contains(_group.id))
                   .length,

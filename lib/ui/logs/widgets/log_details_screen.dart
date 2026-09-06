@@ -60,7 +60,7 @@ class LogDetailsScreen extends StatelessWidget {
             whiteBlackList('black', log);
           },
           icon: const Icon(Icons.gpp_bad_rounded),
-          tooltip: AppLocalizations.of(context)!.blacklist,
+          tooltip: AppLocalizations.of(context)!.addToBlocklist,
         );
       } else {
         return IconButton(
@@ -69,7 +69,7 @@ class LogDetailsScreen extends StatelessWidget {
             whiteBlackList('white', log);
           },
           icon: const Icon(Icons.verified_user_rounded),
-          tooltip: AppLocalizations.of(context)!.whitelist,
+          tooltip: AppLocalizations.of(context)!.addToAllowlist,
         );
       }
     }

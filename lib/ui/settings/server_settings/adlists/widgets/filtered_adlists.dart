@@ -99,11 +99,11 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
         tabs: [
           IconTab(
             icon: Icons.check_circle_rounded,
-            label: AppLocalizations.of(context)!.allowList,
+            label: AppLocalizations.of(context)!.allowlist,
           ),
           IconTab(
             icon: Icons.block_rounded,
-            label: AppLocalizations.of(context)!.blockList,
+            label: AppLocalizations.of(context)!.blocklist,
           ),
         ],
         tabChildren: [

@@ -57,7 +57,7 @@ class LogActionsService {
     final loc = AppLocalizations.of(context)!;
     final loading = ProcessModal(context: context);
 
-    loading.open(list == 'white' ? loc.addingWhitelist : loc.addingBlacklist);
+    loading.open(list == 'white' ? loc.addingAllowlist : loc.addingBlocklist);
 
     final result = await logsViewModel.addDomainToList(
       list: list,
@@ -74,16 +74,16 @@ class LogActionsService {
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: list == 'white'
-              ? loc.domainWhitelistAdded
-              : loc.domainBlacklistAdded,
+              ? loc.domainAllowlistAdded
+              : loc.domainBlocklistAdded,
         );
       },
       (_) => showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
         label: list == 'white'
-            ? loc.domainWhitelistAddFailed
-            : loc.domainBlacklistAddFailed,
+            ? loc.domainAllowlistAddFailed
+            : loc.domainBlocklistAddFailed,
       ),
     );
   }
