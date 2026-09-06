@@ -36,10 +36,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get addServer => 'Dodawanie połączenia z serwerem';
 
   @override
-  String get addingBlacklist => 'Dodawanie do czarnej listy...';
+  String get addingBlacklist => 'Dodawanie do listy zablokowanych...';
 
   @override
-  String get addingWhitelist => 'Dodawanie do białej listy...';
+  String get addingWhitelist => 'Dodawanie do listy dozwolonych...';
 
   @override
   String get additionalInformation => 'Dodatkowe informacje';
@@ -284,7 +284,7 @@ class AppLocalizationsPl extends AppLocalizations {
       'Nie można wyłączyć odblokowania za pomocą odcisku palca.';
 
   @override
-  String get blacklist => 'Dodaj do czarnej listy';
+  String get blacklist => 'Dodaj do listy zablokowanych';
 
   @override
   String get blockList => 'Lista zablokowanych';
@@ -645,13 +645,14 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get domainBlacklistAddFailed =>
-      'Nie można dodać domeny do czarnej listy.';
+      'Nie można dodać domeny do listy zablokowanych.';
 
   @override
-  String get domainBlacklistAdded => 'Domena dodana do czarnej listy.';
+  String get domainBlacklistAdded => 'Domena dodana do listy zablokowanych.';
 
   @override
-  String get domainBlacklistAlready => 'Domena jest już na czarnej liście.';
+  String get domainBlacklistAlready =>
+      'Domena jest już na liście zablokowanych.';
 
   @override
   String get domainDelete => 'Usuń Domenę';
@@ -682,13 +683,13 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get domainWhitelistAddFailed =>
-      'Nie można dodać domeny do białej listy.';
+      'Nie można dodać domeny do listy dozwolonych.';
 
   @override
-  String get domainWhitelistAdded => 'Domena dodana do białej listy.';
+  String get domainWhitelistAdded => 'Domena dodana do listy dozwolonych.';
 
   @override
-  String get domainWhitelistAlready => 'Domena jest już na białej liście.';
+  String get domainWhitelistAlready => 'Domena jest już na liście dozwolonych.';
 
   @override
   String get domains => 'Domeny';
@@ -2083,7 +2084,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get welcomeToApp => 'Witaj w aplikacji';
 
   @override
-  String get whitelist => 'Dodaj do białej listy';
+  String get whitelist => 'Dodaj do listy dozwolonych';
 
   @override
   String get writeEmail => 'Napisz do mnie na e-mail.';
@@ -2169,10 +2170,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get groupMembers => 'Członkowie grupy';
 
   @override
-  String get domainsWhitelist => 'Domeny (biała lista)';
+  String get domainsWhitelist => 'Domeny (lista dozwolonych)';
 
   @override
-  String get domainsBlacklist => 'Domeny (czarna lista)';
+  String get domainsBlacklist => 'Domeny (lista zablokowanych)';
 
   @override
   String get adlistsAllow => 'Adlisty (dozwolone)';

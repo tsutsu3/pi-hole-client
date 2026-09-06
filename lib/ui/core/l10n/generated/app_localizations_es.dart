@@ -36,10 +36,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get addServer => 'Añadir conexión';
 
   @override
-  String get addingBlacklist => 'Añadiendo a lista negra...';
+  String get addingBlacklist => 'Añadiendo a lista de bloqueo...';
 
   @override
-  String get addingWhitelist => 'Añadiendo a lista blanca...';
+  String get addingWhitelist => 'Añadiendo a lista de permitidos...';
 
   @override
   String get additionalInformation => 'Información adicional';
@@ -287,7 +287,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'No se ha podido desactivar el desbloqueo con huella dactilar.';
 
   @override
-  String get blacklist => 'Añadir a lista negra';
+  String get blacklist => 'Añadir a lista de bloqueo';
 
   @override
   String get blockList => 'Lista de bloqueo';
@@ -656,13 +656,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get domainBlacklistAddFailed =>
-      'No se ha podido añadir el dominio a lista blanca.';
+      'No se ha podido añadir el dominio a lista de bloqueo.';
 
   @override
-  String get domainBlacklistAdded => 'Dominio añadido a lista negra.';
+  String get domainBlacklistAdded => 'Dominio añadido a lista de bloqueo.';
 
   @override
-  String get domainBlacklistAlready => 'El dominio ya está en lista negra.';
+  String get domainBlacklistAlready =>
+      'El dominio ya está en lista de bloqueo.';
 
   @override
   String get domainDelete => 'Eliminar dominio';
@@ -694,13 +695,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get domainWhitelistAddFailed =>
-      'No se ha podido añadir el dominio a lista negra.';
+      'No se ha podido añadir el dominio a lista de permitidos.';
 
   @override
-  String get domainWhitelistAdded => 'Dominio añadido a lista blanca.';
+  String get domainWhitelistAdded => 'Dominio añadido a lista de permitidos.';
 
   @override
-  String get domainWhitelistAlready => 'El dominio ya está en lista blanca.';
+  String get domainWhitelistAlready =>
+      'El dominio ya está en lista de permitidos.';
 
   @override
   String get domains => 'Dominios';
@@ -2095,7 +2097,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get welcomeToApp => 'Bienvenido a la aplicación';
 
   @override
-  String get whitelist => 'Añadir a lista blanca';
+  String get whitelist => 'Añadir a lista de permitidos';
 
   @override
   String get writeEmail => 'Escríbeme por correo electrónico.';
@@ -2183,10 +2185,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get groupMembers => 'Miembros del grupo';
 
   @override
-  String get domainsWhitelist => 'Dominios (lista blanca)';
+  String get domainsWhitelist => 'Dominios (lista de permitidos)';
 
   @override
-  String get domainsBlacklist => 'Dominios (lista negra)';
+  String get domainsBlacklist => 'Dominios (lista de bloqueo)';
 
   @override
   String get adlistsAllow => 'Adlists (permitir)';

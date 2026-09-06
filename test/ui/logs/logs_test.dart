@@ -223,14 +223,14 @@ void main() async {
       expect(find.text('white.example.com'), findsWidgets);
       expect(find.text('Log details'), findsOneWidget);
 
-      // Tap blacklist button (isAllowedOrRetried returns true -> shows
-      // blacklist button)
+      // Tap blocklist button (isAllowedOrRetried returns true -> shows
+      // blocklist button)
       expect(find.byIcon(Icons.gpp_bad_rounded), findsOneWidget);
       await tester.tap(find.byIcon(Icons.gpp_bad_rounded));
       await tester.pump(const Duration(milliseconds: 1000));
 
       // Return to logs screen (not raise Exception)
-      expect(find.text('Domain added to blacklist.'), findsWidgets);
+      expect(find.text('Domain added to blocklist.'), findsWidgets);
       expect(find.byType(LogsScreen), findsOneWidget);
     });
 

@@ -36,10 +36,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get addServer => 'Verbindung hinzufügen';
 
   @override
-  String get addingBlacklist => 'Wird zur Blacklist hinzugefügt...';
+  String get addingBlacklist => 'Wird zur Sperrliste hinzugefügt...';
 
   @override
-  String get addingWhitelist => 'Wird zur Whitelist hinzugefügt...';
+  String get addingWhitelist => 'Wird zur Zulassungsliste hinzugefügt...';
 
   @override
   String get additionalInformation => 'Zusätzliche Informationen';
@@ -288,7 +288,7 @@ class AppLocalizationsDe extends AppLocalizations {
       'Entsperren per Fingerabdruck konnte nicht deaktiviert werden.';
 
   @override
-  String get blacklist => 'Zur Blacklist hinzufügen';
+  String get blacklist => 'Zur Sperrliste hinzufügen';
 
   @override
   String get blockList => 'Sperrliste';
@@ -658,14 +658,14 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get domainBlacklistAddFailed =>
-      'Domain konnte nicht der Blacklist beigefügt werden.';
+      'Domain konnte nicht der Sperrliste beigefügt werden.';
 
   @override
-  String get domainBlacklistAdded => 'Domain zur Blacklist hinzugefügt.';
+  String get domainBlacklistAdded => 'Domain zur Sperrliste hinzugefügt.';
 
   @override
   String get domainBlacklistAlready =>
-      'Domain existiert bereits in der Blacklist.';
+      'Domain existiert bereits in der Sperrliste.';
 
   @override
   String get domainDelete => 'Domain löschen';
@@ -697,14 +697,14 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get domainWhitelistAddFailed =>
-      'Domain konnte nicht der Whitelist beigefügt werden.';
+      'Domain konnte nicht der Zulassungsliste beigefügt werden.';
 
   @override
-  String get domainWhitelistAdded => 'Domain zur Whitelist hinzugefügt.';
+  String get domainWhitelistAdded => 'Domain zur Zulassungsliste hinzugefügt.';
 
   @override
   String get domainWhitelistAlready =>
-      'Domain existiert bereits in der Whitelist.';
+      'Domain existiert bereits in der Zulassungsliste.';
 
   @override
   String get domains => 'Domains';
@@ -2102,7 +2102,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get welcomeToApp => 'Willkommen in der App';
 
   @override
-  String get whitelist => 'Zur Whitelist hinzufügen';
+  String get whitelist => 'Zur Zulassungsliste hinzufügen';
 
   @override
   String get writeEmail => 'Schreiben Sie mir per E-Mail.';
@@ -2189,10 +2189,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get groupMembers => 'Gruppenmitglieder';
 
   @override
-  String get domainsWhitelist => 'Domains (Whitelist)';
+  String get domainsWhitelist => 'Domains (Zulassungsliste)';
 
   @override
-  String get domainsBlacklist => 'Domains (Blacklist)';
+  String get domainsBlacklist => 'Domains (Sperrliste)';
 
   @override
   String get adlistsAllow => 'Adlists (erlaubt)';

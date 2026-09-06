@@ -161,13 +161,13 @@ abstract class AppLocalizations {
   /// No description provided for @addingBlacklist.
   ///
   /// In en, this message translates to:
-  /// **'Adding to blacklist...'**
+  /// **'Adding to blocklist...'**
   String get addingBlacklist;
 
   /// No description provided for @addingWhitelist.
   ///
   /// In en, this message translates to:
-  /// **'Adding to whitelist...'**
+  /// **'Adding to allowlist...'**
   String get addingWhitelist;
 
   /// No description provided for @additionalInformation.
@@ -641,7 +641,7 @@ abstract class AppLocalizations {
   /// No description provided for @blacklist.
   ///
   /// In en, this message translates to:
-  /// **'Add to blacklist'**
+  /// **'Add to blocklist'**
   String get blacklist;
 
   /// No description provided for @blockList.
@@ -1331,19 +1331,19 @@ abstract class AppLocalizations {
   /// No description provided for @domainBlacklistAddFailed.
   ///
   /// In en, this message translates to:
-  /// **'Could not add domain to blacklist.'**
+  /// **'Could not add domain to blocklist.'**
   String get domainBlacklistAddFailed;
 
   /// No description provided for @domainBlacklistAdded.
   ///
   /// In en, this message translates to:
-  /// **'Domain added to blacklist.'**
+  /// **'Domain added to blocklist.'**
   String get domainBlacklistAdded;
 
   /// No description provided for @domainBlacklistAlready.
   ///
   /// In en, this message translates to:
-  /// **'Domain is already on blacklist.'**
+  /// **'Domain is already on blocklist.'**
   String get domainBlacklistAlready;
 
   /// No description provided for @domainDelete.
@@ -1403,19 +1403,19 @@ abstract class AppLocalizations {
   /// No description provided for @domainWhitelistAddFailed.
   ///
   /// In en, this message translates to:
-  /// **'Could not add domain to whitelist.'**
+  /// **'Could not add domain to allowlist.'**
   String get domainWhitelistAddFailed;
 
   /// No description provided for @domainWhitelistAdded.
   ///
   /// In en, this message translates to:
-  /// **'Domain added to whitelist.'**
+  /// **'Domain added to allowlist.'**
   String get domainWhitelistAdded;
 
   /// No description provided for @domainWhitelistAlready.
   ///
   /// In en, this message translates to:
-  /// **'Domain is already on whitelist.'**
+  /// **'Domain is already on allowlist.'**
   String get domainWhitelistAlready;
 
   /// No description provided for @domains.
@@ -4025,7 +4025,7 @@ abstract class AppLocalizations {
   /// No description provided for @whitelist.
   ///
   /// In en, this message translates to:
-  /// **'Add to whitelist'**
+  /// **'Add to allowlist'**
   String get whitelist;
 
   /// No description provided for @writeEmail.
@@ -4193,13 +4193,13 @@ abstract class AppLocalizations {
   /// No description provided for @domainsWhitelist.
   ///
   /// In en, this message translates to:
-  /// **'Domains (whitelist)'**
+  /// **'Domains (allowlist)'**
   String get domainsWhitelist;
 
   /// No description provided for @domainsBlacklist.
   ///
   /// In en, this message translates to:
-  /// **'Domains (blacklist)'**
+  /// **'Domains (blocklist)'**
   String get domainsBlacklist;
 
   /// No description provided for @adlistsAllow.

@@ -36,10 +36,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get addServer => 'サーバー接続を追加';
 
   @override
-  String get addingBlacklist => 'ブラックリストに追加中...';
+  String get addingBlacklist => '拒否リストに追加中...';
 
   @override
-  String get addingWhitelist => 'ホワイトリストに追加中...';
+  String get addingWhitelist => '許可リストに追加中...';
 
   @override
   String get additionalInformation => '追加情報';
@@ -278,7 +278,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get biometricUnlockNotDisabled => '指紋によるロック解除を無効にできませんでした。';
 
   @override
-  String get blacklist => 'ブラックリストに追加';
+  String get blacklist => '拒否リストに追加';
 
   @override
   String get blockList => '拒否リスト';
@@ -626,13 +626,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get domainAlreadyAdded => 'ドメインは既に追加されています';
 
   @override
-  String get domainBlacklistAddFailed => 'ドメインをブラックリストに追加できませんでした。';
+  String get domainBlacklistAddFailed => 'ドメインを拒否リストに追加できませんでした。';
 
   @override
-  String get domainBlacklistAdded => 'ドメインがブラックリストに追加されました。';
+  String get domainBlacklistAdded => 'ドメインが拒否リストに追加されました。';
 
   @override
-  String get domainBlacklistAlready => 'ドメインは既にブラックリストにあります。';
+  String get domainBlacklistAlready => 'ドメインは既に拒否リストにあります。';
 
   @override
   String get domainDelete => 'ドメインを削除';
@@ -662,13 +662,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get domainUpdated => 'ドメインの更新に成功しました';
 
   @override
-  String get domainWhitelistAddFailed => 'ドメインをホワイトリストに追加できませんでした。';
+  String get domainWhitelistAddFailed => 'ドメインを許可リストに追加できませんでした。';
 
   @override
-  String get domainWhitelistAdded => 'ドメインがホワイトリストに追加されました。';
+  String get domainWhitelistAdded => 'ドメインが許可リストに追加されました。';
 
   @override
-  String get domainWhitelistAlready => 'ドメインは既にホワイトリストにあります。';
+  String get domainWhitelistAlready => 'ドメインは既に許可リストにあります。';
 
   @override
   String get domains => 'ドメイン';
@@ -2008,7 +2008,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get welcomeToApp => 'アプリへようこそ';
 
   @override
-  String get whitelist => 'ホワイトリストに追加';
+  String get whitelist => '許可リストに追加';
 
   @override
   String get writeEmail => 'メールで私に書いてください。';
@@ -2093,10 +2093,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get groupMembers => 'グループメンバー';
 
   @override
-  String get domainsWhitelist => 'ドメイン (ホワイトリスト)';
+  String get domainsWhitelist => 'ドメイン (許可リスト)';
 
   @override
-  String get domainsBlacklist => 'ドメイン (ブラックリスト)';
+  String get domainsBlacklist => 'ドメイン (拒否リスト)';
 
   @override
   String get adlistsAllow => 'Adlists (許可)';

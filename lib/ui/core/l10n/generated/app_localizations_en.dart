@@ -36,10 +36,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addServer => 'Add server connection';
 
   @override
-  String get addingBlacklist => 'Adding to blacklist...';
+  String get addingBlacklist => 'Adding to blocklist...';
 
   @override
-  String get addingWhitelist => 'Adding to whitelist...';
+  String get addingWhitelist => 'Adding to allowlist...';
 
   @override
   String get additionalInformation => 'Additional Information';
@@ -284,7 +284,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Couldn\'t disable unlock with fingerprint.';
 
   @override
-  String get blacklist => 'Add to blacklist';
+  String get blacklist => 'Add to blocklist';
 
   @override
   String get blockList => 'Blocklist';
@@ -642,13 +642,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get domainAlreadyAdded => 'Domain already added';
 
   @override
-  String get domainBlacklistAddFailed => 'Could not add domain to blacklist.';
+  String get domainBlacklistAddFailed => 'Could not add domain to blocklist.';
 
   @override
-  String get domainBlacklistAdded => 'Domain added to blacklist.';
+  String get domainBlacklistAdded => 'Domain added to blocklist.';
 
   @override
-  String get domainBlacklistAlready => 'Domain is already on blacklist.';
+  String get domainBlacklistAlready => 'Domain is already on blocklist.';
 
   @override
   String get domainDelete => 'Delete Domain';
@@ -679,13 +679,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get domainUpdated => 'Domain updated successfully';
 
   @override
-  String get domainWhitelistAddFailed => 'Could not add domain to whitelist.';
+  String get domainWhitelistAddFailed => 'Could not add domain to allowlist.';
 
   @override
-  String get domainWhitelistAdded => 'Domain added to whitelist.';
+  String get domainWhitelistAdded => 'Domain added to allowlist.';
 
   @override
-  String get domainWhitelistAlready => 'Domain is already on whitelist.';
+  String get domainWhitelistAlready => 'Domain is already on allowlist.';
 
   @override
   String get domains => 'Domains';
@@ -2067,7 +2067,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcomeToApp => 'Welcome to the App';
 
   @override
-  String get whitelist => 'Add to whitelist';
+  String get whitelist => 'Add to allowlist';
 
   @override
   String get writeEmail => 'Write me by email.';
@@ -2154,10 +2154,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupMembers => 'Group members';
 
   @override
-  String get domainsWhitelist => 'Domains (whitelist)';
+  String get domainsWhitelist => 'Domains (allowlist)';
 
   @override
-  String get domainsBlacklist => 'Domains (blacklist)';
+  String get domainsBlacklist => 'Domains (blocklist)';
 
   @override
   String get adlistsAllow => 'Adlists (allow)';
