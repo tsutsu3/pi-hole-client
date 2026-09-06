@@ -119,14 +119,14 @@ class _AddDomainModalState extends State<AddDomainModal> {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     width: double.maxFinite,
                     child: SegmentedButton<ListType>(
-                      segments: const [
+                      segments: [
                         ButtonSegment(
                           value: ListType.whitelist,
-                          label: Text('Whitelist'),
+                          label: Text(AppLocalizations.of(context)!.allowlist),
                         ),
                         ButtonSegment(
                           value: ListType.blacklist,
-                          label: Text('Blacklist'),
+                          label: Text(AppLocalizations.of(context)!.blocklist),
                         ),
                       ],
                       selected: <ListType>{selectedType},

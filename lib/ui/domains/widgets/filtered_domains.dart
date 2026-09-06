@@ -80,15 +80,18 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
     Widget buildScaffold() {
       return DomainsScaffold(
         tabController: tabController,
-        tabs: const [
+        tabs: [
           Tab(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.check_circle_rounded),
-                Flexible(child: SizedBox(width: 16)),
+                const Icon(Icons.check_circle_rounded),
+                const Flexible(child: SizedBox(width: 16)),
                 Flexible(
-                  child: Text('Whitelist', overflow: TextOverflow.ellipsis),
+                  child: Text(
+                    AppLocalizations.of(context)!.allowlist,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
@@ -97,10 +100,13 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.block),
-                Flexible(child: SizedBox(width: 16)),
+                const Icon(Icons.block),
+                const Flexible(child: SizedBox(width: 16)),
                 Flexible(
-                  child: Text('Blacklist', overflow: TextOverflow.ellipsis),
+                  child: Text(
+                    AppLocalizations.of(context)!.blocklist,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
