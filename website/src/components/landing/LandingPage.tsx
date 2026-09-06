@@ -580,6 +580,7 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
             source={playStoreImage}
             alt={text.playStoreAlt}
             className={styles.heroPlayBtn}
+            mode="eager"
           />
         </a>
       </div>
@@ -587,6 +588,7 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
         <ThemedImage
           alt={text.mockupAlt}
           className={styles.heroMockImg}
+          mode="eager"
           sources={{
             light: mockLight,
             dark: mockDark,
@@ -597,7 +599,9 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
   );
 };
 
-export default function LandingPage({ locale = "en" }: { locale?: Locale }): React.JSX.Element {
+export default function LandingPage({
+  locale = "en",
+}: Readonly<{ locale?: Locale }>): React.JSX.Element {
   return (
     <>
       <HeroSection locale={locale} />
