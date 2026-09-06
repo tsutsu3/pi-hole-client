@@ -172,7 +172,7 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
               Routes.logsDetails,
               extra: LogDetailsExtra(
                 log: log,
-                whiteBlackList: logActSvc.whiteBlackList,
+                onAddDomainToList: logActSvc.addDomainToList,
               ),
             )
             .then((_) => _appConfigViewModel.setDetailScreenOpen(false));
@@ -307,7 +307,7 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
             child: logsViewModel.selectedLog != null
                 ? LogDetailsScreen(
                     log: logsViewModel.selectedLog!,
-                    whiteBlackList: logActSvc.whiteBlackList,
+                    onAddDomainToList: logActSvc.addDomainToList,
                   )
                 : SizedBox(
                     child: SafeArea(

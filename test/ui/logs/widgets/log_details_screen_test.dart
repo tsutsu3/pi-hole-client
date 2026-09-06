@@ -43,11 +43,11 @@ final _blockedLog = Log(
 Widget _buildScreen(
   Log log, {
   FakeLogsViewModel? viewModel,
-  void Function(String, Log)? whiteBlackList,
+  void Function(DomainType, Log)? onAddDomainToList,
 }) {
   final vm = viewModel ?? FakeLogsViewModel();
   final serversVm = FakeServersViewModel();
-  final callback = whiteBlackList ?? (_, _) {};
+  final callback = onAddDomainToList ?? (_, _) {};
 
   final router = GoRouter(
     initialLocation: '/',
@@ -59,7 +59,7 @@ Widget _buildScreen(
             ChangeNotifierProvider<LogsViewModel>.value(value: vm),
             ChangeNotifierProvider<ServersViewModel>.value(value: serversVm),
           ],
-          child: LogDetailsScreen(log: log, whiteBlackList: callback),
+          child: LogDetailsScreen(log: log, onAddDomainToList: callback),
         ),
       ),
     ],
@@ -142,39 +142,39 @@ void main() async {
       expect(find.byIcon(Icons.gpp_bad_rounded), findsNothing);
     });
 
-    testWidgets('blacklist button invokes whiteBlackList with "black"', (
+    testWidgets('blocklist button invokes onAddDomainToList with deny', (
       WidgetTester tester,
     ) async {
-      String? calledWith;
+      DomainType? calledWith;
       await tester.pumpWidget(
         _buildScreen(
           _forwardedLog,
-          whiteBlackList: (list, _) => calledWith = list,
+          onAddDomainToList: (type, _) => calledWith = type,
         ),
       );
 
       await tester.tap(find.byIcon(Icons.gpp_bad_rounded));
       await tester.pump();
 
-      expect(calledWith, 'black');
+      expect(calledWith, DomainType.deny);
     });
 
-    testWidgets('whitelist button invokes whiteBlackList with "white"', (
+    testWidgets('allowlist button invokes onAddDomainToList with allow', (
       WidgetTester tester,
     ) async {
-      String? calledWith;
+      DomainType? calledWith;
       await tester.pumpWidget(
         _buildScreen(
           _blockedLog,
           viewModel: _FakeLogsViewModelAllowWhitelist(),
-          whiteBlackList: (list, _) => calledWith = list,
+          onAddDomainToList: (type, _) => calledWith = type,
         ),
       );
 
       await tester.tap(find.byIcon(Icons.verified_user_rounded));
       await tester.pump();
 
-      expect(calledWith, 'white');
+      expect(calledWith, DomainType.allow);
     });
 
     testWidgets('search online button is shown', (WidgetTester tester) async {

@@ -5,14 +5,14 @@ import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.d
 
 class AddAdlistModal extends StatefulWidget {
   const AddAdlistModal({
-    required this.selectedlist,
+    required this.selectedType,
     required this.onAddAdlist,
     required this.window,
     required this.groups,
     super.key,
   });
 
-  final String selectedlist;
+  final ListType selectedType;
   final void Function(Map<String, dynamic>) onAddAdlist;
   final bool window;
   final Map<int, String> groups;
@@ -32,9 +32,7 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
 
   @override
   void initState() {
-    selectedType = widget.selectedlist == 'whitelist'
-        ? ListType.allow
-        : ListType.block;
+    selectedType = widget.selectedType;
     super.initState();
   }
 

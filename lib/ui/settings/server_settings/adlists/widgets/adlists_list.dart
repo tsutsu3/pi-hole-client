@@ -26,7 +26,7 @@ class AdlistsList extends StatefulWidget {
     super.key,
   });
 
-  final String type;
+  final ListType type;
   final ScrollController scrollController;
   final void Function(Adlist) onAdlistSelected;
   final Adlist? selectedAdlist;
@@ -73,7 +73,7 @@ class _AdlistsListState extends State<AdlistsList> {
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
     final groups = context.watch<GroupsViewModel>().groupItems;
 
-    final adlistsList = widget.type == 'blacklist'
+    final adlistsList = widget.type == ListType.block
         ? viewModel.filteredBlacklistAdlists
         : viewModel.filteredWhitelistAdlists;
 
@@ -154,7 +154,7 @@ class _AdlistsListState extends State<AdlistsList> {
           useRootNavigator:
               false, // Prevents unexpected app exit on mobile when pressing back
           builder: (ctx) => AddAdlistModal(
-            selectedlist: widget.type,
+            selectedType: widget.type,
             onAddAdlist: onAddAdlist,
             window: true,
             groups: groups,
@@ -164,7 +164,7 @@ class _AdlistsListState extends State<AdlistsList> {
         showModalBottomSheet(
           context: context,
           builder: (ctx) => AddAdlistModal(
-            selectedlist: widget.type,
+            selectedType: widget.type,
             onAddAdlist: onAddAdlist,
             window: false,
             groups: groups,

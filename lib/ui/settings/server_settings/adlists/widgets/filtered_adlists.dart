@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
@@ -108,7 +109,7 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
         ],
         tabChildren: [
           AdlistsList(
-            type: 'whitelist',
+            type: ListType.allow,
             scrollController: scrollController,
             onAdlistSelected: (d) {
               if (onTap != null) {
@@ -120,7 +121,7 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
             selectedAdlist: selectedAdlist,
           ),
           AdlistsList(
-            type: 'blacklist',
+            type: ListType.block,
             scrollController: scrollController,
             onAdlistSelected: (d) {
               if (onTap != null) {

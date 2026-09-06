@@ -79,20 +79,18 @@ class LogsViewModel extends ChangeNotifier {
 
   /// Adds [domain] to the allow or deny list via [DomainRepository].
   ///
-  /// [list] should be `'white'` for allow-list or `'black'` for deny-list.
   /// Returns a [Result] so the caller can display appropriate UI feedback.
   ///
   /// NOTE: Not implemented as a Command because the caller needs the full
   /// `Result<Domain>` value to update its own UI state. The Result pattern
   /// already provides type-safe error handling here.
   Future<Result<Domain>> addDomainToList({
-    required String list,
+    required DomainType type,
     required String domain,
   }) async {
     if (_domainRepository == null) {
       return Failure(Exception('DomainRepository not available'));
     }
-    final type = list == 'white' ? DomainType.allow : DomainType.deny;
     final result = await _domainRepository!.addDomain(
       type,
       DomainKind.exact,

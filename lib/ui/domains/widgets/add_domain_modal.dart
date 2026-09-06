@@ -4,13 +4,13 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 
 class AddDomainModal extends StatefulWidget {
   const AddDomainModal({
-    required this.selectedlist,
+    required this.selectedType,
     required this.addDomain,
     required this.window,
     super.key,
   });
 
-  final String selectedlist;
+  final DomainType selectedType;
   final void Function(DomainType type, DomainKind kind, String domain)
   addDomain;
   final bool window;
@@ -28,9 +28,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
 
   @override
   void initState() {
-    selectedType = widget.selectedlist == 'whitelist'
-        ? DomainType.allow
-        : DomainType.deny;
+    selectedType = widget.selectedType;
     super.initState();
   }
 

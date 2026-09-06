@@ -148,7 +148,7 @@ GoRouter createAppRouter({
                             value: context.read<LogsViewModel>(),
                             child: LogDetailsScreen(
                               log: extra.log,
-                              whiteBlackList: extra.whiteBlackList,
+                              onAddDomainToList: extra.onAddDomainToList,
                             ),
                           );
                         },

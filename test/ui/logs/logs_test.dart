@@ -196,7 +196,7 @@ void main() async {
                     value: logsViewModel,
                     child: LogDetailsScreen(
                       log: extra.log,
-                      whiteBlackList: extra.whiteBlackList,
+                      onAddDomainToList: extra.onAddDomainToList,
                     ),
                   );
                 },

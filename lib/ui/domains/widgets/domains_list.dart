@@ -27,7 +27,7 @@ class DomainsList extends StatefulWidget {
     super.key,
   });
 
-  final String type;
+  final DomainType type;
   final ScrollController scrollController;
   final void Function(Domain) onDomainSelected;
   final Domain? selectedDomain;
@@ -80,7 +80,7 @@ class _DomainsListState extends State<DomainsList> {
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final groups = context.watch<GroupsViewModel>().groupItems;
 
-    final domainsList = widget.type == 'blacklist'
+    final domainsList = widget.type == DomainType.deny
         ? viewModel.filteredBlacklistDomains
         : viewModel.filteredWhitelistDomains;
 
@@ -159,7 +159,7 @@ class _DomainsListState extends State<DomainsList> {
           useRootNavigator:
               false, // Prevents unexpected app exit on mobile when pressing back
           builder: (ctx) => AddDomainModal(
-            selectedlist: widget.type,
+            selectedType: widget.type,
             addDomain: onAddDomain,
             window: true,
           ),
@@ -168,7 +168,7 @@ class _DomainsListState extends State<DomainsList> {
         showModalBottomSheet(
           context: context,
           builder: (ctx) => AddDomainModal(
-            selectedlist: widget.type,
+            selectedType: widget.type,
             addDomain: onAddDomain,
             window: false,
           ),

@@ -8,6 +8,7 @@ import 'package:pi_hole_client/domain/model/auth/auth.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/domain/model/dhcp/dhcp.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
@@ -146,10 +147,10 @@ class FindAdlistDetailsExtra {
 
 /// Extra for `Routes.logsDetails`.
 class LogDetailsExtra {
-  const LogDetailsExtra({required this.log, required this.whiteBlackList});
+  const LogDetailsExtra({required this.log, required this.onAddDomainToList});
 
   final Log log;
-  final void Function(String, Log) whiteBlackList;
+  final void Function(DomainType, Log) onAddDomainToList;
 }
 
 /// Extra for `Routes.settingsServerAdvancedSessionsDetails`.
