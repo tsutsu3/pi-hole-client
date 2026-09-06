@@ -19,20 +19,18 @@ class AddDomainModal extends StatefulWidget {
   State<AddDomainModal> createState() => _AddDomainModalState();
 }
 
-enum ListType { whitelist, blacklist }
-
 class _AddDomainModalState extends State<AddDomainModal> {
   final TextEditingController domainController = TextEditingController();
   String? domainError;
-  ListType selectedType = ListType.whitelist;
+  DomainType selectedType = DomainType.allow;
   bool wildcard = false;
   bool allDataValid = false;
 
   @override
   void initState() {
     selectedType = widget.selectedlist == 'whitelist'
-        ? ListType.whitelist
-        : ListType.blacklist;
+        ? DomainType.allow
+        : DomainType.deny;
     super.initState();
   }
 
@@ -70,10 +68,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
   }
 
   void validateAllData() {
-    if (domainController.text != '' &&
-        domainError == null &&
-        (selectedType == ListType.blacklist ||
-            selectedType == ListType.whitelist)) {
+    if (domainController.text != '' && domainError == null) {
       setState(() {
         allDataValid = true;
       });
@@ -118,18 +113,18 @@ class _AddDomainModalState extends State<AddDomainModal> {
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     width: double.maxFinite,
-                    child: SegmentedButton<ListType>(
+                    child: SegmentedButton<DomainType>(
                       segments: [
                         ButtonSegment(
-                          value: ListType.whitelist,
+                          value: DomainType.allow,
                           label: Text(AppLocalizations.of(context)!.allowlist),
                         ),
                         ButtonSegment(
-                          value: ListType.blacklist,
+                          value: DomainType.deny,
                           label: Text(AppLocalizations.of(context)!.blocklist),
                         ),
                       ],
-                      selected: <ListType>{selectedType},
+                      selected: <DomainType>{selectedType},
                       onSelectionChanged: (value) =>
                           setState(() => selectedType = value.first),
                     ),
@@ -179,16 +174,13 @@ class _AddDomainModalState extends State<AddDomainModal> {
                 TextButton(
                   onPressed: allDataValid == true
                       ? () {
-                          final type = selectedType == ListType.whitelist
-                              ? DomainType.allow
-                              : DomainType.deny;
                           final kind = wildcard
                               ? DomainKind.regex
                               : DomainKind.exact;
                           final domain = wildcard
                               ? applyWildcard()
                               : domainController.text;
-                          widget.addDomain(type, kind, domain);
+                          widget.addDomain(selectedType, kind, domain);
                           Navigator.maybePop(context);
                         }
                       : null,

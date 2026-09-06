@@ -12,8 +12,7 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/add_adlist_modal.dart'
-    hide ListType;
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/add_adlist_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_tile.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
