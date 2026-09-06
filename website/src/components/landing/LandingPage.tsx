@@ -580,6 +580,7 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
             source={playStoreImage}
             alt={text.playStoreAlt}
             className={styles.heroPlayBtn}
+            mode="eager"
           />
         </a>
       </div>
@@ -587,6 +588,7 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
         <ThemedImage
           alt={text.mockupAlt}
           className={styles.heroMockImg}
+          mode="eager"
           sources={{
             light: mockLight,
             dark: mockDark,

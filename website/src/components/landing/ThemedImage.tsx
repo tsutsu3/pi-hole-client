@@ -13,6 +13,7 @@ export type ResponsiveImageSource = {
 type Props = {
   readonly alt: string;
   readonly className?: string;
+  readonly mode?: "eager" | "lazy";
   readonly sources: { light: ResponsiveImageSource; dark: ResponsiveImageSource };
 };
 
@@ -21,12 +22,12 @@ export function ResponsiveImage({
   source,
   alt,
   className,
-  fetchPriority,
+  mode = "lazy",
 }: {
   readonly source: ResponsiveImageSource;
   readonly alt: string;
   readonly className?: string;
-  readonly fetchPriority?: "high";
+  readonly mode?: "eager" | "lazy";
 }): React.JSX.Element {
   return (
     <picture>
@@ -39,9 +40,9 @@ export function ResponsiveImage({
         sizes={source.sizes}
         width={source.width}
         height={source.height}
-        loading="lazy"
+        loading={mode}
         decoding="async"
-        fetchPriority={fetchPriority}
+        fetchPriority={mode === "eager" ? "high" : undefined}
         className={className}
       />
     </picture>
@@ -52,17 +53,19 @@ export function ResponsiveImage({
  * Replacement for Docusaurus `@theme/ThemedImage`.
  * Both images are rendered and `custom.css` shows the one matching `data-theme`.
  */
-export default function ThemedImage({ alt, className, sources }: Props): React.JSX.Element {
+export default function ThemedImage({ alt, className, mode, sources }: Props): React.JSX.Element {
   return (
     <>
       <ResponsiveImage
         source={sources.light}
         alt={alt}
+        mode={mode}
         className={clsx(className, "themedImage--light")}
       />
       <ResponsiveImage
         source={sources.dark}
         alt={alt}
+        mode={mode}
         className={clsx(className, "themedImage--dark")}
       />
     </>
