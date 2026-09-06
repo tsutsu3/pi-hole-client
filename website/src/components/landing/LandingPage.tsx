@@ -599,7 +599,9 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
   );
 };
 
-export default function LandingPage({ locale = "en" }: { locale?: Locale }): React.JSX.Element {
+export default function LandingPage({
+  locale = "en",
+}: Readonly<{ locale?: Locale }>): React.JSX.Element {
   return (
     <>
       <HeroSection locale={locale} />
