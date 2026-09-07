@@ -176,7 +176,7 @@ export default defineConfig({
         ja: { label: "日本語", lang: "ja" },
       },
       disable404Route: true,
-      favicon: "/img/favicon.ico",
+      favicon: "/favicon.ico",
       logo: {
         src: "./src/assets/pi-hole-client-icon-large-round.svg",
         alt: "Pi-hole client Logo",
