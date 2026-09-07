@@ -73,12 +73,12 @@ class _GroupsListState extends State<GroupsList> {
 
     final clients = clientsViewModel.clients;
     final allDomains = [
-      ...domainsViewModel.whitelistDomains,
-      ...domainsViewModel.blacklistDomains,
+      ...domainsViewModel.allowlistDomains,
+      ...domainsViewModel.blocklistDomains,
     ];
     final allAdlists = [
-      ...adlistsViewModel.whitelistAdlists,
-      ...adlistsViewModel.blacklistAdlists,
+      ...adlistsViewModel.allowlistAdlists,
+      ...adlistsViewModel.blocklistAdlists,
     ];
 
     final groups = widget.searchTerm.isNotEmpty

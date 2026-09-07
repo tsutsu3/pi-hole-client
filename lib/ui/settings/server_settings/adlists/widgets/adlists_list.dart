@@ -74,8 +74,8 @@ class _AdlistsListState extends State<AdlistsList> {
     final groups = context.watch<GroupsViewModel>().groupItems;
 
     final adlistsList = widget.type == ListType.block
-        ? viewModel.filteredBlacklistAdlists
-        : viewModel.filteredWhitelistAdlists;
+        ? viewModel.filteredBlocklistAdlists
+        : viewModel.filteredAllowlistAdlists;
 
     Future<void> removeAdlist(Adlist adlist) async {
       final process = ProcessModal(context: context);

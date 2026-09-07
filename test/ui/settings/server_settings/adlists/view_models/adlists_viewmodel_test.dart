@@ -28,10 +28,10 @@ void main() {
 
     test('initial values are correct', () {
       expect(viewModel.loadingStatus, LoadStatus.loaded);
-      expect(viewModel.whitelistAdlists, []);
-      expect(viewModel.blacklistAdlists, []);
-      expect(viewModel.filteredWhitelistAdlists, []);
-      expect(viewModel.filteredBlacklistAdlists, []);
+      expect(viewModel.allowlistAdlists, []);
+      expect(viewModel.blocklistAdlists, []);
+      expect(viewModel.filteredAllowlistAdlists, []);
+      expect(viewModel.filteredBlocklistAdlists, []);
       expect(viewModel.selectedTab, null);
       expect(viewModel.searchTerm, '');
       expect(viewModel.searchMode, false);
@@ -54,8 +54,8 @@ void main() {
     test('loadAdlists fetches adlists', () async {
       await viewModel.loadAdlists.runAsync();
       // FakeAdlistRepository returns 1 allow + 2 block
-      expect(viewModel.whitelistAdlists.length, 1);
-      expect(viewModel.blacklistAdlists.length, 2);
+      expect(viewModel.allowlistAdlists.length, 1);
+      expect(viewModel.blocklistAdlists.length, 2);
       expect(viewModel.loadingStatus, LoadStatus.loaded);
       expect(listenerCalled, true);
     });
@@ -74,10 +74,10 @@ void main() {
       listenerCalled = false;
 
       viewModel.onSearch('another');
-      expect(viewModel.filteredWhitelistAdlists.length, 0);
-      expect(viewModel.filteredBlacklistAdlists.length, 1);
+      expect(viewModel.filteredAllowlistAdlists.length, 0);
+      expect(viewModel.filteredBlocklistAdlists.length, 1);
       expect(
-        viewModel.filteredBlacklistAdlists.first.address,
+        viewModel.filteredBlocklistAdlists.first.address,
         'https://another-blocklist.example.com/hosts',
       );
       expect(listenerCalled, true);
@@ -88,19 +88,19 @@ void main() {
       listenerCalled = false;
 
       viewModel.onSearch('BLOCKLIST');
-      expect(viewModel.filteredWhitelistAdlists.length, 0);
-      expect(viewModel.filteredBlacklistAdlists.length, 2);
+      expect(viewModel.filteredAllowlistAdlists.length, 0);
+      expect(viewModel.filteredBlocklistAdlists.length, 2);
       expect(listenerCalled, true);
     });
 
     test('deleteAdlist removes adlist from the list', () async {
       await viewModel.loadAdlists.runAsync();
-      final adlist = viewModel.blacklistAdlists.first;
+      final adlist = viewModel.blocklistAdlists.first;
       listenerCalled = false;
 
       await viewModel.deleteAdlist.runAsync(adlist);
       expect(
-        viewModel.blacklistAdlists.where((a) => a.id == adlist.id),
+        viewModel.blocklistAdlists.where((a) => a.id == adlist.id),
         isEmpty,
       );
       expect(listenerCalled, true);
@@ -108,7 +108,7 @@ void main() {
 
     test('addAdlist appends adlist locally', () async {
       await viewModel.loadAdlists.runAsync();
-      final initialCount = viewModel.whitelistAdlists.length;
+      final initialCount = viewModel.allowlistAdlists.length;
 
       await viewModel.addAdlist.runAsync((
         address: 'https://new.example.com/hosts',
@@ -119,28 +119,28 @@ void main() {
       ));
 
       // Local state update — no re-fetch
-      expect(viewModel.whitelistAdlists.length, initialCount + 1);
+      expect(viewModel.allowlistAdlists.length, initialCount + 1);
       expect(
-        viewModel.whitelistAdlists.last.address,
+        viewModel.allowlistAdlists.last.address,
         'https://new.example.com/hosts',
       );
     });
 
     test('updateAdlist replaces adlist locally', () async {
       await viewModel.loadAdlists.runAsync();
-      final adlist = viewModel.blacklistAdlists.first;
+      final adlist = viewModel.blocklistAdlists.first;
 
       await viewModel.updateAdlist.runAsync(
         adlist.copyWith(comment: 'updated comment'),
       );
 
       // Local state update — no re-fetch
-      expect(viewModel.blacklistAdlists.first.comment, 'updated comment');
+      expect(viewModel.blocklistAdlists.first.comment, 'updated comment');
     });
 
     test('deleteAdlist sets error on failure', () async {
       await viewModel.loadAdlists.runAsync();
-      final adlist = viewModel.blacklistAdlists.first;
+      final adlist = viewModel.blocklistAdlists.first;
 
       fakeAdlistRepository.shouldFail = true;
       listenerCalled = false;
@@ -181,7 +181,7 @@ void main() {
         viewModel.onSearch('blocklist');
 
         // All blocklists have group 0, "blocklist" matches 2
-        expect(viewModel.filteredBlacklistAdlists.length, 2);
+        expect(viewModel.filteredBlocklistAdlists.length, 2);
       });
 
       test(
@@ -191,8 +191,8 @@ void main() {
 
           viewModel.setGroupFilter(999);
 
-          expect(viewModel.filteredWhitelistAdlists.length, 0);
-          expect(viewModel.filteredBlacklistAdlists.length, 0);
+          expect(viewModel.filteredAllowlistAdlists.length, 0);
+          expect(viewModel.filteredBlocklistAdlists.length, 0);
         },
       );
 
@@ -201,9 +201,9 @@ void main() {
 
         // Only the 3rd adlist (id=3) has groups [0, 1]
         viewModel.setGroupFilter(1);
-        expect(viewModel.filteredWhitelistAdlists.length, 0);
-        expect(viewModel.filteredBlacklistAdlists.length, 1);
-        expect(viewModel.filteredBlacklistAdlists.first.id, 3);
+        expect(viewModel.filteredAllowlistAdlists.length, 0);
+        expect(viewModel.filteredBlocklistAdlists.length, 1);
+        expect(viewModel.filteredBlocklistAdlists.first.id, 3);
       });
     });
   });

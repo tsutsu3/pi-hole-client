@@ -173,7 +173,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             _buildMemberCountTile(
               icon: Icons.check_circle_outline_rounded,
               label: AppLocalizations.of(context)!.domainsAllowlist,
-              count: domainsViewModel.whitelistDomains
+              count: domainsViewModel.allowlistDomains
                   .where((d) => d.groups.contains(_group.id))
                   .length,
               onTap: () => _navigateToFilteredDomains(initialTab: 0),
@@ -181,7 +181,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             _buildMemberCountTile(
               icon: Icons.block_rounded,
               label: AppLocalizations.of(context)!.domainsBlocklist,
-              count: domainsViewModel.blacklistDomains
+              count: domainsViewModel.blocklistDomains
                   .where((d) => d.groups.contains(_group.id))
                   .length,
               onTap: () => _navigateToFilteredDomains(initialTab: 1),
@@ -189,7 +189,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             _buildMemberCountTile(
               icon: Icons.playlist_add_check_rounded,
               label: AppLocalizations.of(context)!.adlistsAllow,
-              count: adlistsViewModel.whitelistAdlists
+              count: adlistsViewModel.allowlistAdlists
                   .where((s) => s.groups.contains(_group.id))
                   .length,
               onTap: () => _navigateToFilteredAdlists(initialTab: 0),
@@ -197,7 +197,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             _buildMemberCountTile(
               icon: Icons.playlist_remove_rounded,
               label: AppLocalizations.of(context)!.adlistsBlock,
-              count: adlistsViewModel.blacklistAdlists
+              count: adlistsViewModel.blocklistAdlists
                   .where((s) => s.groups.contains(_group.id))
                   .length,
               onTap: () => _navigateToFilteredAdlists(initialTab: 1),

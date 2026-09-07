@@ -12,9 +12,9 @@ import '../../../../testing/fakes/viewmodels/fake_logs_viewmodel.dart';
 import '../../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
 import '../../../../testing/test_app.dart';
 
-/// Overrides [isAllowedOrRetried] to return false so the whitelist button
-/// is shown instead of the blacklist button.
-class _FakeLogsViewModelAllowWhitelist extends FakeLogsViewModel {
+/// Overrides [isAllowedOrRetried] to return false so the allowlist button
+/// is shown instead of the blocklist button.
+class _FakeLogsViewModelAllowlist extends FakeLogsViewModel {
   @override
   bool isAllowedOrRetried(QueryStatusType? status) => false;
 }
@@ -121,7 +121,7 @@ void main() async {
   });
 
   group('LogDetailsScreen action buttons', () {
-    testWidgets('shows blacklist button when isAllowedOrRetried is true', (
+    testWidgets('shows blocklist button when isAllowedOrRetried is true', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(_buildScreen(_forwardedLog));
@@ -129,14 +129,11 @@ void main() async {
       expect(find.byIcon(Icons.verified_user_rounded), findsNothing);
     });
 
-    testWidgets('shows whitelist button when isAllowedOrRetried is false', (
+    testWidgets('shows allowlist button when isAllowedOrRetried is false', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        _buildScreen(
-          _blockedLog,
-          viewModel: _FakeLogsViewModelAllowWhitelist(),
-        ),
+        _buildScreen(_blockedLog, viewModel: _FakeLogsViewModelAllowlist()),
       );
       expect(find.byIcon(Icons.verified_user_rounded), findsOneWidget);
       expect(find.byIcon(Icons.gpp_bad_rounded), findsNothing);
@@ -166,7 +163,7 @@ void main() async {
       await tester.pumpWidget(
         _buildScreen(
           _blockedLog,
-          viewModel: _FakeLogsViewModelAllowWhitelist(),
+          viewModel: _FakeLogsViewModelAllowlist(),
           onAddDomainToList: (type, _) => calledWith = type,
         ),
       );

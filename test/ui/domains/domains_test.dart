@@ -206,7 +206,7 @@ void main() async {
     }
 
     testWidgets(
-      'should delete a domain from whitelist and show confirmation modal (tablet)',
+      'should delete a domain from allowlist and show confirmation modal (tablet)',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(2560, 1600);
         tester.view.devicePixelRatio = 1.6;
@@ -249,7 +249,7 @@ void main() async {
 
         await pumpAndLoad(tester);
 
-        // Show whitelist domains screen
+        // Show allowlist domains screen
         expect(find.byType(DomainsScreen), findsOneWidget);
         expect(find.text('white01.example.com'), findsOneWidget);
         expect(find.text('white02.example.com'), findsOneWidget);
@@ -258,7 +258,7 @@ void main() async {
           findsOneWidget,
         );
 
-        // Tap whitelist domain to open domain detail screen
+        // Tap allowlist domain to open domain detail screen
         await tester.tap(find.text('white01.example.com'));
         await tester.pumpAndSettle();
         expect(find.byType(DomainDetailsScreen), findsOneWidget);
@@ -277,7 +277,7 @@ void main() async {
         await tester.tap(find.text('Delete'));
         await tester.pumpAndSettle();
 
-        // Show whitelist domains screen
+        // Show allowlist domains screen
         expect(find.byType(DomainsScreen), findsOneWidget);
       },
     );
@@ -326,13 +326,13 @@ void main() async {
 
       await pumpAndLoadWithRouter(tester);
 
-      // Show whitelist domains screen
+      // Show allowlist domains screen
       expect(find.byType(DomainsScreen), findsOneWidget);
       expect(find.text('white01.example.com'), findsOneWidget);
       expect(find.text('white02.example.com'), findsOneWidget);
       expect(find.text('Choose a domain to see its details.'), findsNothing);
 
-      // Tap whitelist domain to open domain detail screen
+      // Tap allowlist domain to open domain detail screen
       await tester.tap(find.text('white01.example.com'));
       await tester.pumpAndSettle();
       expect(find.byType(DomainDetailsScreen), findsOneWidget);
@@ -352,7 +352,7 @@ void main() async {
       await tester.pump(const Duration(milliseconds: 1000));
       expect(find.text('Domain removed successfully'), findsWidgets);
 
-      // Show whitelist domains screen
+      // Show allowlist domains screen
       expect(find.byType(DomainsScreen), findsOneWidget);
     });
 
@@ -381,7 +381,7 @@ void main() async {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('should add a domain to whitelist', (
+    testWidgets('should add a domain to allowlist', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -395,7 +395,7 @@ void main() async {
       createViewModels();
       await pumpAndLoad(tester);
 
-      // Show whitelist domains screen
+      // Show allowlist domains screen
       expect(find.byType(DomainsScreen), findsOneWidget);
       expect(find.text('Domains'), findsOneWidget);
 
@@ -408,7 +408,7 @@ void main() async {
       await tester.tap(find.text('Add'));
       await tester.pumpAndSettle();
 
-      // Show whitelist domains screen
+      // Show allowlist domains screen
       expect(find.text('Domain added successfully'), findsWidgets);
       expect(find.byType(DomainsScreen), findsOneWidget);
     });
@@ -425,7 +425,7 @@ void main() async {
       createViewModels();
       await pumpAndLoad(tester);
 
-      // Show whitelist domains screen
+      // Show allowlist domains screen
       expect(find.byType(DomainsScreen), findsOneWidget);
       expect(find.text('Domains'), findsOneWidget);
 
@@ -442,7 +442,7 @@ void main() async {
       await tester.tap(find.text('Add'));
       await tester.pumpAndSettle();
 
-      // Show whitelist domains screen
+      // Show allowlist domains screen
       expect(find.text('Domain added successfully'), findsWidgets);
       expect(find.byType(DomainsScreen), findsOneWidget);
     });
@@ -461,7 +461,7 @@ void main() async {
       createViewModels();
       await pumpAndLoad(tester);
 
-      // Show whitelist domains screen
+      // Show allowlist domains screen
       expect(find.byType(DomainsScreen), findsOneWidget);
       expect(find.text('Domains'), findsOneWidget);
 
@@ -478,7 +478,7 @@ void main() async {
       await tester.tap(find.text('Add'));
       await tester.pumpAndSettle();
 
-      // Show whitelist domains screen
+      // Show allowlist domains screen
       expect(find.text('Domain added successfully'), findsWidgets);
       expect(find.byType(DomainsScreen), findsOneWidget);
     });

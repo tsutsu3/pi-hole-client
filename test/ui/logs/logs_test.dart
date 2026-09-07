@@ -156,7 +156,7 @@ void main() async {
       expect(find.byIcon(Icons.error), findsOneWidget);
     });
 
-    testWidgets('should set blacklist domains on tablet layout', (
+    testWidgets('should set blocklist domains on tablet layout', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(2176, 1600);

@@ -239,8 +239,8 @@ class _GravityUpdateState extends State<GravityUpdate> {
     final appConfigViewModel = context.read<AppConfigViewModel>();
 
     final adlist = [
-      ...viewModel.whitelistAdlists,
-      ...viewModel.blacklistAdlists,
+      ...viewModel.allowlistAdlists,
+      ...viewModel.blocklistAdlists,
     ].firstWhereOrNull((a) => a.address == message.url);
 
     if (adlist == null) {

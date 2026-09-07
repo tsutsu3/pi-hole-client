@@ -230,7 +230,7 @@ class LogsViewModel extends ChangeNotifier {
     }).toSet();
   }
 
-  /// Whether the given status is an allowed/retried type (used for whitelist/blacklist button).
+  /// Whether the given status is an allowed/retried type (used for the allowlist/blocklist button).
   bool isAllowedOrRetried(QueryStatusType? status) {
     if (status == null) return false;
     return allowedAndRetriedStatusTypes.contains(status);

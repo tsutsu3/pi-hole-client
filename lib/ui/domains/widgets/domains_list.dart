@@ -81,8 +81,8 @@ class _DomainsListState extends State<DomainsList> {
     final groups = context.watch<GroupsViewModel>().groupItems;
 
     final domainsList = widget.type == DomainType.deny
-        ? viewModel.filteredBlacklistDomains
-        : viewModel.filteredWhitelistDomains;
+        ? viewModel.filteredBlocklistDomains
+        : viewModel.filteredAllowlistDomains;
 
     Future<void> removeDomain(Domain domain) async {
       final process = ProcessModal(context: context);

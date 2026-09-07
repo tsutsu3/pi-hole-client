@@ -17,7 +17,7 @@ import 'package:pi_hole_client/utils/format.dart';
 /// The tile shows the following information:
 /// - A domain address
 /// - The date the domain was added
-/// - The domain type (e.g. whitelist, blacklist, etc.)
+/// - The domain type (e.g. allowlist, blocklist, etc.)
 ///
 /// Tapping the tile triggers a callback to show the domain details.
 class DomainTile extends StatelessWidget {

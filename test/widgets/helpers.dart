@@ -1856,7 +1856,7 @@ class TestSetupHelper {
     provideDummy<Result<domain_model.Domain>>(Success(dummyDomain));
     when(
       mockLogsViewModel.addDomainToList(
-        list: anyNamed('list'),
+        type: anyNamed('type'),
         domain: anyNamed('domain'),
       ),
     ).thenAnswer((_) async => Success(dummyDomain));
@@ -1892,12 +1892,12 @@ class TestSetupHelper {
     when(mockDomainsViewModel.searchTerm).thenReturn('');
     when(mockDomainsViewModel.groupFilter).thenReturn(null);
     when(
-      mockDomainsViewModel.filteredWhitelistDomains,
+      mockDomainsViewModel.filteredAllowlistDomains,
     ).thenReturn(newModelDomains);
-    when(mockDomainsViewModel.filteredBlacklistDomains).thenReturn([]);
+    when(mockDomainsViewModel.filteredBlocklistDomains).thenReturn([]);
     when(mockDomainsViewModel.loadingStatus).thenReturn(LoadStatus.loaded);
-    when(mockDomainsViewModel.whitelistDomains).thenReturn(newModelDomains);
-    when(mockDomainsViewModel.blacklistDomains).thenReturn([]);
+    when(mockDomainsViewModel.allowlistDomains).thenReturn(newModelDomains);
+    when(mockDomainsViewModel.blocklistDomains).thenReturn([]);
     when(mockDomainsViewModel.onSearch(any)).thenReturn(null);
     when(mockDomainsViewModel.loadDomains).thenReturn(
       Command.createAsyncNoParam<void>(() async {}, initialValue: null),
@@ -2011,13 +2011,13 @@ class TestSetupHelper {
 
     when(mockAdlistsViewModel.loadingStatus).thenReturn(LoadStatus.loaded);
 
-    when(mockAdlistsViewModel.whitelistAdlists).thenReturn([]);
+    when(mockAdlistsViewModel.allowlistAdlists).thenReturn([]);
 
-    when(mockAdlistsViewModel.blacklistAdlists).thenReturn(testAdlists);
+    when(mockAdlistsViewModel.blocklistAdlists).thenReturn(testAdlists);
 
-    when(mockAdlistsViewModel.filteredWhitelistAdlists).thenReturn([]);
+    when(mockAdlistsViewModel.filteredAllowlistAdlists).thenReturn([]);
 
-    when(mockAdlistsViewModel.filteredBlacklistAdlists).thenReturn(testAdlists);
+    when(mockAdlistsViewModel.filteredBlocklistAdlists).thenReturn(testAdlists);
 
     when(mockAdlistsViewModel.selectedTab).thenReturn(0);
 
