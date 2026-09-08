@@ -86,7 +86,7 @@ Easily view statistics, enable or disable the server, access logs, and much more
 <p>▶ Visualize detailed statistics with clear, dynamic charts.</p>
 <p>▶ Add multiple servers and manage them all in one place.</p>
 <p>▶ Explore query logs and access detailed log information.</p>
-<p>▶ Manage your domain lists: add or remove domains from the whitelist or blacklist.</p>
+<p>▶ Manage your domain lists: add or remove domains from the allowlist or blocklist.</p>
 <p>▶ Update Adlists and apply changes directly from the app.</p>
 <p>▶ Material You interface with dynamic theming (Android 12+ only).</p>
 

@@ -28,8 +28,8 @@ and want to apply a persistent rule.
 
 At the top of the screen, you see two tabs that separate domain rules by type:
 
-- **Whitelist** (allowlist) - domains that are always allowed
-- **Blacklist** (denylist) - domains that are always blocked
+- **Allowlist** - domains that are always allowed
+- **Blocklist** - domains that are always blocked
 
 Tap a tab to switch the list below it.
 The list immediately updates to show only rules of the selected type.
@@ -50,7 +50,7 @@ To create a new rule, tap the floating **＋** button in the bottom-right corner
 
 In the add dialog:
 
-1. Choose whether the rule is **Whitelist** or **Blacklist**
+1. Choose whether the rule is **Allowlist** or **Blocklist**
 2. Enter the domain name
 3. (Optional) Enable **Add as wildcard** to also match subdomains
 4. Tap **Add** to save
@@ -92,10 +92,10 @@ Only delete rules you are sure you no longer need.
 ## Typical ways to use Domains
 
 - **A site is broken**
-  Confirm the blocked domain in Logs, then add it to the Whitelist.
+  Confirm the blocked domain in Logs, then add it to the Allowlist.
 
 - **You want to block a specific service**
-  Add the domain to the Blacklist to stop it consistently.
+  Add the domain to the Blocklist to stop it consistently.
 
 - **Cleaning up old rules**
   Review the list and disable rules before deleting them permanently.
@@ -109,6 +109,6 @@ Only delete rules you are sure you no longer need.
 ## Pi-hole concepts used on this screen
 
 A **domain rule** explicitly overrides Pi-hole’s default blocking behavior.
-Whitelist rules always allow matching domains, while Blacklist rules always
+Allowlist rules always allow matching domains, while Blocklist rules always
 block them. These rules are applied before gravity-based blocking and affect
 future DNS queries immediately.
