@@ -158,17 +158,29 @@ abstract class AppLocalizations {
   /// **'Add server connection'**
   String get addServer;
 
-  /// No description provided for @addingBlacklist.
+  /// No description provided for @addToAllowlist.
   ///
   /// In en, this message translates to:
-  /// **'Adding to blacklist...'**
-  String get addingBlacklist;
+  /// **'Add to allowlist'**
+  String get addToAllowlist;
 
-  /// No description provided for @addingWhitelist.
+  /// No description provided for @addToBlocklist.
   ///
   /// In en, this message translates to:
-  /// **'Adding to whitelist...'**
-  String get addingWhitelist;
+  /// **'Add to blocklist'**
+  String get addToBlocklist;
+
+  /// No description provided for @addingAllowlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding to allowlist...'**
+  String get addingAllowlist;
+
+  /// No description provided for @addingBlocklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding to blocklist...'**
+  String get addingBlocklist;
 
   /// No description provided for @additionalInformation.
   ///
@@ -332,6 +344,18 @@ abstract class AppLocalizations {
   /// **'Adlists'**
   String get adlists;
 
+  /// No description provided for @adlistsAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlists (allow)'**
+  String get adlistsAllow;
+
+  /// No description provided for @adlistsBlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlists (block)'**
+  String get adlistsBlock;
+
   /// No description provided for @adlistsNone.
   ///
   /// In en, this message translates to:
@@ -440,12 +464,6 @@ abstract class AppLocalizations {
   /// **'Allow crash report submission?'**
   String get allowCrashReport;
 
-  /// No description provided for @allowList.
-  ///
-  /// In en, this message translates to:
-  /// **'Allowlist'**
-  String get allowList;
-
   /// No description provided for @allowUntrustedCert.
   ///
   /// In en, this message translates to:
@@ -458,41 +476,17 @@ abstract class AppLocalizations {
   /// **'Allows connections using certificates not trusted by this device, including self-signed certificates and those with incomplete chains (e.g., missing intermediate CA).'**
   String get allowUntrustedCertDescription;
 
-  /// No description provided for @tlsCertSubject.
-  ///
-  /// In en, this message translates to:
-  /// **'Subject'**
-  String get tlsCertSubject;
-
-  /// No description provided for @tlsCertIssuer.
-  ///
-  /// In en, this message translates to:
-  /// **'Issuer'**
-  String get tlsCertIssuer;
-
-  /// No description provided for @tlsCertValidFrom.
-  ///
-  /// In en, this message translates to:
-  /// **'Valid from'**
-  String get tlsCertValidFrom;
-
-  /// No description provided for @tlsCertValidUntil.
-  ///
-  /// In en, this message translates to:
-  /// **'Valid until'**
-  String get tlsCertValidUntil;
-
-  /// No description provided for @tlsCertSha256.
-  ///
-  /// In en, this message translates to:
-  /// **'SHA-256'**
-  String get tlsCertSha256;
-
   /// No description provided for @allowed.
   ///
   /// In en, this message translates to:
   /// **'Allowed'**
   String get allowed;
+
+  /// No description provided for @allowlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowlist'**
+  String get allowlist;
 
   /// No description provided for @and.
   ///
@@ -638,23 +632,17 @@ abstract class AppLocalizations {
   /// **'Couldn\'t disable unlock with fingerprint.'**
   String get biometricUnlockNotDisabled;
 
-  /// No description provided for @blacklist.
-  ///
-  /// In en, this message translates to:
-  /// **'Add to blacklist'**
-  String get blacklist;
-
-  /// No description provided for @blockList.
-  ///
-  /// In en, this message translates to:
-  /// **'Blocklist'**
-  String get blockList;
-
   /// No description provided for @blocked.
   ///
   /// In en, this message translates to:
   /// **'Blocked'**
   String get blocked;
+
+  /// No description provided for @blocklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocklist'**
+  String get blocklist;
 
   /// No description provided for @broadcast.
   ///
@@ -800,17 +788,113 @@ abstract class AppLocalizations {
   /// **'Checking token...'**
   String get checkingToken;
 
+  /// No description provided for @chipTooltipCpuLoadAverage.
+  ///
+  /// In en, this message translates to:
+  /// **'CPU load average (1m / 5m / 15m)'**
+  String get chipTooltipCpuLoadAverage;
+
+  /// No description provided for @chipTooltipCpuTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'CPU temperature'**
+  String get chipTooltipCpuTemperature;
+
+  /// No description provided for @chipTooltipCpuUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'CPU usage'**
+  String get chipTooltipCpuUsage;
+
+  /// No description provided for @chipTooltipQueriesPerMinute.
+  ///
+  /// In en, this message translates to:
+  /// **'Queries per minute'**
+  String get chipTooltipQueriesPerMinute;
+
+  /// No description provided for @chipTooltipRamUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'RAM usage'**
+  String get chipTooltipRamUsage;
+
+  /// No description provided for @chipTooltipSystemUptime.
+  ///
+  /// In en, this message translates to:
+  /// **'System uptime'**
+  String get chipTooltipSystemUptime;
+
   /// No description provided for @clientActivity24.
   ///
   /// In en, this message translates to:
   /// **'Client activity last 24 hours'**
   String get clientActivity24;
 
+  /// No description provided for @clientAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Client'**
+  String get clientAdd;
+
+  /// No description provided for @clientAddFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Client couldn\'t be added'**
+  String get clientAddFailed;
+
+  /// No description provided for @clientAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Client added successfully'**
+  String get clientAdded;
+
+  /// No description provided for @clientAdding.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding client...'**
+  String get clientAdding;
+
+  /// No description provided for @clientAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Client address'**
+  String get clientAddress;
+
+  /// No description provided for @clientAlreadyAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Client already added'**
+  String get clientAlreadyAdded;
+
+  /// No description provided for @clientDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Client'**
+  String get clientDelete;
+
+  /// No description provided for @clientDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this client?'**
+  String get clientDeleteMessage;
+
+  /// No description provided for @clientDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Client details'**
+  String get clientDetails;
+
   /// No description provided for @clientId.
   ///
   /// In en, this message translates to:
   /// **'Client ID'**
   String get clientId;
+
+  /// No description provided for @clientInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Client info'**
+  String get clientInfo;
 
   /// No description provided for @clientInformation.
   ///
@@ -824,11 +908,71 @@ abstract class AppLocalizations {
   /// **'Client IP'**
   String get clientIp;
 
+  /// No description provided for @clientNotExists.
+  ///
+  /// In en, this message translates to:
+  /// **'Client does not exist'**
+  String get clientNotExists;
+
+  /// No description provided for @clientRemoveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not remove client'**
+  String get clientRemoveFailed;
+
+  /// No description provided for @clientRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Client removed successfully'**
+  String get clientRemoved;
+
+  /// No description provided for @clientSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Client settings'**
+  String get clientSettings;
+
+  /// No description provided for @clientUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update the client'**
+  String get clientUpdateFailed;
+
+  /// No description provided for @clientUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Client updated successfully'**
+  String get clientUpdated;
+
+  /// No description provided for @clientUpdating.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating client...'**
+  String get clientUpdating;
+
   /// No description provided for @clients.
   ///
   /// In en, this message translates to:
   /// **'Clients'**
   String get clients;
+
+  /// No description provided for @clientsNone.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no clients to show here.'**
+  String get clientsNone;
+
+  /// No description provided for @clientsNotLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients list couldn\'t be loaded'**
+  String get clientsNotLoaded;
+
+  /// No description provided for @clientsSelectLeftColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a client to view its details.'**
+  String get clientsSelectLeftColumn;
 
   /// No description provided for @clientsSelected.
   ///
@@ -1322,29 +1466,47 @@ abstract class AppLocalizations {
   /// **'Adding domain...'**
   String get domainAdding;
 
+  /// No description provided for @domainAllowlistAddFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not add domain to allowlist.'**
+  String get domainAllowlistAddFailed;
+
+  /// No description provided for @domainAllowlistAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain added to allowlist.'**
+  String get domainAllowlistAdded;
+
+  /// No description provided for @domainAllowlistAlready.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain is already on allowlist.'**
+  String get domainAllowlistAlready;
+
   /// No description provided for @domainAlreadyAdded.
   ///
   /// In en, this message translates to:
   /// **'Domain already added'**
   String get domainAlreadyAdded;
 
-  /// No description provided for @domainBlacklistAddFailed.
+  /// No description provided for @domainBlocklistAddFailed.
   ///
   /// In en, this message translates to:
-  /// **'Could not add domain to blacklist.'**
-  String get domainBlacklistAddFailed;
+  /// **'Could not add domain to blocklist.'**
+  String get domainBlocklistAddFailed;
 
-  /// No description provided for @domainBlacklistAdded.
+  /// No description provided for @domainBlocklistAdded.
   ///
   /// In en, this message translates to:
-  /// **'Domain added to blacklist.'**
-  String get domainBlacklistAdded;
+  /// **'Domain added to blocklist.'**
+  String get domainBlocklistAdded;
 
-  /// No description provided for @domainBlacklistAlready.
+  /// No description provided for @domainBlocklistAlready.
   ///
   /// In en, this message translates to:
-  /// **'Domain is already on blacklist.'**
-  String get domainBlacklistAlready;
+  /// **'Domain is already on blocklist.'**
+  String get domainBlocklistAlready;
 
   /// No description provided for @domainDelete.
   ///
@@ -1369,6 +1531,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid domain'**
   String get domainInvalid;
+
+  /// No description provided for @domainLevelLists.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain-level lists'**
+  String get domainLevelLists;
 
   /// No description provided for @domainNotExists.
   ///
@@ -1400,24 +1568,6 @@ abstract class AppLocalizations {
   /// **'Domain updated successfully'**
   String get domainUpdated;
 
-  /// No description provided for @domainWhitelistAddFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not add domain to whitelist.'**
-  String get domainWhitelistAddFailed;
-
-  /// No description provided for @domainWhitelistAdded.
-  ///
-  /// In en, this message translates to:
-  /// **'Domain added to whitelist.'**
-  String get domainWhitelistAdded;
-
-  /// No description provided for @domainWhitelistAlready.
-  ///
-  /// In en, this message translates to:
-  /// **'Domain is already on whitelist.'**
-  String get domainWhitelistAlready;
-
   /// No description provided for @domains.
   ///
   /// In en, this message translates to:
@@ -1429,6 +1579,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Domains on Adlists'**
   String get domainsAdlists;
+
+  /// No description provided for @domainsAllowlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Domains (allowlist)'**
+  String get domainsAllowlist;
+
+  /// No description provided for @domainsBlocklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Domains (blocklist)'**
+  String get domainsBlocklist;
+
+  /// No description provided for @domainsExactMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Domains (exact)'**
+  String get domainsExactMatches;
 
   /// No description provided for @domainsInvalid.
   ///
@@ -1453,6 +1621,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Domains list couldn\'t be loaded'**
   String get domainsNotLoaded;
+
+  /// No description provided for @domainsRegexMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Domains (regex)'**
+  String get domainsRegexMatches;
 
   /// No description provided for @domainsSearch.
   ///
@@ -1676,6 +1850,24 @@ abstract class AppLocalizations {
   /// **'Filters'**
   String get filters;
 
+  /// No description provided for @findDomainsInLists.
+  ///
+  /// In en, this message translates to:
+  /// **'Find Domains In Lists'**
+  String get findDomainsInLists;
+
+  /// No description provided for @findDomainsInListsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Search domains across allowlist, blocklist, and adlists'**
+  String get findDomainsInListsDescription;
+
+  /// No description provided for @findDomainsSearchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Search domain'**
+  String get findDomainsSearchLabel;
+
   /// No description provided for @fingerprintAuthUnavailable.
   ///
   /// In en, this message translates to:
@@ -1832,6 +2024,18 @@ abstract class AppLocalizations {
   /// **'App code available on GitHub'**
   String get gitHub;
 
+  /// No description provided for @gravityAllowMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowlist matches'**
+  String get gravityAllowMatches;
+
+  /// No description provided for @gravityBlockMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocklist matches'**
+  String get gravityBlockMatches;
+
   /// No description provided for @gravityIsRunning.
   ///
   /// In en, this message translates to:
@@ -1856,11 +2060,161 @@ abstract class AppLocalizations {
   /// **'Gravity update failed'**
   String get gravityUpdateFailed;
 
+  /// No description provided for @groupAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Group'**
+  String get groupAdd;
+
+  /// No description provided for @groupAddFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Group couldn\'t be added'**
+  String get groupAddFailed;
+
+  /// No description provided for @groupAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Group added successfully'**
+  String get groupAdded;
+
+  /// No description provided for @groupAdding.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding group...'**
+  String get groupAdding;
+
+  /// No description provided for @groupAlreadyAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Group already added'**
+  String get groupAlreadyAdded;
+
+  /// No description provided for @groupClientSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search groups or clients...'**
+  String get groupClientSearch;
+
+  /// No description provided for @groupDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Group'**
+  String get groupDelete;
+
+  /// No description provided for @groupDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this group?'**
+  String get groupDeleteMessage;
+
+  /// No description provided for @groupDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Group details'**
+  String get groupDetails;
+
+  /// No description provided for @groupEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit group'**
+  String get groupEdit;
+
+  /// No description provided for @groupInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Group info'**
+  String get groupInfo;
+
+  /// No description provided for @groupMembers.
+  ///
+  /// In en, this message translates to:
+  /// **'Group members'**
+  String get groupMembers;
+
+  /// No description provided for @groupName.
+  ///
+  /// In en, this message translates to:
+  /// **'Group name'**
+  String get groupName;
+
+  /// No description provided for @groupNotExists.
+  ///
+  /// In en, this message translates to:
+  /// **'Group does not exist'**
+  String get groupNotExists;
+
+  /// No description provided for @groupRemoveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not remove group'**
+  String get groupRemoveFailed;
+
+  /// No description provided for @groupRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Group removed successfully'**
+  String get groupRemoved;
+
+  /// No description provided for @groupSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Group settings'**
+  String get groupSettings;
+
+  /// No description provided for @groupUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update the group'**
+  String get groupUpdateFailed;
+
+  /// No description provided for @groupUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Group updated successfully'**
+  String get groupUpdated;
+
+  /// No description provided for @groupUpdating.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating group...'**
+  String get groupUpdating;
+
   /// No description provided for @groups.
   ///
   /// In en, this message translates to:
   /// **'Groups'**
   String get groups;
+
+  /// No description provided for @groupsAndClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Groups & Clients'**
+  String get groupsAndClients;
+
+  /// No description provided for @groupsAndClientsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage groups and client assignments'**
+  String get groupsAndClientsDescription;
+
+  /// No description provided for @groupsNone.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no groups to show here.'**
+  String get groupsNone;
+
+  /// No description provided for @groupsNotLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Groups list couldn\'t be loaded'**
+  String get groupsNotLoaded;
+
+  /// No description provided for @groupsSelectLeftColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a group to view its details.'**
+  String get groupsSelectLeftColumn;
 
   /// No description provided for @hardwareAddress.
   ///
@@ -2048,6 +2402,12 @@ abstract class AppLocalizations {
   /// **'Invalid IP Address'**
   String get invalidIpAddress;
 
+  /// No description provided for @invalidMaxResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a maximum number greater than 0.'**
+  String get invalidMaxResults;
+
   /// No description provided for @invalidPort.
   ///
   /// In en, this message translates to:
@@ -2126,17 +2486,17 @@ abstract class AppLocalizations {
   /// **'Last updated'**
   String get lastUpdated;
 
-  /// No description provided for @leaseInfo.
-  ///
-  /// In en, this message translates to:
-  /// **'Lease Information'**
-  String get leaseInfo;
-
   /// No description provided for @learnMoreAboutCertificates.
   ///
   /// In en, this message translates to:
   /// **'Learn more about certificate settings'**
   String get learnMoreAboutCertificates;
+
+  /// No description provided for @leaseInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease Information'**
+  String get leaseInfo;
 
   /// No description provided for @legal.
   ///
@@ -2203,6 +2563,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Displays the data on a list with the label and the numeric value at the left side, and a bar at the right side.'**
   String get listDescription;
+
+  /// No description provided for @listLevelLists.
+  ///
+  /// In en, this message translates to:
+  /// **'List-level lists'**
+  String get listLevelLists;
 
   /// No description provided for @liveLog.
   ///
@@ -2432,23 +2798,29 @@ abstract class AppLocalizations {
   /// **'MAC Address'**
   String get macAddress;
 
+  /// No description provided for @matchingEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Matching entries:'**
+  String get matchingEntries;
+
   /// No description provided for @max.
   ///
   /// In en, this message translates to:
   /// **'max'**
   String get max;
 
+  /// No description provided for @maxResultsToReturnLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum number of results to be returned'**
+  String get maxResultsToReturnLabel;
+
   /// No description provided for @memoryUsage.
   ///
   /// In en, this message translates to:
   /// **'Memory Usage'**
   String get memoryUsage;
-
-  /// No description provided for @mfa.
-  ///
-  /// In en, this message translates to:
-  /// **'MFA'**
-  String get mfa;
 
   /// No description provided for @messageDeleteFailed.
   ///
@@ -2467,6 +2839,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Messages'**
   String get messages;
+
+  /// No description provided for @mfa.
+  ///
+  /// In en, this message translates to:
+  /// **'MFA'**
+  String get mfa;
 
   /// No description provided for @mfaCodeLabel.
   ///
@@ -2659,6 +3037,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No messages'**
   String get noMessages;
+
+  /// No description provided for @noResultsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get noResultsFound;
 
   /// No description provided for @noSavedConnections.
   ///
@@ -3128,6 +3512,18 @@ abstract class AppLocalizations {
   /// **'Scope'**
   String get scope;
 
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
+
+  /// No description provided for @searchTermRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a domain to search.'**
+  String get searchTermRequired;
+
   /// No description provided for @searchUrl.
   ///
   /// In en, this message translates to:
@@ -3260,6 +3656,78 @@ abstract class AppLocalizations {
   /// **'Server address'**
   String get serverAddress;
 
+  /// No description provided for @serverCertificateFetchFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not fetch certificate information.'**
+  String get serverCertificateFetchFailed;
+
+  /// No description provided for @serverCertificateHandshakeFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t establish a secure connection. Check that the server uses HTTPS on this port.'**
+  String get serverCertificateHandshakeFailed;
+
+  /// No description provided for @serverCertificateIssueDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'A certificate issue was detected. The server\'s certificate may have changed.'**
+  String get serverCertificateIssueDetected;
+
+  /// No description provided for @serverCertificateIssueHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'The server\'s TLS certificate may have changed or become untrusted. Review the server settings and update the pinned fingerprint if needed.'**
+  String get serverCertificateIssueHelp;
+
+  /// No description provided for @serverCertificateIssueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate issue'**
+  String get serverCertificateIssueTitle;
+
+  /// No description provided for @serverCertificatePinMismatchDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned certificate mismatch. The server\'s certificate may have changed.'**
+  String get serverCertificatePinMismatchDetected;
+
+  /// No description provided for @serverCertificatePinMismatchHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'The server\'s certificate does not match the pinned fingerprint. Verify the certificate and update the pinned fingerprint in the server settings.'**
+  String get serverCertificatePinMismatchHelp;
+
+  /// No description provided for @serverCertificateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate'**
+  String get serverCertificateTitle;
+
+  /// No description provided for @serverCertificateUpdatePin.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get serverCertificateUpdatePin;
+
+  /// No description provided for @serverCertificateUpdatePinHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'This will replace the pinned SHA-256 fingerprint used when allowing untrusted certificates. Only proceed if you verified the certificate out of band.'**
+  String get serverCertificateUpdatePinHelp;
+
+  /// No description provided for @serverCertificateUpdatePinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update pinned fingerprint'**
+  String get serverCertificateUpdatePinTitle;
+
+  /// No description provided for @serverCertificateView.
+  ///
+  /// In en, this message translates to:
+  /// **'View certificate'**
+  String get serverCertificateView;
+
   /// No description provided for @serverConnectionGuide.
   ///
   /// In en, this message translates to:
@@ -3307,6 +3775,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Server name'**
   String get serverName;
+
+  /// No description provided for @serverSecurityHttp.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTP'**
+  String get serverSecurityHttp;
+
+  /// No description provided for @serverSecurityHttpsPinMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTPS Pin Mismatch'**
+  String get serverSecurityHttpsPinMismatch;
+
+  /// No description provided for @serverSecurityHttpsPinned.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTPS Pinned'**
+  String get serverSecurityHttpsPinned;
+
+  /// No description provided for @serverSecurityHttpsUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTPS Unknown'**
+  String get serverSecurityHttpsUnknown;
+
+  /// No description provided for @serverSecurityHttpsUntrustedAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTPS Untrusted Allowed'**
+  String get serverSecurityHttpsUntrustedAllowed;
+
+  /// No description provided for @serverSecurityHttpsUntrustedBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTPS Untrusted Blocked'**
+  String get serverSecurityHttpsUntrustedBlocked;
+
+  /// No description provided for @serverSecurityHttpsVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTPS Verified'**
+  String get serverSecurityHttpsVerified;
 
   /// No description provided for @serverSettings.
   ///
@@ -3506,6 +4016,12 @@ abstract class AppLocalizations {
   /// **'To be used with a reverse proxy'**
   String get subrouteHelper;
 
+  /// No description provided for @summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get summary;
+
   /// No description provided for @supportDeveloperSubtitle.
   ///
   /// In en, this message translates to:
@@ -3590,6 +4106,36 @@ abstract class AppLocalizations {
   /// **'Timestamps'**
   String get timestamps;
 
+  /// No description provided for @tlsCertIssuer.
+  ///
+  /// In en, this message translates to:
+  /// **'Issuer'**
+  String get tlsCertIssuer;
+
+  /// No description provided for @tlsCertSha256.
+  ///
+  /// In en, this message translates to:
+  /// **'SHA-256'**
+  String get tlsCertSha256;
+
+  /// No description provided for @tlsCertSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get tlsCertSubject;
+
+  /// No description provided for @tlsCertValidFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid from'**
+  String get tlsCertValidFrom;
+
+  /// No description provided for @tlsCertValidUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid until'**
+  String get tlsCertValidUntil;
+
   /// No description provided for @tlsStatus.
   ///
   /// In en, this message translates to:
@@ -3632,114 +4178,6 @@ abstract class AppLocalizations {
   /// **'Tools'**
   String get tools;
 
-  /// No description provided for @search.
-  ///
-  /// In en, this message translates to:
-  /// **'Search'**
-  String get search;
-
-  /// No description provided for @findDomainsInLists.
-  ///
-  /// In en, this message translates to:
-  /// **'Find Domains In Lists'**
-  String get findDomainsInLists;
-
-  /// No description provided for @findDomainsInListsDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Search domains across whitelist, blacklist, and adlists'**
-  String get findDomainsInListsDescription;
-
-  /// No description provided for @findDomainsSearchLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Search domain'**
-  String get findDomainsSearchLabel;
-
-  /// No description provided for @usePartialMatching.
-  ///
-  /// In en, this message translates to:
-  /// **'Use partial matching'**
-  String get usePartialMatching;
-
-  /// No description provided for @maxResultsToReturnLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Maximum number of results to be returned'**
-  String get maxResultsToReturnLabel;
-
-  /// No description provided for @noResultsFound.
-  ///
-  /// In en, this message translates to:
-  /// **'No results found'**
-  String get noResultsFound;
-
-  /// No description provided for @summary.
-  ///
-  /// In en, this message translates to:
-  /// **'Summary'**
-  String get summary;
-
-  /// No description provided for @total.
-  ///
-  /// In en, this message translates to:
-  /// **'Total'**
-  String get total;
-
-  /// No description provided for @domainsExactMatches.
-  ///
-  /// In en, this message translates to:
-  /// **'Domains (exact)'**
-  String get domainsExactMatches;
-
-  /// No description provided for @domainsRegexMatches.
-  ///
-  /// In en, this message translates to:
-  /// **'Domains (regex)'**
-  String get domainsRegexMatches;
-
-  /// No description provided for @gravityAllowMatches.
-  ///
-  /// In en, this message translates to:
-  /// **'Allowlist matches'**
-  String get gravityAllowMatches;
-
-  /// No description provided for @gravityBlockMatches.
-  ///
-  /// In en, this message translates to:
-  /// **'Blocklist matches'**
-  String get gravityBlockMatches;
-
-  /// No description provided for @domainLevelLists.
-  ///
-  /// In en, this message translates to:
-  /// **'Domain-level lists'**
-  String get domainLevelLists;
-
-  /// No description provided for @listLevelLists.
-  ///
-  /// In en, this message translates to:
-  /// **'List-level lists'**
-  String get listLevelLists;
-
-  /// No description provided for @matchingEntries.
-  ///
-  /// In en, this message translates to:
-  /// **'Matching entries:'**
-  String get matchingEntries;
-
-  /// No description provided for @searchTermRequired.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter a domain to search.'**
-  String get searchTermRequired;
-
-  /// No description provided for @invalidMaxResults.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter a maximum number greater than 0.'**
-  String get invalidMaxResults;
-
   /// No description provided for @topBlockedDomains.
   ///
   /// In en, this message translates to:
@@ -3763,6 +4201,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Top permitted domains'**
   String get topPermittedDomains;
+
+  /// No description provided for @total.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
 
   /// No description provided for @totalQueries.
   ///
@@ -3872,6 +4316,30 @@ abstract class AppLocalizations {
   /// **'Unsupported Feature'**
   String get unsupportedFeatureTitle;
 
+  /// No description provided for @unverifiedCertificatesBannerCollapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse'**
+  String get unverifiedCertificatesBannerCollapse;
+
+  /// No description provided for @unverifiedCertificatesBannerExpand.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand'**
+  String get unverifiedCertificatesBannerExpand;
+
+  /// No description provided for @unverifiedCertificatesBannerLearnMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn more'**
+  String get unverifiedCertificatesBannerLearnMore;
+
+  /// No description provided for @unverifiedCertificatesBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 server has unverified certificates allowed} other{{count} servers have unverified certificates allowed}}'**
+  String unverifiedCertificatesBannerTitle(num count);
+
   /// No description provided for @updateGravity.
   ///
   /// In en, this message translates to:
@@ -3925,6 +4393,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use fingerprint'**
   String get useFingerprint;
+
+  /// No description provided for @usePartialMatching.
+  ///
+  /// In en, this message translates to:
+  /// **'Use partial matching'**
+  String get usePartialMatching;
 
   /// No description provided for @usedAppPassword.
   ///
@@ -4022,12 +4496,6 @@ abstract class AppLocalizations {
   /// **'Welcome to the App'**
   String get welcomeToApp;
 
-  /// No description provided for @whitelist.
-  ///
-  /// In en, this message translates to:
-  /// **'Add to whitelist'**
-  String get whitelist;
-
   /// No description provided for @writeEmail.
   ///
   /// In en, this message translates to:
@@ -4039,474 +4507,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Include on the body of the email all the possible details: Pi-hole and web interface version, how to reproduce the issue, screenshots...\n\nAll provided information will be very welcome.'**
   String get writeEmailDetails;
-
-  /// No description provided for @groupsAndClients.
-  ///
-  /// In en, this message translates to:
-  /// **'Groups & Clients'**
-  String get groupsAndClients;
-
-  /// No description provided for @groupsAndClientsDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Manage groups and client assignments'**
-  String get groupsAndClientsDescription;
-
-  /// No description provided for @groupClientSearch.
-  ///
-  /// In en, this message translates to:
-  /// **'Search groups or clients...'**
-  String get groupClientSearch;
-
-  /// No description provided for @groupAdd.
-  ///
-  /// In en, this message translates to:
-  /// **'Add Group'**
-  String get groupAdd;
-
-  /// No description provided for @groupAdding.
-  ///
-  /// In en, this message translates to:
-  /// **'Adding group...'**
-  String get groupAdding;
-
-  /// No description provided for @groupAdded.
-  ///
-  /// In en, this message translates to:
-  /// **'Group added successfully'**
-  String get groupAdded;
-
-  /// No description provided for @groupAddFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Group couldn\'t be added'**
-  String get groupAddFailed;
-
-  /// No description provided for @groupAlreadyAdded.
-  ///
-  /// In en, this message translates to:
-  /// **'Group already added'**
-  String get groupAlreadyAdded;
-
-  /// No description provided for @groupRemoveFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not remove group'**
-  String get groupRemoveFailed;
-
-  /// No description provided for @groupRemoved.
-  ///
-  /// In en, this message translates to:
-  /// **'Group removed successfully'**
-  String get groupRemoved;
-
-  /// No description provided for @groupNotExists.
-  ///
-  /// In en, this message translates to:
-  /// **'Group does not exist'**
-  String get groupNotExists;
-
-  /// No description provided for @groupUpdateFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to update the group'**
-  String get groupUpdateFailed;
-
-  /// No description provided for @groupUpdated.
-  ///
-  /// In en, this message translates to:
-  /// **'Group updated successfully'**
-  String get groupUpdated;
-
-  /// No description provided for @groupUpdating.
-  ///
-  /// In en, this message translates to:
-  /// **'Updating group...'**
-  String get groupUpdating;
-
-  /// No description provided for @groupDelete.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete Group'**
-  String get groupDelete;
-
-  /// No description provided for @groupDeleteMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete this group?'**
-  String get groupDeleteMessage;
-
-  /// No description provided for @groupDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'Group details'**
-  String get groupDetails;
-
-  /// No description provided for @groupSettings.
-  ///
-  /// In en, this message translates to:
-  /// **'Group settings'**
-  String get groupSettings;
-
-  /// No description provided for @groupInfo.
-  ///
-  /// In en, this message translates to:
-  /// **'Group info'**
-  String get groupInfo;
-
-  /// No description provided for @groupName.
-  ///
-  /// In en, this message translates to:
-  /// **'Group name'**
-  String get groupName;
-
-  /// No description provided for @groupEdit.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit group'**
-  String get groupEdit;
-
-  /// No description provided for @groupsNone.
-  ///
-  /// In en, this message translates to:
-  /// **'There are no groups to show here.'**
-  String get groupsNone;
-
-  /// No description provided for @groupsNotLoaded.
-  ///
-  /// In en, this message translates to:
-  /// **'Groups list couldn\'t be loaded'**
-  String get groupsNotLoaded;
-
-  /// No description provided for @groupsSelectLeftColumn.
-  ///
-  /// In en, this message translates to:
-  /// **'Select a group to view its details.'**
-  String get groupsSelectLeftColumn;
-
-  /// No description provided for @groupMembers.
-  ///
-  /// In en, this message translates to:
-  /// **'Group members'**
-  String get groupMembers;
-
-  /// No description provided for @domainsWhitelist.
-  ///
-  /// In en, this message translates to:
-  /// **'Domains (whitelist)'**
-  String get domainsWhitelist;
-
-  /// No description provided for @domainsBlacklist.
-  ///
-  /// In en, this message translates to:
-  /// **'Domains (blacklist)'**
-  String get domainsBlacklist;
-
-  /// No description provided for @adlistsAllow.
-  ///
-  /// In en, this message translates to:
-  /// **'Adlists (allow)'**
-  String get adlistsAllow;
-
-  /// No description provided for @adlistsBlock.
-  ///
-  /// In en, this message translates to:
-  /// **'Adlists (block)'**
-  String get adlistsBlock;
-
-  /// No description provided for @clientAdd.
-  ///
-  /// In en, this message translates to:
-  /// **'Add Client'**
-  String get clientAdd;
-
-  /// No description provided for @clientAdding.
-  ///
-  /// In en, this message translates to:
-  /// **'Adding client...'**
-  String get clientAdding;
-
-  /// No description provided for @clientAdded.
-  ///
-  /// In en, this message translates to:
-  /// **'Client added successfully'**
-  String get clientAdded;
-
-  /// No description provided for @clientAddFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Client couldn\'t be added'**
-  String get clientAddFailed;
-
-  /// No description provided for @clientAlreadyAdded.
-  ///
-  /// In en, this message translates to:
-  /// **'Client already added'**
-  String get clientAlreadyAdded;
-
-  /// No description provided for @clientRemoveFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not remove client'**
-  String get clientRemoveFailed;
-
-  /// No description provided for @clientRemoved.
-  ///
-  /// In en, this message translates to:
-  /// **'Client removed successfully'**
-  String get clientRemoved;
-
-  /// No description provided for @clientNotExists.
-  ///
-  /// In en, this message translates to:
-  /// **'Client does not exist'**
-  String get clientNotExists;
-
-  /// No description provided for @clientUpdateFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to update the client'**
-  String get clientUpdateFailed;
-
-  /// No description provided for @clientUpdated.
-  ///
-  /// In en, this message translates to:
-  /// **'Client updated successfully'**
-  String get clientUpdated;
-
-  /// No description provided for @clientUpdating.
-  ///
-  /// In en, this message translates to:
-  /// **'Updating client...'**
-  String get clientUpdating;
-
-  /// No description provided for @clientDelete.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete Client'**
-  String get clientDelete;
-
-  /// No description provided for @clientDeleteMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete this client?'**
-  String get clientDeleteMessage;
-
-  /// No description provided for @clientDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'Client details'**
-  String get clientDetails;
-
-  /// No description provided for @clientSettings.
-  ///
-  /// In en, this message translates to:
-  /// **'Client settings'**
-  String get clientSettings;
-
-  /// No description provided for @clientInfo.
-  ///
-  /// In en, this message translates to:
-  /// **'Client info'**
-  String get clientInfo;
-
-  /// No description provided for @clientAddress.
-  ///
-  /// In en, this message translates to:
-  /// **'Client address'**
-  String get clientAddress;
-
-  /// No description provided for @clientsNone.
-  ///
-  /// In en, this message translates to:
-  /// **'There are no clients to show here.'**
-  String get clientsNone;
-
-  /// No description provided for @clientsNotLoaded.
-  ///
-  /// In en, this message translates to:
-  /// **'Clients list couldn\'t be loaded'**
-  String get clientsNotLoaded;
-
-  /// No description provided for @clientsSelectLeftColumn.
-  ///
-  /// In en, this message translates to:
-  /// **'Select a client to view its details.'**
-  String get clientsSelectLeftColumn;
-
-  /// No description provided for @serverSecurityHttp.
-  ///
-  /// In en, this message translates to:
-  /// **'HTTP'**
-  String get serverSecurityHttp;
-
-  /// No description provided for @serverSecurityHttpsVerified.
-  ///
-  /// In en, this message translates to:
-  /// **'HTTPS Verified'**
-  String get serverSecurityHttpsVerified;
-
-  /// No description provided for @serverSecurityHttpsPinned.
-  ///
-  /// In en, this message translates to:
-  /// **'HTTPS Pinned'**
-  String get serverSecurityHttpsPinned;
-
-  /// No description provided for @serverSecurityHttpsUntrustedAllowed.
-  ///
-  /// In en, this message translates to:
-  /// **'HTTPS Untrusted Allowed'**
-  String get serverSecurityHttpsUntrustedAllowed;
-
-  /// No description provided for @serverSecurityHttpsUntrustedBlocked.
-  ///
-  /// In en, this message translates to:
-  /// **'HTTPS Untrusted Blocked'**
-  String get serverSecurityHttpsUntrustedBlocked;
-
-  /// No description provided for @serverSecurityHttpsPinMismatch.
-  ///
-  /// In en, this message translates to:
-  /// **'HTTPS Pin Mismatch'**
-  String get serverSecurityHttpsPinMismatch;
-
-  /// No description provided for @serverSecurityHttpsUnknown.
-  ///
-  /// In en, this message translates to:
-  /// **'HTTPS Unknown'**
-  String get serverSecurityHttpsUnknown;
-
-  /// No description provided for @serverCertificateIssueTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Certificate issue'**
-  String get serverCertificateIssueTitle;
-
-  /// No description provided for @serverCertificateIssueDetected.
-  ///
-  /// In en, this message translates to:
-  /// **'A certificate issue was detected. The server\'s certificate may have changed.'**
-  String get serverCertificateIssueDetected;
-
-  /// No description provided for @serverCertificateIssueHelp.
-  ///
-  /// In en, this message translates to:
-  /// **'The server\'s TLS certificate may have changed or become untrusted. Review the server settings and update the pinned fingerprint if needed.'**
-  String get serverCertificateIssueHelp;
-
-  /// No description provided for @serverCertificatePinMismatchDetected.
-  ///
-  /// In en, this message translates to:
-  /// **'Pinned certificate mismatch. The server\'s certificate may have changed.'**
-  String get serverCertificatePinMismatchDetected;
-
-  /// No description provided for @serverCertificatePinMismatchHelp.
-  ///
-  /// In en, this message translates to:
-  /// **'The server\'s certificate does not match the pinned fingerprint. Verify the certificate and update the pinned fingerprint in the server settings.'**
-  String get serverCertificatePinMismatchHelp;
-
-  /// No description provided for @serverCertificateTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Certificate'**
-  String get serverCertificateTitle;
-
-  /// No description provided for @serverCertificateView.
-  ///
-  /// In en, this message translates to:
-  /// **'View certificate'**
-  String get serverCertificateView;
-
-  /// No description provided for @serverCertificateUpdatePin.
-  ///
-  /// In en, this message translates to:
-  /// **'Update'**
-  String get serverCertificateUpdatePin;
-
-  /// No description provided for @serverCertificateUpdatePinTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Update pinned fingerprint'**
-  String get serverCertificateUpdatePinTitle;
-
-  /// No description provided for @serverCertificateUpdatePinHelp.
-  ///
-  /// In en, this message translates to:
-  /// **'This will replace the pinned SHA-256 fingerprint used when allowing untrusted certificates. Only proceed if you verified the certificate out of band.'**
-  String get serverCertificateUpdatePinHelp;
-
-  /// No description provided for @serverCertificateFetchFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not fetch certificate information.'**
-  String get serverCertificateFetchFailed;
-
-  /// No description provided for @serverCertificateHandshakeFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Couldn\'t establish a secure connection. Check that the server uses HTTPS on this port.'**
-  String get serverCertificateHandshakeFailed;
-
-  /// No description provided for @unverifiedCertificatesBannerTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =1{1 server has unverified certificates allowed} other{{count} servers have unverified certificates allowed}}'**
-  String unverifiedCertificatesBannerTitle(num count);
-
-  /// No description provided for @unverifiedCertificatesBannerExpand.
-  ///
-  /// In en, this message translates to:
-  /// **'Expand'**
-  String get unverifiedCertificatesBannerExpand;
-
-  /// No description provided for @unverifiedCertificatesBannerCollapse.
-  ///
-  /// In en, this message translates to:
-  /// **'Collapse'**
-  String get unverifiedCertificatesBannerCollapse;
-
-  /// No description provided for @unverifiedCertificatesBannerLearnMore.
-  ///
-  /// In en, this message translates to:
-  /// **'Learn more'**
-  String get unverifiedCertificatesBannerLearnMore;
-
-  /// No description provided for @chipTooltipQueriesPerMinute.
-  ///
-  /// In en, this message translates to:
-  /// **'Queries per minute'**
-  String get chipTooltipQueriesPerMinute;
-
-  /// No description provided for @chipTooltipCpuLoadAverage.
-  ///
-  /// In en, this message translates to:
-  /// **'CPU load average (1m / 5m / 15m)'**
-  String get chipTooltipCpuLoadAverage;
-
-  /// No description provided for @chipTooltipCpuUsage.
-  ///
-  /// In en, this message translates to:
-  /// **'CPU usage'**
-  String get chipTooltipCpuUsage;
-
-  /// No description provided for @chipTooltipRamUsage.
-  ///
-  /// In en, this message translates to:
-  /// **'RAM usage'**
-  String get chipTooltipRamUsage;
-
-  /// No description provided for @chipTooltipCpuTemperature.
-  ///
-  /// In en, this message translates to:
-  /// **'CPU temperature'**
-  String get chipTooltipCpuTemperature;
-
-  /// No description provided for @chipTooltipSystemUptime.
-  ///
-  /// In en, this message translates to:
-  /// **'System uptime'**
-  String get chipTooltipSystemUptime;
 }
 
 class _AppLocalizationsDelegate

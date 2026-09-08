@@ -1089,12 +1089,12 @@ class MockLogsViewModel extends _i1.Mock implements _i18.LogsViewModel {
 
   @override
   _i11.Future<_i17.ResultDart<_i20.Domain, Exception>> addDomainToList({
-    required String? list,
+    required _i7.DomainType? type,
     required String? domain,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#addDomainToList, [], {
-              #list: list,
+              #type: type,
               #domain: domain,
             }),
             returnValue:
@@ -1102,7 +1102,7 @@ class MockLogsViewModel extends _i1.Mock implements _i18.LogsViewModel {
                   _i6.dummyValue<_i17.ResultDart<_i20.Domain, Exception>>(
                     this,
                     Invocation.method(#addDomainToList, [], {
-                      #list: list,
+                      #type: type,
                       #domain: domain,
                     }),
                   ),
@@ -1533,33 +1533,33 @@ class MockDomainsViewModel extends _i1.Mock implements _i27.DomainsViewModel {
           as _i3.Command<_i20.Domain, void>);
 
   @override
-  List<_i20.Domain> get whitelistDomains =>
+  List<_i20.Domain> get allowlistDomains =>
       (super.noSuchMethod(
-            Invocation.getter(#whitelistDomains),
+            Invocation.getter(#allowlistDomains),
             returnValue: <_i20.Domain>[],
           )
           as List<_i20.Domain>);
 
   @override
-  List<_i20.Domain> get blacklistDomains =>
+  List<_i20.Domain> get blocklistDomains =>
       (super.noSuchMethod(
-            Invocation.getter(#blacklistDomains),
+            Invocation.getter(#blocklistDomains),
             returnValue: <_i20.Domain>[],
           )
           as List<_i20.Domain>);
 
   @override
-  List<_i20.Domain> get filteredWhitelistDomains =>
+  List<_i20.Domain> get filteredAllowlistDomains =>
       (super.noSuchMethod(
-            Invocation.getter(#filteredWhitelistDomains),
+            Invocation.getter(#filteredAllowlistDomains),
             returnValue: <_i20.Domain>[],
           )
           as List<_i20.Domain>);
 
   @override
-  List<_i20.Domain> get filteredBlacklistDomains =>
+  List<_i20.Domain> get filteredBlocklistDomains =>
       (super.noSuchMethod(
-            Invocation.getter(#filteredBlacklistDomains),
+            Invocation.getter(#filteredBlocklistDomains),
             returnValue: <_i20.Domain>[],
           )
           as List<_i20.Domain>);
@@ -2317,33 +2317,33 @@ class MockAdlistsViewModel extends _i1.Mock implements _i35.AdlistsViewModel {
           as _i3.Command<_i36.Adlist, void>);
 
   @override
-  List<_i36.Adlist> get whitelistAdlists =>
+  List<_i36.Adlist> get allowlistAdlists =>
       (super.noSuchMethod(
-            Invocation.getter(#whitelistAdlists),
+            Invocation.getter(#allowlistAdlists),
             returnValue: <_i36.Adlist>[],
           )
           as List<_i36.Adlist>);
 
   @override
-  List<_i36.Adlist> get blacklistAdlists =>
+  List<_i36.Adlist> get blocklistAdlists =>
       (super.noSuchMethod(
-            Invocation.getter(#blacklistAdlists),
+            Invocation.getter(#blocklistAdlists),
             returnValue: <_i36.Adlist>[],
           )
           as List<_i36.Adlist>);
 
   @override
-  List<_i36.Adlist> get filteredWhitelistAdlists =>
+  List<_i36.Adlist> get filteredAllowlistAdlists =>
       (super.noSuchMethod(
-            Invocation.getter(#filteredWhitelistAdlists),
+            Invocation.getter(#filteredAllowlistAdlists),
             returnValue: <_i36.Adlist>[],
           )
           as List<_i36.Adlist>);
 
   @override
-  List<_i36.Adlist> get filteredBlacklistAdlists =>
+  List<_i36.Adlist> get filteredBlocklistAdlists =>
       (super.noSuchMethod(
-            Invocation.getter(#filteredBlacklistAdlists),
+            Invocation.getter(#filteredBlocklistAdlists),
             returnValue: <_i36.Adlist>[],
           )
           as List<_i36.Adlist>);

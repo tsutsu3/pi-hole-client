@@ -130,10 +130,10 @@ void main() {
 
     test('initial values are correct', () {
       expect(viewModel.loadingStatus, LoadStatus.loading);
-      expect(viewModel.whitelistDomains, []);
-      expect(viewModel.blacklistDomains, []);
-      expect(viewModel.filteredWhitelistDomains, []);
-      expect(viewModel.filteredBlacklistDomains, []);
+      expect(viewModel.allowlistDomains, []);
+      expect(viewModel.blocklistDomains, []);
+      expect(viewModel.filteredAllowlistDomains, []);
+      expect(viewModel.filteredBlocklistDomains, []);
       expect(viewModel.selectedTab, null);
       expect(viewModel.searchTerm, '');
       expect(viewModel.searchMode, false);
@@ -155,8 +155,8 @@ void main() {
 
     test('loadDomains fetches domains list', () async {
       await viewModel.loadDomains.runAsync();
-      expect(viewModel.whitelistDomains.length, 2);
-      expect(viewModel.blacklistDomains.length, 2);
+      expect(viewModel.allowlistDomains.length, 2);
+      expect(viewModel.blocklistDomains.length, 2);
       expect(viewModel.loadingStatus, LoadStatus.loaded);
       expect(listenerCalled, true);
     });
@@ -175,20 +175,20 @@ void main() {
       listenerCalled = false;
 
       viewModel.onSearch('blocked');
-      expect(viewModel.filteredWhitelistDomains.length, 0);
-      expect(viewModel.filteredBlacklistDomains.length, 1);
-      expect(viewModel.filteredBlacklistDomains.first.name, 'blocked.com');
+      expect(viewModel.filteredAllowlistDomains.length, 0);
+      expect(viewModel.filteredBlocklistDomains.length, 1);
+      expect(viewModel.filteredBlocklistDomains.first.name, 'blocked.com');
       expect(listenerCalled, true);
     });
 
     test('deleteDomain removes domain from the list', () async {
       await viewModel.loadDomains.runAsync();
-      final domain = viewModel.whitelistDomains.first;
+      final domain = viewModel.allowlistDomains.first;
       listenerCalled = false;
 
       await viewModel.deleteDomain.runAsync(domain);
       expect(
-        viewModel.whitelistDomains.where((d) => d.id == domain.id),
+        viewModel.allowlistDomains.where((d) => d.id == domain.id),
         isEmpty,
       );
       expect(listenerCalled, true);
@@ -196,7 +196,7 @@ void main() {
 
     test('addDomain appends domain locally', () async {
       await viewModel.loadDomains.runAsync();
-      final initialCount = viewModel.whitelistDomains.length;
+      final initialCount = viewModel.allowlistDomains.length;
 
       await viewModel.addDomain.runAsync((
         type: DomainType.allow,
@@ -205,25 +205,25 @@ void main() {
       ));
 
       // Local state update — no re-fetch
-      expect(viewModel.whitelistDomains.length, initialCount + 1);
-      expect(viewModel.whitelistDomains.last.name, 'new.example.com');
+      expect(viewModel.allowlistDomains.length, initialCount + 1);
+      expect(viewModel.allowlistDomains.last.name, 'new.example.com');
     });
 
     test('updateDomain replaces domain locally', () async {
       await viewModel.loadDomains.runAsync();
-      final domain = viewModel.whitelistDomains.first;
+      final domain = viewModel.allowlistDomains.first;
 
       await viewModel.updateDomain.runAsync(
         domain.copyWith(comment: 'updated comment'),
       );
 
       // Local state update — no re-fetch
-      expect(viewModel.whitelistDomains.first.comment, 'updated comment');
+      expect(viewModel.allowlistDomains.first.comment, 'updated comment');
     });
 
-    test('addDomain appends to blacklist for deny type', () async {
+    test('addDomain appends to blocklist for deny type', () async {
       await viewModel.loadDomains.runAsync();
-      final initialCount = viewModel.blacklistDomains.length;
+      final initialCount = viewModel.blocklistDomains.length;
 
       await viewModel.addDomain.runAsync((
         type: DomainType.deny,
@@ -231,18 +231,18 @@ void main() {
         domain: 'evil.example.com',
       ));
 
-      expect(viewModel.blacklistDomains.length, initialCount + 1);
-      expect(viewModel.blacklistDomains.last.name, 'evil.example.com');
+      expect(viewModel.blocklistDomains.length, initialCount + 1);
+      expect(viewModel.blocklistDomains.last.name, 'evil.example.com');
     });
 
-    test('deleteDomain removes domain from blacklist', () async {
+    test('deleteDomain removes domain from blocklist', () async {
       await viewModel.loadDomains.runAsync();
-      final domain = viewModel.blacklistDomains.first;
+      final domain = viewModel.blocklistDomains.first;
       listenerCalled = false;
 
       await viewModel.deleteDomain.runAsync(domain);
       expect(
-        viewModel.blacklistDomains.where((d) => d.id == domain.id),
+        viewModel.blocklistDomains.where((d) => d.id == domain.id),
         isEmpty,
       );
       expect(listenerCalled, true);
@@ -250,7 +250,7 @@ void main() {
 
     test('setSelectedDomain stores domain and notifies', () async {
       await viewModel.loadDomains.runAsync();
-      final domain = viewModel.whitelistDomains.first;
+      final domain = viewModel.allowlistDomains.first;
       listenerCalled = false;
 
       viewModel.setSelectedDomain(domain);
@@ -292,7 +292,7 @@ void main() {
         viewModel.onSearch('example');
 
         // All fake domains have group 0 and contain 'example'
-        expect(viewModel.filteredWhitelistDomains.length, 2);
+        expect(viewModel.filteredAllowlistDomains.length, 2);
       });
 
       test(
@@ -302,8 +302,8 @@ void main() {
 
           viewModel.setGroupFilter(999);
 
-          expect(viewModel.filteredWhitelistDomains.length, 0);
-          expect(viewModel.filteredBlacklistDomains.length, 0);
+          expect(viewModel.filteredAllowlistDomains.length, 0);
+          expect(viewModel.filteredBlocklistDomains.length, 0);
         },
       );
     });
@@ -323,7 +323,7 @@ void main() {
         // First load populates the cache.
         await vm.loadDomains.runAsync();
         expect(vm.isRevalidating, isFalse);
-        expect(vm.whitelistDomains.single.name, 'cached.com');
+        expect(vm.allowlistDomains.single.name, 'cached.com');
         expect(vm.loadingStatus, LoadStatus.loaded);
 
         // Gate the next fetch so the reload stays in flight.
@@ -335,14 +335,14 @@ void main() {
         // SWR: stale list stays visible, status stays loaded, bar is shown.
         expect(vm.isRevalidating, isTrue);
         expect(vm.loadingStatus, LoadStatus.loaded);
-        expect(vm.whitelistDomains.single.name, 'cached.com');
+        expect(vm.allowlistDomains.single.name, 'cached.com');
 
         // Completing the reload swaps in the fresh data and clears the bar.
         repo.gate!.complete();
         await pending;
         expect(vm.isRevalidating, isFalse);
         expect(vm.loadingStatus, LoadStatus.loaded);
-        expect(vm.whitelistDomains.single.name, 'fresh.com');
+        expect(vm.allowlistDomains.single.name, 'fresh.com');
       },
     );
 
@@ -352,7 +352,7 @@ void main() {
       addTearDown(vm.dispose);
 
       await vm.loadDomains.runAsync();
-      expect(vm.whitelistDomains.single.name, 'cached.com');
+      expect(vm.allowlistDomains.single.name, 'cached.com');
 
       repo.shouldFail = true;
       try {
@@ -362,7 +362,7 @@ void main() {
       // Cache is preserved; no error screen because there is data to show.
       expect(vm.loadingStatus, LoadStatus.loaded);
       expect(vm.isRevalidating, isFalse);
-      expect(vm.whitelistDomains.single.name, 'cached.com');
+      expect(vm.allowlistDomains.single.name, 'cached.com');
     });
 
     test(
@@ -374,7 +374,7 @@ void main() {
 
         // First load populates the cache.
         await vm.loadDomains.runAsync();
-        expect(vm.whitelistDomains.map((d) => d.name), ['cached.com']);
+        expect(vm.allowlistDomains.map((d) => d.name), ['cached.com']);
 
         // Start a revalidation and gate it so it stays in flight. Its snapshot
         // is captured now (just {cached.com}), before the upcoming add.
@@ -390,7 +390,7 @@ void main() {
           kind: DomainKind.exact,
           domain: 'added.com',
         ));
-        expect(vm.whitelistDomains.map((d) => d.name), [
+        expect(vm.allowlistDomains.map((d) => d.name), [
           'cached.com',
           'added.com',
         ]);
@@ -400,7 +400,7 @@ void main() {
         repo.gate!.complete();
         await pending;
 
-        expect(vm.whitelistDomains.map((d) => d.name), [
+        expect(vm.allowlistDomains.map((d) => d.name), [
           'cached.com',
           'added.com',
         ]);
@@ -422,16 +422,16 @@ void main() {
       addTearDown(vm.dispose);
 
       await vm.loadDomains.runAsync();
-      expect(vm.whitelistDomains, isNotEmpty);
+      expect(vm.allowlistDomains, isNotEmpty);
       expect(vm.loadingStatus, LoadStatus.loaded);
 
       // Change server
       vm.update(domainRepository: _ControllableDomainRepository(_listsWith()));
 
-      expect(vm.whitelistDomains, isEmpty);
-      expect(vm.blacklistDomains, isEmpty);
-      expect(vm.filteredWhitelistDomains, isEmpty);
-      expect(vm.filteredBlacklistDomains, isEmpty);
+      expect(vm.allowlistDomains, isEmpty);
+      expect(vm.blocklistDomains, isEmpty);
+      expect(vm.filteredAllowlistDomains, isEmpty);
+      expect(vm.filteredBlocklistDomains, isEmpty);
       expect(vm.loadingStatus, LoadStatus.loading);
       expect(vm.isRevalidating, isFalse);
     });
@@ -442,14 +442,14 @@ void main() {
       addTearDown(vm.dispose);
 
       await vm.loadDomains.runAsync();
-      expect(vm.whitelistDomains, isNotEmpty);
+      expect(vm.allowlistDomains, isNotEmpty);
 
       vm.update(domainRepository: repo);
 
       // No reset: the loaded list is preserved.
-      expect(vm.whitelistDomains, isNotEmpty);
+      expect(vm.allowlistDomains, isNotEmpty);
       expect(vm.loadingStatus, LoadStatus.loaded);
-      expect(vm.whitelistDomains.single.name, 'a.com');
+      expect(vm.allowlistDomains.single.name, 'a.com');
     });
 
     test(
@@ -468,17 +468,17 @@ void main() {
 
         // Switch to server B (screen inactive -> reset only, no eager reload).
         vm.update(domainRepository: repoB);
-        expect(vm.whitelistDomains, isEmpty);
+        expect(vm.allowlistDomains, isEmpty);
 
         // The delayed server-A response must be discarded, not applied.
         repoA.gate!.complete();
         await pendingOld;
-        expect(vm.whitelistDomains, isEmpty);
+        expect(vm.allowlistDomains, isEmpty);
         expect(vm.loadingStatus, LoadStatus.loading);
 
         // A fresh load now resolves against server B.
         await vm.loadDomains.runAsync();
-        expect(vm.whitelistDomains.single.name, 'b.com');
+        expect(vm.allowlistDomains.single.name, 'b.com');
       },
     );
 
@@ -489,7 +489,7 @@ void main() {
       addTearDown(vm.dispose);
 
       await vm.loadDomains.runAsync();
-      expect(vm.whitelistDomains.single.name, 'a.com');
+      expect(vm.allowlistDomains.single.name, 'a.com');
 
       // Switching servers clears the cache and marks loading, but the reload is
       // deferred to the next screen mount — update() itself never fetches.
@@ -497,7 +497,7 @@ void main() {
       await Future<void>.delayed(Duration.zero);
 
       expect(repoB.fetchCount, 0);
-      expect(vm.whitelistDomains, isEmpty);
+      expect(vm.allowlistDomains, isEmpty);
       expect(vm.loadingStatus, LoadStatus.loading);
     });
   });

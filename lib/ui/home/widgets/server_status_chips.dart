@@ -55,8 +55,7 @@ class ServerStatusChips extends StatelessWidget {
         icon: Icons.trending_up_rounded,
         color: graphColors.getColorByTheme('blue'),
         tooltip: loc.chipTooltipQueriesPerMinute,
-        label:
-            qpm == null ? '- q/min' : '${qpm.toStringAsFixed(1)} q/min',
+        label: qpm == null ? '- q/min' : '${qpm.toStringAsFixed(1)} q/min',
       ),
       (
         icon: Icons.speed_rounded,
@@ -70,15 +69,17 @@ class ServerStatusChips extends StatelessWidget {
         icon: Icons.memory_rounded,
         color: graphColors.getColorByTheme('green'),
         tooltip: loc.chipTooltipCpuUsage,
-        label:
-            cpuUsage == null ? 'CPU -%' : 'CPU ${formatPercentage(cpuUsage, locale)}%',
+        label: cpuUsage == null
+            ? 'CPU -%'
+            : 'CPU ${formatPercentage(cpuUsage, locale)}%',
       ),
       (
         icon: Icons.developer_board_rounded,
         color: graphColors.getColorByTheme('teal'),
         tooltip: loc.chipTooltipRamUsage,
-        label:
-            ramUsage == null ? 'RAM -%' : 'RAM ${formatPercentage(ramUsage, locale)}%',
+        label: ramUsage == null
+            ? 'RAM -%'
+            : 'RAM ${formatPercentage(ramUsage, locale)}%',
       ),
       (
         icon: Icons.thermostat_rounded,

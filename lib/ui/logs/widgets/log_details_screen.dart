@@ -15,12 +15,12 @@ import 'package:provider/provider.dart';
 class LogDetailsScreen extends StatelessWidget {
   const LogDetailsScreen({
     required this.log,
-    required this.whiteBlackList,
+    required this.onAddDomainToList,
     super.key,
   });
 
   final Log log;
-  final void Function(String, Log) whiteBlackList;
+  final void Function(DomainType, Log) onAddDomainToList;
 
   @override
   Widget build(BuildContext context) {
@@ -52,24 +52,24 @@ class LogDetailsScreen extends StatelessWidget {
       );
     }
 
-    Widget blackWhiteListButton() {
+    Widget assignToListButton() {
       if (logsViewModel.isAllowedOrRetried(log.status)) {
         return IconButton(
           onPressed: () {
             if (context.canPop()) context.pop();
-            whiteBlackList('black', log);
+            onAddDomainToList(DomainType.deny, log);
           },
           icon: const Icon(Icons.gpp_bad_rounded),
-          tooltip: AppLocalizations.of(context)!.blacklist,
+          tooltip: AppLocalizations.of(context)!.addToBlocklist,
         );
       } else {
         return IconButton(
           onPressed: () {
             if (context.canPop()) context.pop();
-            whiteBlackList('white', log);
+            onAddDomainToList(DomainType.allow, log);
           },
           icon: const Icon(Icons.verified_user_rounded),
-          tooltip: AppLocalizations.of(context)!.whitelist,
+          tooltip: AppLocalizations.of(context)!.addToAllowlist,
         );
       }
     }
@@ -83,7 +83,7 @@ class LogDetailsScreen extends StatelessWidget {
             icon: const Icon(Icons.travel_explore_rounded),
             tooltip: AppLocalizations.of(context)!.domainSearchOnline,
           ),
-          blackWhiteListButton(),
+          assignToListButton(),
           const SizedBox(width: 10),
         ],
       ),

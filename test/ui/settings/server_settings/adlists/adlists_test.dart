@@ -16,8 +16,7 @@ import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/gravity_update_viewmodel.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/add_adlist_modal.dart'
-    hide ListType;
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/add_adlist_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/edit_adlist_modal.dart';

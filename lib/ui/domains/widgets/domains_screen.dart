@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -96,15 +97,18 @@ class _DomainsScreenState extends State<DomainsScreen>
     Widget buildScaffold() {
       return DomainsScaffold(
         tabController: tabController,
-        tabs: const [
+        tabs: [
           Tab(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.check_circle_rounded),
-                Flexible(child: SizedBox(width: 16)),
+                const Icon(Icons.check_circle_rounded),
+                const Flexible(child: SizedBox(width: 16)),
                 Flexible(
-                  child: Text('Whitelist', overflow: TextOverflow.ellipsis),
+                  child: Text(
+                    AppLocalizations.of(context)!.allowlist,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
@@ -113,10 +117,13 @@ class _DomainsScreenState extends State<DomainsScreen>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(Icons.block),
-                Flexible(child: SizedBox(width: 16)),
+                const Icon(Icons.block),
+                const Flexible(child: SizedBox(width: 16)),
                 Flexible(
-                  child: Text('Blacklist', overflow: TextOverflow.ellipsis),
+                  child: Text(
+                    AppLocalizations.of(context)!.blocklist,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
@@ -124,13 +131,13 @@ class _DomainsScreenState extends State<DomainsScreen>
         ],
         tabChildren: [
           DomainsList(
-            type: 'whitelist',
+            type: DomainType.allow,
             scrollController: scrollController,
             onDomainSelected: viewModel.setSelectedDomain,
             selectedDomain: selectedDomain,
           ),
           DomainsList(
-            type: 'blacklist',
+            type: DomainType.deny,
             scrollController: scrollController,
             onDomainSelected: viewModel.setSelectedDomain,
             selectedDomain: selectedDomain,

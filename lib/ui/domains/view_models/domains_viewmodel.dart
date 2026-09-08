@@ -37,10 +37,10 @@ class DomainsViewModel extends ChangeNotifier {
   late final Command<Domain, void> updateDomain;
 
   // --- State ---
-  List<Domain> _whitelistDomains = [];
-  List<Domain> _blacklistDomains = [];
-  List<Domain> _filteredWhitelistDomains = [];
-  List<Domain> _filteredBlacklistDomains = [];
+  List<Domain> _allowlistDomains = [];
+  List<Domain> _blocklistDomains = [];
+  List<Domain> _filteredAllowlistDomains = [];
+  List<Domain> _filteredBlocklistDomains = [];
   int? _selectedTab;
   Domain? _selectedDomain;
   String _searchTerm = '';
@@ -57,10 +57,10 @@ class DomainsViewModel extends ChangeNotifier {
   int _mutationSeq = 0;
 
   // --- Getters ---
-  List<Domain> get whitelistDomains => _whitelistDomains;
-  List<Domain> get blacklistDomains => _blacklistDomains;
-  List<Domain> get filteredWhitelistDomains => _filteredWhitelistDomains;
-  List<Domain> get filteredBlacklistDomains => _filteredBlacklistDomains;
+  List<Domain> get allowlistDomains => _allowlistDomains;
+  List<Domain> get blocklistDomains => _blocklistDomains;
+  List<Domain> get filteredAllowlistDomains => _filteredAllowlistDomains;
+  List<Domain> get filteredBlocklistDomains => _filteredBlocklistDomains;
   int? get selectedTab => _selectedTab;
   Domain? get selectedDomain => _selectedDomain;
   String get searchTerm => _searchTerm;
@@ -97,10 +97,10 @@ class DomainsViewModel extends ChangeNotifier {
   /// Clears the loaded and filtered domain lists (e.g. on a server switch or
   /// before the first load of a server).
   void _resetCache() {
-    _whitelistDomains = [];
-    _blacklistDomains = [];
-    _filteredWhitelistDomains = [];
-    _filteredBlacklistDomains = [];
+    _allowlistDomains = [];
+    _blocklistDomains = [];
+    _filteredAllowlistDomains = [];
+    _filteredBlocklistDomains = [];
   }
 
   // --- Command implementations ---
@@ -116,7 +116,7 @@ class DomainsViewModel extends ChangeNotifier {
     // (and after a server switch, where the cache was just cleared), so
     // returning to the Domains tab no longer flashes a spinner.
     final hasCache =
-        _whitelistDomains.isNotEmpty || _blacklistDomains.isNotEmpty;
+        _allowlistDomains.isNotEmpty || _blocklistDomains.isNotEmpty;
 
     if (hasCache) {
       _isRevalidating = true;
@@ -139,8 +139,8 @@ class DomainsViewModel extends ChangeNotifier {
         // confirmed change). External edits are picked up on the next reload.
         if (mutationSeq == _mutationSeq) {
           final lists = result.getOrNull();
-          _whitelistDomains = [...lists.allowExact, ...lists.allowRegex];
-          _blacklistDomains = [...lists.denyExact, ...lists.denyRegex];
+          _allowlistDomains = [...lists.allowExact, ...lists.allowRegex];
+          _blocklistDomains = [...lists.denyExact, ...lists.denyRegex];
           _applyFilters();
         }
         _loadingStatus = LoadStatus.loaded;
@@ -195,9 +195,9 @@ class DomainsViewModel extends ChangeNotifier {
         final domain = result.getOrNull();
         _mutationSeq++;
         if (domain.type == DomainType.allow) {
-          _whitelistDomains = [..._whitelistDomains, domain];
+          _allowlistDomains = [..._allowlistDomains, domain];
         } else {
-          _blacklistDomains = [..._blacklistDomains, domain];
+          _blocklistDomains = [..._blocklistDomains, domain];
         }
         _applyFilters();
         _safeNotifyListeners();
@@ -226,19 +226,19 @@ class DomainsViewModel extends ChangeNotifier {
         _mutationSeq++;
         // Replace in-place and remove from the other list (handles type changes).
         if (updated.type == DomainType.allow) {
-          _whitelistDomains = [
-            for (final d in _whitelistDomains)
+          _allowlistDomains = [
+            for (final d in _allowlistDomains)
               if (d.id == updated.id) updated else d,
           ];
-          _blacklistDomains = _blacklistDomains
+          _blocklistDomains = _blocklistDomains
               .where((d) => d.id != updated.id)
               .toList();
         } else {
-          _blacklistDomains = [
-            for (final d in _blacklistDomains)
+          _blocklistDomains = [
+            for (final d in _blocklistDomains)
               if (d.id == updated.id) updated else d,
           ];
-          _whitelistDomains = _whitelistDomains
+          _allowlistDomains = _allowlistDomains
               .where((d) => d.id != updated.id)
               .toList();
         }
@@ -280,7 +280,7 @@ class DomainsViewModel extends ChangeNotifier {
 
   void _applyFilters() {
     final term = _searchTerm.toLowerCase();
-    _filteredWhitelistDomains = _whitelistDomains.where((domain) {
+    _filteredAllowlistDomains = _allowlistDomains.where((domain) {
       final matchesSearch =
           term.isEmpty || domain.name.toLowerCase().contains(term);
       final matchesGroup =
@@ -288,7 +288,7 @@ class DomainsViewModel extends ChangeNotifier {
       return matchesSearch && matchesGroup;
     }).toList();
 
-    _filteredBlacklistDomains = _blacklistDomains.where((domain) {
+    _filteredBlocklistDomains = _blocklistDomains.where((domain) {
       final matchesSearch =
           term.isEmpty || domain.name.toLowerCase().contains(term);
       final matchesGroup =
@@ -300,17 +300,17 @@ class DomainsViewModel extends ChangeNotifier {
   void _removeDomainFromList(Domain domain) {
     _mutationSeq++;
     if (domain.type == DomainType.allow) {
-      _whitelistDomains = _whitelistDomains
+      _allowlistDomains = _allowlistDomains
           .where((d) => d.id != domain.id)
           .toList();
-      _filteredWhitelistDomains = _filteredWhitelistDomains
+      _filteredAllowlistDomains = _filteredAllowlistDomains
           .where((d) => d.id != domain.id)
           .toList();
     } else {
-      _blacklistDomains = _blacklistDomains
+      _blocklistDomains = _blocklistDomains
           .where((d) => d.id != domain.id)
           .toList();
-      _filteredBlacklistDomains = _filteredBlacklistDomains
+      _filteredBlocklistDomains = _filteredBlocklistDomains
           .where((d) => d.id != domain.id)
           .toList();
     }

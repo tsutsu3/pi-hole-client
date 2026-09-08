@@ -65,8 +65,8 @@ void main() {
 
       await gotoTab(app.l10n.domains);
       expect(find.byType(DomainsScreen), findsOneWidget);
-      expect(find.text('Whitelist'), findsOneWidget);
-      expect(find.text('Blacklist'), findsOneWidget);
+      expect(find.text(app.l10n.allowlist), findsOneWidget);
+      expect(find.text(app.l10n.blocklist), findsOneWidget);
 
       await gotoTab(app.l10n.settings);
       expect(find.byType(SettingsScreen), findsOneWidget);
@@ -174,7 +174,7 @@ void main() {
       await app.settle(frames: 10);
       expect(find.byType(DomainsScreen), findsOneWidget);
 
-      // Add (Whitelist is the default selected tab).
+      // Add (Allowlist is the default selected tab).
       await tester.tap(find.byIcon(Icons.add));
       await app.settle(frames: 5);
       await tester.enterText(find.byType(TextField), testDomain);
@@ -238,7 +238,7 @@ void main() {
       await app.settle();
       expect(find.byType(AdlistScreen), findsOneWidget);
 
-      // Add (Allow/whitelist is the default selected tab).
+      // Add (Allowlist is the default selected tab).
       await tester.tap(find.byIcon(Icons.add));
       await app.settle(frames: 5);
       await tester.enterText(find.byType(TextField).at(0), testAddress);

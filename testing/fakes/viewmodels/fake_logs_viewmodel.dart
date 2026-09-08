@@ -304,7 +304,7 @@ class FakeLogsViewModel extends LogsViewModel {
 
   @override
   Future<Result<Domain>> addDomainToList({
-    required String list,
+    required DomainType type,
     required String domain,
   }) async {
     addDomainToListCallCount++;
@@ -313,7 +313,7 @@ class FakeLogsViewModel extends LogsViewModel {
         id: 1,
         name: domain,
         punyCode: domain,
-        type: list == 'white' ? DomainType.allow : DomainType.deny,
+        type: type,
         kind: DomainKind.exact,
         comment: null,
         groups: const [0],

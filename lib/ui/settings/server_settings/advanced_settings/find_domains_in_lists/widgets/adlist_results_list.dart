@@ -43,8 +43,8 @@ class AdlistResultCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final adlist = group.adlist;
     final listType = adlist.type == ListType.allow
-        ? AppLocalizations.of(context)!.allowList
-        : AppLocalizations.of(context)!.blockList;
+        ? AppLocalizations.of(context)!.allowlist
+        : AppLocalizations.of(context)!.blocklist;
     final enabledLabel = adlist.enabled
         ? AppLocalizations.of(context)!.enabled
         : AppLocalizations.of(context)!.disabled;

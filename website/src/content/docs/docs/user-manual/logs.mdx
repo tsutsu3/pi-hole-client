@@ -26,7 +26,7 @@ Pi-hole. You mainly use it to:
 
 - Find a specific query by domain, time, or client
 - Confirm whether a request was allowed or blocked
-- Add a domain to the Whitelist or Blacklist directly from a log entry
+- Add a domain to the Allowlist or Blocklist directly from a log entry
 
 This screen is your primary tool when troubleshooting broken apps, websites,
 or unexpected blocking behavior.
@@ -151,21 +151,21 @@ Once you find a relevant entry, tap it to open the detail view.
 Each detail view shows the domain, client, time, and status of the query,
 along with actions you can take.
 
-### Whitelist a domain
+### Add a domain to the allowlist
 
-Use **Whitelist** when a legitimate site or app is broken by blocking.
-This adds the domain to Pi-hole’s whitelist (allowlist), and future queries will
+Use **Add to allowlist** when a legitimate site or app is broken by blocking.
+This adds the domain to Pi-hole’s allowlist, and future queries will
 be permitted.
 
 <DocImage width="320" alt="Log detail deny action" src={imgLogDetailDeny} />
 
-### Blacklist a domain
+### Add a domain to the blocklist
 
-Use **Blacklist** when you are confident the domain is unwanted.
+Use **Add to blocklist** when you are confident the domain is unwanted.
 
 <DocImage width="320" alt="Log detail allow action" src={imgLogDetailAllow} />
 
-Blocking adds the domain to Pi-hole’s blacklist (denylist).
+Blocking adds the domain to Pi-hole’s blocklist.
 Future queries will be blocked according to this rule.
 
 ---
@@ -173,7 +173,7 @@ Future queries will be blocked according to this rule.
 ## Typical ways to use Logs
 
 - **A website does not load**:
-  Open Logs, filter by _Blocked_, find the domain, and whitelist it if appropriate.
+  Open Logs, filter by _Blocked_, find the domain, and allowlist it if appropriate.
 
 - **One device behaves strangely**:
   Filter by client and inspect recent queries from that device.
@@ -185,11 +185,11 @@ Future queries will be blocked according to this rule.
 
 - Logs can be limited or anonymized by Pi-hole privacy settings.
 - Heavy filtering may take time on large datasets.
-- Whitelist and blacklist actions affect only the currently selected server.
+- Allowlist and blocklist actions affect only the currently selected server.
 
 ## Pi-hole concepts used on this screen
 
 Each log entry represents a **DNS query** processed by Pi-hole.
 The **status** indicates whether the query was allowed or blocked.
-Whitelisting or blacklisting a domain updates Pi-hole’s lists and affects
+Adding a domain to either list updates Pi-hole’s lists and affects
 future queries immediately.

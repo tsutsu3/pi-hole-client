@@ -211,7 +211,7 @@ const featuresByLocale = {
       bullets: [
         "Live mode with resume/pause controls",
         "Manual refresh when Live Log is disabled",
-        "One-tap whitelist or blacklist from details",
+        "One-tap allowlist or blocklist from details",
       ],
       media: [
         { src: imgLogsLive, srcDark: imgLogsLiveDark, alt: "Live log view" },
@@ -222,11 +222,11 @@ const featuresByLocale = {
       id: "domain-management",
       icon: <List size={28} />,
       title: "Domain List Management",
-      desc: "Easily add or remove domains from your whitelist or blacklist to customize filtering.",
+      desc: "Easily add or remove domains from your allowlist or blocklist to customize filtering.",
       detail:
-        "Manage explicit allowlist and denylist entries with clear status and grouping support (v6).",
+        "Manage explicit allowlist and blocklist entries with clear status and grouping support (v6).",
       bullets: [
-        "Whitelist/blacklist tabs",
+        "Allowlist/Blocklist tabs",
         "Optional wildcard rules for subdomains",
         "Per-rule enable/disable on v6",
       ],

@@ -63,9 +63,9 @@ List<Map<String, dynamic>> convertFromMapToList(Map<String, int> values) {
 
 String getDomainTypeLabel(DomainType type, DomainKind kind) {
   return switch ((type, kind)) {
-    (DomainType.allow, DomainKind.exact) => 'Whitelist',
-    (DomainType.deny, DomainKind.exact) => 'Blacklist',
-    (DomainType.allow, DomainKind.regex) => 'Whitelist Regex',
-    (DomainType.deny, DomainKind.regex) => 'Blacklist Regex',
+    (DomainType.allow, DomainKind.exact) => 'Allowlist',
+    (DomainType.deny, DomainKind.exact) => 'Blocklist',
+    (DomainType.allow, DomainKind.regex) => 'Allowlist Regex',
+    (DomainType.deny, DomainKind.regex) => 'Blocklist Regex',
   };
 }

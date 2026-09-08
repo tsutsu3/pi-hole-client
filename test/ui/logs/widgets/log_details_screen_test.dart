@@ -12,9 +12,9 @@ import '../../../../testing/fakes/viewmodels/fake_logs_viewmodel.dart';
 import '../../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
 import '../../../../testing/test_app.dart';
 
-/// Overrides [isAllowedOrRetried] to return false so the whitelist button
-/// is shown instead of the blacklist button.
-class _FakeLogsViewModelAllowWhitelist extends FakeLogsViewModel {
+/// Overrides [isAllowedOrRetried] to return false so the allowlist button
+/// is shown instead of the blocklist button.
+class _FakeLogsViewModelAllowlist extends FakeLogsViewModel {
   @override
   bool isAllowedOrRetried(QueryStatusType? status) => false;
 }
@@ -43,11 +43,11 @@ final _blockedLog = Log(
 Widget _buildScreen(
   Log log, {
   FakeLogsViewModel? viewModel,
-  void Function(String, Log)? whiteBlackList,
+  void Function(DomainType, Log)? onAddDomainToList,
 }) {
   final vm = viewModel ?? FakeLogsViewModel();
   final serversVm = FakeServersViewModel();
-  final callback = whiteBlackList ?? (_, _) {};
+  final callback = onAddDomainToList ?? (_, _) {};
 
   final router = GoRouter(
     initialLocation: '/',
@@ -59,7 +59,7 @@ Widget _buildScreen(
             ChangeNotifierProvider<LogsViewModel>.value(value: vm),
             ChangeNotifierProvider<ServersViewModel>.value(value: serversVm),
           ],
-          child: LogDetailsScreen(log: log, whiteBlackList: callback),
+          child: LogDetailsScreen(log: log, onAddDomainToList: callback),
         ),
       ),
     ],
@@ -121,7 +121,7 @@ void main() async {
   });
 
   group('LogDetailsScreen action buttons', () {
-    testWidgets('shows blacklist button when isAllowedOrRetried is true', (
+    testWidgets('shows blocklist button when isAllowedOrRetried is true', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(_buildScreen(_forwardedLog));
@@ -129,52 +129,49 @@ void main() async {
       expect(find.byIcon(Icons.verified_user_rounded), findsNothing);
     });
 
-    testWidgets('shows whitelist button when isAllowedOrRetried is false', (
+    testWidgets('shows allowlist button when isAllowedOrRetried is false', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(
-        _buildScreen(
-          _blockedLog,
-          viewModel: _FakeLogsViewModelAllowWhitelist(),
-        ),
+        _buildScreen(_blockedLog, viewModel: _FakeLogsViewModelAllowlist()),
       );
       expect(find.byIcon(Icons.verified_user_rounded), findsOneWidget);
       expect(find.byIcon(Icons.gpp_bad_rounded), findsNothing);
     });
 
-    testWidgets('blacklist button invokes whiteBlackList with "black"', (
+    testWidgets('blocklist button invokes onAddDomainToList with deny', (
       WidgetTester tester,
     ) async {
-      String? calledWith;
+      DomainType? calledWith;
       await tester.pumpWidget(
         _buildScreen(
           _forwardedLog,
-          whiteBlackList: (list, _) => calledWith = list,
+          onAddDomainToList: (type, _) => calledWith = type,
         ),
       );
 
       await tester.tap(find.byIcon(Icons.gpp_bad_rounded));
       await tester.pump();
 
-      expect(calledWith, 'black');
+      expect(calledWith, DomainType.deny);
     });
 
-    testWidgets('whitelist button invokes whiteBlackList with "white"', (
+    testWidgets('allowlist button invokes onAddDomainToList with allow', (
       WidgetTester tester,
     ) async {
-      String? calledWith;
+      DomainType? calledWith;
       await tester.pumpWidget(
         _buildScreen(
           _blockedLog,
-          viewModel: _FakeLogsViewModelAllowWhitelist(),
-          whiteBlackList: (list, _) => calledWith = list,
+          viewModel: _FakeLogsViewModelAllowlist(),
+          onAddDomainToList: (type, _) => calledWith = type,
         ),
       );
 
       await tester.tap(find.byIcon(Icons.verified_user_rounded));
       await tester.pump();
 
-      expect(calledWith, 'white');
+      expect(calledWith, DomainType.allow);
     });
 
     testWidgets('search online button is shown', (WidgetTester tester) async {

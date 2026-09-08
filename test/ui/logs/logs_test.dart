@@ -156,7 +156,7 @@ void main() async {
       expect(find.byIcon(Icons.error), findsOneWidget);
     });
 
-    testWidgets('should set blacklist domains on tablet layout', (
+    testWidgets('should set blocklist domains on tablet layout', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(2176, 1600);
@@ -196,7 +196,7 @@ void main() async {
                     value: logsViewModel,
                     child: LogDetailsScreen(
                       log: extra.log,
-                      whiteBlackList: extra.whiteBlackList,
+                      onAddDomainToList: extra.onAddDomainToList,
                     ),
                   );
                 },
@@ -223,14 +223,14 @@ void main() async {
       expect(find.text('white.example.com'), findsWidgets);
       expect(find.text('Log details'), findsOneWidget);
 
-      // Tap blacklist button (isAllowedOrRetried returns true -> shows
-      // blacklist button)
+      // Tap blocklist button (isAllowedOrRetried returns true -> shows
+      // blocklist button)
       expect(find.byIcon(Icons.gpp_bad_rounded), findsOneWidget);
       await tester.tap(find.byIcon(Icons.gpp_bad_rounded));
       await tester.pump(const Duration(milliseconds: 1000));
 
       // Return to logs screen (not raise Exception)
-      expect(find.text('Domain added to blacklist.'), findsWidgets);
+      expect(find.text('Domain added to blocklist.'), findsWidgets);
       expect(find.byType(LogsScreen), findsOneWidget);
     });
 

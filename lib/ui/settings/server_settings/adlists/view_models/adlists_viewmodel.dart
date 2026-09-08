@@ -46,20 +46,20 @@ class AdlistsViewModel extends ChangeNotifier {
   late final Command<Adlist, void> updateAdlist;
 
   // --- State ---
-  List<Adlist> _whitelistAdlists = [];
-  List<Adlist> _blacklistAdlists = [];
-  List<Adlist> _filteredWhitelistAdlists = [];
-  List<Adlist> _filteredBlacklistAdlists = [];
+  List<Adlist> _allowlistAdlists = [];
+  List<Adlist> _blocklistAdlists = [];
+  List<Adlist> _filteredAllowlistAdlists = [];
+  List<Adlist> _filteredBlocklistAdlists = [];
   int? _selectedTab;
   String _searchTerm = '';
   bool _searchMode = false;
   int? _groupFilter;
 
   // --- Getters ---
-  List<Adlist> get whitelistAdlists => _whitelistAdlists;
-  List<Adlist> get blacklistAdlists => _blacklistAdlists;
-  List<Adlist> get filteredWhitelistAdlists => _filteredWhitelistAdlists;
-  List<Adlist> get filteredBlacklistAdlists => _filteredBlacklistAdlists;
+  List<Adlist> get allowlistAdlists => _allowlistAdlists;
+  List<Adlist> get blocklistAdlists => _blocklistAdlists;
+  List<Adlist> get filteredAllowlistAdlists => _filteredAllowlistAdlists;
+  List<Adlist> get filteredBlocklistAdlists => _filteredBlocklistAdlists;
   int? get selectedTab => _selectedTab;
   String get searchTerm => _searchTerm;
   bool get searchMode => _searchMode;
@@ -77,10 +77,10 @@ class AdlistsViewModel extends ChangeNotifier {
     switch (result) {
       case Success():
         final adlists = result.getOrNull();
-        _whitelistAdlists = adlists
+        _allowlistAdlists = adlists
             .where((a) => a.type == ListType.allow)
             .toList();
-        _blacklistAdlists = adlists
+        _blocklistAdlists = adlists
             .where((a) => a.type == ListType.block)
             .toList();
         _applyFilters();
@@ -124,9 +124,9 @@ class AdlistsViewModel extends ChangeNotifier {
       case Success():
         final added = result.getOrNull();
         if (added.type == ListType.allow) {
-          _whitelistAdlists = [..._whitelistAdlists, added];
+          _allowlistAdlists = [..._allowlistAdlists, added];
         } else {
-          _blacklistAdlists = [..._blacklistAdlists, added];
+          _blocklistAdlists = [..._blocklistAdlists, added];
         }
         _applyFilters();
         notifyListeners();
@@ -148,19 +148,19 @@ class AdlistsViewModel extends ChangeNotifier {
         final updated = result.getOrNull();
         // Replace in-place and remove from the other list (handles type changes).
         if (updated.type == ListType.allow) {
-          _whitelistAdlists = [
-            for (final a in _whitelistAdlists)
+          _allowlistAdlists = [
+            for (final a in _allowlistAdlists)
               if (a.id == updated.id) updated else a,
           ];
-          _blacklistAdlists = _blacklistAdlists
+          _blocklistAdlists = _blocklistAdlists
               .where((a) => a.id != updated.id)
               .toList();
         } else {
-          _blacklistAdlists = [
-            for (final a in _blacklistAdlists)
+          _blocklistAdlists = [
+            for (final a in _blocklistAdlists)
               if (a.id == updated.id) updated else a,
           ];
-          _whitelistAdlists = _whitelistAdlists
+          _allowlistAdlists = _allowlistAdlists
               .where((a) => a.id != updated.id)
               .toList();
         }
@@ -197,7 +197,7 @@ class AdlistsViewModel extends ChangeNotifier {
 
   void _applyFilters() {
     final term = _searchTerm.toLowerCase();
-    _filteredWhitelistAdlists = _whitelistAdlists.where((adlist) {
+    _filteredAllowlistAdlists = _allowlistAdlists.where((adlist) {
       final matchesSearch =
           term.isEmpty || adlist.address.toLowerCase().contains(term);
       final matchesGroup =
@@ -205,7 +205,7 @@ class AdlistsViewModel extends ChangeNotifier {
       return matchesSearch && matchesGroup;
     }).toList();
 
-    _filteredBlacklistAdlists = _blacklistAdlists.where((adlist) {
+    _filteredBlocklistAdlists = _blocklistAdlists.where((adlist) {
       final matchesSearch =
           term.isEmpty || adlist.address.toLowerCase().contains(term);
       final matchesGroup =
@@ -216,17 +216,17 @@ class AdlistsViewModel extends ChangeNotifier {
 
   void _removeAdlistFromList(Adlist adlist) {
     if (adlist.type == ListType.allow) {
-      _whitelistAdlists = _whitelistAdlists
+      _allowlistAdlists = _allowlistAdlists
           .where((a) => a.id != adlist.id)
           .toList();
-      _filteredWhitelistAdlists = _filteredWhitelistAdlists
+      _filteredAllowlistAdlists = _filteredAllowlistAdlists
           .where((a) => a.id != adlist.id)
           .toList();
     } else {
-      _blacklistAdlists = _blacklistAdlists
+      _blocklistAdlists = _blocklistAdlists
           .where((a) => a.id != adlist.id)
           .toList();
-      _filteredBlacklistAdlists = _filteredBlacklistAdlists
+      _filteredBlocklistAdlists = _filteredBlocklistAdlists
           .where((a) => a.id != adlist.id)
           .toList();
     }

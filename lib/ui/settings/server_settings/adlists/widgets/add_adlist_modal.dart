@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 
 class AddAdlistModal extends StatefulWidget {
   const AddAdlistModal({
-    required this.selectedlist,
+    required this.selectedType,
     required this.onAddAdlist,
     required this.window,
     required this.groups,
     super.key,
   });
 
-  final String selectedlist;
+  final ListType selectedType;
   final void Function(Map<String, dynamic>) onAddAdlist;
   final bool window;
   final Map<int, String> groups;
@@ -20,12 +21,10 @@ class AddAdlistModal extends StatefulWidget {
   State<AddAdlistModal> createState() => _AddAdlistModalState();
 }
 
-enum ListType { whitelist, blacklist }
-
 class _AddAdlistModalState extends State<AddAdlistModal> {
   final TextEditingController addressController = TextEditingController();
   String? addressError;
-  ListType selectedType = ListType.whitelist;
+  ListType selectedType = ListType.allow;
   bool status = true;
   bool allDataValid = false;
   List<int> selectedGroups = [0];
@@ -33,21 +32,11 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
 
   @override
   void initState() {
-    selectedType = widget.selectedlist == 'whitelist'
-        ? ListType.whitelist
-        : ListType.blacklist;
+    selectedType = widget.selectedType;
     super.initState();
   }
 
-  String getSelectedList() {
-    if (selectedType == ListType.whitelist) {
-      return 'allow';
-    }
-    if (selectedType == ListType.blacklist) {
-      return 'block';
-    }
-    return '';
-  }
+  String getSelectedList() => selectedType.name;
 
   void validateAddress(String? value) {
     if (value != null && value != '') {
@@ -82,8 +71,7 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
   void validateAllData() {
     if (addressController.text != '' &&
         addressError == null &&
-        (selectedType == ListType.blacklist ||
-            selectedType == ListType.whitelist)) {
+        (selectedType == ListType.block || selectedType == ListType.allow)) {
       setState(() {
         allDataValid = true;
       });
@@ -130,12 +118,12 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
                     child: SegmentedButton<ListType>(
                       segments: [
                         ButtonSegment(
-                          value: ListType.whitelist,
-                          label: Text(AppLocalizations.of(context)!.allowList),
+                          value: ListType.allow,
+                          label: Text(AppLocalizations.of(context)!.allowlist),
                         ),
                         ButtonSegment(
-                          value: ListType.blacklist,
-                          label: Text(AppLocalizations.of(context)!.blockList),
+                          value: ListType.block,
+                          label: Text(AppLocalizations.of(context)!.blocklist),
                         ),
                       ],
                       selected: <ListType>{selectedType},

@@ -204,10 +204,7 @@ class _EditAdlistModalState extends State<EditAdlistModal> {
         child: SafeArea(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxHeight: 480),
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: content(),
-            ),
+            child: Padding(padding: const EdgeInsets.all(24), child: content()),
           ),
         ),
       );

@@ -36,10 +36,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get addServer => 'Verbindung hinzufügen';
 
   @override
-  String get addingBlacklist => 'Wird zur Blacklist hinzugefügt...';
+  String get addToAllowlist => 'Zur Zulassungsliste hinzufügen';
 
   @override
-  String get addingWhitelist => 'Wird zur Whitelist hinzugefügt...';
+  String get addToBlocklist => 'Zur Sperrliste hinzufügen';
+
+  @override
+  String get addingAllowlist => 'Wird zur Zulassungsliste hinzugefügt...';
+
+  @override
+  String get addingBlocklist => 'Wird zur Sperrliste hinzugefügt...';
 
   @override
   String get additionalInformation => 'Zusätzliche Informationen';
@@ -124,6 +130,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get adlists => 'Adlists';
 
   @override
+  String get adlistsAllow => 'Adlists (erlaubt)';
+
+  @override
+  String get adlistsBlock => 'Adlists (blockiert)';
+
+  @override
   String get adlistsNone => 'Es sind keine Adlists zum Anzeigen vorhanden.';
 
   @override
@@ -182,9 +194,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get allowCrashReport => 'Absturzberichte senden erlauben?';
 
   @override
-  String get allowList => 'Zulassungsliste';
-
-  @override
   String get allowUntrustedCert =>
       'Nicht vertrauenswürdige Zertifikate zulassen';
 
@@ -193,22 +202,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Erlaubt Verbindungen zu Servern mit Zertifikaten, denen das Gerät nicht vertraut, einschließlich selbstsignierter Zertifikate und solcher mit unvollständigen Zertifikatsketten (z. B. fehlende Zwischen-CA).';
 
   @override
-  String get tlsCertSubject => 'Betreff';
-
-  @override
-  String get tlsCertIssuer => 'Aussteller';
-
-  @override
-  String get tlsCertValidFrom => 'Gültig ab';
-
-  @override
-  String get tlsCertValidUntil => 'Gültig bis';
-
-  @override
-  String get tlsCertSha256 => 'SHA-256';
-
-  @override
   String get allowed => 'Erlaubt';
+
+  @override
+  String get allowlist => 'Zulassungsliste';
 
   @override
   String get and => 'und';
@@ -288,13 +285,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Entsperren per Fingerabdruck konnte nicht deaktiviert werden.';
 
   @override
-  String get blacklist => 'Zur Blacklist hinzufügen';
-
-  @override
-  String get blockList => 'Sperrliste';
-
-  @override
   String get blocked => 'Blockiert';
+
+  @override
+  String get blocklist => 'Sperrliste';
 
   @override
   String get broadcast => 'Broadcast-Adresse';
@@ -378,10 +372,60 @@ class AppLocalizationsDe extends AppLocalizations {
   String get checkingToken => 'Token wird überprüft...';
 
   @override
+  String get chipTooltipCpuLoadAverage =>
+      'CPU-Lastdurchschnitt (1 Min / 5 Min / 15 Min)';
+
+  @override
+  String get chipTooltipCpuTemperature => 'CPU-Temperatur';
+
+  @override
+  String get chipTooltipCpuUsage => 'CPU-Auslastung';
+
+  @override
+  String get chipTooltipQueriesPerMinute => 'Anfragen pro Minute';
+
+  @override
+  String get chipTooltipRamUsage => 'RAM-Auslastung';
+
+  @override
+  String get chipTooltipSystemUptime => 'Systemlaufzeit';
+
+  @override
   String get clientActivity24 => 'Client Aktivitäten der letzten 24h';
 
   @override
+  String get clientAdd => 'Client hinzufügen';
+
+  @override
+  String get clientAddFailed => 'Client konnte nicht hinzugefügt werden';
+
+  @override
+  String get clientAdded => 'Client erfolgreich hinzugefügt';
+
+  @override
+  String get clientAdding => 'Client wird hinzugefügt...';
+
+  @override
+  String get clientAddress => 'Client-Adresse';
+
+  @override
+  String get clientAlreadyAdded => 'Client bereits hinzugefügt';
+
+  @override
+  String get clientDelete => 'Client löschen';
+
+  @override
+  String get clientDeleteMessage =>
+      'Möchten Sie diesen Client wirklich löschen?';
+
+  @override
+  String get clientDetails => 'Client-Details';
+
+  @override
   String get clientId => 'Client-ID';
+
+  @override
+  String get clientInfo => 'Client-Info';
 
   @override
   String get clientInformation => 'Client-Informationen';
@@ -390,7 +434,38 @@ class AppLocalizationsDe extends AppLocalizations {
   String get clientIp => 'Client-IP-Adresse';
 
   @override
+  String get clientNotExists => 'Client existiert nicht';
+
+  @override
+  String get clientRemoveFailed => 'Client konnte nicht entfernt werden';
+
+  @override
+  String get clientRemoved => 'Client erfolgreich entfernt';
+
+  @override
+  String get clientSettings => 'Client-Einstellungen';
+
+  @override
+  String get clientUpdateFailed => 'Client konnte nicht aktualisiert werden';
+
+  @override
+  String get clientUpdated => 'Client erfolgreich aktualisiert';
+
+  @override
+  String get clientUpdating => 'Client wird aktualisiert...';
+
+  @override
   String get clients => 'Clients';
+
+  @override
+  String get clientsNone => 'Keine Clients vorhanden.';
+
+  @override
+  String get clientsNotLoaded => 'Clientliste konnte nicht geladen werden';
+
+  @override
+  String get clientsSelectLeftColumn =>
+      'Wählen Sie einen Client aus, um Details zu sehen.';
 
   @override
   String get clientsSelected => 'Clients ausgewählt';
@@ -654,18 +729,29 @@ class AppLocalizationsDe extends AppLocalizations {
   String get domainAdding => 'Domain wird hinzugefügt...';
 
   @override
+  String get domainAllowlistAddFailed =>
+      'Domain konnte nicht der Zulassungsliste beigefügt werden.';
+
+  @override
+  String get domainAllowlistAdded => 'Domain zur Zulassungsliste hinzugefügt.';
+
+  @override
+  String get domainAllowlistAlready =>
+      'Domain existiert bereits in der Zulassungsliste.';
+
+  @override
   String get domainAlreadyAdded => 'Domain bereits hinzugefügt';
 
   @override
-  String get domainBlacklistAddFailed =>
-      'Domain konnte nicht der Blacklist beigefügt werden.';
+  String get domainBlocklistAddFailed =>
+      'Domain konnte nicht der Sperrliste beigefügt werden.';
 
   @override
-  String get domainBlacklistAdded => 'Domain zur Blacklist hinzugefügt.';
+  String get domainBlocklistAdded => 'Domain zur Sperrliste hinzugefügt.';
 
   @override
-  String get domainBlacklistAlready =>
-      'Domain existiert bereits in der Blacklist.';
+  String get domainBlocklistAlready =>
+      'Domain existiert bereits in der Sperrliste.';
 
   @override
   String get domainDelete => 'Domain löschen';
@@ -679,6 +765,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get domainInvalid => 'Ungültige Domain';
+
+  @override
+  String get domainLevelLists => 'Listen auf Domain-Ebene';
 
   @override
   String get domainNotExists => 'Domain existiert nicht';
@@ -696,21 +785,19 @@ class AppLocalizationsDe extends AppLocalizations {
   String get domainUpdated => 'Domain wurde erfolgreich aktualisiert';
 
   @override
-  String get domainWhitelistAddFailed =>
-      'Domain konnte nicht der Whitelist beigefügt werden.';
-
-  @override
-  String get domainWhitelistAdded => 'Domain zur Whitelist hinzugefügt.';
-
-  @override
-  String get domainWhitelistAlready =>
-      'Domain existiert bereits in der Whitelist.';
-
-  @override
   String get domains => 'Domains';
 
   @override
   String get domainsAdlists => 'Domains in Adlist';
+
+  @override
+  String get domainsAllowlist => 'Domains (Zulassungsliste)';
+
+  @override
+  String get domainsBlocklist => 'Domains (Sperrliste)';
+
+  @override
+  String get domainsExactMatches => 'Domains (exakt)';
 
   @override
   String get domainsInvalid => 'Ungültige Domains';
@@ -723,6 +810,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get domainsNotLoaded => 'Domain-Liste konnte nicht geladen werden';
+
+  @override
+  String get domainsRegexMatches => 'Domains (Regex)';
 
   @override
   String get domainsSearch => 'Suchdomänen...';
@@ -846,6 +936,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get filters => 'Filter';
 
   @override
+  String get findDomainsInLists => 'Domains in Listen finden';
+
+  @override
+  String get findDomainsInListsDescription =>
+      'Domains in Zulassungsliste, Sperrliste und Adlists suchen';
+
+  @override
+  String get findDomainsSearchLabel => 'Domain suchen';
+
+  @override
   String get fingerprintAuthUnavailable =>
       'Fingerabdruck-Authentifizierung nicht verfügbar.';
 
@@ -929,6 +1029,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get gitHub => 'Code auf GitHub ansehen';
 
   @override
+  String get gravityAllowMatches => 'Allowlist-Treffer';
+
+  @override
+  String get gravityBlockMatches => 'Blocklist-Treffer';
+
+  @override
   String get gravityIsRunning => 'Gravity wird ausgeführt …';
 
   @override
@@ -941,7 +1047,84 @@ class AppLocalizationsDe extends AppLocalizations {
   String get gravityUpdateFailed => 'Gravity-Aktualisierung fehlgeschlagen';
 
   @override
+  String get groupAdd => 'Gruppe hinzufügen';
+
+  @override
+  String get groupAddFailed => 'Gruppe konnte nicht hinzugefügt werden';
+
+  @override
+  String get groupAdded => 'Gruppe erfolgreich hinzugefügt';
+
+  @override
+  String get groupAdding => 'Gruppe wird hinzugefügt...';
+
+  @override
+  String get groupAlreadyAdded => 'Gruppe bereits hinzugefügt';
+
+  @override
+  String get groupClientSearch => 'Gruppen oder Clients suchen...';
+
+  @override
+  String get groupDelete => 'Gruppe löschen';
+
+  @override
+  String get groupDeleteMessage => 'Möchten Sie diese Gruppe wirklich löschen?';
+
+  @override
+  String get groupDetails => 'Gruppendetails';
+
+  @override
+  String get groupEdit => 'Gruppe bearbeiten';
+
+  @override
+  String get groupInfo => 'Gruppeninfo';
+
+  @override
+  String get groupMembers => 'Gruppenmitglieder';
+
+  @override
+  String get groupName => 'Gruppenname';
+
+  @override
+  String get groupNotExists => 'Gruppe existiert nicht';
+
+  @override
+  String get groupRemoveFailed => 'Gruppe konnte nicht entfernt werden';
+
+  @override
+  String get groupRemoved => 'Gruppe erfolgreich entfernt';
+
+  @override
+  String get groupSettings => 'Gruppeneinstellungen';
+
+  @override
+  String get groupUpdateFailed => 'Gruppe konnte nicht aktualisiert werden';
+
+  @override
+  String get groupUpdated => 'Gruppe erfolgreich aktualisiert';
+
+  @override
+  String get groupUpdating => 'Gruppe wird aktualisiert...';
+
+  @override
   String get groups => 'Gruppen';
+
+  @override
+  String get groupsAndClients => 'Gruppen und Clients';
+
+  @override
+  String get groupsAndClientsDescription =>
+      'Gruppen und Client-Zuweisungen verwalten';
+
+  @override
+  String get groupsNone => 'Keine Gruppen vorhanden.';
+
+  @override
+  String get groupsNotLoaded => 'Gruppenliste konnte nicht geladen werden';
+
+  @override
+  String get groupsSelectLeftColumn =>
+      'Wählen Sie eine Gruppe aus, um Details zu sehen.';
 
   @override
   String get hardwareAddress => 'Hardwareadresse';
@@ -1043,6 +1226,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get invalidIpAddress => 'Ungültige IP-Adresse';
 
   @override
+  String get invalidMaxResults =>
+      'Bitte eine maximale Anzahl größer als 0 eingeben.';
+
+  @override
   String get invalidPort => 'Ungültiger Port';
 
   @override
@@ -1083,11 +1270,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get lastUpdated => 'Zuletzt aktualisiert am';
 
   @override
-  String get leaseInfo => 'Lease-Informationen';
-
-  @override
   String get learnMoreAboutCertificates =>
       'Mehr über Zertifikateinstellungen erfahren';
+
+  @override
+  String get leaseInfo => 'Lease-Informationen';
 
   @override
   String get legal => 'Rechtliches';
@@ -1124,6 +1311,9 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get listDescription =>
       'Zeigt die Daten in einer Liste mit Labeln und Nummern auf der linken Seite, sowie einer Anzeige auf der rechten Seite.';
+
+  @override
+  String get listLevelLists => 'Listen auf Listen-Ebene';
 
   @override
   String get liveLog => 'Live-Protokoll';
@@ -1252,13 +1442,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get macAddress => 'MAC-Adresse';
 
   @override
+  String get matchingEntries => 'Übereinstimmende Einträge:';
+
+  @override
   String get max => 'max';
 
   @override
-  String get memoryUsage => 'Speichernutzung';
+  String get maxResultsToReturnLabel => 'Maximale Anzahl der Ergebnisse';
 
   @override
-  String get mfa => 'MFA';
+  String get memoryUsage => 'Speichernutzung';
 
   @override
   String get messageDeleteFailed => 'Löschen der Nachricht ist fehlgeschlagen';
@@ -1268,6 +1461,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get messages => 'Nachrichten';
+
+  @override
+  String get mfa => 'MFA';
 
   @override
   String get mfaCodeLabel => 'Authentifizierungscode';
@@ -1371,6 +1567,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get noMessages => 'Keine Nachrichten';
+
+  @override
+  String get noResultsFound => 'Keine Ergebnisse gefunden';
 
   @override
   String get noSavedConnections => 'Keine gespeicherten Verbindungen';
@@ -1617,6 +1816,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get scope => 'Bereich';
 
   @override
+  String get search => 'Suche';
+
+  @override
+  String get searchTermRequired => 'Bitte eine Domain zum Suchen eingeben.';
+
+  @override
   String get searchUrl => 'Suche per URL...';
 
   @override
@@ -1686,6 +1891,50 @@ class AppLocalizationsDe extends AppLocalizations {
   String get serverAddress => 'Server Adresse';
 
   @override
+  String get serverCertificateFetchFailed =>
+      'Zertifikatsinformationen konnten nicht abgerufen werden.';
+
+  @override
+  String get serverCertificateHandshakeFailed =>
+      'Sichere Verbindung konnte nicht hergestellt werden. Prüfen Sie, ob der Server auf diesem Port HTTPS verwendet.';
+
+  @override
+  String get serverCertificateIssueDetected =>
+      'Ein Zertifikatsproblem wurde erkannt. Das Serverzertifikat wurde möglicherweise geändert.';
+
+  @override
+  String get serverCertificateIssueHelp =>
+      'Das TLS-Zertifikat des Servers wurde möglicherweise geändert oder ist nicht vertrauenswürdig. Bitte Servereinstellungen prüfen und ggf. den angepinnten Fingerabdruck aktualisieren.';
+
+  @override
+  String get serverCertificateIssueTitle => 'Zertifikatsproblem';
+
+  @override
+  String get serverCertificatePinMismatchDetected =>
+      'Angepinntes Zertifikat stimmt nicht überein. Das Serverzertifikat wurde möglicherweise geändert.';
+
+  @override
+  String get serverCertificatePinMismatchHelp =>
+      'Das Serverzertifikat stimmt nicht mit dem angepinnten Fingerabdruck überein. Zertifikat prüfen und den Fingerabdruck in den Servereinstellungen aktualisieren.';
+
+  @override
+  String get serverCertificateTitle => 'Zertifikat';
+
+  @override
+  String get serverCertificateUpdatePin => 'Aktualisieren';
+
+  @override
+  String get serverCertificateUpdatePinHelp =>
+      'Dies ersetzt den angepinnten SHA-256-Fingerabdruck, der bei unzuverlässigen Zertifikaten verwendet wird. Nur fortfahren, wenn das Zertifikat anderweitig geprüft wurde.';
+
+  @override
+  String get serverCertificateUpdatePinTitle =>
+      'Angepinnter Fingerabdruck aktualisieren';
+
+  @override
+  String get serverCertificateView => 'Zertifikat anzeigen';
+
+  @override
   String get serverConnectionGuide => 'Serververbindungsanleitung';
 
   @override
@@ -1710,6 +1959,27 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get serverName => 'Servername';
+
+  @override
+  String get serverSecurityHttp => 'HTTP';
+
+  @override
+  String get serverSecurityHttpsPinMismatch => 'HTTPS PIN stimmt nicht überein';
+
+  @override
+  String get serverSecurityHttpsPinned => 'HTTPS angepinnt';
+
+  @override
+  String get serverSecurityHttpsUnknown => 'HTTPS unbekannt';
+
+  @override
+  String get serverSecurityHttpsUntrustedAllowed => 'HTTPS unsicher erlaubt';
+
+  @override
+  String get serverSecurityHttpsUntrustedBlocked => 'HTTPS unsicher blockiert';
+
+  @override
+  String get serverSecurityHttpsVerified => 'HTTPS verifiziert';
 
   @override
   String get serverSettings => 'Servereinstellungen';
@@ -1817,6 +2087,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get subrouteHelper => 'Zur Verwendung mit einem Reverse-Proxy';
 
   @override
+  String get summary => 'Zusammenfassung';
+
+  @override
   String get supportDeveloperSubtitle =>
       'Sie werden auf die externe Buy Me a Coffee-Seite weitergeleitet.';
 
@@ -1879,6 +2152,21 @@ class AppLocalizationsDe extends AppLocalizations {
   String get timestamps => 'Zeitstempel';
 
   @override
+  String get tlsCertIssuer => 'Aussteller';
+
+  @override
+  String get tlsCertSha256 => 'SHA-256';
+
+  @override
+  String get tlsCertSubject => 'Betreff';
+
+  @override
+  String get tlsCertValidFrom => 'Gültig ab';
+
+  @override
+  String get tlsCertValidUntil => 'Gültig bis';
+
+  @override
   String get tlsStatus => 'TLS-Status';
 
   @override
@@ -1901,62 +2189,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get tools => 'Werkzeuge';
 
   @override
-  String get search => 'Suche';
-
-  @override
-  String get findDomainsInLists => 'Domains in Listen finden';
-
-  @override
-  String get findDomainsInListsDescription =>
-      'Domains in Whitelist, Blacklist und Adlists suchen';
-
-  @override
-  String get findDomainsSearchLabel => 'Domain suchen';
-
-  @override
-  String get usePartialMatching => 'Teilweise Übereinstimmung verwenden';
-
-  @override
-  String get maxResultsToReturnLabel => 'Maximale Anzahl der Ergebnisse';
-
-  @override
-  String get noResultsFound => 'Keine Ergebnisse gefunden';
-
-  @override
-  String get summary => 'Zusammenfassung';
-
-  @override
-  String get total => 'Gesamt';
-
-  @override
-  String get domainsExactMatches => 'Domains (exakt)';
-
-  @override
-  String get domainsRegexMatches => 'Domains (Regex)';
-
-  @override
-  String get gravityAllowMatches => 'Allowlist-Treffer';
-
-  @override
-  String get gravityBlockMatches => 'Blocklist-Treffer';
-
-  @override
-  String get domainLevelLists => 'Listen auf Domain-Ebene';
-
-  @override
-  String get listLevelLists => 'Listen auf Listen-Ebene';
-
-  @override
-  String get matchingEntries => 'Übereinstimmende Einträge:';
-
-  @override
-  String get searchTermRequired => 'Bitte eine Domain zum Suchen eingeben.';
-
-  @override
-  String get invalidMaxResults =>
-      'Bitte eine maximale Anzahl größer als 0 eingeben.';
-
-  @override
   String get topBlockedDomains => 'Top blockierte Domains';
 
   @override
@@ -1967,6 +2199,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get topPermittedDomains => 'Top erlaubte Domains';
+
+  @override
+  String get total => 'Gesamt';
 
   @override
   String get totalQueries => 'Abfragen';
@@ -2024,6 +2259,26 @@ class AppLocalizationsDe extends AppLocalizations {
   String get unsupportedFeatureTitle => 'Nicht unterstützte Funktion';
 
   @override
+  String get unverifiedCertificatesBannerCollapse => 'Einklappen';
+
+  @override
+  String get unverifiedCertificatesBannerExpand => 'Ausklappen';
+
+  @override
+  String get unverifiedCertificatesBannerLearnMore => 'Mehr erfahren';
+
+  @override
+  String unverifiedCertificatesBannerTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Server erlauben nicht verifizierte Zertifikate',
+      one: '1 Server erlaubt nicht verifizierte Zertifikate',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get updateGravity => 'Gravity aktualisieren';
 
   @override
@@ -2050,6 +2305,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get useFingerprint => 'Fingerabdruck nutzen';
+
+  @override
+  String get usePartialMatching => 'Teilweise Übereinstimmung verwenden';
 
   @override
   String get usedAppPassword => 'Verwendetes App-Passwort';
@@ -2102,267 +2360,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get welcomeToApp => 'Willkommen in der App';
 
   @override
-  String get whitelist => 'Zur Whitelist hinzufügen';
-
-  @override
   String get writeEmail => 'Schreiben Sie mir per E-Mail.';
 
   @override
   String get writeEmailDetails =>
       'Die Email sollte im Optimalfall folgende Infos enthalten: Pi-hole und Web Interface Version, wie kann der Fehler reproduziert werden, Screenshots...\n\nFür alle Informationen sind wir sehr dankbar.';
-
-  @override
-  String get groupsAndClients => 'Gruppen und Clients';
-
-  @override
-  String get groupsAndClientsDescription =>
-      'Gruppen und Client-Zuweisungen verwalten';
-
-  @override
-  String get groupClientSearch => 'Gruppen oder Clients suchen...';
-
-  @override
-  String get groupAdd => 'Gruppe hinzufügen';
-
-  @override
-  String get groupAdding => 'Gruppe wird hinzugefügt...';
-
-  @override
-  String get groupAdded => 'Gruppe erfolgreich hinzugefügt';
-
-  @override
-  String get groupAddFailed => 'Gruppe konnte nicht hinzugefügt werden';
-
-  @override
-  String get groupAlreadyAdded => 'Gruppe bereits hinzugefügt';
-
-  @override
-  String get groupRemoveFailed => 'Gruppe konnte nicht entfernt werden';
-
-  @override
-  String get groupRemoved => 'Gruppe erfolgreich entfernt';
-
-  @override
-  String get groupNotExists => 'Gruppe existiert nicht';
-
-  @override
-  String get groupUpdateFailed => 'Gruppe konnte nicht aktualisiert werden';
-
-  @override
-  String get groupUpdated => 'Gruppe erfolgreich aktualisiert';
-
-  @override
-  String get groupUpdating => 'Gruppe wird aktualisiert...';
-
-  @override
-  String get groupDelete => 'Gruppe löschen';
-
-  @override
-  String get groupDeleteMessage => 'Möchten Sie diese Gruppe wirklich löschen?';
-
-  @override
-  String get groupDetails => 'Gruppendetails';
-
-  @override
-  String get groupSettings => 'Gruppeneinstellungen';
-
-  @override
-  String get groupInfo => 'Gruppeninfo';
-
-  @override
-  String get groupName => 'Gruppenname';
-
-  @override
-  String get groupEdit => 'Gruppe bearbeiten';
-
-  @override
-  String get groupsNone => 'Keine Gruppen vorhanden.';
-
-  @override
-  String get groupsNotLoaded => 'Gruppenliste konnte nicht geladen werden';
-
-  @override
-  String get groupsSelectLeftColumn =>
-      'Wählen Sie eine Gruppe aus, um Details zu sehen.';
-
-  @override
-  String get groupMembers => 'Gruppenmitglieder';
-
-  @override
-  String get domainsWhitelist => 'Domains (Whitelist)';
-
-  @override
-  String get domainsBlacklist => 'Domains (Blacklist)';
-
-  @override
-  String get adlistsAllow => 'Adlists (erlaubt)';
-
-  @override
-  String get adlistsBlock => 'Adlists (blockiert)';
-
-  @override
-  String get clientAdd => 'Client hinzufügen';
-
-  @override
-  String get clientAdding => 'Client wird hinzugefügt...';
-
-  @override
-  String get clientAdded => 'Client erfolgreich hinzugefügt';
-
-  @override
-  String get clientAddFailed => 'Client konnte nicht hinzugefügt werden';
-
-  @override
-  String get clientAlreadyAdded => 'Client bereits hinzugefügt';
-
-  @override
-  String get clientRemoveFailed => 'Client konnte nicht entfernt werden';
-
-  @override
-  String get clientRemoved => 'Client erfolgreich entfernt';
-
-  @override
-  String get clientNotExists => 'Client existiert nicht';
-
-  @override
-  String get clientUpdateFailed => 'Client konnte nicht aktualisiert werden';
-
-  @override
-  String get clientUpdated => 'Client erfolgreich aktualisiert';
-
-  @override
-  String get clientUpdating => 'Client wird aktualisiert...';
-
-  @override
-  String get clientDelete => 'Client löschen';
-
-  @override
-  String get clientDeleteMessage =>
-      'Möchten Sie diesen Client wirklich löschen?';
-
-  @override
-  String get clientDetails => 'Client-Details';
-
-  @override
-  String get clientSettings => 'Client-Einstellungen';
-
-  @override
-  String get clientInfo => 'Client-Info';
-
-  @override
-  String get clientAddress => 'Client-Adresse';
-
-  @override
-  String get clientsNone => 'Keine Clients vorhanden.';
-
-  @override
-  String get clientsNotLoaded => 'Clientliste konnte nicht geladen werden';
-
-  @override
-  String get clientsSelectLeftColumn =>
-      'Wählen Sie einen Client aus, um Details zu sehen.';
-
-  @override
-  String get serverSecurityHttp => 'HTTP';
-
-  @override
-  String get serverSecurityHttpsVerified => 'HTTPS verifiziert';
-
-  @override
-  String get serverSecurityHttpsPinned => 'HTTPS angepinnt';
-
-  @override
-  String get serverSecurityHttpsUntrustedAllowed => 'HTTPS unsicher erlaubt';
-
-  @override
-  String get serverSecurityHttpsUntrustedBlocked => 'HTTPS unsicher blockiert';
-
-  @override
-  String get serverSecurityHttpsPinMismatch => 'HTTPS PIN stimmt nicht überein';
-
-  @override
-  String get serverSecurityHttpsUnknown => 'HTTPS unbekannt';
-
-  @override
-  String get serverCertificateIssueTitle => 'Zertifikatsproblem';
-
-  @override
-  String get serverCertificateIssueDetected =>
-      'Ein Zertifikatsproblem wurde erkannt. Das Serverzertifikat wurde möglicherweise geändert.';
-
-  @override
-  String get serverCertificateIssueHelp =>
-      'Das TLS-Zertifikat des Servers wurde möglicherweise geändert oder ist nicht vertrauenswürdig. Bitte Servereinstellungen prüfen und ggf. den angepinnten Fingerabdruck aktualisieren.';
-
-  @override
-  String get serverCertificatePinMismatchDetected =>
-      'Angepinntes Zertifikat stimmt nicht überein. Das Serverzertifikat wurde möglicherweise geändert.';
-
-  @override
-  String get serverCertificatePinMismatchHelp =>
-      'Das Serverzertifikat stimmt nicht mit dem angepinnten Fingerabdruck überein. Zertifikat prüfen und den Fingerabdruck in den Servereinstellungen aktualisieren.';
-
-  @override
-  String get serverCertificateTitle => 'Zertifikat';
-
-  @override
-  String get serverCertificateView => 'Zertifikat anzeigen';
-
-  @override
-  String get serverCertificateUpdatePin => 'Aktualisieren';
-
-  @override
-  String get serverCertificateUpdatePinTitle =>
-      'Angepinnter Fingerabdruck aktualisieren';
-
-  @override
-  String get serverCertificateUpdatePinHelp =>
-      'Dies ersetzt den angepinnten SHA-256-Fingerabdruck, der bei unzuverlässigen Zertifikaten verwendet wird. Nur fortfahren, wenn das Zertifikat anderweitig geprüft wurde.';
-
-  @override
-  String get serverCertificateFetchFailed =>
-      'Zertifikatsinformationen konnten nicht abgerufen werden.';
-
-  @override
-  String get serverCertificateHandshakeFailed =>
-      'Sichere Verbindung konnte nicht hergestellt werden. Prüfen Sie, ob der Server auf diesem Port HTTPS verwendet.';
-
-  @override
-  String unverifiedCertificatesBannerTitle(num count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count Server erlauben nicht verifizierte Zertifikate',
-      one: '1 Server erlaubt nicht verifizierte Zertifikate',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get unverifiedCertificatesBannerExpand => 'Ausklappen';
-
-  @override
-  String get unverifiedCertificatesBannerCollapse => 'Einklappen';
-
-  @override
-  String get unverifiedCertificatesBannerLearnMore => 'Mehr erfahren';
-
-  @override
-  String get chipTooltipQueriesPerMinute => 'Anfragen pro Minute';
-
-  @override
-  String get chipTooltipCpuLoadAverage =>
-      'CPU-Lastdurchschnitt (1 Min / 5 Min / 15 Min)';
-
-  @override
-  String get chipTooltipCpuUsage => 'CPU-Auslastung';
-
-  @override
-  String get chipTooltipRamUsage => 'RAM-Auslastung';
-
-  @override
-  String get chipTooltipCpuTemperature => 'CPU-Temperatur';
-
-  @override
-  String get chipTooltipSystemUptime => 'Systemlaufzeit';
 }
