@@ -75,9 +75,7 @@ class LogActionsService {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: isAllow
-              ? loc.domainAllowlistAdded
-              : loc.domainBlocklistAdded,
+          label: isAllow ? loc.domainAllowlistAdded : loc.domainBlocklistAdded,
         );
       },
       (_) => showErrorSnackBar(

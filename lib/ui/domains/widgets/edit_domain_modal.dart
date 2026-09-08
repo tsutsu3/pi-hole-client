@@ -204,10 +204,7 @@ class _EditDomainModalState extends State<EditDomainModal> {
         child: SafeArea(
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxHeight: 480),
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: content(),
-            ),
+            child: Padding(padding: const EdgeInsets.all(24), child: content()),
           ),
         ),
       );

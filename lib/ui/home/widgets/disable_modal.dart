@@ -362,58 +362,56 @@ class _DisableModalState extends State<DisableModal> {
         padding: mediaQueryData.viewInsets,
         child: SafeArea(
           child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(
-                  child: SingleChildScrollView(
-                    child: Wrap(
-                      children: [
-                        ExpandableNotifier(
-                          controller: expandableController,
-                          child: Expandable(
-                            collapsed: options(),
-                            expanded: Column(
-                              children: [options(), inputField()],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Wrap(
                     children: [
-                      TextButton(
-                        onPressed: () => Navigator.maybePop(context),
-                        child: Text(AppLocalizations.of(context)!.cancel),
-                      ),
-                      const SizedBox(width: 20),
-                      TextButton(
-                        onPressed: _selectionIsValid() == true
-                            ? () {
-                                Navigator.maybePop(context);
-                                widget.onDisable(_getTime());
-                              }
-                            : null,
-                        style: ButtonStyle(
-                          foregroundColor: _selectionIsValid() == true
-                              ? WidgetStateProperty.all(
-                                  Theme.of(context).colorScheme.primary,
-                                )
-                              : WidgetStateProperty.all(Colors.grey),
+                      ExpandableNotifier(
+                        controller: expandableController,
+                        child: Expandable(
+                          collapsed: options(),
+                          expanded: Column(children: [options(), inputField()]),
                         ),
-                        child: Text(AppLocalizations.of(context)!.accept),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.maybePop(context),
+                      child: Text(AppLocalizations.of(context)!.cancel),
+                    ),
+                    const SizedBox(width: 20),
+                    TextButton(
+                      onPressed: _selectionIsValid() == true
+                          ? () {
+                              Navigator.maybePop(context);
+                              widget.onDisable(_getTime());
+                            }
+                          : null,
+                      style: ButtonStyle(
+                        foregroundColor: _selectionIsValid() == true
+                            ? WidgetStateProperty.all(
+                                Theme.of(context).colorScheme.primary,
+                              )
+                            : WidgetStateProperty.all(Colors.grey),
+                      ),
+                      child: Text(AppLocalizations.of(context)!.accept),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        );
+        ),
+      );
     }
   }
 }
