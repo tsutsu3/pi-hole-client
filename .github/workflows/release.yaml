@@ -1,9 +1,6 @@
 name: Compile and release production build
 
 on:
-  push:
-    branches:
-      - main
   pull_request_target:
     types:
       - closed
