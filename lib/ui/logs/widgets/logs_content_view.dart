@@ -106,10 +106,12 @@ class LogsContentView extends StatelessWidget {
 
       // Show an error message if logs could not be loaded
       case LoadStatus.error:
-        return ErrorMessage(
-          message: AppLocalizations.of(context)!.couldntLoadLogs,
-          fontSize: 24,
-          fontColor: Theme.of(context).colorScheme.onSurfaceVariant,
+        return RefreshIndicator(
+          onRefresh: onRefresh,
+          child: ErrorMessage(
+            message: AppLocalizations.of(context)!.couldntLoadLogs,
+            scrollable: true,
+          ),
         );
     }
   }

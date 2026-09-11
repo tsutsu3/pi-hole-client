@@ -144,7 +144,10 @@ class _NetworkScreenState extends State<NetworkScreen> {
                     }
 
                     if (hasError) {
-                      return ErrorMessage(message: locale.dataFetchFailed);
+                      return ErrorMessage(
+                        message: locale.networkNotLoaded,
+                        scrollable: true,
+                      );
                     }
 
                     if (networkData.devices.isEmpty) {

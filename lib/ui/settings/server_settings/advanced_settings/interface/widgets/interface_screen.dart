@@ -160,7 +160,10 @@ class _InterfaceScreenState extends State<InterfaceScreen> {
                     }
 
                     if (hasError) {
-                      return ErrorMessage(message: locale.dataFetchFailed);
+                      return ErrorMessage(
+                        message: locale.interfacesNotLoaded,
+                        scrollable: true,
+                      );
                     }
 
                     if (interfaces.isEmpty) {

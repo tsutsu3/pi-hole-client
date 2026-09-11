@@ -357,7 +357,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get charts => 'Gráficos';
 
   @override
-  String get chartsNotLoaded => 'No se han podido cargar los gráficos';
+  String get chartsNotLoaded => 'No se pudieron cargar los gráficos';
 
   @override
   String get checkAddress => 'Error. Comprueba la dirección.';
@@ -458,7 +458,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get clientsNone => 'No hay clientes para mostrar aquí.';
 
   @override
-  String get clientsNotLoaded => 'No se pudo cargar la lista de clientes';
+  String get clientsNotLoaded => 'No se pudieron cargar los clientes';
 
   @override
   String get clientsSelectLeftColumn =>
@@ -562,7 +562,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get couldntEnableServer => 'No se pudo activar el servidor';
 
   @override
-  String get couldntLoadLogs => 'No se han podido cargar los registros';
+  String get couldntLoadLogs => 'No se pudieron cargar los registros';
 
   @override
   String get cpuTemperature => 'Temperatura de la CPU';
@@ -654,6 +654,9 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get dhcpDescription =>
       'Muestra todos los arrendamientos DHCP activos actualmente';
+
+  @override
+  String get dhcpNotLoaded => 'No se pudieron cargar las concesiones DHCP';
 
   @override
   String get dhcpOff => 'DHCP está desactivado';
@@ -807,7 +810,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get domainsNone => 'No hay dominios para mostrar aquí.';
 
   @override
-  String get domainsNotLoaded => 'No se ha podido cargar la lista de dominios';
+  String get domainsNotLoaded => 'No se pudieron cargar los dominios';
 
   @override
   String get domainsRegexMatches => 'Dominios (regex)';
@@ -1120,7 +1123,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get groupsNone => 'No hay grupos para mostrar aquí.';
 
   @override
-  String get groupsNotLoaded => 'No se pudo cargar la lista de grupos';
+  String get groupsNotLoaded => 'No se pudieron cargar los grupos';
 
   @override
   String get groupsSelectLeftColumn =>
@@ -1211,6 +1214,9 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get interfaceDescription =>
       'Muestra una descripción general de las interfaces de red';
+
+  @override
+  String get interfacesNotLoaded => 'No se pudieron cargar las interfaces';
 
   @override
   String get invalid => 'No válido';
@@ -1384,6 +1390,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get localDnsInformation => 'Información de DNS local';
 
   @override
+  String get localDnsNotLoaded =>
+      'No se pudieron cargar los registros DNS locales';
+
+  @override
   String get localDnsUpdateFailed => 'Error al actualizar el DNS local';
 
   @override
@@ -1527,6 +1537,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get networkDescription => 'Muestra una descripción general de la red';
+
+  @override
+  String get networkNotLoaded =>
+      'No se pudieron cargar los dispositivos de red';
 
   @override
   String get never => 'Nunca';
@@ -1945,6 +1959,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get serverInfo => 'Servidor de Pi-hole';
 
   @override
+  String get serverInfoNotLoaded =>
+      'No se pudo cargar la información del servidor';
+
+  @override
   String get serverInfoShow => 'Ver información detallada';
 
   @override
@@ -2016,6 +2034,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Muestra todas las sesiones activas actualmente';
 
   @override
+  String get sessionsNotLoaded => 'No se pudieron cargar las sesiones';
+
+  @override
   String get setDefault => 'Hacer conexión por defecto';
 
   @override
@@ -2060,7 +2081,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get statsChartModeTitle => 'Pantalla de estadísticas';
 
   @override
-  String get statsNotLoaded => 'No se han podido cargar las estadísticas';
+  String get statsNotLoaded => 'No se pudieron cargar las estadísticas';
 
   @override
   String get status => 'Estado';

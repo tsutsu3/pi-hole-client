@@ -212,7 +212,10 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
                         }
 
                         if (hasError) {
-                          return ErrorMessage(message: locale.dataFetchFailed);
+                          return ErrorMessage(
+                            message: locale.localDnsNotLoaded,
+                            scrollable: true,
+                          );
                         }
 
                         if (data.records.isEmpty) {

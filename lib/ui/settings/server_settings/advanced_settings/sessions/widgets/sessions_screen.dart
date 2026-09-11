@@ -130,7 +130,10 @@ class _SessionsScreenState extends State<SessionsScreen> {
                     }
 
                     if (hasError) {
-                      return ErrorMessage(message: locale.dataFetchFailed);
+                      return ErrorMessage(
+                        message: locale.sessionsNotLoaded,
+                        scrollable: true,
+                      );
                     }
 
                     if (sessions.isEmpty) {

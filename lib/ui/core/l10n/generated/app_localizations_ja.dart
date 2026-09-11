@@ -441,7 +441,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get clientsNone => '表示するクライアントがありません。';
 
   @override
-  String get clientsNotLoaded => 'クライアント一覧を読み込めませんでした';
+  String get clientsNotLoaded => 'クライアントを読み込めませんでした';
 
   @override
   String get clientsSelectLeftColumn => '詳細を表示するクライアントを選択してください。';
@@ -628,6 +628,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dhcpDescription => '現在有効なDHCPリースをすべて表示します';
 
   @override
+  String get dhcpNotLoaded => 'DHCPリースを読み込めませんでした';
+
+  @override
   String get dhcpOff => 'DHCP は無効です';
 
   @override
@@ -770,7 +773,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get domainsNone => '表示するドメインはありません。';
 
   @override
-  String get domainsNotLoaded => 'ドメインリストを読み込めませんでした';
+  String get domainsNotLoaded => 'ドメインを読み込めませんでした';
 
   @override
   String get domainsRegexMatches => 'ドメイン（正規表現）';
@@ -1069,7 +1072,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get groupsNone => '表示するグループがありません。';
 
   @override
-  String get groupsNotLoaded => 'グループ一覧を読み込めませんでした';
+  String get groupsNotLoaded => 'グループを読み込めませんでした';
 
   @override
   String get groupsSelectLeftColumn => '詳細を表示するグループを選択してください。';
@@ -1156,6 +1159,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get interfaceDescription => 'ネットワークインターフェースの概要を表示します';
+
+  @override
+  String get interfacesNotLoaded => 'インターフェースを読み込めませんでした';
 
   @override
   String get invalid => '無効';
@@ -1321,6 +1327,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get localDnsInformation => 'ローカルDNS情報';
 
   @override
+  String get localDnsNotLoaded => 'ローカルDNSレコードを読み込めませんでした';
+
+  @override
   String get localDnsUpdateFailed => 'ローカルDNSの更新に失敗しました';
 
   @override
@@ -1455,6 +1464,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get networkDescription => 'ネットワークの概要を表示します';
+
+  @override
+  String get networkNotLoaded => 'ネットワーク機器を読み込めませんでした';
 
   @override
   String get never => 'なし';
@@ -1861,6 +1873,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get serverInfo => 'Pi-holeサーバー';
 
   @override
+  String get serverInfoNotLoaded => 'サーバー情報を読み込めませんでした';
+
+  @override
   String get serverInfoShow => '詳細情報を表示する';
 
   @override
@@ -1925,6 +1940,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get sessionsDescription => '現在有効なセッションをすべて表示します';
+
+  @override
+  String get sessionsNotLoaded => 'セッションを読み込めませんでした';
 
   @override
   String get setDefault => 'デフォルト接続として設定';

@@ -68,8 +68,9 @@ class ServerInfoScreen extends StatelessWidget {
                     }
 
                     if (hasError) {
-                      return _wrapWithScroll(
-                        ErrorMessage(message: locale.dataFetchFailed),
+                      return ErrorMessage(
+                        message: locale.serverInfoNotLoaded,
+                        scrollable: true,
                       );
                     }
 
@@ -81,15 +82,6 @@ class ServerInfoScreen extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  Widget _wrapWithScroll(Widget child) {
-    return CustomScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      slivers: [
-        SliverFillRemaining(hasScrollBody: false, child: Center(child: child)),
-      ],
     );
   }
 
