@@ -3,7 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
+import 'package:pi_hole_client/ui/core/actions/refresh_server_status.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
@@ -153,8 +155,15 @@ class _StatisticsTripleColumnState extends State<StatisticsTripleColumn> {
         );
 
       case LoadStatus.error:
-        body = ErrorMessage(
-          message: AppLocalizations.of(context)!.statsNotLoaded,
+        body = ScrollConfiguration(
+          behavior: CustomScrollBehavior(),
+          child: RefreshIndicator(
+            onRefresh: () async => refreshServerStatus(context),
+            child: ErrorMessage(
+              message: AppLocalizations.of(context)!.statsNotLoaded,
+              scrollable: true,
+            ),
+          ),
         );
     }
 

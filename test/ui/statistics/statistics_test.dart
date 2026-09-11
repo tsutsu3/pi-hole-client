@@ -366,6 +366,31 @@ void main() async {
       expect(find.text('Clients'), findsNothing);
     });
 
+    testWidgets('should refresh on pull in triple column error state', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(2400, 1080);
+      tester.view.devicePixelRatio = 1.5;
+
+      statusViewModel.statusLoading = LoadStatus.error;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(buildAppWithRouter());
+
+      await tester.fling(
+        find.text("Statistics couldn't be loaded"),
+        const Offset(0, 300),
+        1000,
+      );
+      await tester.pumpAndSettle();
+
+      expect(statusViewModel.refreshOnceCallCount, 1);
+    });
+
     testWidgets('should show triple column statistics screen (loading)', (
       WidgetTester tester,
     ) async {
