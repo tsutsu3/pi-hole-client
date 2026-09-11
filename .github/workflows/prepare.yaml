@@ -2,6 +2,8 @@ name: Prepare Release
 
 on:
   pull_request:
+    paths:
+      - pubspec.yaml
 
 jobs:
   prepare-release:
