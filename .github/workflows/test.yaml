@@ -5,9 +5,25 @@ on:
     branches:
       - main
   pull_request:
-    paths-ignore:
-      - website/**
-      - docs/**
+    paths:
+      - assets/**
+      - lib/**
+      - test/**
+      - testing/**
+      - tools/**
+      - pubspec.yaml
+      - pubspec.lock
+      - analysis_options.yaml
+      - build.yaml
+      - l10n.yaml
+      - .env.sample
+      - sonar-project.properties
+      - codecov.yml
+      - .github/workflows/test.yaml
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
   api_level: 35
@@ -15,6 +31,10 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
 
     steps:
     - name: Checkout code
@@ -44,11 +64,42 @@ jobs:
     - name: Run tests
       run: |
         dart run full_coverage
-        flutter test --coverage
+        files=$(find test -name '*_test.dart' | sort \
+          | awk -v n=${{ strategy.job-total }} -v i=${{ matrix.shard }} '(NR - 1) % n == i')
+        flutter test --coverage -j 4 $files
 
     - name: Upload coverage artifact
       uses: actions/upload-artifact@v7
       if: always()
+      with:
+        name: coverage-shard-${{ matrix.shard }}
+        path: coverage/lcov.info
+
+  coverage:
+    needs: [test]
+    runs-on: ubuntu-latest
+    if: ${{ !cancelled() }}
+
+    steps:
+    - name: Download coverage artifacts
+      uses: actions/download-artifact@v8
+      with:
+        pattern: coverage-shard-*
+        path: shards
+
+    - name: Install lcov (use cache)
+      uses: awalsh128/cache-apt-pkgs-action@v1
+      with:
+        packages: lcov
+        version: 1.0
+
+    - name: Merge coverage reports
+      run: |
+        mkdir -p coverage
+        lcov $(printf -- '-a %s ' shards/*/lcov.info) -o coverage/lcov.info
+
+    - name: Upload coverage artifact
+      uses: actions/upload-artifact@v7
       with:
         name: unit-test-coverage
         path: coverage/lcov.info
@@ -123,9 +174,9 @@ jobs:
 
   codecov:
     # needs: [test, integration-test]
-    needs: [test]
+    needs: [coverage]
     runs-on: ubuntu-latest
-    if: always()
+    if: ${{ !cancelled() }}
 
     steps:
     - name: Checkout code
@@ -152,9 +203,9 @@ jobs:
 
   sonar:
     # needs: [test, integration-test]
-    needs: [test]
+    needs: [coverage]
     runs-on: ubuntu-latest
-    if: always()
+    if: ${{ !cancelled() }}
 
     steps:
       - uses: actions/checkout@v7
