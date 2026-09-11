@@ -13,6 +13,8 @@ class InterfaceViewModel extends ChangeNotifier {
     );
 
     loadInterfaces.addListener(notifyListeners);
+    loadInterfaces.isRunning.addListener(notifyListeners);
+    loadInterfaces.errors.addListener(notifyListeners);
   }
 
   final NetworkRepository _networkRepository;
@@ -32,6 +34,8 @@ class InterfaceViewModel extends ChangeNotifier {
   @override
   void dispose() {
     loadInterfaces.removeListener(notifyListeners);
+    loadInterfaces.isRunning.removeListener(notifyListeners);
+    loadInterfaces.errors.removeListener(notifyListeners);
     loadInterfaces.dispose();
     super.dispose();
   }

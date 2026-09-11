@@ -14,6 +14,8 @@ class SessionsViewModel extends ChangeNotifier {
     deleteSession = Command.createAsyncNoResult<int>(_deleteSession);
 
     loadSessions.addListener(notifyListeners);
+    loadSessions.isRunning.addListener(notifyListeners);
+    loadSessions.errors.addListener(notifyListeners);
     deleteSession.addListener(notifyListeners);
   }
 
@@ -53,6 +55,8 @@ class SessionsViewModel extends ChangeNotifier {
   @override
   void dispose() {
     loadSessions.removeListener(notifyListeners);
+    loadSessions.isRunning.removeListener(notifyListeners);
+    loadSessions.errors.removeListener(notifyListeners);
     deleteSession.removeListener(notifyListeners);
     loadSessions.dispose();
     deleteSession.dispose();
