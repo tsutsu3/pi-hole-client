@@ -136,12 +136,92 @@ Middleware requireFTLSid() {
   };
 }
 
+/// Returns HTTP 500 for the given targets so error screens can be checked.
+///
+/// With [maxFail], each path fails that many times and then works again.
+/// Without it, requests keep failing.
+Middleware failMiddleware(Set<String> targets, {int? maxFail}) {
+  final failCounts = <String, int>{};
+
+  bool isV6Target(String path) =>
+      targets.any((t) => path == 'api/$t' || path.startsWith('api/$t/'));
+
+  bool isConnectRequest(Request request) {
+    final path = request.url.path;
+    final qp = request.url.queryParameters;
+    if (path.startsWith('api/auth') || path.startsWith('api/dns/blocking')) {
+      return true;
+    }
+
+    // v5 checks the blocking status with a plain summaryRaw request.
+    return path.startsWith('admin') &&
+        (qp.containsKey('enable') ||
+            qp.containsKey('disable') ||
+            (qp.keys.toSet()..remove('auth')).every((k) => k == 'summaryRaw'));
+  }
+
+  bool shouldFail(Request request) {
+    if (targets.contains('all')) return !isConnectRequest(request);
+
+    // v5
+    final path = request.url.path;
+    if (path.startsWith('admin')) {
+      return request.url.queryParameters.keys.any(targets.contains);
+    }
+
+    return isV6Target(path);
+  }
+
+  // v5 always uses admin/api.php. Use sorted query params for the failure count key.
+  String failureCountKey(Request request) {
+    final path = request.url.path;
+    if (!path.startsWith('admin')) return path;
+    final keys =
+        request.url.queryParameters.keys.where((k) => k != 'auth').toList()
+          ..sort();
+    return '$path?${keys.join('&')}';
+  }
+
+  return (Handler innerHandler) {
+    return (Request request) async {
+      if (targets.isEmpty || !shouldFail(request)) {
+        return innerHandler(request);
+      }
+
+      if (maxFail != null) {
+        final key = failureCountKey(request);
+        final count = failCounts[key] ?? 0;
+        if (count >= maxFail) {
+          return innerHandler(request);
+        }
+
+        failCounts[key] = count + 1;
+        print('<!> Mock failure ${count + 1}/$maxFail: $key');
+      }
+
+      return Response.internalServerError(
+        body: jsonEncode({
+          'error': {
+            'key': 'mock_failure',
+            'message': 'Mock failure (--fail)',
+            'hint': null,
+          },
+          'took': 0.001,
+        }),
+        headers: {'content-type': 'application/json'},
+      );
+    };
+  };
+}
+
 void main(List<String> args) async {
   var delayMs = 500;
   var host = 'localhost';
   var useHttps = false;
   var certPath = '../certs-dev/server.crt';
   var keyPath = '../certs-dev/server.key';
+  var failTargets = <String>{};
+  int? maxFail;
 
   final delayArgIndex = args.indexOf('--delay');
   if (delayArgIndex != -1 && delayArgIndex + 1 < args.length) {
@@ -168,6 +248,24 @@ void main(List<String> args) async {
   final keyArgIndex = args.indexOf('--key');
   if (keyArgIndex != -1 && keyArgIndex + 1 < args.length) {
     keyPath = args[keyArgIndex + 1];
+  }
+
+  final failArgIndex = args.indexOf('--fail');
+  if (failArgIndex != -1 && failArgIndex + 1 < args.length) {
+    failTargets =
+        args[failArgIndex + 1]
+            .split(',')
+            .map((t) => t.trim())
+            .where((t) => t.isNotEmpty)
+            .toSet();
+  }
+
+  final maxFailArgIndex = args.indexOf('--max-fail');
+  if (maxFailArgIndex != -1 && maxFailArgIndex + 1 < args.length) {
+    final value = int.tryParse(args[maxFailArgIndex + 1]);
+    if (value != null && value >= 0) {
+      maxFail = value;
+    }
   }
 
   final router = Router();
@@ -199,7 +297,13 @@ void main(List<String> args) async {
       .addMiddleware(requireFTLToken())
       .addMiddleware(requireFTLSid())
       .addMiddleware(sleepMiddleware(delay: Duration(milliseconds: delayMs)))
+      .addMiddleware(failMiddleware(failTargets, maxFail: maxFail))
       .addHandler(router.call);
+
+  if (failTargets.isNotEmpty) {
+    final times = maxFail == null ? 'always' : 'up to $maxFail times per path';
+    print('<*> Failing endpoints ($times): ${failTargets.join(', ')}');
+  }
 
   final address =
       (host == '0.0.0.0')
@@ -211,11 +315,11 @@ void main(List<String> args) async {
     final keyFile = File(keyPath);
 
     if (!certFile.existsSync() || !keyFile.existsSync()) {
-      print('❌ Certificate or key file not found!');
-      print('   Certificate path: $certPath');
-      print('   Key path: $keyPath');
-      print('   Generate certificates in certs-dev directory using:');
-      print('   cd certs-dev && ./generate.sh');
+      print('<!> Certificate or key file not found!');
+      print('    Certificate path: $certPath');
+      print('    Key path: $keyPath');
+      print('    Generate certificates in certs-dev directory using:');
+      print('    cd certs-dev && ./generate.sh');
       exit(1);
     }
 
@@ -229,13 +333,13 @@ void main(List<String> args) async {
 
       io.serveRequests(httpsServer, handler);
 
-      print('✅ Mock API server running at https://$host:${httpsServer.port}');
+      print('<*> Mock API server running at https://$host:${httpsServer.port}');
     } catch (e) {
-      print('❌ Failed to start HTTPS server: $e');
+      print('<!> Failed to start HTTPS server: $e');
       exit(1);
     }
   } else {
     final server = await io.serve(handler, address, 8888);
-    print('✅ Mock API server running at http://$host:${server.port}');
+    print('<*> Mock API server running at http://$host:${server.port}');
   }
 }
