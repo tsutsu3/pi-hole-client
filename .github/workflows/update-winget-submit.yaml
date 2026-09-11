@@ -3,6 +3,8 @@ name: Update Winget Manifest - Submit
 on:
   pull_request_target:
     types: [closed]
+    paths:
+      - winget/**
   workflow_dispatch:
 
 jobs:

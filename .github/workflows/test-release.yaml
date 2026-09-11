@@ -2,6 +2,8 @@ name: Compile and release test build
 
 on:
   pull_request:
+    paths:
+      - pubspec.yaml
   workflow_dispatch:
 
 jobs:
