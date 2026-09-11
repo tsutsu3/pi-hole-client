@@ -47,6 +47,28 @@ void main() {
       expect(viewModel.loadInterfaces.errors.value, isNotNull);
     });
 
+    test(
+      'loadInterfaces failure notifies listeners with error state',
+      () async {
+        fakeNetworkRepository.shouldFail = true;
+
+        final completer = Completer<void>();
+        viewModel.addListener(() {
+          if (!viewModel.loadInterfaces.isRunning.value &&
+              viewModel.loadInterfaces.errors.value != null &&
+              !completer.isCompleted) {
+            completer.complete();
+          }
+        });
+        viewModel.loadInterfaces.run();
+
+        await expectLater(
+          completer.future.timeout(const Duration(seconds: 1)),
+          completes,
+        );
+      },
+    );
+
     test('isRunning is true while loading', () async {
       final future = viewModel.loadInterfaces.runAsync();
 

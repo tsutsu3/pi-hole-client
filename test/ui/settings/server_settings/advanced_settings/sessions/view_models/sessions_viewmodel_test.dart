@@ -43,6 +43,25 @@ void main() {
       expect(viewModel.loadSessions.errors.value, isNotNull);
     });
 
+    test('loadSessions failure notifies listeners with error state', () async {
+      fakeAuthRepository.shouldFail = true;
+
+      final completer = Completer<void>();
+      viewModel.addListener(() {
+        if (!viewModel.loadSessions.isRunning.value &&
+            viewModel.loadSessions.errors.value != null &&
+            !completer.isCompleted) {
+          completer.complete();
+        }
+      });
+      viewModel.loadSessions.run();
+
+      await expectLater(
+        completer.future.timeout(const Duration(seconds: 1)),
+        completes,
+      );
+    });
+
     test('deleteSession success removes session locally', () async {
       await viewModel.loadSessions.runAsync();
       expect(fakeAuthRepository.getAllSessionsCallCount, 1);

@@ -51,6 +51,25 @@ void main() {
       expect(viewModel.loadRecords.errors.value, isNotNull);
     });
 
+    test('loadRecords failure notifies listeners with error state', () async {
+      fakeLocalDnsRepository.shouldFail = true;
+
+      final completer = Completer<void>();
+      viewModel.addListener(() {
+        if (!viewModel.loadRecords.isRunning.value &&
+            viewModel.loadRecords.errors.value != null &&
+            !completer.isCompleted) {
+          completer.complete();
+        }
+      });
+      viewModel.loadRecords.run();
+
+      await expectLater(
+        completer.future.timeout(const Duration(seconds: 1)),
+        completes,
+      );
+    });
+
     test('addRecord success appends record locally', () async {
       await viewModel.loadRecords.runAsync();
 

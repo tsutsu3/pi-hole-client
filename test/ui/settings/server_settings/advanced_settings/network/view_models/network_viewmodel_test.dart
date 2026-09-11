@@ -51,6 +51,25 @@ void main() {
       expect(viewModel.loadDevices.errors.value, isNotNull);
     });
 
+    test('loadDevices failure notifies listeners with error state', () async {
+      fakeNetworkRepository.shouldFail = true;
+
+      final completer = Completer<void>();
+      viewModel.addListener(() {
+        if (!viewModel.loadDevices.isRunning.value &&
+            viewModel.loadDevices.errors.value != null &&
+            !completer.isCompleted) {
+          completer.complete();
+        }
+      });
+      viewModel.loadDevices.run();
+
+      await expectLater(
+        completer.future.timeout(const Duration(seconds: 1)),
+        completes,
+      );
+    });
+
     test('deleteDevice success removes device locally', () async {
       await viewModel.loadDevices.runAsync();
       expect(fakeNetworkRepository.fetchDevicesCallCount, 1);

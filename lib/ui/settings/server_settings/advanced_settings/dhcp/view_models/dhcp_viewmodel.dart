@@ -25,6 +25,8 @@ class DhcpViewModel extends ChangeNotifier {
     deleteLease = Command.createAsyncNoResult<String>(_deleteLease);
 
     loadLeases.addListener(notifyListeners);
+    loadLeases.isRunning.addListener(notifyListeners);
+    loadLeases.errors.addListener(notifyListeners);
     deleteLease.addListener(notifyListeners);
   }
 
@@ -72,6 +74,8 @@ class DhcpViewModel extends ChangeNotifier {
   @override
   void dispose() {
     loadLeases.removeListener(notifyListeners);
+    loadLeases.isRunning.removeListener(notifyListeners);
+    loadLeases.errors.removeListener(notifyListeners);
     deleteLease.removeListener(notifyListeners);
     loadLeases.dispose();
     deleteLease.dispose();

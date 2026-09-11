@@ -33,6 +33,8 @@ class LocalDnsViewModel extends ChangeNotifier {
     deleteRecord = Command.createAsyncNoResult<LocalDns>(_deleteRecord);
 
     loadRecords.addListener(notifyListeners);
+    loadRecords.isRunning.addListener(notifyListeners);
+    loadRecords.errors.addListener(notifyListeners);
     addRecord.addListener(notifyListeners);
     updateRecord.addListener(notifyListeners);
     deleteRecord.addListener(notifyListeners);
@@ -167,6 +169,8 @@ class LocalDnsViewModel extends ChangeNotifier {
   @override
   void dispose() {
     loadRecords.removeListener(notifyListeners);
+    loadRecords.isRunning.removeListener(notifyListeners);
+    loadRecords.errors.removeListener(notifyListeners);
     addRecord.removeListener(notifyListeners);
     updateRecord.removeListener(notifyListeners);
     deleteRecord.removeListener(notifyListeners);

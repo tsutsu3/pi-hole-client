@@ -17,6 +17,8 @@ class ServerInfoViewModel extends ChangeNotifier {
     );
 
     loadServerInfo.addListener(notifyListeners);
+    loadServerInfo.isRunning.addListener(notifyListeners);
+    loadServerInfo.errors.addListener(notifyListeners);
   }
 
   final FtlRepository _ftlRepository;
@@ -48,6 +50,8 @@ class ServerInfoViewModel extends ChangeNotifier {
   @override
   void dispose() {
     loadServerInfo.removeListener(notifyListeners);
+    loadServerInfo.isRunning.removeListener(notifyListeners);
+    loadServerInfo.errors.removeListener(notifyListeners);
     loadServerInfo.dispose();
     super.dispose();
   }

@@ -51,6 +51,25 @@ void main() {
       expect(viewModel.loadLeases.errors.value, isNotNull);
     });
 
+    test('loadLeases failure notifies listeners with error state', () async {
+      fakeDhcpRepository.shouldFail = true;
+
+      final completer = Completer<void>();
+      viewModel.addListener(() {
+        if (!viewModel.loadLeases.isRunning.value &&
+            viewModel.loadLeases.errors.value != null &&
+            !completer.isCompleted) {
+          completer.complete();
+        }
+      });
+      viewModel.loadLeases.run();
+
+      await expectLater(
+        completer.future.timeout(const Duration(seconds: 1)),
+        completes,
+      );
+    });
+
     test('deleteLease success removes lease locally', () async {
       await viewModel.loadLeases.runAsync();
       expect(fakeDhcpRepository.fetchDhcpLeasesCallCount, 1);
