@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/overtime/overtime.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
+import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/home/widgets/home_charts/chart_utils.dart';
 import 'package:pi_hole_client/utils/format.dart';
@@ -26,21 +27,8 @@ class QueriesLastHoursLine extends StatelessWidget {
     final formattedData = _formatData(data);
 
     if (formattedData.containsKey('error')) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.error, size: 50, color: Colors.red),
-            const SizedBox(height: 50),
-            Text(
-              AppLocalizations.of(context)!.chartsNotLoaded,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                fontSize: 22,
-              ),
-            ),
-          ],
-        ),
+      return ErrorMessage(
+        message: AppLocalizations.of(context)!.chartsNotLoaded,
       );
     }
 

@@ -514,7 +514,7 @@ void main() async {
       }
 
       expect(find.byType(DomainsScreen), findsOneWidget);
-      expect(find.text("Domains list couldn't be loaded"), findsOneWidget);
+      expect(find.text("Domains couldn't be loaded"), findsOneWidget);
 
       await tester.pumpAndSettle();
     });

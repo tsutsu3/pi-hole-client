@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/ftl/metrics.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
@@ -44,25 +45,8 @@ class DnsTab extends StatelessWidget {
         ),
       ),
       contentGenerator: () => [const DnsTabContent()],
-      errorGenerator: () => SizedBox(
-        width: double.maxFinite,
-        height: 300,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.error, size: 50, color: Colors.red),
-            const SizedBox(height: 50),
-            Text(
-              AppLocalizations.of(context)!.statsNotLoaded,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                fontSize: 22,
-              ),
-            ),
-          ],
-        ),
-      ),
+      errorGenerator: () =>
+          ErrorMessage(message: AppLocalizations.of(context)!.statsNotLoaded),
       loadStatus: statusLoading,
       onRefresh: onRefresh,
       controller: controller,

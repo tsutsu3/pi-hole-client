@@ -1,47 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 
+/// Shared view for a screen or section whose data failed to load.
 class ErrorMessage extends StatelessWidget {
   const ErrorMessage({
     required this.message,
-    this.fontSize,
-    this.fontColor,
+    this.scrollable = false,
     super.key,
   });
 
   final String message;
-  final double? fontSize;
-  final Color? fontColor;
+
+  /// Wraps the message in a scroll view so a parent [RefreshIndicator] can
+  /// be pulled.
+  final bool scrollable;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.error,
-            size: 60,
-            color: Theme.of(context).colorScheme.error,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            AppLocalizations.of(context)!.noticeError,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 32),
-          Text(
-            message,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: fontSize ?? 16,
-              height: 1.5,
-              color: fontColor,
+    final theme = Theme.of(context);
+
+    final content = Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.error, size: 48, color: theme.colorScheme.error),
+            const SizedBox(height: 16),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
+    );
+
+    if (!scrollable) return content;
+
+    return CustomScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      slivers: [SliverFillRemaining(hasScrollBody: false, child: content)],
     );
   }
 }

@@ -112,16 +112,22 @@ class CustomTabContentList extends StatelessWidget {
         return SafeArea(
           top: false,
           bottom: false,
-          child: CustomScrollView(
-            slivers: [
-              _safeOverlapInjector(context),
-              SliverFillRemaining(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 95, left: 16, right: 16),
-                  child: errorGenerator(),
+          child: RefreshIndicator(
+            onRefresh: onRefresh,
+            edgeOffset: 95,
+            child: CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                _safeOverlapInjector(context),
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: errorGenerator(),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
     }

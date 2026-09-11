@@ -124,7 +124,10 @@ class _DhcpScreenState extends State<DhcpScreen> {
                     }
 
                     if (hasError) {
-                      return ErrorMessage(message: locale.dataFetchFailed);
+                      return ErrorMessage(
+                        message: locale.dhcpNotLoaded,
+                        scrollable: true,
+                      );
                     }
 
                     if (dhcpData.leases.isEmpty) {

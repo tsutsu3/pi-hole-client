@@ -352,7 +352,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get charts => 'Charts';
 
   @override
-  String get chartsNotLoaded => 'Charts could not be loaded';
+  String get chartsNotLoaded => 'Charts couldn\'t be loaded';
 
   @override
   String get checkAddress => 'Failed. Check address.';
@@ -452,7 +452,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsNone => 'There are no clients to show here.';
 
   @override
-  String get clientsNotLoaded => 'Clients list couldn\'t be loaded';
+  String get clientsNotLoaded => 'Clients couldn\'t be loaded';
 
   @override
   String get clientsSelectLeftColumn => 'Select a client to view its details.';
@@ -645,6 +645,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dhcpDescription => 'Displays all currently active DHCP leases';
 
   @override
+  String get dhcpNotLoaded => 'DHCP leases couldn\'t be loaded';
+
+  @override
   String get dhcpOff => 'DHCP is OFF';
 
   @override
@@ -788,7 +791,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get domainsNone => 'There are no domains to show here.';
 
   @override
-  String get domainsNotLoaded => 'Domains list couldn\'t be loaded';
+  String get domainsNotLoaded => 'Domains couldn\'t be loaded';
 
   @override
   String get domainsRegexMatches => 'Domains (regex)';
@@ -1094,7 +1097,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupsNone => 'There are no groups to show here.';
 
   @override
-  String get groupsNotLoaded => 'Groups list couldn\'t be loaded';
+  String get groupsNotLoaded => 'Groups couldn\'t be loaded';
 
   @override
   String get groupsSelectLeftColumn => 'Select a group to view its details.';
@@ -1184,6 +1187,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get interfaceDescription =>
       'Displays an overview of network interfaces';
+
+  @override
+  String get interfacesNotLoaded => 'Interfaces couldn\'t be loaded';
 
   @override
   String get invalid => 'Invalid';
@@ -1357,6 +1363,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get localDnsInformation => 'Local DNS Information';
 
   @override
+  String get localDnsNotLoaded => 'Local DNS records couldn\'t be loaded';
+
+  @override
   String get localDnsUpdateFailed => 'Failed to update Local DNS';
 
   @override
@@ -1499,6 +1508,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get networkDescription => 'Displays an overview of the network';
+
+  @override
+  String get networkNotLoaded => 'Network devices couldn\'t be loaded';
 
   @override
   String get never => 'Never';
@@ -1916,6 +1928,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get serverInfo => 'Pi-hole Server';
 
   @override
+  String get serverInfoNotLoaded => 'Server info couldn\'t be loaded';
+
+  @override
   String get serverInfoShow => 'View detailed information';
 
   @override
@@ -1984,6 +1999,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sessionsDescription => 'Displays all currently active sessions';
 
   @override
+  String get sessionsNotLoaded => 'Sessions couldn\'t be loaded';
+
+  @override
   String get setDefault => 'Set as default connection';
 
   @override
@@ -2026,7 +2044,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get statsChartModeTitle => 'Statistics Screen';
 
   @override
-  String get statsNotLoaded => 'Stats could not be loaded';
+  String get statsNotLoaded => 'Statistics couldn\'t be loaded';
 
   @override
   String get status => 'Status';

@@ -767,7 +767,7 @@ abstract class AppLocalizations {
   /// No description provided for @chartsNotLoaded.
   ///
   /// In en, this message translates to:
-  /// **'Charts could not be loaded'**
+  /// **'Charts couldn\'t be loaded'**
   String get chartsNotLoaded;
 
   /// No description provided for @checkAddress.
@@ -965,7 +965,7 @@ abstract class AppLocalizations {
   /// No description provided for @clientsNotLoaded.
   ///
   /// In en, this message translates to:
-  /// **'Clients list couldn\'t be loaded'**
+  /// **'Clients couldn\'t be loaded'**
   String get clientsNotLoaded;
 
   /// No description provided for @clientsSelectLeftColumn.
@@ -1334,6 +1334,12 @@ abstract class AppLocalizations {
   /// **'Displays all currently active DHCP leases'**
   String get dhcpDescription;
 
+  /// No description provided for @dhcpNotLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'DHCP leases couldn\'t be loaded'**
+  String get dhcpNotLoaded;
+
   /// No description provided for @dhcpOff.
   ///
   /// In en, this message translates to:
@@ -1619,7 +1625,7 @@ abstract class AppLocalizations {
   /// No description provided for @domainsNotLoaded.
   ///
   /// In en, this message translates to:
-  /// **'Domains list couldn\'t be loaded'**
+  /// **'Domains couldn\'t be loaded'**
   String get domainsNotLoaded;
 
   /// No description provided for @domainsRegexMatches.
@@ -2207,7 +2213,7 @@ abstract class AppLocalizations {
   /// No description provided for @groupsNotLoaded.
   ///
   /// In en, this message translates to:
-  /// **'Groups list couldn\'t be loaded'**
+  /// **'Groups couldn\'t be loaded'**
   String get groupsNotLoaded;
 
   /// No description provided for @groupsSelectLeftColumn.
@@ -2377,6 +2383,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Displays an overview of network interfaces'**
   String get interfaceDescription;
+
+  /// No description provided for @interfacesNotLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Interfaces couldn\'t be loaded'**
+  String get interfacesNotLoaded;
 
   /// No description provided for @invalid.
   ///
@@ -2696,6 +2708,12 @@ abstract class AppLocalizations {
   /// **'Local DNS Information'**
   String get localDnsInformation;
 
+  /// No description provided for @localDnsNotLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Local DNS records couldn\'t be loaded'**
+  String get localDnsNotLoaded;
+
   /// No description provided for @localDnsUpdateFailed.
   ///
   /// In en, this message translates to:
@@ -2965,6 +2983,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Displays an overview of the network'**
   String get networkDescription;
+
+  /// No description provided for @networkNotLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Network devices couldn\'t be loaded'**
+  String get networkNotLoaded;
 
   /// No description provided for @never.
   ///
@@ -3758,6 +3782,12 @@ abstract class AppLocalizations {
   /// **'Pi-hole Server'**
   String get serverInfo;
 
+  /// No description provided for @serverInfoNotLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Server info couldn\'t be loaded'**
+  String get serverInfoNotLoaded;
+
   /// No description provided for @serverInfoShow.
   ///
   /// In en, this message translates to:
@@ -3890,6 +3920,12 @@ abstract class AppLocalizations {
   /// **'Displays all currently active sessions'**
   String get sessionsDescription;
 
+  /// No description provided for @sessionsNotLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Sessions couldn\'t be loaded'**
+  String get sessionsNotLoaded;
+
   /// No description provided for @setDefault.
   ///
   /// In en, this message translates to:
@@ -3971,7 +4007,7 @@ abstract class AppLocalizations {
   /// No description provided for @statsNotLoaded.
   ///
   /// In en, this message translates to:
-  /// **'Stats could not be loaded'**
+  /// **'Statistics couldn\'t be loaded'**
   String get statsNotLoaded;
 
   /// No description provided for @status.

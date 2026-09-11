@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 
 class ErrorDataChart extends StatelessWidget {
@@ -26,24 +27,8 @@ class ErrorDataChart extends StatelessWidget {
               ).colorScheme.surfaceTint.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.error,
-                  size: 40,
-                  color: Theme.of(context).colorScheme.error,
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  AppLocalizations.of(context)!.chartsNotLoaded,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
+            child: ErrorMessage(
+              message: AppLocalizations.of(context)!.chartsNotLoaded,
             ),
           ),
         ],

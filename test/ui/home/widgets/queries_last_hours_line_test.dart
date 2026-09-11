@@ -928,7 +928,7 @@ void main() async {
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.error), findsNothing);
-      expect(find.text('Charts could not be loaded'), findsNothing);
+      expect(find.text("Charts couldn't be loaded"), findsNothing);
     });
 
     testWidgets('should show the error with the incorrect data', (
@@ -953,7 +953,7 @@ void main() async {
       await tester.pumpAndSettle();
 
       expect(find.byIcon(Icons.error), findsOneWidget);
-      expect(find.text('Charts could not be loaded'), findsOneWidget);
+      expect(find.text("Charts couldn't be loaded"), findsOneWidget);
     });
   });
 }

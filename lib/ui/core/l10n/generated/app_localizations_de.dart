@@ -139,7 +139,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get adlistsNone => 'Es sind keine Adlists zum Anzeigen vorhanden.';
 
   @override
-  String get adlistsNotLoaded => 'Adlists konnte nicht geladen werden';
+  String get adlistsNotLoaded => 'Adlists konnten nicht geladen werden';
 
   @override
   String get adlistsSearch => 'Adlists durchsuchen…';
@@ -360,7 +360,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get charts => 'Diagramme';
 
   @override
-  String get chartsNotLoaded => 'Diagramme konnten nicht geladen werden.';
+  String get chartsNotLoaded => 'Diagramme konnten nicht geladen werden';
 
   @override
   String get checkAddress => 'Fehlgeschlagen. Überprüfen Sie die Adresse.';
@@ -461,7 +461,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get clientsNone => 'Keine Clients vorhanden.';
 
   @override
-  String get clientsNotLoaded => 'Clientliste konnte nicht geladen werden';
+  String get clientsNotLoaded => 'Clients konnten nicht geladen werden';
 
   @override
   String get clientsSelectLeftColumn =>
@@ -565,7 +565,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get couldntEnableServer => 'Server konnte nicht aktiviert werden.';
 
   @override
-  String get couldntLoadLogs => 'Logs konnten nicht geladen werden.';
+  String get couldntLoadLogs => 'Logs konnten nicht geladen werden';
 
   @override
   String get cpuTemperature => 'CPU-Temperatur';
@@ -656,6 +656,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dhcpDescription => 'Zeigt alle derzeit aktiven DHCP-Leases an';
+
+  @override
+  String get dhcpNotLoaded => 'DHCP-Leases konnten nicht geladen werden';
 
   @override
   String get dhcpOff => 'DHCP ist deaktiviert';
@@ -809,7 +812,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get domainsNone => 'Es gibt keine anzuzeigenden Domains.';
 
   @override
-  String get domainsNotLoaded => 'Domain-Liste konnte nicht geladen werden';
+  String get domainsNotLoaded => 'Domains konnten nicht geladen werden';
 
   @override
   String get domainsRegexMatches => 'Domains (Regex)';
@@ -1120,7 +1123,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get groupsNone => 'Keine Gruppen vorhanden.';
 
   @override
-  String get groupsNotLoaded => 'Gruppenliste konnte nicht geladen werden';
+  String get groupsNotLoaded => 'Gruppen konnten nicht geladen werden';
 
   @override
   String get groupsSelectLeftColumn =>
@@ -1211,6 +1214,10 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get interfaceDescription =>
       'Zeigt eine Übersicht der Netzwerkschnittstellen an';
+
+  @override
+  String get interfacesNotLoaded =>
+      'Schnittstellen konnten nicht geladen werden';
 
   @override
   String get invalid => 'Ungültig';
@@ -1384,6 +1391,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get localDnsInformation => 'Lokale DNS-Informationen';
 
   @override
+  String get localDnsNotLoaded =>
+      'Lokale DNS-Einträge konnten nicht geladen werden';
+
+  @override
   String get localDnsUpdateFailed =>
       'Aktualisierung des lokalen DNS ist fehlgeschlagen';
 
@@ -1528,6 +1539,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get networkDescription => 'Zeigt eine Übersicht über das Netzwerk an';
+
+  @override
+  String get networkNotLoaded => 'Netzwerkgeräte konnten nicht geladen werden';
 
   @override
   String get never => 'Nie';
@@ -1951,6 +1965,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get serverInfo => 'Pi-hole-Server';
 
   @override
+  String get serverInfoNotLoaded =>
+      'Serverinformationen konnten nicht geladen werden';
+
+  @override
   String get serverInfoShow => 'Detaillierte Informationen anzeigen';
 
   @override
@@ -2019,6 +2037,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get sessionsDescription => 'Zeigt alle derzeit aktiven Sitzungen an';
 
   @override
+  String get sessionsNotLoaded => 'Sitzungen konnten nicht geladen werden';
+
+  @override
   String get setDefault => 'Als Standard setzen';
 
   @override
@@ -2063,7 +2084,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get statsChartModeTitle => 'Statistikbildschirm';
 
   @override
-  String get statsNotLoaded => 'Statistiken konnten nicht geladen werden.';
+  String get statsNotLoaded => 'Statistiken konnten nicht geladen werden';
 
   @override
   String get status => 'Status';

@@ -206,7 +206,7 @@ void main() async {
       // Switch to Domains tab
       await tester.tap(find.text('Domains'));
       await tester.pump();
-      expect(find.text('Stats could not be loaded'), findsOneWidget);
+      expect(find.text("Statistics couldn't be loaded"), findsOneWidget);
       expect(find.byType(StatisticsListContent), findsNothing);
     });
 
@@ -360,7 +360,7 @@ void main() async {
 
       expect(find.byType(StatisticsScreen), findsOneWidget);
       expect(find.byType(StatisticsTripleColumn), findsOneWidget);
-      expect(find.text('Stats could not be loaded'), findsOneWidget);
+      expect(find.text("Statistics couldn't be loaded"), findsOneWidget);
       expect(find.text('Queries & servers'), findsNothing);
       expect(find.text('Domains'), findsNothing);
       expect(find.text('Clients'), findsNothing);

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/statistics/widgets/dns_tab.dart';
@@ -152,21 +153,8 @@ class _StatisticsTripleColumnState extends State<StatisticsTripleColumn> {
         );
 
       case LoadStatus.error:
-        body = Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.error, size: 48, color: Colors.red),
-              const SizedBox(height: 20),
-              Text(
-                AppLocalizations.of(context)!.statsNotLoaded,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  fontSize: 20,
-                ),
-              ),
-            ],
-          ),
+        body = ErrorMessage(
+          message: AppLocalizations.of(context)!.statsNotLoaded,
         );
     }
 

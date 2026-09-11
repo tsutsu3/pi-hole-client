@@ -169,7 +169,7 @@ void main() async {
 
       expect(find.byType(HomeCharts), findsOneWidget);
       await tester.pump();
-      expect(find.text('Charts could not be loaded'), findsWidgets);
+      expect(find.text("Charts couldn't be loaded"), findsWidgets);
     });
 
     testWidgets(

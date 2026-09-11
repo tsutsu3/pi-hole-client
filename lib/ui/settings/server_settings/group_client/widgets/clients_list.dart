@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
@@ -197,24 +198,8 @@ class _ClientsListState extends State<ClientsList> {
               ),
             ),
           ),
-          errorGenerator: () => SizedBox(
-            width: double.maxFinite,
-            height: 300,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.error, size: 50, color: Colors.red),
-                const SizedBox(height: 50),
-                Text(
-                  AppLocalizations.of(context)!.clientsNotLoaded,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontSize: 22,
-                  ),
-                ),
-              ],
-            ),
+          errorGenerator: () => ErrorMessage(
+            message: AppLocalizations.of(context)!.clientsNotLoaded,
           ),
           loadStatus: clientsViewModel.loadingStatus,
           onRefresh: () async => clientsViewModel.loadClients.runAsync(),

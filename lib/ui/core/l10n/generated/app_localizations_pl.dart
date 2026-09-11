@@ -352,7 +352,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get charts => 'Wykresy';
 
   @override
-  String get chartsNotLoaded => 'Nie udało się wczytać wykresów';
+  String get chartsNotLoaded => 'Nie udało się załadować wykresów';
 
   @override
   String get checkAddress => 'Niepowodzenie. Sprawdź adres IP.';
@@ -453,7 +453,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get clientsNone => 'Brak klientów do wyświetlenia.';
 
   @override
-  String get clientsNotLoaded => 'Nie udało się wczytać listy klientów';
+  String get clientsNotLoaded => 'Nie udało się załadować klientów';
 
   @override
   String get clientsSelectLeftColumn =>
@@ -647,6 +647,9 @@ class AppLocalizationsPl extends AppLocalizations {
       'Wyświetla wszystkie aktualnie aktywne dzierżawy DHCP';
 
   @override
+  String get dhcpNotLoaded => 'Nie udało się załadować dzierżaw DHCP';
+
+  @override
   String get dhcpOff => 'DHCP jest wyłączony';
 
   @override
@@ -793,7 +796,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get domainsNone => 'Nie ma tutaj domen do wyświetlenia.';
 
   @override
-  String get domainsNotLoaded => 'Nie można załadować listy domen';
+  String get domainsNotLoaded => 'Nie udało się załadować domen';
 
   @override
   String get domainsRegexMatches => 'Domeny (regex)';
@@ -1105,7 +1108,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get groupsNone => 'Brak grup do wyświetlenia.';
 
   @override
-  String get groupsNotLoaded => 'Nie udało się wczytać listy grup';
+  String get groupsNotLoaded => 'Nie udało się załadować grup';
 
   @override
   String get groupsSelectLeftColumn => 'Wybierz grupę, aby zobaczyć szczegóły.';
@@ -1195,6 +1198,9 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get interfaceDescription =>
       'Wyświetla przegląd interfejsów sieciowych';
+
+  @override
+  String get interfacesNotLoaded => 'Nie udało się załadować interfejsów';
 
   @override
   String get invalid => 'Niepoprawny';
@@ -1366,6 +1372,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get localDnsInformation => 'Informacje o lokalnym DNS';
 
   @override
+  String get localDnsNotLoaded =>
+      'Nie udało się załadować lokalnych rekordów DNS';
+
+  @override
   String get localDnsUpdateFailed =>
       'Nie udało się zaktualizować lokalnego DNS';
 
@@ -1510,6 +1520,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get networkDescription => 'Wyświetla przegląd sieci';
+
+  @override
+  String get networkNotLoaded => 'Nie udało się załadować urządzeń sieciowych';
 
   @override
   String get never => 'Nigdy';
@@ -1928,6 +1941,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get serverInfo => 'Serwer Pi-hole';
 
   @override
+  String get serverInfoNotLoaded =>
+      'Nie udało się załadować informacji o serwerze';
+
+  @override
   String get serverInfoShow => 'Wyświetl szczegółowe informacje';
 
   @override
@@ -1996,6 +2013,9 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get sessionsDescription =>
       'Wyświetla wszystkie aktualnie aktywne sesje';
+
+  @override
+  String get sessionsNotLoaded => 'Nie udało się załadować sesji';
 
   @override
   String get setDefault => 'Ustaw jako połączenie domyślne';

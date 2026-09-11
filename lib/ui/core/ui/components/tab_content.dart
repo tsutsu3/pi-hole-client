@@ -78,25 +78,27 @@ class CustomTabContent extends StatelessWidget {
           top: false,
           bottom: false,
           child: Builder(
-            builder: (BuildContext context) => CustomScrollView(
-              controller: controller,
-              slivers: [
-                SliverOverlapInjector(
-                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                    context,
-                  ),
-                ),
-                SliverFillRemaining(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: 95,
-                      left: 16,
-                      right: 16,
+            builder: (BuildContext context) => RefreshIndicator(
+              onRefresh: onRefresh,
+              edgeOffset: 95,
+              child: CustomScrollView(
+                controller: controller,
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: [
+                  SliverOverlapInjector(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                      context,
                     ),
-                    child: errorGenerator(),
                   ),
-                ),
-              ],
+                  SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: errorGenerator(),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );
