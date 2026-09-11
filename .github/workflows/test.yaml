@@ -5,9 +5,20 @@ on:
     branches:
       - main
   pull_request:
-    paths-ignore:
-      - website/**
-      - docs/**
+    paths:
+      - lib/**
+      - test/**
+      - testing/**
+      - tools/**
+      - pubspec.yaml
+      - pubspec.lock
+      - analysis_options.yaml
+      - build.yaml
+      - l10n.yaml
+      - .env.sample
+      - sonar-project.properties
+      - codecov.yml
+      - .github/workflows/test.yaml
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
