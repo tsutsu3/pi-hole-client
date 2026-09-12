@@ -15,6 +15,7 @@ import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/widgets/add_domain_modal.dart';
+import 'package:pi_hole_client/ui/domains/widgets/domain_actions.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domain_tile.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -86,31 +87,14 @@ class _DomainsListState extends State<DomainsList> {
         : viewModel.filteredAllowlistDomains;
 
     Future<void> removeDomain(Domain domain) async {
-      final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.deleting);
-
-      try {
-        await viewModel.deleteDomain.runAsync(domain);
-        if (!context.mounted) return;
-        process.close();
-
-        context.pop();
-
-        showSuccessSnackBar(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.domainRemoved,
-        );
-      } catch (_) {
-        if (!context.mounted) return;
-        process.close();
-
-        showErrorSnackBar(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.errorRemovingDomain,
-        );
-      }
+      await deleteDomain(
+        context: context,
+        viewModel: viewModel,
+        appConfigViewModel: appConfigViewModel,
+        domain: domain,
+      );
+      // The details screen was pushed, so close it.
+      if (context.mounted) context.pop();
     }
 
     Future<void> onAddDomain(

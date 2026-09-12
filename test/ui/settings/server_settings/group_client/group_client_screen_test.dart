@@ -264,6 +264,100 @@ void main() async {
       expect(find.text('Edit group'), findsOneWidget);
     });
 
+    testWidgets('should close group details after delete on tablet width', (
+      WidgetTester tester,
+    ) async {
+      // Two columns: the details screen is pushed, so it must close itself.
+      tester.view.physicalSize = const Size(1000, 1400);
+      tester.view.devicePixelRatio = 1.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      final router = GoRouter(
+        initialLocation: '/group-client',
+        routes: [
+          GoRoute(
+            path: '/group-client',
+            builder: (context, state) => MultiProvider(
+              providers: [
+                ChangeNotifierProvider<ServersViewModel>.value(
+                  value: fakeServersViewModel,
+                ),
+                ChangeNotifierProvider<ClientsViewModel>.value(
+                  value: clientsViewModel,
+                ),
+                ChangeNotifierProvider<GroupsViewModel>.value(
+                  value: groupsViewModel,
+                ),
+                ChangeNotifierProvider<LocalDnsViewModel>.value(
+                  value: localDnsViewModel,
+                ),
+                ChangeNotifierProvider<DomainsViewModel>.value(
+                  value: domainsViewModel,
+                ),
+                ChangeNotifierProvider<AdlistsViewModel>.value(
+                  value: adlistsViewModel,
+                ),
+              ],
+              child: const GroupClientScreen(),
+            ),
+            routes: [
+              GoRoute(
+                path: 'group-details',
+                name: Routes.settingsServerGroupDetails,
+                builder: (context, state) {
+                  final extra = state.extra! as GroupDetailsExtra;
+                  return MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider.value(
+                        value: extra.groupsViewModel,
+                      ),
+                      ChangeNotifierProvider.value(
+                        value: extra.clientsViewModel,
+                      ),
+                      ChangeNotifierProvider.value(
+                        value: extra.domainsViewModel,
+                      ),
+                      ChangeNotifierProvider.value(
+                        value: extra.adlistsViewModel,
+                      ),
+                    ],
+                    child: GroupDetailsScreen(
+                      group: extra.group,
+                      remove: extra.remove,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(
+        buildTestApp(const SizedBox.shrink(), router: router),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Default'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Group details'), findsOneWidget);
+
+      await tester.tap(find.byIcon(Icons.delete_rounded));
+      await tester.pumpAndSettle();
+      expect(find.byType(DeleteModal), findsOneWidget);
+
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Group details'), findsNothing);
+      expect(find.byType(GroupClientScreen), findsOneWidget);
+    });
+
     testWidgets('should open client delete modal from details', (
       WidgetTester tester,
     ) async {
@@ -659,7 +753,7 @@ void main() async {
       },
     );
 
-    testWidgets('GroupDetailsScreen deletes group and shows success snackbar', (
+    testWidgets('GroupDetailsScreen asks the caller to delete the group', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1200, 900);
@@ -678,8 +772,11 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
+      Group? removed;
       await tester.pumpWidget(
-        buildWidget(GroupDetailsScreen(group: group, remove: (_) {})),
+        buildWidget(
+          GroupDetailsScreen(group: group, remove: (g) => removed = g),
+        ),
       );
       await tester.pumpAndSettle();
 
@@ -690,8 +787,7 @@ void main() async {
       await tester.tap(find.text('Delete'));
       await tester.pumpAndSettle();
 
-      expect(find.byType(SnackBar), findsOneWidget);
-      expect(find.text('Group removed successfully'), findsOneWidget);
+      expect(removed, group);
     });
 
     testWidgets(
@@ -787,47 +883,46 @@ void main() async {
       },
     );
 
-    testWidgets(
-      'ClientDetailsScreen deletes client and shows success snackbar',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1200, 900);
-        tester.view.devicePixelRatio = 1.0;
+    testWidgets('ClientDetailsScreen asks the caller to delete the client', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1200, 900);
+      tester.view.devicePixelRatio = 1.0;
 
-        final client = ManagedClient(
-          client: '192.168.1.100',
-          name: 'desktop',
-          groups: const [0],
-          id: 1,
-          dateAdded: DateTime(2024, 1, 1),
-          dateModified: DateTime(2024, 1, 1),
-        );
+      final client = ManagedClient(
+        client: '192.168.1.100',
+        name: 'desktop',
+        groups: const [0],
+        id: 1,
+        dateAdded: DateTime(2024, 1, 1),
+        dateModified: DateTime(2024, 1, 1),
+      );
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          buildWidget(
-            ClientDetailsScreen(
-              client: client,
-              remove: (_) {},
-              groups: const {0: 'Default'},
-            ),
+      ManagedClient? removed;
+      await tester.pumpWidget(
+        buildWidget(
+          ClientDetailsScreen(
+            client: client,
+            remove: (c) => removed = c,
+            groups: const {0: 'Default'},
           ),
-        );
-        await tester.pumpAndSettle();
+        ),
+      );
+      await tester.pumpAndSettle();
 
-        await tester.tap(find.byIcon(Icons.delete_rounded));
-        await tester.pumpAndSettle();
-        expect(find.byType(DeleteModal), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.delete_rounded));
+      await tester.pumpAndSettle();
+      expect(find.byType(DeleteModal), findsOneWidget);
 
-        await tester.tap(find.text('Delete'));
-        await tester.pumpAndSettle();
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
 
-        expect(find.byType(SnackBar), findsOneWidget);
-        expect(find.text('Client removed successfully'), findsOneWidget);
-      },
-    );
+      expect(removed, client);
+    });
   });
 }

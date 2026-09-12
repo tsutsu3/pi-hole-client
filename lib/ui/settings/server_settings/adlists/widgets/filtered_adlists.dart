@@ -192,9 +192,16 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
             Routes.settingsServerAdlistsDetails,
             extra: AdlistDetailsExtra(
               adlist: adlist,
-              remove: (Adlist s) {
+              remove: (Adlist s) async {
                 setState(() => selectedAdlist = null);
-                remove(s);
+                await deleteAdlist(
+                  context: context,
+                  viewModel: viewModel,
+                  appConfigViewModel: appConfigViewModel,
+                  adlist: s,
+                );
+                // The details screen was pushed, so close it.
+                if (context.mounted) context.pop();
               },
               groups: groups,
               colors: appConfigViewModel.colors,

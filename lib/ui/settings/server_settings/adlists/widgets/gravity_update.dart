@@ -256,12 +256,16 @@ class _GravityUpdateState extends State<GravityUpdate> {
       Routes.settingsServerAdlistsDetails,
       extra: AdlistDetailsExtra(
         adlist: adlist,
-        remove: (Adlist a) => deleteAdlist(
-          context: context,
-          viewModel: viewModel,
-          appConfigViewModel: appConfigViewModel,
-          adlist: a,
-        ),
+        remove: (Adlist a) async {
+          await deleteAdlist(
+            context: context,
+            viewModel: viewModel,
+            appConfigViewModel: appConfigViewModel,
+            adlist: a,
+          );
+          // The details screen was pushed, so close it.
+          if (context.mounted) context.pop();
+        },
         groups: context.read<GroupsViewModel>().groupItems,
         colors: appConfigViewModel.colors,
         viewModel: viewModel,
