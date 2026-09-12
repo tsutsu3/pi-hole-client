@@ -127,7 +127,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                 Icons.edit_rounded,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
-              onTap: openEditGroupModal,
+              onTap: openNameModal,
             ),
             ListTile(
               leading: const Icon(Icons.comment_rounded),
@@ -141,7 +141,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                 Icons.edit_rounded,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
-              onTap: openEditGroupModal,
+              onTap: openCommentModal,
             ),
             SectionLabel(label: AppLocalizations.of(context)!.groupInfo),
             ListTile(
@@ -252,13 +252,16 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     }
   }
 
-  void openEditGroupModal() {
+  void openNameModal() {
     if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
       showDialog(
         context: context,
         useRootNavigator: false,
         builder: (ctx) => EditGroupModal(
           group: _group,
+          keyItem: 'name',
+          title: AppLocalizations.of(context)!.groupEdit,
+          icon: Icons.group_rounded,
           onConfirm: (request) => onEditGroup((
             name: _group.name,
             newName: request.name,
@@ -273,9 +276,52 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         context: context,
         builder: (ctx) => EditGroupModal(
           group: _group,
+          keyItem: 'name',
+          title: AppLocalizations.of(context)!.groupEdit,
+          icon: Icons.group_rounded,
           onConfirm: (request) => onEditGroup((
             name: _group.name,
             newName: request.name,
+            comment: request.comment,
+            enabled: request.enabled,
+          )),
+          window: false,
+        ),
+        isScrollControlled: true,
+      );
+    }
+  }
+
+  void openCommentModal() {
+    if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
+      showDialog(
+        context: context,
+        useRootNavigator: false,
+        builder: (ctx) => EditGroupModal(
+          group: _group,
+          keyItem: 'comment',
+          title: AppLocalizations.of(context)!.editComment,
+          icon: Icons.comment_rounded,
+          onConfirm: (request) => onEditGroup((
+            name: _group.name,
+            newName: null,
+            comment: request.comment,
+            enabled: request.enabled,
+          )),
+          window: true,
+        ),
+      );
+    } else {
+      showModalBottomSheet(
+        context: context,
+        builder: (ctx) => EditGroupModal(
+          group: _group,
+          keyItem: 'comment',
+          title: AppLocalizations.of(context)!.editComment,
+          icon: Icons.comment_rounded,
+          onConfirm: (request) => onEditGroup((
+            name: _group.name,
+            newName: null,
             comment: request.comment,
             enabled: request.enabled,
           )),

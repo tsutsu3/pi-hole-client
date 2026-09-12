@@ -28,9 +28,12 @@ class _AddGroupModalState extends State<AddGroupModal> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+
     Widget content() {
       return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Flexible(
             child: SingleChildScrollView(
@@ -90,34 +93,39 @@ class _AddGroupModalState extends State<AddGroupModal> {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: () => Navigator.maybePop(context),
-                child: Text(AppLocalizations.of(context)!.cancel),
-              ),
-              const SizedBox(width: 14),
-              TextButton(
-                onPressed: allDataValid
-                    ? () {
-                        final comment = commentController.text.trim();
-                        widget.onConfirm((
-                          name: nameController.text.trim(),
-                          comment: comment.isEmpty ? null : comment,
-                          enabled: enabled,
-                        ));
-                        Navigator.maybePop(context);
-                      }
-                    : null,
-                style: ButtonStyle(
-                  foregroundColor: WidgetStateProperty.all(
-                    allDataValid ? null : Colors.grey,
-                  ),
+          Padding(
+            padding: isLandscape
+                ? EdgeInsets.zero
+                : const EdgeInsets.only(top: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () => Navigator.maybePop(context),
+                  child: Text(AppLocalizations.of(context)!.cancel),
                 ),
-                child: Text(AppLocalizations.of(context)!.add),
-              ),
-            ],
+                const SizedBox(width: 14),
+                TextButton(
+                  onPressed: allDataValid
+                      ? () {
+                          final comment = commentController.text.trim();
+                          widget.onConfirm((
+                            name: nameController.text.trim(),
+                            comment: comment.isEmpty ? null : comment,
+                            enabled: enabled,
+                          ));
+                          Navigator.maybePop(context);
+                        }
+                      : null,
+                  style: ButtonStyle(
+                    foregroundColor: WidgetStateProperty.all(
+                      allDataValid ? null : Colors.grey,
+                    ),
+                  ),
+                  child: Text(AppLocalizations.of(context)!.add),
+                ),
+              ],
+            ),
           ),
         ],
       );
@@ -126,19 +134,22 @@ class _AddGroupModalState extends State<AddGroupModal> {
     if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 600, maxHeight: 520),
-          child: Padding(padding: const EdgeInsets.all(16), child: content()),
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: Padding(
+            padding: isLandscape
+                ? const EdgeInsets.symmetric(horizontal: 16)
+                : const EdgeInsets.all(16),
+            child: content(),
+          ),
         ),
       );
     }
 
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
-      child: SafeArea(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: 520),
-          child: Padding(padding: const EdgeInsets.all(24), child: content()),
-        ),
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: SafeArea(child: content()),
       ),
     );
   }
