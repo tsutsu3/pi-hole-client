@@ -429,6 +429,7 @@ class PiholeV6ApiClient {
   Future<Result<Groups>> putGroups(
     String sid, {
     required String name,
+    String? newName,
     String? comment,
     bool? enabled = true,
   }) async {
@@ -437,7 +438,7 @@ class PiholeV6ApiClient {
         method: HttpMethod.put,
         path: '/api/groups/${Uri.encodeComponent(name)}',
         sid: sid,
-        body: {'comment': comment, 'enabled': enabled},
+        body: {'name': newName ?? name, 'comment': comment, 'enabled': enabled},
       );
 
       if (resp.statusCode == 200) {

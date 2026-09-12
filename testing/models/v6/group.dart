@@ -49,6 +49,30 @@ const kSrvPutGroups = srv.Groups(
   took: 0.003,
 );
 
+/// Pi-hole returns an empty group list when a group is renamed.
+const kSrvPutGroupsRenamed = srv.Groups(groups: [], took: 0.003);
+
+const kSrvGetGroupsAfterRename = srv.Groups(
+  groups: [
+    srv.Group(
+      id: 0,
+      name: 'Default',
+      comment: 'The default group',
+      enabled: true,
+      dateAdded: 1594670974,
+      dateModified: 1611157897,
+    ),
+    srv.Group(
+      id: 5,
+      name: 'renamed',
+      enabled: false,
+      dateAdded: 1604871899,
+      dateModified: 1604871899,
+    ),
+  ],
+  took: 0.003,
+);
+
 final kRepoFetchGroups = [
   Group(
     id: 0,

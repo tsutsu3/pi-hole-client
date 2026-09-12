@@ -2094,18 +2094,26 @@ class MockGroupsViewModel extends _i1.Mock implements _i33.GroupsViewModel {
           >);
 
   @override
-  _i3.Command<({String? comment, bool? enabled, String name}), void>
+  _i3.Command<
+    ({String? comment, bool? enabled, String name, String? newName}),
+    void
+  >
   get updateGroup =>
       (super.noSuchMethod(
             Invocation.getter(#updateGroup),
             returnValue:
                 _FakeCommand_1<
-                  ({String? comment, bool? enabled, String name}),
+                  ({
+                    String? comment,
+                    bool? enabled,
+                    String name,
+                    String? newName,
+                  }),
                   void
                 >(this, Invocation.getter(#updateGroup)),
           )
           as _i3.Command<
-            ({String? comment, bool? enabled, String name}),
+            ({String? comment, bool? enabled, String name, String? newName}),
             void
           >);
 
@@ -2184,7 +2192,11 @@ class MockGroupsViewModel extends _i1.Mock implements _i33.GroupsViewModel {
 
   @override
   set updateGroup(
-    _i3.Command<({String? comment, bool? enabled, String name}), void>? value,
+    _i3.Command<
+      ({String? comment, bool? enabled, String name, String? newName}),
+      void
+    >?
+    value,
   ) => super.noSuchMethod(
     Invocation.setter(#updateGroup, value),
     returnValueForMissingStub: null,

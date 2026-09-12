@@ -50,6 +50,7 @@ class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
   @override
   Future<Result<Group>> updateGroup(
     String name, {
+    String? newName,
     String? comment,
     bool? enabled = true,
   }) async {
@@ -59,10 +60,29 @@ class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
         final result = await _client.putGroups(
           sid,
           name: name,
+          newName: newName,
           comment: comment,
           enabled: enabled,
         );
-        return result.map((e) => e.toSingleDomain());
+
+        // Comment or enabled status updates return the updated group immediately, so no re-fetch is needed.
+        final groups = result.getOrThrow();
+        if (groups.groups.isNotEmpty) {
+          return Success(groups.toSingleDomain());
+        }
+
+        // Pi-hole returns an empty group list after a rename, so the group must be fetched again.
+        if (newName == null) {
+          throw Exception('Group $name was updated but not returned');
+        }
+
+        final all = (await _client.getGroups(sid)).getOrThrow().toDomain();
+        return Success(
+          all.firstWhere(
+            (g) => g.name == newName,
+            orElse: () => throw Exception('Group $newName not found'),
+          ),
+        );
       },
       onRetry: (_, e) => renewSidIfExpired(e),
     );

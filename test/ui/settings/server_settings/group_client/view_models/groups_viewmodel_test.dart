@@ -125,6 +125,7 @@ void main() {
 
       await viewModel.updateGroup.runAsync((
         name: 'test',
+        newName: null,
         comment: 'updated comment',
         enabled: false,
       ));
@@ -136,6 +137,22 @@ void main() {
       expect(viewModel.groups.length, 2);
       expect(viewModel.loadingStatus, LoadStatus.loaded);
       expect(listenerCalled, true);
+    });
+
+    test('updateGroup renames group when newName is given', () async {
+      await viewModel.loadGroups.runAsync();
+
+      await viewModel.updateGroup.runAsync((
+        name: 'test',
+        newName: 'renamed',
+        comment: null,
+        enabled: true,
+      ));
+
+      final updated = viewModel.groups.firstWhere((g) => g.id == 5);
+      expect(updated.name, 'renamed');
+      expect(viewModel.groups.any((g) => g.name == 'test'), isFalse);
+      expect(viewModel.groups.length, 2);
     });
 
     test('deleteGroup sets error on failure', () async {

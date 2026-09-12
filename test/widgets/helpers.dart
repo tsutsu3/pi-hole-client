@@ -1982,7 +1982,7 @@ class TestSetupHelper {
     );
     when(mockGroupsViewModel.updateGroup).thenReturn(
       Command.createAsyncNoResult<
-        ({String name, String? comment, bool? enabled})
+        ({String name, String? newName, String? comment, bool? enabled})
       >((_) async {}),
     );
     when(
