@@ -13,8 +13,10 @@ import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/clients_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/client_actions.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/client_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/clients_list.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/group_actions.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/group_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/groups_list.dart';
 import 'package:provider/provider.dart';
@@ -237,9 +239,18 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
                 ? selectedGroup != null
                       ? GroupDetailsScreen(
                           group: selectedGroup!,
-                          remove: (group) => setState(() {
-                            selectedGroup = null;
-                          }),
+                          // The detail pane stays open, so it only clears.
+                          remove: (group) {
+                            setState(() {
+                              selectedGroup = null;
+                            });
+                            deleteGroup(
+                              context: context,
+                              viewModel: context.read<GroupsViewModel>(),
+                              appConfigViewModel: appConfigViewModel,
+                              group: group,
+                            );
+                          },
                         )
                       : ColoredBox(
                           color: Theme.of(context).scaffoldBackgroundColor,
@@ -265,9 +276,18 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
                 : selectedClient != null
                 ? ClientDetailsScreen(
                     client: selectedClient!,
-                    remove: (client) => setState(() {
-                      selectedClient = null;
-                    }),
+                    // The detail pane stays open, so it only clears.
+                    remove: (client) {
+                      setState(() {
+                        selectedClient = null;
+                      });
+                      deleteClient(
+                        context: context,
+                        viewModel: context.read<ClientsViewModel>(),
+                        appConfigViewModel: appConfigViewModel,
+                        client: client,
+                      );
+                    },
                     groups: groups,
                     colors: appConfigViewModel.colors,
                     ipToMac: ipToMac,
@@ -327,12 +347,25 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
   }
 
   void _pushGroupDetails(BuildContext context, Group group) {
+    final appConfigViewModel = context.read<AppConfigViewModel>();
+    final groupsViewModel = context.read<GroupsViewModel>();
+
     context.pushNamed(
       Routes.settingsServerGroupDetails,
       extra: GroupDetailsExtra(
         group: group,
-        remove: (Group g) => setState(() => selectedGroup = null),
-        groupsViewModel: context.read<GroupsViewModel>(),
+        remove: (Group g) async {
+          setState(() => selectedGroup = null);
+          await deleteGroup(
+            context: context,
+            viewModel: groupsViewModel,
+            appConfigViewModel: appConfigViewModel,
+            group: g,
+          );
+          // The details screen was pushed, so close it.
+          if (context.mounted) context.pop();
+        },
+        groupsViewModel: groupsViewModel,
         clientsViewModel: context.read<ClientsViewModel>(),
         domainsViewModel: context.read<DomainsViewModel>(),
         adlistsViewModel: context.read<AdlistsViewModel>(),
@@ -349,17 +382,30 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
     required Map<String, String> ipToHostname,
     required Map<String, String> macToIp,
   }) {
+    final appConfigViewModel = context.read<AppConfigViewModel>();
+    final clientsViewModel = context.read<ClientsViewModel>();
+
     context.pushNamed(
       Routes.settingsServerClientDetails,
       extra: ClientDetailsExtra(
         client: client,
-        remove: (ManagedClient c) => setState(() => selectedClient = null),
+        remove: (ManagedClient c) async {
+          setState(() => selectedClient = null);
+          await deleteClient(
+            context: context,
+            viewModel: clientsViewModel,
+            appConfigViewModel: appConfigViewModel,
+            client: c,
+          );
+          // The details screen was pushed, so close it.
+          if (context.mounted) context.pop();
+        },
         groups: groups,
         colors: colors,
         ipToMac: ipToMac,
         ipToHostname: ipToHostname,
         macToIp: macToIp,
-        viewModel: context.read<ClientsViewModel>(),
+        viewModel: clientsViewModel,
       ),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
@@ -82,7 +81,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                 message: AppLocalizations.of(context)!.groupDeleteMessage,
                 onDelete: () {
                   Navigator.maybePop(context);
-                  removeGroup(_group);
+                  widget.remove(_group);
                 },
               ),
             ),
@@ -208,40 +207,6 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> removeGroup(Group group) async {
-    final process = ProcessModal(context: context);
-    process.open(AppLocalizations.of(context)!.deleting);
-
-    try {
-      await groupsViewModel.deleteGroup.runAsync(group);
-
-      if (!mounted) return;
-      process.close();
-
-      widget.remove(group);
-      if (!mounted) return;
-      if (MediaQuery.of(context).size.width <= ResponsiveConstants.large) {
-        context.pop();
-      }
-
-      if (!mounted) return;
-      showSuccessSnackBar(
-        context: context,
-        appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.groupRemoved,
-      );
-    } catch (_) {
-      if (!mounted) return;
-      process.close();
-
-      showErrorSnackBar(
-        context: context,
-        appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.groupRemoveFailed,
-      );
-    }
   }
 
   Future<void> onEditGroup(
