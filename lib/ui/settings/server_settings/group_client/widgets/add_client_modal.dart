@@ -38,9 +38,12 @@ class _AddClientModalState extends State<AddClientModal> {
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!;
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+
     Widget content() {
       return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Flexible(
             child: SingleChildScrollView(
@@ -116,34 +119,39 @@ class _AddClientModalState extends State<AddClientModal> {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: () => Navigator.maybePop(context),
-                child: Text(locale.cancel),
-              ),
-              const SizedBox(width: 14),
-              TextButton(
-                onPressed: allDataValid
-                    ? () {
-                        final comment = commentController.text.trim();
-                        widget.onConfirm((
-                          client: clientController.text.trim(),
-                          comment: comment.isEmpty ? null : comment,
-                          groups: selectedGroups,
-                        ));
-                        Navigator.maybePop(context);
-                      }
-                    : null,
-                style: ButtonStyle(
-                  foregroundColor: WidgetStateProperty.all(
-                    allDataValid ? null : Colors.grey,
-                  ),
+          Padding(
+            padding: isLandscape
+                ? EdgeInsets.zero
+                : const EdgeInsets.only(top: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () => Navigator.maybePop(context),
+                  child: Text(locale.cancel),
                 ),
-                child: Text(locale.add),
-              ),
-            ],
+                const SizedBox(width: 14),
+                TextButton(
+                  onPressed: allDataValid
+                      ? () {
+                          final comment = commentController.text.trim();
+                          widget.onConfirm((
+                            client: clientController.text.trim(),
+                            comment: comment.isEmpty ? null : comment,
+                            groups: selectedGroups,
+                          ));
+                          Navigator.maybePop(context);
+                        }
+                      : null,
+                  style: ButtonStyle(
+                    foregroundColor: WidgetStateProperty.all(
+                      allDataValid ? null : Colors.grey,
+                    ),
+                  ),
+                  child: Text(locale.add),
+                ),
+              ],
+            ),
           ),
         ],
       );
@@ -152,19 +160,22 @@ class _AddClientModalState extends State<AddClientModal> {
     if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 600, maxHeight: 560),
-          child: Padding(padding: const EdgeInsets.all(16), child: content()),
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: Padding(
+            padding: isLandscape
+                ? const EdgeInsets.symmetric(horizontal: 16)
+                : const EdgeInsets.all(16),
+            child: content(),
+          ),
         ),
       );
     }
 
     return Padding(
       padding: MediaQuery.of(context).viewInsets,
-      child: SafeArea(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: 560),
-          child: Padding(padding: const EdgeInsets.all(24), child: content()),
-        ),
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: SafeArea(child: content()),
       ),
     );
   }

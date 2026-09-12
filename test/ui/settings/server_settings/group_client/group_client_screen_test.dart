@@ -624,6 +624,17 @@ void main() async {
       await tester.tap(find.text('Group name'));
       await tester.pumpAndSettle();
       expect(find.byType(EditGroupModal), findsOneWidget);
+      expect(find.text('Edit group'), findsOneWidget);
+      expect(find.byType(TextField), findsOneWidget);
+
+      await tester.tap(find.text('Cancel'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Comment'));
+      await tester.pumpAndSettle();
+      expect(find.byType(EditGroupModal), findsOneWidget);
+      expect(find.text('Edit comment'), findsOneWidget);
+      expect(find.byType(TextField), findsOneWidget);
 
       await tester.tap(find.text('Cancel'));
       await tester.pumpAndSettle();

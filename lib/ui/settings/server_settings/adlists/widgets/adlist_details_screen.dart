@@ -283,9 +283,15 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
   }
 
   void openGroupsModal() {
+    final mediaQuery = MediaQuery.of(context);
+    final isSmallLandscape =
+        mediaQuery.size.width > mediaQuery.size.height &&
+        mediaQuery.size.height < ResponsiveConstants.medium;
+
     if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
       showDialog(
         context: context,
+        useSafeArea: !isSmallLandscape,
         useRootNavigator:
             false, // Prevents unexpected app exit on mobile when pressing back
         builder: (ctx) => EditAdlistModal(
