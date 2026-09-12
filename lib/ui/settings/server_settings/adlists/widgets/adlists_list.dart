@@ -14,6 +14,7 @@ import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/add_adlist_modal.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_actions.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_tile.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -79,33 +80,14 @@ class _AdlistsListState extends State<AdlistsList> {
         : viewModel.filteredAllowlistAdlists;
 
     Future<void> removeAdlist(Adlist adlist) async {
-      final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.deleting);
-
-      try {
-        await viewModel.deleteAdlist.runAsync(adlist);
-
-        if (!context.mounted) return;
-        process.close();
-
-        context.pop();
-
-        if (!context.mounted) return;
-        showSuccessSnackBar(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.adlistRemoved,
-        );
-      } catch (_) {
-        if (!context.mounted) return;
-        process.close();
-
-        showErrorSnackBar(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.adlistDeleteError,
-        );
-      }
+      await deleteAdlist(
+        context: context,
+        viewModel: viewModel,
+        appConfigViewModel: appConfigViewModel,
+        adlist: adlist,
+      );
+      // The details screen was pushed, so close it.
+      if (context.mounted) context.pop();
     }
 
     Future<void> onAddAdlist(Map<String, dynamic> value) async {
