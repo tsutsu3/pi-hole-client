@@ -253,9 +253,15 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   }
 
   void openNameModal() {
+    final mediaQuery = MediaQuery.of(context);
+    final isSmallLandscape =
+        mediaQuery.size.width > mediaQuery.size.height &&
+        mediaQuery.size.height < ResponsiveConstants.medium;
+
     if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
       showDialog(
         context: context,
+        useSafeArea: !isSmallLandscape,
         useRootNavigator: false,
         builder: (ctx) => EditGroupModal(
           group: _group,
@@ -293,9 +299,15 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   }
 
   void openCommentModal() {
+    final mediaQuery = MediaQuery.of(context);
+    final isSmallLandscape =
+        mediaQuery.size.width > mediaQuery.size.height &&
+        mediaQuery.size.height < ResponsiveConstants.medium;
+
     if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
       showDialog(
         context: context,
+        useSafeArea: !isSmallLandscape,
         useRootNavigator: false,
         builder: (ctx) => EditGroupModal(
           group: _group,
