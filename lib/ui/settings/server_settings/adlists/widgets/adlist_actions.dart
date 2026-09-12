@@ -17,13 +17,8 @@ Future<void> deleteAdlist({
 
   try {
     await viewModel.deleteAdlist.runAsync(adlist);
-
     if (!context.mounted) return;
-    process.close();
 
-    await Navigator.maybePop(context);
-
-    if (!context.mounted) return;
     showSuccessSnackBar(
       context: context,
       appConfigViewModel: appConfigViewModel,
@@ -31,7 +26,6 @@ Future<void> deleteAdlist({
     );
   } catch (_) {
     if (!context.mounted) return;
-    process.close();
 
     showErrorSnackBar(
       context: context,
