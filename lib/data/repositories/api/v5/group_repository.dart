@@ -38,6 +38,7 @@ class GroupRepositoryV5 extends BaseV5TokenRepository
   @override
   Future<Result<Group>> updateGroup(
     String name, {
+    String? newName,
     String? comment,
     bool? enabled = true,
   }) async {

@@ -55,6 +55,7 @@ class FakeGroupRepository implements GroupRepository {
   @override
   Future<Result<Group>> updateGroup(
     String name, {
+    String? newName,
     String? comment,
     bool? enabled = true,
   }) async {
@@ -64,7 +65,7 @@ class FakeGroupRepository implements GroupRepository {
     return Success(
       Group(
         id: 5,
-        name: name,
+        name: newName ?? name,
         comment: comment,
         enabled: enabled ?? true,
         dateAdded: _now,

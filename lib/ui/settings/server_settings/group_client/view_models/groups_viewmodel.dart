@@ -33,7 +33,10 @@ class GroupsViewModel extends ChangeNotifier {
   late final Command<void, void> loadGroups;
   late final Command<({String name, String? comment, bool? enabled}), void>
   addGroup;
-  late final Command<({String name, String? comment, bool? enabled}), void>
+  late final Command<
+    ({String name, String? newName, String? comment, bool? enabled}),
+    void
+  >
   updateGroup;
   late final Command<Group, void> deleteGroup;
 
@@ -91,10 +94,11 @@ class GroupsViewModel extends ChangeNotifier {
   }
 
   Future<void> _updateGroup(
-    ({String name, String? comment, bool? enabled}) params,
+    ({String name, String? newName, String? comment, bool? enabled}) params,
   ) async {
     final result = await _groupRepository.updateGroup(
       params.name,
+      newName: params.newName,
       comment: params.comment,
       enabled: params.enabled,
     );

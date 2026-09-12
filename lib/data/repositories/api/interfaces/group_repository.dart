@@ -12,6 +12,7 @@ abstract interface class GroupRepository {
 
   Future<Result<Group>> updateGroup(
     String name, {
+    String? newName,
     String? comment,
     bool? enabled = true,
   });

@@ -128,6 +128,7 @@ class _GroupsListState extends State<GroupsList> {
       try {
         await groupsViewModel.updateGroup.runAsync((
           name: group.name,
+          newName: null,
           comment: group.comment,
           enabled: enabled,
         ));

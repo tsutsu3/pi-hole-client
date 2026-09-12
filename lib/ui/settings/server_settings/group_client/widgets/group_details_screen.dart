@@ -106,6 +106,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
               ),
               onTap: () => onEditGroup((
                 name: _group.name,
+                newName: null,
                 comment: _group.comment,
                 enabled: !_group.enabled,
               )),
@@ -113,6 +114,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                 value: _group.enabled,
                 onChanged: (value) => onEditGroup((
                   name: _group.name,
+                  newName: null,
                   comment: _group.comment,
                   enabled: value,
                 )),
@@ -243,7 +245,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   }
 
   Future<void> onEditGroup(
-    ({String name, String? comment, bool? enabled}) params,
+    ({String name, String? newName, String? comment, bool? enabled}) params,
   ) async {
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.groupUpdating);
@@ -255,8 +257,9 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
       process.close();
 
       final updatedGroup = groupsViewModel.groups.firstWhere(
-        (g) => g.name == params.name,
+        (g) => g.id == _group.id,
         orElse: () => _group.copyWith(
+          name: params.newName ?? _group.name,
           comment: params.comment,
           enabled: params.enabled ?? _group.enabled,
         ),
@@ -293,6 +296,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
           group: _group,
           onConfirm: (request) => onEditGroup((
             name: _group.name,
+            newName: request.name,
             comment: request.comment,
             enabled: request.enabled,
           )),
@@ -306,6 +310,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
           group: _group,
           onConfirm: (request) => onEditGroup((
             name: _group.name,
+            newName: request.name,
             comment: request.comment,
             enabled: request.enabled,
           )),

@@ -77,6 +77,12 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   bool shouldGetInfoVersionWithDocker = false;
   bool shouldGetInfoSystemOld = false;
   bool shouldGetInfoFtlV63 = false;
+  Groups getGroupsResponse = kSrvGetGroups;
+
+  String? lastPutGroupsNewName;
+
+  /// Returns an empty group list even when no rename was requested.
+  bool shouldPutGroupsReturnEmpty = false;
 
   @override
   void close() {}
@@ -267,7 +273,7 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     if (shouldFail) {
       return Failure(Exception('Forced getGroups failure'));
     }
-    return const Success(kSrvGetGroups);
+    return Success(getGroupsResponse);
   }
 
   @override
@@ -287,11 +293,16 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   Future<Result<Groups>> putGroups(
     String sid, {
     required String name,
+    String? newName,
     String? comment,
     bool? enabled = true,
   }) async {
     if (shouldFail) {
       return Failure(Exception('Forced putGroups failure'));
+    }
+    lastPutGroupsNewName = newName;
+    if (shouldPutGroupsReturnEmpty || newName != null) {
+      return const Success(kSrvPutGroupsRenamed);
     }
     return const Success(kSrvPutGroups);
   }

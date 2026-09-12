@@ -50,7 +50,7 @@ void main() {
   });
 
   group('updateGroup', () {
-    test('should update group successfully', () async {
+    test('should update comment and enabled without re-fetching', () async {
       final result = await repository.updateGroup(
         'test',
         comment: 'updated',
@@ -58,6 +58,36 @@ void main() {
       );
       expect(result.isSuccess(), true);
     });
+
+    test('should re-fetch and return the renamed group', () async {
+      client.getGroupsResponse = kSrvGetGroupsAfterRename;
+
+      final result = await repository.updateGroup('test', newName: 'renamed');
+
+      expect(client.lastPutGroupsNewName, 'renamed');
+      expect(result.getOrNull()?.name, 'renamed');
+      expect(result.getOrNull()?.id, 5);
+    });
+
+    // Unexpected: the Pi-hole server renamed the group but does not list it.
+    test(
+      'should fail when the renamed group is not found after re-fetching',
+      () async {
+        final result = await repository.updateGroup('test', newName: 'missing');
+        expectError(result, messageContains: 'Group missing not found');
+      },
+    );
+
+    // Unexpected: the Pi-hole server returned no group without a rename.
+    test(
+      'should fail when an empty group list is returned without a rename',
+      () async {
+        client.shouldPutGroupsReturnEmpty = true;
+
+        final result = await repository.updateGroup('test', comment: 'updated');
+        expectError(result, messageContains: 'was updated but not returned');
+      },
+    );
 
     test('should fail when updating group', () async {
       client.shouldFail = true;
