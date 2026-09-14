@@ -272,11 +272,16 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
   }
 
   void openCommentModal() {
-    final isLarge =
-        MediaQuery.of(context).size.width > ResponsiveConstants.medium;
+    final mediaQuery = MediaQuery.of(context);
+    final isLarge = mediaQuery.size.width > ResponsiveConstants.medium;
+    final isSmallLandscape =
+        mediaQuery.size.width > mediaQuery.size.height &&
+        mediaQuery.size.height < ResponsiveConstants.medium;
+
     if (isLarge) {
       showDialog(
         context: context,
+        useSafeArea: !isSmallLandscape,
         useRootNavigator: false,
         builder: (ctx) => EditClientModal(
           client: _client,
@@ -306,9 +311,15 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
   }
 
   void openGroupsModal() {
+    final mediaQuery = MediaQuery.of(context);
+    final isSmallLandscape =
+        mediaQuery.size.width > mediaQuery.size.height &&
+        mediaQuery.size.height < ResponsiveConstants.medium;
+
     if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
       showDialog(
         context: context,
+        useSafeArea: !isSmallLandscape,
         useRootNavigator: false,
         builder: (ctx) => EditClientModal(
           client: _client,
