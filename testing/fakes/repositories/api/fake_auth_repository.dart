@@ -28,6 +28,9 @@ class FakeAuthRepository implements AuthRepository {
   /// The totp passed to the most recent [createSession] call.
   String? lastTotp;
 
+  /// The password passed to the most recent [createSession] call.
+  String? lastPassword;
+
   int getAuthCallCount = 0;
 
   /// Server-reported 2FA status returned by [getAuth] (`Auth.totp`).
@@ -45,6 +48,7 @@ class FakeAuthRepository implements AuthRepository {
   @override
   Future<Result<Auth>> createSession(String password, {String? totp}) async {
     createSessionCallCount++;
+    lastPassword = password;
     lastTotp = totp;
     if (shouldRequireTotp && totp == null) {
       return Failure(TotpRequiredException());
