@@ -165,12 +165,12 @@ class V6SessionCache {
           );
         }
         final result = await _client.postAuth(password: password);
-        final auth = result.getOrThrow().toDomain();
-        if (!auth.valid) throw Exception('Session renewal failed');
-        await saveSid(auth.sid);
+        final session = result.getOrThrow().toDomain();
+        if (!session.valid) throw Exception('Session renewal failed');
+        await saveSid(session.sid);
         await WidgetChannel.sendSidUpdated(
           serverAddress: serverAddress,
-          sid: auth.sid,
+          sid: session.sid,
         );
     }
   }
