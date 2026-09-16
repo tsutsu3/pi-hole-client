@@ -237,3 +237,9 @@ analyzer:
     - lib/**/*.g.dart
     - lib/ui/settings/about/widgets/about.dart
     - lib/data/services/api/generated/**
+    - build/**
+    - android/**
+    - ios/**
+    - windows/**
+    - macos/**
+    - linux/**
