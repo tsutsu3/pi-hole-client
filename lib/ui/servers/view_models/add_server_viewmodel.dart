@@ -264,15 +264,15 @@ class AddServerViewModel extends ChangeNotifier {
     await _serversViewModel.saveToken(req.url, req.token);
 
     final bundle = _createBundle(server: serverObj);
-    final loginPassword = switch (serverAuth) {
-      NoAuth() => '',
-      PasswordAuth(password: final password) => password,
-      TokenAuth() => null,
-    };
-    if (loginPassword != null) {
+    // Token auth (v5) has no session, so there is nothing to log in to.
+    if (serverAuth is V6ServerAuth) {
+      final password = switch (serverAuth) {
+        NoAuth() => '',
+        PasswordAuth(password: final password) => password,
+      };
       final login = await runTotpLogin(
         auth: bundle.auth,
-        password: loginPassword,
+        password: password,
         resolveTotp: req.resolveTotp,
       );
       if (login.cancelled) {
