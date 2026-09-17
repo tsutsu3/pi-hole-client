@@ -98,6 +98,17 @@ void main() {
       expect(viewModel.deleteDevice.errors.value, isNotNull);
     });
 
+    test('deleteDevice failure does not call global handler', () async {
+      var globalCalled = false;
+      Command.globalExceptionHandler = (_, _) => globalCalled = true;
+      await viewModel.loadDevices.runAsync();
+      fakeNetworkRepository.shouldFail = true;
+
+      await expectLater(viewModel.deleteDevice.runAsync(1), throwsA(anything));
+
+      expect(globalCalled, isFalse);
+    });
+
     test('isRunning is true while loading', () async {
       final future = viewModel.loadDevices.runAsync();
 

@@ -155,6 +155,35 @@ void main() {
       expect(viewModel.deleteRecord.errors.value, isNotNull);
     });
 
+    test('add/update/delete failures do not call global handler', () async {
+      var globalCalled = false;
+      Command.globalExceptionHandler = (_, _) => globalCalled = true;
+      await viewModel.loadRecords.runAsync();
+      fakeLocalDnsRepository.shouldFail = true;
+
+      await expectLater(
+        viewModel.addRecord.runAsync(
+          const LocalDns(ip: '192.168.1.200', name: 'newhost'),
+        ),
+        throwsA(anything),
+      );
+      await expectLater(
+        viewModel.updateRecord.runAsync((
+          record: const LocalDns(ip: '192.168.1.200', name: 'updated'),
+          oldIp: '192.168.1.100',
+        )),
+        throwsA(anything),
+      );
+      await expectLater(
+        viewModel.deleteRecord.runAsync(
+          const LocalDns(ip: '192.168.1.100', name: 'server1'),
+        ),
+        throwsA(anything),
+      );
+
+      expect(globalCalled, isFalse);
+    });
+
     test('deviceOptions excludes loopback and sorts IPv4 first', () async {
       await viewModel.loadRecords.runAsync();
 
