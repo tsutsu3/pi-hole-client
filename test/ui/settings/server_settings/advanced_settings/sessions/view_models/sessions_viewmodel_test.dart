@@ -91,6 +91,17 @@ void main() {
       expect(viewModel.deleteSession.errors.value, isNotNull);
     });
 
+    test('deleteSession failure does not call global handler', () async {
+      var globalCalled = false;
+      Command.globalExceptionHandler = (_, _) => globalCalled = true;
+      await viewModel.loadSessions.runAsync();
+      fakeAuthRepository.shouldFail = true;
+
+      await expectLater(viewModel.deleteSession.runAsync(0), throwsA(anything));
+
+      expect(globalCalled, isFalse);
+    });
+
     test('isRunning is true while loading', () async {
       final future = viewModel.loadSessions.runAsync();
 

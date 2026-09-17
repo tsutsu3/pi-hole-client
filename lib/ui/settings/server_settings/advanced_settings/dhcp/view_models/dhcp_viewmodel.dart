@@ -28,6 +28,7 @@ class DhcpViewModel extends ChangeNotifier {
     loadLeases.isRunning.addListener(notifyListeners);
     loadLeases.errors.addListener(notifyListeners);
     deleteLease.addListener(notifyListeners);
+    deleteLease.errors.addListener(notifyListeners);
   }
 
   final DhcpRepository _dhcpRepository;
@@ -77,6 +78,7 @@ class DhcpViewModel extends ChangeNotifier {
     loadLeases.isRunning.removeListener(notifyListeners);
     loadLeases.errors.removeListener(notifyListeners);
     deleteLease.removeListener(notifyListeners);
+    deleteLease.errors.removeListener(notifyListeners);
     loadLeases.dispose();
     deleteLease.dispose();
     super.dispose();

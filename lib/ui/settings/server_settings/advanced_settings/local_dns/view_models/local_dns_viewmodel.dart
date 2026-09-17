@@ -36,8 +36,11 @@ class LocalDnsViewModel extends ChangeNotifier {
     loadRecords.isRunning.addListener(notifyListeners);
     loadRecords.errors.addListener(notifyListeners);
     addRecord.addListener(notifyListeners);
+    addRecord.errors.addListener(notifyListeners);
     updateRecord.addListener(notifyListeners);
+    updateRecord.errors.addListener(notifyListeners);
     deleteRecord.addListener(notifyListeners);
+    deleteRecord.errors.addListener(notifyListeners);
   }
 
   final LocalDnsRepository _localDnsRepository;
@@ -172,8 +175,11 @@ class LocalDnsViewModel extends ChangeNotifier {
     loadRecords.isRunning.removeListener(notifyListeners);
     loadRecords.errors.removeListener(notifyListeners);
     addRecord.removeListener(notifyListeners);
+    addRecord.errors.removeListener(notifyListeners);
     updateRecord.removeListener(notifyListeners);
+    updateRecord.errors.removeListener(notifyListeners);
     deleteRecord.removeListener(notifyListeners);
+    deleteRecord.errors.removeListener(notifyListeners);
     loadRecords.dispose();
     addRecord.dispose();
     updateRecord.dispose();

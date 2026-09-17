@@ -97,6 +97,20 @@ void main() {
       expect(viewModel.deleteLease.errors.value, isNotNull);
     });
 
+    test('deleteLease failure does not call global handler', () async {
+      var globalCalled = false;
+      Command.globalExceptionHandler = (_, _) => globalCalled = true;
+      await viewModel.loadLeases.runAsync();
+      fakeDhcpRepository.shouldFail = true;
+
+      await expectLater(
+        viewModel.deleteLease.runAsync('192.168.2.111'),
+        throwsA(anything),
+      );
+
+      expect(globalCalled, isFalse);
+    });
+
     test('isRunning is true while loading', () async {
       final future = viewModel.loadLeases.runAsync();
 

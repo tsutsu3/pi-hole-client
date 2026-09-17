@@ -17,6 +17,7 @@ class SessionsViewModel extends ChangeNotifier {
     loadSessions.isRunning.addListener(notifyListeners);
     loadSessions.errors.addListener(notifyListeners);
     deleteSession.addListener(notifyListeners);
+    deleteSession.errors.addListener(notifyListeners);
   }
 
   final AuthRepository _authRepository;
@@ -58,6 +59,7 @@ class SessionsViewModel extends ChangeNotifier {
     loadSessions.isRunning.removeListener(notifyListeners);
     loadSessions.errors.removeListener(notifyListeners);
     deleteSession.removeListener(notifyListeners);
+    deleteSession.errors.removeListener(notifyListeners);
     loadSessions.dispose();
     deleteSession.dispose();
     super.dispose();
