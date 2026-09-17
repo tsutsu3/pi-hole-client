@@ -127,7 +127,7 @@ class _ClientsListState extends State<ClientsList> {
             window: true,
             groups: widget.groups,
             devices: clientsViewModel.deviceOptions,
-            ipToHostname: ipToHostname,
+            ipToHostname: clientsViewModel.ipToHostname,
           ),
         );
       } else {
@@ -138,7 +138,7 @@ class _ClientsListState extends State<ClientsList> {
             window: false,
             groups: widget.groups,
             devices: clientsViewModel.deviceOptions,
-            ipToHostname: ipToHostname,
+            ipToHostname: clientsViewModel.ipToHostname,
           ),
           isScrollControlled: true,
         );
