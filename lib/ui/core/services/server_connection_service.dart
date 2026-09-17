@@ -7,6 +7,7 @@ import 'package:pi_hole_client/domain/model/dns/dns.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/domain/model/server/server_auth.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/services/totp_login.dart';
 import 'package:pi_hole_client/ui/core/types/resolve_totp.dart';
@@ -196,42 +197,45 @@ class ServerConnectionService {
       final creds = await serversViewModel.fetchCredentials(
         serverForLogin.address,
       );
-      final pw = creds.getOrNull()?.password ?? '';
-      if (pw.isNotEmpty) {
-        // Try existing session first to avoid creating unnecessary sessions.
-        // Use skipRenewal: true so that no session renewal happens inside the
-        // probe — if the existing session is expired, createSession below is
-        // the sole place that creates a new session, preventing duplicates.
-        final preCheck = await bundle.dns.fetchBlockingStatus(
-          skipRenewal: true,
-        );
-        if (preCheck.isSuccess()) {
-          process?.close();
-          return preCheck;
-        }
-        // Only re-authenticate on auth errors (401/SidNotFoundException).
-        // Transient failures (503/504/timeout) should not create a new session
-        // as that would cause session multiplication on the Pi-hole side.
-        final preCheckErr = preCheck.exceptionOrNull();
-        if (!isReauthRequired(preCheckErr)) {
-          process?.close();
-          return Failure(
-            preCheckErr ?? Exception('connection pre-check failed'),
+      final auth = V6ServerAuth.of(creds.getOrNull()?.password ?? '');
+      switch (auth) {
+        case NoAuth():
+          break;
+        case PasswordAuth(password: final password):
+          // Try existing session first to avoid creating unnecessary sessions.
+          // Use skipRenewal: true so that no session renewal happens inside the
+          // probe — if the existing session is expired, createSession below is
+          // the sole place that creates a new session, preventing duplicates.
+          final preCheck = await bundle.dns.fetchBlockingStatus(
+            skipRenewal: true,
           );
-        }
-        // Session is missing or expired — re-authenticate, prompting for a
-        // TOTP code when the server requires 2FA.
-        final login = await _createSessionWithTotp(bundle, pw, process);
-        if (login.cancelled) {
-          process?.close();
-          return Failure(TotpCancelledException());
-        }
+          if (preCheck.isSuccess()) {
+            process?.close();
+            return preCheck;
+          }
+          // Only re-authenticate on auth errors (401/SidNotFoundException).
+          // Transient failures (503/504/timeout) should not create a new session
+          // as that would cause session multiplication on the Pi-hole side.
+          final preCheckErr = preCheck.exceptionOrNull();
+          if (!isReauthRequired(preCheckErr)) {
+            process?.close();
+            return Failure(
+              preCheckErr ?? Exception('connection pre-check failed'),
+            );
+          }
+          // Session is missing or expired — re-authenticate, prompting for a
+          // TOTP code when the server requires 2FA.
+          final login = await _createSessionWithTotp(bundle, password, process);
+          if (login.cancelled) {
+            process?.close();
+            return Failure(TotpCancelledException());
+          }
 
-        if (login.error != null) {
-          process?.close();
-          return Failure(login.error!);
-        }
-        sessionJustCreated = true;
+          if (login.error != null) {
+            process?.close();
+            return Failure(login.error!);
+          }
+          sessionJustCreated = true;
       }
     }
     // Use skipRenewal: true when a session was just created above to prevent

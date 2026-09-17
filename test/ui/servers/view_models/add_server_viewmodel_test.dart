@@ -168,6 +168,16 @@ void main() {
         expect(authRepository.createSessionCallCount, 0);
       });
 
+      test('v6 passwordless success verifies with an empty password', () async {
+        final vm = buildViewModel();
+
+        final outcome = await vm.createServer.runAsync(createReq(password: ''));
+
+        expect(outcome, isA<CreateSuccess>());
+        expect(authRepository.createSessionCallCount, 1);
+        expect(authRepository.lastPassword, '');
+      });
+
       test('returns CreateDuplicateUrl when the URL already exists', () async {
         serversViewModel.urlExistsResult = true;
         final vm = buildViewModel();

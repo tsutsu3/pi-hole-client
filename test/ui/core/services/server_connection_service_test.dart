@@ -144,6 +144,26 @@ void main() async {
       expect(serversViewModel.connectingServer, isNull);
     });
 
+    testWidgets('v6 passwordless server connects without creating a session', (
+      tester,
+    ) async {
+      serversViewModel
+        ..selectedServer = _serverV6
+        ..storedPassword = '';
+      final ctx = await pumpContext(tester);
+
+      await buildService(
+        ctx,
+        server: _serverV6,
+        dns: FakeDnsRepository(),
+      ).connect();
+      await tester.pump();
+
+      expect(authRepository.createSessionCallCount, 0);
+      expect(serversViewModel.selectedServer, _serverV6);
+      expect(statusViewModel.getServerStatus, LoadStatus.loaded);
+    });
+
     testWidgets('expired session on a 2FA server prompts and connects', (
       tester,
     ) async {

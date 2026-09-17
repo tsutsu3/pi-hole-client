@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/domain/model/server/server_auth.dart';
 import 'package:pi_hole_client/ui/core/services/totp_login.dart';
 import 'package:pi_hole_client/ui/core/types/resolve_totp.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
@@ -254,15 +255,24 @@ class AddServerViewModel extends ChangeNotifier {
       return const CreateCancelled();
     }
     serverObj = resolved;
+    final serverAuth = ServerAuth.of(serverObj, (
+      password: req.password,
+      token: req.token,
+    ));
 
     await _serversViewModel.savePassword(req.url, req.password);
     await _serversViewModel.saveToken(req.url, req.token);
 
     final bundle = _createBundle(server: serverObj);
-    if (serverObj.apiVersion == SupportedApiVersions.v6) {
+    // Token auth (v5) has no session, so there is nothing to log in to.
+    if (serverAuth is V6ServerAuth) {
+      final password = switch (serverAuth) {
+        NoAuth() => '',
+        PasswordAuth(password: final password) => password,
+      };
       final login = await runTotpLogin(
         auth: bundle.auth,
-        password: req.password,
+        password: password,
         resolveTotp: req.resolveTotp,
       );
       if (login.cancelled) {
@@ -438,6 +448,10 @@ class AddServerViewModel extends ChangeNotifier {
       return const UpdateCancelled();
     }
     serverObj = updatedServer;
+    final serverAuth = ServerAuth.of(serverObj, (
+      password: req.password,
+      token: req.token,
+    ));
 
     await _serversViewModel.savePassword(targetAddress, req.password);
     await _serversViewModel.saveToken(targetAddress, req.token);
@@ -446,6 +460,7 @@ class AddServerViewModel extends ChangeNotifier {
     final auth = await _authenticate(
       bundle: bundle,
       req: req,
+      serverAuth: serverAuth,
       isAddressChanged: isAddressChanged,
     );
     if (auth.cancelled) {
@@ -535,6 +550,7 @@ class AddServerViewModel extends ChangeNotifier {
   _authenticate({
     required RepositoryBundle bundle,
     required UpdateServerRequest req,
+    required ServerAuth serverAuth,
     required bool isAddressChanged,
   }) async {
     // Maps a login attempt to the _authenticate result record. [needsRollback]
@@ -547,10 +563,14 @@ class AddServerViewModel extends ChangeNotifier {
         bool cancelled,
       })
     >
-    login({required bool needsRollback}) async {
+    login({required V6ServerAuth auth, required bool needsRollback}) async {
+      final password = switch (auth) {
+        NoAuth() => '',
+        PasswordAuth(password: final password) => password,
+      };
       final result = await runTotpLogin(
         auth: bundle.auth,
-        password: req.password,
+        password: password,
         resolveTotp: req.resolveTotp,
       );
       if (result.cancelled) {
@@ -577,8 +597,33 @@ class AddServerViewModel extends ChangeNotifier {
       );
     }
 
-    // Non-v6: v5 has no 2FA, so the flag is definitively false.
-    if (req.apiVersion != SupportedApiVersions.v6) {
+    if (serverAuth is V6ServerAuth) {
+      // Address changed: new-address credentials were already written, so a
+      // failure/cancel needs a rollback.
+      if (isAddressChanged) {
+        return login(auth: serverAuth, needsRollback: true);
+      }
+
+      // Same address, password changed
+      if (req.password != req.initPassword) {
+        return login(auth: serverAuth, needsRollback: false);
+      }
+
+      // Same address, password unchanged
+      final preCheck = await bundle.dns.fetchBlockingStatus(skipRenewal: true);
+      if (preCheck.isError()) {
+        final err = preCheck.exceptionOrNull();
+        if (!isReauthRequired(err)) {
+          return (
+            sessionCreated: false,
+            error: err,
+            needsRollback: false,
+            cancelled: false,
+          );
+        }
+        return login(auth: serverAuth, needsRollback: false);
+      }
+
       return (
         sessionCreated: false,
         error: null,
@@ -587,32 +632,7 @@ class AddServerViewModel extends ChangeNotifier {
       );
     }
 
-    // Address changed: new-address credentials were already written, so a
-    // failure/cancel needs a rollback.
-    if (isAddressChanged) {
-      return login(needsRollback: true);
-    }
-
-    // Same address, password changed
-    if (req.password != req.initPassword) {
-      return login(needsRollback: false);
-    }
-
-    // Same address, password unchanged
-    final preCheck = await bundle.dns.fetchBlockingStatus(skipRenewal: true);
-    if (preCheck.isError()) {
-      final err = preCheck.exceptionOrNull();
-      if (!isReauthRequired(err)) {
-        return (
-          sessionCreated: false,
-          error: err,
-          needsRollback: false,
-          cancelled: false,
-        );
-      }
-      return login(needsRollback: false);
-    }
-
+    // Token auth (v5 and the existing unknown-version fallback) has no session.
     return (
       sessionCreated: false,
       error: null,

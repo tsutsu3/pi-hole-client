@@ -48,6 +48,10 @@ class FakeServersViewModel extends ServersViewModel {
   set failFetchCredentials(bool value) =>
       _fakeRepo.shouldFailFetchCredentials = value;
 
+  set storedPassword(String value) => _fakeRepo.fakePassword = value;
+
+  set storedToken(String value) => _fakeRepo.fakeToken = value;
+
   // --- Call tracking (delegate to repo) ---
 
   int get removeServerCallCount => _fakeRepo.deleteCallCount;

@@ -1,6 +1,7 @@
 import 'package:pi_hole_client/data/mapper/v6/auth_mapper.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
+import 'package:pi_hole_client/domain/model/server/server_auth.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
@@ -62,10 +63,13 @@ class V6SessionCache {
         // No SID + empty password = no-auth server: use an empty SID. A failed
         // password read is a real storage error, so still throw in that case.
         final pwResult = await _creds.password;
-        if (pwResult.isSuccess() && (pwResult.getOrNull() ?? '').isEmpty) {
-          sid = '';
-        } else {
-          throw SidNotFoundException();
+        if (pwResult.isError()) throw SidNotFoundException();
+        final auth = V6ServerAuth.of(pwResult.getOrThrow());
+        switch (auth) {
+          case NoAuth():
+            sid = '';
+          case PasswordAuth():
+            throw SidNotFoundException();
         }
       } else {
         sid = r.getOrThrow();
@@ -143,29 +147,32 @@ class V6SessionCache {
 
   Future<void> _renew() async {
     final pw = (await _creds.password).getOrNull() ?? '';
-    if (pw.isEmpty) {
-      _clear();
-      await _creds.deleteSid();
-      return;
+    final auth = V6ServerAuth.of(pw);
+    switch (auth) {
+      case NoAuth():
+        _clear();
+        await _creds.deleteSid();
+        return;
+      case PasswordAuth(password: final password):
+        // Purge the stale SID from storage before POST /api/auth.
+        // If postAuth succeeds, saveSid() restores it.
+        // If postAuth fails (e.g. HTTPS response lost after Pi-hole creates the session),
+        // storage stays empty → next getSid() throws SidNotFoundException → no retry loop.
+        final deleteResult = await _creds.deleteSid();
+        if (deleteResult.isError()) {
+          logger.w(
+            '[V6SessionCache] Failed to purge stale SID: ${deleteResult.exceptionOrNull()}',
+          );
+        }
+        final result = await _client.postAuth(password: password);
+        final session = result.getOrThrow().toDomain();
+        if (!session.valid) throw Exception('Session renewal failed');
+        await saveSid(session.sid);
+        await WidgetChannel.sendSidUpdated(
+          serverAddress: serverAddress,
+          sid: session.sid,
+        );
     }
-    // Purge the stale SID from storage before POST /api/auth.
-    // If postAuth succeeds, saveSid() restores it.
-    // If postAuth fails (e.g. HTTPS response lost after Pi-hole creates the session),
-    // storage stays empty → next getSid() throws SidNotFoundException → no retry loop.
-    final deleteResult = await _creds.deleteSid();
-    if (deleteResult.isError()) {
-      logger.w(
-        '[V6SessionCache] Failed to purge stale SID: ${deleteResult.exceptionOrNull()}',
-      );
-    }
-    final result = await _client.postAuth(password: pw);
-    final auth = result.getOrThrow().toDomain();
-    if (!auth.valid) throw Exception('Session renewal failed');
-    await saveSid(auth.sid);
-    await WidgetChannel.sendSidUpdated(
-      serverAddress: serverAddress,
-      sid: auth.sid,
-    );
   }
 
   Future<void> _renewOnce() async {
