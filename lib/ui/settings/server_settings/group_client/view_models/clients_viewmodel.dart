@@ -2,15 +2,25 @@ import 'package:collection/collection.dart';
 import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/client_repository.dart';
+import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/domain/model/network/device_lookups.dart';
+import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:result_dart/result_dart.dart';
 
 class ClientsViewModel extends ChangeNotifier {
-  ClientsViewModel({required ClientRepository clientRepository})
-    : _clientRepository = clientRepository {
+  ClientsViewModel({
+    required ClientRepository clientRepository,
+    required NetworkRepository networkRepository,
+  }) : _clientRepository = clientRepository,
+       _networkRepository = networkRepository {
     loadClients = Command.createAsyncNoParam<void>(
       _loadClients,
+      initialValue: null,
+    );
+    loadDevices = Command.createAsyncNoParam<void>(
+      _loadDevices,
       initialValue: null,
     );
     addClient = Command.createAsyncNoResult(_addClient);
@@ -20,6 +30,8 @@ class ClientsViewModel extends ChangeNotifier {
     loadClients.addListener(notifyListeners);
     loadClients.isRunning.addListener(notifyListeners);
     loadClients.errors.addListener(notifyListeners);
+    loadDevices.addListener(notifyListeners);
+    loadDevices.errors.addListener(notifyListeners);
     addClient.addListener(notifyListeners);
     addClient.errors.addListener(notifyListeners);
     updateClient.addListener(notifyListeners);
@@ -29,14 +41,14 @@ class ClientsViewModel extends ChangeNotifier {
   }
 
   final ClientRepository _clientRepository;
+  final NetworkRepository _networkRepository;
 
-  static const MapEquality<String, String> _stringMapEquality =
-      MapEquality<String, String>();
   static const MapEquality<int, String> _intStringMapEquality =
       MapEquality<int, String>();
 
   // --- Commands ---
   late final Command<void, void> loadClients;
+  late final Command<void, void> loadDevices;
   late final Command<
     ({String client, String? comment, List<int>? groups}),
     void
@@ -52,7 +64,8 @@ class ClientsViewModel extends ChangeNotifier {
   // --- State ---
   List<ManagedClient> _clients = [];
   List<ManagedClient> _filteredClients = [];
-  Map<String, String> _ipToMac = {};
+  List<DeviceOption> _deviceOptions = [];
+  DeviceLookups _lookups = (ipToMac: {}, ipToHostname: {}, macToIp: {});
   Map<int, String> _groupNames = {};
   String _searchTerm = '';
   bool _searchMode = false;
@@ -62,6 +75,10 @@ class ClientsViewModel extends ChangeNotifier {
   List<ManagedClient> get filteredClients => _filteredClients;
   String get searchTerm => _searchTerm;
   bool get searchMode => _searchMode;
+  List<DeviceOption> get deviceOptions => _deviceOptions;
+  Map<String, String> get ipToMac => _lookups.ipToMac;
+  Map<String, String> get ipToHostname => _lookups.ipToHostname;
+  Map<String, String> get macToIp => _lookups.macToIp;
 
   LoadStatus get loadingStatus {
     if (loadClients.isRunning.value) return LoadStatus.loading;
@@ -70,15 +87,6 @@ class ClientsViewModel extends ChangeNotifier {
   }
 
   // --- Lookup updates ---
-  void updateMacLookup(Map<String, String> ipToMac) {
-    if (_stringMapEquality.equals(_ipToMac, ipToMac)) return;
-    _ipToMac = Map<String, String>.from(ipToMac);
-    if (_searchTerm.isNotEmpty) {
-      _applyFilters();
-      notifyListeners();
-    }
-  }
-
   void updateGroupLookup(Map<int, String> groupNames) {
     if (_intStringMapEquality.equals(_groupNames, groupNames)) return;
     _groupNames = Map<int, String>.from(groupNames);
@@ -94,6 +102,20 @@ class ClientsViewModel extends ChangeNotifier {
     switch (result) {
       case Success():
         _clients = result.getOrNull();
+        _applyFilters();
+        notifyListeners();
+      case Failure():
+        throw result.exceptionOrNull();
+    }
+  }
+
+  Future<void> _loadDevices() async {
+    final result = await _networkRepository.fetchDevices();
+    switch (result) {
+      case Success():
+        final devices = result.getOrNull();
+        _deviceOptions = devices.toDeviceOptions();
+        _lookups = devices.toLookups();
         _applyFilters();
         notifyListeners();
       case Failure():
@@ -176,7 +198,7 @@ class ClientsViewModel extends ChangeNotifier {
     final name = (client.name ?? '').toLowerCase();
     final comment = (client.comment ?? '').toLowerCase();
     final clientId = client.client.toLowerCase();
-    final mac = (_ipToMac[client.client] ?? '').toLowerCase();
+    final mac = (_lookups.ipToMac[client.client] ?? '').toLowerCase();
     final groupNames = client.groups
         .map((id) => (_groupNames[id] ?? '').toLowerCase())
         .join(' ');
@@ -192,6 +214,8 @@ class ClientsViewModel extends ChangeNotifier {
     loadClients.removeListener(notifyListeners);
     loadClients.isRunning.removeListener(notifyListeners);
     loadClients.errors.removeListener(notifyListeners);
+    loadDevices.removeListener(notifyListeners);
+    loadDevices.errors.removeListener(notifyListeners);
     addClient.removeListener(notifyListeners);
     addClient.errors.removeListener(notifyListeners);
     updateClient.removeListener(notifyListeners);
@@ -199,6 +223,7 @@ class ClientsViewModel extends ChangeNotifier {
     deleteClient.removeListener(notifyListeners);
     deleteClient.errors.removeListener(notifyListeners);
     loadClients.dispose();
+    loadDevices.dispose();
     addClient.dispose();
     updateClient.dispose();
     deleteClient.dispose();

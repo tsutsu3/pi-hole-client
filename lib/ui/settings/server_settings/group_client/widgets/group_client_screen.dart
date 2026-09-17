@@ -8,7 +8,6 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/view_models/local_dns_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/clients_viewmodel.dart';
@@ -57,15 +56,14 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
       if (!mounted) return;
       final clientsViewModel = context.read<ClientsViewModel>();
       final groupsViewModel = context.read<GroupsViewModel>();
-      final localDnsProvider = context.read<LocalDnsViewModel>();
       final domainsViewModel = context.read<DomainsViewModel>();
       final adlistsViewModel = context.read<AdlistsViewModel>();
 
       try {
         await (
           clientsViewModel.loadClients.runAsync(),
+          clientsViewModel.loadDevices.runAsync(),
           groupsViewModel.loadGroups.runAsync(),
-          localDnsProvider.load.runAsync(),
           domainsViewModel.loadDomains.runAsync(),
           adlistsViewModel.loadAdlists.runAsync(),
         ).wait;
@@ -95,12 +93,10 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
   Widget build(BuildContext context) {
     final clientsViewModel = Provider.of<ClientsViewModel>(context);
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
-    final localDnsProvider = Provider.of<LocalDnsViewModel>(context);
     final groups = context.watch<GroupsViewModel>().groupItems;
-    final ipToMac = localDnsProvider.ipToMac;
-    final ipToHostname = localDnsProvider.ipToHostname;
-    final macToIp = localDnsProvider.macToIp;
-    clientsViewModel.updateMacLookup(ipToMac);
+    final ipToMac = clientsViewModel.ipToMac;
+    final ipToHostname = clientsViewModel.ipToHostname;
+    final macToIp = clientsViewModel.macToIp;
     clientsViewModel.updateGroupLookup(groups);
 
     Widget buildSearchTitle() {

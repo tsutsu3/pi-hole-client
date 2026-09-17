@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
-import 'package:pi_hole_client/ui/core/view_models/local_dns_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/clients_viewmodel.dart';
@@ -12,9 +11,10 @@ Widget createGroupClientScreen(RepositoryBundle bundle) {
   return MultiProvider(
     providers: [
       ChangeNotifierProvider(
-        create: (_) =>
-            ClientsViewModel(clientRepository: bundle.client)
-              ..loadClients.run(),
+        create: (_) => ClientsViewModel(
+          clientRepository: bundle.client,
+          networkRepository: bundle.network,
+        )..loadClients.run(),
       ),
       ChangeNotifierProvider(
         create: (_) =>
@@ -29,12 +29,6 @@ Widget createGroupClientScreen(RepositoryBundle bundle) {
         create: (_) =>
             AdlistsViewModel(adListRepository: bundle.adlist)
               ..loadAdlists.run(),
-      ),
-      ChangeNotifierProvider(
-        create: (_) => LocalDnsViewModel(
-          localDnsRepository: bundle.localDns,
-          networkRepository: bundle.network,
-        ),
       ),
     ],
     child: const GroupClientScreen(),

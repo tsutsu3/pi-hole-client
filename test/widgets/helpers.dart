@@ -36,7 +36,6 @@ import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/ftl/message.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
-import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/metrics/queries.dart' as logs_model;
 import 'package:pi_hole_client/domain/model/network/network.dart'
     show DeviceOption;
@@ -46,7 +45,6 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/globals.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/view_models/local_dns_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
@@ -1270,8 +1268,6 @@ final dhcp = Dhcp.fromJson({
   'took': 0.003,
 });
 
-final localDns = LocalDns.fromJson({'ip': '192.168.1.2', 'name': 'device'});
-
 final deviceOption = DeviceOption.fromJson({
   'ip': '192.168.1.2',
   'hwaddr': 'device',
@@ -1322,7 +1318,6 @@ Future<void> initializeApp() async {
   StatusViewModel,
   DomainsViewModel,
   ClientsViewModel,
-  LocalDnsViewModel,
   GroupsViewModel,
   AdlistsViewModel,
   GravityUpdateViewModel,
@@ -1338,7 +1333,6 @@ class TestSetupHelper {
     MockGroupsViewModel? customGroupsViewModel,
     MockAdlistsViewModel? customAdlistsViewModel,
     MockGravityUpdateViewModel? customGravityUpdateViewModel,
-    MockLocalDnsViewModel? customLocalDnsViewModel,
   }) {
     mockConfigProvider = customConfigProvider ?? MockAppConfigViewModel();
     mockServersViewModel = customServersViewModel ?? MockServersViewModel();
@@ -1350,7 +1344,6 @@ class TestSetupHelper {
     mockAdlistsViewModel = customAdlistsViewModel ?? MockAdlistsViewModel();
     mockGravityUpdateViewModel =
         customGravityUpdateViewModel ?? MockGravityUpdateViewModel();
-    mockLocalDnsViewModel = customLocalDnsViewModel ?? MockLocalDnsViewModel();
 
     fakeActionsRepository = FakeActionsRepository();
     fakeAdlistRepository = FakeAdlistRepository();
@@ -1372,7 +1365,6 @@ class TestSetupHelper {
   late MockGroupsViewModel mockGroupsViewModel;
   late MockAdlistsViewModel mockAdlistsViewModel;
   late MockGravityUpdateViewModel mockGravityUpdateViewModel;
-  late MockLocalDnsViewModel mockLocalDnsViewModel;
 
   late FakeActionsRepository fakeActionsRepository;
   late FakeAdlistRepository fakeAdlistRepository;
@@ -1390,7 +1382,6 @@ class TestSetupHelper {
     _initClientsViewModelMock(useApiGatewayVersion);
     _initGroupsViewModelMock(useApiGatewayVersion);
     _initAdlistsViewModelMock(useApiGatewayVersion);
-    _initLocalDnsViewModelMock(useApiGatewayVersion);
     _initGravityUpdateViewModelMock(useApiGatewayVersion);
   }
 
@@ -1511,9 +1502,6 @@ class TestSetupHelper {
                     ftlRepository: bundle?.ftl,
                     serverAddress: serversViewModel.selectedServer?.address,
                   ),
-            ),
-            ChangeNotifierProvider<LocalDnsViewModel>.value(
-              value: mockLocalDnsViewModel,
             ),
             Provider<SecureStorageService>(
               create: (_) => SecureStorageService(),
@@ -1647,9 +1635,6 @@ class TestSetupHelper {
                 ftlRepository: bundle?.ftl,
                 serverAddress: serversViewModel.selectedServer?.address,
               ),
-        ),
-        ChangeNotifierProvider<LocalDnsViewModel>.value(
-          value: mockLocalDnsViewModel,
         ),
         Provider<SecureStorageService>(create: (_) => SecureStorageService()),
       ],
@@ -1923,7 +1908,17 @@ class TestSetupHelper {
     when(mockClientsViewModel.loadingStatus).thenReturn(LoadStatus.loaded);
     when(mockClientsViewModel.onSearch(any)).thenReturn(null);
     when(mockClientsViewModel.setSearchMode(any)).thenReturn(null);
-    when(mockClientsViewModel.updateMacLookup(any)).thenReturn(null);
+    when(mockClientsViewModel.deviceOptions).thenReturn([deviceOption]);
+    when(
+      mockClientsViewModel.ipToMac,
+    ).thenReturn({deviceOption.ip: deviceOption.hwaddr});
+    when(mockClientsViewModel.ipToHostname).thenReturn({});
+    when(
+      mockClientsViewModel.macToIp,
+    ).thenReturn({deviceOption.hwaddr: deviceOption.ip});
+    when(mockClientsViewModel.loadDevices).thenReturn(
+      Command.createAsyncNoParam<void>(() async {}, initialValue: null),
+    );
     when(mockClientsViewModel.updateGroupLookup(any)).thenReturn(null);
     when(mockClientsViewModel.loadClients).thenReturn(
       Command.createAsyncNoParam<void>(() async {}, initialValue: null),
@@ -2089,36 +2084,5 @@ class TestSetupHelper {
     when(mockGravityUpdateViewModel.load()).thenAnswer((_) async => ());
     when(mockGravityUpdateViewModel.start()).thenAnswer((_) async => ());
     when(mockGravityUpdateViewModel.reset()).thenReturn(null);
-  }
-
-  void _initLocalDnsViewModelMock(String useApiGatewayVersion) {
-    when(mockLocalDnsViewModel.localDns).thenReturn([localDns]);
-    when(mockLocalDnsViewModel.deviceOptions).thenReturn([deviceOption]);
-    when(
-      mockLocalDnsViewModel.ipToMac,
-    ).thenReturn({deviceOption.ip: deviceOption.hwaddr});
-    when(mockLocalDnsViewModel.ipToHostname).thenReturn({});
-    when(
-      mockLocalDnsViewModel.macToIp,
-    ).thenReturn({deviceOption.hwaddr: deviceOption.ip});
-    when(mockLocalDnsViewModel.loadingStatus).thenReturn(LoadStatus.loaded);
-
-    when(
-      mockLocalDnsViewModel.setLoadingStatus(any),
-    ).thenAnswer((_) async => ());
-
-    when(mockLocalDnsViewModel.load()).thenAnswer((_) async => ());
-
-    when(mockLocalDnsViewModel.addLocalDns(any)).thenAnswer((_) async => true);
-
-    when(mockLocalDnsViewModel.updateLocalDns(any)).thenAnswer((_) async => ());
-
-    when(
-      mockLocalDnsViewModel.removeLocalDns(any),
-    ).thenAnswer((_) async => true);
-
-    when(
-      mockLocalDnsViewModel.devicesToOptions(any),
-    ).thenReturn([deviceOption]);
   }
 }

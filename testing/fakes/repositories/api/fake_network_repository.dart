@@ -7,6 +7,7 @@ import '../../../models/v6/network.dart';
 class FakeNetworkRepository implements NetworkRepository {
   bool shouldFail = false;
   int fetchDevicesCallCount = 0;
+  List<Device> devices = kRepoFetchDevices;
 
   @override
   Future<Result<List<Device>>> fetchDevices({
@@ -17,7 +18,7 @@ class FakeNetworkRepository implements NetworkRepository {
     if (shouldFail) {
       return Failure(Exception('Force fetchDevices failure'));
     }
-    return Success(kRepoFetchDevices);
+    return Success(devices);
   }
 
   @override
