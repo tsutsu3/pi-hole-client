@@ -162,8 +162,8 @@ void main() {
     });
   });
 
-  // Local DNS records are a config list, not a gravity table, so older FTL
-  // and v6.7 give the same 400 answer.
+  // Local DNS records are a config list, not a gravity table. Older FTL
+  // (e.g. pihole:2025.02.7) and v6.7 both answer 400 "Item already present".
   group('already exists', () {
     setUp(() {
       creds = FakeSessionCredentialService();
@@ -178,7 +178,8 @@ void main() {
       client.saveFailure = HttpStatusCodeException(
         400,
         '{"error":{"key":"bad_request","message":"Item already present",'
-        ' "hint":"Uniqueness of items is enforced"}}',
+        ' "hint":"Uniqueness of items is enforced"},'
+        ' "took":0.003}',
       );
 
       final result = await repository.addRecord(
