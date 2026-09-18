@@ -21,6 +21,18 @@ class AlreadyExistsException implements Exception {
   String toString() => 'AlreadyExistsException: $message';
 }
 
+/// Exception indicating that a group cannot be deleted because clients,
+/// domains or adlists still use it. Older Pi-hole databases do not remove
+/// these links on their own and answer `FOREIGN KEY constraint failed`.
+class GroupInUseException implements Exception {
+  /// Creates a GroupInUseException with an optional [message].
+  GroupInUseException([this.message = 'Group is still in use.']);
+  final String message;
+
+  @override
+  String toString() => 'GroupInUseException: $message';
+}
+
 class TokenNotFoundException implements Exception {
   /// Creates a TokenNotFoundException with an optional [message].
   TokenNotFoundException([this.message = 'Token not found.']);

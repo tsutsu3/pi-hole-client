@@ -5,6 +5,7 @@ import 'package:pi_hole_client/data/repositories/utils/already_exists.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
 
 class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
@@ -103,7 +104,17 @@ class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
     return runWithResultRetry<Unit>(
       action: () async {
         final sid = await getSid();
-        return _client.deleteGroups(sid, name: name);
+        final result = await _client.deleteGroups(sid, name: name);
+        // Older databases keep the links to clients, domains and adlists,
+        // so the server refuses to delete a group that is still used.
+        final error = result.exceptionOrNull();
+        if (error is HttpStatusCodeException &&
+            error.statusCode >= 400 &&
+            error.statusCode < 500 &&
+            error.message.contains('FOREIGN KEY constraint failed')) {
+          return Failure(GroupInUseException());
+        }
+        return result;
       },
       onRetry: (_, e) => renewSidIfExpired(e),
     );

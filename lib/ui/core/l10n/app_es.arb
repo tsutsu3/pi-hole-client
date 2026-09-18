@@ -339,6 +339,7 @@
   "groupDetails": "Detalles del grupo",
   "groupEdit": "Editar grupo",
   "groupInfo": "Información del grupo",
+  "groupInUse": "Este grupo lo usan clientes, dominios o listas. Quítelo de ellos primero y luego elimine el grupo",
   "groupMembers": "Miembros del grupo",
   "groupName": "Nombre del grupo",
   "groupNotExists": "El grupo no existe",

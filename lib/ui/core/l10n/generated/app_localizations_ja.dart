@@ -1033,6 +1033,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get groupInfo => 'グループ情報';
 
   @override
+  String get groupInUse =>
+      'このグループはクライアント、ドメイン、またはリストで使われています。先に所属を外してから削除してください';
+
+  @override
   String get groupMembers => 'グループメンバー';
 
   @override

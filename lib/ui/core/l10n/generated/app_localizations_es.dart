@@ -1083,6 +1083,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get groupInfo => 'Información del grupo';
 
   @override
+  String get groupInUse =>
+      'Este grupo lo usan clientes, dominios o listas. Quítelo de ellos primero y luego elimine el grupo';
+
+  @override
   String get groupMembers => 'Miembros del grupo';
 
   @override

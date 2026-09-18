@@ -5,6 +5,7 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 
 Future<void> deleteGroup({
   required BuildContext context,
@@ -23,6 +24,14 @@ Future<void> deleteGroup({
       context: context,
       appConfigViewModel: appConfigViewModel,
       label: AppLocalizations.of(context)!.groupRemoved,
+    );
+  } on GroupInUseException {
+    if (!context.mounted) return;
+
+    showErrorSnackBar(
+      context: context,
+      appConfigViewModel: appConfigViewModel,
+      label: AppLocalizations.of(context)!.groupInUse,
     );
   } catch (_) {
     if (!context.mounted) return;

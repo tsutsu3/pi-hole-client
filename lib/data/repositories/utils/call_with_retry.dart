@@ -89,8 +89,8 @@ Future<T> runWithRetry<T>({
 /// - [onRetry]: Optional callback invoked after each failed attempt, with the
 ///   current attempt count and the failure exception.
 ///
-/// An [AlreadyExistsException] is returned at once, because sending the same
-/// request again cannot succeed.
+/// An [AlreadyExistsException] or [GroupInUseException] is returned at once,
+/// because sending the same request again cannot succeed.
 ///
 /// Returns:
 /// - A [Future<Result<T>>] that resolves to the first [Success] returned by [action],
@@ -124,7 +124,8 @@ Future<Result<T>> runWithResultRetry<T extends Object>({
       );
     }
 
-    if (lastFailure.exceptionOrNull() is AlreadyExistsException) {
+    final error = lastFailure.exceptionOrNull();
+    if (error is AlreadyExistsException || error is GroupInUseException) {
       return lastFailure;
     }
 

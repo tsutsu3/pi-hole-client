@@ -97,6 +97,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   Clients? postClientsResponse;
   Lists? postListsResponse;
 
+  /// When set, deleteGroups fails with it.
+  Exception? deleteGroupsFailure;
+  int deleteGroupsCallCount = 0;
+
   Config getConfigElementResponse = kSrvGetConfigElement;
   ConfigData? lastPatchConfigBody;
   bool shouldPatchConfigFail = false;
@@ -332,6 +336,8 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
 
   @override
   Future<Result<Unit>> deleteGroups(String sid, {required String name}) async {
+    deleteGroupsCallCount++;
+    if (deleteGroupsFailure != null) return Failure(deleteGroupsFailure!);
     if (shouldFail) {
       return Failure(Exception('Forced deleteGroups failure'));
     }

@@ -111,6 +111,22 @@ void main() {
       final result = await repository.deleteGroup('test');
       expectError(result, messageContains: 'Forced deleteGroups failure');
     });
+
+    // Older databases (e.g. pihole:2025.02.7) keep the links to the group.
+    test('returns GroupInUse when the group is still used', () async {
+      client.deleteGroupsFailure = HttpStatusCodeException(
+        400,
+        '{"error":{"key":"database_error",'
+        ' "message":"Could not remove entries from table",'
+        ' "hint":"FOREIGN KEY constraint failed"},'
+        ' "took":0.0003}',
+      );
+
+      final result = await repository.deleteGroup('test');
+
+      expect(result.exceptionOrNull(), isA<GroupInUseException>());
+      expect(client.deleteGroupsCallCount, 1);
+    });
   });
 
   group('already exists', () {

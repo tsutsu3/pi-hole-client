@@ -2132,6 +2132,12 @@ abstract class AppLocalizations {
   /// **'Group info'**
   String get groupInfo;
 
+  /// No description provided for @groupInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'This group is used by clients, domains or adlists. Remove it from them first, then delete the group'**
+  String get groupInUse;
+
   /// No description provided for @groupMembers.
   ///
   /// In en, this message translates to:
