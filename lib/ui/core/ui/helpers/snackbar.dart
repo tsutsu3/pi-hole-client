@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/globals.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 
 void showSuccessSnackBar({
   required BuildContext context,
@@ -49,6 +50,30 @@ void showErrorSnackBar({
     labelColorSelector: (theme) => theme.snackBarErrorText!,
     duration: duration!,
   );
+}
+
+/// Shows errors. An [AlreadyExistsException] shows [alreadyExistsLabel] as a caution,
+/// and any other [error] shows [failedLabel] as an error.
+void showSaveFailedSnackBar({
+  required BuildContext context,
+  required AppConfigViewModel appConfigViewModel,
+  required Object error,
+  required String alreadyExistsLabel,
+  required String failedLabel,
+}) {
+  if (error is AlreadyExistsException) {
+    showCautionSnackBar(
+      context: context,
+      appConfigViewModel: appConfigViewModel,
+      label: alreadyExistsLabel,
+    );
+  } else {
+    showErrorSnackBar(
+      context: context,
+      appConfigViewModel: appConfigViewModel,
+      label: failedLabel,
+    );
+  }
 }
 
 void showNeutralSnackBar({
