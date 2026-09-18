@@ -3,6 +3,7 @@ import 'package:pi_hole_client/data/model/v6/config/config.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/local_dns_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 
 import '../../../../../testing/fakes/services/fake_pihole_v6_api_client.dart';
 import '../../../../../testing/fakes/services/fake_session_credential_service.dart';
@@ -158,6 +159,35 @@ void main() {
       );
 
       expectError(result, messageContains: 'Forced patchConfig failure');
+    });
+  });
+
+  // Local DNS records are a config list, not a gravity table, so older FTL
+  // and v6.7 give the same 400 answer.
+  group('already exists', () {
+    setUp(() {
+      creds = FakeSessionCredentialService();
+      client = FakePiholeV6ApiClient();
+      repository = LocalDnsRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
+    });
+
+    test('addRecord: 400 "Item already present"', () async {
+      client.saveFailure = HttpStatusCodeException(
+        400,
+        '{"error":{"key":"bad_request","message":"Item already present",'
+        ' "hint":"Uniqueness of items is enforced"}}',
+      );
+
+      final result = await repository.addRecord(
+        ip: '192.168.1.10',
+        name: 'nas',
+      );
+
+      expect(result.exceptionOrNull(), isA<AlreadyExistsException>());
+      expect(client.saveCallCount, 1);
     });
   });
 }

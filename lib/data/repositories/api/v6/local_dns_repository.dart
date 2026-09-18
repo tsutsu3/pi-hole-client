@@ -1,6 +1,7 @@
 import 'package:pi_hole_client/data/model/v6/config/config.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/local_dns_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/base_v6_sid_repository.dart';
+import 'package:pi_hole_client/data/repositories/utils/already_exists.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
@@ -38,11 +39,12 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
     return runWithResultRetry<Unit>(
       action: () async {
         final sid = await getSid();
-        return _client.putConfigElement(
+        final result = await _client.putConfigElement(
           sid,
           element: 'dns/hosts',
           value: '$ip $name',
         );
+        return mapDuplicateFailure(result);
       },
       onRetry: (_, e) => renewSidIfExpired(e),
     );

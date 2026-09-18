@@ -84,6 +84,19 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   /// Returns an empty group list even when no rename was requested.
   bool shouldPutGroupsReturnEmpty = false;
 
+  /// When set, add and save requests (postDomains, putDomains, postGroups,
+  /// putGroups, postClients, postLists, putConfigElement) fail with it.
+  Exception? saveFailure;
+  int saveCallCount = 0;
+
+  /// When set, these requests return the given response.
+  Domains? postDomainsResponse;
+  Domains? putDomainsResponse;
+  Groups? postGroupsResponse;
+  Groups? putGroupsResponse;
+  Clients? postClientsResponse;
+  Lists? postListsResponse;
+
   Config getConfigElementResponse = kSrvGetConfigElement;
   ConfigData? lastPatchConfigBody;
   bool shouldPatchConfigFail = false;
@@ -287,6 +300,9 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     String? comment,
     bool? enabled = true,
   }) async {
+    saveCallCount++;
+    if (saveFailure != null) return Failure(saveFailure!);
+    if (postGroupsResponse != null) return Success(postGroupsResponse!);
     if (shouldFail) {
       return Failure(Exception('Forced postGroups failure'));
     }
@@ -301,6 +317,9 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     String? comment,
     bool? enabled = true,
   }) async {
+    saveCallCount++;
+    if (saveFailure != null) return Failure(saveFailure!);
+    if (putGroupsResponse != null) return Success(putGroupsResponse!);
     if (shouldFail) {
       return Failure(Exception('Forced putGroups failure'));
     }
@@ -337,6 +356,9 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     String? comment,
     List<int>? groups = const [0],
   }) async {
+    saveCallCount++;
+    if (saveFailure != null) return Failure(saveFailure!);
+    if (postClientsResponse != null) return Success(postClientsResponse!);
     if (shouldFail) {
       return Failure(Exception('Forced postClients failure'));
     }
@@ -393,9 +415,12 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     List<int>? groups = const [0],
     bool? enabled = true,
   }) async {
+    saveCallCount++;
+    if (saveFailure != null) return Failure(saveFailure!);
     if (shouldFail) {
       return Failure(Exception('Forced postDomains failure'));
     }
+    if (postDomainsResponse != null) return Success(postDomainsResponse!);
     return const Success(kSrvPostDomains);
   }
 
@@ -409,6 +434,9 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     List<int>? groups = const [0],
     bool? enabled = true,
   }) async {
+    saveCallCount++;
+    if (saveFailure != null) return Failure(saveFailure!);
+    if (putDomainsResponse != null) return Success(putDomainsResponse!);
     if (shouldFail) {
       return Failure(Exception('Forced putDomains failure'));
     }
@@ -452,9 +480,12 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     String? comment = '',
     bool? enabled = true,
   }) async {
+    saveCallCount++;
+    if (saveFailure != null) return Failure(saveFailure!);
     if (shouldFail) {
       return Failure(Exception('Forced postLists failure'));
     }
+    if (postListsResponse != null) return Success(postListsResponse!);
     return Success(kSrvPostLists);
   }
 
@@ -747,6 +778,8 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     required String value,
     bool isRestart = true,
   }) async {
+    saveCallCount++;
+    if (saveFailure != null) return Failure(saveFailure!);
     if (shouldFail) {
       return Failure(Exception('Forced putConfigElement failure'));
     }
