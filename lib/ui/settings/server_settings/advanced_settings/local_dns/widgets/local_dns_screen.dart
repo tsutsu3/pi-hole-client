@@ -63,15 +63,15 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
     }
   }
 
-  Future<bool> _onUpdateLocalDns(LocalDns updated, String oldIp) async {
+  Future<bool> _onUpdateLocalDns(LocalDns updated, LocalDns old) async {
     final locale = AppLocalizations.of(context)!;
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context)..open(locale.updating);
 
     try {
       await widget.viewModel.updateRecord.runAsync((
-        record: updated,
-        oldIp: oldIp,
+        oldRecord: old,
+        newRecord: updated,
       ));
       if (!mounted) return false;
       process.close();

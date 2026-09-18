@@ -20,7 +20,7 @@ class LocalDnsDetailScreen extends StatefulWidget {
   final LocalDns localDns;
   final List<DeviceOption>? devices;
   final Future<bool> Function(LocalDns) onDelete;
-  final Future<bool> Function(LocalDns updated, String oldIp) onUpdate;
+  final Future<bool> Function(LocalDns updated, LocalDns old) onUpdate;
 
   @override
   State<LocalDnsDetailScreen> createState() => _LocalDnsDetailScreenState();
@@ -133,8 +133,8 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
     );
   }
 
-  Future<void> onEditLocalDns(LocalDns localDns, String oldIp) async {
-    final ok = await widget.onUpdate(localDns, oldIp);
+  Future<void> onEditLocalDns(LocalDns localDns, LocalDns old) async {
+    final ok = await widget.onUpdate(localDns, old);
     if (!mounted) return;
     if (ok) {
       setState(() => _localDns = localDns);

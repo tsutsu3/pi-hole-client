@@ -107,7 +107,7 @@ class LocalDnsDetailsExtra {
 
   final LocalDns localDns;
   final Future<bool> Function(LocalDns) onDelete;
-  final Future<bool> Function(LocalDns, String) onUpdate;
+  final Future<bool> Function(LocalDns, LocalDns) onUpdate;
   final List<DeviceOption>? devices;
 }
 

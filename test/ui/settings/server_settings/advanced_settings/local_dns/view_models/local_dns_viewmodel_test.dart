@@ -9,6 +9,11 @@ import '../../../../../../../testing/fakes/repositories/api/fake_local_dns_repos
 import '../../../../../../../testing/fakes/repositories/api/fake_network_repository.dart';
 import '../../../../../../../testing/models/v6/local_dns.dart';
 
+const sameIpRecords = [
+  LocalDns(ip: '192.168.1.10', name: 'nas'),
+  LocalDns(ip: '192.168.1.10', name: 'printer'),
+];
+
 void main() {
   group('LocalDnsViewModel', () {
     late FakeLocalDnsRepository fakeLocalDnsRepository;
@@ -104,8 +109,8 @@ void main() {
       await viewModel.loadRecords.runAsync();
 
       await viewModel.updateRecord.runAsync((
-        record: const LocalDns(ip: '192.168.1.200', name: 'updated'),
-        oldIp: '192.168.1.100',
+        oldRecord: const LocalDns(ip: '192.168.1.100', name: 'server1'),
+        newRecord: const LocalDns(ip: '192.168.1.200', name: 'updated'),
       ));
 
       expect(fakeLocalDnsRepository.updateRecordCallCount, 1);
@@ -121,6 +126,58 @@ void main() {
         isTrue,
       );
     });
+
+    test(
+      'updateRecord changes only the record with the same IP and name',
+      () async {
+        fakeLocalDnsRepository.records = sameIpRecords;
+        await viewModel.loadRecords.runAsync();
+
+        await viewModel.updateRecord.runAsync((
+          oldRecord: const LocalDns(ip: '192.168.1.10', name: 'printer'),
+          newRecord: const LocalDns(ip: '192.168.1.10', name: 'printer2'),
+        ));
+
+        expect(viewModel.data.records, const [
+          LocalDns(ip: '192.168.1.10', name: 'nas'),
+          LocalDns(ip: '192.168.1.10', name: 'printer2'),
+        ]);
+      },
+    );
+
+    test('updateRecord failure sets error and keeps records', () async {
+      await viewModel.loadRecords.runAsync();
+      fakeLocalDnsRepository.shouldFail = true;
+
+      final completer = Completer<void>();
+      viewModel.updateRecord.errors.addListener(() {
+        if (!completer.isCompleted) completer.complete();
+      });
+      viewModel.updateRecord.run((
+        oldRecord: const LocalDns(ip: '192.168.1.100', name: 'notfound'),
+        newRecord: const LocalDns(ip: '192.168.1.200', name: 'updated'),
+      ));
+      await completer.future;
+
+      expect(viewModel.updateRecord.errors.value, isNotNull);
+      expect(viewModel.data.records, equals(kRepoFetchLocalDnsRecords));
+    });
+
+    test(
+      'deleteRecord removes only the record with the same IP and name',
+      () async {
+        fakeLocalDnsRepository.records = sameIpRecords;
+        await viewModel.loadRecords.runAsync();
+
+        await viewModel.deleteRecord.runAsync(
+          const LocalDns(ip: '192.168.1.10', name: 'printer'),
+        );
+
+        expect(viewModel.data.records, const [
+          LocalDns(ip: '192.168.1.10', name: 'nas'),
+        ]);
+      },
+    );
 
     test('deleteRecord success removes record locally', () async {
       await viewModel.loadRecords.runAsync();
@@ -169,8 +226,8 @@ void main() {
       );
       await expectLater(
         viewModel.updateRecord.runAsync((
-          record: const LocalDns(ip: '192.168.1.200', name: 'updated'),
-          oldIp: '192.168.1.100',
+          oldRecord: const LocalDns(ip: '192.168.1.100', name: 'server1'),
+          newRecord: const LocalDns(ip: '192.168.1.200', name: 'updated'),
         )),
         throwsA(anything),
       );

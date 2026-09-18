@@ -35,8 +35,8 @@ class LocalDnsRepositoryV5 extends BaseV5TokenRepository
 
   @override
   Future<Result<Unit>> updateRecord({
-    required LocalDns record,
-    required String oldIp,
+    required LocalDns oldRecord,
+    required LocalDns newRecord,
   }) async {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),

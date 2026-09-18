@@ -10,6 +10,7 @@ class FakeLocalDnsRepository implements LocalDnsRepository {
   int addRecordCallCount = 0;
   int updateRecordCallCount = 0;
   int deleteRecordCallCount = 0;
+  List<LocalDns> records = kRepoFetchLocalDnsRecords;
 
   @override
   Future<Result<List<LocalDns>>> fetchRecords() async {
@@ -17,7 +18,7 @@ class FakeLocalDnsRepository implements LocalDnsRepository {
     if (shouldFail) {
       return Failure(Exception('Force fetchRecords failure'));
     }
-    return const Success(kRepoFetchLocalDnsRecords);
+    return Success(records);
   }
 
   @override
@@ -34,8 +35,8 @@ class FakeLocalDnsRepository implements LocalDnsRepository {
 
   @override
   Future<Result<Unit>> updateRecord({
-    required LocalDns record,
-    required String oldIp,
+    required LocalDns oldRecord,
+    required LocalDns newRecord,
   }) async {
     updateRecordCallCount++;
     if (shouldFail) {
