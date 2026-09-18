@@ -1,4 +1,6 @@
 import 'dart:async';
+
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
 
 /// Executes an asynchronous [action] with retry logic until it succeeds or the retry limit is reached.
@@ -87,6 +89,9 @@ Future<T> runWithRetry<T>({
 /// - [onRetry]: Optional callback invoked after each failed attempt, with the
 ///   current attempt count and the failure exception.
 ///
+/// An [AlreadyExistsException] is returned at once, because sending the same
+/// request again cannot succeed.
+///
 /// Returns:
 /// - A [Future<Result<T>>] that resolves to the first [Success] returned by [action],
 ///   or the last [Failure] if all retry attempts fail.
@@ -117,6 +122,10 @@ Future<Result<T>> runWithResultRetry<T extends Object>({
             ? e
             : Exception('Exception on attempt $attempt: $e\n$st'),
       );
+    }
+
+    if (lastFailure.exceptionOrNull() is AlreadyExistsException) {
+      return lastFailure;
     }
 
     attempt++;

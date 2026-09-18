@@ -10,14 +10,24 @@ class NotSupportedException implements Exception {
   String toString() => 'NotSupportedException: $message';
 }
 
+/// Exception indicating that the item to add or save already exists on the
+/// server.
+class AlreadyExistsException implements Exception {
+  /// Creates an AlreadyExistsException with an optional [message].
+  AlreadyExistsException([this.message = 'Item already exists.']);
+  final String message;
+
+  @override
+  String toString() => 'AlreadyExistsException: $message';
+}
+
 /// Exception indicating that a Local DNS record with the same IP and names
 /// already exists.
-class LocalDnsAlreadyExistsException implements Exception {
+class LocalDnsAlreadyExistsException extends AlreadyExistsException {
   /// Creates a LocalDnsAlreadyExistsException with an optional [message].
   LocalDnsAlreadyExistsException([
-    this.message = 'Local DNS record already exists.',
+    super.message = 'Local DNS record already exists.',
   ]);
-  final String message;
 
   @override
   String toString() => 'LocalDnsAlreadyExistsException: $message';
