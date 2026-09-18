@@ -4,6 +4,7 @@ import 'package:result_dart/result_dart.dart';
 
 class FakeGroupRepository implements GroupRepository {
   bool shouldFail = false;
+  Exception? deleteGroupError;
 
   final _now = DateTime(2025, 1, 1);
 
@@ -76,6 +77,9 @@ class FakeGroupRepository implements GroupRepository {
 
   @override
   Future<Result<Unit>> deleteGroup(String name) async {
+    if (deleteGroupError != null) {
+      return Failure(deleteGroupError!);
+    }
     if (shouldFail) {
       return Failure(Exception('Force deleteGroup failure'));
     }
