@@ -84,6 +84,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   /// Returns an empty group list even when no rename was requested.
   bool shouldPutGroupsReturnEmpty = false;
 
+  Config getConfigElementResponse = kSrvGetConfigElement;
+  ConfigData? lastPatchConfigBody;
+  bool shouldPatchConfigFail = false;
+
   @override
   void close() {}
 
@@ -720,7 +724,7 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     if (shouldFail) {
       return Failure(Exception('Forced getConfigElement failure'));
     }
-    return const Success(kSrvGetConfigElement);
+    return Success(getConfigElementResponse);
   }
 
   @override
@@ -729,9 +733,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     required ConfigData body,
     bool isRestart = true,
   }) async {
-    if (shouldFail) {
+    if (shouldFail || shouldPatchConfigFail) {
       return Failure(Exception('Forced patchConfig failure'));
     }
+    lastPatchConfigBody = body;
     return Success(kSrvPatchConfig);
   }
 

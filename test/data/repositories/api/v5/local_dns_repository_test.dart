@@ -34,8 +34,8 @@ void main() {
 
     test('updateRecord should return NotSupportedException', () async {
       final result = await repository.updateRecord(
-        record: const LocalDns(ip: '192.168.1.1', name: 'mydevice'),
-        oldIp: '192.168.1.0',
+        oldRecord: const LocalDns(ip: '192.168.1.0', name: 'mydevice'),
+        newRecord: const LocalDns(ip: '192.168.1.1', name: 'mydevice'),
       );
       expectError(result, messageContains: kNotSupportedInV5Message);
     });

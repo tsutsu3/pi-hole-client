@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/data/model/v6/config/config.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/local_dns_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
@@ -105,21 +106,58 @@ void main() {
       );
     });
 
+    void setHosts(List<String> hosts) {
+      client.getConfigElementResponse = Config(
+        config: ConfigData(dns: Dns(hosts: hosts)),
+      );
+    }
+
+    test('should replace only the entry with the same IP and name', () async {
+      setHosts(['192.168.1.10 nas', '192.168.1.10 printer']);
+
+      final result = await repository.updateRecord(
+        oldRecord: const LocalDns(ip: '192.168.1.10', name: 'printer'),
+        newRecord: const LocalDns(ip: '192.168.1.10', name: 'printer2'),
+      );
+
+      expect(result.isSuccess(), true);
+      expect(client.lastPatchConfigBody?.dns?.hosts, [
+        '192.168.1.10 nas',
+        '192.168.1.10 printer2',
+      ]);
+    });
+
     test('should fail when fetching current config fails', () async {
       client.shouldFail = true;
       final result = await repository.updateRecord(
-        record: const LocalDns(ip: '192.168.1.100', name: 'mydevice'),
-        oldIp: '192.168.1.1',
+        oldRecord: const LocalDns(ip: '192.168.1.1', name: 'mydevice'),
+        newRecord: const LocalDns(ip: '192.168.1.100', name: 'mydevice'),
       );
       expectError(result, messageContains: 'Forced getConfigElement failure');
     });
 
-    test('should fail when entry with oldIp is not found in hosts', () async {
+    test('should fail when no entry has the same IP and name', () async {
+      setHosts(['192.168.1.10 nas']);
+
       final result = await repository.updateRecord(
-        record: const LocalDns(ip: '192.168.1.100', name: 'newname'),
-        oldIp: '10.0.0.1',
+        oldRecord: const LocalDns(ip: '192.168.1.10', name: 'printer'),
+        newRecord: const LocalDns(ip: '192.168.1.10', name: 'printer2'),
       );
-      expectError(result, messageContains: 'Entry with IP');
+
+      expectError(result, messageContains: 'not found');
+      expect(client.lastPatchConfigBody, isNull);
+    });
+
+    test('should fail when patching config fails', () async {
+      setHosts(['192.168.1.10 nas']);
+      client.shouldPatchConfigFail = true;
+
+      final result = await repository.updateRecord(
+        oldRecord: const LocalDns(ip: '192.168.1.10', name: 'nas'),
+        newRecord: const LocalDns(ip: '192.168.1.10', name: 'nas2'),
+      );
+
+      expectError(result, messageContains: 'Forced patchConfig failure');
     });
   });
 }

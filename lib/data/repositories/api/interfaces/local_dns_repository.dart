@@ -7,8 +7,8 @@ abstract interface class LocalDnsRepository {
   Future<Result<Unit>> addRecord({required String ip, required String name});
 
   Future<Result<Unit>> updateRecord({
-    required LocalDns record,
-    required String oldIp,
+    required LocalDns oldRecord,
+    required LocalDns newRecord,
   });
 
   Future<Result<Unit>> deleteRecord({required String ip, required String name});

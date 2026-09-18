@@ -22,7 +22,7 @@ class EditLocalDnsModal extends StatefulWidget {
   final String keyItem;
   final String title;
   final IconData icon;
-  final void Function(LocalDns, String) onConfirm;
+  final void Function(LocalDns updated, LocalDns old) onConfirm;
   final bool window;
   final List<DeviceOption>? devices;
 
@@ -216,7 +216,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                                 widget.localDns.copyWith(
                                   name: localDnsController.text,
                                 ),
-                                widget.localDns.ip,
+                                widget.localDns,
                               );
                             }
                             if (widget.keyItem == 'ip') {
@@ -224,7 +224,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                                 widget.localDns.copyWith(
                                   ip: localDnsController.text,
                                 ),
-                                widget.localDns.ip,
+                                widget.localDns,
                               );
                             }
                             Navigator.maybePop(context);

@@ -468,15 +468,17 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      var updated = false;
+      LocalDns? updated;
+      LocalDns? old;
 
       await tester.pumpWidget(
         buildTestApp(
           LocalDnsDetailScreen(
             localDns: _testDns,
             onDelete: (_) async => true,
-            onUpdate: (_, _) async {
-              updated = true;
+            onUpdate: (u, o) async {
+              updated = u;
+              old = o;
               return true;
             },
           ),
@@ -496,7 +498,8 @@ void main() async {
       await tester.tap(find.widgetWithText(TextButton, 'Edit'));
       await tester.pumpAndSettle();
 
-      expect(updated, isTrue);
+      expect(updated, _testDns.copyWith(name: 'new.hostname'));
+      expect(old, _testDns);
     });
 
     testWidgets('opens edit IP modal when IP tile is tapped', (

@@ -68,8 +68,8 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
 
   @override
   Future<Result<Unit>> updateRecord({
-    required LocalDns record,
-    required String oldIp,
+    required LocalDns oldRecord,
+    required LocalDns newRecord,
   }) async {
     return runWithResultRetry<Unit>(
       action: () async {
@@ -83,14 +83,12 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
         final config = configResult.getOrThrow();
         final hosts = List<String>.from(config.config?.dns?.hosts ?? []);
 
-        // 2. Find and replace the entry matching oldIp
-        final oldEntry = hosts.indexWhere(
-          (h) => h.trim().split(RegExp(r'\s+')).first == oldIp,
-        );
+        // 2. Find and replace the entry matching both IP and name
+        final oldEntry = hosts.indexWhere((h) => _parseHost(h) == oldRecord);
         if (oldEntry == -1) {
-          throw Exception('Entry with IP $oldIp not found');
+          throw Exception('Entry ${oldRecord.ip} ${oldRecord.name} not found');
         }
-        hosts[oldEntry] = '${record.ip} ${record.name}';
+        hosts[oldEntry] = '${newRecord.ip} ${newRecord.name}';
 
         // 3. Patch config with updated hosts list
         final patchResult = await _client.patchConfig(
@@ -105,14 +103,16 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
 
   List<LocalDns> _parseHosts(List<String>? hosts) {
     if (hosts == null || hosts.isEmpty) return [];
-    return hosts.map((entry) {
-      final trimmed = entry.trim();
-      final sep = trimmed.indexOf(RegExp(r'\s'));
-      if (sep == -1) return LocalDns(ip: trimmed, name: '');
-      return LocalDns(
-        ip: trimmed.substring(0, sep),
-        name: trimmed.substring(sep).trimLeft(),
-      );
-    }).toList();
+    return hosts.map(_parseHost).toList();
+  }
+
+  LocalDns _parseHost(String entry) {
+    final trimmed = entry.trim();
+    final sep = trimmed.indexOf(RegExp(r'\s'));
+    if (sep == -1) return LocalDns(ip: trimmed, name: '');
+    return LocalDns(
+      ip: trimmed.substring(0, sep),
+      name: trimmed.substring(sep).trimLeft(),
+    );
   }
 }
