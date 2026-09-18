@@ -21,18 +21,6 @@ class AlreadyExistsException implements Exception {
   String toString() => 'AlreadyExistsException: $message';
 }
 
-/// Exception indicating that a Local DNS record with the same IP and names
-/// already exists.
-class LocalDnsAlreadyExistsException extends AlreadyExistsException {
-  /// Creates a LocalDnsAlreadyExistsException with an optional [message].
-  LocalDnsAlreadyExistsException([
-    super.message = 'Local DNS record already exists.',
-  ]);
-
-  @override
-  String toString() => 'LocalDnsAlreadyExistsException: $message';
-}
-
 class TokenNotFoundException implements Exception {
   /// Creates a TokenNotFoundException with an optional [message].
   TokenNotFoundException([this.message = 'Token not found.']);
