@@ -119,14 +119,16 @@ class _DomainsListState extends State<DomainsList> {
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.domainAdded,
         );
-      } catch (_) {
+      } catch (e) {
         if (!context.mounted) return;
         process.close();
 
-        showErrorSnackBar(
+        showSaveFailedSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.domainAddFailed,
+          error: e,
+          alreadyExistsLabel: AppLocalizations.of(context)!.domainAlreadyAdded,
+          failedLabel: AppLocalizations.of(context)!.domainAddFailed,
         );
       }
     }

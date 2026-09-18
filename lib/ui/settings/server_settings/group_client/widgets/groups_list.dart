@@ -109,14 +109,16 @@ class _GroupsListState extends State<GroupsList> {
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.groupAdded,
         );
-      } catch (_) {
+      } catch (e) {
         if (!context.mounted) return;
         process.close();
 
-        showErrorSnackBar(
+        showSaveFailedSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.groupAddFailed,
+          error: e,
+          alreadyExistsLabel: AppLocalizations.of(context)!.groupAlreadyAdded,
+          failedLabel: AppLocalizations.of(context)!.groupAddFailed,
         );
       }
     }

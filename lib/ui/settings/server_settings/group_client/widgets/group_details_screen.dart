@@ -240,14 +240,16 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.groupUpdated,
       );
-    } catch (_) {
+    } catch (e) {
       if (!mounted) return;
       process.close();
 
-      showErrorSnackBar(
+      showSaveFailedSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.groupUpdateFailed,
+        error: e,
+        alreadyExistsLabel: AppLocalizations.of(context)!.groupAlreadyAdded,
+        failedLabel: AppLocalizations.of(context)!.groupUpdateFailed,
       );
     }
   }

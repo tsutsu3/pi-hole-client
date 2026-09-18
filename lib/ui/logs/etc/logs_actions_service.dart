@@ -78,10 +78,14 @@ class LogActionsService {
           label: isAllow ? loc.domainAllowlistAdded : loc.domainBlocklistAdded,
         );
       },
-      (_) => showErrorSnackBar(
+      (e) => showSaveFailedSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: isAllow
+        error: e,
+        alreadyExistsLabel: isAllow
+            ? loc.domainAllowlistAlready
+            : loc.domainBlocklistAlready,
+        failedLabel: isAllow
             ? loc.domainAllowlistAddFailed
             : loc.domainBlocklistAddFailed,
       ),
