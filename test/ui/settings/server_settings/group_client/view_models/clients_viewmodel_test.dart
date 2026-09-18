@@ -1,20 +1,27 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/clients_viewmodel.dart';
 
 import '../../../../../../testing/fakes/repositories/api/fake_client_repository.dart';
+import '../../../../../../testing/fakes/repositories/api/fake_network_repository.dart';
 
 void main() {
   group('ClientsViewModel', () {
     late bool listenerCalled;
     late ClientsViewModel viewModel;
     late FakeClientRepository fakeClientRepository;
+    late FakeNetworkRepository fakeNetworkRepository;
 
     setUp(() {
       Command.globalExceptionHandler = (_, _) {};
       fakeClientRepository = FakeClientRepository();
-      viewModel = ClientsViewModel(clientRepository: fakeClientRepository);
+      fakeNetworkRepository = FakeNetworkRepository();
+      viewModel = ClientsViewModel(
+        clientRepository: fakeClientRepository,
+        networkRepository: fakeNetworkRepository,
+      );
       listenerCalled = false;
       viewModel.addListener(() {
         listenerCalled = true;
@@ -32,7 +39,40 @@ void main() {
       expect(viewModel.filteredClients, []);
       expect(viewModel.searchTerm, '');
       expect(viewModel.searchMode, false);
+      expect(viewModel.deviceOptions, []);
+      expect(viewModel.ipToMac, <String, String>{});
+      expect(viewModel.ipToHostname, <String, String>{});
+      expect(viewModel.macToIp, <String, String>{});
       expect(listenerCalled, false);
+    });
+
+    test('loadDevices fills device options and lookups', () async {
+      await viewModel.loadDevices.runAsync();
+
+      expect(fakeNetworkRepository.fetchDevicesCallCount, 1);
+      expect(viewModel.deviceOptions.map((o) => o.ip), [
+        '192.168.1.51',
+        '192.168.1.52',
+        '192.168.1.62',
+      ]);
+      expect(viewModel.ipToMac['192.168.1.51'], '00:11:22:33:44:55');
+      expect(viewModel.ipToHostname['192.168.1.52'], 'ubuntu-server');
+      expect(viewModel.macToIp['00:11:22:33:44:xx'], '192.168.1.52');
+      expect(listenerCalled, true);
+    });
+
+    test('loadDevices failure sets error and keeps clients', () async {
+      await viewModel.loadClients.runAsync();
+      fakeNetworkRepository.shouldFail = true;
+
+      try {
+        await viewModel.loadDevices.runAsync();
+      } catch (_) {}
+
+      expect(viewModel.loadDevices.errors.value, isNotNull);
+      expect(viewModel.deviceOptions, []);
+      expect(viewModel.clients.length, 2);
+      expect(viewModel.loadingStatus, LoadStatus.loaded);
     });
 
     test('setSearchMode updates search mode', () {
@@ -100,8 +140,25 @@ void main() {
     test(
       'onSearch filters clients by MAC address via ipToMac lookup',
       () async {
+        fakeNetworkRepository.devices = [
+          Device(
+            id: 1,
+            hwaddr: 'aa:bb:cc:dd:ee:ff',
+            interface: 'eth0',
+            firstSeen: DateTime(2024),
+            lastQuery: DateTime(2024),
+            numQueries: 1,
+            ips: [
+              DeviceIp(
+                ip: '192.168.1.100',
+                lastSeen: DateTime(2024),
+                nameUpdated: DateTime(2024),
+              ),
+            ],
+          ),
+        ];
         await viewModel.loadClients.runAsync();
-        viewModel.updateMacLookup({'192.168.1.100': 'aa:bb:cc:dd:ee:ff'});
+        await viewModel.loadDevices.runAsync();
         listenerCalled = false;
 
         viewModel.onSearch('aa:bb:cc');
@@ -186,15 +243,6 @@ void main() {
 
       expect(viewModel.deleteClient.errors.value, isNotNull);
       expect(listenerCalled, true);
-    });
-
-    test('updateMacLookup does not notify when unchanged', () async {
-      await viewModel.loadClients.runAsync();
-      viewModel.updateMacLookup({'192.168.1.100': 'aa:bb:cc:dd:ee:ff'});
-      listenerCalled = false;
-
-      viewModel.updateMacLookup({'192.168.1.100': 'aa:bb:cc:dd:ee:ff'});
-      expect(listenerCalled, false);
     });
 
     test('updateGroupLookup does not notify when unchanged', () async {

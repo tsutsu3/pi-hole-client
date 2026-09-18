@@ -8,10 +8,10 @@ import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
-import 'package:pi_hole_client/ui/core/view_models/local_dns_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/clients_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/add_client_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/widgets/client_tile.dart';
+import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 
 class ClientsList extends StatefulWidget {
@@ -65,13 +65,12 @@ class _ClientsListState extends State<ClientsList> {
   @override
   Widget build(BuildContext context) {
     final clientsViewModel = Provider.of<ClientsViewModel>(context);
-    final localDnsProvider = Provider.of<LocalDnsViewModel>(context);
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
 
     final clients = clientsViewModel.filteredClients;
-    final ipToMac = localDnsProvider.ipToMac;
-    final ipToHostname = localDnsProvider.ipToHostname;
-    final macToIp = localDnsProvider.macToIp;
+    final ipToMac = clientsViewModel.ipToMac;
+    final ipToHostname = clientsViewModel.ipToHostname;
+    final macToIp = clientsViewModel.macToIp;
 
     Future<void> onAddClient(
       ({String client, String? comment, List<int>? groups}) request,
@@ -108,8 +107,13 @@ class _ClientsListState extends State<ClientsList> {
           mediaQuery.size.width > mediaQuery.size.height &&
           mediaQuery.size.height < ResponsiveConstants.medium;
 
-      if (localDnsProvider.deviceOptions.isEmpty) {
-        await localDnsProvider.load.runAsync();
+      if (clientsViewModel.deviceOptions.isEmpty) {
+        try {
+          await clientsViewModel.loadDevices.runAsync();
+        } catch (e) {
+          // Open the modal without device suggestions.
+          logger.d('Failed to load devices for add client modal: $e');
+        }
       }
       if (!context.mounted) return;
 
@@ -122,8 +126,8 @@ class _ClientsListState extends State<ClientsList> {
             onConfirm: onAddClient,
             window: true,
             groups: widget.groups,
-            devices: localDnsProvider.deviceOptions,
-            ipToHostname: ipToHostname,
+            devices: clientsViewModel.deviceOptions,
+            ipToHostname: clientsViewModel.ipToHostname,
           ),
         );
       } else {
@@ -133,8 +137,8 @@ class _ClientsListState extends State<ClientsList> {
             onConfirm: onAddClient,
             window: false,
             groups: widget.groups,
-            devices: localDnsProvider.deviceOptions,
-            ipToHostname: ipToHostname,
+            devices: clientsViewModel.deviceOptions,
+            ipToHostname: clientsViewModel.ipToHostname,
           ),
           isScrollControlled: true,
         );

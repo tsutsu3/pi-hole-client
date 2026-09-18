@@ -13,7 +13,7 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i6;
 import 'package:package_info_plus/package_info_plus.dart' as _i9;
 import 'package:pi_hole_client/data/repositories/api/interfaces/actions_respository.dart'
-    as _i39;
+    as _i37;
 import 'package:pi_hole_client/data/repositories/api/interfaces/dns_repository.dart'
     as _i25;
 import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart'
@@ -29,19 +29,16 @@ import 'package:pi_hole_client/domain/model/app/app_log.dart' as _i8;
 import 'package:pi_hole_client/domain/model/client/managed_client.dart' as _i29;
 import 'package:pi_hole_client/domain/model/domain/domain.dart' as _i20;
 import 'package:pi_hole_client/domain/model/enums.dart' as _i7;
-import 'package:pi_hole_client/domain/model/ftl/message.dart' as _i38;
-import 'package:pi_hole_client/domain/model/group/group.dart' as _i34;
-import 'package:pi_hole_client/domain/model/list/adlist.dart' as _i36;
-import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart' as _i31;
+import 'package:pi_hole_client/domain/model/ftl/message.dart' as _i36;
+import 'package:pi_hole_client/domain/model/group/group.dart' as _i32;
+import 'package:pi_hole_client/domain/model/list/adlist.dart' as _i34;
 import 'package:pi_hole_client/domain/model/metrics/queries.dart' as _i19;
-import 'package:pi_hole_client/domain/model/network/network.dart' as _i32;
+import 'package:pi_hole_client/domain/model/network/network.dart' as _i30;
 import 'package:pi_hole_client/domain/model/query_status.dart' as _i16;
 import 'package:pi_hole_client/domain/model/server/server.dart' as _i15;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart'
     as _i5;
-import 'package:pi_hole_client/ui/core/view_models/local_dns_viewmodel.dart'
-    as _i30;
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart'
     as _i14;
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart'
@@ -50,13 +47,13 @@ import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart'
     as _i27;
 import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart' as _i18;
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart'
-    as _i35;
+    as _i33;
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/gravity_update_viewmodel.dart'
-    as _i37;
+    as _i35;
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/clients_viewmodel.dart'
     as _i28;
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart'
-    as _i33;
+    as _i31;
 import 'package:result_dart/result_dart.dart' as _i17;
 
 // ignore_for_file: type=lint
@@ -1718,6 +1715,17 @@ class MockClientsViewModel extends _i1.Mock implements _i28.ClientsViewModel {
           as _i3.Command<void, void>);
 
   @override
+  _i3.Command<void, void> get loadDevices =>
+      (super.noSuchMethod(
+            Invocation.getter(#loadDevices),
+            returnValue: _FakeCommand_1<void, void>(
+              this,
+              Invocation.getter(#loadDevices),
+            ),
+          )
+          as _i3.Command<void, void>);
+
+  @override
   _i3.Command<({String client, String? comment, List<int>? groups}), void>
   get addClient =>
       (super.noSuchMethod(
@@ -1793,6 +1801,38 @@ class MockClientsViewModel extends _i1.Mock implements _i28.ClientsViewModel {
           as bool);
 
   @override
+  List<_i30.DeviceOption> get deviceOptions =>
+      (super.noSuchMethod(
+            Invocation.getter(#deviceOptions),
+            returnValue: <_i30.DeviceOption>[],
+          )
+          as List<_i30.DeviceOption>);
+
+  @override
+  Map<String, String> get ipToMac =>
+      (super.noSuchMethod(
+            Invocation.getter(#ipToMac),
+            returnValue: <String, String>{},
+          )
+          as Map<String, String>);
+
+  @override
+  Map<String, String> get ipToHostname =>
+      (super.noSuchMethod(
+            Invocation.getter(#ipToHostname),
+            returnValue: <String, String>{},
+          )
+          as Map<String, String>);
+
+  @override
+  Map<String, String> get macToIp =>
+      (super.noSuchMethod(
+            Invocation.getter(#macToIp),
+            returnValue: <String, String>{},
+          )
+          as Map<String, String>);
+
+  @override
   _i7.LoadStatus get loadingStatus =>
       (super.noSuchMethod(
             Invocation.getter(#loadingStatus),
@@ -1803,6 +1843,12 @@ class MockClientsViewModel extends _i1.Mock implements _i28.ClientsViewModel {
   @override
   set loadClients(_i3.Command<void, void>? value) => super.noSuchMethod(
     Invocation.setter(#loadClients, value),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  set loadDevices(_i3.Command<void, void>? value) => super.noSuchMethod(
+    Invocation.setter(#loadDevices, value),
     returnValueForMissingStub: null,
   );
 
@@ -1835,12 +1881,6 @@ class MockClientsViewModel extends _i1.Mock implements _i28.ClientsViewModel {
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
-
-  @override
-  void updateMacLookup(Map<String, String>? ipToMac) => super.noSuchMethod(
-    Invocation.method(#updateMacLookup, [ipToMac]),
-    returnValueForMissingStub: null,
-  );
 
   @override
   void updateGroupLookup(Map<int, String>? groupNames) => super.noSuchMethod(
@@ -1885,183 +1925,10 @@ class MockClientsViewModel extends _i1.Mock implements _i28.ClientsViewModel {
   );
 }
 
-/// A class which mocks [LocalDnsViewModel].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockLocalDnsViewModel extends _i1.Mock implements _i30.LocalDnsViewModel {
-  MockLocalDnsViewModel() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i3.Command<void, void> get load =>
-      (super.noSuchMethod(
-            Invocation.getter(#load),
-            returnValue: _FakeCommand_1<void, void>(
-              this,
-              Invocation.getter(#load),
-            ),
-          )
-          as _i3.Command<void, void>);
-
-  @override
-  _i3.Command<_i31.LocalDns, void> get addLocalDns =>
-      (super.noSuchMethod(
-            Invocation.getter(#addLocalDns),
-            returnValue: _FakeCommand_1<_i31.LocalDns, void>(
-              this,
-              Invocation.getter(#addLocalDns),
-            ),
-          )
-          as _i3.Command<_i31.LocalDns, void>);
-
-  @override
-  _i3.Command<({_i31.LocalDns item, String oldIp}), void> get updateLocalDns =>
-      (super.noSuchMethod(
-            Invocation.getter(#updateLocalDns),
-            returnValue:
-                _FakeCommand_1<({_i31.LocalDns item, String oldIp}), void>(
-                  this,
-                  Invocation.getter(#updateLocalDns),
-                ),
-          )
-          as _i3.Command<({_i31.LocalDns item, String oldIp}), void>);
-
-  @override
-  _i3.Command<_i31.LocalDns, void> get removeLocalDns =>
-      (super.noSuchMethod(
-            Invocation.getter(#removeLocalDns),
-            returnValue: _FakeCommand_1<_i31.LocalDns, void>(
-              this,
-              Invocation.getter(#removeLocalDns),
-            ),
-          )
-          as _i3.Command<_i31.LocalDns, void>);
-
-  @override
-  List<_i31.LocalDns> get localDns =>
-      (super.noSuchMethod(
-            Invocation.getter(#localDns),
-            returnValue: <_i31.LocalDns>[],
-          )
-          as List<_i31.LocalDns>);
-
-  @override
-  List<_i32.DeviceOption> get deviceOptions =>
-      (super.noSuchMethod(
-            Invocation.getter(#deviceOptions),
-            returnValue: <_i32.DeviceOption>[],
-          )
-          as List<_i32.DeviceOption>);
-
-  @override
-  Map<String, String> get ipToHostname =>
-      (super.noSuchMethod(
-            Invocation.getter(#ipToHostname),
-            returnValue: <String, String>{},
-          )
-          as Map<String, String>);
-
-  @override
-  Map<String, String> get ipToMac =>
-      (super.noSuchMethod(
-            Invocation.getter(#ipToMac),
-            returnValue: <String, String>{},
-          )
-          as Map<String, String>);
-
-  @override
-  Map<String, String> get macToIp =>
-      (super.noSuchMethod(
-            Invocation.getter(#macToIp),
-            returnValue: <String, String>{},
-          )
-          as Map<String, String>);
-
-  @override
-  _i7.LoadStatus get loadingStatus =>
-      (super.noSuchMethod(
-            Invocation.getter(#loadingStatus),
-            returnValue: _i7.LoadStatus.loading,
-          )
-          as _i7.LoadStatus);
-
-  @override
-  set load(_i3.Command<void, void>? value) => super.noSuchMethod(
-    Invocation.setter(#load, value),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  set addLocalDns(_i3.Command<_i31.LocalDns, void>? value) =>
-      super.noSuchMethod(
-        Invocation.setter(#addLocalDns, value),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  set updateLocalDns(
-    _i3.Command<({_i31.LocalDns item, String oldIp}), void>? value,
-  ) => super.noSuchMethod(
-    Invocation.setter(#updateLocalDns, value),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  set removeLocalDns(_i3.Command<_i31.LocalDns, void>? value) =>
-      super.noSuchMethod(
-        Invocation.setter(#removeLocalDns, value),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  bool get hasListeners =>
-      (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
-          as bool);
-
-  @override
-  void setLoadingStatus(_i7.LoadStatus? status) => super.noSuchMethod(
-    Invocation.method(#setLoadingStatus, [status]),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  List<_i32.DeviceOption> devicesToOptions(List<_i32.Device>? devices) =>
-      (super.noSuchMethod(
-            Invocation.method(#devicesToOptions, [devices]),
-            returnValue: <_i32.DeviceOption>[],
-          )
-          as List<_i32.DeviceOption>);
-
-  @override
-  void dispose() => super.noSuchMethod(
-    Invocation.method(#dispose, []),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
-    Invocation.method(#addListener, [listener]),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
-    Invocation.method(#removeListener, [listener]),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  void notifyListeners() => super.noSuchMethod(
-    Invocation.method(#notifyListeners, []),
-    returnValueForMissingStub: null,
-  );
-}
-
 /// A class which mocks [GroupsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGroupsViewModel extends _i1.Mock implements _i33.GroupsViewModel {
+class MockGroupsViewModel extends _i1.Mock implements _i31.GroupsViewModel {
   MockGroupsViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -2118,31 +1985,31 @@ class MockGroupsViewModel extends _i1.Mock implements _i33.GroupsViewModel {
           >);
 
   @override
-  _i3.Command<_i34.Group, void> get deleteGroup =>
+  _i3.Command<_i32.Group, void> get deleteGroup =>
       (super.noSuchMethod(
             Invocation.getter(#deleteGroup),
-            returnValue: _FakeCommand_1<_i34.Group, void>(
+            returnValue: _FakeCommand_1<_i32.Group, void>(
               this,
               Invocation.getter(#deleteGroup),
             ),
           )
-          as _i3.Command<_i34.Group, void>);
+          as _i3.Command<_i32.Group, void>);
 
   @override
-  List<_i34.Group> get groups =>
+  List<_i32.Group> get groups =>
       (super.noSuchMethod(
             Invocation.getter(#groups),
-            returnValue: <_i34.Group>[],
+            returnValue: <_i32.Group>[],
           )
-          as List<_i34.Group>);
+          as List<_i32.Group>);
 
   @override
-  List<_i34.Group> get filteredGroups =>
+  List<_i32.Group> get filteredGroups =>
       (super.noSuchMethod(
             Invocation.getter(#filteredGroups),
-            returnValue: <_i34.Group>[],
+            returnValue: <_i32.Group>[],
           )
-          as List<_i34.Group>);
+          as List<_i32.Group>);
 
   @override
   String get searchTerm =>
@@ -2203,7 +2070,7 @@ class MockGroupsViewModel extends _i1.Mock implements _i33.GroupsViewModel {
   );
 
   @override
-  set deleteGroup(_i3.Command<_i34.Group, void>? value) => super.noSuchMethod(
+  set deleteGroup(_i3.Command<_i32.Group, void>? value) => super.noSuchMethod(
     Invocation.setter(#deleteGroup, value),
     returnValueForMissingStub: null,
   );
@@ -2253,7 +2120,7 @@ class MockGroupsViewModel extends _i1.Mock implements _i33.GroupsViewModel {
 /// A class which mocks [AdlistsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAdlistsViewModel extends _i1.Mock implements _i35.AdlistsViewModel {
+class MockAdlistsViewModel extends _i1.Mock implements _i33.AdlistsViewModel {
   MockAdlistsViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -2270,15 +2137,15 @@ class MockAdlistsViewModel extends _i1.Mock implements _i35.AdlistsViewModel {
           as _i3.Command<void, void>);
 
   @override
-  _i3.Command<_i36.Adlist, void> get deleteAdlist =>
+  _i3.Command<_i34.Adlist, void> get deleteAdlist =>
       (super.noSuchMethod(
             Invocation.getter(#deleteAdlist),
-            returnValue: _FakeCommand_1<_i36.Adlist, void>(
+            returnValue: _FakeCommand_1<_i34.Adlist, void>(
               this,
               Invocation.getter(#deleteAdlist),
             ),
           )
-          as _i3.Command<_i36.Adlist, void>);
+          as _i3.Command<_i34.Adlist, void>);
 
   @override
   _i3.Command<
@@ -2318,47 +2185,47 @@ class MockAdlistsViewModel extends _i1.Mock implements _i35.AdlistsViewModel {
           >);
 
   @override
-  _i3.Command<_i36.Adlist, void> get updateAdlist =>
+  _i3.Command<_i34.Adlist, void> get updateAdlist =>
       (super.noSuchMethod(
             Invocation.getter(#updateAdlist),
-            returnValue: _FakeCommand_1<_i36.Adlist, void>(
+            returnValue: _FakeCommand_1<_i34.Adlist, void>(
               this,
               Invocation.getter(#updateAdlist),
             ),
           )
-          as _i3.Command<_i36.Adlist, void>);
+          as _i3.Command<_i34.Adlist, void>);
 
   @override
-  List<_i36.Adlist> get allowlistAdlists =>
+  List<_i34.Adlist> get allowlistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#allowlistAdlists),
-            returnValue: <_i36.Adlist>[],
+            returnValue: <_i34.Adlist>[],
           )
-          as List<_i36.Adlist>);
+          as List<_i34.Adlist>);
 
   @override
-  List<_i36.Adlist> get blocklistAdlists =>
+  List<_i34.Adlist> get blocklistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#blocklistAdlists),
-            returnValue: <_i36.Adlist>[],
+            returnValue: <_i34.Adlist>[],
           )
-          as List<_i36.Adlist>);
+          as List<_i34.Adlist>);
 
   @override
-  List<_i36.Adlist> get filteredAllowlistAdlists =>
+  List<_i34.Adlist> get filteredAllowlistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#filteredAllowlistAdlists),
-            returnValue: <_i36.Adlist>[],
+            returnValue: <_i34.Adlist>[],
           )
-          as List<_i36.Adlist>);
+          as List<_i34.Adlist>);
 
   @override
-  List<_i36.Adlist> get filteredBlocklistAdlists =>
+  List<_i34.Adlist> get filteredBlocklistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#filteredBlocklistAdlists),
-            returnValue: <_i36.Adlist>[],
+            returnValue: <_i34.Adlist>[],
           )
-          as List<_i36.Adlist>);
+          as List<_i34.Adlist>);
 
   @override
   String get searchTerm =>
@@ -2391,7 +2258,7 @@ class MockAdlistsViewModel extends _i1.Mock implements _i35.AdlistsViewModel {
   );
 
   @override
-  set deleteAdlist(_i3.Command<_i36.Adlist, void>? value) => super.noSuchMethod(
+  set deleteAdlist(_i3.Command<_i34.Adlist, void>? value) => super.noSuchMethod(
     Invocation.setter(#deleteAdlist, value),
     returnValueForMissingStub: null,
   );
@@ -2415,7 +2282,7 @@ class MockAdlistsViewModel extends _i1.Mock implements _i35.AdlistsViewModel {
   );
 
   @override
-  set updateAdlist(_i3.Command<_i36.Adlist, void>? value) => super.noSuchMethod(
+  set updateAdlist(_i3.Command<_i34.Adlist, void>? value) => super.noSuchMethod(
     Invocation.setter(#updateAdlist, value),
     returnValueForMissingStub: null,
   );
@@ -2484,7 +2351,7 @@ class MockAdlistsViewModel extends _i1.Mock implements _i35.AdlistsViewModel {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGravityUpdateViewModel extends _i1.Mock
-    implements _i37.GravityUpdateViewModel {
+    implements _i35.GravityUpdateViewModel {
   MockGravityUpdateViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -2519,12 +2386,12 @@ class MockGravityUpdateViewModel extends _i1.Mock
           as bool);
 
   @override
-  List<_i38.FtlMessage> get messages =>
+  List<_i36.FtlMessage> get messages =>
       (super.noSuchMethod(
             Invocation.getter(#messages),
-            returnValue: <_i38.FtlMessage>[],
+            returnValue: <_i36.FtlMessage>[],
           )
-          as List<_i38.FtlMessage>);
+          as List<_i36.FtlMessage>);
 
   @override
   set removeMessage(_i3.Command<int, void>? value) => super.noSuchMethod(
@@ -2575,7 +2442,7 @@ class MockGravityUpdateViewModel extends _i1.Mock
 
   @override
   void update({
-    _i39.ActionsRepository? actionsRepository,
+    _i37.ActionsRepository? actionsRepository,
     _i26.FtlRepository? ftlRepository,
     String? serverAddress,
   }) => super.noSuchMethod(

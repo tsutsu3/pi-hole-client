@@ -10,7 +10,6 @@ import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
-import 'package:pi_hole_client/ui/core/view_models/local_dns_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
@@ -31,7 +30,6 @@ import '../../../../../testing/fakes/repositories/api/fake_adlist_repository.dar
 import '../../../../../testing/fakes/repositories/api/fake_client_repository.dart';
 import '../../../../../testing/fakes/repositories/api/fake_domain_repository.dart';
 import '../../../../../testing/fakes/repositories/api/fake_group_repository.dart';
-import '../../../../../testing/fakes/repositories/api/fake_local_dns_repository.dart';
 import '../../../../../testing/fakes/repositories/api/fake_network_repository.dart';
 import '../../../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
 import '../../../../../testing/test_app.dart';
@@ -55,12 +53,10 @@ void main() async {
     late FakeServersViewModel fakeServersViewModel;
     late ClientsViewModel clientsViewModel;
     late GroupsViewModel groupsViewModel;
-    late LocalDnsViewModel localDnsViewModel;
     late DomainsViewModel domainsViewModel;
     late AdlistsViewModel adlistsViewModel;
     late FakeClientRepository fakeClientRepository;
     late FakeGroupRepository fakeGroupRepository;
-    late FakeLocalDnsRepository fakeLocalDnsRepository;
     late FakeNetworkRepository fakeNetworkRepository;
     late FakeDomainRepository fakeDomainRepository;
     late FakeAdlistRepository fakeAdlistRepository;
@@ -70,7 +66,6 @@ void main() async {
 
       fakeClientRepository = FakeClientRepository();
       fakeGroupRepository = FakeGroupRepository();
-      fakeLocalDnsRepository = FakeLocalDnsRepository();
       fakeNetworkRepository = FakeNetworkRepository();
       fakeDomainRepository = FakeDomainRepository();
       fakeAdlistRepository = FakeAdlistRepository();
@@ -79,12 +74,9 @@ void main() async {
 
       clientsViewModel = ClientsViewModel(
         clientRepository: fakeClientRepository,
-      );
-      groupsViewModel = GroupsViewModel(groupRepository: fakeGroupRepository);
-      localDnsViewModel = LocalDnsViewModel(
-        localDnsRepository: fakeLocalDnsRepository,
         networkRepository: fakeNetworkRepository,
       );
+      groupsViewModel = GroupsViewModel(groupRepository: fakeGroupRepository);
       domainsViewModel = DomainsViewModel(
         domainRepository: fakeDomainRepository,
       );
@@ -113,9 +105,6 @@ void main() async {
             ),
             ChangeNotifierProvider<GroupsViewModel>.value(
               value: groupsViewModel,
-            ),
-            ChangeNotifierProvider<LocalDnsViewModel>.value(
-              value: localDnsViewModel,
             ),
             ChangeNotifierProvider<DomainsViewModel>.value(
               value: domainsViewModel,
@@ -203,9 +192,6 @@ void main() async {
                 ChangeNotifierProvider<GroupsViewModel>.value(
                   value: groupsViewModel,
                 ),
-                ChangeNotifierProvider<LocalDnsViewModel>.value(
-                  value: localDnsViewModel,
-                ),
                 ChangeNotifierProvider<DomainsViewModel>.value(
                   value: domainsViewModel,
                 ),
@@ -291,9 +277,6 @@ void main() async {
                 ),
                 ChangeNotifierProvider<GroupsViewModel>.value(
                   value: groupsViewModel,
-                ),
-                ChangeNotifierProvider<LocalDnsViewModel>.value(
-                  value: localDnsViewModel,
                 ),
                 ChangeNotifierProvider<DomainsViewModel>.value(
                   value: domainsViewModel,
@@ -384,9 +367,6 @@ void main() async {
                 ),
                 ChangeNotifierProvider<GroupsViewModel>.value(
                   value: groupsViewModel,
-                ),
-                ChangeNotifierProvider<LocalDnsViewModel>.value(
-                  value: localDnsViewModel,
                 ),
                 ChangeNotifierProvider<DomainsViewModel>.value(
                   value: domainsViewModel,

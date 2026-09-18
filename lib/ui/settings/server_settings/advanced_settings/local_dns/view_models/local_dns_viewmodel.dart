@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/local_dns_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
+import 'package:pi_hole_client/domain/model/network/device_lookups.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -67,7 +66,7 @@ class LocalDnsViewModel extends ChangeNotifier {
 
     _data = LocalDnsData(
       records: dnsResult.getOrNull()!,
-      deviceOptions: _devicesToOptions(devicesResult.getOrNull()!),
+      deviceOptions: devicesResult.getOrNull()!.toDeviceOptions(),
     );
     notifyListeners();
   }
@@ -124,49 +123,6 @@ class LocalDnsViewModel extends ChangeNotifier {
       case Failure():
         throw result.exceptionOrNull();
     }
-  }
-
-  List<DeviceOption> _devicesToOptions(List<Device> devices) {
-    // Exclude devices with lastQuery as 0 (unused)
-    final list = devices
-        .where((device) => device.lastQuery.millisecondsSinceEpoch != 0)
-        .expand((device) {
-          return device.ips
-              .where(
-                (addr) =>
-                    addr.ip != '127.0.0.1' &&
-                    addr.ip != '::' &&
-                    addr.ip != '::1',
-              )
-              .map(
-                (addr) => DeviceOption(
-                  ip: addr.ip,
-                  hwaddr: device.hwaddr,
-                  macVendor: device.macVendor ?? '',
-                ),
-              );
-        })
-        .toList();
-
-    list.sort((a, b) {
-      final ipA = InternetAddress.tryParse(a.ip);
-      final ipB = InternetAddress.tryParse(b.ip);
-
-      if (ipA == null || ipB == null) return a.ip.compareTo(b.ip);
-      if (ipA.type != ipB.type) {
-        return ipA.type == InternetAddressType.IPv4 ? -1 : 1;
-      }
-
-      final bytesA = ipA.rawAddress;
-      final bytesB = ipB.rawAddress;
-      for (var i = 0; i < bytesA.length; i++) {
-        final diff = bytesA[i].compareTo(bytesB[i]);
-        if (diff != 0) return diff;
-      }
-      return 0;
-    });
-
-    return list;
   }
 
   @override
