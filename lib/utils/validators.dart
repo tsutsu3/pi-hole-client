@@ -1,4 +1,4 @@
-// Pure form-field validators for the add/edit server screen.
+// Pure form-field validators.
 //
 // These hold only the format rules. The widget keeps the error messages and
 // state updates; it calls these to decide whether a value is valid.
@@ -6,6 +6,8 @@
 final _ipAddress = RegExp(r'^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$');
 final _domain = RegExp(r'^(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)|((\w|-)+)$');
 final _subroute = RegExp(r'^\/\b([A-Za-z0-9_\-~/]*)[^\/|\.|\:]$');
+final _hostname = RegExp(r'^[a-zA-Z0-9-_\.]+$');
+final _whitespace = RegExp(r'\s+');
 
 /// Whether [value] is a valid IPv4 address or host/domain name.
 bool isValidServerAddress(String value) =>
@@ -20,3 +22,18 @@ bool isValidPort(String value) {
 /// Whether [value] is a valid subroute (leading slash, allowed characters,
 /// no trailing slash/dot/colon).
 bool isValidSubroute(String value) => _subroute.hasMatch(value);
+
+/// Trims Local DNS names and joins them with a single space, the same way the
+/// Pi-hole web interface saves them. One record can hold several names.
+String normalizeLocalDnsNames(String value) {
+  final trimmed = value.trim();
+  if (trimmed.isEmpty) return '';
+  return trimmed.split(_whitespace).join(' ');
+}
+
+/// Whether [value] holds one or more valid hostnames separated by spaces.
+bool isValidLocalDnsNames(String value) {
+  final normalized = normalizeLocalDnsNames(value);
+  if (normalized.isEmpty) return false;
+  return normalized.split(' ').every(_hostname.hasMatch);
+}

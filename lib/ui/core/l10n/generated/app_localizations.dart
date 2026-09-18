@@ -2405,7 +2405,7 @@ abstract class AppLocalizations {
   /// No description provided for @invalidHostname.
   ///
   /// In en, this message translates to:
-  /// **'Invalid hostname: only letters (a–z, A–Z), numbers (0–9), hyphen (-), underscore (_), and dot (.) are allowed'**
+  /// **'Invalid hostname: only letters (a–z, A–Z), numbers (0–9), hyphen (-), underscore (_), and dot (.) are allowed. Separate multiple hostnames with spaces'**
   String get invalidHostname;
 
   /// No description provided for @invalidIpAddress.
@@ -2665,6 +2665,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Adding local DNS...'**
   String get localDnsAdding;
+
+  /// No description provided for @localDnsAlreadyAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Local DNS record already added'**
+  String get localDnsAlreadyAdded;
 
   /// No description provided for @localDnsDelete.
   ///
