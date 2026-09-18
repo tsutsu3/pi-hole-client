@@ -6,11 +6,13 @@ import 'package:result_dart/result_dart.dart';
 /// - 400, "The item is already present": FTL v6.7 and later
 /// - 201, "UNIQUE constraint failed": before FTL v6.7
 /// - 400, "Item already present": Local DNS, in all versions
+/// - v5, "... is already on the list": domains
 bool isDuplicateError(String text) {
   final lower = text.toLowerCase();
   return lower.contains('item is already present') ||
       lower.contains('unique constraint failed') ||
-      lower.contains('item already present');
+      lower.contains('item already present') ||
+      lower.contains('already on the list');
 }
 
 /// Turns a 4xx response whose body says the item already exists into an

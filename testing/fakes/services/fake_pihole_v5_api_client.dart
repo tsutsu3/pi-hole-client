@@ -19,6 +19,12 @@ class FakePiholeV5ApiClient implements PiholeV5ApiClient {
   bool shouldFail = false;
   bool isDocker = false;
 
+  DomainResponse postDomainResponse = const DomainResponse(
+    success: true,
+    message: 'Added example.com',
+  );
+  int postDomainCallCount = 0;
+
   @override
   void close() {}
 
@@ -111,10 +117,11 @@ class FakePiholeV5ApiClient implements PiholeV5ApiClient {
     required String domain,
     required V5DomainType domainType,
   }) async {
+    postDomainCallCount++;
     if (shouldFail) {
       return Failure(Exception('Failed to add domain'));
     }
-    return const Success(DomainResponse(success: true));
+    return Success(postDomainResponse);
   }
 
   @override

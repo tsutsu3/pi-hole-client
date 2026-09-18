@@ -63,6 +63,19 @@ void main() {
     });
   });
 
+  group('isDuplicateError', () {
+    test('matches the v5 domain message', () {
+      expect(
+        isDuplicateError('Not adding test as it is already on the list'),
+        isTrue,
+      );
+    });
+
+    test('does not match the v5 success message', () {
+      expect(isDuplicateError('Added test'), isFalse);
+    });
+  });
+
   group('checkProcessedErrors', () {
     test('builds the value when there are no errors', () {
       expect(checkProcessedErrors(null, () => 1).getOrNull(), 1);
