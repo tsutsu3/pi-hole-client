@@ -62,4 +62,36 @@ void main() {
       expect(isValidSubroute('/admin:'), isFalse);
     });
   });
+
+  group('normalizeLocalDnsNames', () {
+    test('removes spaces at the start and end', () {
+      expect(normalizeLocalDnsNames(' test '), 'test');
+    });
+
+    test('joins names with a single space', () {
+      expect(normalizeLocalDnsNames('test   ok'), 'test ok');
+      expect(normalizeLocalDnsNames('test\tok'), 'test ok');
+    });
+
+    test('returns an empty string for spaces only', () {
+      expect(normalizeLocalDnsNames('   '), '');
+    });
+  });
+
+  group('isValidLocalDnsNames', () {
+    test('accepts one or more valid names', () {
+      expect(isValidLocalDnsNames('nas'), isTrue);
+      expect(isValidLocalDnsNames('nas nas.local my_host-1'), isTrue);
+      expect(isValidLocalDnsNames(' nas  ok '), isTrue);
+    });
+
+    test('rejects names with invalid characters', () {
+      expect(isValidLocalDnsNames('test o!k'), isFalse);
+    });
+
+    test('rejects empty input and spaces only', () {
+      expect(isValidLocalDnsNames(''), isFalse);
+      expect(isValidLocalDnsNames('   '), isFalse);
+    });
+  });
 }

@@ -1171,7 +1171,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get invalidHostname =>
-      '無効なホスト名: 使用できるのは英字 (a–z、A–Z)、数字 (0–9)、ハイフン (-)、アンダースコア (_)、ドット (.) のみです';
+      '無効なホスト名: 使用できるのは英字 (a–z、A–Z)、数字 (0–9)、ハイフン (-)、アンダースコア (_)、ドット (.) のみです。複数のホスト名はスペースで区切ってください';
 
   @override
   String get invalidIpAddress => '無効なIPアドレス';
@@ -1302,6 +1302,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get localDnsAdding => 'ローカルDNSを追加中...';
+
+  @override
+  String get localDnsAlreadyAdded => 'このローカルDNSレコードはすでに登録されています';
 
   @override
   String get localDnsDelete => 'ローカルDNSを削除';

@@ -10,6 +10,19 @@ class NotSupportedException implements Exception {
   String toString() => 'NotSupportedException: $message';
 }
 
+/// Exception indicating that a Local DNS record with the same IP and names
+/// already exists.
+class LocalDnsAlreadyExistsException implements Exception {
+  /// Creates a LocalDnsAlreadyExistsException with an optional [message].
+  LocalDnsAlreadyExistsException([
+    this.message = 'Local DNS record already exists.',
+  ]);
+  final String message;
+
+  @override
+  String toString() => 'LocalDnsAlreadyExistsException: $message';
+}
+
 class TokenNotFoundException implements Exception {
   /// Creates a TokenNotFoundException with an optional [message].
   TokenNotFoundException([this.message = 'Token not found.']);

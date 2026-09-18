@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/auto_complate_field.dart';
+import 'package:pi_hole_client/utils/validators.dart';
 
 class AddLocalDnsModal extends StatefulWidget {
   const AddLocalDnsModal({
@@ -41,7 +42,7 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
   void validateIp(String? value) {
     final locale = AppLocalizations.of(context)!;
     if (value != null && value != '') {
-      final address = InternetAddress.tryParse(value);
+      final address = InternetAddress.tryParse(value.trim());
       if (address == null) {
         setState(() {
           ipError = locale.invalidIpAddress;
@@ -59,12 +60,11 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
     validateAllData();
   }
 
-  /// Validate the host name format
+  /// Validate the host names (one or more, separated by spaces)
   void validateHostName(String? value) {
     final locale = AppLocalizations.of(context)!;
     if (value != null && value != '') {
-      final hostNameRegex = RegExp(r'^[a-zA-Z0-9-_\.]+$');
-      if (hostNameRegex.hasMatch(value) == true) {
+      if (isValidLocalDnsNames(value)) {
         setState(() {
           hostNameError = null;
         });
@@ -189,8 +189,10 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
                   onPressed: allDataValid == true
                       ? () {
                           widget.addLocalDns({
-                            'ip': ipController.text,
-                            'name': hostNameController.text,
+                            'ip': ipController.text.trim(),
+                            'name': normalizeLocalDnsNames(
+                              hostNameController.text,
+                            ),
                           });
                           Navigator.maybePop(context);
                         }

@@ -161,6 +161,39 @@ void main() async {
       expect(submitted!['ip'], '192.168.1.50');
     });
 
+    testWidgets('submits several hostnames, trimmed and single-spaced', (
+      WidgetTester tester,
+    ) async {
+      Map<String, dynamic>? submitted;
+
+      await tester.pumpWidget(
+        buildTestApp(
+          AddLocalDnsModal(
+            addLocalDns: (data) => submitted = data,
+            window: false,
+            devices: _testDevices,
+          ),
+        ),
+      );
+
+      await tester.enterText(
+        find.widgetWithText(TextField, 'Hostname'),
+        ' test   ok ',
+      );
+      await tester.pump();
+      await tester.enterText(
+        find.widgetWithText(TextField, 'IP Address'),
+        ' 192.168.1.50 ',
+      );
+      await tester.pump();
+
+      await tester.tap(find.widgetWithText(TextButton, 'Add'));
+      await tester.pump();
+
+      expect(submitted!['name'], 'test ok');
+      expect(submitted!['ip'], '192.168.1.50');
+    });
+
     testWidgets('Cancel button closes without submitting', (
       WidgetTester tester,
     ) async {
@@ -238,6 +271,64 @@ void main() async {
       await tester.pump();
 
       expect(confirmedName, 'new.hostname');
+    });
+
+    testWidgets('submits several hostnames, single-spaced', (
+      WidgetTester tester,
+    ) async {
+      String? confirmedName;
+      await tester.pumpWidget(
+        buildTestApp(
+          EditLocalDnsModal(
+            localDns: _testDns,
+            keyItem: 'name',
+            title: 'Edit hostname',
+            icon: Icons.computer_rounded,
+            onConfirm: (dns, _) => confirmedName = dns.name,
+            window: false,
+          ),
+        ),
+      );
+
+      await tester.enterText(
+        find.widgetWithText(TextField, 'Hostname'),
+        'pi.hole   pihole ',
+      );
+      await tester.pump();
+
+      await tester.tap(find.widgetWithText(TextButton, 'Edit'));
+      await tester.pump();
+
+      expect(confirmedName, 'pi.hole pihole');
+    });
+
+    testWidgets('Edit button stays disabled when only spaces are added', (
+      WidgetTester tester,
+    ) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          EditLocalDnsModal(
+            localDns: _testDns,
+            keyItem: 'name',
+            title: 'Edit hostname',
+            icon: Icons.computer_rounded,
+            onConfirm: (_, _) {},
+            window: false,
+          ),
+        ),
+      );
+
+      await tester.enterText(
+        find.widgetWithText(TextField, 'Hostname'),
+        ' pi.hole ',
+      );
+      await tester.pump();
+
+      final editButton = tester.widget<TextButton>(
+        find.widgetWithText(TextButton, 'Edit'),
+      );
+      expect(editButton.onPressed, isNull);
+      expect(find.textContaining('Invalid hostname'), findsNothing);
     });
 
     testWidgets('renders as dialog when window=true', (

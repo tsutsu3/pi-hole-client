@@ -5,6 +5,7 @@ import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/auto_complate_field.dart';
+import 'package:pi_hole_client/utils/validators.dart';
 
 class EditLocalDnsModal extends StatefulWidget {
   const EditLocalDnsModal({
@@ -50,15 +51,15 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
 
   void validateHostName(String? value) {
     final locale = AppLocalizations.of(context)!;
-    if (value == widget.localDns.name) {
+    if (normalizeLocalDnsNames(value ?? '') ==
+        normalizeLocalDnsNames(widget.localDns.name)) {
       setState(() {
         localDnsError = null;
         allDataValid = false;
       });
     } else {
       if (value != null && value != '') {
-        final hostNameRegex = RegExp(r'^[a-zA-Z0-9-_\.]+$');
-        if (hostNameRegex.hasMatch(value) == true) {
+        if (isValidLocalDnsNames(value)) {
           setState(() {
             localDnsError = null;
             allDataValid = true;
@@ -80,14 +81,14 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
 
   void validateIp(String? value) {
     final locale = AppLocalizations.of(context)!;
-    if (value == widget.localDns.ip) {
+    if (value?.trim() == widget.localDns.ip.trim()) {
       setState(() {
         localDnsError = null;
         allDataValid = false;
       });
     } else {
       if (value != null && value != '') {
-        final address = InternetAddress.tryParse(value);
+        final address = InternetAddress.tryParse(value.trim());
         if (address == null) {
           setState(() {
             localDnsError = locale.invalidIpAddress;
@@ -214,7 +215,9 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                             if (widget.keyItem == 'name') {
                               widget.onConfirm(
                                 widget.localDns.copyWith(
-                                  name: localDnsController.text,
+                                  name: normalizeLocalDnsNames(
+                                    localDnsController.text,
+                                  ),
                                 ),
                                 widget.localDns,
                               );
@@ -222,7 +225,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                             if (widget.keyItem == 'ip') {
                               widget.onConfirm(
                                 widget.localDns.copyWith(
-                                  ip: localDnsController.text,
+                                  ip: localDnsController.text.trim(),
                                 ),
                                 widget.localDns,
                               );
