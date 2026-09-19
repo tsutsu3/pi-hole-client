@@ -10,8 +10,8 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundl
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/domain/model/server/server_auth.dart';
-import 'package:pi_hole_client/ui/core/services/totp_login.dart';
-import 'package:pi_hole_client/ui/core/types/resolve_totp.dart';
+import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_totp.dart';
+import 'package:pi_hole_client/domain/use_cases/server_connection/totp_login.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';

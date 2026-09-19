@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/ui/core/services/totp_login.dart';
+import 'package:pi_hole_client/domain/use_cases/server_connection/totp_login.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 
 import '../../../../testing/fakes/repositories/api/fake_auth_repository.dart';

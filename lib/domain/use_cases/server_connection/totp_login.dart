@@ -1,6 +1,6 @@
 import 'package:pi_hole_client/data/repositories/api/interfaces/auth_repository.dart';
 import 'package:pi_hole_client/domain/model/auth/auth.dart';
-import 'package:pi_hole_client/ui/core/types/resolve_totp.dart';
+import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_totp.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -12,6 +12,8 @@ import 'package:result_dart/result_dart.dart';
 /// retries with `password + totp`, looping on [TotpInvalidException] /
 /// [TotpReusedException]. Any other failure (e.g. a rate limit) is terminal and
 /// returned as-is. Returns `cancelled: true` when the user dismisses the prompt.
+// TODO: Fold into ConnectServerUseCase as a class that takes the
+// repository in its constructor and returns a sealed outcome, not a record.
 Future<({bool cancelled, Result<Auth> result})> runTotpLogin({
   required AuthRepository auth,
   required String password,
