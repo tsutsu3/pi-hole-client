@@ -346,17 +346,14 @@ class AddServerViewModel extends ChangeNotifier {
   /// Returns [UpdateSuccess], [UpdateCancelled], [UpdateDuplicateUrl],
   /// [UpdateUrlCheckFailed], [UpdateApiError] or [UpdateDbError].
   Future<UpdateOutcome> _updateServer(UpdateServerRequest req) async {
-    final oldServer = req.oldServer;
-    final oldAddress = oldServer.address;
-    final newUrl = req.url;
     // Normalised comparison: a host-case-only or trailing-slash difference is
     // NOT an address change and must stay on the in-place editServer path.
-    final isAddressChanged = !isSameEndpoint(oldAddress, newUrl);
+    final isAddressChanged = !isSameEndpoint(req.oldServer.address, req.url);
 
     // When the address (primary key) changes, make sure the new URL is not
     // already used by another server before doing anything destructive.
     if (isAddressChanged) {
-      switch (await _checkUrl(newUrl)) {
+      switch (await _checkUrl(req.url)) {
         case _UrlCheck.duplicate:
           return const UpdateDuplicateUrl();
         case _UrlCheck.failed:
@@ -366,72 +363,16 @@ class AddServerViewModel extends ChangeNotifier {
       }
     }
 
-    final targetAddress = isAddressChanged ? newUrl : oldAddress;
-
-    // Only restore when the original secrets were actually read. If the initial
-    // load failed, initPassword/initToken are empty placeholders and writing
-    // them back would wipe a credential that is still in secure storage.
-    Future<void> restoreSecrets() async {
-      if (req.secretsLoadSucceeded) {
-        await _serversViewModel.savePassword(oldAddress, req.initPassword);
-        await _serversViewModel.saveToken(oldAddress, req.initToken);
-      }
-    }
-
-    void restartAutoRefresh() {
-      if (_serversViewModel.selectedServer != null) {
-        _statusViewModel.startAutoRefresh();
-      }
-    }
-
-    Future<UpdateOutcome> handleSaveError(Exception e) async {
-      await restoreSecrets();
-      restartAutoRefresh();
-
-      return UpdateApiError(e, req.apiVersion);
-    }
-
-    // Rolls back everything written for THIS save attempt on failure, always
-    // leaving the old server (row, credentials, session) untouched.
-    //
-    // - Address change: remove the credentials and SID written under the new
-    //   address plus the freshly created remote session.
-    // - Same address: restore the old credentials and, when a new session was
-    //   created during this attempt, tear it down so it does not leak.
-    Future<void> rollbackFailedSave({
-      required RepositoryBundle bundle,
-      required bool sessionCreated,
-    }) async {
-      Future<void> deleteNewSession() async {
-        if (!sessionCreated) return;
-        try {
-          await bundle.auth.deleteCurrentSession();
-        } catch (e, s) {
-          logger.w(
-            'Failed to delete new session on server',
-            error: e,
-            stackTrace: s,
-          );
-        }
-      }
-
-      if (isAddressChanged) {
-        await _serversViewModel.deletePassword(targetAddress);
-        await _serversViewModel.deleteToken(targetAddress);
-        await _serversViewModel.deleteSid(targetAddress);
-        await deleteNewSession();
-      } else {
-        await deleteNewSession();
-        await restoreSecrets();
-        // Drop the stale new sid so the next request re-logs in.
-        // TODO: the original session is orphaned (its sid was overwritten) and
-        // lingers until it times out server-side. Acceptable here.
-        await _serversViewModel.deleteSid(oldAddress);
-      }
-    }
+    final attempt = _SaveAttempt(
+      req: req,
+      isAddressChanged: isAddressChanged,
+      serversViewModel: _serversViewModel,
+      statusViewModel: _statusViewModel,
+      createBundle: _createBundle,
+    );
 
     var serverObj = Server(
-      address: targetAddress,
+      address: attempt.targetAddress,
       alias: req.alias,
       apiVersion: req.apiVersion,
       allowUntrustedCert: req.allowUntrustedCert,
@@ -451,8 +392,7 @@ class AddServerViewModel extends ChangeNotifier {
     // Validate certificate BEFORE connection test (same as connect()).
     final updatedServer = await req.resolveCertificate(serverObj);
     if (updatedServer == null) {
-      restartAutoRefresh();
-
+      attempt.restartAutoRefresh();
       return const UpdateCancelled();
     }
     serverObj = updatedServer;
@@ -461,8 +401,8 @@ class AddServerViewModel extends ChangeNotifier {
       token: req.token,
     ));
 
-    await _serversViewModel.savePassword(targetAddress, req.password);
-    await _serversViewModel.saveToken(targetAddress, req.token);
+    await _serversViewModel.savePassword(attempt.targetAddress, req.password);
+    await _serversViewModel.saveToken(attempt.targetAddress, req.token);
 
     final bundle = _createBundle(server: serverObj);
     final auth = await _authenticate(
@@ -474,23 +414,23 @@ class AddServerViewModel extends ChangeNotifier {
     if (auth.cancelled) {
       // User dismissed the TOTP prompt: undo this attempt's writes and keep the
       // old server (row, credentials, session) intact, same as a failed save.
-      _serversViewModel.markTotpReauthDeclined(targetAddress);
+      _serversViewModel.markTotpReauthDeclined(attempt.targetAddress);
       if (auth.needsRollback) {
-        await rollbackFailedSave(bundle: bundle, sessionCreated: false);
+        await attempt.rollback(bundle: bundle, sessionCreated: false);
       }
-      await restoreSecrets();
-      restartAutoRefresh();
-
+      await attempt.restoreSecrets();
+      attempt.restartAutoRefresh();
       return const UpdateCancelled();
     }
     if (auth.error != null) {
       // Only the address-changed branch wrote credentials under a new address,
       // so it is the only one that needs a rollback before reporting the error.
       if (auth.needsRollback) {
-        await rollbackFailedSave(bundle: bundle, sessionCreated: false);
+        await attempt.rollback(bundle: bundle, sessionCreated: false);
       }
-
-      return handleSaveError(auth.error!);
+      await attempt.restoreSecrets();
+      attempt.restartAutoRefresh();
+      return UpdateApiError(auth.error!, req.apiVersion);
     }
     // skipRenewal: true only when a new session was just created above to avoid
     // creating a duplicate session on transient retry failures.
@@ -499,44 +439,31 @@ class AddServerViewModel extends ChangeNotifier {
     );
 
     if (result.isError()) {
-      await rollbackFailedSave(
+      await attempt.rollback(
         bundle: bundle,
         sessionCreated: auth.sessionCreated,
       );
-      restartAutoRefresh();
-
+      attempt.restartAutoRefresh();
       return UpdateApiError(result.exceptionOrNull()!, req.apiVersion);
     }
 
     final server = serverObj.copyWith(defaultServer: req.defaultServer);
 
-    final cmdError = await _commit(
-      server: server,
-      oldAddress: oldAddress,
-      isAddressChanged: isAddressChanged,
-    );
+    final cmdError = await attempt.commit(server);
     if (cmdError != null) {
       // DB write failed: roll back this attempt's artifacts; the old server
       // (row, credentials, session) is left fully intact.
-      await rollbackFailedSave(
+      await attempt.rollback(
         bundle: bundle,
         sessionCreated: auth.sessionCreated,
       );
-      restartAutoRefresh();
-
+      attempt.restartAutoRefresh();
       return const UpdateDbError();
     }
 
-    await _cleanupAfterCommit(
-      oldServer: oldServer,
-      newApiVersion: req.apiVersion,
-      isAddressChanged: isAddressChanged,
-      oldAddress: oldAddress,
-      targetAddress: targetAddress,
-    );
-    _serversViewModel.clearTotpReauthDeclined(targetAddress);
-    restartAutoRefresh();
-
+    await attempt.cleanupAfterCommit();
+    _serversViewModel.clearTotpReauthDeclined(attempt.targetAddress);
+    attempt.restartAutoRefresh();
     return const UpdateSuccess();
   }
 
@@ -656,13 +583,55 @@ class AddServerViewModel extends ChangeNotifier {
     );
   }
 
+  @override
+  void dispose() {
+    createServer.removeListener(notifyListeners);
+    updateServer.removeListener(notifyListeners);
+    super.dispose();
+  }
+}
+
+/// One run of [AddServerViewModel.updateServer]: the rollback, DB commit and
+/// cleanup steps, which all depend on the old and the target address.
+class _SaveAttempt {
+  _SaveAttempt({
+    required this.req,
+    required this.isAddressChanged,
+    required ServersViewModel serversViewModel,
+    required StatusViewModel statusViewModel,
+    required CreateRepositoryBundle createBundle,
+  }) : _serversViewModel = serversViewModel,
+       _statusViewModel = statusViewModel,
+       _createBundle = createBundle;
+
+  final UpdateServerRequest req;
+  final bool isAddressChanged;
+  final ServersViewModel _serversViewModel;
+  final StatusViewModel _statusViewModel;
+  final CreateRepositoryBundle _createBundle;
+
+  String get oldAddress => req.oldServer.address;
+  String get targetAddress => isAddressChanged ? req.url : oldAddress;
+
+  void restartAutoRefresh() {
+    if (_serversViewModel.selectedServer != null) {
+      _statusViewModel.startAutoRefresh();
+    }
+  }
+
+  /// Only restore when the original secrets were actually read. If the initial
+  /// load failed, initPassword/initToken are empty placeholders and writing
+  /// them back would wipe a credential that is still in secure storage.
+  Future<void> restoreSecrets() async {
+    if (req.secretsLoadSucceeded) {
+      await _serversViewModel.savePassword(oldAddress, req.initPassword);
+      await _serversViewModel.saveToken(oldAddress, req.initToken);
+    }
+  }
+
   /// Writes [server] to the DB: replace when the address changed, otherwise edit
   /// in place. Returns the command error, or null on success.
-  Future<Object?> _commit({
-    required Server server,
-    required String oldAddress,
-    required bool isAddressChanged,
-  }) async {
+  Future<Object?> commit(Server server) async {
     try {
       if (isAddressChanged) {
         await _serversViewModel.replaceServer.runAsync((
@@ -682,18 +651,55 @@ class AddServerViewModel extends ChangeNotifier {
     }
   }
 
+  /// Rolls back everything written for THIS save attempt on failure, always
+  /// leaving the old server (row, credentials, session) untouched.
+  ///
+  /// - Address change: remove the credentials and SID written under the new
+  ///   address plus the freshly created remote session.
+  /// - Same address: restore the old credentials and, when a new session was
+  ///   created during this attempt, tear it down so it does not leak.
+  Future<void> rollback({
+    required RepositoryBundle bundle,
+    required bool sessionCreated,
+  }) async {
+    if (isAddressChanged) {
+      await _serversViewModel.deletePassword(targetAddress);
+      await _serversViewModel.deleteToken(targetAddress);
+      await _serversViewModel.deleteSid(targetAddress);
+      await _deleteNewSession(bundle, sessionCreated: sessionCreated);
+    } else {
+      await _deleteNewSession(bundle, sessionCreated: sessionCreated);
+      await restoreSecrets();
+      // Drop the stale new sid so the next request re-logs in.
+      // TODO: the original session is orphaned (its sid was overwritten) and
+      // lingers until it times out server-side. Acceptable here.
+      await _serversViewModel.deleteSid(oldAddress);
+    }
+  }
+
+  Future<void> _deleteNewSession(
+    RepositoryBundle bundle, {
+    required bool sessionCreated,
+  }) async {
+    if (!sessionCreated) return;
+    try {
+      await bundle.auth.deleteCurrentSession();
+    } catch (e, s) {
+      logger.w(
+        'Failed to delete new session on server',
+        error: e,
+        stackTrace: s,
+      );
+    }
+  }
+
   /// After a successful commit, logs out the now-orphaned old v6 session and
   /// drops the old server's stale credentials/SID. Runs only after the commit so
   /// a failed save can't kill a live session.
-  Future<void> _cleanupAfterCommit({
-    required Server oldServer,
-    required String newApiVersion,
-    required bool isAddressChanged,
-    required String oldAddress,
-    required String targetAddress,
-  }) async {
+  Future<void> cleanupAfterCommit() async {
+    final oldServer = req.oldServer;
     final oldWasV6 = oldServer.apiVersion == SupportedApiVersions.v6;
-    final newIsV6 = newApiVersion == SupportedApiVersions.v6;
+    final newIsV6 = req.apiVersion == SupportedApiVersions.v6;
 
     // 1. Log out the old v6 session (orphaned on address change or v6 -> v5).
     if (oldWasV6 && (isAddressChanged || !newIsV6)) {
@@ -721,12 +727,5 @@ class AddServerViewModel extends ChangeNotifier {
       // Same address, v6 -> v5: the SID is now unused.
       await _serversViewModel.deleteSid(targetAddress);
     }
-  }
-
-  @override
-  void dispose() {
-    createServer.removeListener(notifyListeners);
-    updateServer.removeListener(notifyListeners);
-    super.dispose();
   }
 }
