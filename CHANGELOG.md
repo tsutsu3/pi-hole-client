@@ -1,6 +1,50 @@
 # Changelog
 
-## [1.10.0](https://github.com/tsutsu3/pi-hole-client/compare/1.9.2_(99)..1.10.0) - 2026-09-04
+## [1.10.1](https://github.com/tsutsu3/pi-hole-client/compare/1.10.0_(107)..1.10.1) - 2026-09-19
+
+### 🚀 Features
+
+- *(local-dns)* Allow multiple hostnames and block duplicate records ([#734](https://github.com/tsutsu3/pi-hole-client/issues/734)) - ([4965579](https://github.com/tsutsu3/pi-hole-client/commit/496557907501720585b15db938b416df53d1770c))
+
+### 🐛 Bug Fixes
+
+- *(groups)* Save the new name when a group is renamed ([#723](https://github.com/tsutsu3/pi-hole-client/issues/723)) - ([9e94c17](https://github.com/tsutsu3/pi-hole-client/commit/9e94c1725d1a51b43cc9bf898415a45cf5f54394))
+- *(i18n)* Correct Japanese translation ([#706](https://github.com/tsutsu3/pi-hole-client/issues/706)) - ([18fdf9a](https://github.com/tsutsu3/pi-hole-client/commit/18fdf9a73dd97798e2e5050becbb768d56fcb075))
+- *(local-dns)* Edit only the selected record when records same IP ([#733](https://github.com/tsutsu3/pi-hole-client/issues/733)) - ([6204148](https://github.com/tsutsu3/pi-hole-client/commit/6204148bb0cbf56bfeb8ac05ffb727c041b70256))
+- *(sentry)* Stop reporting handled add, edit and delete errors ([#730](https://github.com/tsutsu3/pi-hole-client/issues/730)) - ([f17e46c](https://github.com/tsutsu3/pi-hole-client/commit/f17e46c24befb4ba7f4a90187581c3bd85003720))
+- *(settings)* Show error when server settings screens fail to load ([#721](https://github.com/tsutsu3/pi-hole-client/issues/721)) - ([830338a](https://github.com/tsutsu3/pi-hole-client/commit/830338a15224611f21dd4c1320ab7499293bce10))
+- *(ui)* Show "already added" when adding an item that already exists ([#735](https://github.com/tsutsu3/pi-hole-client/issues/735)) - ([3593f93](https://github.com/tsutsu3/pi-hole-client/commit/3593f931c2e4461819b87caf4439cd50c9e14a62))
+- *(ui)* Align group and client add and edit sheets with the other screens ([#726](https://github.com/tsutsu3/pi-hole-client/issues/726)) - ([44d4b54](https://github.com/tsutsu3/pi-hole-client/commit/44d4b54005459177267748f6759909448898a328))
+- *(ui)* Close the right screen after deleting a group, client, or adlist ([#725](https://github.com/tsutsu3/pi-hole-client/issues/725)) - ([01de4ad](https://github.com/tsutsu3/pi-hole-client/commit/01de4ad24164b48ff1dfae0e9831073fd3b205a2))
+
+### 🚜 Refactor
+
+- *(clients)* Remove the shared local DNS view model ([#731](https://github.com/tsutsu3/pi-hole-client/issues/731)) - ([cca46bb](https://github.com/tsutsu3/pi-hole-client/commit/cca46bb2a5b9ad8e2140cbbad43f5c23b91f7587))
+- *(domains)* Rename whitelist/blacklist to allowlist/blocklist ([#709](https://github.com/tsutsu3/pi-hole-client/issues/709)) - ([21b675c](https://github.com/tsutsu3/pi-hole-client/commit/21b675c797c4675196de53b77c3b9938cd6fef8f))
+- *(servers)* Introduce ServerAuth object pattern ([#729](https://github.com/tsutsu3/pi-hole-client/issues/729)) - ([b60d1cf](https://github.com/tsutsu3/pi-hole-client/commit/b60d1cff43cc11065351f504d7fc70dd72004beb))
+- *(ui)* Unify load error views and allow pull-to-refresh on them ([#711](https://github.com/tsutsu3/pi-hole-client/issues/711)) - ([7fffff0](https://github.com/tsutsu3/pi-hole-client/commit/7fffff014a964b675c33c31eb980c18e56d9f6a3))
+
+### 📚 Documentation
+
+- *(copilot)* Add instructions for using Conventional Commits format in pull requests ([#715](https://github.com/tsutsu3/pi-hole-client/issues/715)) - ([c05b9d0](https://github.com/tsutsu3/pi-hole-client/commit/c05b9d06730c6742295499e8774ad4faf9dc24a8))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(test)* Optimize CI by splitting tests and running on file changes ([#714](https://github.com/tsutsu3/pi-hole-client/issues/714)) - ([40d577e](https://github.com/tsutsu3/pi-hole-client/commit/40d577e2b4701de63fbee8473296fb64ef18275f))
+- *(vscode)* Exclude integration tests from VS Code test runner ([#712](https://github.com/tsutsu3/pi-hole-client/issues/712)) - ([277bc19](https://github.com/tsutsu3/pi-hole-client/commit/277bc19709e07c5427369c5398b2f77aaf0ce93f))
+- *(website)* Serve the favicon from the site root ([#707](https://github.com/tsutsu3/pi-hole-client/issues/707)) - ([e6bf197](https://github.com/tsutsu3/pi-hole-client/commit/e6bf197d1e784856b3299ceda6b2cd99fd0b3260))
+- *(website)* Improve the landing page first load ([#705](https://github.com/tsutsu3/pi-hole-client/issues/705)) - ([cd7d623](https://github.com/tsutsu3/pi-hole-client/commit/cd7d62387fddb774861228e89e9d1fe545f907b4))
+- *(website)* Finish the move to the custom domain ([#704](https://github.com/tsutsu3/pi-hole-client/issues/704)) - ([f4cbf88](https://github.com/tsutsu3/pi-hole-client/commit/f4cbf88285161c6becacb518f1d1830de3f88a99))
+- *(website)* Migrate site deployment to Cloudflare ([#702](https://github.com/tsutsu3/pi-hole-client/issues/702)) - ([a63c81d](https://github.com/tsutsu3/pi-hole-client/commit/a63c81d1bd5fb475fce94da6beebe21e6db18312))
+- *(website)* Migrate from Docusaurus to Starlight ([#696](https://github.com/tsutsu3/pi-hole-client/issues/696)) - ([17933ac](https://github.com/tsutsu3/pi-hole-client/commit/17933ac7181acff0c33676777afc2921a8b77fbc))
+- *(winget)* Winget manifest for v1.10.0 ([#698](https://github.com/tsutsu3/pi-hole-client/issues/698)) - ([82ed6fa](https://github.com/tsutsu3/pi-hole-client/commit/82ed6fa36beb6b8215b304b79351c40426d84e42))
+- *(workflow)* Add cache-dependency-path for Node.js setup ([#703](https://github.com/tsutsu3/pi-hole-client/issues/703)) - ([2bbee18](https://github.com/tsutsu3/pi-hole-client/commit/2bbee180b0a24ddb7a1514337b4ec92afefcd1e4))
+- *(workflows)* Start release workflows only for PRs that change related files ([#717](https://github.com/tsutsu3/pi-hole-client/issues/717)) - ([58ff142](https://github.com/tsutsu3/pi-hole-client/commit/58ff1423bc62c558381a0113a2cbe79cdee9b0ab))
+- *(workflows)* Enable cancellation of in-progress jobs for all events ([#716](https://github.com/tsutsu3/pi-hole-client/issues/716)) - ([93a05b3](https://github.com/tsutsu3/pi-hole-client/commit/93a05b38cc56599d07bf7ec31bb57e0d6cf63730))
+- *(workflows)* Drop triggers that always skip ([#713](https://github.com/tsutsu3/pi-hole-client/issues/713)) - ([4647141](https://github.com/tsutsu3/pi-hole-client/commit/4647141953daeb66977e7f26cf6a4d81b6ff7ea1))
+- Update Flutter version to 3.47.4 across all workflows ([#728](https://github.com/tsutsu3/pi-hole-client/issues/728)) - ([072e665](https://github.com/tsutsu3/pi-hole-client/commit/072e665310678ec6539458b140c135f5347ef67d))
+
+## [1.10.0_(107)](https://github.com/tsutsu3/pi-hole-client/compare/1.9.2_(99)..1.10.0_(107)) - 2026-09-04
 
 ### 🚀 Features
 
@@ -50,6 +94,7 @@
 ### ⚙️ Miscellaneous Tasks
 
 - *(config)* Disable experimental router option in Docusaurus config ([#642](https://github.com/tsutsu3/pi-hole-client/issues/642)) - ([4bd7cde](https://github.com/tsutsu3/pi-hole-client/commit/4bd7cde209ad91de23d2895eee1369789915728f))
+- *(windows)* Fix STL1011 build error on the new MSVC toolchain ([#697](https://github.com/tsutsu3/pi-hole-client/issues/697)) - ([a3fb7a4](https://github.com/tsutsu3/pi-hole-client/commit/a3fb7a4d598e90927f6584beb979aaba6915cd0a))
 - *(winget)* Winget manifest for v1.9.2 ([#613](https://github.com/tsutsu3/pi-hole-client/issues/613)) - ([4720d24](https://github.com/tsutsu3/pi-hole-client/commit/4720d24d84026ef8cfb3671273520b9bf97145f6))
 
 ## [1.9.2_(99)](https://github.com/tsutsu3/pi-hole-client/compare/1.9.1_(97)..1.9.2_(99)) - 2026-05-15
