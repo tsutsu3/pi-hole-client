@@ -14,7 +14,6 @@ import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns/view_models/local_dns_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns/widgets/add_local_dns_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns/widgets/local_dns_list_view.dart';
-import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -55,12 +54,12 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
     } catch (e) {
       if (!mounted) return false;
       process.close();
-      showErrorSnackBar(
+      showSaveFailedSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: e is LocalDnsAlreadyExistsException
-            ? locale.localDnsAlreadyAdded
-            : locale.localDnsAddFailed,
+        error: e,
+        alreadyExistsLabel: locale.localDnsAlreadyAdded,
+        failedLabel: locale.localDnsAddFailed,
       );
       return false;
     }
@@ -87,12 +86,12 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
     } catch (e) {
       if (!mounted) return false;
       process.close();
-      showErrorSnackBar(
+      showSaveFailedSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: e is LocalDnsAlreadyExistsException
-            ? locale.localDnsAlreadyAdded
-            : locale.localDnsUpdateFailed,
+        error: e,
+        alreadyExistsLabel: locale.localDnsAlreadyAdded,
+        failedLabel: locale.localDnsUpdateFailed,
       );
       return false;
     }

@@ -1,6 +1,7 @@
 import 'package:pi_hole_client/data/mapper/v5/domain_mapper.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/base_v5_token_repository.dart';
+import 'package:pi_hole_client/data/repositories/utils/already_exists.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/repositories/utils/constants.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
@@ -69,6 +70,17 @@ class DomainRepositoryV5 extends BaseV5TokenRepository
 
         if (result.isError()) {
           return Failure(result.exceptionOrNull()!);
+        }
+
+        // v5 answers success: true even for a duplicate and only says so in
+        // the message, e.g. "Not adding x as it is already on the list".
+        final response = result.getOrThrow();
+        final message = response.message ?? '';
+        if (isDuplicateError(message)) {
+          return Failure(AlreadyExistsException());
+        }
+        if (!response.success) {
+          return Failure(Exception(message));
         }
 
         // Pi-hole v5 API does not return a response containing the full domain data,

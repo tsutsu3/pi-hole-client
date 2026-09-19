@@ -1,7 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/data/model/v5/domains.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/domain_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/constants.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 
 import '../../../../../testing/fakes/services/fake_pihole_v5_api_client.dart';
 import '../../../../../testing/fakes/services/fake_session_credential_service.dart';
@@ -86,6 +88,37 @@ void main() async {
         'example.com',
       );
       expect(result.isError(), true);
+    });
+
+    test('returns AlreadyExists when the domain is on the list', () async {
+      client.postDomainResponse = const DomainResponse(
+        success: true,
+        message: 'Not adding example.com as it is already on the list',
+      );
+
+      final result = await repository.addDomain(
+        DomainType.allow,
+        DomainKind.exact,
+        'example.com',
+      );
+
+      expect(result.exceptionOrNull(), isA<AlreadyExistsException>());
+      expect(client.postDomainCallCount, 1);
+    });
+
+    test('returns an error when success is false', () async {
+      client.postDomainResponse = const DomainResponse(
+        success: false,
+        message: 'Invalid domain',
+      );
+
+      final result = await repository.addDomain(
+        DomainType.allow,
+        DomainKind.exact,
+        'example.com',
+      );
+
+      expectError(result, messageContains: 'Invalid domain');
     });
   });
 

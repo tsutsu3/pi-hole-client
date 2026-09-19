@@ -227,7 +227,7 @@ void main() {
           viewModel.addRecord.runAsync(
             const LocalDns(ip: '192.168.1.100', name: 'server1'),
           ),
-          throwsA(isA<LocalDnsAlreadyExistsException>()),
+          throwsA(isA<AlreadyExistsException>()),
         );
 
         expect(fakeLocalDnsRepository.addRecordCallCount, 0);
@@ -244,7 +244,7 @@ void main() {
           viewModel.addRecord.runAsync(
             const LocalDns(ip: '192.168.1.10', name: 'test ok'),
           ),
-          throwsA(isA<LocalDnsAlreadyExistsException>()),
+          throwsA(isA<AlreadyExistsException>()),
         );
         expect(fakeLocalDnsRepository.addRecordCallCount, 0);
       });
@@ -257,7 +257,7 @@ void main() {
             oldRecord: const LocalDns(ip: '192.168.1.101', name: 'printer1'),
             newRecord: const LocalDns(ip: '192.168.1.100', name: 'server1'),
           )),
-          throwsA(isA<LocalDnsAlreadyExistsException>()),
+          throwsA(isA<AlreadyExistsException>()),
         );
 
         expect(fakeLocalDnsRepository.updateRecordCallCount, 0);

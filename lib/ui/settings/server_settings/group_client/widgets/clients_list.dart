@@ -89,14 +89,16 @@ class _ClientsListState extends State<ClientsList> {
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.clientAdded,
         );
-      } catch (_) {
+      } catch (e) {
         if (!context.mounted) return;
         process.close();
 
-        showErrorSnackBar(
+        showSaveFailedSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.clientAddFailed,
+          error: e,
+          alreadyExistsLabel: AppLocalizations.of(context)!.clientAlreadyAdded,
+          failedLabel: AppLocalizations.of(context)!.clientAddFailed,
         );
       }
     }

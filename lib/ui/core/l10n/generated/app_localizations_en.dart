@@ -1057,6 +1057,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupInfo => 'Group info';
 
   @override
+  String get groupInUse =>
+      'This group is used by clients, domains or adlists. Remove it from them first, then delete the group';
+
+  @override
   String get groupMembers => 'Group members';
 
   @override

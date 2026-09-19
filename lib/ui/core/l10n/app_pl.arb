@@ -338,6 +338,7 @@
   "groupDetails": "Szczegóły grupy",
   "groupEdit": "Edytuj grupę",
   "groupInfo": "Informacje o grupie",
+  "groupInUse": "Ta grupa jest używana przez klientów, domeny lub listy. Najpierw usuń ją z nich, a potem usuń grupę",
   "groupMembers": "Członkowie grupy",
   "groupName": "Nazwa grupy",
   "groupNotExists": "Grupa nie istnieje",

@@ -112,14 +112,16 @@ class _AdlistsListState extends State<AdlistsList> {
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.adlistAdded,
         );
-      } catch (_) {
+      } catch (e) {
         if (!context.mounted) return;
         process.close();
 
-        showErrorSnackBar(
+        showSaveFailedSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.adlistAddFailed,
+          error: e,
+          alreadyExistsLabel: AppLocalizations.of(context)!.adlistAlreadyAdded,
+          failedLabel: AppLocalizations.of(context)!.adlistAddFailed,
         );
       }
     }

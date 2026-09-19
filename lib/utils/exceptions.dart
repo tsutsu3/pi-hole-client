@@ -10,17 +10,27 @@ class NotSupportedException implements Exception {
   String toString() => 'NotSupportedException: $message';
 }
 
-/// Exception indicating that a Local DNS record with the same IP and names
-/// already exists.
-class LocalDnsAlreadyExistsException implements Exception {
-  /// Creates a LocalDnsAlreadyExistsException with an optional [message].
-  LocalDnsAlreadyExistsException([
-    this.message = 'Local DNS record already exists.',
-  ]);
+/// Exception indicating that the item to add or save already exists on the
+/// server.
+class AlreadyExistsException implements Exception {
+  /// Creates an AlreadyExistsException with an optional [message].
+  AlreadyExistsException([this.message = 'Item already exists.']);
   final String message;
 
   @override
-  String toString() => 'LocalDnsAlreadyExistsException: $message';
+  String toString() => 'AlreadyExistsException: $message';
+}
+
+/// Exception indicating that a group cannot be deleted because clients,
+/// domains or adlists still use it. Older Pi-hole databases do not remove
+/// these links on their own and answer `FOREIGN KEY constraint failed`.
+class GroupInUseException implements Exception {
+  /// Creates a GroupInUseException with an optional [message].
+  GroupInUseException([this.message = 'Group is still in use.']);
+  final String message;
+
+  @override
+  String toString() => 'GroupInUseException: $message';
 }
 
 class TokenNotFoundException implements Exception {

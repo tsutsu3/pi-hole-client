@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/data/model/v6/groups/groups.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/group_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 
 import '../../../../../testing/fakes/services/fake_pihole_v6_api_client.dart';
 import '../../../../../testing/fakes/services/fake_session_credential_service.dart';
@@ -108,6 +110,103 @@ void main() {
 
       final result = await repository.deleteGroup('test');
       expectError(result, messageContains: 'Forced deleteGroups failure');
+    });
+
+    // Older databases (e.g. pihole:2025.02.7) keep the links to the group.
+    test('returns GroupInUse when the group is still used', () async {
+      client.deleteGroupsFailure = HttpStatusCodeException(
+        400,
+        '{"error":{"key":"database_error",'
+        ' "message":"Could not remove entries from table",'
+        ' "hint":"FOREIGN KEY constraint failed"},'
+        ' "took":0.0003}',
+      );
+
+      final result = await repository.deleteGroup('test');
+
+      expect(result.exceptionOrNull(), isA<GroupInUseException>());
+      expect(client.deleteGroupsCallCount, 1);
+    });
+  });
+
+  group('already exists', () {
+    // FTL v6.7 and later answer a duplicate with 400.
+    const latestDuplicateBody =
+        '{"error":{"key":"database_error",'
+        ' "message":"Could not add to gravity database",'
+        ' "hint":"The item is already present"}}';
+
+    // Older FTL (e.g. pihole:2025.02.7) answers 2xx and puts the reason in
+    // processed.errors.
+    const olderProcessed = Processed(
+      success: [],
+      errors: [
+        ProcessedError(
+          item: 'group',
+          error: 'UNIQUE constraint failed: group.name',
+        ),
+      ],
+    );
+
+    setUp(() {
+      creds = FakeSessionCredentialService();
+      client = FakePiholeV6ApiClient();
+      repository = GroupRepositoryV6(
+        client: client,
+        sessionCache: V6SessionCache(creds: creds, client: client),
+      );
+    });
+
+    test('addGroup: 400 from FTL v6.7 and later', () async {
+      client.saveFailure = HttpStatusCodeException(400, latestDuplicateBody);
+
+      final result = await repository.addGroup('group');
+
+      expect(result.exceptionOrNull(), isA<AlreadyExistsException>());
+      expect(client.saveCallCount, 1);
+    });
+
+    test('addGroup: 201 with processed.errors from older FTL', () async {
+      client.postGroupsResponse = kSrvPostGroups.copyWith(
+        processed: olderProcessed,
+      );
+
+      final result = await repository.addGroup('group');
+
+      expect(result.exceptionOrNull(), isA<AlreadyExistsException>());
+      expect(client.saveCallCount, 1);
+    });
+
+    test('updateGroup (rename): 400 from FTL v6.7 and later', () async {
+      client.saveFailure = HttpStatusCodeException(400, latestDuplicateBody);
+
+      final result = await repository.updateGroup('group', newName: 'other');
+
+      expect(result.exceptionOrNull(), isA<AlreadyExistsException>());
+      expect(client.saveCallCount, 1);
+    });
+
+    test(
+      'updateGroup (rename): 200 with processed.errors from older FTL',
+      () async {
+        client.putGroupsResponse = kSrvPutGroups.copyWith(
+          processed: olderProcessed,
+        );
+
+        final result = await repository.updateGroup('group', newName: 'other');
+
+        expect(result.exceptionOrNull(), isA<AlreadyExistsException>());
+        expect(client.saveCallCount, 1);
+      },
+    );
+
+    test('other errors are still retried once', () async {
+      client.saveFailure = HttpStatusCodeException(500, 'Server error');
+
+      final result = await repository.addGroup('group');
+
+      expect(result.exceptionOrNull(), isNot(isA<AlreadyExistsException>()));
+      expect(client.saveCallCount, 2);
     });
   });
 }

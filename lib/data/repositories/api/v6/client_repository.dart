@@ -1,6 +1,7 @@
 import 'package:pi_hole_client/data/mapper/v6/client_mapper.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/client_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/base_v6_sid_repository.dart';
+import 'package:pi_hole_client/data/repositories/utils/already_exists.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
@@ -42,7 +43,12 @@ class ClientRepositoryV6 extends BaseV6SidRepository
           comment: comment,
           groups: groups,
         );
-        return result.map((e) => e.toSingleDomain());
+        return mapDuplicateFailure(result).flatMap(
+          (e) => checkProcessedErrors(
+            e.processed?.errors.map((x) => x.error),
+            e.toSingleDomain,
+          ),
+        );
       },
       onRetry: (_, e) => renewSidIfExpired(e),
     );
@@ -63,7 +69,12 @@ class ClientRepositoryV6 extends BaseV6SidRepository
           comment: comment,
           groups: groups,
         );
-        return result.map((e) => e.toSingleDomain());
+        return mapDuplicateFailure(result).flatMap(
+          (e) => checkProcessedErrors(
+            e.processed?.errors.map((x) => x.error),
+            e.toSingleDomain,
+          ),
+        );
       },
       onRetry: (_, e) => renewSidIfExpired(e),
     );

@@ -338,6 +338,7 @@
   "groupDetails": "Group details",
   "groupEdit": "Edit group",
   "groupInfo": "Group info",
+  "groupInUse": "This group is used by clients, domains or adlists. Remove it from them first, then delete the group",
   "groupMembers": "Group members",
   "groupName": "Group name",
   "groupNotExists": "Group does not exist",

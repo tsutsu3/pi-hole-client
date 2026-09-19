@@ -76,7 +76,7 @@ class LocalDnsViewModel extends ChangeNotifier {
 
   Future<void> _addRecord(LocalDns record) async {
     if (_data.records.any((r) => _isSameRecord(r, record))) {
-      throw LocalDnsAlreadyExistsException();
+      throw AlreadyExistsException();
     }
 
     final result = await _localDnsRepository.addRecord(
@@ -102,7 +102,7 @@ class LocalDnsViewModel extends ChangeNotifier {
     final others = [..._data.records];
     if (index != -1) others.removeAt(index);
     if (others.any((r) => _isSameRecord(r, params.newRecord))) {
-      throw LocalDnsAlreadyExistsException();
+      throw AlreadyExistsException();
     }
 
     final result = await _localDnsRepository.updateRecord(

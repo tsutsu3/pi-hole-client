@@ -338,6 +338,7 @@
   "groupDetails": "グループの詳細",
   "groupEdit": "グループを編集",
   "groupInfo": "グループ情報",
+  "groupInUse": "このグループはクライアント、ドメイン、またはリストで使われています。先に所属を外してから削除してください",
   "groupMembers": "グループメンバー",
   "groupName": "グループ名",
   "groupNotExists": "グループが存在しません",

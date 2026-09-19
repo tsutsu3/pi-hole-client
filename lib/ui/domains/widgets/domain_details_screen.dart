@@ -218,14 +218,16 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
         appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.domainUpdated,
       );
-    } catch (_) {
+    } catch (e) {
       if (!mounted) return;
       process.close();
 
-      showErrorSnackBar(
+      showSaveFailedSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.domainUpdateFailed,
+        error: e,
+        alreadyExistsLabel: AppLocalizations.of(context)!.domainAlreadyAdded,
+        failedLabel: AppLocalizations.of(context)!.domainUpdateFailed,
       );
     }
   }
