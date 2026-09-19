@@ -68,10 +68,15 @@ class FakeServersViewModel extends ServersViewModel {
   int get saveTokenCallCount => _fakeRepo.saveTokenCallCount;
   String? get lastSavedTokenAddress => _fakeRepo.lastSavedTokenAddress;
   String? get lastSavedToken => _fakeRepo.lastSavedToken;
+  List<({String address, String password})> get savedPasswords =>
+      _fakeRepo.savedPasswords;
+  List<String> get deletedPasswordAddresses =>
+      _fakeRepo.deletedPasswordAddresses;
 
   /// Counts calls to `deleteSid`. The production wrapper is added later; until
   /// then this stays 0, which is what the state-integrity tests assert against.
   int deleteSidCallCount = 0;
+  final List<String> deletedSidAddresses = [];
 
   /// Controls the result returned by [checkUrlExists] in tests.
   bool urlExistsResult = false;
@@ -190,6 +195,7 @@ class FakeServersViewModel extends ServersViewModel {
   @override
   Future<Result<void>> deleteSid(String address) async {
     deleteSidCallCount++;
+    deletedSidAddresses.add(address);
     return Success.unit();
   }
 
