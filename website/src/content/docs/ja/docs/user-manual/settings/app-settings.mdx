@@ -8,6 +8,7 @@ sidebar:
 import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgAppSettingsMain from "../../../../docs/user-manual/images/settings/app-settings/servers.png";
+import imgEditConnection from "../../../../docs/user-manual/images/settings/app-settings/edit-connection.png";
 import imgAppSettingsAdvanced from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/advanced-settings-top.png";
 import imgReducedDataOn from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/use-reduced-data/linechart-reduce-on.png";
 import imgReducedDataOff from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/chart-display-mode/linechart-reduce-off.png";
@@ -76,7 +77,19 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 
 <DocImage width="320" alt="アプリ設定のサーバー一覧" src={imgAppSettingsMain} />
 
-ここから、現在のサーバーの切り替え、新しいPi-holeサーバーの追加、登録済みサーバーの編集、アプリからの削除を行えます。表示名、パスワード、既定サーバーの指定、Pi-holeのバージョンは編集できます。IPアドレス、ポート、サブルート、証明書設定などの接続情報は、作成後には変更できません。
+ここから、現在のサーバーの切り替え、新しいPi-holeサーバーの追加、登録済みサーバーの編集、アプリからの削除を行えます。
+
+v1.10.0以降は、表示名、パスワード、既定サーバーの指定、Pi-holeのバージョンに加えて、IPアドレス、ポート、サブルート、証明書設定などの**すべての項目**を編集できます。
+
+編集するには、一覧でサーバーの `⋮ > 編集` を開きます。
+
+<DocImage width="320" alt="接続の編集画面" src={imgEditConnection} />
+
+編集時の注意点は次のとおりです。
+
+- アドレスを変更すると、固定（ピン留め）していた証明書はリセットされ、新しいホストの証明書を改めて確認します。
+- 2要素認証を有効にしたサーバーでは、保存時に認証コードの入力を求められることがあります。
+- 新しい設定で接続できなかった場合は、変更前の設定に戻ります。
 
 別のPi-holeを管理したい場合はサーバーを切り替えます。別ネットワークや別端末にPi-holeを構築した場合は、新しいサーバーを追加してください。
 
