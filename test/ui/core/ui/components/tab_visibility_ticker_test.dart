@@ -188,7 +188,7 @@ void main() async {
         );
         await tester.pump();
 
-        // Tap tab C while on tab A — non-adjacent jump (index 0 → 2).
+        // Tap tab C while on tab A - non-adjacent jump (index 0 → 2).
         await tester.tap(find.text('C'));
         await tester.pump(); // process tap → indexIsChanging=true, index=2
         await tester.pump(const Duration(milliseconds: 50)); // mid-animation

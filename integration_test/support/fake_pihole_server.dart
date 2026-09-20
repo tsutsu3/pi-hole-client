@@ -5,7 +5,7 @@ import 'dart:io';
 /// (TOTP flows, session lifecycle) that are impractical to drive
 /// deterministically against a real Pi-hole.
 ///
-/// This is **not** a faithful API reimplementation — see
+/// This is **not** a faithful API reimplementation - see
 /// `integration_test/COVERAGE.md`'s "Fake server" notes. It only implements
 /// what `postAuth`/`getAuth`/`deleteAuth` and the blocking-status probe used
 /// during connect need: `POST/GET/DELETE /api/auth` and `GET/POST
@@ -27,7 +27,7 @@ class FakePiholeServer {
   /// simulate the admin removing the password on a live server.
   bool noPassword = false;
 
-  /// When true, a correct password alone isn't enough — the request must
+  /// When true, a correct password alone isn't enough - the request must
   /// also include a `totp` matching [totpCode].
   bool totpRequired = false;
 
@@ -78,13 +78,13 @@ class FakePiholeServer {
   String? get currentSid => _sid;
 
   /// Simulates the current session expiring server-side (e.g. a Pi-hole
-  /// restart) — the next request presenting the old sid is rejected as
+  /// restart) - the next request presenting the old sid is rejected as
   /// invalid, forcing the app to re-authenticate.
   void invalidateSession() => _sid = null;
 
   /// Marks [code] as already consumed, so a subsequent `POST /api/auth` with
   /// this code is rejected as "Reused 2FA token" even if it matches
-  /// [totpCode] — simulates the code having been used elsewhere already.
+  /// [totpCode] - simulates the code having been used elsewhere already.
   void markTotpCodeUsed(int code) => _usedTotpCodes.add(code);
 
   Future<void> _handle(HttpRequest request) async {

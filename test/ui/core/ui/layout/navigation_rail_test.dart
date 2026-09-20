@@ -79,7 +79,7 @@ void main() async {
         ),
       );
 
-      // Empty string label — just verify widget renders without error
+      // Empty string label - just verify widget renders without error
       expect(find.byType(NavigationRail), findsOneWidget);
     });
   });

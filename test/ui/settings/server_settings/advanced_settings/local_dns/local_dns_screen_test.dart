@@ -126,7 +126,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      // Don't call loadRecords — data starts empty
+      // Don't call loadRecords - data starts empty
       await tester.pumpWidget(
         buildTestApp(LocalDnsScreen(viewModel: viewModel)),
       );

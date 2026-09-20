@@ -98,7 +98,7 @@ class _BaseState extends State<Base>
       }
       if (target == null) return;
 
-      // Reset to loading before navigating — prevents stale error state
+      // Reset to loading before navigating - prevents stale error state
       // (yellow icon) from showing while reconnecting after a prior failure.
       context.read<StatusViewModel>().setServerStatus(LoadStatus.loading);
       serversViewModel.setselectedServer(server: target, toHomeTab: true);

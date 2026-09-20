@@ -118,7 +118,7 @@ void main() {
         enabled: true,
       ));
 
-      // Local state update — no re-fetch
+      // Local state update - no re-fetch
       expect(viewModel.allowlistAdlists.length, initialCount + 1);
       expect(
         viewModel.allowlistAdlists.last.address,
@@ -134,7 +134,7 @@ void main() {
         adlist.copyWith(comment: 'updated comment'),
       );
 
-      // Local state update — no re-fetch
+      // Local state update - no re-fetch
       expect(viewModel.blocklistAdlists.first.comment, 'updated comment');
     });
 

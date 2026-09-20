@@ -239,7 +239,7 @@ void main() {
         client.authPauseCompleter!.complete();
         await Future.wait([f1, f2]);
 
-        // Immediate call — still within the 500ms cooldown window.
+        // Immediate call - still within the 500ms cooldown window.
         await cache.clearAndRenewSid();
 
         expect(client.postAuthCallCount, 1);
@@ -281,7 +281,7 @@ void main() {
       final callsBefore = client.postAuthCallCount;
 
       await expectLater(cache.getSid(), throwsA(isA<TotpRequiredException>()));
-      // No extra postAuth — this is what protects against the 2FA rate limit.
+      // No extra postAuth - this is what protects against the 2FA rate limit.
       expect(client.postAuthCallCount, callsBefore);
     });
 

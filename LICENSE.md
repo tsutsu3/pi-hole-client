@@ -1,6 +1,6 @@
 # LICENSE
 
-## 1. Pi-hole Client (Apache 2.0)
+## 1. Pi-hole client (Apache 2.0)
 
                                  Apache License
                            Version 2.0, January 2004

@@ -607,7 +607,7 @@ void main() async {
     testWidgets(
       'large screen: tapping server in banner opens edit dialog via _openEditServer',
       (WidgetTester tester) async {
-        // Suppress RenderFlex overflow errors — AddServerFullscreen(window:true)
+        // Suppress RenderFlex overflow errors - AddServerFullscreen(window:true)
         // overflows in constrained test viewport, but the dialog is still shown.
         final origOnError = FlutterError.onError;
         FlutterError.onError = (details) {
@@ -704,7 +704,7 @@ void main() async {
         await tester.tap(find.byIcon(Icons.more_vert));
         await tester.pumpAndSettle();
 
-        // Tap "View certificate" — triggers _showCertificateDialog
+        // Tap "View certificate" - triggers _showCertificateDialog
         await tester.tap(find.text('View certificate'));
 
         // Allow the async TLS fetch to complete (connection refused → fast fail)
@@ -757,7 +757,7 @@ void main() async {
           ),
         );
 
-        // Open popup menu — triggers itemBuilder which evaluates lines 96-97 and 100-102
+        // Open popup menu - triggers itemBuilder which evaluates lines 96-97 and 100-102
         await tester.tap(find.byIcon(Icons.more_vert));
         await tester.pumpAndSettle();
 

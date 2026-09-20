@@ -9,8 +9,8 @@ import 'package:pi_hole_client/ui/home/widgets/home_charts/total_queries_chart_s
 /// lightweight and rebuild-safe.
 ///
 /// ### Contained charts:
-/// - [TotalQueriesChartSection] — Displays DNS query and ad-block trends over time.
-/// - [ClientActivityChartSection] — Visualizes traffic from each client IP over time.
+/// - [TotalQueriesChartSection] - Displays DNS query and ad-block trends over time.
+/// - [ClientActivityChartSection] - Visualizes traffic from each client IP over time.
 ///
 /// ### Features:
 /// - Responsive layout: Renders charts full-width or half-width based on screen size.

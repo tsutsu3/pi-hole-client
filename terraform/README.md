@@ -1,4 +1,4 @@
-# ☁️ Pi-hole Client on Azure App Service (Terraform)
+# ☁️ Pi-hole client on Azure App Service (Terraform)
 
 This Terraform project deploys a Pi-hole to **Azure App Service for Linux**
 using a Docker container. The infrastructure is managed using
@@ -16,7 +16,7 @@ It is **not suitable for production DNS use** or local network filtering.
 ## 📦 What This Deploys
 
 - **Resource Group**
-- **Linux App Service Plan** (F1 – Free Tier by default)
+- **Linux App Service Plan** (F1 - Free Tier by default)
 - **App Service (Web App for Containers)** running the `pihole/pihole` Docker image
 - Optional **IP-based access restrictions**
 

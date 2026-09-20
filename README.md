@@ -15,7 +15,7 @@
 <!-- PROJECT LOGO -->
 <div align="center">
   <a href="https://github.com/tsutsu3/pi-hole-client">
-    <img alt="Pi-hole Client Logo" src="assets/other/feature-image.png" width="600"
+    <img alt="Pi-hole client Logo" src="assets/other/feature-image.png" width="600"
       style="background-color: #f9f9f9; padding: 10px; border-radius: 8px;">
   </a>
   <br><br><br><br>

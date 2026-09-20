@@ -25,7 +25,7 @@ class AdlistsScaffold extends StatelessWidget {
 
   final TabController tabController;
 
-  /// Tab labels — one [Widget] per tab (typically [IconTab]).
+  /// Tab labels - one [Widget] per tab (typically [IconTab]).
   final List<Widget> tabs;
 
   /// Content for each tab inside [TabBarView].

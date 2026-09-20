@@ -21,10 +21,10 @@ enum RequiredApiVersion {
 /// Centralizes three concerns that used to be handled ad-hoc across the
 /// router and individual screens:
 ///
-/// 1. **No server selected** — renders a titled empty screen.
-/// 2. **v6-only feature on v5 server** — renders a titled
+/// 1. **No server selected** - renders a titled empty screen.
+/// 2. **v6-only feature on v5 server** - renders a titled
 ///    [PiHoleV5NotSupportedScreen].
-/// 3. **Happy path** — invokes [builder] with the non-null bundle and server,
+/// 3. **Happy path** - invokes [builder] with the non-null bundle and server,
 ///    wrapped in a [KeyedSubtree] keyed on server identity so switching
 ///    servers tears down stale ViewModels instead of leaking state.
 class ServerScopedRoute extends StatelessWidget {

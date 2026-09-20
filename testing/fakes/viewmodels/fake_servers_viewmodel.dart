@@ -11,7 +11,7 @@ import '../repositories/local/fake_server_repository.dart';
 /// Allows setting internal state directly instead of going through
 /// `ServerRepository` calls. Call tracking and failure simulation delegate
 /// to [FakeServerRepository] since Command fields cannot be overridden in
-/// subclasses — the real Command logic runs against the fake repository.
+/// subclasses - the real Command logic runs against the fake repository.
 class FakeServersViewModel extends ServersViewModel {
   factory FakeServersViewModel() {
     final repo = FakeServerRepository();

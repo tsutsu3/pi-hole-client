@@ -76,7 +76,7 @@ void main() {
 
       await viewModel.deleteDevice.runAsync(1);
 
-      // No re-fetch — local state update only
+      // No re-fetch - local state update only
       expect(fakeNetworkRepository.fetchDevicesCallCount, 1);
       expect(viewModel.data.devices.length, 1);
       expect(viewModel.data.devices.any((d) => d.id == 1), isFalse);

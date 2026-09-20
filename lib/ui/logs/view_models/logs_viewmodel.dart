@@ -32,7 +32,7 @@ typedef LiveLogsServiceFactory =
 /// ViewModel for the Logs screen.
 ///
 /// Manages query log loading, pagination, live updates, filtering, sorting,
-/// and search. Absorbs the former `FiltersViewModel` — all filter state
+/// and search. Absorbs the former `FiltersViewModel` - all filter state
 /// (status, time range, clients, domain, request status) lives here.
 ///
 /// Injected via `ChangeNotifierProxyProvider2` from `RepositoryBundle` and
@@ -539,7 +539,7 @@ class LogsViewModel extends ChangeNotifier {
   /// When [inStartTime] or [inEndTime] is given, a single page is fetched for
   /// that exact range and further window expansion is disabled.
   ///
-  /// NOTE: Not implemented as a Command — same reason as [initializeLoad]:
+  /// NOTE: Not implemented as a Command - same reason as [initializeLoad]:
   /// coordinates filter state, pagination reset, loading indicators, and
   /// live-timer reconfiguration across multiple notifyListeners() calls.
   Future<void> applyFilterAndLoad({

@@ -114,10 +114,10 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
-  // refreshOnce() — covers _fetchStatusData / _fetchOverTimeData /
+  // refreshOnce() - covers _fetchStatusData / _fetchOverTimeData /
   // _fetchMetricsData paths without dealing with periodic timers.
   // ---------------------------------------------------------------------------
-  group('StatusViewModel – refreshOnce() V5 success', () {
+  group('StatusViewModel - refreshOnce() V5 success', () {
     late StatusViewModel vm;
 
     setUp(() {
@@ -186,7 +186,7 @@ void main() {
     );
   });
 
-  group('StatusViewModel – refreshOnce() V5 failure', () {
+  group('StatusViewModel - refreshOnce() V5 failure', () {
     late StatusViewModel vm;
 
     tearDown(() => vm.dispose());
@@ -221,7 +221,7 @@ void main() {
 
     test('returns false when no server address is set', () async {
       vm = StatusViewModel();
-      // Do not call _setup — no server address.
+      // Do not call _setup - no server address.
       expect(vm.getServerStatus, LoadStatus.loading);
       final ok = await vm.refreshOnce();
       expect(ok, isFalse);
@@ -305,7 +305,7 @@ void main() {
     });
   });
 
-  group('StatusViewModel – refreshOnce() V6', () {
+  group('StatusViewModel - refreshOnce() V6', () {
     late StatusViewModel vm;
 
     setUp(() {
@@ -341,7 +341,7 @@ void main() {
   // ---------------------------------------------------------------------------
   // startAutoRefresh / stopAutoRefresh lifecycle
   // ---------------------------------------------------------------------------
-  group('StatusViewModel – auto-refresh lifecycle', () {
+  group('StatusViewModel - auto-refresh lifecycle', () {
     late StatusViewModel vm;
 
     setUp(() {
@@ -401,9 +401,9 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
-  // setServerStatus() — resets stale error state before widget-tap navigation
+  // setServerStatus() - resets stale error state before widget-tap navigation
   // ---------------------------------------------------------------------------
-  group('StatusViewModel – setServerStatus resets stale error state', () {
+  group('StatusViewModel - setServerStatus resets stale error state', () {
     late StatusViewModel vm;
     late List<LoadStatus> statusHistory;
 
@@ -443,9 +443,9 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
-  // update() — auto-refresh interval change restarts timers
+  // update() - auto-refresh interval change restarts timers
   // ---------------------------------------------------------------------------
-  group('StatusViewModel – update() interval change', () {
+  group('StatusViewModel - update() interval change', () {
     late StatusViewModel vm;
 
     tearDown(() => vm.dispose());
@@ -458,7 +458,7 @@ void main() {
         vm.startAutoRefresh(runImmediately: false);
         expect(vm.isAutoRefreshRunning, isTrue);
 
-        // Change the refresh interval — should stop and reschedule.
+        // Change the refresh interval - should stop and reschedule.
         _setup(vm, autoRefreshTime: 10);
         // After microtask the timers are restarted.
         await Future<void>.microtask(() {});

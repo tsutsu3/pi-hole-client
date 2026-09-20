@@ -38,7 +38,7 @@ class StatusViewModel with ChangeNotifier {
   String? _apiVersion;
 
   // Values extracted from ServersViewModel / AppConfigViewModel.
-  // No ViewModel references are held — only primitive values + callbacks.
+  // No ViewModel references are held - only primitive values + callbacks.
   String? _selectedServerAddress;
   String? _selectedServerAlias;
   bool _isConnecting = false;
@@ -71,7 +71,7 @@ class StatusViewModel with ChangeNotifier {
   Exception? _fatalConnectionError;
 
   // ---------------------------------------------------------------------------
-  // Getters — API unchanged from the former StatusViewModel so that all 15+
+  // Getters - API unchanged from the former StatusViewModel so that all 15+
   // UI widgets using `context.select<StatusViewModel, ...>` need zero changes.
   // ---------------------------------------------------------------------------
   LoadStatus get getServerStatus => _serverStatus;
@@ -125,7 +125,7 @@ class StatusViewModel with ChangeNotifier {
   }
 
   // ---------------------------------------------------------------------------
-  // update() — called by ChangeNotifierProxyProvider2 whenever
+  // update() - called by ChangeNotifierProxyProvider2 whenever
   // RepositoryBundle or ServersViewModel changes.
   // ---------------------------------------------------------------------------
   void update({
@@ -210,13 +210,13 @@ class StatusViewModel with ChangeNotifier {
   }
 
   // ---------------------------------------------------------------------------
-  // Public methods — used by ServerConnectionService, Base, etc.
+  // Public methods - used by ServerConnectionService, Base, etc.
   // ---------------------------------------------------------------------------
 
   /// Sets the server connection status imperatively.
   /// Used by `ServerConnectionService` during server connection flow.
   ///
-  /// NOTE: Not implemented as a `Command` — synchronous setter, not an
+  /// NOTE: Not implemented as a `Command` - synchronous setter, not an
   /// async user-triggered operation.
   void setServerStatus(LoadStatus status) {
     _serverStatus = status;
@@ -231,7 +231,7 @@ class StatusViewModel with ChangeNotifier {
   ///   refresh.
   ///
   /// NOTE: Not implemented as a `Command` because this method sets up three
-  /// timers that fire indefinitely — there is no single completion event.
+  /// timers that fire indefinitely - there is no single completion event.
   /// `Command` wraps one-shot async operations with a clear done/error signal,
   /// which does not apply to continuous background polling.
   void startAutoRefresh({
@@ -269,7 +269,7 @@ class StatusViewModel with ChangeNotifier {
 
   /// Stop auto-refresh timers.
   ///
-  /// NOTE: Not implemented as a `Command` — synchronous timer cancellation,
+  /// NOTE: Not implemented as a `Command` - synchronous timer cancellation,
   /// not an async user-triggered operation.
   void stopAutoRefresh({bool showLoadingIndicator = true}) {
     if (_isAutoRefreshRunning) {
@@ -282,7 +282,7 @@ class StatusViewModel with ChangeNotifier {
   }
 
   // ---------------------------------------------------------------------------
-  // Private — auto-refresh lifecycle
+  // Private - auto-refresh lifecycle
   // ---------------------------------------------------------------------------
 
   void _startAutoRefresh({
@@ -350,7 +350,7 @@ class StatusViewModel with ChangeNotifier {
   }
 
   // ---------------------------------------------------------------------------
-  // Private — one-shot refresh
+  // Private - one-shot refresh
   // ---------------------------------------------------------------------------
 
   Future<bool> _refreshOnce() async {
@@ -392,7 +392,7 @@ class StatusViewModel with ChangeNotifier {
   }
 
   // ---------------------------------------------------------------------------
-  // Private — data fetchers
+  // Private - data fetchers
   // ---------------------------------------------------------------------------
 
   /// Creates the appropriate [RealtimeStatusUseCase] based on API version.
@@ -503,7 +503,7 @@ class StatusViewModel with ChangeNotifier {
         return true;
       },
       (error) {
-        // v5 returns NotSupportedException for metrics — that's OK.
+        // v5 returns NotSupportedException for metrics - that's OK.
         // Genuine errors (e.g. network) should propagate as failure.
         if (error is NotSupportedException) return true;
         return false;
@@ -538,7 +538,7 @@ class StatusViewModel with ChangeNotifier {
   }
 
   // ---------------------------------------------------------------------------
-  // Private — timer setup (status data)
+  // Private - timer setup (status data)
   // ---------------------------------------------------------------------------
   void _setupStatusDataTimer({bool runImmediately = true}) {
     Future<void> timerFn({Timer? timer}) async {
@@ -631,7 +631,7 @@ class StatusViewModel with ChangeNotifier {
   }
 
   // ---------------------------------------------------------------------------
-  // Private — timer setup (overtime data)
+  // Private - timer setup (overtime data)
   // ---------------------------------------------------------------------------
   void _setupOverTimeDataTimer({
     bool runImmediately = true,
@@ -717,7 +717,7 @@ class StatusViewModel with ChangeNotifier {
   }
 
   // ---------------------------------------------------------------------------
-  // Private — timer setup (metrics data)
+  // Private - timer setup (metrics data)
   // ---------------------------------------------------------------------------
   void _setupMetricsDataTimer({
     bool runImmediately = true,
@@ -757,7 +757,7 @@ class StatusViewModel with ChangeNotifier {
           notifyListeners();
         },
         (error) {
-          // v5 returns NotSupportedException — that's OK
+          // v5 returns NotSupportedException - that's OK
         },
       );
     }

@@ -1,6 +1,6 @@
-# Pi-hole Client Website
+# Pi-hole client Website
 
-This is the source for the **Pi-hole Client Website**, built with
+This is the source for the **Pi-hole client Website**, built with
 [Astro](https://astro.build/) and [Starlight](https://starlight.astro.build/).
 
 🌐 [https://pi-hole-client.tsutsu3.com/](https://pi-hole-client.tsutsu3.com/)

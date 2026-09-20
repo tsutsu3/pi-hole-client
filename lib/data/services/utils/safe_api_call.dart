@@ -17,7 +17,7 @@ import 'package:result_dart/result_dart.dart';
 /// - `Success<T>` if the API call completes successfully.
 /// - `Failure<HttpStatusCodeException>` if an expected or unexpected error occurs.
 ///
-/// ### Example – Usage inside a service method
+/// ### Example - Usage inside a service method
 /// ```dart
 /// Future<Result<UserProfile>> getUserProfile() {
 ///   return safeApiCall(() async {
@@ -85,7 +85,7 @@ Future<Result<T>> safeApiCall<T extends Object>(
 /// - `Success<T>` for each successful result received from the stream.
 /// - `Failure<HttpStatusCodeException>` if an expected or unexpected error occurs.
 ///
-/// ### Example – Usage inside a service method
+/// ### Example - Usage inside a service method
 /// ```dart
 /// Stream<Result<UserActivity>> getUserActivity() async* {
 ///   yield* safeApiCallStream<List<String>>(() async* {

@@ -441,7 +441,7 @@ const pageText = {
     heroDescription:
       "The unofficial Pi-hole client for Android. Monitor and manage your Pi-hole on your home network with a clean, modern interface.",
     playStoreAlt: "Get it on Google Play",
-    mockupAlt: "Pi-hole Client",
+    mockupAlt: "Pi-hole client",
   },
   ja: {
     featuresTitle: "主な機能",
@@ -452,7 +452,7 @@ const pageText = {
     heroDescription:
       "Android向けの非公式Pi-holeクライアント。すっきりとしたモダンな画面から、自宅ネットワーク上のPi-holeをいつでも確認・管理できます。",
     playStoreAlt: "Google Playで手に入れよう",
-    mockupAlt: "Pi-hole Clientのアプリ画面",
+    mockupAlt: "Pi-hole clientのアプリ画面",
   },
 } as const;
 

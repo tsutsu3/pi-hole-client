@@ -1,7 +1,7 @@
 # Architecture Overview
 
 This document describes the architecture that connects the Flutter app and the
-Android home widget for the Pi-hole Client. The design splits responsibilities
+Android home widget for the Pi-hole client. The design splits responsibilities
 so the widget stays lightweight and safe while the Flutter app remains the
 single owner of authentication state. The widget provides quick status
 visibility and basic actions without opening the app, and each widget instance

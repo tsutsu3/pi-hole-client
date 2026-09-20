@@ -385,7 +385,7 @@
   "interfacesNotLoaded": "No se pudieron cargar las interfaces",
   "invalid": "No válido",
   "invalidAddress": "IP o dominio no válido",
-  "invalidHostname": "Nombre de host no válido: solo se permiten letras (a–z, A–Z), números (0–9), guiones (-), guiones bajos (_) y puntos (.). Separe varios nombres de host con espacios",
+  "invalidHostname": "Nombre de host no válido: solo se permiten letras (a-z, A-Z), números (0-9), guiones (-), guiones bajos (_) y puntos (.). Separe varios nombres de host con espacios",
   "invalidIpAddress": "Dirección IP no válida",
   "invalidMaxResults": "Ingrese un número máximo mayor que 0.",
   "invalidPort": "Puerto no válido",

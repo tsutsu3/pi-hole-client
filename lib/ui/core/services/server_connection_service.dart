@@ -204,7 +204,7 @@ class ServerConnectionService {
         case PasswordAuth(password: final password):
           // Try existing session first to avoid creating unnecessary sessions.
           // Use skipRenewal: true so that no session renewal happens inside the
-          // probe — if the existing session is expired, createSession below is
+          // probe - if the existing session is expired, createSession below is
           // the sole place that creates a new session, preventing duplicates.
           final preCheck = await bundle.dns.fetchBlockingStatus(
             skipRenewal: true,
@@ -223,7 +223,7 @@ class ServerConnectionService {
               preCheckErr ?? Exception('connection pre-check failed'),
             );
           }
-          // Session is missing or expired — re-authenticate, prompting for a
+          // Session is missing or expired - re-authenticate, prompting for a
           // TOTP code when the server requires 2FA.
           final login = await _createSessionWithTotp(bundle, password, process);
           if (login.cancelled) {

@@ -279,7 +279,7 @@ if **"Allow untrusted certificates"** was **ON** before the update,
 all HTTPS servers will show the **"Don't check SSL certificate"** status.
 This configuration is less secure than the certificate pinning approach.
 
-If it was **OFF** before the update, no changes are applied—
+If it was **OFF** before the update, no changes are applied -
 your servers will remain in either
 **"HTTPS Verified"** or **"HTTPS Untrusted Blocked"** status.
 :::
@@ -354,7 +354,7 @@ pihole.local {
 | Use Case                                                               | Recommended Setting                                                                                | Expected Status               |
 | ---------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------- |
 | Valid CA certificate with full chain (Let's Encrypt + `fullchain.pem`) | **Allow untrusted certificates: OFF**                                                              | HTTPS Verified                |
-| Let's Encrypt with incomplete chain (`cert.pem`)                       | Fix server to use `fullchain.pem` — or enable **Allow untrusted certificates: ON** as a workaround | HTTPS Verified / HTTPS Pinned |
+| Let's Encrypt with incomplete chain (`cert.pem`)                       | Fix server to use `fullchain.pem` - or enable **Allow untrusted certificates: ON** as a workaround | HTTPS Verified / HTTPS Pinned |
 | Self-signed certificate                                                | **Allow untrusted certificates: ON**, Pin the cert                                                 | HTTPS Pinned                  |
 | Docker without reverse proxy                                           | **Don't check SSL certificate: ON**                                                                | Don't check SSL               |
 | Local HTTP only                                                        | -                                                                                                  | HTTP                          |
@@ -398,7 +398,7 @@ Then set the path in `pihole.toml`:
 cert = "/etc/pihole/tls.pem"
 ```
 
-After updating, restart Pi-hole and reconnect — the status should change to **HTTPS Verified**.
+After updating, restart Pi-hole and reconnect - the status should change to **HTTPS Verified**.
 
 ### Solution 2: Enable "Allow untrusted certificates" (Workaround)
 

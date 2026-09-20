@@ -20,7 +20,7 @@ import 'package:result_dart/result_dart.dart';
 // Test fakes
 // ---------------------------------------------------------------------------
 
-/// Minimal [MetricsRepository] stub — never called by the fakes below.
+/// Minimal [MetricsRepository] stub - never called by the fakes below.
 class _StubMetricsRepository implements MetricsRepository {
   @override
   Future<Result<Logs>> fetchQueries({
@@ -239,7 +239,7 @@ LogsViewModel _buildVm({
 /// before the first use (done via setUpAll in the load/filter groups).
 Future<void> _initAndLoad(LogsViewModel vm) async {
   vm.initScreen(logsPerQuery: 2.0); // creates services, schedules (unfired)
-  await vm.initializeLoad(); // direct call — no pump needed
+  await vm.initializeLoad(); // direct call - no pump needed
 }
 
 // ---------------------------------------------------------------------------
@@ -252,10 +252,10 @@ void main() {
   setUpAll(TestWidgetsFlutterBinding.ensureInitialized);
 
   // -------------------------------------------------------------------------
-  // Filter state (pure — no SchedulerBinding required)
+  // Filter state (pure - no SchedulerBinding required)
   // -------------------------------------------------------------------------
 
-  group('LogsViewModel – hasActiveChips', () {
+  group('LogsViewModel - hasActiveChips', () {
     late LogsViewModel vm;
 
     setUp(() => vm = _buildVm());
@@ -298,7 +298,7 @@ void main() {
   // setRequestStatus / statusSelected
   // -------------------------------------------------------------------------
 
-  group('LogsViewModel – setRequestStatus', () {
+  group('LogsViewModel - setRequestStatus', () {
     late LogsViewModel vm;
 
     setUp(() => vm = _buildVm());
@@ -579,10 +579,10 @@ void main() {
   });
 
   // -------------------------------------------------------------------------
-  // Load lifecycle — direct await on initializeLoad() bypasses SchedulerBinding
+  // Load lifecycle - direct await on initializeLoad() bypasses SchedulerBinding
   // -------------------------------------------------------------------------
 
-  group('LogsViewModel – initScreen load lifecycle', () {
+  group('LogsViewModel - initScreen load lifecycle', () {
     test('loading -> loaded: logs are populated', () async {
       final log = _allowedLog(url: 'example.com', device: '10.0.0.1', id: 1);
       final vm = _buildVm(logs: [log]);
@@ -611,7 +611,7 @@ void main() {
 
     test('loading -> loaded: deduplicates logs with the same id', () async {
       final log = _allowedLog(url: 'dup.com', device: '10.0.0.1', id: 42);
-      // Same log provided twice — dedup by id should keep only one entry.
+      // Same log provided twice - dedup by id should keep only one entry.
       final vm = _buildVm(logs: [log, log]);
 
       expect(vm.loadStatus, LoadStatus.loading);
@@ -627,7 +627,7 @@ void main() {
       () async {
         // id == null => _logKey falls back to dateTime|type|url|device key.
         final log = _allowedLog(url: 'dup.com', device: '10.0.0.1');
-        // Same log provided twice — composite-key dedup should keep only one entry.
+        // Same log provided twice - composite-key dedup should keep only one entry.
         final vm = _buildVm(logs: [log, log]);
 
         expect(vm.loadStatus, LoadStatus.loading);
@@ -641,10 +641,10 @@ void main() {
   });
 
   // -------------------------------------------------------------------------
-  // logsListDisplay – filtering and sorting
+  // logsListDisplay - filtering and sorting
   // -------------------------------------------------------------------------
 
-  group('LogsViewModel – logsListDisplay filtering', () {
+  group('LogsViewModel - logsListDisplay filtering', () {
     test('shows all logs by default', () async {
       final logs = [
         _allowedLog(url: 'a.com', device: '10.0.0.1', id: 1),
@@ -740,10 +740,10 @@ void main() {
   });
 
   // -------------------------------------------------------------------------
-  // logsListDisplay – sort order
+  // logsListDisplay - sort order
   // -------------------------------------------------------------------------
 
-  group('LogsViewModel – logsListDisplay sort order', () {
+  group('LogsViewModel - logsListDisplay sort order', () {
     test('sortStatus=0 returns newest-first order', () async {
       final older = _allowedLog(
         url: 'old.com',
@@ -797,7 +797,7 @@ void main() {
   // applyFilterAndLoad
   // -------------------------------------------------------------------------
 
-  group('LogsViewModel – applyFilterAndLoad', () {
+  group('LogsViewModel - applyFilterAndLoad', () {
     late _CountingPaginationService service;
 
     setUp(() {

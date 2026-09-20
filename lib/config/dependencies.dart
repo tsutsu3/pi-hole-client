@@ -21,7 +21,7 @@ import 'package:provider/single_child_widget.dart';
 /// 1. Services (DatabaseService, SecureStorageService)
 /// 2. Repositories (AppConfigRepository, ServerRepository)
 /// 3. ViewModels (AppConfigViewModel, ServersViewModel)
-/// 3.5. RepositoryBundle — recreated when the selected server changes
+/// 3.5. RepositoryBundle - recreated when the selected server changes
 /// 4. Dependent ViewModels (StatusViewModel, LogsViewModel, GravityUpdateViewModel)
 List<SingleChildWidget> createProviders({
   required DatabaseService dbService,

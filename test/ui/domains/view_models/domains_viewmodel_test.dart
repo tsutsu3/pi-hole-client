@@ -204,7 +204,7 @@ void main() {
         domain: 'new.example.com',
       ));
 
-      // Local state update — no re-fetch
+      // Local state update - no re-fetch
       expect(viewModel.allowlistDomains.length, initialCount + 1);
       expect(viewModel.allowlistDomains.last.name, 'new.example.com');
     });
@@ -217,7 +217,7 @@ void main() {
         domain.copyWith(comment: 'updated comment'),
       );
 
-      // Local state update — no re-fetch
+      // Local state update - no re-fetch
       expect(viewModel.allowlistDomains.first.comment, 'updated comment');
     });
 
@@ -492,7 +492,7 @@ void main() {
       expect(vm.allowlistDomains.single.name, 'a.com');
 
       // Switching servers clears the cache and marks loading, but the reload is
-      // deferred to the next screen mount — update() itself never fetches.
+      // deferred to the next screen mount - update() itself never fetches.
       vm.update(domainRepository: repoB);
       await Future<void>.delayed(Duration.zero);
 

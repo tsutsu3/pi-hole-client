@@ -135,7 +135,7 @@ class ServersViewModel with ChangeNotifier {
 
   /// Marks [address] as having a user-cancelled 2FA prompt, so automatic paths
   /// (auto-refresh ticks, app resume) won't prompt again. A refresh the user
-  /// asks for clears the mark instead — see `refreshServerStatus`.
+  /// asks for clears the mark instead - see `refreshServerStatus`.
   void markTotpReauthDeclined(String address) {
     _totpReauthDeclined.add(address);
   }

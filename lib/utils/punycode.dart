@@ -49,8 +49,8 @@ String _decodeLabel(String label) {
 // RFC 3492 constants (Section 5: Parameter values for Punycode)
 // ---------------------------------------------------------------------------
 
-/// Number base for the variable-length integer encoding (a–z = 0–25,
-/// 0–9 = 26–35).
+/// Number base for the variable-length integer encoding (a-z = 0-25,
+/// 0-9 = 26-35).
 const _base = 36;
 
 /// Minimum threshold value used in bias adaptation.
@@ -157,8 +157,8 @@ String _decode(String input) {
 /// Converts a Punycode-encoded ASCII character to its digit value.
 ///
 /// Mapping (case-insensitive):
-/// - `a`–`z` (or `A`–`Z`) -> 0–25
-/// - `0`–`9` -> 26–35
+/// - `a`-`z` (or `A`-`Z`) -> 0-25
+/// - `0`-`9` -> 26-35
 ///
 /// Throws [FormatException] if [codeUnit] is not a valid Punycode digit.
 int _digitValue(int codeUnit) {

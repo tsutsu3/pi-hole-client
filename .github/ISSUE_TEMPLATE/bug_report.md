@@ -31,7 +31,7 @@ Steps to reproduce the behavior:
  - OS: <!-- [e.g. iOS, Android, Linux. Windows]  -->
  - Browser: <!-- [e.g. Chrome, Safari, Firefox] -->
  - Browser Version: <!-- [e.g. 22] -->
- - Pi-hole Client Version: <!-- [e.g. v1.0.3] -->
+ - Pi-hole client Version: <!-- [e.g. v1.0.3] -->
  - Pi-hole Version: <!-- [e.g. v6.0.5] -->
 
 ## Additional context

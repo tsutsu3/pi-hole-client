@@ -1203,7 +1203,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invalidHostname =>
-      'Invalid hostname: only letters (a–z, A–Z), numbers (0–9), hyphen (-), underscore (_), and dot (.) are allowed. Separate multiple hostnames with spaces';
+      'Invalid hostname: only letters (a-z, A-Z), numbers (0-9), hyphen (-), underscore (_), and dot (.) are allowed. Separate multiple hostnames with spaces';
 
   @override
   String get invalidIpAddress => 'Invalid IP Address';

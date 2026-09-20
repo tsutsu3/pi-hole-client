@@ -153,7 +153,7 @@ class PiholeV6ApiClient {
           return Session.fromJson(decoded);
         }
       } on FormatException {
-        // Non-JSON body — fall through to the HTTP error below.
+        // Non-JSON body - fall through to the HTTP error below.
       }
 
       throw HttpStatusCodeException(resp.statusCode, resp.body);

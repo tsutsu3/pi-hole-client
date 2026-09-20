@@ -384,7 +384,7 @@
   "interfacesNotLoaded": "Interfaces couldn't be loaded",
   "invalid": "Invalid",
   "invalidAddress": "Invalid IP or domain",
-  "invalidHostname": "Invalid hostname: only letters (a–z, A–Z), numbers (0–9), hyphen (-), underscore (_), and dot (.) are allowed. Separate multiple hostnames with spaces",
+  "invalidHostname": "Invalid hostname: only letters (a-z, A-Z), numbers (0-9), hyphen (-), underscore (_), and dot (.) are allowed. Separate multiple hostnames with spaces",
   "invalidIpAddress": "Invalid IP Address",
   "invalidMaxResults": "Please enter a maximum number greater than 0.",
   "invalidPort": "Invalid port",
