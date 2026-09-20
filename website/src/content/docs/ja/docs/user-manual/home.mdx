@@ -15,6 +15,7 @@ import imgHomeFab from "../../../docs/user-manual/images/home/home-fab.png";
 import imgHomeStatusIcon from "../../../docs/user-manual/images/home/home-status-icon.png";
 import imgHomeTiles from "../../../docs/user-manual/images/home/home-tiles.png";
 import imgHomeCertIcon from "../../../docs/user-manual/images/home/home-cert-icon.png";
+import imgHomeChipList from "../../../docs/user-manual/images/home/home-chip-list.png";
 
 ## この画面でできること
 
@@ -50,6 +51,27 @@ import imgHomeCertIcon from "../../../docs/user-manual/images/home/home-cert-ico
 - **灰色の輪郭だけの盾**：接続中またはデータ読み込み中です。
 
 <DocImage width="320" alt="ホーム画面のステータスアイコン" src={imgHomeStatusIcon} />
+
+### サーバーステータスチップ
+
+選択中のサーバーが **Pi-hole v6** の場合、ヘッダーの下にサーバーのシステム情報がチップで表示されます。値は更新のたびに変わります。画面に収まらないチップは横にスワイプすると表示できます。チップを長押しすると、その項目の説明が表示されます。
+
+<DocImage width="600" alt="サーバーステータスチップ" src={imgHomeChipList} />
+
+| チップ              | 表示例                | 内容                                    |
+| ------------------- | --------------------- | --------------------------------------- |
+| 1分あたりのクエリ数 | `4.0 q/min`           | サーバーが1分間に処理したDNSクエリ数    |
+| CPUロードアベレージ | `Load 0.05/0.08/0.03` | 直近1分・5分・15分のCPU負荷             |
+| CPU使用率           | `CPU 0.8%`            | 現在のCPU使用率                         |
+| メモリ使用率        | `RAM 8.29%`           | 現在のメモリ使用率                      |
+| CPU温度             | `Temp 37.0°C`         | CPUの温度（単位はサーバーの設定に従う） |
+| 連続稼働時間        | `Up 7d 3h 36m`        | サーバーが起動してからの経過時間        |
+
+読み込み中の項目や、サーバーが値を返さない項目は `-` と表示されます。
+
+:::note
+これらの情報はPi-hole v6のAPIから取得しているため、チップが表示されるのは **v6** のサーバーだけです。
+:::
 
 ### サーバー証明書の警告
 

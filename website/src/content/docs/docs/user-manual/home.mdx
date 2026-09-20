@@ -15,6 +15,7 @@ import imgHomeFab from "./images/home/home-fab.png";
 import imgHomeStatusIcon from "./images/home/home-status-icon.png";
 import imgHomeTiles from "./images/home/home-tiles.png";
 import imgHomeCertIcon from "./images/home/home-cert-icon.png";
+import imgHomeChipList from "./images/home/home-chip-list.png";
 
 ## What you can do on this screen
 
@@ -61,6 +62,31 @@ The shield icon represents the current state:
   The app is still connecting or loading data.
 
 <DocImage width="320" alt="Home status icon legend" src={imgHomeStatusIcon} />
+
+### Server status chips
+
+When the selected server is a **Pi-hole v6**, a row of chips below the header
+shows its live system metrics. The values update on every refresh. Swipe the row sideways to see the
+chips that do not fit on screen, and long-press a chip to see what it means.
+
+<DocImage width="600" alt="Server status chips" src={imgHomeChipList} />
+
+| Chip               | Example               | What it shows                                  |
+| ------------------ | --------------------- | ---------------------------------------------- |
+| Queries per minute | `4.0 q/min`           | DNS queries the server handles a minute        |
+| CPU load average   | `Load 0.05/0.08/0.03` | CPU load over the last 1, 5 and 15 minutes     |
+| CPU usage          | `CPU 0.8%`            | Current CPU usage                              |
+| RAM usage          | `RAM 8.29%`           | Current memory usage                           |
+| CPU temperature    | `Temp 37.0°C`         | CPU temperature, in the unit set on the server |
+| System uptime      | `Up 7d 3h 36m`        | How long the server has been running           |
+
+A chip shows `-` while its value is still loading or the server does not report
+it.
+
+:::note
+These metrics come from the Pi-hole v6 API, so the chips are only shown for
+**v6** servers.
+:::
 
 ### Server certificate warning
 
