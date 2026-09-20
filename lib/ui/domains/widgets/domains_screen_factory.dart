@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 ///
 /// The `DomainsViewModel` is provided app-wide (see `createProviders` in
 /// `lib/config/dependencies.dart`) so that its cached list survives bottom-tab
-/// switches — returning to the Domains tab shows the previous list immediately
+/// switches - returning to the Domains tab shows the previous list immediately
 /// instead of a full-screen spinner. Only [GroupsViewModel] is scoped to this
 /// route.
 Widget createDomainsScreen(RepositoryBundle bundle) {

@@ -76,7 +76,7 @@ void main() {
 
       await viewModel.deleteLease.runAsync('192.168.2.111');
 
-      // No re-fetch — local state update only
+      // No re-fetch - local state update only
       expect(fakeDhcpRepository.fetchDhcpLeasesCallCount, 1);
       expect(viewModel.data.leases, isEmpty);
       expect(viewModel.data.currentClientIp, equals(kRepoFetchFtlClient.addr));

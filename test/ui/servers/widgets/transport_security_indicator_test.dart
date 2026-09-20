@@ -80,7 +80,7 @@ void main() async {
       tester,
     ) async {
       // ignoreCertificateErrors skips network call and returns httpsCertIgnored
-      // directly — but only after _resolveHttps is awaited.
+      // directly - but only after _resolveHttps is awaited.
       // On test environment without real TLS, _isPlatformTlsTrusted times out
       // so we can only check the loading/unknown state, but ignoreCertificateErrors
       // is handled before that check, so it returns early.
@@ -128,7 +128,7 @@ void main() async {
           TransportSecurityIndicator(server: makeServer(address: 'not-a-url')),
         ),
       );
-      // Before pumpAndSettle — FutureBuilder may show unknown
+      // Before pumpAndSettle - FutureBuilder may show unknown
       await tester.pump();
       // Just check widget renders without crash
       expect(find.byType(Row), findsWidgets);

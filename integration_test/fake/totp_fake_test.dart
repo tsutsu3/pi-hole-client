@@ -6,7 +6,7 @@ import 'package:pi_hole_client/ui/home/widgets/home_screen.dart';
 import '../support/app_harness.dart';
 import '../support/fake_pihole_server.dart';
 
-/// Fake-server TOTP (2FA) flow coverage — required/invalid/reused/rate-limit
+/// Fake-server TOTP (2FA) flow coverage - required/invalid/reused/rate-limit
 /// on connect, and cancelling the prompt. Exercises the exact JSON error
 /// shapes `PiholeV6ApiClient._parseTotpError` expects (see
 /// `fake_pihole_server.dart`).

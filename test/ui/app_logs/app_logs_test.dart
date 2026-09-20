@@ -107,7 +107,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      // No logs added — logs list is empty by default
+      // No logs added - logs list is empty by default
 
       await tester.pumpWidget(
         buildTestApp(

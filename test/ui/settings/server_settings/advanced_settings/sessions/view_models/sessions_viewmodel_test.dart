@@ -68,7 +68,7 @@ void main() {
 
       await viewModel.deleteSession.runAsync(0);
 
-      // No re-fetch — local state update only
+      // No re-fetch - local state update only
       expect(fakeAuthRepository.getAllSessionsCallCount, 1);
       expect(viewModel.sessions.length, 2);
       expect(viewModel.sessions.any((s) => s.id == 0), isFalse);

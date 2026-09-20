@@ -95,7 +95,7 @@ class V6SessionCache {
   /// Clears the cache and triggers session renewal, deduplicating concurrent
   /// calls so that only one re-authentication request is made.
   Future<void> clearAndRenewSid() async {
-    // Already waiting for interactive re-auth — don't retry postAuth, which
+    // Already waiting for interactive re-auth - don't retry postAuth, which
     // would only fail again and risk the server's 2FA rate limit.
     if (_interactiveReauthRequired) {
       throw TotpRequiredException();

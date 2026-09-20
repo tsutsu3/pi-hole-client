@@ -1175,7 +1175,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get invalidHostname =>
-      '無効なホスト名: 使用できるのは英字 (a–z、A–Z)、数字 (0–9)、ハイフン (-)、アンダースコア (_)、ドット (.) のみです。複数のホスト名はスペースで区切ってください';
+      '無効なホスト名: 使用できるのは英字 (a-z、A-Z)、数字 (0-9)、ハイフン (-)、アンダースコア (_)、ドット (.) のみです。複数のホスト名はスペースで区切ってください';
 
   @override
   String get invalidIpAddress => '無効なIPアドレス';

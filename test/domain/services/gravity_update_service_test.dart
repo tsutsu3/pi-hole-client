@@ -203,10 +203,10 @@ GravityUpdateService _buildService({
 
 void main() {
   // -------------------------------------------------------------------------
-  // startUpdate — success path
+  // startUpdate - success path
   // -------------------------------------------------------------------------
 
-  group('GravityUpdateService – startUpdate success', () {
+  group('GravityUpdateService - startUpdate success', () {
     test('calls onStarted and onStatusChanged(running) immediately', () async {
       final controller = StreamController<Result<List<String>>>();
       final gravityRepo = _FakeGravityRepository();
@@ -334,10 +334,10 @@ void main() {
   });
 
   // -------------------------------------------------------------------------
-  // startUpdate — error path (Result.failure in stream)
+  // startUpdate - error path (Result.failure in stream)
   // -------------------------------------------------------------------------
 
-  group('GravityUpdateService – startUpdate stream error', () {
+  group('GravityUpdateService - startUpdate stream error', () {
     test('Result.failure sets status to error and calls onCompleted', () async {
       final controller = StreamController<Result<List<String>>>();
       final service = _buildService(stream: controller.stream);
@@ -390,7 +390,7 @@ void main() {
   // removeMessage
   // -------------------------------------------------------------------------
 
-  group('GravityUpdateService – removeMessage', () {
+  group('GravityUpdateService - removeMessage', () {
     test('returns true when both API and DB deletions succeed', () async {
       final gravityRepo = _FakeGravityRepository();
       final service = GravityUpdateService(
@@ -439,7 +439,7 @@ void main() {
   // loadGravityData
   // -------------------------------------------------------------------------
 
-  group('GravityUpdateService – loadGravityData', () {
+  group('GravityUpdateService - loadGravityData', () {
     test('returns snapshot from repository on success', () async {
       const expected = GravitySnapshot(
         status: GravityStatus.success,
@@ -479,7 +479,7 @@ void main() {
   // cancelUpdate
   // -------------------------------------------------------------------------
 
-  group('GravityUpdateService – cancelUpdate', () {
+  group('GravityUpdateService - cancelUpdate', () {
     test('cancelling stops delivery of subsequent stream events', () async {
       final controller = StreamController<Result<List<String>>>();
       final service = _buildService(stream: controller.stream);

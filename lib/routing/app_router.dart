@@ -63,14 +63,14 @@ import 'package:provider/provider.dart';
 /// ## Route structure
 ///
 /// ```txt
-/// ShellRoute (Base – lifecycle management)
-///   └─ StatefulShellRoute (AppShell – NavigationRail / BottomNavBar)
+/// ShellRoute (Base - lifecycle management)
+///   └─ StatefulShellRoute (AppShell - NavigationRail / BottomNavBar)
 ///         ├─ Branch 0: /home, /connect
 ///         ├─ Branch 1: /statistics
 ///         ├─ Branch 2: /logs
 ///         ├─ Branch 3: /domains
 ///         └─ Branch 4: Settings
-///               └─ ShellRoute (SettingsShell – desktop master/detail)
+///               └─ ShellRoute (SettingsShell - desktop master/detail)
 ///                     ├─ /settings (list / placeholder)
 ///                     ├─ /settings/app/*
 ///                     ├─ /settings/server/*
@@ -611,7 +611,7 @@ GoRouter createAppRouter({
         ],
       ),
 
-      // ── Standalone: Servers (no shell – used from home "Change server") ──
+      // ── Standalone: Servers (no shell - used from home "Change server") ──
       GoRoute(
         path: '/servers',
         name: Routes.servers,

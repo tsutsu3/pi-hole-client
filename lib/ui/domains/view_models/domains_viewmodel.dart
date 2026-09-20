@@ -80,7 +80,7 @@ class DomainsViewModel extends ChangeNotifier {
   /// domains never leak into the new server's screen. The reload itself is left
   /// to the next screen mount (`loadDomains.run()`): switching servers always
   /// navigates away from the Domains tab, so the screen is unmounted here and
-  /// remounts — and reloads against the cleared cache — on return.
+  /// remounts - and reloads against the cleared cache - on return.
   void update({DomainRepository? domainRepository}) {
     if (domainRepository == null) return;
     final changed = domainRepository != _domainRepository;

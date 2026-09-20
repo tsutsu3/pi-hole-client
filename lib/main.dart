@@ -182,7 +182,7 @@ Future<void> initializeSentry(AppConfigViewModel configProvider) async {
 /// - [databaseService] / [secureStorageService]: inject test-owned instances so
 ///   the test can reset and assert on the same storage the app uses.
 ///
-/// Production behaviour is unchanged — [main] calls this with all defaults.
+/// Production behaviour is unchanged - [main] calls this with all defaults.
 Future<Widget> bootstrapApp({
   bool enableSentry = true,
   bool enableBiometrics = true,

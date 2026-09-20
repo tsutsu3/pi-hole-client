@@ -1062,7 +1062,7 @@ void main() async {
       },
     );
 
-    // Certificate flow tests (R25/R26/R28/R29) — exercise the injected
+    // Certificate flow tests (R25/R26/R28/R29) - exercise the injected
     // TlsCertificateFetcher so the pin/dialog branches run without a real
     // TLS handshake. R27 (retry without re-prompt) is out of scope until the
     // _certValidatedForAddress memory lands on this branch.

@@ -14,7 +14,7 @@
             Setting this to "true" enables the back gesture animation, but causes the following issues:
               1. After returning from a browser or Chrome Custom Tabs, the system back is not
                  delivered to Flutter, causing the app to exit unexpectedly.
-              2. PopScope on the theme/language screens does not work correctly — pressing back
+              2. PopScope on the theme/language screens does not work correctly - pressing back
                  exits the app instead of returning to the previous screen (WillPopScope required).
         -->
         <activity

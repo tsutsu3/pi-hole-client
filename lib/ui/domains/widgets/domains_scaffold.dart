@@ -22,7 +22,7 @@ class DomainsScaffold extends StatelessWidget {
 
   final TabController tabController;
 
-  /// Tab labels — one [Widget] per tab.
+  /// Tab labels - one [Widget] per tab.
   final List<Widget> tabs;
 
   /// Content for each tab inside [TabBarView].

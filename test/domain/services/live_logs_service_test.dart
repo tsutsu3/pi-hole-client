@@ -14,7 +14,7 @@ import 'package:pi_hole_client/domain/services/logs_pagination_service.dart';
 import 'package:result_dart/result_dart.dart';
 
 // ---------------------------------------------------------------------------
-// Stub repository – required by LogsPaginationService base constructor only.
+// Stub repository - required by LogsPaginationService base constructor only.
 // ---------------------------------------------------------------------------
 class _UnusedMetricsRepository implements MetricsRepository {
   @override
@@ -57,7 +57,7 @@ class _UnusedMetricsRepository implements MetricsRepository {
 }
 
 // ---------------------------------------------------------------------------
-// Fake pagination service – returns pre-defined pages in sequence.
+// Fake pagination service - returns pre-defined pages in sequence.
 // ---------------------------------------------------------------------------
 class _FakePaginationService extends LogsPaginationService {
   _FakePaginationService({required this.pages})
@@ -117,7 +117,7 @@ Log _log(int id) => Log(
 void main() {
   final baseEnd = DateTime(2024, 1, 1);
 
-  group('LiveLogsService – normal tick', () {
+  group('LiveLogsService - normal tick', () {
     test('collects logs across multiple pages and advances lastEnd', () async {
       final page1 = [_log(1), _log(2)];
       final page2 = [_log(3)];
@@ -145,7 +145,7 @@ void main() {
     });
   });
 
-  group('LiveLogsService – concurrent call prevention', () {
+  group('LiveLogsService - concurrent call prevention', () {
     test(
       'second call while first is loading returns empty immediately',
       () async {
@@ -173,7 +173,7 @@ void main() {
     );
   });
 
-  group('LiveLogsService – error handling', () {
+  group('LiveLogsService - error handling', () {
     test(
       'exception inside pagination is caught and returns empty list',
       () async {
@@ -190,9 +190,9 @@ void main() {
     );
   });
 
-  group('LiveLogsService – max page limit', () {
+  group('LiveLogsService - max page limit', () {
     test('stops after 10 pages even when more are available', () async {
-      // 11 pages — the loop should stop at 10 (indices 0-9).
+      // 11 pages - the loop should stop at 10 (indices 0-9).
       final pages = List.generate(11, (i) => [_log(i)]);
       final svc = LiveLogsService(
         paginationService: _FakePaginationService(pages: pages),

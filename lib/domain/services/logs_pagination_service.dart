@@ -42,9 +42,9 @@ class LogsPaginationService {
 
   /// Current pagination status.
   ///
-  /// - [LoadStatus.loading] — more pages available.
-  /// - [LoadStatus.loaded]  — all pages consumed; call [reset] to start over.
-  /// - [LoadStatus.error]   — last fetch failed after retries.
+  /// - [LoadStatus.loading] - more pages available.
+  /// - [LoadStatus.loaded]  - all pages consumed; call [reset] to start over.
+  /// - [LoadStatus.error]   - last fetch failed after retries.
   LoadStatus get finished => _finished;
 
   /// The start of the current time window (set by [reset]).

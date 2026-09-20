@@ -1713,7 +1713,7 @@ void main() async {
         expect(find.byType(QueriesLastHoursLine), findsOneWidget);
         expect(find.byType(QueriesLastHoursBar), findsNothing);
 
-        // Change visualization mode to bar — no rebuild/reload should be needed
+        // Change visualization mode to bar - no rebuild/reload should be needed
         await appConfigViewModel.setHomeVisualizationMode(
           HomeVisualizationMode.bar,
         );
@@ -1752,7 +1752,7 @@ void main() async {
         expect(find.byType(LineChartSkeleton), findsNWidgets(2));
         expect(find.byType(BarChartSkeleton), findsNothing);
 
-        // Change visualization mode to bar — skeleton must update immediately
+        // Change visualization mode to bar - skeleton must update immediately
         await appConfigViewModel.setHomeVisualizationMode(
           HomeVisualizationMode.bar,
         );

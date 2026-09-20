@@ -84,7 +84,7 @@ void main() {
       );
 
       expect(fakeLocalDnsRepository.addRecordCallCount, 1);
-      // No re-fetch — local state update only
+      // No re-fetch - local state update only
       expect(fakeLocalDnsRepository.fetchRecordsCallCount, 1);
       expect(viewModel.data.records.length, 4);
       expect(viewModel.data.records.last.ip, '192.168.1.200');
@@ -115,7 +115,7 @@ void main() {
       ));
 
       expect(fakeLocalDnsRepository.updateRecordCallCount, 1);
-      // No re-fetch — local state update only
+      // No re-fetch - local state update only
       expect(fakeLocalDnsRepository.fetchRecordsCallCount, 1);
       expect(viewModel.data.records.length, 3);
       expect(
@@ -188,7 +188,7 @@ void main() {
       );
 
       expect(fakeLocalDnsRepository.deleteRecordCallCount, 1);
-      // No re-fetch — local state update only
+      // No re-fetch - local state update only
       expect(fakeLocalDnsRepository.fetchRecordsCallCount, 1);
       expect(viewModel.data.records.length, 2);
       expect(

@@ -7,7 +7,7 @@ void main() {
   // Initial state
   // -------------------------------------------------------------------------
 
-  group('FiltersV5 – initial state', () {
+  group('FiltersV5 - initial state', () {
     late FiltersV5 f;
 
     setUp(() => f = FiltersV5());
@@ -57,7 +57,7 @@ void main() {
   // setRequestStatus
   // -------------------------------------------------------------------------
 
-  group('FiltersV5 – setRequestStatus', () {
+  group('FiltersV5 - setRequestStatus', () {
     late FiltersV5 f;
 
     setUp(() => f = FiltersV5());
@@ -96,7 +96,7 @@ void main() {
   // resetStatus
   // -------------------------------------------------------------------------
 
-  group('FiltersV5 – resetStatus', () {
+  group('FiltersV5 - resetStatus', () {
     late FiltersV5 f;
 
     setUp(() => f = FiltersV5());
@@ -118,7 +118,7 @@ void main() {
   // Time filters
   // -------------------------------------------------------------------------
 
-  group('FiltersV5 – time filters', () {
+  group('FiltersV5 - time filters', () {
     late FiltersV5 f;
 
     setUp(() => f = FiltersV5());
@@ -148,7 +148,7 @@ void main() {
   // Client filters
   // -------------------------------------------------------------------------
 
-  group('FiltersV5 – client filters', () {
+  group('FiltersV5 - client filters', () {
     late FiltersV5 f;
 
     setUp(() => f = FiltersV5());
@@ -190,7 +190,7 @@ void main() {
   // Domain filter
   // -------------------------------------------------------------------------
 
-  group('FiltersV5 – domain filter', () {
+  group('FiltersV5 - domain filter', () {
     late FiltersV5 f;
 
     setUp(() => f = FiltersV5());
@@ -211,7 +211,7 @@ void main() {
   // resetFilters
   // -------------------------------------------------------------------------
 
-  group('FiltersV5 – resetFilters', () {
+  group('FiltersV5 - resetFilters', () {
     late FiltersV5 f;
 
     setUp(() => f = FiltersV5());

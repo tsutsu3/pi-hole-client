@@ -266,7 +266,7 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
               logs: logs,
               isLoadingMore: logsViewModel.isLoadingMore,
               // Hide LinearProgressIndicator while the user is actively
-              // pull-to-refreshing — the circular RefreshIndicator spinner
+              // pull-to-refreshing - the circular RefreshIndicator spinner
               // already provides sufficient feedback in that case.
               isRevalidating:
                   logsViewModel.isRevalidating && !_isPullRefreshing,

@@ -120,7 +120,7 @@ class PiHoleApiClient(
      * Whether this client can actually connect given the current TLS settings.
      *
      * Returns `false` when untrusted signed certs are allowed but no pinned
-     * fingerprint is configured — the widget refuses to trust arbitrary
+     * fingerprint is configured - the widget refuses to trust arbitrary
      * certificates and requires the user to pin one via the app.
      *
      * For HTTP URLs, always returns `true` since certificate validation
@@ -211,9 +211,9 @@ class PiHoleApiClient(
      * Applies the appropriate TLS configuration to an HTTPS connection.
      *
      * Priority order matches Flutter's `createHttpClient()`:
-     * 1. `ignoreCertificateErrors` — trust everything (legacy / explicit opt-in)
-     * 2. `allowUntrustedCert` with pin — verify SHA-256 fingerprint
-     * 3. default — standard platform TLS validation
+     * 1. `ignoreCertificateErrors` - trust everything (legacy / explicit opt-in)
+     * 2. `allowUntrustedCert` with pin - verify SHA-256 fingerprint
+     * 3. default - standard platform TLS validation
      *
      * Note: `allowUntrustedCert` without a pin is rejected before reaching this
      * method (see [canConnect]).
@@ -238,12 +238,12 @@ class PiHoleApiClient(
                 sslContext.init(null, arrayOf<TrustManager>(pinningManager), java.security.SecureRandom())
                 connection.sslSocketFactory = sslContext.socketFactory
                 // Hostname verification is relaxed because the certificate is
-                // pinned by fingerprint, not by CN/SAN — untrusted signed certs
+                // pinned by fingerprint, not by CN/SAN - untrusted signed certs
                 // typically lack a matching hostname entry.
                 connection.hostnameVerifier = HostnameVerifier { _, _ -> true }
             }
 
-            // else: standard platform TLS — no custom configuration needed.
+            // else: standard platform TLS - no custom configuration needed.
         }
     }
 

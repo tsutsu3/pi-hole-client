@@ -108,7 +108,7 @@ void main() {
   final start = DateTime(2024, 1, 1);
   final end = DateTime(2024, 1, 1, 1);
 
-  group('LogsPaginationService – initial state', () {
+  group('LogsPaginationService - initial state', () {
     test('finished starts as loading', () {
       final svc = LogsPaginationService(repository: _FakeMetricsRepository([]));
       expect(svc.finished, LoadStatus.loading);
@@ -120,7 +120,7 @@ void main() {
     });
   });
 
-  group('LogsPaginationService – V5 (no cursor, single response)', () {
+  group('LogsPaginationService - V5 (no cursor, single response)', () {
     test('returns all logs and transitions to loaded', () async {
       final logs = [_log(1), _log(2)];
       final svc = LogsPaginationService(
@@ -150,7 +150,7 @@ void main() {
     });
   });
 
-  group('LogsPaginationService – V6 (cursor-based pagination)', () {
+  group('LogsPaginationService - V6 (cursor-based pagination)', () {
     test('single page (fewer than pageSize) transitions to loaded', () async {
       final logs = [_log(1), _log(2)];
       final svc = LogsPaginationService(
@@ -238,7 +238,7 @@ void main() {
     });
   });
 
-  group('LogsPaginationService – error handling', () {
+  group('LogsPaginationService - error handling', () {
     test('API failure followed by success (retry) returns logs', () async {
       final logs = [_log(1)];
       final svc = LogsPaginationService(

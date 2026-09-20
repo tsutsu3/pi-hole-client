@@ -2411,7 +2411,7 @@ abstract class AppLocalizations {
   /// No description provided for @invalidHostname.
   ///
   /// In en, this message translates to:
-  /// **'Invalid hostname: only letters (a–z, A–Z), numbers (0–9), hyphen (-), underscore (_), and dot (.) are allowed. Separate multiple hostnames with spaces'**
+  /// **'Invalid hostname: only letters (a-z, A-Z), numbers (0-9), hyphen (-), underscore (_), and dot (.) are allowed. Separate multiple hostnames with spaces'**
   String get invalidHostname;
 
   /// No description provided for @invalidIpAddress.

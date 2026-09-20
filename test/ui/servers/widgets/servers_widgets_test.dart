@@ -53,7 +53,7 @@ void main() async {
         ),
       );
 
-      // Initially collapsed — server alias not visible in the list section.
+      // Initially collapsed - server alias not visible in the list section.
       // Tap the expand toggle.
       await tester.tap(find.byIcon(Icons.keyboard_arrow_down));
       await tester.pump();

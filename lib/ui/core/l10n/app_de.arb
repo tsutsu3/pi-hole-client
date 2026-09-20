@@ -384,7 +384,7 @@
   "interfacesNotLoaded": "Schnittstellen konnten nicht geladen werden",
   "invalid": "Ungültig",
   "invalidAddress": "Ungültige IP oder Domain",
-  "invalidHostname": "Ungültiger Hostname: Es sind nur Buchstaben (a–z, A–Z), Zahlen (0–9), Bindestriche (-), Unterstriche (_) und Punkte (.) erlaubt. Mehrere Hostnamen durch Leerzeichen trennen",
+  "invalidHostname": "Ungültiger Hostname: Es sind nur Buchstaben (a-z, A-Z), Zahlen (0-9), Bindestriche (-), Unterstriche (_) und Punkte (.) erlaubt. Mehrere Hostnamen durch Leerzeichen trennen",
   "invalidIpAddress": "Ungültige IP-Adresse",
   "invalidMaxResults": "Bitte eine maximale Anzahl größer als 0 eingeben.",
   "invalidPort": "Ungültiger Port",

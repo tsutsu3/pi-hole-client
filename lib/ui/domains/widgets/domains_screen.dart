@@ -53,7 +53,7 @@ class _DomainsScreenState extends State<DomainsScreen>
 
     if (previousTab == AppShell.domainsIndex &&
         currentTab != AppShell.domainsIndex) {
-      // Leaving domains tab — reset selection while hidden (no flash).
+      // Leaving domains tab - reset selection while hidden (no flash).
       context.read<DomainsViewModel>().setSelectedDomain(null);
       tabController.index = 0;
     }
