@@ -1,4 +1,4 @@
-# ☁️ Pi-hole Client on Azure App Service (Terraform)
+# ☁️ Pi-hole client on Azure App Service (Terraform)
 
 This Terraform project deploys a Pi-hole to **Azure App Service for Linux**
 using a Docker container. The infrastructure is managed using
