@@ -4,6 +4,10 @@ sidebar:
   order: 2
 ---
 
+import DocImage from "@site/src/components/doc-image.astro";
+import imgUntrustedCert from "./images/create-a-connection-v1.9.png";
+import imgTwoFactorAuth from "./images/two-factor-auth.png";
+
 On this page, there are explained all the instructions about how to create a
 connection to the server with different circumstances. These are the most common
 cases. There may be other configurations that aren't covered by this guide.
@@ -15,14 +19,27 @@ cases. There may be other configurations that aren't covered by this guide.
 - **Authentication**:
   - **v5**: Requires an API **token** (See: [Getting the API token (v5 only)](../get-api-token/)).
   - **v6**: Requires a **password** to log in to the web UI.
+  - **v6 with two-factor authentication (2FA)**: Requires the **password** and a
+    **6-digit code** from your authenticator app.
 
-:::caution
-Known issue in app v1.9.x
+### Two-factor authentication (2FA)
 
-App versions **1.9.0 – 1.9.2** cannot connect to a **Pi-hole v6** server that has
-**no password** set. This is a regression, and a fix is **planned for v1.10.0**.
+If your Pi-hole v6 server has 2FA enabled, the app asks for a 6-digit
+authentication code when it logs in. This happens when you:
 
-Until that release ships, set a password on your Pi-hole and enter it in the app.
+- add a server or save changes to an existing one
+- connect to a server from the server list
+- return to a server whose session has expired
+
+Enter the current code from your authenticator app. A code can only be used
+once, so if it is rejected as already used, wait for the next code.
+
+<DocImage width="320" alt="Two-factor authentication dialog" src={imgTwoFactorAuth} />
+
+:::note
+App versions **1.9.0 - 1.9.2** cannot connect to a **Pi-hole v6** server that has
+**no password** set. This was **fixed in v1.10.0** - update the app if you are
+still on 1.9.x.
 See [FAQ Q8](../../help/faq/#-q8-pi-hole-v6-cannot-connect-when-no-password-is-set)
 for details.
 :::
@@ -60,11 +77,23 @@ it using the default HTTPS port (443).
 If you are using **Pi-hole v6** with a **self-signed SSL certificate**, the connection may fail if self-signed certificates are not allowed.
 **To prevent SSL certificate validation errors**, please follow the steps below based on your app version:
 
-**App version >= v1.3.0**
+**App version >= v1.9.0**
+
+1. Go to: `Settings > Servers`
+2. Create a new server, or open `⋮ > Edit` on an existing one
+3. Expand **Advanced Options**
+4. Check **Allow untrusted certificates** (`default: checked`)
+
+The app then asks you to confirm the certificate fingerprint and pins it.
+See [Certificate settings](../cert-config/) for what each certificate status means.
+
+<DocImage width="320" alt="Allow untrusted certificates option" src={imgUntrustedCert} />
+
+**App version v1.3.0 - v1.8.x**
 
 1. Go to: `Settings > Servers`
 2. Select an existing server or create a new one
-3. Check **Allow untrusted certificates** (`default: checked`)
+3. Check **Allow self-signed certificates** (`default: checked`)
 
 ![](./images/create-a-connection.png)
 
@@ -77,6 +106,23 @@ If you are using **Pi-hole v6** with a **self-signed SSL certificate**, the conn
 Once the app restarts, you can proceed with the connection.
 
 ![](./images/less-v1.3.png)
+:::
+
+:::note
+**If the connection still fails**
+
+Depending on how the server certificate was generated, the app may not be able
+to validate it even with **Allow untrusted certificates** enabled. This is
+common with the web server built into the **Pi-hole Docker image**.
+
+In that case, turn on **Don't check SSL certificate** in the same
+**Advanced Options** section, then save and reconnect.
+
+⚠️ **Don't check SSL certificate** disables all certificate validation, so only
+use it on a network you trust. Putting a reverse proxy with a valid certificate
+in front of Pi-hole is the safer fix - see
+[Pi-hole in Docker: Special Considerations](../cert-config/#pi-hole-in-docker-special-considerations)
+and [FAQ Q3](../../help/faq/#-q3-connection-failed-with-self-signed-certificate).
 :::
 
 ## 4. HTTPS connection with custom port (or exposed port) 🔒

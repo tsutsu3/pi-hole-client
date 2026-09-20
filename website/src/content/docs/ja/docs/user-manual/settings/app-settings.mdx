@@ -8,6 +8,7 @@ sidebar:
 import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgAppSettingsMain from "../../../../docs/user-manual/images/settings/app-settings/servers.png";
+import imgEditConnection from "../../../../docs/user-manual/images/settings/app-settings/edit-connection.png";
 import imgAppSettingsAdvanced from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/advanced-settings-top.png";
 import imgReducedDataOn from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/use-reduced-data/linechart-reduce-on.png";
 import imgReducedDataOff from "../../../../docs/user-manual/images/settings/app-settings/advanced settings/chart-display-mode/linechart-reduce-off.png";
@@ -76,7 +77,19 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 
 <DocImage width="320" alt="アプリ設定のサーバー一覧" src={imgAppSettingsMain} />
 
-ここから、現在のサーバーの切り替え、新しいPi-holeサーバーの追加、登録済みサーバーの編集、アプリからの削除を行えます。表示名、パスワード、既定サーバーの指定、Pi-holeのバージョンは編集できます。IPアドレス、ポート、サブルート、証明書設定などの接続情報は、作成後には変更できません。
+ここから、現在のサーバーの切り替え、新しいPi-holeサーバーの追加、登録済みサーバーの編集、アプリからの削除を行えます。
+
+v1.10.0以降は、表示名、パスワード、既定サーバーの指定、Pi-holeのバージョンに加えて、IPアドレス、ポート、サブルート、証明書設定などの**すべての項目**を編集できます。
+
+編集するには、一覧でサーバーの `⋮ > 編集` を開きます。
+
+<DocImage width="320" alt="接続の編集画面" src={imgEditConnection} />
+
+編集時の注意点は次のとおりです。
+
+- アドレスを変更すると、固定（ピン留め）していた証明書はリセットされ、新しいホストの証明書を改めて確認します。
+- 2要素認証を有効にしたサーバーでは、保存時に認証コードの入力を求められることがあります。
+- 新しい設定で接続できなかった場合は、変更前の設定に戻ります。
 
 別のPi-holeを管理したい場合はサーバーを切り替えます。別ネットワークや別端末にPi-holeを構築した場合は、新しいサーバーを追加してください。
 
@@ -202,13 +215,11 @@ English（英語、既定）、Deutsch（ドイツ語）、Español（スペイ�
 
 ホーム画面の4つの概要タイルと、ドメイン・クライアントを含む統計画面のデータに影響します。定義済みの固定間隔のほか、秒数を入力して**カスタム間隔**を指定できます。ホーム画面と統計の最新性を重視する場合は短く、通信回数とバッテリー消費を抑える場合は長く設定します。この項目はログのライブ更新やログ画面での手動更新には影響しません。
 
-<span id="live-log"></span>
-
 ## ライブログ
 
 ログ画面で**リアルタイムのログ更新**を利用するかを設定します。有効（既定）の場合、ログ画面で**ライブモード**に切り替え、発生したDNSクエリを表示できます。無効の場合、ログは手動更新のみになります。
 
-この設定はPi-holeのログ記録方法を変更せず、アプリがログ項目を取得・更新する方法だけに影響します。有効にしていても、ログ画面のライブ更新は最初は**一時停止**状態です。リアルタイム更新を始めるにはログ画面で**再開**をタップします。詳しくは[ログ](../../logs/#live-log)を参照してください。
+この設定はPi-holeのログ記録方法を変更せず、アプリがログ項目を取得・更新する方法だけに影響します。有効にしていても、ログ画面のライブ更新は最初は**一時停止**状態です。リアルタイム更新を始めるにはログ画面で**再開**をタップします。詳しくは[ログ](../../logs/#リアルタイムで通信を監視する)を参照してください。
 
 ## ログの更新間隔
 

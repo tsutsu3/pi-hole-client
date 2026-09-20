@@ -75,6 +75,9 @@ On this screen, you can confirm:
 - **Connection status**
   - Whether the server is currently reachable
   - Which server is selected as active
+  - **MFA**: whether two-factor authentication is enabled on the server
+    (`Enabled` / `Disabled`, or `N/A` for servers that do not report it,
+    such as v5)
 
 - **Performance**
   - Current CPU usage
@@ -238,11 +241,21 @@ Add entries when devices need stable, human-readable names.
 
 <DocImage width="320" alt="Add local DNS" src={imgLocalDnsAdd} />
 
+One record can point several hostnames at the same IP address. Separate the
+hostnames with spaces, for example `nas.lan files.lan`.
+
 Tap an entry to review or edit it.
 
 <DocImage width="320" alt="Local DNS detail" src={imgLocalDnsDetail} />
 
-Avoid duplicate entries to prevent resolution conflicts.
+From v1.10.1, duplicate records are rejected: if a record with the same IP
+address and hostname already exists, the app shows **Local DNS record already
+added** instead of adding it. When several records share one IP address,
+editing one of them changes only the record you selected.
+
+:::note
+Local DNS is only available on Pi-hole **v6**.
+:::
 
 ---
 

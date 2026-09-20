@@ -8,6 +8,7 @@ sidebar:
 import DocImage from "@site/src/components/doc-image.astro";
 import ImageRow from "@site/src/components/image-row";
 import imgAppSettingsMain from "../images/settings/app-settings/servers.png";
+import imgEditConnection from "../images/settings/app-settings/edit-connection.png";
 import imgAppSettingsAdvanced from "../images/settings/app-settings/advanced settings/advanced-settings-top.png";
 import imgReducedDataOn from "../images/settings/app-settings/advanced settings/use-reduced-data/linechart-reduce-on.png";
 import imgReducedDataOff from "../images/settings/app-settings/advanced settings/chart-display-mode/linechart-reduce-off.png";
@@ -95,10 +96,21 @@ From here, you can:
 - Edit an existing server entry
 - Remove a server from the app
 
-Editable fields include the display name, password, default server flag,
-and Pi-hole version.
-Connection details such as IP address, port, subroute, and certificate
-settings cannot be changed after creation.
+From v1.10.0 you can edit **every field** of a saved server, including the
+address, port, subroute and certificate settings, as well as the display name,
+password, default server flag and Pi-hole version.
+
+To edit a server, open `⋮ > Edit` on its entry in the list.
+
+<DocImage width="320" alt="Edit a connection screen" src={imgEditConnection} />
+
+Keep these points in mind:
+
+- Changing the address resets the pinned certificate, so the app verifies the
+  certificate of the new host again.
+- On a server with two-factor authentication, saving may ask for an
+  authentication code.
+- If the new settings cannot connect, the previous settings are restored.
 
 Change the selected server when you want to manage a different Pi-hole instance.
 Add a new server when you deploy Pi-hole on another network or device.

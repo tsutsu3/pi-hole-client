@@ -77,7 +77,7 @@ Easily view statistics, enable or disable the server, access logs, and much more
 
 ## 💡 Main features
 
-![ss](assets/other/ss.jpg)
+![ss](assets/other/ss.webp)
 
 <p>▶ Manage your Pi-hole® server the easy way.</p>
 <p>▶ Supports Pi-hole v6.</p>
