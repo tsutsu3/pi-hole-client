@@ -30,6 +30,7 @@ class ConfigHandler {
                   "192.168.1.5 FireHD",
                   "192.168.1.14 Alexa",
                   "192.168.1.21 Laptop01",
+                  "192.168.1.52 nas raspi",
                 ],
               },
             },
