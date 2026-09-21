@@ -66,8 +66,8 @@ class _AdvancedServerOptionsScreenState
 
       process.open(
         isLoggingEnabled == true
-            ? AppLocalizations.of(context)!.disableQueryLogging
-            : AppLocalizations.of(context)!.enableQueryLogging,
+            ? AppLocalizations.of(context).disableQueryLogging
+            : AppLocalizations.of(context).enableQueryLogging,
       );
 
       final result = await bundle.config.setDnsQueryLogging(
@@ -86,8 +86,8 @@ class _AdvancedServerOptionsScreenState
             context: context,
             appConfigViewModel: appConfigViewModel,
             label: isCurrentlyEnabled == true
-                ? AppLocalizations.of(context)!.disableQueryLogSuccess
-                : AppLocalizations.of(context)!.enableQueryLogSuccess,
+                ? AppLocalizations.of(context).disableQueryLogSuccess
+                : AppLocalizations.of(context).enableQueryLogSuccess,
           );
 
           setState(() {
@@ -99,8 +99,8 @@ class _AdvancedServerOptionsScreenState
             context: context,
             appConfigViewModel: appConfigViewModel,
             label: isLoggingEnabled == true
-                ? AppLocalizations.of(context)!.disableQueryLogFailure
-                : AppLocalizations.of(context)!.enableQueryLogFailure,
+                ? AppLocalizations.of(context).disableQueryLogFailure
+                : AppLocalizations.of(context).enableQueryLogFailure,
           );
         },
       );
@@ -108,7 +108,7 @@ class _AdvancedServerOptionsScreenState
 
     Future<void> onRestartDns() async {
       final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.restartingDnsResolver);
+      process.open(AppLocalizations.of(context).restartingDnsResolver);
 
       final result = await bundle.actions.restartDns();
       if (!context.mounted) return;
@@ -123,14 +123,14 @@ class _AdvancedServerOptionsScreenState
           showSuccessSnackBar(
             context: context,
             appConfigViewModel: appConfigViewModel,
-            label: AppLocalizations.of(context)!.dnsRestartSuccess,
+            label: AppLocalizations.of(context).dnsRestartSuccess,
           );
         },
         (_) {
           showErrorSnackBar(
             context: context,
             appConfigViewModel: appConfigViewModel,
-            label: AppLocalizations.of(context)!.dnsRestartFailure,
+            label: AppLocalizations.of(context).dnsRestartFailure,
           );
         },
       );
@@ -138,7 +138,7 @@ class _AdvancedServerOptionsScreenState
 
     Future<void> onFlushArp() async {
       final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.flushingNetworkTable);
+      process.open(AppLocalizations.of(context).flushingNetworkTable);
 
       final result = await bundle.actions.flushArp();
       if (!context.mounted) return;
@@ -153,14 +153,14 @@ class _AdvancedServerOptionsScreenState
           showSuccessSnackBar(
             context: context,
             appConfigViewModel: appConfigViewModel,
-            label: AppLocalizations.of(context)!.flushedNetworkTableSuccess,
+            label: AppLocalizations.of(context).flushedNetworkTableSuccess,
           );
         },
         (_) {
           showErrorSnackBar(
             context: context,
             appConfigViewModel: appConfigViewModel,
-            label: AppLocalizations.of(context)!.flushedNetworkTableFailure,
+            label: AppLocalizations.of(context).flushedNetworkTableFailure,
           );
         },
       );
@@ -168,7 +168,7 @@ class _AdvancedServerOptionsScreenState
 
     Future<void> onFlushLogs() async {
       final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.flushingLogs);
+      process.open(AppLocalizations.of(context).flushingLogs);
 
       final result = await bundle.actions.flushLogs();
       if (!context.mounted) return;
@@ -183,25 +183,25 @@ class _AdvancedServerOptionsScreenState
           showSuccessSnackBar(
             context: context,
             appConfigViewModel: appConfigViewModel,
-            label: AppLocalizations.of(context)!.flushLogsSuccess,
+            label: AppLocalizations.of(context).flushLogsSuccess,
           );
         },
         (_) {
           showErrorSnackBar(
             context: context,
             appConfigViewModel: appConfigViewModel,
-            label: AppLocalizations.of(context)!.flushLogsFailure,
+            label: AppLocalizations.of(context).flushLogsFailure,
           );
         },
       );
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.advancedSetup)),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).advancedSetup)),
       body: SafeArea(
         child: ListView(
           children: [
-            SectionLabel(label: AppLocalizations.of(context)!.actions),
+            SectionLabel(label: AppLocalizations.of(context).actions),
             Skeletonizer(
               enabled: isLoading,
               effect: ShimmerEffect(
@@ -211,7 +211,7 @@ class _AdvancedServerOptionsScreenState
               child: loggingEnabled == null
                   ? CustomButtonListTile(
                       leadingIcon: Icons.notifications_rounded,
-                      label: AppLocalizations.of(context)!.tryAgainLater,
+                      label: AppLocalizations.of(context).tryAgainLater,
                       color: isLoading
                           ? Theme.of(context).colorScheme.secondaryContainer
                           : Theme.of(context).colorScheme.onSurfaceVariant,
@@ -221,8 +221,8 @@ class _AdvancedServerOptionsScreenState
                           ? Icons.stop_rounded
                           : Icons.play_arrow_rounded,
                       label: loggingEnabled
-                          ? AppLocalizations.of(context)!.disableQueryLogging
-                          : AppLocalizations.of(context)!.enableQueryLogging,
+                          ? AppLocalizations.of(context).disableQueryLogging
+                          : AppLocalizations.of(context).enableQueryLogging,
                       color: isLoading
                           ? Theme.of(context).colorScheme.secondaryContainer
                           : loggingEnabled
@@ -236,19 +236,15 @@ class _AdvancedServerOptionsScreenState
                               ? Icons.stop_rounded
                               : Icons.play_arrow_rounded,
                           title: loggingEnabled
-                              ? AppLocalizations.of(
-                                  context,
-                                )!.disableQueryLogging
-                              : AppLocalizations.of(
-                                  context,
-                                )!.enableQueryLogging,
+                              ? AppLocalizations.of(context).disableQueryLogging
+                              : AppLocalizations.of(context).enableQueryLogging,
                           message: AppLocalizations.of(
                             context,
-                          )!.queryLoggingSwitchWarning,
+                          ).queryLoggingSwitchWarning,
                           onConfirm: onEnableQueryLogging,
                           confirmButtonText: loggingEnabled
-                              ? AppLocalizations.of(context)!.disable
-                              : AppLocalizations.of(context)!.enable,
+                              ? AppLocalizations.of(context).disable
+                              : AppLocalizations.of(context).enable,
                           confirmButtonColor: loggingEnabled
                               ? theme.queryOrange
                               : theme.queryBlue,
@@ -259,17 +255,17 @@ class _AdvancedServerOptionsScreenState
             ),
             CustomButtonListTile(
               leadingIcon: Icons.restart_alt_rounded,
-              label: AppLocalizations.of(context)!.restartDnsResolver,
+              label: AppLocalizations.of(context).restartDnsResolver,
               color: theme.queryOrange,
               onTap: () => showDialog(
                 context: context,
                 useRootNavigator: false,
                 builder: (context) => ConfirmationModal(
                   icon: Icons.restart_alt_rounded,
-                  title: AppLocalizations.of(context)!.restartDnsResolver,
-                  message: AppLocalizations.of(context)!.dnsRestartWarning,
+                  title: AppLocalizations.of(context).restartDnsResolver,
+                  message: AppLocalizations.of(context).dnsRestartWarning,
                   onConfirm: onRestartDns,
-                  confirmButtonText: AppLocalizations.of(context)!.restart,
+                  confirmButtonText: AppLocalizations.of(context).restart,
                   confirmButtonColor: theme.queryOrange,
                 ),
                 barrierDismissible: false,
@@ -277,19 +273,19 @@ class _AdvancedServerOptionsScreenState
             ),
             CustomButtonListTile(
               leadingIcon: Icons.delete_rounded,
-              label: AppLocalizations.of(context)!.flushNetworkTable,
+              label: AppLocalizations.of(context).flushNetworkTable,
               color: theme.queryRed,
               onTap: () => showDialog(
                 context: context,
                 useRootNavigator: false,
                 builder: (context) => ConfirmationModal(
                   icon: Icons.delete_rounded,
-                  title: AppLocalizations.of(context)!.flushNetworkTable,
+                  title: AppLocalizations.of(context).flushNetworkTable,
                   message: AppLocalizations.of(
                     context,
-                  )!.flushNetworkTableWarning,
+                  ).flushNetworkTableWarning,
                   onConfirm: onFlushArp,
-                  confirmButtonText: AppLocalizations.of(context)!.flush,
+                  confirmButtonText: AppLocalizations.of(context).flush,
                   confirmButtonColor: theme.queryRed,
                 ),
                 barrierDismissible: false,
@@ -297,49 +293,49 @@ class _AdvancedServerOptionsScreenState
             ),
             CustomButtonListTile(
               leadingIcon: Icons.delete_rounded,
-              label: AppLocalizations.of(context)!.flushLogs24h,
+              label: AppLocalizations.of(context).flushLogs24h,
               color: theme.queryRed,
               onTap: () => showDialog(
                 context: context,
                 useRootNavigator: false,
                 builder: (context) => ConfirmationModal(
                   icon: Icons.delete_rounded,
-                  title: AppLocalizations.of(context)!.flushLogs,
-                  message: AppLocalizations.of(context)!.flushLogsWarning,
+                  title: AppLocalizations.of(context).flushLogs,
+                  message: AppLocalizations.of(context).flushLogsWarning,
                   onConfirm: onFlushLogs,
-                  confirmButtonText: AppLocalizations.of(context)!.flush,
+                  confirmButtonText: AppLocalizations.of(context).flush,
                   confirmButtonColor: theme.queryRed,
                 ),
                 barrierDismissible: false,
               ),
             ),
-            SectionLabel(label: AppLocalizations.of(context)!.system),
+            SectionLabel(label: AppLocalizations.of(context).system),
             ListTile(
               leading: const Icon(Icons.devices_rounded),
-              title: Text(AppLocalizations.of(context)!.sessions),
-              subtitle: Text(AppLocalizations.of(context)!.sessionsDescription),
+              title: Text(AppLocalizations.of(context).sessions),
+              subtitle: Text(AppLocalizations.of(context).sessionsDescription),
               onTap: () =>
                   context.pushNamed(Routes.settingsServerAdvancedSessions),
             ),
             ListTile(
               leading: const Icon(Icons.settings_ethernet_rounded),
-              title: Text(AppLocalizations.of(context)!.dhcp),
-              subtitle: Text(AppLocalizations.of(context)!.dhcpDescription),
+              title: Text(AppLocalizations.of(context).dhcp),
+              subtitle: Text(AppLocalizations.of(context).dhcpDescription),
               onTap: () => context.pushNamed(Routes.settingsServerAdvancedDhcp),
             ),
             ListTile(
               leading: const Icon(Icons.dns_rounded),
-              title: Text(AppLocalizations.of(context)!.localDns),
-              subtitle: Text(AppLocalizations.of(context)!.localDnsDescription),
+              title: Text(AppLocalizations.of(context).localDns),
+              subtitle: Text(AppLocalizations.of(context).localDnsDescription),
               onTap: () =>
                   context.pushNamed(Routes.settingsServerAdvancedLocalDns),
             ),
-            SectionLabel(label: AppLocalizations.of(context)!.tools),
+            SectionLabel(label: AppLocalizations.of(context).tools),
             ListTile(
               leading: const Icon(Icons.manage_search_rounded),
-              title: Text(AppLocalizations.of(context)!.findDomainsInLists),
+              title: Text(AppLocalizations.of(context).findDomainsInLists),
               subtitle: Text(
-                AppLocalizations.of(context)!.findDomainsInListsDescription,
+                AppLocalizations.of(context).findDomainsInListsDescription,
               ),
               onTap: () => context.pushNamed(
                 Routes.settingsServerAdvancedFindDomainsInLists,
@@ -347,17 +343,15 @@ class _AdvancedServerOptionsScreenState
             ),
             ListTile(
               leading: const Icon(Icons.wifi_rounded),
-              title: Text(AppLocalizations.of(context)!.interface),
-              subtitle: Text(
-                AppLocalizations.of(context)!.interfaceDescription,
-              ),
+              title: Text(AppLocalizations.of(context).interface),
+              subtitle: Text(AppLocalizations.of(context).interfaceDescription),
               onTap: () =>
                   context.pushNamed(Routes.settingsServerAdvancedInterface),
             ),
             ListTile(
               leading: const Icon(Icons.lan_rounded),
-              title: Text(AppLocalizations.of(context)!.network),
-              subtitle: Text(AppLocalizations.of(context)!.networkDescription),
+              title: Text(AppLocalizations.of(context).network),
+              subtitle: Text(AppLocalizations.of(context).networkDescription),
               onTap: () =>
                   context.pushNamed(Routes.settingsServerAdvancedNetwork),
             ),

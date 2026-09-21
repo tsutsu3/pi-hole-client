@@ -64,7 +64,7 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
                         ),
                         const SizedBox(width: 16),
                         Text(
-                          AppLocalizations.of(context)!.enterPasscode,
+                          AppLocalizations.of(context).enterPasscode,
                           style: const TextStyle(fontSize: 22),
                         ),
                       ],
@@ -78,7 +78,7 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
                               : Colors.grey,
                         ),
                       ),
-                      child: Text(AppLocalizations.of(context)!.confirm),
+                      child: Text(AppLocalizations.of(context).confirm),
                     ),
                   ],
                 ),
@@ -96,7 +96,7 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.enterPasscode),
+          title: Text(AppLocalizations.of(context).enterPasscode),
           elevation: 5,
           actions: [
             TextButton(
@@ -108,7 +108,7 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
                       : Colors.grey,
                 ),
               ),
-              child: Text(AppLocalizations.of(context)!.confirm),
+              child: Text(AppLocalizations.of(context).confirm),
             ),
           ],
         ),

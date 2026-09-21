@@ -34,7 +34,7 @@ class DnsTab extends StatelessWidget {
             const CircularProgressIndicator(),
             const SizedBox(height: 50),
             Text(
-              AppLocalizations.of(context)!.loadingStats,
+              AppLocalizations.of(context).loadingStats,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -46,7 +46,7 @@ class DnsTab extends StatelessWidget {
       ),
       contentGenerator: () => [const DnsTabContent()],
       errorGenerator: () =>
-          ErrorMessage(message: AppLocalizations.of(context)!.statsNotLoaded),
+          ErrorMessage(message: AppLocalizations.of(context).statsNotLoaded),
       loadStatus: statusLoading,
       onRefresh: onRefresh,
       controller: controller,
@@ -66,7 +66,7 @@ class DnsTabContent extends StatelessWidget {
       (vm) => vm.getDnsReplies,
     );
 
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     final width = MediaQuery.of(context).size.width;
 

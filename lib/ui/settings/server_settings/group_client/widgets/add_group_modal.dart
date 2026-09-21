@@ -48,7 +48,7 @@ class _AddGroupModalState extends State<AddGroupModal> {
                   Padding(
                     padding: const EdgeInsets.all(20),
                     child: Text(
-                      AppLocalizations.of(context)!.groupAdd,
+                      AppLocalizations.of(context).groupAdd,
                       style: const TextStyle(fontSize: 24),
                     ),
                   ),
@@ -60,7 +60,7 @@ class _AddGroupModalState extends State<AddGroupModal> {
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
-                      labelText: AppLocalizations.of(context)!.groupName,
+                      labelText: AppLocalizations.of(context).groupName,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -71,13 +71,13 @@ class _AddGroupModalState extends State<AddGroupModal> {
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
-                      labelText: AppLocalizations.of(context)!.comment,
+                      labelText: AppLocalizations.of(context).comment,
                     ),
                   ),
                   const SizedBox(height: 16),
                   ListTile(
                     leading: const Icon(Icons.check_rounded),
-                    title: Text(AppLocalizations.of(context)!.status),
+                    title: Text(AppLocalizations.of(context).status),
                     onTap: () => setState(() => enabled = !enabled),
                     trailing: Switch(
                       value: enabled,
@@ -102,7 +102,7 @@ class _AddGroupModalState extends State<AddGroupModal> {
               children: [
                 TextButton(
                   onPressed: () => Navigator.maybePop(context),
-                  child: Text(AppLocalizations.of(context)!.cancel),
+                  child: Text(AppLocalizations.of(context).cancel),
                 ),
                 const SizedBox(width: 14),
                 TextButton(
@@ -122,7 +122,7 @@ class _AddGroupModalState extends State<AddGroupModal> {
                       allDataValid ? null : Colors.grey,
                     ),
                   ),
-                  child: Text(AppLocalizations.of(context)!.add),
+                  child: Text(AppLocalizations.of(context).add),
                 ),
               ],
             ),

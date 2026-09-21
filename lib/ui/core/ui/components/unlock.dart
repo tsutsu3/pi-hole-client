@@ -38,7 +38,7 @@ class _UnlockState extends State<Unlock> {
       if (!mounted) return;
       try {
         final didAuthenticate = await auth.authenticate(
-          localizedReason: AppLocalizations.of(context)!.unlockWithFingerprint,
+          localizedReason: AppLocalizations.of(context).unlockWithFingerprint,
           biometricOnly: true,
           persistAcrossBackgrounding: true,
         );
@@ -53,13 +53,13 @@ class _UnlockState extends State<Unlock> {
             appConfigViewModel: appConfigViewModel,
             label: AppLocalizations.of(
               context,
-            )!.fingerprintAuthUnavailableAttempts,
+            ).fingerprintAuthUnavailableAttempts,
           );
         } else {
           showErrorSnackBar(
             context: context,
             appConfigViewModel: appConfigViewModel,
-            label: AppLocalizations.of(context)!.fingerprintAuthUnavailable,
+            label: AppLocalizations.of(context).fingerprintAuthUnavailable,
           );
         }
       }
@@ -127,7 +127,7 @@ class _UnlockState extends State<Unlock> {
                               Padding(
                                 padding: const EdgeInsets.all(30),
                                 child: Text(
-                                  AppLocalizations.of(context)!.enterCodeUnlock,
+                                  AppLocalizations.of(context).enterCodeUnlock,
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(fontSize: 22),
                                 ),
@@ -141,7 +141,7 @@ class _UnlockState extends State<Unlock> {
                               const Icon(Icons.lock_open_rounded, size: 30),
                               const SizedBox(width: 30),
                               Text(
-                                AppLocalizations.of(context)!.enterCodeUnlock,
+                                AppLocalizations.of(context).enterCodeUnlock,
                                 style: const TextStyle(fontSize: 22),
                               ),
                             ],
@@ -175,7 +175,7 @@ class _UnlockState extends State<Unlock> {
                     const CircularProgressIndicator(color: Colors.white),
                     const SizedBox(height: 30),
                     Text(
-                      AppLocalizations.of(context)!.connecting,
+                      AppLocalizations.of(context).connecting,
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w500,

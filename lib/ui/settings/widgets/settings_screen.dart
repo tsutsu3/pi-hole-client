@@ -56,11 +56,11 @@ class SettingsScreen extends StatelessWidget {
     String getThemeString() {
       switch (appThemeMode) {
         case AppThemeMode.system:
-          return AppLocalizations.of(context)!.systemTheme;
+          return AppLocalizations.of(context).systemTheme;
         case AppThemeMode.light:
-          return AppLocalizations.of(context)!.light;
+          return AppLocalizations.of(context).light;
         case AppThemeMode.dark:
-          return AppLocalizations.of(context)!.dark;
+          return AppLocalizations.of(context).dark;
       }
     }
 
@@ -78,22 +78,22 @@ class SettingsScreen extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionLabel(label: AppLocalizations.of(context)!.appSettings),
+          SectionLabel(label: AppLocalizations.of(context).appSettings),
           ListTile(
             leading: const Icon(Icons.light_mode_rounded),
-            title: Text(AppLocalizations.of(context)!.theme),
+            title: Text(AppLocalizations.of(context).theme),
             subtitle: Text(getThemeString()),
             onTap: () => navigateToSetting(Routes.settingsAppTheme),
           ),
           ListTile(
             leading: const Icon(Icons.language),
-            title: Text(AppLocalizations.of(context)!.language),
+            title: Text(AppLocalizations.of(context).language),
             subtitle: Text(getLanguageString()),
             onTap: () => navigateToSetting(Routes.settingsAppLanguage),
           ),
           ListTile(
             leading: const Icon(Icons.storage_rounded),
-            title: Text(AppLocalizations.of(context)!.servers),
+            title: Text(AppLocalizations.of(context).servers),
             subtitle: Text(
               _buildServerSubtitle(
                 context: context,
@@ -106,9 +106,9 @@ class SettingsScreen extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.settings_rounded),
-            title: Text(AppLocalizations.of(context)!.advancedSetup),
+            title: Text(AppLocalizations.of(context).advancedSetup),
             subtitle: Text(
-              AppLocalizations.of(context)!.advancedAppSetupDescription,
+              AppLocalizations.of(context).advancedAppSetupDescription,
             ),
             onTap: () => navigateToSetting(Routes.settingsAppAdvanced),
           ),
@@ -120,10 +120,10 @@ class SettingsScreen extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionLabel(label: AppLocalizations.of(context)!.serverSettings),
+          SectionLabel(label: AppLocalizations.of(context).serverSettings),
           ListTile(
             leading: const Icon(Icons.connected_tv_rounded),
-            title: Text(AppLocalizations.of(context)!.serverInfo),
+            title: Text(AppLocalizations.of(context).serverInfo),
             subtitle: Text(
               _buildServerSubtitle(
                 context: context,
@@ -136,23 +136,23 @@ class SettingsScreen extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.security_rounded),
-            title: Text(AppLocalizations.of(context)!.adlists),
-            subtitle: Text(AppLocalizations.of(context)!.adlistDescription),
+            title: Text(AppLocalizations.of(context).adlists),
+            subtitle: Text(AppLocalizations.of(context).adlistDescription),
             onTap: () => navigateToSetting(Routes.settingsServerAdlists),
           ),
           ListTile(
             leading: const Icon(Icons.group_rounded),
-            title: Text(AppLocalizations.of(context)!.groupsAndClients),
+            title: Text(AppLocalizations.of(context).groupsAndClients),
             subtitle: Text(
-              AppLocalizations.of(context)!.groupsAndClientsDescription,
+              AppLocalizations.of(context).groupsAndClientsDescription,
             ),
             onTap: () => navigateToSetting(Routes.settingsServerGroupClient),
           ),
           ListTile(
             leading: const Icon(Icons.build_rounded),
-            title: Text(AppLocalizations.of(context)!.advancedSetup),
+            title: Text(AppLocalizations.of(context).advancedSetup),
             subtitle: Text(
-              AppLocalizations.of(context)!.advancedServerSetupDescription,
+              AppLocalizations.of(context).advancedServerSetupDescription,
             ),
             onTap: () => navigateToSetting(Routes.settingsServerAdvanced),
           ),
@@ -164,29 +164,29 @@ class SettingsScreen extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionLabel(label: AppLocalizations.of(context)!.about),
+          SectionLabel(label: AppLocalizations.of(context).about),
           ListTile(
             leading: const Icon(Icons.phone_android_rounded),
-            title: Text(AppLocalizations.of(context)!.applicationDetail),
-            subtitle: Text(AppLocalizations.of(context)!.aboutThisApp),
+            title: Text(AppLocalizations.of(context).applicationDetail),
+            subtitle: Text(AppLocalizations.of(context).aboutThisApp),
             onTap: () => navigateToSetting(Routes.settingsAboutAppDetail),
           ),
           ListTile(
             leading: const Icon(Icons.privacy_tip_rounded),
-            title: Text(AppLocalizations.of(context)!.privacy),
-            subtitle: Text(AppLocalizations.of(context)!.privacyInfo),
+            title: Text(AppLocalizations.of(context).privacy),
+            subtitle: Text(AppLocalizations.of(context).privacyInfo),
             onTap: () => navigateToSetting(Routes.settingsAboutPrivacy),
           ),
           ListTile(
             leading: const Icon(Icons.balance_rounded),
-            title: Text(AppLocalizations.of(context)!.legal),
-            subtitle: Text(AppLocalizations.of(context)!.legalInfo),
+            title: Text(AppLocalizations.of(context).legal),
+            subtitle: Text(AppLocalizations.of(context).legalInfo),
             onTap: () => navigateToSetting(Routes.settingsAboutLegal),
           ),
           ListTile(
             leading: const Icon(Icons.description_rounded),
-            title: Text(AppLocalizations.of(context)!.licenses),
-            subtitle: Text(AppLocalizations.of(context)!.licensesInfo),
+            title: Text(AppLocalizations.of(context).licenses),
+            subtitle: Text(AppLocalizations.of(context).licensesInfo),
             onTap: () => navigateToSetting(Routes.settingsAboutLicenses),
           ),
           Padding(
@@ -205,7 +205,7 @@ class SettingsScreen extends StatelessWidget {
                     width: 30,
                     height: 30,
                   ),
-                  tooltip: AppLocalizations.of(context)!.visitGooglePlay,
+                  tooltip: AppLocalizations.of(context).visitGooglePlay,
                 ),
                 IconButton(
                   onPressed: () => openUrl(Urls.gitHub),
@@ -218,7 +218,7 @@ class SettingsScreen extends StatelessWidget {
                     width: 30,
                     height: 30,
                   ),
-                  tooltip: AppLocalizations.of(context)!.gitHub,
+                  tooltip: AppLocalizations.of(context).gitHub,
                 ),
               ],
             ),
@@ -250,13 +250,13 @@ class SettingsScreen extends StatelessWidget {
                         pinned: true,
                         centerTitle: false,
                         forceElevated: innerBoxIsScrolled,
-                        title: Text(AppLocalizations.of(context)!.settings),
+                        title: Text(AppLocalizations.of(context).settings),
                       )
                     : SliverAppBar.medium(
                         floating: true,
                         centerTitle: false,
                         forceElevated: innerBoxIsScrolled,
-                        title: Text(AppLocalizations.of(context)!.settings),
+                        title: Text(AppLocalizations.of(context).settings),
                       ),
               ),
             ];
@@ -295,7 +295,7 @@ class SettingsScreen extends StatelessWidget {
     required bool isAliasOnly,
   }) {
     if (selectedServer == null) {
-      return AppLocalizations.of(context)!.notSelected;
+      return AppLocalizations.of(context).notSelected;
     }
 
     switch (serverStatus) {
@@ -303,11 +303,11 @@ class SettingsScreen extends StatelessWidget {
         if (isAliasOnly) {
           return selectedServer.alias;
         }
-        return '${AppLocalizations.of(context)!.connectedTo} ${selectedServer.alias}';
+        return '${AppLocalizations.of(context).connectedTo} ${selectedServer.alias}';
       case LoadStatus.loading:
-        return AppLocalizations.of(context)!.connectingToServer;
+        return AppLocalizations.of(context).connectingToServer;
       case LoadStatus.error:
-        return AppLocalizations.of(context)!.notConnectServer;
+        return AppLocalizations.of(context).notConnectServer;
     }
   }
 }

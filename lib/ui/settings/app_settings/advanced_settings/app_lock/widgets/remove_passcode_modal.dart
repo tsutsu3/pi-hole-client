@@ -21,7 +21,7 @@ class RemovePasscodeModal extends StatelessWidget {
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.connectionCannotBeRemoved,
+          label: AppLocalizations.of(context).connectionCannotBeRemoved,
         );
       }
     }
@@ -34,21 +34,21 @@ class RemovePasscodeModal extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: Text(
-              AppLocalizations.of(context)!.removePasscode,
+              AppLocalizations.of(context).removePasscode,
               style: const TextStyle(fontSize: 24),
             ),
           ),
         ],
       ),
-      content: Text(AppLocalizations.of(context)!.areSureRemovePasscode),
+      content: Text(AppLocalizations.of(context).areSureRemovePasscode),
       actions: [
         TextButton(
           onPressed: () => {Navigator.maybePop(context)},
-          child: Text(AppLocalizations.of(context)!.cancel),
+          child: Text(AppLocalizations.of(context).cancel),
         ),
         TextButton(
           onPressed: removePasscode,
-          child: Text(AppLocalizations.of(context)!.remove),
+          child: Text(AppLocalizations.of(context).remove),
         ),
       ],
     );

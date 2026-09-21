@@ -25,7 +25,7 @@ class EmptyDataScreen extends StatelessWidget {
               Icon(icon, size: 60),
               const SizedBox(height: 16),
               Text(
-                title ?? AppLocalizations.of(context)!.noData,
+                title ?? AppLocalizations.of(context).noData,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 24,
@@ -34,7 +34,7 @@ class EmptyDataScreen extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               Text(
-                message ?? AppLocalizations.of(context)!.selectServerThenAccess,
+                message ?? AppLocalizations.of(context).selectServerThenAccess,
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 16, height: 1.5),
               ),

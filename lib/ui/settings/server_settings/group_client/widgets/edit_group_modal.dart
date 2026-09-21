@@ -96,9 +96,7 @@ class _EditGroupModalState extends State<EditGroupModal> {
                                   Radius.circular(10),
                                 ),
                               ),
-                              labelText: AppLocalizations.of(
-                                context,
-                              )!.groupName,
+                              labelText: AppLocalizations.of(context).groupName,
                             ),
                           ),
                         ),
@@ -115,7 +113,7 @@ class _EditGroupModalState extends State<EditGroupModal> {
                                   Radius.circular(10),
                                 ),
                               ),
-                              labelText: AppLocalizations.of(context)!.comment,
+                              labelText: AppLocalizations.of(context).comment,
                             ),
                           ),
                         ),
@@ -133,7 +131,7 @@ class _EditGroupModalState extends State<EditGroupModal> {
                 children: [
                   TextButton(
                     onPressed: () => Navigator.maybePop(context),
-                    child: Text(AppLocalizations.of(context)!.cancel),
+                    child: Text(AppLocalizations.of(context).cancel),
                   ),
                   const SizedBox(width: 14),
                   TextButton(
@@ -162,7 +160,7 @@ class _EditGroupModalState extends State<EditGroupModal> {
                         allDataValid ? null : Colors.grey,
                       ),
                     ),
-                    child: Text(AppLocalizations.of(context)!.edit),
+                    child: Text(AppLocalizations.of(context).edit),
                   ),
                 ],
               ),

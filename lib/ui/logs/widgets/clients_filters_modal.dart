@@ -111,7 +111,7 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                   Padding(
                     padding: const EdgeInsets.only(top: 24, bottom: 24),
                     child: Text(
-                      AppLocalizations.of(context)!.clients,
+                      AppLocalizations.of(context).clients,
                       textAlign: TextAlign.center,
                       style: const TextStyle(fontSize: 24),
                     ),
@@ -132,15 +132,15 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                     child: Text(
                       _selectedClients.length ==
                               logsViewModel.totalClients.length
-                          ? AppLocalizations.of(context)!.uncheckAll
-                          : AppLocalizations.of(context)!.checkAll,
+                          ? AppLocalizations.of(context).uncheckAll
+                          : AppLocalizations.of(context).checkAll,
                     ),
                   ),
                   Row(
                     children: [
                       TextButton(
                         onPressed: () => Navigator.maybePop(context),
-                        child: Text(AppLocalizations.of(context)!.close),
+                        child: Text(AppLocalizations.of(context).close),
                       ),
                       const SizedBox(width: 20),
                       TextButton(
@@ -162,7 +162,7 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                             ).colorScheme.primary.withValues(alpha: 0.1),
                           ),
                         ),
-                        child: Text(AppLocalizations.of(context)!.apply),
+                        child: Text(AppLocalizations.of(context).apply),
                       ),
                     ],
                   ),

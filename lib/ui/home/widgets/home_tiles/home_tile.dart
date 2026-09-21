@@ -151,7 +151,7 @@ class _ValueSection extends StatelessWidget {
           ),
           const SizedBox(width: 4),
           Text(
-            AppLocalizations.of(context)!.error,
+            AppLocalizations.of(context).error,
             style: const TextStyle(
               color: Colors.white,
               fontStyle: FontStyle.italic,

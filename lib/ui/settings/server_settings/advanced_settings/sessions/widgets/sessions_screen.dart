@@ -47,7 +47,7 @@ class SessionsScreen extends StatefulWidget {
 
 class _SessionsScreenState extends State<SessionsScreen> {
   Future<void> _removeSession(AuthSession session) async {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context);
     process.open(locale.deleting);
@@ -77,7 +77,7 @@ class _SessionsScreenState extends State<SessionsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
 
     return ListenableBuilder(
       listenable: widget.viewModel,

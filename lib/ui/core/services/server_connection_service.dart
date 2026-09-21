@@ -189,7 +189,7 @@ class ServerConnectionService {
     ProcessModal? process;
     if (showModal) {
       process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.connecting);
+      process.open(AppLocalizations.of(context).connecting);
     }
 
     final bundle = createBundle(server: serverForLogin);
@@ -284,7 +284,7 @@ class ServerConnectionService {
         final code = await resolveTotp(error: error);
         // Re-show the connecting overlay while the entered code is validated.
         if (code != null && context.mounted) {
-          process?.open(AppLocalizations.of(context)!.connecting);
+          process?.open(AppLocalizations.of(context).connecting);
         }
 
         return code;
@@ -415,7 +415,7 @@ class ServerConnectionService {
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(
             fallbackContext,
-          )!.couldNotConnectServerFallback,
+          ).couldNotConnectServerFallback,
           duration: 5,
         );
       } else {
@@ -430,21 +430,21 @@ class ServerConnectionService {
     if (useRootContextOnFailure) {
       if (context.mounted) {
         targetContext = context;
-        label = AppLocalizations.of(context)!.cannotConnect;
+        label = AppLocalizations.of(context).cannotConnect;
         duration = 3;
       } else {
         targetContext = globalNavigatorKey.currentContext;
         if (targetContext != null) {
           label = AppLocalizations.of(
             targetContext,
-          )!.couldNotConnectServerFallback;
+          ).couldNotConnectServerFallback;
           duration = 5;
         }
       }
     } else {
       if (context.mounted) {
         targetContext = context;
-        label = AppLocalizations.of(context)!.couldNotConnectServerFallback;
+        label = AppLocalizations.of(context).couldNotConnectServerFallback;
         duration = 5;
       }
     }
@@ -472,7 +472,7 @@ class ServerConnectionService {
     final isPinMismatch = await _isPinnedCertificateMismatch(server);
 
     if (!targetContext.mounted) return false;
-    final loc = AppLocalizations.of(targetContext)!;
+    final loc = AppLocalizations.of(targetContext);
 
     showCautionSnackBar(
       context: targetContext,
@@ -559,7 +559,7 @@ class ServerConnectionService {
     }
     if (uri.scheme != 'https') return null;
 
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     TlsCertificateInfo? certificateInfo;
     try {
@@ -644,7 +644,7 @@ class ServerConnectionService {
         builder: (context) => AddServerFullscreen(
           server: server,
           window: true,
-          title: AppLocalizations.of(context)!.editConnection,
+          title: AppLocalizations.of(context).editConnection,
         ),
       );
     } else {
@@ -655,7 +655,7 @@ class ServerConnectionService {
           builder: (BuildContext context) => AddServerFullscreen(
             server: server,
             window: false,
-            title: AppLocalizations.of(context)!.editConnection,
+            title: AppLocalizations.of(context).editConnection,
           ),
         ),
       );

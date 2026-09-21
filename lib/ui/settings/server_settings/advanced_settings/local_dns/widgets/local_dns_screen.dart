@@ -35,7 +35,7 @@ class LocalDnsScreen extends StatefulWidget {
 
 class _LocalDnsScreenState extends State<LocalDnsScreen> {
   Future<bool> _onAddLocalDns(Map<String, dynamic> value) async {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context)..open(locale.localDnsAdding);
 
@@ -68,7 +68,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
   }
 
   Future<bool> _onUpdateLocalDns(LocalDns updated, LocalDns old) async {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context)..open(locale.updating);
 
@@ -102,7 +102,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
   }
 
   Future<bool> _onRemoveLocalDns(LocalDns item) async {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context)..open(locale.deleting);
 
@@ -165,7 +165,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
 
     return ListenableBuilder(
       listenable: widget.viewModel,

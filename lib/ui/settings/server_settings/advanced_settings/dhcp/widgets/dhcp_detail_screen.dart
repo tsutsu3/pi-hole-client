@@ -18,7 +18,7 @@ class DhcpDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -30,8 +30,8 @@ class DhcpDetailScreen extends StatelessWidget {
               useRootNavigator:
                   false, // Prevents unexpected app exit on mobile when pressing back
               builder: (context) => DeleteModal(
-                title: AppLocalizations.of(context)!.deleteDhcp,
-                message: AppLocalizations.of(context)!.deleteDhcpMessage,
+                title: AppLocalizations.of(context).deleteDhcp,
+                message: AppLocalizations.of(context).deleteDhcpMessage,
                 onDelete: () {
                   Navigator.maybePop(context);
                   onDelete(lease);

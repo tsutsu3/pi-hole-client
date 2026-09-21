@@ -54,7 +54,7 @@ class NoDataChart extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  AppLocalizations.of(context)!.noData,
+                  AppLocalizations.of(context).noData,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w700,

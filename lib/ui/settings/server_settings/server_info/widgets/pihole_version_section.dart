@@ -21,7 +21,7 @@ class PiholeVersionSection extends StatelessWidget {
       children: [
         Skeleton.keep(
           child: SectionLabel(
-            label: AppLocalizations.of(context)!.piholeVersion,
+            label: AppLocalizations.of(context).piholeVersion,
           ),
         ),
         ListTile(

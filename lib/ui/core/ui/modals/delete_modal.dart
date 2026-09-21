@@ -23,7 +23,7 @@ class DeleteModal extends StatelessWidget {
       message: message,
       submessage: submessage,
       onConfirm: onDelete,
-      confirmButtonText: AppLocalizations.of(context)!.delete,
+      confirmButtonText: AppLocalizations.of(context).delete,
       icon: Icons.delete_rounded,
       confirmButtonColor: Colors.redAccent,
       confirmButtonTextColor: Colors.white,

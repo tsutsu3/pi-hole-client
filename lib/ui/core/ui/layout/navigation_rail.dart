@@ -19,22 +19,22 @@ class CustomNavigationRail extends StatelessWidget {
     String getStringLocalization(String name) {
       switch (name) {
         case 'home':
-          return AppLocalizations.of(context)!.home;
+          return AppLocalizations.of(context).home;
 
         case 'statistics':
-          return AppLocalizations.of(context)!.statistics;
+          return AppLocalizations.of(context).statistics;
 
         case 'logs':
-          return AppLocalizations.of(context)!.logs;
+          return AppLocalizations.of(context).logs;
 
         case 'domains':
-          return AppLocalizations.of(context)!.domains;
+          return AppLocalizations.of(context).domains;
 
         case 'settings':
-          return AppLocalizations.of(context)!.settings;
+          return AppLocalizations.of(context).settings;
 
         case 'connect':
-          return AppLocalizations.of(context)!.connect;
+          return AppLocalizations.of(context).connect;
 
         default:
           return '';

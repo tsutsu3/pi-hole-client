@@ -46,7 +46,7 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
           ),
           const SizedBox(height: 16),
           Text(
-            AppLocalizations.of(context)!.logDetails,
+            AppLocalizations.of(context).logDetails,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 24,

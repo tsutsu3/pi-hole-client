@@ -197,7 +197,7 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
             ),
             const SizedBox(height: 8),
             Text(
-              AppLocalizations.of(context)!.loading,
+              AppLocalizations.of(context).loading,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,

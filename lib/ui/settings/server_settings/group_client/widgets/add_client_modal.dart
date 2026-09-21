@@ -37,7 +37,7 @@ class _AddClientModalState extends State<AddClientModal> {
 
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
 

@@ -53,7 +53,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
 
     final currentOption = widget.devices?.firstWhereOrNull(
       (o) => o.ip == _localDns.ip,
@@ -142,7 +142,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
   }
 
   void openHostNameModal() {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     final mediaQuery = MediaQuery.of(context);
     final isSmallLandscape =
         mediaQuery.size.width > mediaQuery.size.height &&
@@ -181,7 +181,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
   }
 
   void openIpModal() {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     final mediaQuery = MediaQuery.of(context);
     final isSmallLandscape =
         mediaQuery.size.width > mediaQuery.size.height &&

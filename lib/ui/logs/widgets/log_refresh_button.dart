@@ -16,7 +16,7 @@ class LogRefreshButton extends StatelessWidget {
       (p) => p.isLivelogPaused,
     );
     final appConfigViewModel = context.read<AppConfigViewModel>();
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     if (!liveLog) {
       return IconButton(

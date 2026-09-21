@@ -17,7 +17,7 @@ class LanguageScreen extends StatelessWidget {
       ..sort((a, b) => a.key.compareTo(b.key));
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.language)),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).language)),
       body: RadioGroup<int>(
         groupValue: appConfigViewModel.selectedLanguageNumber,
         onChanged: (v) {

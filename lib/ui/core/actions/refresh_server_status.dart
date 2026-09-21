@@ -31,7 +31,7 @@ Future<void> refreshServerStatus(BuildContext context) async {
     showErrorSnackBar(
       context: context,
       appConfigViewModel: appConfigViewModel,
-      label: AppLocalizations.of(context)!.couldNotConnectServer,
+      label: AppLocalizations.of(context).couldNotConnectServer,
     );
   }
 }

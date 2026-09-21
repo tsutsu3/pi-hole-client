@@ -28,7 +28,7 @@ class QueriesLastHoursLine extends StatelessWidget {
 
     if (formattedData.containsKey('error')) {
       return ErrorMessage(
-        message: AppLocalizations.of(context)!.chartsNotLoaded,
+        message: AppLocalizations.of(context).chartsNotLoaded,
       );
     }
 

@@ -67,7 +67,7 @@ class AdlistsScaffold extends StatelessWidget {
                   initialValue: viewModel.searchTerm,
                   onChanged: viewModel.onSearch,
                   decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.adlistsSearch,
+                    hintText: AppLocalizations.of(context).adlistsSearch,
                     hintStyle: const TextStyle(fontWeight: FontWeight.w400),
                     border: InputBorder.none,
                     prefixIcon: Icon(
@@ -76,7 +76,7 @@ class AdlistsScaffold extends StatelessWidget {
                     ),
                   ),
                 )
-              : Text(AppLocalizations.of(context)!.adlists),
+              : Text(AppLocalizations.of(context).adlists),
           actions: [
             if (!viewModel.searchMode)
               IconButton(

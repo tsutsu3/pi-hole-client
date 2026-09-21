@@ -51,7 +51,7 @@ class ServerTileActions extends StatelessWidget {
     );
 
     final isSelected = selectedServer?.address == server.address;
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     return Row(
       children: [
@@ -160,7 +160,7 @@ class ServerTileActions extends StatelessWidget {
     BuildContext context,
     Uri uri,
   ) async {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
     final appConfigViewModel = context.read<AppConfigViewModel>();
 
     TlsCertificateInfo? certificateInfo;
@@ -195,7 +195,7 @@ class ServerTileActions extends StatelessWidget {
     final uri = _tryParseHttpsUri(server.address);
     if (uri == null) return;
 
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
     final certificateInfo = await _fetchAndValidateCertificate(context, uri);
     if (certificateInfo == null) return;
 
@@ -223,7 +223,7 @@ class ServerTileActions extends StatelessWidget {
     final uri = _tryParseHttpsUri(server.address);
     if (uri == null) return;
 
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final serversViewModel = context.read<ServersViewModel>();
 
@@ -293,7 +293,7 @@ class _ConnectionStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
     final connectedColor = appColors.queryGreen;

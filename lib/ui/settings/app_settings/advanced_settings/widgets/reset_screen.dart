@@ -44,7 +44,7 @@ class _ResetScreenState extends State<ResetScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.eraseAppData)),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).eraseAppData)),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final contentWidth = constraints.maxWidth > ResponsiveConstants.medium
@@ -62,7 +62,7 @@ class _ResetScreenState extends State<ResetScreen> {
                       const Icon(Icons.delete_rounded, size: 60),
                       const SizedBox(height: 16),
                       Text(
-                        AppLocalizations.of(context)!.eraseAppData,
+                        AppLocalizations.of(context).eraseAppData,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 32,
@@ -71,7 +71,7 @@ class _ResetScreenState extends State<ResetScreen> {
                       ),
                       const SizedBox(height: 48),
                       Text(
-                        AppLocalizations.of(context)!.eraseWarning,
+                        AppLocalizations.of(context).eraseWarning,
                         textAlign: TextAlign.start,
                         style: const TextStyle(fontSize: 16, height: 1.5),
                       ),
@@ -90,7 +90,7 @@ class _ResetScreenState extends State<ResetScreen> {
                               ),
                             ),
                             child: Text(
-                              AppLocalizations.of(context)!.cancel,
+                              AppLocalizations.of(context).cancel,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: Theme.of(
@@ -111,7 +111,7 @@ class _ResetScreenState extends State<ResetScreen> {
                                 ),
                               ),
                               child: Text(
-                                '${AppLocalizations.of(context)!.eraseAll} ($_timeRemaining)',
+                                '${AppLocalizations.of(context).eraseAll} ($_timeRemaining)',
                                 overflow: TextOverflow.ellipsis,
                               ),
                             )
@@ -129,7 +129,7 @@ class _ResetScreenState extends State<ResetScreen> {
                                 shadowColor: Colors.transparent,
                               ),
                               child: Text(
-                                AppLocalizations.of(context)!.eraseAll,
+                                AppLocalizations.of(context).eraseAll,
                                 style: TextStyle(
                                   color: Colors.white.withValues(alpha: 0.9),
                                 ),

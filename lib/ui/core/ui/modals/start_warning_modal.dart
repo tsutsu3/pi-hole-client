@@ -49,7 +49,7 @@ class StartInfoModal extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: Text(
-                        AppLocalizations.of(context)!.gettingStarted,
+                        AppLocalizations.of(context).gettingStarted,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: 24,
@@ -68,7 +68,7 @@ class StartInfoModal extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.requiredVersions,
+                          AppLocalizations.of(context).requiredVersions,
                           textAlign: TextAlign.left,
                           style: const TextStyle(
                             fontWeight: FontWeight.w500,
@@ -95,7 +95,7 @@ class StartInfoModal extends StatelessWidget {
                         ),
                         const Padding(padding: EdgeInsets.only(top: 10)),
                         Text(
-                          AppLocalizations.of(context)!.olderVersion,
+                          AppLocalizations.of(context).olderVersion,
                           textAlign: TextAlign.left,
                         ),
                       ],
@@ -106,7 +106,7 @@ class StartInfoModal extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.helpUsImprove,
+                          AppLocalizations.of(context).helpUsImprove,
                           textAlign: TextAlign.left,
                           style: const TextStyle(
                             fontWeight: FontWeight.w500,
@@ -115,7 +115,7 @@ class StartInfoModal extends StatelessWidget {
                         ),
                         const Padding(padding: EdgeInsets.only(top: 10)),
                         Text(
-                          AppLocalizations.of(context)!.helpUsImproveMessage,
+                          AppLocalizations.of(context).helpUsImproveMessage,
                           textAlign: TextAlign.left,
                         ),
                         const Padding(padding: EdgeInsets.only(top: 20)),
@@ -123,7 +123,7 @@ class StartInfoModal extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                AppLocalizations.of(context)!.allowCrashReport,
+                                AppLocalizations.of(context).allowCrashReport,
                                 textAlign: TextAlign.left,
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -150,14 +150,14 @@ class StartInfoModal extends StatelessWidget {
                               TextSpan(
                                 text: AppLocalizations.of(
                                   context,
-                                )!.agreePrivacyPolicy,
+                                ).agreePrivacyPolicy,
                                 style: const TextStyle(fontSize: 14),
                               ),
                               const TextSpan(text: ' '),
                               TextSpan(
                                 text: AppLocalizations.of(
                                   context,
-                                )!.privacyPolicy,
+                                ).privacyPolicy,
                                 style: const TextStyle(
                                   color:
                                       Colors.blue, // ToDo: Use the theme color
@@ -183,7 +183,7 @@ class StartInfoModal extends StatelessWidget {
                       if (!context.mounted) return;
                       await Navigator.maybePop(context);
                     },
-                    child: Text(AppLocalizations.of(context)!.close),
+                    child: Text(AppLocalizations.of(context).close),
                   ),
                 ],
               ),

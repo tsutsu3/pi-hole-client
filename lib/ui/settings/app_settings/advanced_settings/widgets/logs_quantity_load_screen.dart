@@ -48,13 +48,13 @@ class LogsQuantityLoadScreen extends StatelessWidget {
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.logsPerQueryUpdated,
+        label: AppLocalizations.of(context).logsPerQueryUpdated,
       );
     } else {
       showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.cantUpdateLogsPerQuery,
+        label: AppLocalizations.of(context).cantUpdateLogsPerQuery,
       );
     }
   }
@@ -88,7 +88,7 @@ class LogsQuantityLoadScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(title: Text(loc.logsQuantityPerLoad)),

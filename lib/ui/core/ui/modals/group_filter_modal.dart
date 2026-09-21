@@ -46,7 +46,7 @@ class _GroupFilterModalState extends State<GroupFilterModal> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: Text(
-              AppLocalizations.of(context)!.groups,
+              AppLocalizations.of(context).groups,
               style: const TextStyle(fontSize: 24),
             ),
           ),
@@ -60,7 +60,7 @@ class _GroupFilterModalState extends State<GroupFilterModal> {
                 child: Column(
                   children: [
                     RadioListTile<int?>(
-                      title: Text(AppLocalizations.of(context)!.all),
+                      title: Text(AppLocalizations.of(context).all),
                       value: null,
                     ),
                     ...widget.groups.entries.map((entry) {
@@ -83,14 +83,14 @@ class _GroupFilterModalState extends State<GroupFilterModal> {
                   onPressed: () {
                     setState(() => _selectedGroupId = null);
                   },
-                  child: Text(AppLocalizations.of(context)!.reset),
+                  child: Text(AppLocalizations.of(context).reset),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
                       onPressed: () => Navigator.maybePop(context),
-                      child: Text(AppLocalizations.of(context)!.close),
+                      child: Text(AppLocalizations.of(context).close),
                     ),
                     const SizedBox(width: 20),
                     TextButton(
@@ -98,7 +98,7 @@ class _GroupFilterModalState extends State<GroupFilterModal> {
                         widget.onApply(_selectedGroupId);
                         Navigator.maybePop(context);
                       },
-                      child: Text(AppLocalizations.of(context)!.apply),
+                      child: Text(AppLocalizations.of(context).apply),
                     ),
                   ],
                 ),

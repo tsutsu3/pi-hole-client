@@ -42,7 +42,7 @@ class _ServersListState extends State<ServersList> {
         builder: (context) => AddServerFullscreen(
           server: server,
           window: true,
-          title: AppLocalizations.of(context)!.editConnection,
+          title: AppLocalizations.of(context).editConnection,
         ),
       );
     } else {
@@ -53,7 +53,7 @@ class _ServersListState extends State<ServersList> {
           builder: (BuildContext context) => AddServerFullscreen(
             server: server,
             window: false,
-            title: AppLocalizations.of(context)!.editConnection,
+            title: AppLocalizations.of(context).editConnection,
           ),
         ),
       );
@@ -116,7 +116,7 @@ class _ServersListState extends State<ServersList> {
         height: double.maxFinite,
         child: Center(
           child: Text(
-            AppLocalizations.of(context)!.noSavedConnections,
+            AppLocalizations.of(context).noSavedConnections,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 24,

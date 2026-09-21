@@ -97,7 +97,7 @@ class _ServersScreenState extends State<ServersScreen> {
             builder: (context) => AddServerFullscreen(
               server: server,
               window: true,
-              title: AppLocalizations.of(context)!.createConnection,
+              title: AppLocalizations.of(context).createConnection,
             ),
           );
         } else {
@@ -108,7 +108,7 @@ class _ServersScreenState extends State<ServersScreen> {
               builder: (BuildContext context) => AddServerFullscreen(
                 server: server,
                 window: false,
-                title: AppLocalizations.of(context)!.createConnection,
+                title: AppLocalizations.of(context).createConnection,
               ),
             ),
           );
@@ -118,7 +118,7 @@ class _ServersScreenState extends State<ServersScreen> {
 
     return PopScope(
       child: Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.servers)),
+        appBar: AppBar(title: Text(AppLocalizations.of(context).servers)),
         body: SafeArea(
           child: Stack(
             children: [

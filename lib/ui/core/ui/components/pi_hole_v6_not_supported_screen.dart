@@ -18,7 +18,7 @@ class PiHoleV6NotSupportedScreen extends StatelessWidget {
               const Icon(Icons.info_outline_rounded, size: 60),
               const SizedBox(height: 16),
               Text(
-                AppLocalizations.of(context)!.unsupportedFeatureTitle,
+                AppLocalizations.of(context).unsupportedFeatureTitle,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 24,

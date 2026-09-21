@@ -18,7 +18,7 @@ class NetInterfaceSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
 
     String detectAddressType(RouteFamilyType family) => switch (family) {
       RouteFamilyType.inet => 'IPv4',

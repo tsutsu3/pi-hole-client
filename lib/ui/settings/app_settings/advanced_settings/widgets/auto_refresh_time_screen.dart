@@ -120,7 +120,7 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
 
     if (!mounted) return;
 
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
     if (result) {
       showSuccessSnackBar(
         context: context,
@@ -138,7 +138,7 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(title: Text(loc.autoRefreshTime)),

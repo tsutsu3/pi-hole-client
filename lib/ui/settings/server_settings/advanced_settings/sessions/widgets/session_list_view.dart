@@ -66,7 +66,7 @@ class SessionListView extends StatelessWidget {
           trailing: session.isCurrentSession
               ? Chip(
                   avatar: const Icon(Icons.star_rounded),
-                  label: Text(AppLocalizations.of(context)!.inUse),
+                  label: Text(AppLocalizations.of(context).inUse),
                 )
               : null,
           onTap: () => onSessionTap?.call(session),
@@ -115,12 +115,12 @@ class SessionListView extends StatelessWidget {
       case TlsStatus.none:
         iconData = Icons.no_encryption_rounded;
         iconColor = theme.queryGrey ?? Colors.grey;
-        statusText = AppLocalizations.of(context)!.off;
+        statusText = AppLocalizations.of(context).off;
       case TlsStatus.login:
       case TlsStatus.mixed:
         iconData = Icons.lock_rounded;
         iconColor = theme.queryGreen ?? Colors.green;
-        statusText = AppLocalizations.of(context)!.on;
+        statusText = AppLocalizations.of(context).on;
     }
 
     return Row(

@@ -41,50 +41,50 @@ class ChartVisualizationScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.chartDisplayModeTitle),
+        title: Text(AppLocalizations.of(context).chartDisplayModeTitle),
       ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
             SectionLabel(
-              label: AppLocalizations.of(context)!.homeChartModeTitle,
+              label: AppLocalizations.of(context).homeChartModeTitle,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 26, right: 26, bottom: 16),
               child: Text(
-                AppLocalizations.of(context)!.homeChartModeDescription,
+                AppLocalizations.of(context).homeChartModeDescription,
               ),
             ),
             homeItem(
-              AppLocalizations.of(context)!.lineChart,
+              AppLocalizations.of(context).lineChart,
               Icons.show_chart_rounded,
               HomeVisualizationMode.lineArea,
             ),
             const SizedBox(height: 24),
             homeItem(
-              AppLocalizations.of(context)!.barChart,
+              AppLocalizations.of(context).barChart,
               Icons.bar_chart_rounded,
               HomeVisualizationMode.bar,
             ),
             const SizedBox(height: 24),
             SectionLabel(
-              label: AppLocalizations.of(context)!.statsChartModeTitle,
+              label: AppLocalizations.of(context).statsChartModeTitle,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 26, right: 26, bottom: 16),
               child: Text(
-                AppLocalizations.of(context)!.statsChartModeDescription,
+                AppLocalizations.of(context).statsChartModeDescription,
               ),
             ),
             statsItem(
-              AppLocalizations.of(context)!.list,
+              AppLocalizations.of(context).list,
               Icons.list_rounded,
               StatisticsVisualizationMode.list,
             ),
             const SizedBox(height: 24),
             statsItem(
-              AppLocalizations.of(context)!.pieChart,
+              AppLocalizations.of(context).pieChart,
               Icons.pie_chart_rounded,
               StatisticsVisualizationMode.pieChart,
             ),

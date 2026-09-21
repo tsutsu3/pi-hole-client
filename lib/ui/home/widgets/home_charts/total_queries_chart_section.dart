@@ -29,7 +29,7 @@ class TotalQueriesChartSection extends StatelessWidget {
     switch (overTimeDataLoadStatus) {
       case LoadStatus.error:
         child = ErrorDataChart(
-          topLabel: AppLocalizations.of(context)!.totalQueries24,
+          topLabel: AppLocalizations.of(context).totalQueries24,
         );
       case LoadStatus.loading:
         child = const QueriesSkeleton();
@@ -37,7 +37,7 @@ class TotalQueriesChartSection extends StatelessWidget {
         child = _hasData(overtimeData)
             ? const QueriesContent()
             : NoDataChart(
-                topLabel: AppLocalizations.of(context)!.totalQueries24,
+                topLabel: AppLocalizations.of(context).totalQueries24,
               );
     }
 

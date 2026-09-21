@@ -70,7 +70,7 @@ class NoLogsMessage extends StatelessWidget {
     DateTime? startTime,
     DateTime? endTime,
   ) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     if (startTime != null || endTime != null) {
       final start = startTime != null

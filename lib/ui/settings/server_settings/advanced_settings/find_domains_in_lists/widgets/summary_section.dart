@@ -13,36 +13,36 @@ class SummarySection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionLabel(label: AppLocalizations.of(context)!.summary),
+        SectionLabel(label: AppLocalizations.of(context).summary),
         const SizedBox(height: 8),
         ListTile(
           visualDensity: VisualDensity.compact,
           leading: const Icon(Icons.summarize_rounded),
-          title: Text(AppLocalizations.of(context)!.total),
+          title: Text(AppLocalizations.of(context).total),
           subtitle: Text(meta.total.toString()),
         ),
         ListTile(
           visualDensity: VisualDensity.compact,
           leading: const Icon(Icons.rule_rounded),
-          title: Text(AppLocalizations.of(context)!.domainsExactMatches),
+          title: Text(AppLocalizations.of(context).domainsExactMatches),
           subtitle: Text(meta.domainsExact.toString()),
         ),
         ListTile(
           visualDensity: VisualDensity.compact,
           leading: const Icon(Icons.code_rounded),
-          title: Text(AppLocalizations.of(context)!.domainsRegexMatches),
+          title: Text(AppLocalizations.of(context).domainsRegexMatches),
           subtitle: Text(meta.domainsRegex.toString()),
         ),
         ListTile(
           visualDensity: VisualDensity.compact,
           leading: const Icon(Icons.check_circle_outline_rounded),
-          title: Text(AppLocalizations.of(context)!.gravityAllowMatches),
+          title: Text(AppLocalizations.of(context).gravityAllowMatches),
           subtitle: Text(meta.gravityAllow.toString()),
         ),
         ListTile(
           visualDensity: VisualDensity.compact,
           leading: const Icon(Icons.block_rounded),
-          title: Text(AppLocalizations.of(context)!.gravityBlockMatches),
+          title: Text(AppLocalizations.of(context).gravityBlockMatches),
           subtitle: Text(meta.gravityBlock.toString()),
         ),
       ],

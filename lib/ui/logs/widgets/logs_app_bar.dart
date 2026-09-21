@@ -92,7 +92,7 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 15),
-            child: Text(AppLocalizations.of(context)!.queryLogs),
+            child: Text(AppLocalizations.of(context).queryLogs),
           ),
           _buildLiveIndicator(context, isLivelogPaused, isLiveLog),
         ],
@@ -122,7 +122,7 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: _buildSortOption(
                   context,
                   icon: Icons.arrow_downward_rounded,
-                  label: AppLocalizations.of(context)!.fromLatestToOldest,
+                  label: AppLocalizations.of(context).fromLatestToOldest,
                   value: 0,
                 ),
               ),
@@ -135,7 +135,7 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: _buildSortOption(
                   context,
                   icon: Icons.arrow_upward_rounded,
-                  label: AppLocalizations.of(context)!.fromOldestToLatest,
+                  label: AppLocalizations.of(context).fromOldestToLatest,
                   value: 1,
                 ),
               ),
@@ -205,7 +205,7 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
             style: const TextStyle(fontSize: 18),
             decoration: InputDecoration(
               border: InputBorder.none,
-              hintText: AppLocalizations.of(context)!.searchUrl,
+              hintText: AppLocalizations.of(context).searchUrl,
               hintStyle: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.normal,

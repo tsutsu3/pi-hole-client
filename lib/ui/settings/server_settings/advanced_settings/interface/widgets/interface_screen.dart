@@ -118,7 +118,7 @@ class InterfaceScreen extends StatefulWidget {
 class _InterfaceScreenState extends State<InterfaceScreen> {
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
 
     return ListenableBuilder(
       listenable: widget.viewModel,

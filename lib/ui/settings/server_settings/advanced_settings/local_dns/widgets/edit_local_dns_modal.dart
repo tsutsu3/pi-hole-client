@@ -50,7 +50,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
   }
 
   void validateHostName(String? value) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     if (normalizeLocalDnsNames(value ?? '') ==
         normalizeLocalDnsNames(widget.localDns.name)) {
       setState(() {
@@ -80,7 +80,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
   }
 
   void validateIp(String? value) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     if (value?.trim() == widget.localDns.ip.trim()) {
       setState(() {
         localDnsError = null;
@@ -113,7 +113,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
 
     Widget content() {
       return Container(

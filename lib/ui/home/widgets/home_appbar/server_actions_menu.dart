@@ -83,7 +83,7 @@ class ServerActionsMenu extends StatelessWidget {
           onTap: () => _changeServer(context),
           child: _menuItem(
             Icons.storage_rounded,
-            AppLocalizations.of(context)!.selectServer,
+            AppLocalizations.of(context).selectServer,
           ),
         ),
       ];
@@ -93,24 +93,21 @@ class ServerActionsMenu extends StatelessWidget {
       return [
         PopupMenuItem(
           onTap: () => refreshServerStatus(context),
-          child: _menuItem(
-            Icons.refresh,
-            AppLocalizations.of(context)!.refresh,
-          ),
+          child: _menuItem(Icons.refresh, AppLocalizations.of(context).refresh),
         ),
         PopupMenuItem(
           onTap: () =>
               openUrl('${serversViewModel.selectedServer!.address}/admin/'),
           child: _menuItem(
             Icons.web,
-            AppLocalizations.of(context)!.openWebPanel,
+            AppLocalizations.of(context).openWebPanel,
           ),
         ),
         PopupMenuItem(
           onTap: () => _changeServer(context),
           child: _menuItem(
             Icons.storage_rounded,
-            AppLocalizations.of(context)!.changeServer,
+            AppLocalizations.of(context).changeServer,
           ),
         ),
       ];
@@ -121,14 +118,14 @@ class ServerActionsMenu extends StatelessWidget {
         onTap: () => refreshServerStatus(context),
         child: _menuItem(
           Icons.refresh_rounded,
-          AppLocalizations.of(context)!.tryReconnect,
+          AppLocalizations.of(context).tryReconnect,
         ),
       ),
       PopupMenuItem(
         onTap: () => _changeServer(context),
         child: _menuItem(
           Icons.storage_rounded,
-          AppLocalizations.of(context)!.changeServer,
+          AppLocalizations.of(context).changeServer,
         ),
       ),
     ];

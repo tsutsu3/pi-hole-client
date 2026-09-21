@@ -44,11 +44,11 @@ class AdlistResultCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final adlist = group.adlist;
     final listType = adlist.type == ListType.allow
-        ? AppLocalizations.of(context)!.allowlist
-        : AppLocalizations.of(context)!.blocklist;
+        ? AppLocalizations.of(context).allowlist
+        : AppLocalizations.of(context).blocklist;
     final enabledLabel = adlist.enabled
-        ? AppLocalizations.of(context)!.enabled
-        : AppLocalizations.of(context)!.disabled;
+        ? AppLocalizations.of(context).enabled
+        : AppLocalizations.of(context).disabled;
     final appColors = Theme.of(context).extension<AppColors>()!;
     final listBadgeColor = adlist.type == ListType.allow
         ? appColors.commonGreen
@@ -62,8 +62,8 @@ class AdlistResultCard extends StatelessWidget {
         : appColors.queryGrey?.withAlpha(38);
     final groupCount = adlist.groups.length;
     final groupLabel = groupCount == 1
-        ? AppLocalizations.of(context)!.groupSettings
-        : AppLocalizations.of(context)!.groups;
+        ? AppLocalizations.of(context).groupSettings
+        : AppLocalizations.of(context).groups;
     final comment = (adlist.comment ?? '').trim();
 
     return Card(
@@ -110,19 +110,19 @@ class AdlistResultCard extends StatelessWidget {
               IconMetaRow(
                 icon: Icons.event_repeat_rounded,
                 text:
-                    '${formatTimestamp(adlist.dateUpdated)} (${adlist.number} ${AppLocalizations.of(context)!.domains.toLowerCase()})',
+                    '${formatTimestamp(adlist.dateUpdated)} (${adlist.number} ${AppLocalizations.of(context).domains.toLowerCase()})',
               ),
               const SizedBox(height: 8),
               IconMetaRow(
                 icon: Icons.comment_rounded,
                 text: comment.isNotEmpty
                     ? comment
-                    : AppLocalizations.of(context)!.noComment,
+                    : AppLocalizations.of(context).noComment,
               ),
               const SizedBox(height: 6),
               ExpansionTile(
                 key: PageStorageKey<String>(adlist.address),
-                title: Text(AppLocalizations.of(context)!.matchingEntries),
+                title: Text(AppLocalizations.of(context).matchingEntries),
                 tilePadding: EdgeInsets.zero,
                 childrenPadding: const EdgeInsets.only(left: 8, right: 8),
                 children: [

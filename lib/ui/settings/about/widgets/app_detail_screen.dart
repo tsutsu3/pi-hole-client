@@ -17,7 +17,7 @@ class AppDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(title: Text(loc.applicationDetail)),
@@ -106,9 +106,7 @@ class AppDetailScreen extends StatelessWidget {
                   colorScheme: colorScheme,
                 ),
                 subtitle: Text(
-                  AppLocalizations.of(
-                    context,
-                  )!.serverConnectionGuideDescription,
+                  AppLocalizations.of(context).serverConnectionGuideDescription,
                 ),
                 onTap: () => openUrl(Urls.createAConnection),
                 trailing: Icon(

@@ -39,7 +39,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
 
   SectionLabel buildStatusLabel(BuildContext context, GravityStatus status) {
     final theme = Theme.of(context).extension<AppColors>()!;
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     switch (status) {
       case GravityStatus.success:
@@ -150,7 +150,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
     BuildContext context,
     GravityUpdateViewModel provider,
   ) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     if (provider.status == GravityStatus.success) {
       if (provider.messages.isNotEmpty) {
@@ -218,13 +218,13 @@ class _GravityUpdateState extends State<GravityUpdate> {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.messageDeleteSuccess,
+          label: AppLocalizations.of(context).messageDeleteSuccess,
         );
       } else {
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.messageDeleteFailed,
+          label: AppLocalizations.of(context).messageDeleteFailed,
         );
       }
     }
@@ -248,7 +248,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
       showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.adlistNotFoundForMessage,
+        label: AppLocalizations.of(context).adlistNotFoundForMessage,
       );
 
       return;
@@ -329,7 +329,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
                       ),
                     if (gravityProvider.status == GravityStatus.idle)
                       Text(
-                        AppLocalizations.of(context)!.notYetExecuted,
+                        AppLocalizations.of(context).notYetExecuted,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     if (gravityProvider.status == GravityStatus.running)
@@ -338,7 +338,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
                         child: Text(
                           AppLocalizations.of(
                             context,
-                          )!.updatingInProgressMessage,
+                          ).updatingInProgressMessage,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
@@ -348,7 +348,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
               const SizedBox(height: 24),
               SectionLabel(
                 icon: Icons.circle_notifications_outlined,
-                label: AppLocalizations.of(context)!.messages,
+                label: AppLocalizations.of(context).messages,
                 padding: const EdgeInsets.only(
                   left: 16,
                   right: 16,
@@ -360,7 +360,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
               const SizedBox(height: 24),
               SectionLabel(
                 icon: Icons.code_rounded,
-                label: AppLocalizations.of(context)!.executionLog,
+                label: AppLocalizations.of(context).executionLog,
                 padding: const EdgeInsets.only(
                   left: 16,
                   right: 16,
@@ -394,7 +394,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
                                   : normalizeLogOutput(
                                       gravityProvider.logs.last,
                                     )
-                            : AppLocalizations.of(context)!.noLogs,
+                            : AppLocalizations.of(context).noLogs,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurface,
                         ),

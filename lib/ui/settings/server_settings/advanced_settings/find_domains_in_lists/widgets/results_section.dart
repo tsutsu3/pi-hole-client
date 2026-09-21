@@ -49,7 +49,7 @@ class ResultsSection extends StatelessWidget {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(AppLocalizations.of(context)!.noResultsFound),
+          child: Text(AppLocalizations.of(context).noResultsFound),
         ),
       );
     }
@@ -60,7 +60,7 @@ class ResultsSection extends StatelessWidget {
         SummarySection(meta: meta!),
         const SizedBox(height: 16),
         if (domainResults.isNotEmpty) ...[
-          SectionLabel(label: AppLocalizations.of(context)!.domainLevelLists),
+          SectionLabel(label: AppLocalizations.of(context).domainLevelLists),
           const SizedBox(height: 8),
           DomainResultsList(
             results: domainResults,
@@ -70,7 +70,7 @@ class ResultsSection extends StatelessWidget {
           const SizedBox(height: 16),
         ],
         if (adlistResults.isNotEmpty) ...[
-          SectionLabel(label: AppLocalizations.of(context)!.listLevelLists),
+          SectionLabel(label: AppLocalizations.of(context).listLevelLists),
           const SizedBox(height: 8),
           AdlistResultsList(results: adlistResults, onTap: onAdlistTap),
         ],

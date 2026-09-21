@@ -178,7 +178,7 @@ class _TotpInputModalState extends State<_TotpInputModal> {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final mediaQuery = MediaQuery.of(context);
     final errorText = switch (widget.error) {

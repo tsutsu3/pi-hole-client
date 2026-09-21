@@ -107,7 +107,7 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
           clientsViewModel.onSearch(value);
         },
         decoration: InputDecoration(
-          hintText: AppLocalizations.of(context)!.groupClientSearch,
+          hintText: AppLocalizations.of(context).groupClientSearch,
           hintStyle: const TextStyle(fontWeight: FontWeight.w400),
           border: InputBorder.none,
           prefixIcon: Icon(
@@ -128,7 +128,7 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
           appBar: AppBar(
             title: searchMode
                 ? buildSearchTitle()
-                : Text(AppLocalizations.of(context)!.groupsAndClients),
+                : Text(AppLocalizations.of(context).groupsAndClients),
             actions: [
               if (!searchMode)
                 IconButton(
@@ -161,7 +161,7 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
                       const SizedBox(width: 4),
                       Flexible(
                         child: Text(
-                          AppLocalizations.of(context)!.groups,
+                          AppLocalizations.of(context).groups,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -176,7 +176,7 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
                       const SizedBox(width: 4),
                       Flexible(
                         child: Text(
-                          AppLocalizations.of(context)!.clients,
+                          AppLocalizations.of(context).clients,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -255,7 +255,7 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
                               child: Text(
                                 AppLocalizations.of(
                                   context,
-                                )!.groupsSelectLeftColumn,
+                                ).groupsSelectLeftColumn,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 24,
@@ -295,7 +295,7 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
                     child: SafeArea(
                       child: Center(
                         child: Text(
-                          AppLocalizations.of(context)!.clientsSelectLeftColumn,
+                          AppLocalizations.of(context).clientsSelectLeftColumn,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 24,

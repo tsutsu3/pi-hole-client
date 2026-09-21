@@ -106,7 +106,7 @@ class _DisableModalState extends State<DisableModal> {
                   Padding(
                     padding: const EdgeInsets.all(20),
                     child: Text(
-                      AppLocalizations.of(context)!.disable,
+                      AppLocalizations.of(context).disable,
                       style: const TextStyle(fontSize: 24),
                     ),
                   ),
@@ -132,7 +132,7 @@ class _DisableModalState extends State<DisableModal> {
                           ? Theme.of(context).colorScheme.onSecondaryContainer
                           : Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
-                    child: Text(AppLocalizations.of(context)!.seconds30),
+                    child: Text(AppLocalizations.of(context).seconds30),
                   ),
                 ),
               ),
@@ -156,7 +156,7 @@ class _DisableModalState extends State<DisableModal> {
                           ? Theme.of(context).colorScheme.onSecondaryContainer
                           : Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
-                    child: Text(AppLocalizations.of(context)!.minute1),
+                    child: Text(AppLocalizations.of(context).minute1),
                   ),
                 ),
               ),
@@ -185,7 +185,7 @@ class _DisableModalState extends State<DisableModal> {
                           ? Theme.of(context).colorScheme.onSecondaryContainer
                           : Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
-                    child: Text(AppLocalizations.of(context)!.minutes2),
+                    child: Text(AppLocalizations.of(context).minutes2),
                   ),
                 ),
               ),
@@ -214,7 +214,7 @@ class _DisableModalState extends State<DisableModal> {
                           ? Theme.of(context).colorScheme.onSecondaryContainer
                           : Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
-                    child: Text(AppLocalizations.of(context)!.minutes5),
+                    child: Text(AppLocalizations.of(context).minutes5),
                   ),
                 ),
               ),
@@ -238,7 +238,7 @@ class _DisableModalState extends State<DisableModal> {
                           ? Theme.of(context).colorScheme.onSecondaryContainer
                           : Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
-                    child: Text(AppLocalizations.of(context)!.indefinitely),
+                    child: Text(AppLocalizations.of(context).indefinitely),
                   ),
                 ),
               ),
@@ -262,7 +262,7 @@ class _DisableModalState extends State<DisableModal> {
                           ? Theme.of(context).colorScheme.onSecondaryContainer
                           : Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
-                    child: Text(AppLocalizations.of(context)!.custom),
+                    child: Text(AppLocalizations.of(context).custom),
                   ),
                 ),
               ),
@@ -284,12 +284,12 @@ class _DisableModalState extends State<DisableModal> {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 errorText: !customTimeIsValid && customTimeController.text != ''
-                    ? AppLocalizations.of(context)!.valueNotValid
+                    ? AppLocalizations.of(context).valueNotValid
                     : null,
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
-                labelText: AppLocalizations.of(context)!.customMinutes,
+                labelText: AppLocalizations.of(context).customMinutes,
               ),
             ),
           ],
@@ -330,7 +330,7 @@ class _DisableModalState extends State<DisableModal> {
                     children: [
                       TextButton(
                         onPressed: () => Navigator.maybePop(context),
-                        child: Text(AppLocalizations.of(context)!.cancel),
+                        child: Text(AppLocalizations.of(context).cancel),
                       ),
                       const SizedBox(width: 20),
                       TextButton(
@@ -347,7 +347,7 @@ class _DisableModalState extends State<DisableModal> {
                                 )
                               : WidgetStateProperty.all(Colors.grey),
                         ),
-                        child: Text(AppLocalizations.of(context)!.accept),
+                        child: Text(AppLocalizations.of(context).accept),
                       ),
                     ],
                   ),
@@ -386,7 +386,7 @@ class _DisableModalState extends State<DisableModal> {
                   children: [
                     TextButton(
                       onPressed: () => Navigator.maybePop(context),
-                      child: Text(AppLocalizations.of(context)!.cancel),
+                      child: Text(AppLocalizations.of(context).cancel),
                     ),
                     const SizedBox(width: 20),
                     TextButton(
@@ -403,7 +403,7 @@ class _DisableModalState extends State<DisableModal> {
                               )
                             : WidgetStateProperty.all(Colors.grey),
                       ),
-                      child: Text(AppLocalizations.of(context)!.accept),
+                      child: Text(AppLocalizations.of(context).accept),
                     ),
                   ],
                 ),

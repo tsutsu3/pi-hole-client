@@ -23,7 +23,7 @@ class ServerStatusChips extends StatelessWidget {
 
     final locale = Platform.localeName;
     final graphColors = Theme.of(context).extension<GraphColors>()!;
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     final qpm = context.select<StatusViewModel, double?>(
       (p) => p.getQueriesPerMinute,

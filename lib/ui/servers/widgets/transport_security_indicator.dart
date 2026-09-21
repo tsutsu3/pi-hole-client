@@ -195,7 +195,7 @@ class _TransportSecurityIndicatorState
     BuildContext context,
     _TransportSecurityStatus status,
   ) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 

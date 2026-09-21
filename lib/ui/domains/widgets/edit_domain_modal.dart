@@ -117,7 +117,7 @@ class _EditDomainModalState extends State<EditDomainModal> {
                                   Radius.circular(10),
                                 ),
                               ),
-                              labelText: AppLocalizations.of(context)!.comment,
+                              labelText: AppLocalizations.of(context).comment,
                             ),
                           ),
                         ),
@@ -125,10 +125,10 @@ class _EditDomainModalState extends State<EditDomainModal> {
                         LabeledMultiSelectTile(
                           isExpanded: true,
                           initiallySelectedItems: widget.domain.groups,
-                          labelText: AppLocalizations.of(context)!.groups,
+                          labelText: AppLocalizations.of(context).groups,
                           hintText: AppLocalizations.of(
                             context,
-                          )!.selectGroupsMessage,
+                          ).selectGroupsMessage,
                           icon: Icons.group_rounded,
                           options: widget.groups,
                           onSelectionChanged: (list) {
@@ -150,7 +150,7 @@ class _EditDomainModalState extends State<EditDomainModal> {
                 children: [
                   TextButton(
                     onPressed: () => Navigator.maybePop(context),
-                    child: Text(AppLocalizations.of(context)!.cancel),
+                    child: Text(AppLocalizations.of(context).cancel),
                   ),
                   const SizedBox(width: 14),
                   TextButton(
@@ -176,7 +176,7 @@ class _EditDomainModalState extends State<EditDomainModal> {
                         allDataValid ? null : Colors.grey,
                       ),
                     ),
-                    child: Text(AppLocalizations.of(context)!.edit),
+                    child: Text(AppLocalizations.of(context).edit),
                   ),
                 ],
               ),

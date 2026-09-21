@@ -13,7 +13,7 @@ Future<void> deleteClient({
   required ManagedClient client,
 }) async {
   final process = ProcessModal(context: context);
-  process.open(AppLocalizations.of(context)!.deleting);
+  process.open(AppLocalizations.of(context).deleting);
 
   try {
     await viewModel.deleteClient.runAsync(client);
@@ -22,7 +22,7 @@ Future<void> deleteClient({
     showSuccessSnackBar(
       context: context,
       appConfigViewModel: appConfigViewModel,
-      label: AppLocalizations.of(context)!.clientRemoved,
+      label: AppLocalizations.of(context).clientRemoved,
     );
   } catch (_) {
     if (!context.mounted) return;
@@ -30,7 +30,7 @@ Future<void> deleteClient({
     showErrorSnackBar(
       context: context,
       appConfigViewModel: appConfigViewModel,
-      label: AppLocalizations.of(context)!.clientRemoveFailed,
+      label: AppLocalizations.of(context).clientRemoveFailed,
     );
   } finally {
     process.close();

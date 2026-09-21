@@ -59,7 +59,7 @@ class ClientTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${AppLocalizations.of(context)!.macAddress}: $macAddress',
+                '${AppLocalizations.of(context).macAddress}: $macAddress',
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontSize: 13, height: 1.4),
               ),
@@ -74,7 +74,7 @@ class ClientTile extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                '${AppLocalizations.of(context)!.groups}: $groupsText',
+                '${AppLocalizations.of(context).groups}: $groupsText',
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontSize: 13, height: 1.4),
               ),

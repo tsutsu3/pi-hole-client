@@ -93,11 +93,11 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
 
     String statusText(items, maxItems) {
       if (items == 0) {
-        return AppLocalizations.of(context)!.noItemsSelected;
+        return AppLocalizations.of(context).noItemsSelected;
       } else if (items == maxItems) {
-        return AppLocalizations.of(context)!.allItemsSelected;
+        return AppLocalizations.of(context).allItemsSelected;
       } else {
-        return '$items ${AppLocalizations.of(context)!.itemsSelected}';
+        return '$items ${AppLocalizations.of(context).itemsSelected}';
       }
     }
 
@@ -120,8 +120,8 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
               false, // Prevents unexpected app exit on mobile when pressing back
           initialTime: TimeOfDay.now(),
           helpText: time == 'from'
-              ? AppLocalizations.of(context)!.selectStartTime
-              : AppLocalizations.of(context)!.selectEndTime,
+              ? AppLocalizations.of(context).selectStartTime
+              : AppLocalizations.of(context).selectEndTime,
         );
         if (timeValue != null) {
           final value = DateTime(
@@ -138,7 +138,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
               setState(() {
                 timeError = AppLocalizations.of(
                   context,
-                )!.startTimeNotBeforeEndTime;
+                ).startTimeNotBeforeEndTime;
               });
             } else {
               logsViewModel.setStartTime(value);
@@ -152,7 +152,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
               setState(() {
                 timeError = AppLocalizations.of(
                   context,
-                )!.endTimeNotAfterStartTime;
+                ).endTimeNotAfterStartTime;
               });
             } else {
               logsViewModel.setEndTime(value);
@@ -199,7 +199,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 24),
                         child: Text(
-                          AppLocalizations.of(context)!.filters,
+                          AppLocalizations.of(context).filters,
                           style: const TextStyle(fontSize: 24),
                         ),
                       ),
@@ -212,7 +212,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              AppLocalizations.of(context)!.time,
+                              AppLocalizations.of(context).time,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 16,
@@ -261,7 +261,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                                 Text(
                                                   AppLocalizations.of(
                                                     context,
-                                                  )!.fromTime,
+                                                  ).fromTime,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 14,
@@ -281,7 +281,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                                         )
                                                       : AppLocalizations.of(
                                                           context,
-                                                        )!.notSelected,
+                                                        ).notSelected,
                                                   style: TextStyle(
                                                     color: Theme.of(context)
                                                         .colorScheme
@@ -343,7 +343,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                                 Text(
                                                   AppLocalizations.of(
                                                     context,
-                                                  )!.toTime,
+                                                  ).toTime,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 14,
@@ -362,7 +362,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                                         )
                                                       : AppLocalizations.of(
                                                           context,
-                                                        )!.notSelected,
+                                                        ).notSelected,
                                                   style: TextStyle(
                                                     color: Theme.of(context)
                                                         .colorScheme
@@ -402,7 +402,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                         child: Row(
                           children: [
                             Text(
-                              AppLocalizations.of(context)!.status,
+                              AppLocalizations.of(context).status,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 16,
@@ -418,19 +418,15 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                           segments: [
                             ButtonSegment(
                               value: RequestStatus.all,
-                              label: Text(AppLocalizations.of(context)!.all),
+                              label: Text(AppLocalizations.of(context).all),
                             ),
                             ButtonSegment(
                               value: RequestStatus.allowed,
-                              label: Text(
-                                AppLocalizations.of(context)!.allowed,
-                              ),
+                              label: Text(AppLocalizations.of(context).allowed),
                             ),
                             ButtonSegment(
                               value: RequestStatus.blocked,
-                              label: Text(
-                                AppLocalizations.of(context)!.blocked,
-                              ),
+                              label: Text(AppLocalizations.of(context).blocked),
                             ),
                           ],
                           selected: <RequestStatus>{
@@ -462,7 +458,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                       Text(
                                         AppLocalizations.of(
                                           context,
-                                        )!.advancedStatusFiltering,
+                                        ).advancedStatusFiltering,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 16,
@@ -507,7 +503,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        AppLocalizations.of(context)!.clients,
+                                        AppLocalizations.of(context).clients,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 16,
@@ -549,14 +545,14 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                 children: [
                   TextButton(
                     onPressed: resetFilters,
-                    child: Text(AppLocalizations.of(context)!.reset),
+                    child: Text(AppLocalizations.of(context).reset),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
                         onPressed: () => Navigator.maybePop(context),
-                        child: Text(AppLocalizations.of(context)!.close),
+                        child: Text(AppLocalizations.of(context).close),
                       ),
                       const SizedBox(width: 20),
                       TextButton(
@@ -578,7 +574,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                             ).colorScheme.primary.withValues(alpha: 0.1),
                           ),
                         ),
-                        child: Text(AppLocalizations.of(context)!.apply),
+                        child: Text(AppLocalizations.of(context).apply),
                       ),
                     ],
                   ),

@@ -110,7 +110,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
       );
     }
 
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
     final isV6 = apiVersion == SupportedApiVersions.v6;
     final isActive = context.select<AppConfigViewModel, bool>(
       (vm) => vm.selectedTab == AppShell.statisticsIndex,
@@ -128,7 +128,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
           children: [
             const Icon(Icons.dns_rounded),
             const SizedBox(width: 16),
-            Text(AppLocalizations.of(context)!.queriesServers),
+            Text(AppLocalizations.of(context).queriesServers),
           ],
         ),
       ),
@@ -137,7 +137,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
           children: [
             const Icon(Icons.http_rounded),
             const SizedBox(width: 16),
-            Text(AppLocalizations.of(context)!.domains),
+            Text(AppLocalizations.of(context).domains),
           ],
         ),
       ),
@@ -146,7 +146,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
           children: [
             const Icon(Icons.devices_rounded),
             const SizedBox(width: 16),
-            Text(AppLocalizations.of(context)!.clients),
+            Text(AppLocalizations.of(context).clients),
           ],
         ),
       ),
@@ -195,7 +195,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
             children: [
               const Icon(Icons.public_rounded),
               const SizedBox(width: 16),
-              Text(AppLocalizations.of(context)!.dns),
+              Text(AppLocalizations.of(context).dns),
             ],
           ),
         ),
@@ -232,7 +232,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                   context,
                 ),
                 sliver: SliverAppBar(
-                  title: Text(AppLocalizations.of(context)!.statistics),
+                  title: Text(AppLocalizations.of(context).statistics),
                   pinned: true,
                   floating: true,
                   centerTitle: false,
