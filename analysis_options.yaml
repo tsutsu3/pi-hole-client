@@ -235,6 +235,7 @@ analyzer:
   exclude:
     - test/**/*.mocks.dart
     - lib/**/*.g.dart
+    - lib/**/*.freezed.dart
     - lib/ui/settings/about/widgets/about.dart
     - lib/data/services/api/generated/**
     - build/**
@@ -243,3 +244,44 @@ analyzer:
     - windows/**
     - macos/**
     - linux/**
+    - terraform/**
+    - winget/**
+
+plugins:
+  dart_code_linter: 4.1.3
+
+dart_code_linter:
+  extends:
+    # - package:dart_code_linter/presets/all.yaml
+    - package:dart_code_linter/presets/recommended.yaml
+    - package:dart_code_linter/presets/metrics_recommended.yaml
+  rules-exclude:
+    - test/**/*.mocks.dart
+    - lib/**/*.g.dart
+    - lib/**/*.freezed.dart
+    - lib/ui/settings/about/widgets/about.dart
+    - lib/data/services/api/generated/**
+    - lib/data/mapper/v6_generated/**
+    - build/**
+    - android/**
+    - ios/**
+    - windows/**
+    - macos/**
+    - linux/**
+    - terraform/**
+    - winget/**
+  metrics-exclude:
+    - test/**/*.mocks.dart
+    - lib/**/*.g.dart
+    - lib/**/*.freezed.dart
+    - lib/ui/settings/about/widgets/about.dart
+    - lib/data/services/api/generated/**
+    - lib/data/mapper/v6_generated/**
+    - build/**
+    - android/**
+    - ios/**
+    - windows/**
+    - macos/**
+    - linux/**
+    - terraform/**
+    - winget/**
