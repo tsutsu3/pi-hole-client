@@ -62,7 +62,7 @@ class _BaseState extends State<Base>
 
       final appConfigViewModel = context.read<AppConfigViewModel>();
 
-      if (appConfigViewModel.importantInfoReaden == false) {
+      if (!appConfigViewModel.importantInfoReaden) {
         await showDialog<String>(
           context: context,
           builder: (BuildContext context) => const StartInfoModal(),

@@ -26,7 +26,7 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
     } else {
       final status = await Permission.camera.request();
       if (mounted) {
-        if (status.isGranted == false) {
+        if (!status.isGranted) {
           setState(() {
             permission = 2;
           });

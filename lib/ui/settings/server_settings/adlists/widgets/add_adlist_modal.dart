@@ -51,7 +51,7 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
         r'(\/[^\s]*)?$', // path
       );
 
-      if (subrouteRegexp.hasMatch(value) == true) {
+      if (subrouteRegexp.hasMatch(value)) {
         setState(() {
           addressError = null;
         });
@@ -205,7 +205,7 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
                 ),
                 const SizedBox(width: 14),
                 TextButton(
-                  onPressed: allDataValid == true
+                  onPressed: allDataValid
                       ? () {
                           widget.onAddAdlist({
                             'address': addressController.text,
@@ -219,7 +219,7 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
                       : null,
                   style: ButtonStyle(
                     foregroundColor: WidgetStateProperty.all(
-                      allDataValid == true ? null : Colors.grey,
+                      allDataValid ? null : Colors.grey,
                     ),
                   ),
                   child: Text(AppLocalizations.of(context)!.add),
@@ -231,7 +231,7 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600),

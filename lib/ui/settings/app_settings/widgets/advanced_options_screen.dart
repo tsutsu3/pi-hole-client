@@ -37,7 +37,7 @@ class AdvancedOptionsScreen extends StatelessWidget {
       final result = await appConfigViewModel.setReducedDataCharts(newStatus);
       if (!context.mounted) return;
 
-      if (result == true) {
+      if (result) {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
@@ -56,7 +56,7 @@ class AdvancedOptionsScreen extends StatelessWidget {
       final result = await appConfigViewModel.setHideZeroValues(newStatus);
       if (!context.mounted) return;
 
-      if (result == true) {
+      if (result) {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
@@ -77,7 +77,7 @@ class AdvancedOptionsScreen extends StatelessWidget {
       );
       if (!context.mounted) return;
 
-      if (result == true) {
+      if (result) {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
@@ -96,7 +96,7 @@ class AdvancedOptionsScreen extends StatelessWidget {
       final result = await appConfigViewModel.setLiveLog(newStatus);
       if (!context.mounted) return;
 
-      if (result == true) {
+      if (result) {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,

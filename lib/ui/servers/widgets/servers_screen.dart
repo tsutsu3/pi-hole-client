@@ -47,13 +47,13 @@ class _ServersScreenState extends State<ServersScreen> {
   void _scrollListener() {
     if (scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
-      if (mounted && isVisible == true) {
+      if (mounted && isVisible) {
         setState(() => isVisible = false);
       }
     } else {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
-        if (mounted && isVisible == false) {
+        if (mounted && !isVisible) {
           setState(() => isVisible = true);
         }
       }

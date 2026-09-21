@@ -45,12 +45,12 @@ class _ClientsListState extends State<ClientsList> {
   void _scrollListener() {
     if (widget.scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
-      if (mounted && isVisible == true) {
+      if (mounted && isVisible) {
         setState(() => isVisible = false);
       }
     } else if (widget.scrollController.position.userScrollDirection ==
         ScrollDirection.forward) {
-      if (mounted && isVisible == false) {
+      if (mounted && !isVisible) {
         setState(() => isVisible = true);
       }
     }

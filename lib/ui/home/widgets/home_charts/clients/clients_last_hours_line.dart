@@ -169,7 +169,7 @@ class ClientsLastHoursLine extends StatelessWidget {
       final clientsColors = <Map<String, dynamic>>[];
       var topPoint = 0;
       final clientEntries = data.clientEntries;
-      final interval = reducedData == true ? averageIntervalCount : 1;
+      final interval = reducedData ? averageIntervalCount : 1;
 
       for (var i = 0; i < data.clients.length; i++) {
         final client = <FlSpot>[];

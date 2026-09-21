@@ -372,7 +372,7 @@ class _TotpInputModalState extends State<_TotpInputModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 400, maxHeight: 480),

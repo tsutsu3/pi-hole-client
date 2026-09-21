@@ -101,7 +101,7 @@ class ClientsLastHoursBar extends StatelessWidget {
                 final tooltipItems = <TextSpan>[];
 
                 for (var i = 0; i < data['clientsColors'].length; i++) {
-                  if (hideZeroValues == true) {
+                  if (hideZeroValues) {
                     if (barChartRodData.rodStackItems[i].toY -
                             barChartRodData.rodStackItems[i].fromY >
                         0.0) {
@@ -166,13 +166,13 @@ class ClientsLastHoursBar extends StatelessWidget {
       final items = <BarChartGroupData>[];
       final clientsColors = <Map<String, dynamic>>[];
       var topPoint = 0;
-      final interval = reducedData == true ? averageIntervalCount : 1;
+      final interval = reducedData ? averageIntervalCount : 1;
 
       final clientEntries = data.clientEntries;
       final numClients = data.clients.length;
       final barWidth =
           chartWidth /
-          (reducedData == true
+          (reducedData
               ? clientEntries.length / averageIntervalCount
               : clientEntries.length) *
           0.8;

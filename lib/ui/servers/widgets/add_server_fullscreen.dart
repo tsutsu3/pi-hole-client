@@ -229,7 +229,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         insetPadding: const EdgeInsets.symmetric(vertical: 24),
         child: SizedBox(

@@ -170,7 +170,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
                 ),
                 const SizedBox(width: 14),
                 TextButton(
-                  onPressed: allDataValid == true
+                  onPressed: allDataValid
                       ? () {
                           final kind = wildcard
                               ? DomainKind.regex
@@ -184,7 +184,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
                       : null,
                   style: ButtonStyle(
                     foregroundColor: WidgetStateProperty.all(
-                      allDataValid == true ? null : Colors.grey,
+                      allDataValid ? null : Colors.grey,
                     ),
                   ),
                   child: Text(AppLocalizations.of(context)!.add),
@@ -196,7 +196,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 500),

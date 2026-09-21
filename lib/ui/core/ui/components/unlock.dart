@@ -33,7 +33,7 @@ class _UnlockState extends State<Unlock> {
 
     final auth = LocalAuthentication();
     final biometrics = await auth.getAvailableBiometrics();
-    if (appConfigViewModel.useBiometrics == true && biometrics.isNotEmpty) {
+    if (appConfigViewModel.useBiometrics && biometrics.isNotEmpty) {
       await auth.stopAuthentication();
       if (!mounted) return;
       try {
@@ -42,7 +42,7 @@ class _UnlockState extends State<Unlock> {
           biometricOnly: true,
           persistAcrossBackgrounding: true,
         );
-        if (didAuthenticate == true && mounted) {
+        if (didAuthenticate && mounted) {
           AppLock.of(context)!.didUnlock();
         }
       } catch (e) {
@@ -160,11 +160,11 @@ class _UnlockState extends State<Unlock> {
             ),
           ),
           AnimatedOpacity(
-            opacity: isLoading == true ? 1 : 0,
+            opacity: isLoading ? 1 : 0,
             duration: const Duration(milliseconds: 250),
             curve: Curves.easeInOut,
             child: IgnorePointer(
-              ignoring: isLoading == true ? false : true,
+              ignoring: isLoading ? false : true,
               child: Container(
                 width: double.maxFinite,
                 height: height,

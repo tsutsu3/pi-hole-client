@@ -34,9 +34,9 @@ bool? convertFromIntToBool(int value) {
 }
 
 int? convertFromBoolToInt(bool value) {
-  if (value == true) {
+  if (value) {
     return 1;
-  } else if (value == false) {
+  } else if (!value) {
     return 0;
   } else {
     return null;

@@ -560,7 +560,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                       ),
                       const SizedBox(width: 20),
                       TextButton(
-                        onPressed: isFilteringValid() == true
+                        onPressed: isFilteringValid()
                             ? () {
                                 widget.filterLogs();
                                 Navigator.maybePop(context);
@@ -568,7 +568,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                             : null,
                         style: ButtonStyle(
                           foregroundColor: WidgetStateProperty.all(
-                            isFilteringValid() == true
+                            isFilteringValid()
                                 ? Theme.of(context).colorScheme.primary
                                 : Colors.grey,
                           ),
@@ -590,7 +590,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 500),

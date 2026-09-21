@@ -71,7 +71,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
     }
 
     Future<void> enableDisableBiometricsUnlock(bool status) async {
-      if (status == true) {
+      if (status) {
         final auth = LocalAuthentication();
         final biometrics = await auth.getAvailableBiometrics();
         if (biometrics.isNotEmpty) {
@@ -82,10 +82,10 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
               biometricOnly: true,
               persistAcrossBackgrounding: true,
             );
-            if (didAuthenticate == true) {
+            if (didAuthenticate) {
               final result = await appConfigViewModel.setUseBiometrics(true);
               if (!context.mounted) return;
-              if (result == false) {
+              if (!result) {
                 showErrorSnackBar(
                   context: context,
                   appConfigViewModel: appConfigViewModel,
@@ -124,7 +124,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
       } else {
         final result = await appConfigViewModel.setUseBiometrics(false);
         if (!context.mounted) return;
-        if (result == false) {
+        if (!result) {
           showErrorSnackBar(
             context: context,
             appConfigViewModel: appConfigViewModel,
@@ -271,7 +271,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
               label: Text(AppLocalizations.of(context)!.setPassCode),
             ),
           ),
-        if (appConfigViewModel.biometricsSupport == true)
+        if (appConfigViewModel.biometricsSupport)
           Material(
             color: Colors.transparent,
             child: InkWell(
@@ -352,7 +352,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 400),

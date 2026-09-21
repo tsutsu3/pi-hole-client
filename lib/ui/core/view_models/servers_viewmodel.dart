@@ -212,7 +212,7 @@ class ServersViewModel with ChangeNotifier {
 
     // insertServer already cleared the other defaults inside its transaction;
     // mirror that in memory without a second DB write.
-    if (server.defaultServer == true) {
+    if (server.defaultServer) {
       _serversList = _serversList
           .map((s) => s.copyWith(defaultServer: s.address == server.address))
           .toList();
@@ -239,7 +239,7 @@ class ServersViewModel with ChangeNotifier {
 
     // updateServer already cleared the other defaults inside its transaction;
     // mirror that in memory without a second DB write.
-    if (server.defaultServer == true) {
+    if (server.defaultServer) {
       _serversList = _serversList
           .map((s) => s.copyWith(defaultServer: s.address == server.address))
           .toList();
@@ -273,7 +273,7 @@ class ServersViewModel with ChangeNotifier {
 
     // The repository already cleared other defaults inside the replace
     // transaction; mirror that in memory without a second DB write.
-    if (params.newServer.defaultServer == true) {
+    if (params.newServer.defaultServer) {
       _serversList = _serversList
           .map(
             (s) => s.copyWith(
@@ -328,7 +328,7 @@ class ServersViewModel with ChangeNotifier {
     Server? defaultServer;
     for (final server in servers) {
       _serversList.add(server);
-      if (server.defaultServer == true) {
+      if (server.defaultServer) {
         defaultServer = server;
       }
 

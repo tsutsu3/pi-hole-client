@@ -15,7 +15,7 @@ class RemovePasscodeModal extends StatelessWidget {
       final deleted = await appConfigViewModel.setPassCode(null);
       if (!context.mounted) return;
 
-      if (deleted == true) {
+      if (deleted) {
         await Navigator.maybePop(context);
       } else {
         showErrorSnackBar(

@@ -30,7 +30,7 @@ class _DisableModalState extends State<DisableModal> {
       if (selectedOption != 5) {
         customTimeController.text = '';
         if (expandableController.expanded) expandableController.toggle();
-      } else if (expandableController.expanded == false) {
+      } else if (!expandableController.expanded) {
         expandableController.toggle();
       }
     });
@@ -51,7 +51,7 @@ class _DisableModalState extends State<DisableModal> {
   bool _selectionIsValid() {
     if (selectedOption != null && selectedOption != 5) {
       return true;
-    } else if (selectedOption == 5 && customTimeIsValid == true) {
+    } else if (selectedOption == 5 && customTimeIsValid) {
       return true;
     } else {
       return false;
@@ -297,7 +297,7 @@ class _DisableModalState extends State<DisableModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 500),
@@ -334,14 +334,14 @@ class _DisableModalState extends State<DisableModal> {
                       ),
                       const SizedBox(width: 20),
                       TextButton(
-                        onPressed: _selectionIsValid() == true
+                        onPressed: _selectionIsValid()
                             ? () {
                                 Navigator.maybePop(context);
                                 widget.onDisable(_getTime());
                               }
                             : null,
                         style: ButtonStyle(
-                          foregroundColor: _selectionIsValid() == true
+                          foregroundColor: _selectionIsValid()
                               ? WidgetStateProperty.all(
                                   Theme.of(context).colorScheme.primary,
                                 )
@@ -390,14 +390,14 @@ class _DisableModalState extends State<DisableModal> {
                     ),
                     const SizedBox(width: 20),
                     TextButton(
-                      onPressed: _selectionIsValid() == true
+                      onPressed: _selectionIsValid()
                           ? () {
                               Navigator.maybePop(context);
                               widget.onDisable(_getTime());
                             }
                           : null,
                       style: ButtonStyle(
-                        foregroundColor: _selectionIsValid() == true
+                        foregroundColor: _selectionIsValid()
                             ? WidgetStateProperty.all(
                                 Theme.of(context).colorScheme.primary,
                               )

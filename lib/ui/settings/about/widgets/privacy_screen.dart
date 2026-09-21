@@ -62,7 +62,7 @@ class PrivacyScreen extends StatelessWidget {
                         final result = await appConfigViewModel
                             .setSendCrashReports(value);
                         if (!context.mounted) return;
-                        if (result == true) {
+                        if (result) {
                           showCautionSnackBar(
                             context: context,
                             appConfigViewModel: appConfigViewModel,

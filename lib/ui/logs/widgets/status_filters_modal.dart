@@ -34,7 +34,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
   }
 
   void _updateStatusSelected(int option) {
-    if (_statusSelected.contains(option) == true) {
+    if (_statusSelected.contains(option)) {
       setState(() {
         _statusSelected = _statusSelected
             .where((status) => status != option)
@@ -190,7 +190,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 500),

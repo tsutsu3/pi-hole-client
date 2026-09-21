@@ -154,7 +154,7 @@ class _EditDomainModalState extends State<EditDomainModal> {
                   ),
                   const SizedBox(width: 14),
                   TextButton(
-                    onPressed: allDataValid == true
+                    onPressed: allDataValid
                         ? () {
                             if (widget.keyItem == 'comment') {
                               widget.onConfirm(
@@ -173,7 +173,7 @@ class _EditDomainModalState extends State<EditDomainModal> {
                         : null,
                     style: ButtonStyle(
                       foregroundColor: WidgetStateProperty.all(
-                        allDataValid == true ? null : Colors.grey,
+                        allDataValid ? null : Colors.grey,
                       ),
                     ),
                     child: Text(AppLocalizations.of(context)!.edit),
@@ -186,7 +186,7 @@ class _EditDomainModalState extends State<EditDomainModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600, maxHeight: 480),

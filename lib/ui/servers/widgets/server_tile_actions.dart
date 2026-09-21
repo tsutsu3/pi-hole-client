@@ -62,11 +62,11 @@ class ServerTileActions extends StatelessWidget {
                 itemBuilder: (context) => [
                   _buildMenuItem(
                     icon: Icons.star,
-                    text: server.defaultServer == true
+                    text: server.defaultServer
                         ? loc.defaultConnection
                         : loc.setDefault,
-                    enabled: server.defaultServer == false,
-                    onTap: server.defaultServer == false ? onSetDefault : null,
+                    enabled: !server.defaultServer,
+                    onTap: !server.defaultServer ? onSetDefault : null,
                   ),
                   _buildMenuItem(
                     icon: Icons.edit,

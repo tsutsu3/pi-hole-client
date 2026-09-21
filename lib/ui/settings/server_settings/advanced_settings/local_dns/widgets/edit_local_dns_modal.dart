@@ -210,7 +210,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                   ),
                   const SizedBox(width: 14),
                   TextButton(
-                    onPressed: allDataValid == true
+                    onPressed: allDataValid
                         ? () {
                             if (widget.keyItem == 'name') {
                               widget.onConfirm(
@@ -235,7 +235,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                         : null,
                     style: ButtonStyle(
                       foregroundColor: WidgetStateProperty.all(
-                        allDataValid == true ? null : Colors.grey,
+                        allDataValid ? null : Colors.grey,
                       ),
                     ),
                     child: Text(locale.edit),
@@ -248,7 +248,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600, maxHeight: 480),

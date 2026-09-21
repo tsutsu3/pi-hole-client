@@ -136,7 +136,7 @@ Future<PackageInfo> loadAppInfo() async {
 }
 
 Future<void> initializeSentry(AppConfigViewModel configProvider) async {
-  if (configProvider.sendCrashReports == false) {
+  if (!configProvider.sendCrashReports) {
     logger.d('Send Crash Reports: OFF');
     await Sentry.close();
 

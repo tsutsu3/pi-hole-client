@@ -234,7 +234,7 @@ class AppConfigViewModel with ChangeNotifier {
   Future<bool> setUseBiometrics(bool biometrics) async {
     final updated = await _repository.updateUseBiometricAuth(biometrics);
     if (updated.isSuccess()) {
-      _useBiometrics = biometrics == true ? 1 : 0;
+      _useBiometrics = biometrics ? 1 : 0;
       notifyListeners();
 
       return true;
@@ -250,7 +250,7 @@ class AppConfigViewModel with ChangeNotifier {
   Future<bool> setImportantInfoReaden(bool status) async {
     final updated = await _repository.updateImportantInfoReaden(status);
     if (updated.isSuccess()) {
-      _importantInfoReaden = status == true ? 1 : 0;
+      _importantInfoReaden = status ? 1 : 0;
       notifyListeners();
 
       return true;
@@ -316,7 +316,7 @@ class AppConfigViewModel with ChangeNotifier {
   Future<bool> setSendCrashReports(bool status) async {
     final updated = await _repository.updateSendCrashReports(status);
     if (updated.isSuccess()) {
-      _sendCrashReports = status == true ? 1 : 0;
+      _sendCrashReports = status ? 1 : 0;
       notifyListeners();
 
       return true;
@@ -389,7 +389,7 @@ class AppConfigViewModel with ChangeNotifier {
   Future<bool> setReducedDataCharts(bool status) async {
     final updated = await _repository.updateReducedDataCharts(status);
     if (updated.isSuccess()) {
-      _reducedDataCharts = status == true ? 1 : 0;
+      _reducedDataCharts = status ? 1 : 0;
       notifyListeners();
 
       return true;
@@ -401,7 +401,7 @@ class AppConfigViewModel with ChangeNotifier {
   Future<bool> setHideZeroValues(bool status) async {
     final updated = await _repository.updateHideZeroValues(status);
     if (updated.isSuccess()) {
-      _hideZeroValues = status == true ? 1 : 0;
+      _hideZeroValues = status ? 1 : 0;
       notifyListeners();
 
       return true;

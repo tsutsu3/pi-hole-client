@@ -28,7 +28,7 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
         final result = await appConfigViewModel.setPassCode(_repeatedCode);
         if (!context.mounted) return;
 
-        if (result == true) {
+        if (result) {
           await Navigator.maybePop(context);
         } else {
           showErrorSnackBar(

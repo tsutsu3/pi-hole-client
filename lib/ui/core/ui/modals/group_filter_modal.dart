@@ -109,7 +109,7 @@ class _GroupFilterModalState extends State<GroupFilterModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 400, maxHeight: 500),

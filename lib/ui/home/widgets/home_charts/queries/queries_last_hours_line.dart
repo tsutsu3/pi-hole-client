@@ -47,7 +47,7 @@ class QueriesLastHoursLine extends StatelessWidget {
 
     var xPosition = 0;
     var topPoint = 0;
-    final interval = reducedData == true ? averageIntervalCount : 1;
+    final interval = reducedData ? averageIntervalCount : 1;
 
     final domainsOverTime = data.domainsOverTime;
     final adsOverTime = data.adsOverTime;

@@ -144,10 +144,10 @@ class QueriesLastHoursBar extends StatelessWidget {
       var topPoint = 0;
       final domainsOverTime = data.domainsOverTime;
       final adsOverTime = data.adsOverTime;
-      final interval = reducedData == true ? averageIntervalCount : 1;
+      final interval = reducedData ? averageIntervalCount : 1;
       final barWidth =
           chartWidth /
-          (reducedData == true
+          (reducedData
               ? domainsOverTime.length / averageIntervalCount
               : domainsOverTime.length) *
           0.8;
