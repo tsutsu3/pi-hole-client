@@ -22,6 +22,7 @@ extension ClientsMapper on s.Clients {
     if (clients.length != 1) {
       throw Exception('Expected exactly one client, but got ${clients.length}');
     }
+
     return toDomain().first;
   }
 }

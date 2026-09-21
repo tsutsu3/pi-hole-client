@@ -28,6 +28,7 @@ class AdlistRepositoryV6 extends BaseV6SidRepository
       action: () async {
         final sid = await getSid();
         final result = await _client.getLists(sid, adlist: adlist, type: type);
+
         return result.map((e) => e.toDomain());
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -53,6 +54,7 @@ class AdlistRepositoryV6 extends BaseV6SidRepository
           comment: comment,
           enabled: enabled,
         );
+
         return mapDuplicateFailure(result).flatMap(
           (e) => checkProcessedErrors(
             e.processed?.errors.map((x) => x.error),
@@ -83,6 +85,7 @@ class AdlistRepositoryV6 extends BaseV6SidRepository
           comment: comment,
           enabled: enabled,
         );
+
         return mapDuplicateFailure(result).flatMap(
           (e) => checkProcessedErrors(
             e.processed?.errors.map((x) => x.error),
@@ -104,6 +107,7 @@ class AdlistRepositoryV6 extends BaseV6SidRepository
           adlist: address,
           type: type,
         );
+
         return result.map((_) => unit);
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -125,6 +129,7 @@ class AdlistRepositoryV6 extends BaseV6SidRepository
           partial: partial,
           limit: limit,
         );
+
         return result.map((e) => e.toDomain());
       },
       onRetry: (_, e) => renewSidIfExpired(e),

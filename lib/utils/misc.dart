@@ -6,8 +6,10 @@ import 'package:pi_hole_client/utils/logger.dart';
 int getAndroidVersion() {
   if (Platform.isAndroid) {
     final version = Platform.version.split('.').first;
+
     return int.tryParse(version) ?? -1;
   }
+
   return -1;
 }
 
@@ -70,6 +72,7 @@ HttpClient createHttpClient({
           port: port,
         );
   }
+
   return client;
 }
 
@@ -83,6 +86,7 @@ bool _isCertificatePinned({
     logger.w(
       'TLS validation failed for $host:$port; allowing untrusted certificate because no pin is set (legacy allowUntrustedCert behavior).',
     );
+
     // Backward compatible behavior: allow untrusted certificates when explicitly enabled.
     // Prefer certificate pinning to avoid accepting arbitrary self-signed certificates.
     return true;
@@ -95,5 +99,6 @@ bool _isCertificatePinned({
   logger.i(
     'TLS validation failed for $host:$port; using certificate pin check (matched=$matched).',
   );
+
   return matched;
 }

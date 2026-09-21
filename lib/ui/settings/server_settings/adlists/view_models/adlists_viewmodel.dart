@@ -68,6 +68,7 @@ class AdlistsViewModel extends ChangeNotifier {
   LoadStatus get loadingStatus {
     if (loadAdlists.isRunning.value) return LoadStatus.loading;
     if (loadAdlists.errors.value != null) return LoadStatus.error;
+
     return LoadStatus.loaded;
   }
 
@@ -202,6 +203,7 @@ class AdlistsViewModel extends ChangeNotifier {
           term.isEmpty || adlist.address.toLowerCase().contains(term);
       final matchesGroup =
           _groupFilter == null || adlist.groups.contains(_groupFilter);
+
       return matchesSearch && matchesGroup;
     }).toList();
 
@@ -210,6 +212,7 @@ class AdlistsViewModel extends ChangeNotifier {
           term.isEmpty || adlist.address.toLowerCase().contains(term);
       final matchesGroup =
           _groupFilter == null || adlist.groups.contains(_groupFilter);
+
       return matchesSearch && matchesGroup;
     }).toList();
   }

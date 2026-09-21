@@ -17,6 +17,7 @@ extension ConfigMapper on s.Config {
 extension ConfigDataMapper on d.Config {
   s.ConfigData toData() {
     final queryLogging = dns?.queryLogging;
+
     return s.ConfigData(
       dns: queryLogging != null ? s.Dns(queryLogging: queryLogging) : null,
     );

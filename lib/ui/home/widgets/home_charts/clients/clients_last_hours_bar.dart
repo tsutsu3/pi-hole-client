@@ -31,6 +31,7 @@ class ClientsLastHoursBar extends StatelessWidget {
       if (data['clientsColors'][i]['name'].length > 14) {
         return '\n${data['clientsColors'][i]['name'].substring(0, 14)}...: ${(barChartRodData.rodStackItems[i].toY - barChartRodData.rodStackItems[i].fromY).toInt()}';
       }
+
       return '\n${data['clientsColors'][i]['name']}: ${(barChartRodData.rodStackItems[i].toY - barChartRodData.rodStackItems[i].fromY).toInt()}';
     } else {
       return '\n${data['clientsColors'][i]['ip']}: ${(barChartRodData.rodStackItems[i].toY - barChartRodData.rodStackItems[i].fromY).toInt()}';
@@ -39,6 +40,7 @@ class ClientsLastHoursBar extends StatelessWidget {
 
   BarChartData mainData(Map<String, dynamic> data, ThemeMode selectedTheme) {
     final interval = calcInterval(data['topPoint']);
+
     return BarChartData(
       gridData: FlGridData(
         drawVerticalLine: false,

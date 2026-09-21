@@ -33,6 +33,7 @@ class DomainResultsList extends StatelessWidget {
             onTap: () => onTap(domain),
           );
         }
+
         return DomainTile(
           domain: domain,
           colors: colors!,

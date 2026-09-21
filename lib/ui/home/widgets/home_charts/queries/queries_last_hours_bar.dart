@@ -26,6 +26,7 @@ class QueriesLastHoursBar extends StatelessWidget {
     BuildContext context,
   ) {
     final interval = calcInterval(data['topPoint']);
+
     return BarChartData(
       gridData: FlGridData(
         drawVerticalLine: false,

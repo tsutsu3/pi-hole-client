@@ -228,6 +228,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
         );
       }
     }
+
     return success;
   }
 
@@ -249,6 +250,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
         appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.adlistNotFoundForMessage,
       );
+
       return;
     }
 

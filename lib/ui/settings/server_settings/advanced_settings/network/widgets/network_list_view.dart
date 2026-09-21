@@ -46,6 +46,7 @@ class NetworkListView extends StatelessWidget {
       itemCount: devices.length,
       itemBuilder: (context, index) {
         final device = devices[index];
+
         return ListTile(
           leading: _buildStatusIcon(context, device.lastQuery),
           title: _buildDeviceTitle(context, device),
@@ -119,6 +120,7 @@ class NetworkListView extends StatelessWidget {
     final ipLines = device.ips
         .map((ip) {
           final namePart = ip.name != null ? ' (${ip.name})' : '';
+
           return '${ip.ip}$namePart';
         })
         .join('\n');

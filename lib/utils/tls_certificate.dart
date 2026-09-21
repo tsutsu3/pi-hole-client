@@ -58,6 +58,7 @@ Future<TlsCertificateInfo?> fetchTlsCertificateInfo(
     );
     final certificate = socket.peerCertificate;
     if (certificate == null) return null;
+
     return TlsCertificateInfo(
       sha256: sha256.convert(certificate.der).toString(),
       subject: certificate.subject,

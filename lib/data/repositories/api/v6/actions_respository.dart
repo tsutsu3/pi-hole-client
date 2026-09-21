@@ -33,6 +33,7 @@ class ActionsRepositoryV6 extends BaseV6SidRepository
           logger.w('flush/network not found, falling back to flush/arp');
           // ignore: deprecated_member_use_from_same_package
           final arpResult = await _client.postActionFlushArp(sid);
+
           return arpResult.map((_) => unit);
         }
 
@@ -48,6 +49,7 @@ class ActionsRepositoryV6 extends BaseV6SidRepository
       action: () async {
         final sid = await getSid();
         final result = await _client.postActionFlushLogs(sid);
+
         return result.map((_) => unit);
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -59,6 +61,7 @@ class ActionsRepositoryV6 extends BaseV6SidRepository
     final stream = await runWithRetry<Stream<Result<List<String>>>>(
       action: () async {
         final sid = await getSid();
+
         return Future.value(_client.postActionGravity(sid));
       },
       maxRetries: 1,
@@ -75,6 +78,7 @@ class ActionsRepositoryV6 extends BaseV6SidRepository
       action: () async {
         final sid = await getSid();
         final result = await _client.postActionRestartDns(sid);
+
         return result.map((_) => unit);
       },
       onRetry: (_, e) => renewSidIfExpired(e),

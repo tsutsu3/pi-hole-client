@@ -196,6 +196,7 @@ class DnsTabContent extends StatelessWidget {
     }
     final total = map.values.fold(0.0, (a, b) => a + b);
     map['empty'] = (100.0 - total).clamp(0.0, 100.0);
+
     return map;
   }
 

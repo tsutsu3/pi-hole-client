@@ -91,6 +91,7 @@ class LogsContentView extends StatelessWidget {
                             );
                           }
                           final log = logs[index];
+
                           return LogTile(
                             log: logs[index],
                             showLogDetails: onLogTap,

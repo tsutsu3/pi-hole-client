@@ -124,6 +124,7 @@ class _TransportSecurityIndicatorState
         allowBadCertificates: false,
         timeout: timeout,
       );
+
       return true;
     } on HandshakeException {
       return false;
@@ -186,6 +187,7 @@ class _TransportSecurityIndicatorState
   }) {
     String normalize(String value) =>
         value.replaceAll(':', '').toLowerCase().trim();
+
     return normalize(pinnedSha256) == normalize(certificateSha256);
   }
 

@@ -171,6 +171,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
         .where((name) => name != null && name.isNotEmpty)
         .cast<String>()
         .toList();
+
     return names.isEmpty ? ['-'] : names;
   }
 
@@ -186,6 +187,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
         return entry.key;
       }
     }
+
     return null;
   }
 
@@ -201,6 +203,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
         return widget.ipToMac[entry.key];
       }
     }
+
     return null;
   }
 
@@ -217,6 +220,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
         return widget.ipToHostname[ip] ?? '-';
       }
     }
+
     return _client.client;
   }
 
@@ -226,6 +230,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
 
   bool _isMacAddress(String value) {
     final macRegex = RegExp(r'^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$');
+
     return macRegex.hasMatch(value);
   }
 

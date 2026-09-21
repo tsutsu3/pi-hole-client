@@ -71,6 +71,7 @@ class LogsPaginationService {
   Future<List<Log>> loadNextPage() async {
     if (_finished == LoadStatus.loaded) {
       logger.d('No more logs to load, pagination is finished. Please reset.');
+
       return [];
     }
 
@@ -100,6 +101,7 @@ class LogsPaginationService {
         if (retryCount > maxRetries) {
           _finished = LoadStatus.error;
           logger.e('Failed to fetch logs after $maxRetries retries.');
+
           return [];
         }
         continue;
@@ -108,6 +110,7 @@ class LogsPaginationService {
       // V5 returns all logs at once (no cursor), so mark as finished.
       if (logs.cursor == null) {
         _finished = LoadStatus.loaded;
+
         return logs.logs;
       }
 
@@ -117,6 +120,7 @@ class LogsPaginationService {
       if (logs.recordsFiltered == 0 || logs.logs.isEmpty) {
         _finished = LoadStatus.loaded;
         logger.d('No logs found in the specified time range.');
+
         return [];
       }
 
@@ -142,6 +146,7 @@ class LogsPaginationService {
 
     logger.e('Failed to load logs after $maxRetries retries.');
     _finished = LoadStatus.error;
+
     return [];
   }
 }

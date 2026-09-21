@@ -421,6 +421,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       if (info != null) {
         return info.sha256;
       }
+
       return '';
     } on HandshakeException {
       // Untrusted certificate (likely self-signed). Retrieve fingerprint for user verification.
@@ -452,6 +453,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.serverCertificateHandshakeFailed,
       );
+
       return null;
     }
 
@@ -514,8 +516,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       if (!mounted) return null;
       if (pin == null) {
         onValidationFailed?.call();
+
         return null;
       }
+
       return serverObj.copyWith(
         pinnedCertificateSha256: pin.isEmpty ? null : pin,
       );
@@ -523,6 +527,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       // Strict mode: verify certificate is trusted by the platform
       try {
         await widget.fetchTlsCertificate(uri, allowBadCertificates: false);
+
         // Certificate is trusted, proceed without pin
         // ignore: avoid_redundant_argument_values
         return serverObj.copyWith(pinnedCertificateSha256: null);
@@ -536,6 +541,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context)!.sslErrorLong,
         );
+
         return null;
       } catch (e) {
         // Other network errors - let connection test handle them
@@ -816,6 +822,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   Widget formItems() {
     final appColors = Theme.of(context).extension<AppColors>()!;
+
     return ListView(
       children: [
         Padding(

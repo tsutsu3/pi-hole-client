@@ -71,6 +71,7 @@ class GravityUpdateService {
 
               final entries = data.asMap().entries.map((entry) {
                 final index = baseIndex + entry.key;
+
                 return (
                   line: index,
                   message: entry.value,
@@ -147,6 +148,7 @@ class GravityUpdateService {
     if (respDeleteMsg.isError()) {
       return false;
     }
+
     return true;
   }
 
@@ -154,6 +156,7 @@ class GravityUpdateService {
   /// database for the given server [address].
   Future<GravitySnapshot> loadGravityData(String address) async {
     final data = await _repository.fetchGravityData(address);
+
     return data.getOrElse(
       (_) => const GravitySnapshot(
         status: GravityStatus.idle,

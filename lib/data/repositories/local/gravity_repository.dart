@@ -52,6 +52,7 @@ class LocalGravityRepository implements GravityRepository {
       );
     } catch (e, st) {
       logger.e('Failed to get gravity update: $e\n$st');
+
       return Failure(Exception('Failed to get gravity update: $e\n$st'));
     }
   }
@@ -81,6 +82,7 @@ class LocalGravityRepository implements GravityRepository {
       }, conflictAlgorithm: ConflictAlgorithm.replace);
     } catch (e, st) {
       logger.e('Failed to upsert gravity update: $e\n$st');
+
       return Failure(Exception('Failed to upsert gravity update: $e\n$st'));
     }
   }
@@ -103,6 +105,7 @@ class LocalGravityRepository implements GravityRepository {
       );
     } catch (e, st) {
       logger.e('Failed to remove gravity update: $e\n$st');
+
       return Failure(Exception('Failed to remove gravity update: $e\n$st'));
     }
   }
@@ -132,6 +135,7 @@ class LocalGravityRepository implements GravityRepository {
       return const Success([]);
     } catch (e, st) {
       logger.e('Failed to get gravity logs: $e\n$st');
+
       return Failure(Exception('Failed to get gravity logs: $e\n$st'));
     }
   }
@@ -163,10 +167,12 @@ class LocalGravityRepository implements GravityRepository {
           });
           total += count;
         }
+
         return total;
       });
     } catch (e, st) {
       logger.e('Failed to insert gravity logs: $e\n$st');
+
       return Failure(Exception('Failed to insert gravity logs: $e\n$st'));
     }
   }
@@ -190,6 +196,7 @@ class LocalGravityRepository implements GravityRepository {
       );
     } catch (e, st) {
       logger.e('Failed to delete gravity logs: $e\n$st');
+
       return Failure(Exception('Failed to delete gravity logs: $e\n$st'));
     }
   }
@@ -218,9 +225,11 @@ class LocalGravityRepository implements GravityRepository {
           rows.getOrThrow().map(GravityMessageData.fromMap).toList(),
         );
       }
+
       return const Success([]);
     } catch (e, st) {
       logger.e('Failed to get gravity messages: $e\n$st');
+
       return Failure(Exception('Failed to get gravity messages: $e\n$st'));
     }
   }
@@ -252,10 +261,12 @@ class LocalGravityRepository implements GravityRepository {
           });
           total += count;
         }
+
         return total;
       });
     } catch (e, st) {
       logger.e('Failed to insert gravity messages: $e\n$st');
+
       return Failure(Exception('Failed to insert gravity messages: $e\n$st'));
     }
   }
@@ -279,6 +290,7 @@ class LocalGravityRepository implements GravityRepository {
       );
     } catch (e, st) {
       logger.e('Failed to delete gravity messages: $e\n$st');
+
       return Failure(Exception('Failed to delete gravity messages: $e\n$st'));
     }
   }
@@ -302,6 +314,7 @@ class LocalGravityRepository implements GravityRepository {
       );
     } catch (e, st) {
       logger.e('Failed to delete gravity message: $e\n$st');
+
       return Failure(Exception('Failed to delete gravity message: $e\n$st'));
     }
   }
@@ -353,6 +366,7 @@ class LocalGravityRepository implements GravityRepository {
       );
     } catch (e, st) {
       logger.e('Failed to get gravity data: $e\n$st');
+
       return Failure(Exception('Failed to get gravity data: $e\n$st'));
     }
   }
@@ -385,10 +399,12 @@ class LocalGravityRepository implements GravityRepository {
           where: 'address = ?',
           whereArgs: [address],
         );
+
         return count1 + count2 + count3;
       });
     } catch (e, st) {
       logger.e('Failed to delete gravity data: $e\n$st');
+
       return Failure(Exception('Failed to delete gravity data: $e\n$st'));
     }
   }
@@ -409,6 +425,7 @@ class LocalGravityRepository implements GravityRepository {
         final count1 = await txn.delete('gravity_updates');
         final count2 = await txn.delete('gravity_logs');
         final count23 = await txn.delete('gravity_messages');
+
         return count1 + count2 + count23;
       });
     } catch (e) {

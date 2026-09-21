@@ -31,6 +31,7 @@ class MapOrEmptyListConverter extends JsonConverter<Map<String, int>, dynamic> {
     if (object.isEmpty) {
       return [];
     }
+
     return object;
   }
 }
@@ -55,6 +56,7 @@ class MapDoubleOrEmptyListConverter
     if (object.isEmpty) {
       return [];
     }
+
     return object;
   }
 }
@@ -69,8 +71,10 @@ class MapListOrEmptyListConverter
       return json.map((k, v) {
         if (v is List) {
           final list = v.whereType<int>().map((e) => e).toList();
+
           return MapEntry(k, list);
         }
+
         return MapEntry(k, <int>[]);
       });
     } else if (json is List) {

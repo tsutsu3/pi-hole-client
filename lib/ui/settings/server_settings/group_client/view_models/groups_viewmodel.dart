@@ -59,6 +59,7 @@ class GroupsViewModel extends ChangeNotifier {
   LoadStatus get loadingStatus {
     if (loadGroups.isRunning.value) return LoadStatus.loading;
     if (loadGroups.errors.value != null) return LoadStatus.error;
+
     return LoadStatus.loaded;
   }
 
@@ -141,6 +142,7 @@ class GroupsViewModel extends ChangeNotifier {
     final term = _searchTerm.toLowerCase();
     _filteredGroups = _groups.where((group) {
       if (term.isEmpty) return true;
+
       return group.name.toLowerCase().contains(term) ||
           (group.comment ?? '').toLowerCase().contains(term);
     }).toList();

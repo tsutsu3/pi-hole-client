@@ -136,5 +136,6 @@ bool isReauthRequired(Object? error) {
   if (error is HttpStatusCodeException && error.statusCode == 401) return true;
   if (error is SidNotFoundException) return true;
   if (error is TotpRequiredException) return true;
+
   return false;
 }

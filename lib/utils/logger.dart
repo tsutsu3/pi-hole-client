@@ -48,6 +48,7 @@ class TimeStampedPrinter extends LogPrinter {
     final timestamp = DateFormat(
       kUnifiedDateTimeLogFormat,
     ).format(DateTime.now());
+
     return _prettyPrinter
         .log(event)
         .map((line) => '[$timestamp] $line')

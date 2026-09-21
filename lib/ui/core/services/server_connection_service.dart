@@ -103,6 +103,7 @@ class ServerConnectionService {
       final serverForLogin = await _ensurePinnedFingerprintIfNeeded(server);
       if (serverForLogin == null) {
         _abortConnection(previouslySelectedServer);
+
         return;
       }
 
@@ -121,6 +122,7 @@ class ServerConnectionService {
           '-> ${server.address}(${server.alias}) '
           '-> ${serversViewModel.selectedServer?.address}(${serversViewModel.selectedServer?.alias})',
         );
+
         return;
       }
 
@@ -130,6 +132,7 @@ class ServerConnectionService {
         final error = result?.exceptionOrNull();
         if (error is TotpCancelledException) {
           _onTotpCancelled(previouslySelectedServer);
+
           return;
         }
         logger.d(
@@ -138,6 +141,7 @@ class ServerConnectionService {
           '<- ${server.address}(${server.alias})',
         );
         await _onFailure(previouslySelectedServer, error, previousStatus);
+
         return;
       }
 
@@ -211,6 +215,7 @@ class ServerConnectionService {
           );
           if (preCheck.isSuccess()) {
             process?.close();
+
             return preCheck;
           }
           // Only re-authenticate on auth errors (401/SidNotFoundException).
@@ -219,6 +224,7 @@ class ServerConnectionService {
           final preCheckErr = preCheck.exceptionOrNull();
           if (!isReauthRequired(preCheckErr)) {
             process?.close();
+
             return Failure(
               preCheckErr ?? Exception('connection pre-check failed'),
             );
@@ -228,11 +234,13 @@ class ServerConnectionService {
           final login = await _createSessionWithTotp(bundle, password, process);
           if (login.cancelled) {
             process?.close();
+
             return Failure(TotpCancelledException());
           }
 
           if (login.error != null) {
             process?.close();
+
             return Failure(login.error!);
           }
           sessionJustCreated = true;
@@ -245,6 +253,7 @@ class ServerConnectionService {
       skipRenewal: sessionJustCreated,
     );
     process?.close();
+
     return result;
   }
 
@@ -277,9 +286,11 @@ class ServerConnectionService {
         if (code != null && context.mounted) {
           process?.open(AppLocalizations.of(context)!.connecting);
         }
+
         return code;
       },
     );
+
     return (
       cancelled: outcome.cancelled,
       error: outcome.result.exceptionOrNull(),
@@ -333,6 +344,7 @@ class ServerConnectionService {
         allowBadCertificates: false,
         timeout: const Duration(seconds: 3),
       );
+
       return server;
     } on HandshakeException {
       // Untrusted certificate + allowUntrustedCert enabled + no pin:
@@ -343,6 +355,7 @@ class ServerConnectionService {
     }
 
     if (!context.mounted) return null;
+
     return _openUpdatePinnedFingerprint(context, server);
   }
 
@@ -360,6 +373,7 @@ class ServerConnectionService {
 
     if (fallback == null) {
       statusViewModel.setServerStatus(LoadStatus.error);
+
       return;
     }
     serversViewModel.setselectedServer(server: fallback);
@@ -512,12 +526,14 @@ class ServerConnectionService {
             showModal: showModal,
             fetchTlsCertificate: fetchTlsCertificate,
           ).connect();
+
           return true;
         }
       } else {
         _openEditServer(targetContext, server);
       }
     }
+
     return false;
   }
 
@@ -527,6 +543,7 @@ class ServerConnectionService {
   /// the pin was updated and a reconnect was attempted.
   Future<bool> showCertificateErrorRecovery(Exception error) async {
     if (!_isSslError(error) || !context.mounted) return false;
+
     return _promptCertificateRecovery(context);
   }
 
@@ -562,6 +579,7 @@ class ServerConnectionService {
         appConfigViewModel: appConfigViewModel,
         label: loc.serverCertificateFetchFailed,
       );
+
       return null;
     }
 
@@ -602,6 +620,7 @@ class ServerConnectionService {
         appConfigViewModel: appConfigViewModel,
         label: loc.editServerSuccessfully,
       );
+
       return updated;
     } else {
       showErrorSnackBar(
@@ -609,6 +628,7 @@ class ServerConnectionService {
         appConfigViewModel: appConfigViewModel,
         label: loc.cantSaveConnectionData,
       );
+
       return null;
     }
   }
@@ -669,6 +689,7 @@ class ServerConnectionService {
 
       String normalize(String value) =>
           value.replaceAll(':', '').toLowerCase().trim();
+
       return normalize(info.sha256) != normalize(pin);
     } catch (_) {
       return false;

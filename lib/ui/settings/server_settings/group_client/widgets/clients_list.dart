@@ -172,6 +172,7 @@ class _ClientsListState extends State<ClientsList> {
           itemsCount: clients.length,
           contentWidget: (index) {
             final thisClient = clients[index];
+
             return Padding(
               padding:
                   index == 0 &&

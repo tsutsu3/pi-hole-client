@@ -70,6 +70,7 @@ class SettingsScreen extends StatelessWidget {
         orElse: () =>
             languageOptions.firstWhere((option) => option.key == 'en'),
       );
+
       return selectedLanguageOption.displayName;
     }
 

@@ -22,6 +22,7 @@ class ClientRepositoryV6 extends BaseV6SidRepository
       action: () async {
         final sid = await getSid();
         final result = await _client.getClients(sid);
+
         return result.map((e) => e.toDomain());
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -43,6 +44,7 @@ class ClientRepositoryV6 extends BaseV6SidRepository
           comment: comment,
           groups: groups,
         );
+
         return mapDuplicateFailure(result).flatMap(
           (e) => checkProcessedErrors(
             e.processed?.errors.map((x) => x.error),
@@ -69,6 +71,7 @@ class ClientRepositoryV6 extends BaseV6SidRepository
           comment: comment,
           groups: groups,
         );
+
         return mapDuplicateFailure(result).flatMap(
           (e) => checkProcessedErrors(
             e.processed?.errors.map((x) => x.error),
@@ -85,6 +88,7 @@ class ClientRepositoryV6 extends BaseV6SidRepository
     return runWithResultRetry<Unit>(
       action: () async {
         final sid = await getSid();
+
         return _client.deleteClients(sid, client: client);
       },
       onRetry: (_, e) => renewSidIfExpired(e),

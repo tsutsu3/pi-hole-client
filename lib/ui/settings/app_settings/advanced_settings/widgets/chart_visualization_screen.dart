@@ -14,6 +14,7 @@ class ChartVisualizationScreen extends StatelessWidget {
 
     Widget homeItem(String title, IconData icon, HomeVisualizationMode value) {
       final isSelected = value == appConfigViewModel.homeVisualizationMode;
+
       return _ChartModeItem(
         title: title,
         icon: icon,
@@ -29,6 +30,7 @@ class ChartVisualizationScreen extends StatelessWidget {
     ) {
       final isSelected =
           value == appConfigViewModel.statisticsVisualizationMode;
+
       return _ChartModeItem(
         title: title,
         icon: icon,
@@ -109,6 +111,7 @@ class _ChartModeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const radius = 16.0;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Material(

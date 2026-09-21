@@ -205,6 +205,7 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
       final name = widget.groups[group];
       if (name != null) groupNames.add(name);
     }
+
     return groupNames;
   }
 

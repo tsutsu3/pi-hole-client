@@ -189,6 +189,7 @@ class _DomainsListState extends State<DomainsList> {
           itemsCount: domainsList.length,
           contentWidget: (index) {
             final thisDomain = domainsList[index];
+
             return Padding(
               padding:
                   index == 0 &&

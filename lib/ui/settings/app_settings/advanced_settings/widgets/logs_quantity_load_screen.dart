@@ -61,6 +61,7 @@ class LogsQuantityLoadScreen extends StatelessWidget {
 
   Widget _buildWarningCard(BuildContext context, AppLocalizations loc) {
     final appColors = Theme.of(context).extension<AppColors>()!;
+
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 20, left: 20, right: 20),
       child: Container(

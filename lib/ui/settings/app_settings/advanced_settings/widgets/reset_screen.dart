@@ -50,6 +50,7 @@ class _ResetScreenState extends State<ResetScreen> {
           final contentWidth = constraints.maxWidth > ResponsiveConstants.medium
               ? ResponsiveConstants.medium
               : constraints.maxWidth * 0.8;
+
           return Center(
             child: SingleChildScrollView(
               child: ConstrainedBox(

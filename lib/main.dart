@@ -66,6 +66,7 @@ Future<void> initializeBiometrics(
       logger.w('Biometrics not supported on this device.');
       configProvider.setBiometricsSupport(false);
       await configProvider.setUseBiometrics(false);
+
       return;
     }
 
@@ -75,6 +76,7 @@ Future<void> initializeBiometrics(
     if (!canAuth) {
       logger.w('Biometrics hardware present but cannot authenticate.');
       await configProvider.setUseBiometrics(false);
+
       return;
     }
 
@@ -137,6 +139,7 @@ Future<void> initializeSentry(AppConfigViewModel configProvider) async {
   if (configProvider.sendCrashReports == false) {
     logger.d('Send Crash Reports: OFF');
     await Sentry.close();
+
     return;
   }
 

@@ -31,6 +31,7 @@ class ThemeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.theme)),
       body: RadioGroup<AppThemeMode>(

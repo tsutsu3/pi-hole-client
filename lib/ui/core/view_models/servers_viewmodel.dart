@@ -94,6 +94,7 @@ class ServersViewModel with ChangeNotifier {
     final isHttps = address.startsWith('https://');
     if (!isHttps) return false;
     if (server.ignoreCertificateErrors) return true;
+
     return server.allowUntrustedCert &&
         (server.pinnedCertificateSha256 == null ||
             server.pinnedCertificateSha256!.isEmpty);
@@ -177,6 +178,7 @@ class ServersViewModel with ChangeNotifier {
     if (type == null) return null;
     final isV6 = _selectedServer?.apiVersion == SupportedApiVersions.v6;
     final statuses = isV6 ? _queryStatusesV6 : _queryStatusesV5;
+
     return statuses.firstWhereOrNull((s) {
       final mapped = isV6
           ? convertQueryStatusTypeV6(s.key)
@@ -227,6 +229,7 @@ class ServersViewModel with ChangeNotifier {
     }
     _serversList = _serversList.map((s) {
       if (s.address == server.address) return server;
+
       return s;
     }).toList();
 
@@ -342,6 +345,7 @@ class ServersViewModel with ChangeNotifier {
 
   FutureOr<Map<String, dynamic>> checkUrlExists(String url) async {
     final result = await _repository.doesServerExist(url);
+
     return result.fold(
       (success) {
         if (success) {
@@ -382,13 +386,16 @@ class ServersViewModel with ChangeNotifier {
         _sessionCacheStore?.clear();
         _totpReauthDeclined.clear();
         notifyListeners();
+
         return true;
       } else {
         logger.d('Failed to delete server data');
+
         return false;
       }
     } catch (e) {
       logger.d('Transaction failed: $e');
+
       return false;
     }
   }
@@ -397,6 +404,7 @@ class ServersViewModel with ChangeNotifier {
     _selectedServer = null;
     _selectedServerEnabled = null;
     notifyListeners();
+
     return true;
   }
 
@@ -422,6 +430,7 @@ class ServersViewModel with ChangeNotifier {
   Future<Result<void>> deleteSid(String address) async {
     final result = await _repository.deleteSid(address);
     _sessionCacheStore?.remove(address);
+
     return result;
   }
 

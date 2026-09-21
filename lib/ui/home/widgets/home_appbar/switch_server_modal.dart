@@ -23,6 +23,7 @@ class SwitchServerModal extends StatelessWidget {
         size: 16,
       );
     }
+
     return null;
   }
 

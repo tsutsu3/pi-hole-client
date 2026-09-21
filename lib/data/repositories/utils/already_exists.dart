@@ -9,6 +9,7 @@ import 'package:result_dart/result_dart.dart';
 /// - v5, "... is already on the list": domains
 bool isDuplicateError(String text) {
   final lower = text.toLowerCase();
+
   return lower.contains('item is already present') ||
       lower.contains('unique constraint failed') ||
       lower.contains('item already present') ||
@@ -25,6 +26,7 @@ Result<T> mapDuplicateFailure<T extends Object>(Result<T> result) {
       isDuplicateError(error.message)) {
     return Failure(AlreadyExistsException());
   }
+
   return result;
 }
 
@@ -35,5 +37,6 @@ Result<T> checkProcessedErrors<T extends Object>(
 ) {
   if (errors == null || errors.isEmpty) return Success(onSuccess());
   if (errors.any(isDuplicateError)) return Failure(AlreadyExistsException());
+
   return Failure(Exception(errors.join(', ')));
 }

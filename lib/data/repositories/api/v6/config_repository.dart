@@ -24,6 +24,7 @@ class ConfigRepositoryV6 extends BaseV6SidRepository
   @override
   Future<Result<Config>> setDnsQueryLogging(bool status) async {
     final config = Config(dns: DnsConfig(queryLogging: status));
+
     return _updateConfig(config);
   }
 
@@ -39,6 +40,7 @@ class ConfigRepositoryV6 extends BaseV6SidRepository
           element: element,
           isDetailed: isDetailed,
         );
+
         return result.map((e) => e.toDomain());
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -51,6 +53,7 @@ class ConfigRepositoryV6 extends BaseV6SidRepository
         final sid = await getSid();
         final configData = config.toData();
         final result = await _client.patchConfig(sid, body: configData);
+
         return result.map((e) => e.toDomain());
       },
       onRetry: (_, e) => renewSidIfExpired(e),

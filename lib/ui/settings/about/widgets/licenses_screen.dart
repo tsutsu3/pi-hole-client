@@ -20,6 +20,7 @@ class LicensesScreen extends StatelessWidget {
           );
         } else if (snapshot.hasData) {
           final packageInfo = snapshot.data!;
+
           return Scaffold(
             body: LicensePage(
               applicationVersion: packageInfo.version,

@@ -49,6 +49,7 @@ class TotalQueriesChartSection extends StatelessWidget {
 
   bool _hasData(OverTime? overtimeData) {
     if (overtimeData == null) return false;
+
     return overtimeData.domainsOverTime.any((e) => e.count > 0) ||
         overtimeData.adsOverTime.any((e) => e.count > 0);
   }

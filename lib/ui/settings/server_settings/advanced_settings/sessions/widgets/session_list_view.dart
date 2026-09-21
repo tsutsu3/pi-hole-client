@@ -43,6 +43,7 @@ class SessionListView extends StatelessWidget {
       itemCount: sessions.length,
       itemBuilder: (context, index) {
         final session = sessions[index];
+
         return ListTile(
           leading: _buildStatusIcon(context, session.isValid),
           title: Column(

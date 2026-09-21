@@ -77,6 +77,7 @@ class _BarChartSkeletonState extends State<BarChartSkeleton>
 
       final ratios = List.generate(widget.nums, (j) {
         final layerPhase = j * pi / 3;
+
         return 0.4 + 0.4 * sin(-time * 2 * pi + phase + layerPhase);
       });
 

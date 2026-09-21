@@ -196,6 +196,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
     for (final group in _domain.groups) {
       groupNames.add(widget.groups[group]!);
     }
+
     return groupNames;
   }
 

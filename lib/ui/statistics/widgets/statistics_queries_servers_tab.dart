@@ -198,6 +198,7 @@ class QueriesServersTabContent extends StatelessWidget {
   Map<String, double> _sortedDescending(Map<String, double> values) {
     final sortedKeys = values.keys.toList(growable: false)
       ..sort((a, b) => values[b]!.compareTo(values[a]!));
+
     return LinkedHashMap.fromIterable(
       sortedKeys,
       key: (k) => k,

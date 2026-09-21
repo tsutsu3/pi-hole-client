@@ -84,6 +84,7 @@ class NoLogsMessage extends StatelessWidget {
     } else {
       final value = logsPerQuery == 0.5 ? '30' : logsPerQuery.toInt();
       final unit = logsPerQuery == 0.5 ? loc.minutes : loc.hours;
+
       return '${loc.noLogsDisplay} ${loc.fromLast} $value $unit';
     }
   }

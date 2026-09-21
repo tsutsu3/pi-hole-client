@@ -45,6 +45,7 @@ List<SingleChildWidget> createProviders({
       create: (context) {
         final storage = context.read<SecureStorageService>();
         final store = context.read<V6SessionCacheStore>();
+
         return ({required Server server}) => RepositoryBundleFactory.create(
           server: server,
           storage: storage,
@@ -91,6 +92,7 @@ List<SingleChildWidget> createProviders({
                 server.pinnedCertificateSha256) {
           return previous;
         }
+
         return RepositoryBundleFactory.create(
           server: server,
           storage: storage,

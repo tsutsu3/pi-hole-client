@@ -99,6 +99,7 @@ class _NetworkScreenState extends State<NetworkScreen> {
                 onPressed: () {
                   if (context.canPop()) {
                     context.pop();
+
                     return;
                   }
                   context.goNamed(Routes.home);

@@ -202,6 +202,7 @@ class _GroupsListState extends State<GroupsList> {
           itemsCount: groups.length,
           contentWidget: (index) {
             final thisGroup = groups[index];
+
             return Padding(
               padding:
                   index == 0 &&

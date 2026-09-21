@@ -31,6 +31,7 @@ class DhcpListView extends StatelessWidget {
       itemCount: leases.length,
       itemBuilder: (context, index) {
         final lease = leases[index];
+
         return ListTile(
           leading: _buildStatusIcon(context, lease.expires),
           title: Text(

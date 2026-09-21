@@ -8,6 +8,7 @@ class LegalScreen extends StatelessWidget {
   Future<String> _loadLicensesAndNotice() async {
     try {
       final noticeText = await rootBundle.loadString('NOTICE');
+
       return noticeText;
     } catch (e, stack) {
       Error.throwWithStackTrace(

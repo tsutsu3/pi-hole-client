@@ -56,6 +56,7 @@ class AdlistsScaffold extends StatelessWidget {
             onPressed: () {
               if (context.canPop()) {
                 context.pop();
+
                 return;
               }
               context.goNamed(Routes.home);

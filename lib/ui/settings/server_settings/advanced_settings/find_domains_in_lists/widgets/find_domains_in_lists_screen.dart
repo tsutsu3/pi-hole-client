@@ -128,6 +128,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     return grouped.entries.map((item) {
       final first = item.value.first;
       final domains = item.value.map((e) => e.matchedDomain).toList();
+
       return AdlistSearchGroup(adlist: first.adlist, matchingDomains: domains);
     }).toList();
   }
@@ -146,6 +147,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
         appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.searchTermRequired,
       );
+
       return;
     }
 
@@ -155,6 +157,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
         appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context)!.invalidMaxResults,
       );
+
       return;
     }
 

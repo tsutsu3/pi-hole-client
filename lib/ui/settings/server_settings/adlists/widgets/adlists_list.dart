@@ -184,6 +184,7 @@ class _AdlistsListState extends State<AdlistsList> {
           itemsCount: adlistsList.length,
           contentWidget: (index) {
             final thisAdlist = adlistsList[index];
+
             return Padding(
               padding:
                   index == 0 &&

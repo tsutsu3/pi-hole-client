@@ -132,6 +132,7 @@ class FindDomainsInListsViewModel extends ChangeNotifier {
           m.adlist.address.trim().toLowerCase() == addr) {
         return GravityMatch(adlist: updated, matchedDomain: m.matchedDomain);
       }
+
       return m;
     }).toList();
     notifyListeners();

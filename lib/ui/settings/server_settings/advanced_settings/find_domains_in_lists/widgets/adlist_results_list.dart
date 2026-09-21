@@ -27,6 +27,7 @@ class AdlistResultsList extends StatelessWidget {
       separatorBuilder: (_, _) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
         final group = results[index];
+
         return AdlistResultCard(group: group, onTap: () => onTap(group.adlist));
       },
     );
@@ -183,6 +184,7 @@ class Tag extends StatelessWidget {
     final bgColor =
         backgroundColor ?? Theme.of(context).colorScheme.primaryContainer;
     final fgColor = foregroundColor ?? Theme.of(context).colorScheme.primary;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
@@ -218,6 +220,7 @@ class MatchingList extends StatelessWidget {
   Widget build(BuildContext context) {
     const itemHeight = 24.0;
     final visibleItems = min(10, matches.length);
+
     return SizedBox(
       height: itemHeight * visibleItems,
       child: ListView.builder(

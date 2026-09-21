@@ -125,6 +125,7 @@ class GravityUpdateViewModel with ChangeNotifier {
   Future<void> load() async {
     if (_service == null) {
       logger.d('Service is null. load() cannot be performed.');
+
       return;
     }
     if (_loaded) return;
@@ -157,6 +158,7 @@ class GravityUpdateViewModel with ChangeNotifier {
   Future<void> start() async {
     if (_service == null) {
       logger.d('Service is null. start() cannot be performed.');
+
       return;
     }
 
@@ -199,6 +201,7 @@ class GravityUpdateViewModel with ChangeNotifier {
   void reset() {
     if (_service == null) {
       logger.d('Service is null. reset() cannot be performed.');
+
       return;
     }
     _messages.clear();

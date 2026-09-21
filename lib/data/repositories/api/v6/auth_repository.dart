@@ -36,6 +36,7 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
             sid: value.sid,
           );
         }
+
         return auth;
       },
     );
@@ -48,6 +49,7 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
       action: () async {
         final sid = useSid ? await getSid() : null;
         final result = await _client.getAuth(sid);
+
         return result.map((e) => e.toDomain());
       },
       onRetry: useSid ? (_, e) => renewSidIfExpired(e) : null,
@@ -60,6 +62,7 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
       action: () async {
         final sid = await getSid();
         final result = await _client.deleteAuth(sid);
+
         return result.map((_) => unit);
       },
       // Known limitation: on a failed DELETE this renews (creates a throwaway
@@ -76,6 +79,7 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
       action: () async {
         final sid = await getSid();
         final result = await _client.getAuthSessions(sid);
+
         return result.map((e) => e.toDomain());
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -88,6 +92,7 @@ class AuthRepositoryV6 extends BaseV6SidRepository implements AuthRepository {
       action: () async {
         final sid = await getSid();
         final result = await _client.deleteAuthSession(sid, id: id);
+
         return result.map((_) => unit);
       },
       onRetry: (_, e) => renewSidIfExpired(e),

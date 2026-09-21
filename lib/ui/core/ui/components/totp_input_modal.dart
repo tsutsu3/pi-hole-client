@@ -82,6 +82,7 @@ class _TotpInputModalState extends State<_TotpInputModal> {
     final digits = clipboardData?.text?.replaceAll(RegExp(r'\D'), '') ?? '';
     if (digits.length != _codeLength) {
       _clearCode();
+
       return;
     }
 
@@ -121,6 +122,7 @@ class _TotpInputModalState extends State<_TotpInputModal> {
         _focusNodes[index - 1].requestFocus();
       }
       setState(() {});
+
       return;
     }
 
@@ -131,6 +133,7 @@ class _TotpInputModalState extends State<_TotpInputModal> {
       }
       setState(() {});
       if (_isValid) _submit();
+
       return;
     }
 
@@ -169,6 +172,7 @@ class _TotpInputModalState extends State<_TotpInputModal> {
     _focusNodes[index - 1].requestFocus();
     _setControllerText(index - 1, '');
     setState(() {});
+
     return KeyEventResult.handled;
   }
 

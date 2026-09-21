@@ -149,6 +149,7 @@ class ServerTileActions extends StatelessWidget {
   Uri? _tryParseHttpsUri(String address) {
     try {
       final uri = Uri.parse(address);
+
       return uri.scheme == 'https' ? uri : null;
     } catch (_) {
       return null;
@@ -180,6 +181,7 @@ class ServerTileActions extends StatelessWidget {
         appConfigViewModel: appConfigViewModel,
         label: loc.serverCertificateFetchFailed,
       );
+
       return null;
     }
 

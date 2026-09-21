@@ -50,6 +50,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         appConfigViewModel: appConfigViewModel,
         label: locale.localDnsAddSuccess,
       );
+
       return true;
     } catch (e) {
       if (!mounted) return false;
@@ -61,6 +62,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         alreadyExistsLabel: locale.localDnsAlreadyAdded,
         failedLabel: locale.localDnsAddFailed,
       );
+
       return false;
     }
   }
@@ -82,6 +84,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         appConfigViewModel: appConfigViewModel,
         label: locale.localDnsUpdateSuccess,
       );
+
       return true;
     } catch (e) {
       if (!mounted) return false;
@@ -93,6 +96,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         alreadyExistsLabel: locale.localDnsAlreadyAdded,
         failedLabel: locale.localDnsUpdateFailed,
       );
+
       return false;
     }
   }
@@ -113,6 +117,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         appConfigViewModel: appConfigViewModel,
         label: locale.localDnsDeleteSuccess,
       );
+
       return true;
     } catch (_) {
       if (!mounted) return false;
@@ -122,6 +127,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         appConfigViewModel: appConfigViewModel,
         label: locale.localDnsDeleteFailed,
       );
+
       return false;
     }
   }

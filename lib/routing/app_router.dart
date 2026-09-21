@@ -144,6 +144,7 @@ GoRouter createAppRouter({
                         name: Routes.logsDetails,
                         builder: (context, state) {
                           final extra = state.extra! as LogDetailsExtra;
+
                           return ChangeNotifierProvider.value(
                             value: context.read<LogsViewModel>(),
                             child: LogDetailsScreen(
@@ -174,6 +175,7 @@ GoRouter createAppRouter({
                         name: Routes.domainsDetails,
                         builder: (context, state) {
                           final extra = state.extra! as DomainDetailsExtra;
+
                           return ChangeNotifierProvider.value(
                             value: extra.viewModel,
                             child: DomainDetailsScreen(
@@ -270,6 +272,7 @@ GoRouter createAppRouter({
                         builder: (context, state) {
                           final onConfirm =
                               state.extra! as Future<void> Function();
+
                           return ResetScreen(onConfirm: onConfirm);
                         },
                       ),
@@ -301,6 +304,7 @@ GoRouter createAppRouter({
                             name: Routes.settingsServerAdlistsDetails,
                             builder: (context, state) {
                               final extra = state.extra! as AdlistDetailsExtra;
+
                               return ChangeNotifierProvider.value(
                                 value: extra.viewModel,
                                 child: AdlistDetailsScreen(
@@ -329,6 +333,7 @@ GoRouter createAppRouter({
                             name: Routes.settingsServerGroupDetails,
                             builder: (context, state) {
                               final extra = state.extra! as GroupDetailsExtra;
+
                               return MultiProvider(
                                 providers: [
                                   ChangeNotifierProvider.value(
@@ -356,6 +361,7 @@ GoRouter createAppRouter({
                             name: Routes.settingsServerClientDetails,
                             builder: (context, state) {
                               final extra = state.extra! as ClientDetailsExtra;
+
                               return ChangeNotifierProvider.value(
                                 value: extra.viewModel,
                                 child: ClientDetailsScreen(
@@ -398,6 +404,7 @@ GoRouter createAppRouter({
                             name: Routes.settingsServerAdvancedSessionsDetails,
                             builder: (context, state) {
                               final extra = state.extra! as SessionDetailsExtra;
+
                               return SessionDetailScreen(
                                 session: extra.session,
                                 onDelete: extra.onDelete,
@@ -420,6 +427,7 @@ GoRouter createAppRouter({
                             name: Routes.settingsServerAdvancedDhcpDetails,
                             builder: (context, state) {
                               final extra = state.extra! as DhcpDetailsExtra;
+
                               return DhcpDetailScreen(
                                 lease: extra.lease,
                                 onDelete: extra.onDelete,
@@ -443,6 +451,7 @@ GoRouter createAppRouter({
                             builder: (context, state) {
                               final extra =
                                   state.extra! as LocalDnsDetailsExtra;
+
                               return LocalDnsDetailScreen(
                                 localDns: extra.localDns,
                                 devices: extra.devices,
@@ -473,6 +482,7 @@ GoRouter createAppRouter({
                               final extra =
                                   state.extra! as FindDomainDetailsExtra;
                               final bundle = context.read<RepositoryBundle?>();
+
                               return ChangeNotifierProvider(
                                 create: (_) => DomainsViewModel(
                                   domainRepository: bundle!.domain,
@@ -495,6 +505,7 @@ GoRouter createAppRouter({
                               final extra =
                                   state.extra! as FindAdlistDetailsExtra;
                               final bundle = context.read<RepositoryBundle?>();
+
                               return ChangeNotifierProvider(
                                 create: (_) => AdlistsViewModel(
                                   adListRepository: bundle!.adlist,
@@ -526,6 +537,7 @@ GoRouter createAppRouter({
                             builder: (context, state) {
                               final extra =
                                   state.extra! as InterfaceAddressExtra;
+
                               return AddressDetailScreen(
                                 address: extra.address,
                                 title: extra.title,
@@ -538,6 +550,7 @@ GoRouter createAppRouter({
                                 .settingsServerAdvancedInterfaceStatistics,
                             builder: (context, state) {
                               final stats = state.extra! as InterfaceStats;
+
                               return StatisticsDetailScreen(stats: stats);
                             },
                           ),
@@ -546,6 +559,7 @@ GoRouter createAppRouter({
                             name: Routes.settingsServerAdvancedInterfaceMore,
                             builder: (context, state) {
                               final interface = state.extra! as NetInterface;
+
                               return MoreDetailsScreen(
                                 interfaceData: interface,
                               );
@@ -567,6 +581,7 @@ GoRouter createAppRouter({
                             name: Routes.settingsServerAdvancedNetworkDetails,
                             builder: (context, state) {
                               final extra = state.extra! as NetworkDetailsExtra;
+
                               return NetworkDetailScreen(
                                 device: extra.device,
                                 onDelete: extra.onDelete,
@@ -636,6 +651,7 @@ class _HomeOrConnect extends StatelessWidget {
         statusViewModel: context.read<StatusViewModel>(),
       );
     }
+
     return const ServersScreen();
   }
 }

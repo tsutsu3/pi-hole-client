@@ -190,6 +190,7 @@ class StatisticsListContent extends StatelessWidget {
         items = {...items, item['label']: item['value'].toDouble()};
         legend = {...legend, item['label']: item['value'].toInt()};
       }
+
       return Column(
         children: [
           const SizedBox(height: 10),

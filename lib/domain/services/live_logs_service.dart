@@ -65,9 +65,11 @@ class LiveLogsService {
 
       _lastEnd = end;
       logger.d('Live tick ${collected.length} logs, window: $start -> $end');
+
       return collected;
     } catch (e, s) {
       logger.e('Live tick error: $e\n$s');
+
       return const [];
     } finally {
       _liveLoading = false;

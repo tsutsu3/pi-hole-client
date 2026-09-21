@@ -146,6 +146,7 @@ class QueriesLastHoursLine extends StatelessWidget {
     BuildContext context,
   ) {
     final interval = calcInterval(data['topPoint']);
+
     return LineChartData(
       gridData: FlGridData(
         drawVerticalLine: false,

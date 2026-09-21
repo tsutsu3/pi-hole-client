@@ -28,6 +28,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
       action: () async {
         final sid = await getSid();
         final result = await _client.getHistory(sid);
+
         return result.map((e) => e.toDomain());
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -40,6 +41,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
       action: () async {
         final sid = await getSid();
         final result = await _client.getHistoryClient(sid, count: count);
+
         return result.map((e) => e.toDomain());
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -78,6 +80,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
       action: () async {
         final sid = await getSid();
         final result = await _client.getStatsSummary(sid);
+
         return result.map((e) => e.toDomain());
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -90,6 +93,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
       action: () async {
         final sid = await getSid();
         final result = await _client.getStatsUpstreams(sid);
+
         return result.map((e) => e.toDomain());
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -108,6 +112,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
           count: count,
           blocked: true,
         );
+
         return result.map((e) => e.domains.map((d) => d.toDomain()).toList());
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -122,6 +127,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
       action: () async {
         final sid = await getSid();
         final result = await _client.getStatsTopDomains(sid, count: count);
+
         return result.map((e) => e.domains.map((d) => d.toDomain()).toList());
       },
     );
@@ -139,6 +145,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
           count: count,
           blocked: true,
         );
+
         return result.map((e) => e.clients.map((c) => c.toDomain()).toList());
       },
     );
@@ -152,6 +159,7 @@ class MetricsRepositoryV6 extends BaseV6SidRepository
       action: () async {
         final sid = await getSid();
         final result = await _client.getStatsTopClients(sid, count: count);
+
         return result.map((e) => e.clients.map((c) => c.toDomain()).toList());
       },
     );

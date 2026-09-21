@@ -21,6 +21,7 @@ class DnsRepositoryV5 extends BaseV5TokenRepository implements DnsRepository {
   }) async {
     final token = await getToken();
     final result = await _client.getSummaryRaw(token);
+
     return result.map(
       (summary) =>
           Blocking(status: convertBlockingStatus(summary.status), timer: null),
@@ -31,6 +32,7 @@ class DnsRepositoryV5 extends BaseV5TokenRepository implements DnsRepository {
   Future<Result<Blocking>> enableBlocking() async {
     final token = await getToken();
     final result = await _client.postDnsBlocking(token, enabled: true);
+
     return result.map((e) => e.toDomain());
   }
 
@@ -42,6 +44,7 @@ class DnsRepositoryV5 extends BaseV5TokenRepository implements DnsRepository {
       enabled: false,
       timer: timer,
     );
+
     return result.map((e) => e.toDomain());
   }
 }
