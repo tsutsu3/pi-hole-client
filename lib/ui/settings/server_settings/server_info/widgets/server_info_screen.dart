@@ -24,7 +24,7 @@ class ServerInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
 
     return ListenableBuilder(
       listenable: viewModel,

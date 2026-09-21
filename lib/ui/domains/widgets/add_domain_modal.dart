@@ -54,7 +54,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
         });
       } else {
         setState(() {
-          domainError = AppLocalizations.of(context)!.domainInvalid;
+          domainError = AppLocalizations.of(context).domainInvalid;
         });
       }
     } else {
@@ -102,7 +102,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: Text(
-                          AppLocalizations.of(context)!.domainAdd,
+                          AppLocalizations.of(context).domainAdd,
                           style: const TextStyle(fontSize: 24),
                         ),
                       ),
@@ -115,11 +115,11 @@ class _AddDomainModalState extends State<AddDomainModal> {
                       segments: [
                         ButtonSegment(
                           value: DomainType.allow,
-                          label: Text(AppLocalizations.of(context)!.allowlist),
+                          label: Text(AppLocalizations.of(context).allowlist),
                         ),
                         ButtonSegment(
                           value: DomainType.deny,
-                          label: Text(AppLocalizations.of(context)!.blocklist),
+                          label: Text(AppLocalizations.of(context).blocklist),
                         ),
                       ],
                       selected: <DomainType>{selectedType},
@@ -138,14 +138,14 @@ class _AddDomainModalState extends State<AddDomainModal> {
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
-                        labelText: AppLocalizations.of(context)!.domain,
+                        labelText: AppLocalizations.of(context).domain,
                         errorText: domainError,
                       ),
                     ),
                   ),
                   const Padding(padding: EdgeInsets.all(8)),
                   ListTile(
-                    title: Text(AppLocalizations.of(context)!.addAsWildcard),
+                    title: Text(AppLocalizations.of(context).addAsWildcard),
                     onTap: () => setState(() => wildcard = !wildcard),
                     trailing: Switch(
                       value: wildcard,
@@ -166,11 +166,11 @@ class _AddDomainModalState extends State<AddDomainModal> {
               children: [
                 TextButton(
                   onPressed: () => Navigator.maybePop(context),
-                  child: Text(AppLocalizations.of(context)!.cancel),
+                  child: Text(AppLocalizations.of(context).cancel),
                 ),
                 const SizedBox(width: 14),
                 TextButton(
-                  onPressed: allDataValid == true
+                  onPressed: allDataValid
                       ? () {
                           final kind = wildcard
                               ? DomainKind.regex
@@ -184,10 +184,10 @@ class _AddDomainModalState extends State<AddDomainModal> {
                       : null,
                   style: ButtonStyle(
                     foregroundColor: WidgetStateProperty.all(
-                      allDataValid == true ? null : Colors.grey,
+                      allDataValid ? null : Colors.grey,
                     ),
                   ),
-                  child: Text(AppLocalizations.of(context)!.add),
+                  child: Text(AppLocalizations.of(context).add),
                 ),
               ],
             ),
@@ -196,7 +196,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 500),

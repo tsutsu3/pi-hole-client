@@ -47,12 +47,12 @@ class _GroupsListState extends State<GroupsList> {
   void _scrollListener() {
     if (widget.scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
-      if (mounted && isVisible == true) {
+      if (mounted && isVisible) {
         setState(() => isVisible = false);
       }
     } else if (widget.scrollController.position.userScrollDirection ==
         ScrollDirection.forward) {
-      if (mounted && isVisible == false) {
+      if (mounted && !isVisible) {
         setState(() => isVisible = true);
       }
     }
@@ -96,7 +96,7 @@ class _GroupsListState extends State<GroupsList> {
       ({String name, String? comment, bool? enabled}) value,
     ) async {
       final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.groupAdding);
+      process.open(AppLocalizations.of(context).groupAdding);
 
       try {
         await groupsViewModel.addGroup.runAsync(value);
@@ -107,7 +107,7 @@ class _GroupsListState extends State<GroupsList> {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.groupAdded,
+          label: AppLocalizations.of(context).groupAdded,
         );
       } catch (e) {
         if (!context.mounted) return;
@@ -117,15 +117,15 @@ class _GroupsListState extends State<GroupsList> {
           context: context,
           appConfigViewModel: appConfigViewModel,
           error: e,
-          alreadyExistsLabel: AppLocalizations.of(context)!.groupAlreadyAdded,
-          failedLabel: AppLocalizations.of(context)!.groupAddFailed,
+          alreadyExistsLabel: AppLocalizations.of(context).groupAlreadyAdded,
+          failedLabel: AppLocalizations.of(context).groupAddFailed,
         );
       }
     }
 
     Future<void> onToggleGroupEnabled(Group group, bool enabled) async {
       final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.groupUpdating);
+      process.open(AppLocalizations.of(context).groupUpdating);
 
       try {
         await groupsViewModel.updateGroup.runAsync((
@@ -141,7 +141,7 @@ class _GroupsListState extends State<GroupsList> {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.groupUpdated,
+          label: AppLocalizations.of(context).groupUpdated,
         );
       } catch (_) {
         if (!context.mounted) return;
@@ -150,7 +150,7 @@ class _GroupsListState extends State<GroupsList> {
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.groupUpdateFailed,
+          label: AppLocalizations.of(context).groupUpdateFailed,
         );
       }
     }
@@ -189,7 +189,7 @@ class _GroupsListState extends State<GroupsList> {
                 const CircularProgressIndicator(),
                 const SizedBox(height: 50),
                 Text(
-                  AppLocalizations.of(context)!.loadingList,
+                  AppLocalizations.of(context).loadingList,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -202,6 +202,7 @@ class _GroupsListState extends State<GroupsList> {
           itemsCount: groups.length,
           contentWidget: (index) {
             final thisGroup = groups[index];
+
             return Padding(
               padding:
                   index == 0 &&
@@ -231,7 +232,7 @@ class _GroupsListState extends State<GroupsList> {
             padding: const EdgeInsets.all(20),
             child: Center(
               child: Text(
-                AppLocalizations.of(context)!.groupsNone,
+                AppLocalizations.of(context).groupsNone,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24,
@@ -241,7 +242,7 @@ class _GroupsListState extends State<GroupsList> {
             ),
           ),
           errorGenerator: () => ErrorMessage(
-            message: AppLocalizations.of(context)!.groupsNotLoaded,
+            message: AppLocalizations.of(context).groupsNotLoaded,
           ),
           loadStatus: groupsViewModel.loadingStatus,
           onRefresh: () async => groupsViewModel.loadGroups.runAsync(),

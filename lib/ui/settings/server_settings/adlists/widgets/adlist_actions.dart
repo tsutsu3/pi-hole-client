@@ -13,7 +13,7 @@ Future<void> deleteAdlist({
   required Adlist adlist,
 }) async {
   final process = ProcessModal(context: context);
-  process.open(AppLocalizations.of(context)!.deleting);
+  process.open(AppLocalizations.of(context).deleting);
 
   try {
     await viewModel.deleteAdlist.runAsync(adlist);
@@ -22,7 +22,7 @@ Future<void> deleteAdlist({
     showSuccessSnackBar(
       context: context,
       appConfigViewModel: appConfigViewModel,
-      label: AppLocalizations.of(context)!.adlistRemoved,
+      label: AppLocalizations.of(context).adlistRemoved,
     );
   } catch (_) {
     if (!context.mounted) return;
@@ -30,7 +30,7 @@ Future<void> deleteAdlist({
     showErrorSnackBar(
       context: context,
       appConfigViewModel: appConfigViewModel,
-      label: AppLocalizations.of(context)!.adlistDeleteError,
+      label: AppLocalizations.of(context).adlistDeleteError,
     );
   } finally {
     process.close();

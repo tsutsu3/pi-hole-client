@@ -215,6 +215,7 @@ class AddServerViewModel extends ChangeNotifier {
   Future<_UrlCheck> _checkUrl(String url) async {
     final result = await _serversViewModel.checkUrlExists(url);
     if (result['result'] == 'fail') return _UrlCheck.failed;
+
     return result['exists'] == true ? _UrlCheck.duplicate : _UrlCheck.available;
   }
 
@@ -278,11 +279,13 @@ class AddServerViewModel extends ChangeNotifier {
       if (login.cancelled) {
         await _serversViewModel.deletePassword(req.url);
         await _serversViewModel.deleteToken(req.url);
+
         return const CreateCancelled();
       }
       if (login.result.isError()) {
         await _serversViewModel.deletePassword(req.url);
         await _serversViewModel.deleteToken(req.url);
+
         return CreateApiError(login.result.exceptionOrNull()!, req.apiVersion);
       }
     }
@@ -294,6 +297,7 @@ class AddServerViewModel extends ChangeNotifier {
     if (result.isError()) {
       // Connection test failed: clean up everything saved for this attempt.
       await _cleanupCreateAttempt(bundle, req);
+
       return CreateApiError(result.exceptionOrNull()!, req.apiVersion);
     }
 
@@ -304,8 +308,10 @@ class AddServerViewModel extends ChangeNotifier {
     } catch (e, s) {
       logger.e('Failed to save new server', error: e, stackTrace: s);
       await _cleanupCreateAttempt(bundle, req);
+
       return const CreateDbError();
     }
+
     return CreateSuccess(server);
   }
 
@@ -381,6 +387,7 @@ class AddServerViewModel extends ChangeNotifier {
     Future<UpdateOutcome> handleSaveError(Exception e) async {
       await restoreSecrets();
       restartAutoRefresh();
+
       return UpdateApiError(e, req.apiVersion);
     }
 
@@ -445,6 +452,7 @@ class AddServerViewModel extends ChangeNotifier {
     final updatedServer = await req.resolveCertificate(serverObj);
     if (updatedServer == null) {
       restartAutoRefresh();
+
       return const UpdateCancelled();
     }
     serverObj = updatedServer;
@@ -472,6 +480,7 @@ class AddServerViewModel extends ChangeNotifier {
       }
       await restoreSecrets();
       restartAutoRefresh();
+
       return const UpdateCancelled();
     }
     if (auth.error != null) {
@@ -480,6 +489,7 @@ class AddServerViewModel extends ChangeNotifier {
       if (auth.needsRollback) {
         await rollbackFailedSave(bundle: bundle, sessionCreated: false);
       }
+
       return handleSaveError(auth.error!);
     }
     // skipRenewal: true only when a new session was just created above to avoid
@@ -494,6 +504,7 @@ class AddServerViewModel extends ChangeNotifier {
         sessionCreated: auth.sessionCreated,
       );
       restartAutoRefresh();
+
       return UpdateApiError(result.exceptionOrNull()!, req.apiVersion);
     }
 
@@ -512,6 +523,7 @@ class AddServerViewModel extends ChangeNotifier {
         sessionCreated: auth.sessionCreated,
       );
       restartAutoRefresh();
+
       return const UpdateDbError();
     }
 
@@ -524,6 +536,7 @@ class AddServerViewModel extends ChangeNotifier {
     );
     _serversViewModel.clearTotpReauthDeclined(targetAddress);
     restartAutoRefresh();
+
     return const UpdateSuccess();
   }
 
@@ -589,6 +602,7 @@ class AddServerViewModel extends ChangeNotifier {
           cancelled: false,
         );
       }
+
       return (
         sessionCreated: true,
         error: null,
@@ -621,6 +635,7 @@ class AddServerViewModel extends ChangeNotifier {
             cancelled: false,
           );
         }
+
         return login(auth: serverAuth, needsRollback: false);
       }
 
@@ -654,12 +669,15 @@ class AddServerViewModel extends ChangeNotifier {
           oldAddress: oldAddress,
           newServer: server,
         ));
+
         return _serversViewModel.replaceServer.errors.value;
       }
       await _serversViewModel.editServer.runAsync(server);
+
       return _serversViewModel.editServer.errors.value;
     } catch (e, s) {
       logger.e('Failed to save server', error: e, stackTrace: s);
+
       return e;
     }
   }

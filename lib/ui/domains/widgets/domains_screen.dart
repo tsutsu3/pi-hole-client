@@ -106,7 +106,7 @@ class _DomainsScreenState extends State<DomainsScreen>
                 const Flexible(child: SizedBox(width: 16)),
                 Flexible(
                   child: Text(
-                    AppLocalizations.of(context)!.allowlist,
+                    AppLocalizations.of(context).allowlist,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -121,7 +121,7 @@ class _DomainsScreenState extends State<DomainsScreen>
                 const Flexible(child: SizedBox(width: 16)),
                 Flexible(
                   child: Text(
-                    AppLocalizations.of(context)!.blocklist,
+                    AppLocalizations.of(context).blocklist,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -151,7 +151,7 @@ class _DomainsScreenState extends State<DomainsScreen>
         groupChip: groupFilter != null
             ? Chip(
                 label: Text(
-                  '${AppLocalizations.of(context)!.groups}: ${groups[groupFilter] ?? ''}',
+                  '${AppLocalizations.of(context).groups}: ${groups[groupFilter] ?? ''}',
                 ),
                 deleteIcon: const Icon(Icons.close, size: 18),
                 onDeleted: viewModel.clearGroupFilter,
@@ -205,7 +205,7 @@ class _DomainsScreenState extends State<DomainsScreen>
                           child: Text(
                             AppLocalizations.of(
                               context,
-                            )!.domainsSelectLeftColumn,
+                            ).domainsSelectLeftColumn,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 24,

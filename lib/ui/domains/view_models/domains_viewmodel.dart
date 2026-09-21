@@ -285,6 +285,7 @@ class DomainsViewModel extends ChangeNotifier {
           term.isEmpty || domain.name.toLowerCase().contains(term);
       final matchesGroup =
           _groupFilter == null || domain.groups.contains(_groupFilter);
+
       return matchesSearch && matchesGroup;
     }).toList();
 
@@ -293,6 +294,7 @@ class DomainsViewModel extends ChangeNotifier {
           term.isEmpty || domain.name.toLowerCase().contains(term);
       final matchesGroup =
           _groupFilter == null || domain.groups.contains(_groupFilter);
+
       return matchesSearch && matchesGroup;
     }).toList();
   }

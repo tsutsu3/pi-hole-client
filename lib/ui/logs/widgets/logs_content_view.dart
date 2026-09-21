@@ -57,7 +57,7 @@ class LogsContentView extends StatelessWidget {
               const CircularProgressIndicator(),
               const SizedBox(height: 50),
               Text(
-                AppLocalizations.of(context)!.loadingLogs,
+                AppLocalizations.of(context).loadingLogs,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24,
@@ -91,6 +91,7 @@ class LogsContentView extends StatelessWidget {
                             );
                           }
                           final log = logs[index];
+
                           return LogTile(
                             log: logs[index],
                             showLogDetails: onLogTap,
@@ -109,7 +110,7 @@ class LogsContentView extends StatelessWidget {
         return RefreshIndicator(
           onRefresh: onRefresh,
           child: ErrorMessage(
-            message: AppLocalizations.of(context)!.couldntLoadLogs,
+            message: AppLocalizations.of(context).couldntLoadLogs,
             scrollable: true,
           ),
         );

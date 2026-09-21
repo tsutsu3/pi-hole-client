@@ -47,7 +47,7 @@ class HomeTiles extends StatelessWidget {
 
     final locale = Platform.localeName;
     final theme = Theme.of(context).extension<DataVisColors>()!;
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),

@@ -128,6 +128,7 @@ class _LabeledMultiSelectTileState extends State<LabeledMultiSelectTile> {
                         final key = entry.key;
                         final value = entry.value;
                         final isSelected = selectedItems.contains(key);
+
                         return CheckboxListTile(
                           dense: true,
                           title: Text(value),

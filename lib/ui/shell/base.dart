@@ -62,7 +62,7 @@ class _BaseState extends State<Base>
 
       final appConfigViewModel = context.read<AppConfigViewModel>();
 
-      if (appConfigViewModel.importantInfoReaden == false) {
+      if (!appConfigViewModel.importantInfoReaden) {
         await showDialog<String>(
           context: context,
           builder: (BuildContext context) => const StartInfoModal(),
@@ -148,6 +148,7 @@ class _BaseState extends State<Base>
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) {
         _handlingFatalError = false;
+
         return;
       }
       final recovered = error is TotpRequiredException
@@ -238,6 +239,7 @@ class _BaseState extends State<Base>
         '(fetched for ${server.address}, '
         'now selected ${serversViewModel.selectedServer?.address})',
       );
+
       return;
     }
 

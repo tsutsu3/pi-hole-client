@@ -50,13 +50,13 @@ class _AdlistsListState extends State<AdlistsList> {
   void _scrollListener() {
     if (widget.scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
-      if (mounted && isVisible == true) {
+      if (mounted && isVisible) {
         setState(() => isVisible = false);
       }
     } else {
       if (widget.scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
-        if (mounted && isVisible == false) {
+        if (mounted && !isVisible) {
           setState(() => isVisible = true);
         }
       }
@@ -92,7 +92,7 @@ class _AdlistsListState extends State<AdlistsList> {
 
     Future<void> onAddAdlist(Map<String, dynamic> value) async {
       final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.adlistAdding);
+      process.open(AppLocalizations.of(context).adlistAdding);
 
       try {
         final type = value['type'] == 'allow' ? ListType.allow : ListType.block;
@@ -110,7 +110,7 @@ class _AdlistsListState extends State<AdlistsList> {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.adlistAdded,
+          label: AppLocalizations.of(context).adlistAdded,
         );
       } catch (e) {
         if (!context.mounted) return;
@@ -120,8 +120,8 @@ class _AdlistsListState extends State<AdlistsList> {
           context: context,
           appConfigViewModel: appConfigViewModel,
           error: e,
-          alreadyExistsLabel: AppLocalizations.of(context)!.adlistAlreadyAdded,
-          failedLabel: AppLocalizations.of(context)!.adlistAddFailed,
+          alreadyExistsLabel: AppLocalizations.of(context).adlistAlreadyAdded,
+          failedLabel: AppLocalizations.of(context).adlistAddFailed,
         );
       }
     }
@@ -171,7 +171,7 @@ class _AdlistsListState extends State<AdlistsList> {
                 const CircularProgressIndicator(),
                 const SizedBox(height: 50),
                 Text(
-                  AppLocalizations.of(context)!.loadingList,
+                  AppLocalizations.of(context).loadingList,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -184,6 +184,7 @@ class _AdlistsListState extends State<AdlistsList> {
           itemsCount: adlistsList.length,
           contentWidget: (index) {
             final thisAdlist = adlistsList[index];
+
             return Padding(
               padding:
                   index == 0 &&
@@ -219,7 +220,7 @@ class _AdlistsListState extends State<AdlistsList> {
             padding: const EdgeInsets.all(20),
             child: Center(
               child: Text(
-                AppLocalizations.of(context)!.adlistsNone,
+                AppLocalizations.of(context).adlistsNone,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24,
@@ -229,7 +230,7 @@ class _AdlistsListState extends State<AdlistsList> {
             ),
           ),
           errorGenerator: () => ErrorMessage(
-            message: AppLocalizations.of(context)!.adlistsNotLoaded,
+            message: AppLocalizations.of(context).adlistsNotLoaded,
           ),
           loadStatus: viewModel.loadingStatus,
           onRefresh: () async => viewModel.loadAdlists.run(),

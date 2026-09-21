@@ -5,6 +5,7 @@ import 'package:pi_hole_client/utils/misc.dart';
 
 Color generateRandomColor() {
   final rnd = Random();
+
   return Color.fromRGBO(
     0 + rnd.nextInt(255 - 0),
     0 + rnd.nextInt(255 - 0),
@@ -23,5 +24,6 @@ Color getListTextColor(BuildContext context) {
   if (androidVersion >= 12) {
     return Theme.of(context).listTileTheme.textColor ?? Colors.grey;
   }
+
   return Theme.of(context).textTheme.bodyMedium?.color ?? Colors.grey;
 }

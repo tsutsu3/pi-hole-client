@@ -72,15 +72,15 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.clientDetails),
+        title: Text(AppLocalizations.of(context).clientDetails),
         actions: [
           IconButton(
             onPressed: () => showDialog(
               context: context,
               useRootNavigator: false,
               builder: (context) => DeleteModal(
-                title: AppLocalizations.of(context)!.clientDelete,
-                message: AppLocalizations.of(context)!.clientDeleteMessage,
+                title: AppLocalizations.of(context).clientDelete,
+                message: AppLocalizations.of(context).clientDeleteMessage,
                 onDelete: () {
                   Navigator.maybePop(context);
                   widget.remove(_client);
@@ -96,25 +96,25 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            SectionLabel(label: AppLocalizations.of(context)!.clientSettings),
+            SectionLabel(label: AppLocalizations.of(context).clientSettings),
             ListTile(
               leading: const Icon(Icons.devices_rounded),
-              title: Text(AppLocalizations.of(context)!.macAddress),
+              title: Text(AppLocalizations.of(context).macAddress),
               subtitle: Text(getMacAddress() ?? '-'),
             ),
             ListTile(
               leading: const Icon(Icons.location_on_rounded),
-              title: Text(AppLocalizations.of(context)!.ipAddress),
+              title: Text(AppLocalizations.of(context).ipAddress),
               subtitle: Text(getIpAddress() ?? '-'),
             ),
             ListTile(
               leading: const Icon(Icons.computer_rounded),
-              title: Text(AppLocalizations.of(context)!.hostname),
+              title: Text(AppLocalizations.of(context).hostname),
               subtitle: Text(getHostname()),
             ),
             ListTile(
               leading: const Icon(Icons.group_rounded),
-              title: Text(AppLocalizations.of(context)!.groups),
+              title: Text(AppLocalizations.of(context).groups),
               subtitle: Text(getGroupNames().join(', ')),
               trailing: Icon(
                 Icons.edit_rounded,
@@ -124,10 +124,10 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.comment_rounded),
-              title: Text(AppLocalizations.of(context)!.comment),
+              title: Text(AppLocalizations.of(context).comment),
               subtitle: Text(
                 _client.comment == null || _client.comment!.isEmpty
-                    ? AppLocalizations.of(context)!.noComment
+                    ? AppLocalizations.of(context).noComment
                     : _client.comment!,
               ),
               trailing: Icon(
@@ -136,22 +136,22 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
               ),
               onTap: openCommentModal,
             ),
-            SectionLabel(label: AppLocalizations.of(context)!.clientInfo),
+            SectionLabel(label: AppLocalizations.of(context).clientInfo),
             ListTile(
               leading: const Icon(Icons.label_outline_rounded),
-              title: Text(AppLocalizations.of(context)!.id),
+              title: Text(AppLocalizations.of(context).id),
               subtitle: Text(_client.id.toString()),
             ),
             ListTile(
               leading: const Icon(Icons.event_available_rounded),
-              title: Text(AppLocalizations.of(context)!.dateAdded),
+              title: Text(AppLocalizations.of(context).dateAdded),
               subtitle: Text(
                 formatTimestamp(_client.dateAdded, kUnifiedDateTimeFormat),
               ),
             ),
             ListTile(
               leading: const Icon(Icons.edit_calendar_rounded),
-              title: Text(AppLocalizations.of(context)!.dateModified),
+              title: Text(AppLocalizations.of(context).dateModified),
               subtitle: Text(
                 formatTimestamp(_client.dateModified, kUnifiedDateTimeFormat),
               ),
@@ -171,6 +171,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
         .where((name) => name != null && name.isNotEmpty)
         .cast<String>()
         .toList();
+
     return names.isEmpty ? ['-'] : names;
   }
 
@@ -186,6 +187,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
         return entry.key;
       }
     }
+
     return null;
   }
 
@@ -201,6 +203,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
         return widget.ipToMac[entry.key];
       }
     }
+
     return null;
   }
 
@@ -217,6 +220,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
         return widget.ipToHostname[ip] ?? '-';
       }
     }
+
     return _client.client;
   }
 
@@ -226,12 +230,13 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
 
   bool _isMacAddress(String value) {
     final macRegex = RegExp(r'^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$');
+
     return macRegex.hasMatch(value);
   }
 
   Future<void> onEditClient(({String? comment, List<int> groups}) value) async {
     final process = ProcessModal(context: context);
-    process.open(AppLocalizations.of(context)!.clientUpdating);
+    process.open(AppLocalizations.of(context).clientUpdating);
 
     try {
       await clientsViewModel.updateClient.runAsync((
@@ -257,7 +262,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.clientUpdated,
+        label: AppLocalizations.of(context).clientUpdated,
       );
     } catch (_) {
       if (!mounted) return;
@@ -266,7 +271,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
       showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.clientUpdateFailed,
+        label: AppLocalizations.of(context).clientUpdateFailed,
       );
     }
   }
@@ -286,7 +291,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
         builder: (ctx) => EditClientModal(
           client: _client,
           keyItem: 'comment',
-          title: AppLocalizations.of(context)!.editComment,
+          title: AppLocalizations.of(context).editComment,
           icon: Icons.comment_rounded,
           onConfirm: onEditClient,
           groups: widget.groups,
@@ -299,7 +304,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
         builder: (ctx) => EditClientModal(
           client: _client,
           keyItem: 'comment',
-          title: AppLocalizations.of(context)!.editComment,
+          title: AppLocalizations.of(context).editComment,
           icon: Icons.comment_rounded,
           onConfirm: onEditClient,
           groups: widget.groups,
@@ -324,7 +329,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
         builder: (ctx) => EditClientModal(
           client: _client,
           keyItem: 'groups',
-          title: AppLocalizations.of(context)!.editGroups,
+          title: AppLocalizations.of(context).editGroups,
           icon: Icons.group_rounded,
           onConfirm: onEditClient,
           groups: widget.groups,
@@ -337,7 +342,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
         builder: (ctx) => EditClientModal(
           client: _client,
           keyItem: 'groups',
-          title: AppLocalizations.of(context)!.editGroups,
+          title: AppLocalizations.of(context).editGroups,
           icon: Icons.group_rounded,
           onConfirm: onEditClient,
           groups: widget.groups,

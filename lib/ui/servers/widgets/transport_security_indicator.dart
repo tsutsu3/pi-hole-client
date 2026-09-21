@@ -124,6 +124,7 @@ class _TransportSecurityIndicatorState
         allowBadCertificates: false,
         timeout: timeout,
       );
+
       return true;
     } on HandshakeException {
       return false;
@@ -186,6 +187,7 @@ class _TransportSecurityIndicatorState
   }) {
     String normalize(String value) =>
         value.replaceAll(':', '').toLowerCase().trim();
+
     return normalize(pinnedSha256) == normalize(certificateSha256);
   }
 
@@ -193,7 +195,7 @@ class _TransportSecurityIndicatorState
     BuildContext context,
     _TransportSecurityStatus status,
   ) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final appColors = theme.extension<AppColors>()!;
 

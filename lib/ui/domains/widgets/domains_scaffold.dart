@@ -52,7 +52,7 @@ class DomainsScaffold extends StatelessWidget {
                   initialValue: viewModel.searchTerm,
                   onChanged: viewModel.onSearch,
                   decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.domainsSearch,
+                    hintText: AppLocalizations.of(context).domainsSearch,
                     hintStyle: const TextStyle(fontWeight: FontWeight.w400),
                     border: InputBorder.none,
                     prefixIcon: Icon(
@@ -61,7 +61,7 @@ class DomainsScaffold extends StatelessWidget {
                     ),
                   ),
                 )
-              : Text(AppLocalizations.of(context)!.domains),
+              : Text(AppLocalizations.of(context).domains),
           actions: [
             if (!viewModel.searchMode)
               IconButton(

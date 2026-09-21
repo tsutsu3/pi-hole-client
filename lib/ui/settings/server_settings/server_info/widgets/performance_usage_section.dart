@@ -27,14 +27,14 @@ class PerformanceUsageSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Skeleton.keep(
-          child: SectionLabel(label: AppLocalizations.of(context)!.performance),
+          child: SectionLabel(label: AppLocalizations.of(context).performance),
         ),
         ListTile(
           dense: true,
           leading: const Skeleton.keep(child: Icon(Icons.memory_rounded)),
           title: Skeleton.keep(
             child: listTileTitle(
-              AppLocalizations.of(context)!.cpuUsage,
+              AppLocalizations.of(context).cpuUsage,
               colorScheme: colorScheme,
             ),
           ),
@@ -58,7 +58,7 @@ class PerformanceUsageSection extends StatelessWidget {
           leading: const Skeleton.keep(child: Icon(Icons.speed_rounded)),
           title: Skeleton.keep(
             child: listTileTitle(
-              AppLocalizations.of(context)!.memoryUsage,
+              AppLocalizations.of(context).memoryUsage,
               colorScheme: colorScheme,
             ),
           ),
@@ -82,7 +82,7 @@ class PerformanceUsageSection extends StatelessWidget {
           child: ExpansionTile(
             title: Skeleton.keep(
               child: listTileTitle(
-                AppLocalizations.of(context)!.moreDetails,
+                AppLocalizations.of(context).moreDetails,
                 colorScheme: colorScheme,
               ),
             ),
@@ -91,26 +91,26 @@ class PerformanceUsageSection extends StatelessWidget {
                 dense: true,
                 leading: const Icon(Icons.access_time),
                 title: listTileTitle(
-                  AppLocalizations.of(context)!.uptime,
+                  AppLocalizations.of(context).uptime,
                   colorScheme: colorScheme,
                 ),
                 trailing: AdaptiveTrailingText(
                   text: system != null
                       ? formatUptime(system!.uptime)
-                      : AppLocalizations.of(context)!.unknown,
+                      : AppLocalizations.of(context).unknown,
                 ),
               ),
               ListTile(
                 dense: true,
                 leading: const Icon(Icons.thermostat_rounded),
                 title: listTileTitle(
-                  AppLocalizations.of(context)!.cpuTemperature,
+                  AppLocalizations.of(context).cpuTemperature,
                   colorScheme: colorScheme,
                 ),
                 trailing: AdaptiveTrailingText(
                   text: sensors?.cpuTemp != null
                       ? '${(sensors?.cpuTemp ?? 0.0).toStringAsFixed(2)} ${_temperatureUnitSymbol(sensors?.unit)}'
-                      : AppLocalizations.of(context)!.unknown,
+                      : AppLocalizations.of(context).unknown,
                 ),
               ),
             ],

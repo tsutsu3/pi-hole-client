@@ -82,6 +82,7 @@ class _TotpInputModalState extends State<_TotpInputModal> {
     final digits = clipboardData?.text?.replaceAll(RegExp(r'\D'), '') ?? '';
     if (digits.length != _codeLength) {
       _clearCode();
+
       return;
     }
 
@@ -121,6 +122,7 @@ class _TotpInputModalState extends State<_TotpInputModal> {
         _focusNodes[index - 1].requestFocus();
       }
       setState(() {});
+
       return;
     }
 
@@ -131,6 +133,7 @@ class _TotpInputModalState extends State<_TotpInputModal> {
       }
       setState(() {});
       if (_isValid) _submit();
+
       return;
     }
 
@@ -169,12 +172,13 @@ class _TotpInputModalState extends State<_TotpInputModal> {
     _focusNodes[index - 1].requestFocus();
     _setControllerText(index - 1, '');
     setState(() {});
+
     return KeyEventResult.handled;
   }
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final mediaQuery = MediaQuery.of(context);
     final errorText = switch (widget.error) {
@@ -368,7 +372,7 @@ class _TotpInputModalState extends State<_TotpInputModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 400, maxHeight: 480),

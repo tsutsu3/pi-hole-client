@@ -83,6 +83,7 @@ class ClientsViewModel extends ChangeNotifier {
   LoadStatus get loadingStatus {
     if (loadClients.isRunning.value) return LoadStatus.loading;
     if (loadClients.errors.value != null) return LoadStatus.error;
+
     return LoadStatus.loaded;
   }
 
@@ -190,6 +191,7 @@ class ClientsViewModel extends ChangeNotifier {
     final term = _searchTerm.toLowerCase();
     _filteredClients = _clients.where((client) {
       if (term.isEmpty) return true;
+
       return _matchesSearch(client, term);
     }).toList();
   }
@@ -202,6 +204,7 @@ class ClientsViewModel extends ChangeNotifier {
     final groupNames = client.groups
         .map((id) => (_groupNames[id] ?? '').toLowerCase())
         .join(' ');
+
     return clientId.contains(term) ||
         name.contains(term) ||
         comment.contains(term) ||

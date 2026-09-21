@@ -18,7 +18,7 @@ class QueriesContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionLabel(label: AppLocalizations.of(context)!.totalQueries24),
+        SectionLabel(label: AppLocalizations.of(context).totalQueries24),
         Container(
           width: double.maxFinite,
           height: 350,
@@ -30,11 +30,11 @@ class QueriesContent extends StatelessWidget {
           children: [
             QueriesLegendDot(
               colorIndex: 0,
-              label: AppLocalizations.of(context)!.blocked,
+              label: AppLocalizations.of(context).blocked,
             ),
             QueriesLegendDot(
               colorIndex: 3,
-              label: AppLocalizations.of(context)!.notBlocked,
+              label: AppLocalizations.of(context).notBlocked,
             ),
           ],
         ),

@@ -97,6 +97,7 @@ class StatusViewModel with ChangeNotifier {
   double? get getQueriesPerMinute {
     final freq = _realtimeStatus?.summary.frequency;
     if (freq == null) return null;
+
     return freq * 60;
   }
 
@@ -119,6 +120,7 @@ class StatusViewModel with ChangeNotifier {
   /// - `ip`           (if no hostname is available)
   List<String> get topClientNames {
     if (_realtimeStatus == null) return [];
+
     return _realtimeStatus!.topClients.topSources
         .map((source) => source.source.split('|').first)
         .toList();
@@ -264,6 +266,7 @@ class StatusViewModel with ChangeNotifier {
   /// by callers to decide whether to show an error snackbar.
   Future<bool> refreshOnce() async {
     logger.d('Refresh once Server Status');
+
     return _refreshOnce();
   }
 
@@ -330,6 +333,7 @@ class StatusViewModel with ChangeNotifier {
         ? error
         : Exception(error.toString());
     notifyListeners();
+
     return true;
   }
 
@@ -376,17 +380,20 @@ class StatusViewModel with ChangeNotifier {
         'Skipping stale refreshOnce result: server was changed during fetch. '
         'Previous: $selectedUrlBefore, Selected: $_selectedServerAddress',
       );
+
       return false;
     }
 
     if (statusOk && overtimeOk && metricsOk) {
       _serverStatus = LoadStatus.loaded;
       notifyListeners();
+
       return true;
     } else {
       logger.w('Failed to fetch all status data.');
       _serverStatus = LoadStatus.error;
       notifyListeners();
+
       return false;
     }
   }
@@ -401,6 +408,7 @@ class StatusViewModel with ChangeNotifier {
       final metrics = _metricsRepository;
       final dns = _dnsRepository;
       if (metrics == null || dns == null) return null;
+
       return RealtimeStatusUseCaseV6(
         metricsRepository: metrics,
         dnsRepository: dns,
@@ -408,6 +416,7 @@ class StatusViewModel with ChangeNotifier {
     } else {
       final repo = _realtimeStatusRepository;
       if (repo == null) return null;
+
       return RealtimeStatusUseCaseV5(repository: repo);
     }
   }
@@ -426,6 +435,7 @@ class StatusViewModel with ChangeNotifier {
         'Skipping stale status update: server was changed during fetch. '
         'Previous: $selectedUrlBefore, Selected: $_selectedServerAddress',
       );
+
       return false;
     }
 
@@ -435,12 +445,14 @@ class StatusViewModel with ChangeNotifier {
         _statusLoading = LoadStatus.loaded;
         _onUpdateServerStatus?.call(status.status == DnsBlockingStatus.enabled);
         notifyListeners();
+
         return true;
       },
       (error) {
         if (_handleFatalConnectionError(error, selectedUrlBefore)) return false;
         _statusLoading = LoadStatus.error;
         notifyListeners();
+
         return false;
       },
     );
@@ -460,6 +472,7 @@ class StatusViewModel with ChangeNotifier {
         'Skipping stale overtime data update: server was changed during '
         'fetch. Previous: $selectedUrlBefore, Selected: $_selectedServerAddress',
       );
+
       return false;
     }
 
@@ -469,11 +482,13 @@ class StatusViewModel with ChangeNotifier {
         _overtimeDataLoading = LoadStatus.loaded;
         _statusLoading = LoadStatus.loaded;
         notifyListeners();
+
         return true;
       },
       (error) {
         _overtimeDataLoading = LoadStatus.error;
         notifyListeners();
+
         return false;
       },
     );
@@ -493,6 +508,7 @@ class StatusViewModel with ChangeNotifier {
         'Skipping stale metrics update: server was changed during fetch. '
         'Previous: $selectedUrlBefore, Selected: $_selectedServerAddress',
       );
+
       return false;
     }
 
@@ -500,12 +516,14 @@ class StatusViewModel with ChangeNotifier {
       (metrics) {
         _ftlDnsMetrics = metrics;
         notifyListeners();
+
         return true;
       },
       (error) {
         // v5 returns NotSupportedException for metrics - that's OK.
         // Genuine errors (e.g. network) should propagate as failure.
         if (error is NotSupportedException) return true;
+
         return false;
       },
     );
@@ -529,11 +547,13 @@ class StatusViewModel with ChangeNotifier {
         'Skipping stale system data update: server was changed during fetch. '
         'Previous: $selectedUrlBefore, Selected: $_selectedServerAddress',
       );
+
       return false;
     }
 
     systemResult.fold((system) => _ftlSystem = system, (_) {});
     sensorResult.fold((sensor) => _ftlSensor = sensor, (_) {});
+
     return true;
   }
 
@@ -544,6 +564,7 @@ class StatusViewModel with ChangeNotifier {
     Future<void> timerFn({Timer? timer}) async {
       if (_selectedServerAddress == null) {
         timer?.cancel();
+
         return;
       }
       final selectedUrlBefore = _selectedServerAddress;
@@ -552,6 +573,7 @@ class StatusViewModel with ChangeNotifier {
         logger.d(
           'Skipping status data fetch due to ongoing connection attempt',
         );
+
         return;
       }
 
@@ -568,6 +590,7 @@ class StatusViewModel with ChangeNotifier {
           'Previous: $selectedUrlBefore, '
           'Selected: $_selectedServerAddress',
         );
+
         return;
       }
 
@@ -640,6 +663,7 @@ class StatusViewModel with ChangeNotifier {
     Future<void> timerFn({Timer? timer}) async {
       if (_selectedServerAddress == null) {
         timer?.cancel();
+
         return;
       }
       final selectedUrlBefore = _selectedServerAddress;
@@ -648,6 +672,7 @@ class StatusViewModel with ChangeNotifier {
         logger.d(
           'Skipping overtime data fetch due to ongoing connection attempt',
         );
+
         return;
       }
 
@@ -665,6 +690,7 @@ class StatusViewModel with ChangeNotifier {
           'fetch. Previous: $selectedUrlBefore, '
           'Selected: $_selectedServerAddress',
         );
+
         return;
       }
 
@@ -726,6 +752,7 @@ class StatusViewModel with ChangeNotifier {
     Future<void> timerFn({Timer? timer}) async {
       if (_selectedServerAddress == null) {
         timer?.cancel();
+
         return;
       }
       final selectedUrlBefore = _selectedServerAddress;
@@ -734,6 +761,7 @@ class StatusViewModel with ChangeNotifier {
         logger.d(
           'Skipping metrics data fetch due to ongoing connection attempt',
         );
+
         return;
       }
 
@@ -748,6 +776,7 @@ class StatusViewModel with ChangeNotifier {
           'Previous: $selectedUrlBefore, '
           'Selected: $_selectedServerAddress',
         );
+
         return;
       }
 

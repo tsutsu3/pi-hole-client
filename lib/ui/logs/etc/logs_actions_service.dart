@@ -55,7 +55,7 @@ class LogActionsService {
   ///
   /// Does not throw exceptions. Returns early if the context is unmounted.
   Future<void> addDomainToList(DomainType type, Log log) async {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
     final loading = ProcessModal(context: context);
     final isAllow = type == DomainType.allow;
 

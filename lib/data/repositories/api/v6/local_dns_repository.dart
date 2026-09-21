@@ -25,6 +25,7 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
           sid,
           element: 'dns/hosts',
         );
+
         return result.map((config) => _parseHosts(config.config?.dns?.hosts));
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -44,6 +45,7 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
           element: 'dns/hosts',
           value: '$ip $name',
         );
+
         return mapDuplicateFailure(result);
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -58,6 +60,7 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
     return runWithResultRetry<Unit>(
       action: () async {
         final sid = await getSid();
+
         return _client.deleteConfigElement(
           sid,
           element: 'dns/hosts',
@@ -97,6 +100,7 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
           sid,
           body: ConfigData(dns: Dns(hosts: hosts)),
         );
+
         return patchResult.map((_) => unit);
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -105,6 +109,7 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
 
   List<LocalDns> _parseHosts(List<String>? hosts) {
     if (hosts == null || hosts.isEmpty) return [];
+
     return hosts.map(_parseHost).toList();
   }
 
@@ -112,6 +117,7 @@ class LocalDnsRepositoryV6 extends BaseV6SidRepository
     final trimmed = entry.trim();
     final sep = trimmed.indexOf(RegExp(r'\s'));
     if (sep == -1) return LocalDns(ip: trimmed, name: '');
+
     return LocalDns(
       ip: trimmed.substring(0, sep),
       name: trimmed.substring(sep).trimLeft(),

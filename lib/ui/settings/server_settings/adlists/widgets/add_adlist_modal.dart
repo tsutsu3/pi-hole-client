@@ -51,13 +51,13 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
         r'(\/[^\s]*)?$', // path
       );
 
-      if (subrouteRegexp.hasMatch(value) == true) {
+      if (subrouteRegexp.hasMatch(value)) {
         setState(() {
           addressError = null;
         });
       } else {
         setState(() {
-          addressError = AppLocalizations.of(context)!.adlistInvalid;
+          addressError = AppLocalizations.of(context).adlistInvalid;
         });
       }
     } else {
@@ -106,7 +106,7 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: Text(
-                          AppLocalizations.of(context)!.adlistAdd,
+                          AppLocalizations.of(context).adlistAdd,
                           style: const TextStyle(fontSize: 24),
                         ),
                       ),
@@ -119,11 +119,11 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
                       segments: [
                         ButtonSegment(
                           value: ListType.allow,
-                          label: Text(AppLocalizations.of(context)!.allowlist),
+                          label: Text(AppLocalizations.of(context).allowlist),
                         ),
                         ButtonSegment(
                           value: ListType.block,
-                          label: Text(AppLocalizations.of(context)!.blocklist),
+                          label: Text(AppLocalizations.of(context).blocklist),
                         ),
                       ],
                       selected: <ListType>{selectedType},
@@ -142,7 +142,7 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
-                        labelText: AppLocalizations.of(context)!.adlist,
+                        labelText: AppLocalizations.of(context).adlist,
                         errorText: addressError,
                       ),
                     ),
@@ -158,14 +158,14 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
-                        labelText: AppLocalizations.of(context)!.comment,
+                        labelText: AppLocalizations.of(context).comment,
                       ),
                     ),
                   ),
                   const Padding(padding: EdgeInsets.all(12)),
                   LabeledMultiSelectTile(
-                    labelText: AppLocalizations.of(context)!.groups,
-                    hintText: AppLocalizations.of(context)!.selectGroupsMessage,
+                    labelText: AppLocalizations.of(context).groups,
+                    hintText: AppLocalizations.of(context).selectGroupsMessage,
                     icon: Icons.group_rounded,
                     options: widget.groups,
                     onSelectionChanged: (list) {
@@ -176,7 +176,7 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
                   const Padding(padding: EdgeInsets.all(8)),
                   ListTile(
                     leading: const Icon(Icons.check_rounded),
-                    title: Text(AppLocalizations.of(context)!.status),
+                    title: Text(AppLocalizations.of(context).status),
                     onTap: () => setState(() => status = !status),
                     trailing: Switch(
                       value: status,
@@ -201,11 +201,11 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
               children: [
                 TextButton(
                   onPressed: () => Navigator.maybePop(context),
-                  child: Text(AppLocalizations.of(context)!.cancel),
+                  child: Text(AppLocalizations.of(context).cancel),
                 ),
                 const SizedBox(width: 14),
                 TextButton(
-                  onPressed: allDataValid == true
+                  onPressed: allDataValid
                       ? () {
                           widget.onAddAdlist({
                             'address': addressController.text,
@@ -219,10 +219,10 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
                       : null,
                   style: ButtonStyle(
                     foregroundColor: WidgetStateProperty.all(
-                      allDataValid == true ? null : Colors.grey,
+                      allDataValid ? null : Colors.grey,
                     ),
                   ),
-                  child: Text(AppLocalizations.of(context)!.add),
+                  child: Text(AppLocalizations.of(context).add),
                 ),
               ],
             ),
@@ -231,7 +231,7 @@ class _AddAdlistModalState extends State<AddAdlistModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600),

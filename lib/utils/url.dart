@@ -6,6 +6,7 @@ String buildServerUrl({
   String subroute = '',
 }) {
   final portSegment = port != '' ? ':$port' : '';
+
   return '$scheme://$host$portSegment$subroute';
 }
 

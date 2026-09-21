@@ -41,6 +41,7 @@ abstract class BaseV5TokenRepository {
       if (r.isError()) throw TokenNotFoundException();
       _token = r.getOrThrow();
       c.complete(_token!);
+
       return _token!;
     } catch (e) {
       c.completeError(e);

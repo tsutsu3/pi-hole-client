@@ -5,5 +5,6 @@ String formatTimestamp(DateTime dateTime) {
   final h = dateTime.hour.toString().padLeft(2, '0');
   final min = dateTime.minute.toString().padLeft(2, '0');
   final s = dateTime.second.toString().padLeft(2, '0');
+
   return '$y-$m-$d $h:$min:$s';
 }

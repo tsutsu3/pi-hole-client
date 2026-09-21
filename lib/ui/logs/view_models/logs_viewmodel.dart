@@ -96,6 +96,7 @@ class LogsViewModel extends ChangeNotifier {
       DomainKind.exact,
       domain,
     );
+
     return result;
   }
 
@@ -197,6 +198,7 @@ class LogsViewModel extends ChangeNotifier {
     final statuses = _apiVersion == SupportedApiVersions.v6
         ? queryStatusesV6
         : queryStatusesV5;
+
     return _filters.statusSelected.map((index) {
       final status = statuses.firstWhere(
         (s) => s.index == index,
@@ -216,6 +218,7 @@ class LogsViewModel extends ChangeNotifier {
     final statuses = _apiVersion == SupportedApiVersions.v6
         ? queryStatusesV6
         : queryStatusesV5;
+
     return _filters.statusAllowedAndRetried.map((index) {
       final status = statuses.firstWhere(
         (s) => s.index == index,
@@ -233,6 +236,7 @@ class LogsViewModel extends ChangeNotifier {
   /// Whether the given status is an allowed/retried type (used for the allowlist/blocklist button).
   bool isAllowedOrRetried(QueryStatusType? status) {
     if (status == null) return false;
+
     return allowedAndRetriedStatusTypes.contains(status);
   }
 
@@ -241,6 +245,7 @@ class LogsViewModel extends ChangeNotifier {
     final statuses = _apiVersion == SupportedApiVersions.v6
         ? queryStatusesV6
         : queryStatusesV5;
+
     return statuses.where((s) => s.isShown).map((s) {
       return _apiVersion == SupportedApiVersions.v6
           ? convertQueryStatusTypeV6(s.key)
@@ -319,6 +324,7 @@ class LogsViewModel extends ChangeNotifier {
       final searchMatch =
           _searchText.isEmpty ||
           log.url.toLowerCase().contains(_searchText.toLowerCase());
+
       return statusMatch && deviceMatch && domainMatch && searchMatch;
     }).toList();
 
@@ -336,6 +342,7 @@ class LogsViewModel extends ChangeNotifier {
         selectedClients.isNotEmpty &&
         selectedClients.length < totalClients.length;
     final hasDomainFilter = selectedDomain != null;
+
     return hasTimeFilter ||
         hasStatusFilter ||
         hasClientFilter ||
@@ -521,6 +528,7 @@ class LogsViewModel extends ChangeNotifier {
       if (_paginationService!.finished == LoadStatus.error) {
         _loadStatus = LoadStatus.error;
         notifyListeners();
+
         return;
       }
 
@@ -599,6 +607,7 @@ class LogsViewModel extends ChangeNotifier {
       if (!_isCurrentServerEpoch(serverEpoch)) {
         _isLoadingMore = false;
         notifyListeners();
+
         return;
       }
 
@@ -607,6 +616,7 @@ class LogsViewModel extends ChangeNotifier {
 
       if (newLogs.isNotEmpty) {
         _addLogs(newLogs);
+
         return;
       }
 
@@ -618,6 +628,7 @@ class LogsViewModel extends ChangeNotifier {
     if (!_isCurrentServerEpoch(serverEpoch)) {
       _isLoadingMore = false;
       notifyListeners();
+
       return;
     }
     if (_paginationService!.finished == LoadStatus.error) {
@@ -683,11 +694,13 @@ class LogsViewModel extends ChangeNotifier {
     } else if (_paginationService!.finished == LoadStatus.loaded &&
         !_enableNextWindow) {
       logger.w('Pagination finished and loading more is disabled.');
+
       return [];
     }
 
     final logs = await _paginationService!.loadNextPage();
     logger.d('Loaded ${logs.length} logs from pagination');
+
     return logs;
   }
 
@@ -733,11 +746,13 @@ class LogsViewModel extends ChangeNotifier {
         unique.add(log);
       }
     }
+
     return unique;
   }
 
   String _logKey(Log log) {
     if (log.id != null) return 'id_${log.id}';
+
     return [
       log.dateTime.microsecondsSinceEpoch,
       log.type.name,
@@ -797,18 +812,21 @@ class LogsViewModel extends ChangeNotifier {
     if (_isLivelogPaused) return false;
     if (!_isOnLogsTab) return false;
     if (_loadStatus != LoadStatus.loaded) return false;
+
     return true;
   }
 
   void _configureLiveUpdates() {
     if (!_shouldRunLiveLog) {
       _stopLiveTimer();
+
       return;
     }
 
     final interval = _logAutoRefreshTime;
     if (interval <= 0) {
       _stopLiveTimer();
+
       return;
     }
 
@@ -861,10 +879,12 @@ class LogsViewModel extends ChangeNotifier {
     if (_isLiveTickInProgress) return;
     if (!_shouldRunLiveLog) {
       _stopLiveTimer();
+
       return;
     }
     if (_isFiltering) {
       logger.d('Skipping live log tick due to active filtering');
+
       return;
     }
 

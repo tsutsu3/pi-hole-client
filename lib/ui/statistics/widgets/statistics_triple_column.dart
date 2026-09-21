@@ -44,24 +44,24 @@ class _StatisticsTripleColumnState extends State<StatisticsTripleColumn> {
     final columns = <Widget>[
       _buildColumn(
         context: context,
-        title: AppLocalizations.of(context)!.queriesServers,
+        title: AppLocalizations.of(context).queriesServers,
         content: const QueriesServersTabContent(),
       ),
       _buildColumn(
         context: context,
-        title: AppLocalizations.of(context)!.domains,
+        title: AppLocalizations.of(context).domains,
         content: StatisticsListContent(
           type: 'domains',
-          countLabel: AppLocalizations.of(context)!.hits,
+          countLabel: AppLocalizations.of(context).hits,
           pieChartRadiusScale: 6.0,
         ),
       ),
       _buildColumn(
         context: context,
-        title: AppLocalizations.of(context)!.clients,
+        title: AppLocalizations.of(context).clients,
         content: StatisticsListContent(
           type: 'clients',
-          countLabel: AppLocalizations.of(context)!.requests,
+          countLabel: AppLocalizations.of(context).requests,
           pieChartRadiusScale: 6.0,
         ),
       ),
@@ -71,7 +71,7 @@ class _StatisticsTripleColumnState extends State<StatisticsTripleColumn> {
       columns.add(
         _buildColumn(
           context: context,
-          title: AppLocalizations.of(context)!.dns,
+          title: AppLocalizations.of(context).dns,
           content: const DnsTabContent(),
         ),
       );
@@ -87,7 +87,7 @@ class _StatisticsTripleColumnState extends State<StatisticsTripleColumn> {
               const CircularProgressIndicator(),
               const SizedBox(height: 20),
               Text(
-                AppLocalizations.of(context)!.loadingStats,
+                AppLocalizations.of(context).loadingStats,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                   fontSize: 20,
@@ -160,7 +160,7 @@ class _StatisticsTripleColumnState extends State<StatisticsTripleColumn> {
           child: RefreshIndicator(
             onRefresh: () async => refreshServerStatus(context),
             child: ErrorMessage(
-              message: AppLocalizations.of(context)!.statsNotLoaded,
+              message: AppLocalizations.of(context).statsNotLoaded,
               scrollable: true,
             ),
           ),
@@ -168,7 +168,7 @@ class _StatisticsTripleColumnState extends State<StatisticsTripleColumn> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.statistics)),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).statistics)),
       body: body,
     );
   }

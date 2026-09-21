@@ -54,6 +54,7 @@ class DataVisColors extends ThemeExtension<DataVisColors> {
     if (other is! DataVisColors) {
       return this;
     }
+
     return DataVisColors(
       blue: Color.lerp(blue, other.blue, t),
       blueDark: Color.lerp(blueDark, other.blueDark, t),
@@ -204,6 +205,7 @@ class AppColors extends ThemeExtension<AppColors> {
     if (other is! AppColors) {
       return this;
     }
+
     return AppColors(
       snackBarSuccess: Color.lerp(snackBarSuccess, other.snackBarSuccess, t),
       snackBarSuccessText: Color.lerp(
@@ -326,6 +328,7 @@ class GraphColors extends ThemeExtension<GraphColors> {
   @override
   GraphColors lerp(ThemeExtension<GraphColors>? other, double t) {
     if (other is! GraphColors) return this;
+
     return GraphColors(
       colors: List.generate(colors.length, (i) {
         return Color.lerp(colors[i], other.colors[i], t) ?? colors[i];
@@ -346,6 +349,7 @@ class GraphColors extends ThemeExtension<GraphColors> {
       return defaultColor ?? const Color.fromARGB(255, 46, 44, 44);
     }
     if (index < 0) return defaultColor ?? Colors.black;
+
     return colors[index % colors.length];
   }
 
@@ -481,6 +485,7 @@ ThemeData createTheme(
           final greyColor = brightness == Brightness.dark
               ? Colors.grey[900]!
               : Colors.grey[300]!;
+
           return Color.lerp(baseColor, greyColor, 0.5)!.withValues(alpha: 0.3);
         }),
       ),

@@ -46,7 +46,7 @@ class StatisticsList extends StatelessWidget {
             const CircularProgressIndicator(),
             const SizedBox(height: 50),
             Text(
-              AppLocalizations.of(context)!.loadingStats,
+              AppLocalizations.of(context).loadingStats,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -60,7 +60,7 @@ class StatisticsList extends StatelessWidget {
         StatisticsListContent(type: type, countLabel: countLabel),
       ],
       errorGenerator: () =>
-          ErrorMessage(message: AppLocalizations.of(context)!.statsNotLoaded),
+          ErrorMessage(message: AppLocalizations.of(context).statsNotLoaded),
       loadStatus: loadStatus,
       onRefresh: onRefresh,
       controller: controller,
@@ -96,7 +96,7 @@ class StatisticsListContent extends StatelessWidget {
         );
 
     final theme = Theme.of(context);
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     void navigateFilter(String value) {
       final logsViewModel = context.read<LogsViewModel>();
@@ -190,6 +190,7 @@ class StatisticsListContent extends StatelessWidget {
         items = {...items, item['label']: item['value'].toDouble()};
         legend = {...legend, item['label']: item['value'].toInt()};
       }
+
       return Column(
         children: [
           const SizedBox(height: 10),

@@ -113,7 +113,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.findDomainsInLists),
+        title: Text(AppLocalizations.of(context).findDomainsInLists),
       ),
       body: content,
     );
@@ -128,6 +128,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     return grouped.entries.map((item) {
       final first = item.value.first;
       final domains = item.value.map((e) => e.matchedDomain).toList();
+
       return AdlistSearchGroup(adlist: first.adlist, matchingDomains: domains);
     }).toList();
   }
@@ -144,8 +145,9 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.searchTermRequired,
+        label: AppLocalizations.of(context).searchTermRequired,
       );
+
       return;
     }
 
@@ -153,8 +155,9 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.invalidMaxResults,
+        label: AppLocalizations.of(context).invalidMaxResults,
       );
+
       return;
     }
 
@@ -166,7 +169,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       ));
     } catch (_) {
       if (!mounted) return;
-      viewModel.setSearchError(AppLocalizations.of(context)!.dataFetchFailed);
+      viewModel.setSearchError(AppLocalizations.of(context).dataFetchFailed);
     }
   }
 
@@ -238,7 +241,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     required AppConfigViewModel appConfigViewModel,
   }) async {
     final process = ProcessModal(context: context);
-    process.open(AppLocalizations.of(context)!.deleting);
+    process.open(AppLocalizations.of(context).deleting);
 
     try {
       await viewModel.deleteDomain.runAsync(domain);
@@ -251,7 +254,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.domainRemoved,
+        label: AppLocalizations.of(context).domainRemoved,
       );
     } catch (_) {
       if (!mounted) return;
@@ -260,7 +263,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.errorRemovingDomain,
+        label: AppLocalizations.of(context).errorRemovingDomain,
       );
     }
   }
@@ -271,7 +274,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     required AppConfigViewModel appConfigViewModel,
   }) async {
     final process = ProcessModal(context: context);
-    process.open(AppLocalizations.of(context)!.deleting);
+    process.open(AppLocalizations.of(context).deleting);
 
     try {
       await viewModel.deleteAdlist.runAsync(adlist);
@@ -284,7 +287,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.adlistRemoved,
+        label: AppLocalizations.of(context).adlistRemoved,
       );
     } catch (_) {
       if (!mounted) return;
@@ -293,7 +296,7 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
       showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.adlistDeleteError,
+        label: AppLocalizations.of(context).adlistDeleteError,
       );
     }
   }

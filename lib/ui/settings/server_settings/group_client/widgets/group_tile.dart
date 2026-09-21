@@ -38,7 +38,7 @@ class GroupTile extends StatelessWidget {
     }
 
     final subtitleText =
-        '${AppLocalizations.of(context)!.clients}: $clientCount | ${AppLocalizations.of(context)!.domains}: $domainCount | ${AppLocalizations.of(context)!.adlists}: $adlistCount';
+        '${AppLocalizations.of(context).clients}: $clientCount | ${AppLocalizations.of(context).domains}: $domainCount | ${AppLocalizations.of(context).adlists}: $adlistCount';
 
     final Widget content = Row(
       children: [

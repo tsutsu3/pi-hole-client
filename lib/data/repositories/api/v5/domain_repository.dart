@@ -137,6 +137,7 @@ class DomainRepositoryV5 extends BaseV5TokenRepository
         if (result.isError()) {
           return Failure(result.exceptionOrNull()!);
         }
+
         return Success.unit();
       },
       onRetry: (_, _) => clearToken(),

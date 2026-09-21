@@ -16,7 +16,7 @@ class PrivacyScreen extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.privacyInfo)),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).privacyInfo)),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -24,15 +24,15 @@ class PrivacyScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Privacy Policy Section
-              SectionLabel(label: AppLocalizations.of(context)!.privacyPolicy),
+              SectionLabel(label: AppLocalizations.of(context).privacyPolicy),
               ListTile(
                 leading: const Icon(Icons.privacy_tip_rounded),
                 title: listTileTitle(
-                  AppLocalizations.of(context)!.privacyPolicy,
+                  AppLocalizations.of(context).privacyPolicy,
                   colorScheme: colorScheme,
                 ),
                 subtitle: Text(
-                  AppLocalizations.of(context)!.privacyPolicyDescription,
+                  AppLocalizations.of(context).privacyPolicyDescription,
                 ),
                 trailing: Icon(
                   Icons.open_in_new_rounded,
@@ -42,17 +42,15 @@ class PrivacyScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               // Crash Report Section
-              SectionLabel(
-                label: AppLocalizations.of(context)!.sendCrashReport,
-              ),
+              SectionLabel(label: AppLocalizations.of(context).sendCrashReport),
               ListTile(
                 leading: const Icon(Icons.bug_report_rounded),
                 title: listTileTitle(
-                  AppLocalizations.of(context)!.enableCrashReport,
+                  AppLocalizations.of(context).enableCrashReport,
                   colorScheme: colorScheme,
                 ),
                 subtitle: Text(
-                  AppLocalizations.of(context)!.enableCrashReportDetail,
+                  AppLocalizations.of(context).enableCrashReportDetail,
                 ),
                 trailing: Consumer<AppConfigViewModel>(
                   builder: (context, appConfigViewModel, child) {
@@ -62,13 +60,13 @@ class PrivacyScreen extends StatelessWidget {
                         final result = await appConfigViewModel
                             .setSendCrashReports(value);
                         if (!context.mounted) return;
-                        if (result == true) {
+                        if (result) {
                           showCautionSnackBar(
                             context: context,
                             appConfigViewModel: appConfigViewModel,
                             label: AppLocalizations.of(
                               context,
-                            )!.restartAppTakeEffect,
+                            ).restartAppTakeEffect,
                             duration: 6,
                           );
                         } else {
@@ -77,7 +75,7 @@ class PrivacyScreen extends StatelessWidget {
                             appConfigViewModel: appConfigViewModel,
                             label: AppLocalizations.of(
                               context,
-                            )!.cannotUpdateSettings,
+                            ).cannotUpdateSettings,
                           );
                         }
                       },

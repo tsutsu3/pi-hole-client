@@ -455,6 +455,7 @@ class DomainConverter implements JsonConverter<Domain?, Object?> {
   @override
   Object? toJson(Domain? object) {
     if (object == null) return null;
+
     return {'name': object.name, 'local': object.local};
   }
 }

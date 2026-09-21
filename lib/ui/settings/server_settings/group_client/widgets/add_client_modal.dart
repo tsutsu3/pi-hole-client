@@ -37,7 +37,7 @@ class _AddClientModalState extends State<AddClientModal> {
 
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
@@ -72,6 +72,7 @@ class _AddClientModalState extends State<AddClientModal> {
                     textOf: (item) => item.ip,
                     titleOf: (item) {
                       final hostname = widget.ipToHostname[item.ip];
+
                       return hostname == null || hostname.isEmpty
                           ? item.ip
                           : '$hostname (${item.ip})';
@@ -80,12 +81,14 @@ class _AddClientModalState extends State<AddClientModal> {
                       final vendor = item.macVendor.isNotEmpty
                           ? item.macVendor
                           : locale.unknown;
+
                       return '${item.hwaddr} ($vendor)';
                     },
                     matches: (item, query) {
                       final hostname = (widget.ipToHostname[item.ip] ?? '')
                           .toLowerCase();
                       final ip = item.ip.toLowerCase();
+
                       return ip.contains(query) || hostname.contains(query);
                     },
                     visualDensity: const VisualDensity(vertical: -4),

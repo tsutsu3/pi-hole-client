@@ -46,18 +46,19 @@ class NetworkListView extends StatelessWidget {
       itemCount: devices.length,
       itemBuilder: (context, index) {
         final device = devices[index];
+
         return ListTile(
           leading: _buildStatusIcon(context, device.lastQuery),
           title: _buildDeviceTitle(context, device),
           subtitle: Text(
             device.lastQuery == DateTime.fromMillisecondsSinceEpoch(0)
-                ? AppLocalizations.of(context)!.never
+                ? AppLocalizations.of(context).never
                 : formatTimestamp(device.lastQuery, kUnifiedDateTimeLogFormat),
           ),
           trailing: device.ips.any((ip) => ip.ip == currentClientIp)
               ? Chip(
                   avatar: const Icon(Icons.star_rounded),
-                  label: Text(AppLocalizations.of(context)!.inUse),
+                  label: Text(AppLocalizations.of(context).inUse),
                 )
               : null,
           onTap: () => onDeviceTap?.call(device),
@@ -111,7 +112,7 @@ class NetworkListView extends StatelessWidget {
   Widget _buildDeviceTitle(BuildContext context, Device device) {
     if (device.ips.isEmpty) {
       return Text(
-        AppLocalizations.of(context)!.unknown,
+        AppLocalizations.of(context).unknown,
         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
       );
     }
@@ -119,6 +120,7 @@ class NetworkListView extends StatelessWidget {
     final ipLines = device.ips
         .map((ip) {
           final namePart = ip.name != null ? ' (${ip.name})' : '';
+
           return '${ip.ip}$namePart';
         })
         .join('\n');

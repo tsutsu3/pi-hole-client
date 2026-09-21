@@ -22,6 +22,7 @@ class SecureDataRepository {
     if (_sid == null) {
       return Failure(Exception('SID not loaded. Call loadSid() first.'));
     }
+
     return Success(_sid!);
   }
 
@@ -47,6 +48,7 @@ class SecureDataRepository {
     if (result.isSuccess()) {
       _sid = sid;
     }
+
     return result;
   }
 
@@ -58,6 +60,7 @@ class SecureDataRepository {
     if (result.isSuccess()) {
       _sid = result.getOrNull();
     }
+
     return result;
   }
 
@@ -69,6 +72,7 @@ class SecureDataRepository {
     if (result.isSuccess()) {
       _sid = null;
     }
+
     return result;
   }
 

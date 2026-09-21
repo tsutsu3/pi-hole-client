@@ -89,7 +89,7 @@ class AdlistTile extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                '${AppLocalizations.of(context)!.domains}: ${adlist.number}',
+                '${AppLocalizations.of(context).domains}: ${adlist.number}',
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: Theme.of(context).listTileTheme.textColor,
@@ -112,8 +112,8 @@ class AdlistTile extends StatelessWidget {
               : null,
           child: Text(
             adlist.enabled
-                ? AppLocalizations.of(context)!.enabled
-                : AppLocalizations.of(context)!.disabled,
+                ? AppLocalizations.of(context).enabled
+                : AppLocalizations.of(context).disabled,
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w600,

@@ -58,7 +58,7 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
           builder: (context) => AddServerFullscreen(
             server: server,
             window: true,
-            title: AppLocalizations.of(context)!.editConnection,
+            title: AppLocalizations.of(context).editConnection,
           ),
         );
       } else {
@@ -69,7 +69,7 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
             builder: (BuildContext context) => AddServerFullscreen(
               server: server,
               window: false,
-              title: AppLocalizations.of(context)!.editConnection,
+              title: AppLocalizations.of(context).editConnection,
             ),
           ),
         );
@@ -99,13 +99,13 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.connectionDefaultSuccessfully,
+        label: AppLocalizations.of(context).connectionDefaultSuccessfully,
       );
     } else {
       showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.connectionDefaultFailed,
+        label: AppLocalizations.of(context).connectionDefaultFailed,
       );
     }
   }

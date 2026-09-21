@@ -30,10 +30,12 @@ Future<Result<T>> safeDioCall<T extends Object>(
 ) async {
   try {
     final result = await apiCall();
+
     return Success(result);
   } on DioException catch (e) {
     final exception = ApiException.fromDioException(e);
     logger.e('Dio error: ${exception.message}');
+
     return Failure(exception);
   } on SocketException catch (e) {
     final exception = ApiException(
@@ -41,6 +43,7 @@ Future<Result<T>> safeDioCall<T extends Object>(
       statusCode: 503,
     );
     logger.e(exception.message);
+
     return Failure(exception);
   } on TimeoutException catch (e) {
     final exception = ApiException(
@@ -48,10 +51,12 @@ Future<Result<T>> safeDioCall<T extends Object>(
       statusCode: 504,
     );
     logger.e(exception.message);
+
     return Failure(exception);
   } catch (e, st) {
     final exception = ApiException.unknown('Unexpected error: $e\n$st');
     logger.e(exception.message);
+
     return Failure(exception);
   }
 }
@@ -105,6 +110,7 @@ extension RequireData<T> on Response<T> {
         statusCode: statusCode,
       );
     }
+
     return d;
   }
 }

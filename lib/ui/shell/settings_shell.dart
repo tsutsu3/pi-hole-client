@@ -65,7 +65,7 @@ class SettingsDefaultPage extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Text(
-              AppLocalizations.of(context)!.selectOptionLeftColumn,
+              AppLocalizations.of(context).selectOptionLeftColumn,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 24,

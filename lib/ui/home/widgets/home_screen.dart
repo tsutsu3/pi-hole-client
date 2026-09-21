@@ -46,13 +46,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void _scrollListener() {
     if (scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
-      if (mounted && isVisible == true) {
+      if (mounted && isVisible) {
         setState(() => isVisible = false);
       }
     } else {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
-        if (mounted && isVisible == false) {
+        if (mounted && !isVisible) {
           setState(() => isVisible = true);
         }
       }
@@ -72,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // subscriptions in HomeTiles and HomeCharts are disposed and do not
     // rebuild on every 5-second timer tick while the user is on another screen.
     if (!TickerMode.valuesOf(context).enabled) return const SizedBox.shrink();
+
     return ListenableBuilder(
       listenable: widget.serversViewModel,
       builder: (context, _) => _buildContent(context),
@@ -170,8 +171,10 @@ class _HomeFab extends StatelessWidget {
       if (isVisible && statusLoading == LoadStatus.loaded) {
         if (showingSnackbar) {
           final isSmallScreen = width <= ResponsiveConstants.medium;
+
           return isSmallScreen ? 100.0 : 70.0;
         }
+
         return 20.0;
       }
 

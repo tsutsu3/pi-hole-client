@@ -31,18 +31,19 @@ class DhcpListView extends StatelessWidget {
       itemCount: leases.length,
       itemBuilder: (context, index) {
         final lease = leases[index];
+
         return ListTile(
           leading: _buildStatusIcon(context, lease.expires),
           title: Text(
             lease.name.isEmpty
-                ? AppLocalizations.of(context)!.unknown
+                ? AppLocalizations.of(context).unknown
                 : lease.name,
           ),
           subtitle: Text(lease.ip),
           trailing: lease.ip == currentClientIp
               ? Chip(
                   avatar: const Icon(Icons.star_rounded),
-                  label: Text(AppLocalizations.of(context)!.inUse),
+                  label: Text(AppLocalizations.of(context).inUse),
                 )
               : null,
           onTap: () => onLeaseTap?.call(lease),

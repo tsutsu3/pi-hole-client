@@ -45,12 +45,12 @@ class _ClientsListState extends State<ClientsList> {
   void _scrollListener() {
     if (widget.scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
-      if (mounted && isVisible == true) {
+      if (mounted && isVisible) {
         setState(() => isVisible = false);
       }
     } else if (widget.scrollController.position.userScrollDirection ==
         ScrollDirection.forward) {
-      if (mounted && isVisible == false) {
+      if (mounted && !isVisible) {
         setState(() => isVisible = true);
       }
     }
@@ -76,7 +76,7 @@ class _ClientsListState extends State<ClientsList> {
       ({String client, String? comment, List<int>? groups}) request,
     ) async {
       final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.clientAdding);
+      process.open(AppLocalizations.of(context).clientAdding);
 
       try {
         await clientsViewModel.addClient.runAsync(request);
@@ -87,7 +87,7 @@ class _ClientsListState extends State<ClientsList> {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.clientAdded,
+          label: AppLocalizations.of(context).clientAdded,
         );
       } catch (e) {
         if (!context.mounted) return;
@@ -97,8 +97,8 @@ class _ClientsListState extends State<ClientsList> {
           context: context,
           appConfigViewModel: appConfigViewModel,
           error: e,
-          alreadyExistsLabel: AppLocalizations.of(context)!.clientAlreadyAdded,
-          failedLabel: AppLocalizations.of(context)!.clientAddFailed,
+          alreadyExistsLabel: AppLocalizations.of(context).clientAlreadyAdded,
+          failedLabel: AppLocalizations.of(context).clientAddFailed,
         );
       }
     }
@@ -159,7 +159,7 @@ class _ClientsListState extends State<ClientsList> {
                 const CircularProgressIndicator(),
                 const SizedBox(height: 50),
                 Text(
-                  AppLocalizations.of(context)!.loadingList,
+                  AppLocalizations.of(context).loadingList,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -172,6 +172,7 @@ class _ClientsListState extends State<ClientsList> {
           itemsCount: clients.length,
           contentWidget: (index) {
             final thisClient = clients[index];
+
             return Padding(
               padding:
                   index == 0 &&
@@ -195,7 +196,7 @@ class _ClientsListState extends State<ClientsList> {
             padding: const EdgeInsets.all(20),
             child: Center(
               child: Text(
-                AppLocalizations.of(context)!.clientsNone,
+                AppLocalizations.of(context).clientsNone,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24,
@@ -205,7 +206,7 @@ class _ClientsListState extends State<ClientsList> {
             ),
           ),
           errorGenerator: () => ErrorMessage(
-            message: AppLocalizations.of(context)!.clientsNotLoaded,
+            message: AppLocalizations.of(context).clientsNotLoaded,
           ),
           loadStatus: clientsViewModel.loadingStatus,
           onRefresh: () async => clientsViewModel.loadClients.runAsync(),

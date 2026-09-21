@@ -26,6 +26,7 @@ class QueriesLastHoursBar extends StatelessWidget {
     BuildContext context,
   ) {
     final interval = calcInterval(data['topPoint']);
+
     return BarChartData(
       gridData: FlGridData(
         drawVerticalLine: false,
@@ -143,10 +144,10 @@ class QueriesLastHoursBar extends StatelessWidget {
       var topPoint = 0;
       final domainsOverTime = data.domainsOverTime;
       final adsOverTime = data.adsOverTime;
-      final interval = reducedData == true ? averageIntervalCount : 1;
+      final interval = reducedData ? averageIntervalCount : 1;
       final barWidth =
           chartWidth /
-          (reducedData == true
+          (reducedData
               ? domainsOverTime.length / averageIntervalCount
               : domainsOverTime.length) *
           0.8;
@@ -237,7 +238,7 @@ class QueriesLastHoursBar extends StatelessWidget {
 
           if (formattedData.containsKey('error')) {
             return ErrorMessage(
-              message: AppLocalizations.of(context)!.chartsNotLoaded,
+              message: AppLocalizations.of(context).chartsNotLoaded,
             );
           }
 

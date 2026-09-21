@@ -100,11 +100,11 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
         tabs: [
           IconTab(
             icon: Icons.check_circle_rounded,
-            label: AppLocalizations.of(context)!.allowlist,
+            label: AppLocalizations.of(context).allowlist,
           ),
           IconTab(
             icon: Icons.block_rounded,
-            label: AppLocalizations.of(context)!.blocklist,
+            label: AppLocalizations.of(context).blocklist,
           ),
         ],
         tabChildren: [
@@ -135,7 +135,7 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
         ],
         groupChip: Chip(
           label: Text(
-            '${AppLocalizations.of(context)!.groups}: ${widget.groupName}',
+            '${AppLocalizations.of(context).groups}: ${widget.groupName}',
           ),
           deleteIcon: const Icon(Icons.close, size: 18),
           onDeleted: () => context.pop(),
@@ -168,7 +168,7 @@ class _FilteredAdlistsState extends State<FilteredAdlists>
                     child: SafeArea(
                       child: Center(
                         child: Text(
-                          AppLocalizations.of(context)!.adlistsSelectLeftColumn,
+                          AppLocalizations.of(context).adlistsSelectLeftColumn,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 24,

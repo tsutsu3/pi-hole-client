@@ -14,7 +14,7 @@ Future<void> deleteGroup({
   required Group group,
 }) async {
   final process = ProcessModal(context: context);
-  process.open(AppLocalizations.of(context)!.deleting);
+  process.open(AppLocalizations.of(context).deleting);
 
   try {
     await viewModel.deleteGroup.runAsync(group);
@@ -23,7 +23,7 @@ Future<void> deleteGroup({
     showSuccessSnackBar(
       context: context,
       appConfigViewModel: appConfigViewModel,
-      label: AppLocalizations.of(context)!.groupRemoved,
+      label: AppLocalizations.of(context).groupRemoved,
     );
   } on GroupInUseException {
     if (!context.mounted) return;
@@ -31,7 +31,7 @@ Future<void> deleteGroup({
     showErrorSnackBar(
       context: context,
       appConfigViewModel: appConfigViewModel,
-      label: AppLocalizations.of(context)!.groupInUse,
+      label: AppLocalizations.of(context).groupInUse,
     );
   } catch (_) {
     if (!context.mounted) return;
@@ -39,7 +39,7 @@ Future<void> deleteGroup({
     showErrorSnackBar(
       context: context,
       appConfigViewModel: appConfigViewModel,
-      label: AppLocalizations.of(context)!.groupRemoveFailed,
+      label: AppLocalizations.of(context).groupRemoveFailed,
     );
   } finally {
     process.close();

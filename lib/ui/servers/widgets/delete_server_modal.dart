@@ -33,20 +33,20 @@ class DeleteServerModal extends StatelessWidget {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.connectionRemoved,
+          label: AppLocalizations.of(context).connectionRemoved,
         );
       } else {
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.connectionCannotBeRemoved,
+          label: AppLocalizations.of(context).connectionCannotBeRemoved,
         );
       }
     }
 
     return DeleteModal(
-      title: AppLocalizations.of(context)!.remove,
-      message: AppLocalizations.of(context)!.removeWarning,
+      title: AppLocalizations.of(context).remove,
+      message: AppLocalizations.of(context).removeWarning,
       onDelete: removeServer,
       submessage: serverToDelete.address,
     );

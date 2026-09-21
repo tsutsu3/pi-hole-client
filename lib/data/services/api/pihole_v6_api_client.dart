@@ -136,6 +136,7 @@ class PiholeV6ApiClient {
     } catch (_) {
       // Fall through to the default HttpStatusCodeException.
     }
+
     return null;
   }
 
@@ -909,6 +910,7 @@ class PiholeV6ApiClient {
       // 404: message already gone on the server - treat as success.
       if (resp.statusCode == 404) {
         logger.d('Message $messageId already deleted (404)');
+
         return unit;
       }
 
@@ -1008,6 +1010,7 @@ class PiholeV6ApiClient {
         // Use allowMalformed to handle invalid UTF-8 characters in device
         // names or MAC vendor names
         final body = utf8.decode(resp.bodyBytes, allowMalformed: true);
+
         return Devices.fromJson(jsonDecode(body));
       }
 

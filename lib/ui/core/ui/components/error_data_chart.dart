@@ -28,7 +28,7 @@ class ErrorDataChart extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: ErrorMessage(
-              message: AppLocalizations.of(context)!.chartsNotLoaded,
+              message: AppLocalizations.of(context).chartsNotLoaded,
             ),
           ),
         ],

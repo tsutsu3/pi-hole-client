@@ -94,6 +94,7 @@ class AppConfigViewModel with ChangeNotifier {
       (option) => option.key == _selectedLanguage,
       orElse: () => languageOptions.firstWhere((option) => option.key == 'en'),
     );
+
     return selectedLanguageOption.index;
   }
 
@@ -233,13 +234,15 @@ class AppConfigViewModel with ChangeNotifier {
   Future<bool> setUseBiometrics(bool biometrics) async {
     final updated = await _repository.updateUseBiometricAuth(biometrics);
     if (updated.isSuccess()) {
-      _useBiometrics = biometrics == true ? 1 : 0;
+      _useBiometrics = biometrics ? 1 : 0;
       notifyListeners();
+
       return true;
     } else {
       logger.w(
         'Failed to persist useBiometrics setting to the database. In-memory state has been updated, but DB and app state may be inconsistent.',
       );
+
       return false;
     }
   }
@@ -247,8 +250,9 @@ class AppConfigViewModel with ChangeNotifier {
   Future<bool> setImportantInfoReaden(bool status) async {
     final updated = await _repository.updateImportantInfoReaden(status);
     if (updated.isSuccess()) {
-      _importantInfoReaden = status == true ? 1 : 0;
+      _importantInfoReaden = status ? 1 : 0;
       notifyListeners();
+
       return true;
     } else {
       return false;
@@ -264,6 +268,7 @@ class AppConfigViewModel with ChangeNotifier {
         if (updated2.isSuccess()) {
           _passCode = code;
           notifyListeners();
+
           return true;
         } else {
           return false;
@@ -276,6 +281,7 @@ class AppConfigViewModel with ChangeNotifier {
       if (updated.isSuccess()) {
         _passCode = code;
         notifyListeners();
+
         return true;
       } else {
         return false;
@@ -288,6 +294,7 @@ class AppConfigViewModel with ChangeNotifier {
     if (updated.isSuccess()) {
       _autoRefreshTime = seconds;
       notifyListeners();
+
       return true;
     } else {
       return false;
@@ -299,6 +306,7 @@ class AppConfigViewModel with ChangeNotifier {
     if (updated.isSuccess()) {
       _logsPerQuery = time;
       notifyListeners();
+
       return true;
     } else {
       return false;
@@ -308,8 +316,9 @@ class AppConfigViewModel with ChangeNotifier {
   Future<bool> setSendCrashReports(bool status) async {
     final updated = await _repository.updateSendCrashReports(status);
     if (updated.isSuccess()) {
-      _sendCrashReports = status == true ? 1 : 0;
+      _sendCrashReports = status ? 1 : 0;
       notifyListeners();
+
       return true;
     } else {
       return false;
@@ -321,6 +330,7 @@ class AppConfigViewModel with ChangeNotifier {
     if (updated.isSuccess()) {
       _logAutoRefreshTime = seconds;
       notifyListeners();
+
       return true;
     } else {
       return false;
@@ -332,6 +342,7 @@ class AppConfigViewModel with ChangeNotifier {
     if (updated.isSuccess()) {
       _liveLog = status;
       notifyListeners();
+
       return true;
     } else {
       return false;
@@ -343,6 +354,7 @@ class AppConfigViewModel with ChangeNotifier {
     if (updated.isSuccess()) {
       _isLivelogPaused = status;
       notifyListeners();
+
       return true;
     } else {
       return false;
@@ -377,8 +389,9 @@ class AppConfigViewModel with ChangeNotifier {
   Future<bool> setReducedDataCharts(bool status) async {
     final updated = await _repository.updateReducedDataCharts(status);
     if (updated.isSuccess()) {
-      _reducedDataCharts = status == true ? 1 : 0;
+      _reducedDataCharts = status ? 1 : 0;
       notifyListeners();
+
       return true;
     } else {
       return false;
@@ -388,8 +401,9 @@ class AppConfigViewModel with ChangeNotifier {
   Future<bool> setHideZeroValues(bool status) async {
     final updated = await _repository.updateHideZeroValues(status);
     if (updated.isSuccess()) {
-      _hideZeroValues = status == true ? 1 : 0;
+      _hideZeroValues = status ? 1 : 0;
       notifyListeners();
+
       return true;
     } else {
       return false;
@@ -401,6 +415,7 @@ class AppConfigViewModel with ChangeNotifier {
     if (updated.isSuccess()) {
       _loadingAnimation = status ? 1 : 0;
       notifyListeners();
+
       return true;
     } else {
       return false;
@@ -412,6 +427,7 @@ class AppConfigViewModel with ChangeNotifier {
     if (updated.isSuccess()) {
       _selectedTheme = value;
       notifyListeners();
+
       return true;
     } else {
       return false;
@@ -423,6 +439,7 @@ class AppConfigViewModel with ChangeNotifier {
     if (updated.isSuccess()) {
       _selectedLanguage = value;
       notifyListeners();
+
       return true;
     } else {
       return false;
@@ -438,6 +455,7 @@ class AppConfigViewModel with ChangeNotifier {
     if (updated.isSuccess()) {
       _statisticsVisualizationMode = value;
       notifyListeners();
+
       return true;
     } else {
       return false;
@@ -449,6 +467,7 @@ class AppConfigViewModel with ChangeNotifier {
     if (updated.isSuccess()) {
       _homeVisualizationMode = value;
       notifyListeners();
+
       return true;
     } else {
       return false;

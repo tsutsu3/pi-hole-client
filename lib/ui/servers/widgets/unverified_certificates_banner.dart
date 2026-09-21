@@ -35,7 +35,7 @@ class _UnverifiedCertificatesBannerState
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).extension<AppColors>()!;
 
     return Card(

@@ -170,6 +170,7 @@ class _AutoCompleteFieldState<T> extends State<AutoCompleteField<T>> {
     // Fallback to title and subtitle matching
     final titleOf = widget.titleOf;
     final subtitleOf = widget.subtitleOf;
+
     return widget.items.where((it) {
       final text = widget.textOf(it).toLowerCase();
       final title = (titleOf?.call(it) ?? widget.textOf(it)).toLowerCase();

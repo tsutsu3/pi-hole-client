@@ -26,11 +26,13 @@ class RefreshOption {
 
   static int indexFromTime(int time) {
     final idx = all.indexWhere((opt) => opt.time == time);
+
     return idx != -1 ? idx : all.length - 1;
   }
 
   static int timeFromIndex(int index) {
     final t = all[index].time;
+
     return t > 0 ? t : 0;
   }
 }
@@ -109,6 +111,7 @@ class _LogRefreshIntervalScreenState extends State<LogRefreshIntervalScreen> {
     final opt = RefreshOption.all[selectedIndex];
     if (opt.time > 0) return opt.time;
     final parsed = int.tryParse(customTimeController.text);
+
     return parsed ?? RefreshOption.defaultTime;
   }
 
@@ -118,7 +121,7 @@ class _LogRefreshIntervalScreenState extends State<LogRefreshIntervalScreen> {
 
     if (!mounted) return;
 
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
     if (result) {
       showSuccessSnackBar(
         context: context,
@@ -136,7 +139,8 @@ class _LogRefreshIntervalScreenState extends State<LogRefreshIntervalScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(title: Text(loc.logAutoRefreshTime)),
       body: SafeArea(

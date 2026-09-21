@@ -31,8 +31,9 @@ class ThemeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
+
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.theme)),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).theme)),
       body: RadioGroup<AppThemeMode>(
         groupValue: appConfigViewModel.appThemeMode,
         onChanged: (v) => appConfigViewModel.setSelectedTheme(v!),
@@ -42,19 +43,19 @@ class ThemeScreen extends StatelessWidget {
               _buildThemeRow(
                 context,
                 icon: Icons.phone_android_rounded,
-                text: AppLocalizations.of(context)!.systemTheme,
+                text: AppLocalizations.of(context).systemTheme,
                 value: AppThemeMode.system,
               ),
               _buildThemeRow(
                 context,
                 icon: Icons.light_mode_rounded,
-                text: AppLocalizations.of(context)!.light,
+                text: AppLocalizations.of(context).light,
                 value: AppThemeMode.light,
               ),
               _buildThemeRow(
                 context,
                 icon: Icons.dark_mode_rounded,
-                text: AppLocalizations.of(context)!.dark,
+                text: AppLocalizations.of(context).dark,
                 value: AppThemeMode.dark,
               ),
             ],

@@ -40,7 +40,7 @@ class QueriesServersTab extends StatelessWidget {
             const CircularProgressIndicator(),
             const SizedBox(height: 50),
             Text(
-              AppLocalizations.of(context)!.loadingStats,
+              AppLocalizations.of(context).loadingStats,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -52,7 +52,7 @@ class QueriesServersTab extends StatelessWidget {
       ),
       contentGenerator: () => [const QueriesServersTabContent()],
       errorGenerator: () =>
-          ErrorMessage(message: AppLocalizations.of(context)!.statsNotLoaded),
+          ErrorMessage(message: AppLocalizations.of(context).statsNotLoaded),
       loadStatus: statusLoading,
       onRefresh: onRefresh,
       controller: controller,
@@ -103,7 +103,7 @@ class QueriesServersTabContent extends StatelessWidget {
             child: Column(
               children: [
                 SectionLabel(
-                  label: AppLocalizations.of(context)!.queryTypes,
+                  label: AppLocalizations.of(context).queryTypes,
                   padding: const EdgeInsets.only(top: 8, left: 16, bottom: 24),
                 ),
                 if (width > ResponsiveConstants.medium)
@@ -143,14 +143,14 @@ class QueriesServersTabContent extends StatelessWidget {
             ),
           )
         else
-          NoDataChart(topLabel: AppLocalizations.of(context)!.queryTypes),
+          NoDataChart(topLabel: AppLocalizations.of(context).queryTypes),
         if (destinationsMap.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: Column(
               children: [
                 SectionLabel(
-                  label: AppLocalizations.of(context)!.upstreamServers,
+                  label: AppLocalizations.of(context).upstreamServers,
                   padding: const EdgeInsets.only(top: 16, left: 16, bottom: 24),
                 ),
                 if (width > ResponsiveConstants.medium)
@@ -190,7 +190,7 @@ class QueriesServersTabContent extends StatelessWidget {
             ),
           )
         else
-          NoDataChart(topLabel: AppLocalizations.of(context)!.upstreamServers),
+          NoDataChart(topLabel: AppLocalizations.of(context).upstreamServers),
       ],
     );
   }
@@ -198,6 +198,7 @@ class QueriesServersTabContent extends StatelessWidget {
   Map<String, double> _sortedDescending(Map<String, double> values) {
     final sortedKeys = values.keys.toList(growable: false)
       ..sort((a, b) => values[b]!.compareTo(values[a]!));
+
     return LinkedHashMap.fromIterable(
       sortedKeys,
       key: (k) => k,

@@ -34,7 +34,7 @@ class AppLogsScreen extends StatelessWidget {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            AppLocalizations.of(context)!.logsCopiedClipboard,
+            AppLocalizations.of(context).logsCopiedClipboard,
             style: TextStyle(
               color: Theme.of(
                 context,
@@ -51,14 +51,14 @@ class AppLogsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.logs),
+        title: Text(AppLocalizations.of(context).logs),
         actions: [
           IconButton(
             onPressed: appConfigViewModel.logs.isNotEmpty
                 ? copyLogsClipboard
                 : null,
             icon: const Icon(Icons.share),
-            tooltip: AppLocalizations.of(context)!.copyLogsClipboard,
+            tooltip: AppLocalizations.of(context).copyLogsClipboard,
           ),
           const SizedBox(width: 10),
         ],
@@ -100,7 +100,7 @@ class AppLogsScreen extends StatelessWidget {
               )
             : Center(
                 child: Text(
-                  AppLocalizations.of(context)!.noSavedLogs,
+                  AppLocalizations.of(context).noSavedLogs,
                   style: TextStyle(
                     fontSize: 24,
                     color: Theme.of(context).colorScheme.onSurfaceVariant,

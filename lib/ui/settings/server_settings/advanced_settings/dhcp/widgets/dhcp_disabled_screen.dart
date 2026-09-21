@@ -16,7 +16,7 @@ class DhcpDisabledScreen extends StatelessWidget {
               const Icon(Icons.settings_ethernet_rounded, size: 60),
               const SizedBox(height: 16),
               Text(
-                AppLocalizations.of(context)!.dhcpOff,
+                AppLocalizations.of(context).dhcpOff,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 24,
@@ -25,7 +25,7 @@ class DhcpDisabledScreen extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               Text(
-                AppLocalizations.of(context)!.dhcpOffMessage,
+                AppLocalizations.of(context).dhcpOffMessage,
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 16, height: 1.5),
               ),

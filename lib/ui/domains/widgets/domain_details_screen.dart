@@ -75,7 +75,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.domainDetails),
+        title: Text(AppLocalizations.of(context).domainDetails),
         actions: [
           IconButton(
             onPressed: () => showDialog(
@@ -83,8 +83,8 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
               useRootNavigator:
                   false, // Prevents unexpected app exit on mobile when pressing back
               builder: (context) => DeleteModal(
-                title: AppLocalizations.of(context)!.domainDelete,
-                message: AppLocalizations.of(context)!.domainDeleteMessage,
+                title: AppLocalizations.of(context).domainDelete,
+                message: AppLocalizations.of(context).domainDeleteMessage,
                 onDelete: () {
                   Navigator.maybePop(context);
                   widget.remove(widget.domain);
@@ -101,7 +101,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
           children: [
             ListTile(
               leading: const Icon(Icons.domain),
-              title: Text(AppLocalizations.of(context)!.domain),
+              title: Text(AppLocalizations.of(context).domain),
               subtitle: Text(
                 _domain.punyCode != _domain.name
                     ? '${_domain.name} (${_domain.punyCode})'
@@ -110,7 +110,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.category_rounded),
-              title: Text(AppLocalizations.of(context)!.type),
+              title: Text(AppLocalizations.of(context).type),
               subtitle: Text(getDomainTypeLabel(_domain.type, _domain.kind)),
               subtitleTextStyle: widget.colors != null
                   ? TextStyle(
@@ -124,11 +124,11 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.check),
-              title: Text(AppLocalizations.of(context)!.status),
+              title: Text(AppLocalizations.of(context).status),
               subtitle: Text(
                 _domain.enabled
-                    ? AppLocalizations.of(context)!.enabled
-                    : AppLocalizations.of(context)!.disabled,
+                    ? AppLocalizations.of(context).enabled
+                    : AppLocalizations.of(context).disabled,
               ),
               trailing: isV5
                   ? null
@@ -147,7 +147,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
             if (!isV5)
               ListTile(
                 leading: const Icon(Icons.group_rounded),
-                title: Text(AppLocalizations.of(context)!.groups),
+                title: Text(AppLocalizations.of(context).groups),
                 subtitle: Text(getGroupNames().join(', ')),
                 trailing: Icon(
                   Icons.edit_rounded,
@@ -157,10 +157,10 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
               ),
             ListTile(
               leading: const Icon(Icons.comment_rounded),
-              title: Text(AppLocalizations.of(context)!.comment),
+              title: Text(AppLocalizations.of(context).comment),
               subtitle: Text(
                 _domain.comment == '' || _domain.comment == null
-                    ? AppLocalizations.of(context)!.noComment
+                    ? AppLocalizations.of(context).noComment
                     : _domain.comment!,
               ),
               trailing: isV5
@@ -173,14 +173,14 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.event_available_rounded),
-              title: Text(AppLocalizations.of(context)!.dateAdded),
+              title: Text(AppLocalizations.of(context).dateAdded),
               subtitle: Text(
                 formatTimestamp(_domain.dateAdded, kUnifiedDateFormat),
               ),
             ),
             ListTile(
               leading: const Icon(Icons.edit_calendar_rounded),
-              title: Text(AppLocalizations.of(context)!.dateModified),
+              title: Text(AppLocalizations.of(context).dateModified),
               subtitle: Text(
                 formatTimestamp(_domain.dateModified, kUnifiedDateFormat),
               ),
@@ -196,12 +196,13 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
     for (final group in _domain.groups) {
       groupNames.add(widget.groups[group]!);
     }
+
     return groupNames;
   }
 
   Future<void> onEditDomain(Domain updated) async {
     final process = ProcessModal(context: context);
-    process.open(AppLocalizations.of(context)!.updating);
+    process.open(AppLocalizations.of(context).updating);
 
     try {
       await viewModel.updateDomain.runAsync(updated);
@@ -216,7 +217,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.domainUpdated,
+        label: AppLocalizations.of(context).domainUpdated,
       );
     } catch (e) {
       if (!mounted) return;
@@ -226,8 +227,8 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
         context: context,
         appConfigViewModel: appConfigViewModel,
         error: e,
-        alreadyExistsLabel: AppLocalizations.of(context)!.domainAlreadyAdded,
-        failedLabel: AppLocalizations.of(context)!.domainUpdateFailed,
+        alreadyExistsLabel: AppLocalizations.of(context).domainAlreadyAdded,
+        failedLabel: AppLocalizations.of(context).domainUpdateFailed,
       );
     }
   }
@@ -247,7 +248,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
         builder: (ctx) => EditDomainModal(
           domain: _domain,
           keyItem: 'comment',
-          title: AppLocalizations.of(context)!.editComment,
+          title: AppLocalizations.of(context).editComment,
           icon: Icons.comment_rounded,
           onConfirm: onEditDomain,
           groups: widget.groups,
@@ -260,7 +261,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
         builder: (ctx) => EditDomainModal(
           domain: _domain,
           keyItem: 'comment',
-          title: AppLocalizations.of(context)!.editComment,
+          title: AppLocalizations.of(context).editComment,
           icon: Icons.comment_rounded,
           onConfirm: onEditDomain,
           groups: widget.groups,
@@ -280,7 +281,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
         builder: (ctx) => EditDomainModal(
           domain: _domain,
           keyItem: 'groups',
-          title: AppLocalizations.of(context)!.editGroups,
+          title: AppLocalizations.of(context).editGroups,
           icon: Icons.group_rounded,
           onConfirm: onEditDomain,
           groups: widget.groups,
@@ -293,7 +294,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
         builder: (ctx) => EditDomainModal(
           domain: _domain,
           keyItem: 'groups',
-          title: AppLocalizations.of(context)!.editGroups,
+          title: AppLocalizations.of(context).editGroups,
           icon: Icons.group_rounded,
           onConfirm: onEditDomain,
           groups: widget.groups,

@@ -18,7 +18,7 @@ class NetworkDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -30,8 +30,8 @@ class NetworkDetailScreen extends StatelessWidget {
               useRootNavigator:
                   false, // Prevents unexpected app exit on mobile when pressing back
               builder: (context) => DeleteModal(
-                title: AppLocalizations.of(context)!.deviceDelete,
-                message: AppLocalizations.of(context)!.deviceDeleteMessage,
+                title: AppLocalizations.of(context).deviceDelete,
+                message: AppLocalizations.of(context).deviceDeleteMessage,
                 onDelete: () {
                   Navigator.maybePop(context);
                   onDelete(device);

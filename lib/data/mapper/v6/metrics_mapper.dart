@@ -108,6 +108,7 @@ extension TypesMapper on ss.StatsTypes {
   List<d.QueryTypeStat> toDomain() {
     if (toJson().values.isEmpty) return [];
     final total = toJson().values.reduce((a, b) => a + b);
+
     return toJson().entries.map((e) {
       return d.QueryTypeStat(
         type: convertDnsRecordType(e.key),
@@ -160,6 +161,7 @@ extension HistoryClientsMapper on sh.HistoryClients {
   d.Clients toDomain() {
     final orderedClients = clients.entries.map((e) {
       final ip = e.key;
+
       return d.Client(name: e.value.name, ip: ip, total: e.value.total);
     }).toList();
 

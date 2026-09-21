@@ -64,7 +64,7 @@ class ConfirmationModal extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
               ),
               child: Text(
-                AppLocalizations.of(context)!.cancel,
+                AppLocalizations.of(context).cancel,
                 style: TextStyle(
                   color: colorScheme.onSurface..withValues(alpha: 0.8),
                 ),
@@ -79,7 +79,7 @@ class ConfirmationModal extends StatelessWidget {
                 shadowColor: Colors.transparent,
               ),
               child: Text(
-                confirmButtonText ?? AppLocalizations.of(context)!.confirm,
+                confirmButtonText ?? AppLocalizations.of(context).confirm,
                 style: TextStyle(
                   color: confirmButtonTextColor ?? Colors.white,
                   fontWeight: FontWeight.bold,

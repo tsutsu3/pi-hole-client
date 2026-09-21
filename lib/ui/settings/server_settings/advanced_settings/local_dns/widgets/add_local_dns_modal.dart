@@ -40,7 +40,7 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
 
   /// Validate the IP address format
   void validateIp(String? value) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     if (value != null && value != '') {
       final address = InternetAddress.tryParse(value.trim());
       if (address == null) {
@@ -62,7 +62,7 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
 
   /// Validate the host names (one or more, separated by spaces)
   void validateHostName(String? value) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     if (value != null && value != '') {
       if (isValidLocalDnsNames(value)) {
         setState(() {
@@ -101,7 +101,7 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
     final isKeyboardVisible = mediaQuery.viewInsets.bottom > 0;
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
 
     Widget content() {
       return Column(
@@ -182,11 +182,11 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
               children: [
                 TextButton(
                   onPressed: () => Navigator.maybePop(context),
-                  child: Text(AppLocalizations.of(context)!.cancel),
+                  child: Text(AppLocalizations.of(context).cancel),
                 ),
                 const SizedBox(width: 14),
                 TextButton(
-                  onPressed: allDataValid == true
+                  onPressed: allDataValid
                       ? () {
                           widget.addLocalDns({
                             'ip': ipController.text.trim(),
@@ -199,10 +199,10 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
                       : null,
                   style: ButtonStyle(
                     foregroundColor: WidgetStateProperty.all(
-                      allDataValid == true ? null : Colors.grey,
+                      allDataValid ? null : Colors.grey,
                     ),
                   ),
-                  child: Text(AppLocalizations.of(context)!.add),
+                  child: Text(AppLocalizations.of(context).add),
                 ),
               ],
             ),
@@ -211,7 +211,7 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 500),

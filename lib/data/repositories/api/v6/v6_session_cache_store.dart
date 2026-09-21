@@ -18,10 +18,12 @@ class V6SessionCacheStore {
     final existing = _caches[address];
     if (existing != null) {
       existing.rebind(creds: creds, client: client);
+
       return existing;
     }
     final cache = V6SessionCache(creds: creds, client: client);
     _caches[address] = cache;
+
     return cache;
   }
 

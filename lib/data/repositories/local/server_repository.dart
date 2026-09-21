@@ -61,6 +61,7 @@ class LocalServerRepository implements ServerRepository {
       return Success(servers);
     } catch (e, st) {
       logger.e('Failed to load servers: $e\n$st');
+
       return Failure(Exception('Failed to load servers: $e\n$st'));
     }
   }
@@ -100,6 +101,7 @@ class LocalServerRepository implements ServerRepository {
         if (server.defaultServer) {
           await txn.update('servers', {'isDefaultServer': 0});
         }
+
         return txn.insert('servers', {
           'address': server.address,
           'alias': server.alias,
@@ -112,6 +114,7 @@ class LocalServerRepository implements ServerRepository {
       });
     } catch (e, st) {
       logger.e('Failed to save server: $e\n$st');
+
       return Failure(Exception('Failed to save server: $e\n$st'));
     }
   }
@@ -151,6 +154,7 @@ class LocalServerRepository implements ServerRepository {
         if (server.defaultServer) {
           await txn.update('servers', {'isDefaultServer': 0});
         }
+
         return txn.update(
           'servers',
           {
@@ -167,6 +171,7 @@ class LocalServerRepository implements ServerRepository {
       });
     } catch (e, st) {
       logger.e('Failed to edit server: $e\n$st');
+
       return Failure(Exception('Failed to edit server: $e\n$st'));
     }
   }
@@ -195,10 +200,12 @@ class LocalServerRepository implements ServerRepository {
           where: 'address = ?',
           whereArgs: [url],
         );
+
         return count1 + count2;
       });
     } catch (e, st) {
       logger.e('Failed to set default server: $e\n$st');
+
       return Failure(Exception('Failed to set default server: $e\n$st'));
     }
   }
@@ -233,6 +240,7 @@ class LocalServerRepository implements ServerRepository {
         if (newServer.defaultServer) {
           await txn.update('servers', {'isDefaultServer': 0});
         }
+
         return txn.insert('servers', {
           'address': newServer.address,
           'alias': newServer.alias,
@@ -245,6 +253,7 @@ class LocalServerRepository implements ServerRepository {
       });
     } catch (e, st) {
       logger.e('Failed to replace server: $e\n$st');
+
       return Failure(Exception('Failed to replace server: $e\n$st'));
     }
   }
@@ -270,9 +279,11 @@ class LocalServerRepository implements ServerRepository {
         await _secureStorage.deleteValue('${address}_password');
         await _secureStorage.deleteValue('${address}_sid');
       }
+
       return deleted;
     } catch (e, st) {
       logger.e('Failed to remove server: $e\n$st');
+
       return Failure(Exception('Failed to remove server: $e\n$st'));
     }
   }
@@ -295,9 +306,11 @@ class LocalServerRepository implements ServerRepository {
       if (deleted.isSuccess()) {
         await _secureStorage.clearAll();
       }
+
       return deleted;
     } catch (e, st) {
       logger.e('Failed to delete all servers data: $e\n$st');
+
       return Failure(Exception('Failed to delete all servers data: $e\n$st'));
     }
   }
@@ -327,6 +340,7 @@ class LocalServerRepository implements ServerRepository {
       return Success(quantity > 0);
     } catch (e, st) {
       logger.e('Failed to check if URL exists: $e\n$st');
+
       return Failure(Exception('Failed to check if URL exists: $e\n$st'));
     }
   }
@@ -370,6 +384,7 @@ class LocalServerRepository implements ServerRepository {
       return Success.unit();
     } catch (e, st) {
       logger.e('Failed to delete unused server secrets: $e\n$st');
+
       return Failure(
         Exception('Failed to delete unused server secrets: $e\n$st'),
       );
@@ -380,9 +395,11 @@ class LocalServerRepository implements ServerRepository {
   Future<Result<String>> fetchPassword(String address) async {
     try {
       final result = await _secureStorage.getValue('${address}_password');
+
       return Success(result.getOrElse((_) => ''));
     } catch (e, st) {
       logger.e('Failed to fetch password: $e\n$st');
+
       return Failure(Exception('Failed to fetch password: $e\n$st'));
     }
   }
@@ -394,12 +411,14 @@ class LocalServerRepository implements ServerRepository {
     try {
       final token = await _secureStorage.getValue('${address}_token');
       final password = await _secureStorage.getValue('${address}_password');
+
       return Success((
         token: token.getOrElse((_) => ''),
         password: password.getOrElse((_) => ''),
       ));
     } catch (e, st) {
       logger.e('Failed to fetch credentials: $e\n$st');
+
       return Failure(Exception('Failed to fetch credentials: $e\n$st'));
     }
   }
@@ -408,9 +427,11 @@ class LocalServerRepository implements ServerRepository {
   Future<Result<void>> savePassword(String address, String password) async {
     try {
       await _secureStorage.saveValue('${address}_password', password);
+
       return Success.unit();
     } catch (e, st) {
       logger.e('Failed to save password: $e\n$st');
+
       return Failure(Exception('Failed to save password: $e\n$st'));
     }
   }
@@ -419,9 +440,11 @@ class LocalServerRepository implements ServerRepository {
   Future<Result<void>> saveToken(String address, String token) async {
     try {
       await _secureStorage.saveValue('${address}_token', token);
+
       return Success.unit();
     } catch (e, st) {
       logger.e('Failed to save token: $e\n$st');
+
       return Failure(Exception('Failed to save token: $e\n$st'));
     }
   }
@@ -430,9 +453,11 @@ class LocalServerRepository implements ServerRepository {
   Future<Result<void>> deletePassword(String address) async {
     try {
       await _secureStorage.deleteValue('${address}_password');
+
       return Success.unit();
     } catch (e, st) {
       logger.e('Failed to delete password: $e\n$st');
+
       return Failure(Exception('Failed to delete password: $e\n$st'));
     }
   }
@@ -441,9 +466,11 @@ class LocalServerRepository implements ServerRepository {
   Future<Result<void>> deleteToken(String address) async {
     try {
       await _secureStorage.deleteValue('${address}_token');
+
       return Success.unit();
     } catch (e, st) {
       logger.e('Failed to delete token: $e\n$st');
+
       return Failure(Exception('Failed to delete token: $e\n$st'));
     }
   }
@@ -452,9 +479,11 @@ class LocalServerRepository implements ServerRepository {
   Future<Result<void>> deleteSid(String address) async {
     try {
       await _secureStorage.deleteValue('${address}_sid');
+
       return Success.unit();
     } catch (e, st) {
       logger.e('Failed to delete sid: $e\n$st');
+
       return Failure(Exception('Failed to delete sid: $e\n$st'));
     }
   }

@@ -24,7 +24,7 @@ Future<void> enableServer(BuildContext context) async {
   final serverAddress = serversViewModel.selectedServer?.address;
 
   final process = ProcessModal(context: context);
-  process.open(AppLocalizations.of(context)!.enablingServer);
+  process.open(AppLocalizations.of(context).enablingServer);
   final result = await bundle.dns.enableBlocking();
   process.close();
 
@@ -38,14 +38,14 @@ Future<void> enableServer(BuildContext context) async {
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.serverEnabled,
+        label: AppLocalizations.of(context).serverEnabled,
       );
     },
     (error) {
       showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.couldntEnableServer,
+        label: AppLocalizations.of(context).couldntEnableServer,
       );
     },
   );
@@ -70,7 +70,7 @@ Future<void> disableServer(int time, BuildContext context) async {
   final serverAddress = serversViewModel.selectedServer?.address;
 
   final process = ProcessModal(context: context);
-  process.open(AppLocalizations.of(context)!.disablingServer);
+  process.open(AppLocalizations.of(context).disablingServer);
   final result = await bundle.dns.disableBlocking(time);
   process.close();
 
@@ -82,14 +82,14 @@ Future<void> disableServer(int time, BuildContext context) async {
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.serverDisabled,
+        label: AppLocalizations.of(context).serverDisabled,
       );
     },
     (error) {
       showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.couldntDisableServer,
+        label: AppLocalizations.of(context).couldntDisableServer,
       );
     },
   );

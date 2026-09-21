@@ -70,15 +70,15 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.groupDetails),
+        title: Text(AppLocalizations.of(context).groupDetails),
         actions: [
           IconButton(
             onPressed: () => showDialog(
               context: context,
               useRootNavigator: false,
               builder: (context) => DeleteModal(
-                title: AppLocalizations.of(context)!.groupDelete,
-                message: AppLocalizations.of(context)!.groupDeleteMessage,
+                title: AppLocalizations.of(context).groupDelete,
+                message: AppLocalizations.of(context).groupDeleteMessage,
                 onDelete: () {
                   Navigator.maybePop(context);
                   widget.remove(_group);
@@ -94,14 +94,14 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            SectionLabel(label: AppLocalizations.of(context)!.groupSettings),
+            SectionLabel(label: AppLocalizations.of(context).groupSettings),
             ListTile(
               leading: const Icon(Icons.check_rounded),
-              title: Text(AppLocalizations.of(context)!.status),
+              title: Text(AppLocalizations.of(context).status),
               subtitle: Text(
                 _group.enabled
-                    ? AppLocalizations.of(context)!.enabled
-                    : AppLocalizations.of(context)!.disabled,
+                    ? AppLocalizations.of(context).enabled
+                    : AppLocalizations.of(context).disabled,
               ),
               onTap: () => onEditGroup((
                 name: _group.name,
@@ -121,7 +121,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.group_rounded),
-              title: Text(AppLocalizations.of(context)!.groupName),
+              title: Text(AppLocalizations.of(context).groupName),
               subtitle: Text(_group.name),
               trailing: Icon(
                 Icons.edit_rounded,
@@ -131,10 +131,10 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.comment_rounded),
-              title: Text(AppLocalizations.of(context)!.comment),
+              title: Text(AppLocalizations.of(context).comment),
               subtitle: Text(
                 _group.comment == null || _group.comment!.isEmpty
-                    ? AppLocalizations.of(context)!.noComment
+                    ? AppLocalizations.of(context).noComment
                     : _group.comment!,
               ),
               trailing: Icon(
@@ -143,37 +143,37 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
               ),
               onTap: openCommentModal,
             ),
-            SectionLabel(label: AppLocalizations.of(context)!.groupInfo),
+            SectionLabel(label: AppLocalizations.of(context).groupInfo),
             ListTile(
               leading: const Icon(Icons.label_outline_rounded),
-              title: Text(AppLocalizations.of(context)!.id),
+              title: Text(AppLocalizations.of(context).id),
               subtitle: Text(_group.id.toString()),
             ),
             ListTile(
               leading: const Icon(Icons.event_available_rounded),
-              title: Text(AppLocalizations.of(context)!.dateAdded),
+              title: Text(AppLocalizations.of(context).dateAdded),
               subtitle: Text(
                 formatTimestamp(_group.dateAdded, kUnifiedDateTimeFormat),
               ),
             ),
             ListTile(
               leading: const Icon(Icons.edit_calendar_rounded),
-              title: Text(AppLocalizations.of(context)!.dateModified),
+              title: Text(AppLocalizations.of(context).dateModified),
               subtitle: Text(
                 formatTimestamp(_group.dateModified, kUnifiedDateTimeFormat),
               ),
             ),
-            SectionLabel(label: AppLocalizations.of(context)!.groupMembers),
+            SectionLabel(label: AppLocalizations.of(context).groupMembers),
             _buildMemberCountTile(
               icon: Icons.devices_rounded,
-              label: AppLocalizations.of(context)!.clients,
+              label: AppLocalizations.of(context).clients,
               count: clientsViewModel.clients
                   .where((c) => c.groups.contains(_group.id))
                   .length,
             ),
             _buildMemberCountTile(
               icon: Icons.check_circle_outline_rounded,
-              label: AppLocalizations.of(context)!.domainsAllowlist,
+              label: AppLocalizations.of(context).domainsAllowlist,
               count: domainsViewModel.allowlistDomains
                   .where((d) => d.groups.contains(_group.id))
                   .length,
@@ -181,7 +181,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             ),
             _buildMemberCountTile(
               icon: Icons.block_rounded,
-              label: AppLocalizations.of(context)!.domainsBlocklist,
+              label: AppLocalizations.of(context).domainsBlocklist,
               count: domainsViewModel.blocklistDomains
                   .where((d) => d.groups.contains(_group.id))
                   .length,
@@ -189,7 +189,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             ),
             _buildMemberCountTile(
               icon: Icons.playlist_add_check_rounded,
-              label: AppLocalizations.of(context)!.adlistsAllow,
+              label: AppLocalizations.of(context).adlistsAllow,
               count: adlistsViewModel.allowlistAdlists
                   .where((s) => s.groups.contains(_group.id))
                   .length,
@@ -197,7 +197,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
             ),
             _buildMemberCountTile(
               icon: Icons.playlist_remove_rounded,
-              label: AppLocalizations.of(context)!.adlistsBlock,
+              label: AppLocalizations.of(context).adlistsBlock,
               count: adlistsViewModel.blocklistAdlists
                   .where((s) => s.groups.contains(_group.id))
                   .length,
@@ -213,7 +213,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     ({String name, String? newName, String? comment, bool? enabled}) params,
   ) async {
     final process = ProcessModal(context: context);
-    process.open(AppLocalizations.of(context)!.groupUpdating);
+    process.open(AppLocalizations.of(context).groupUpdating);
 
     try {
       await groupsViewModel.updateGroup.runAsync(params);
@@ -238,7 +238,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.groupUpdated,
+        label: AppLocalizations.of(context).groupUpdated,
       );
     } catch (e) {
       if (!mounted) return;
@@ -248,8 +248,8 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         context: context,
         appConfigViewModel: appConfigViewModel,
         error: e,
-        alreadyExistsLabel: AppLocalizations.of(context)!.groupAlreadyAdded,
-        failedLabel: AppLocalizations.of(context)!.groupUpdateFailed,
+        alreadyExistsLabel: AppLocalizations.of(context).groupAlreadyAdded,
+        failedLabel: AppLocalizations.of(context).groupUpdateFailed,
       );
     }
   }
@@ -268,7 +268,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         builder: (ctx) => EditGroupModal(
           group: _group,
           keyItem: 'name',
-          title: AppLocalizations.of(context)!.groupEdit,
+          title: AppLocalizations.of(context).groupEdit,
           icon: Icons.group_rounded,
           onConfirm: (request) => onEditGroup((
             name: _group.name,
@@ -285,7 +285,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         builder: (ctx) => EditGroupModal(
           group: _group,
           keyItem: 'name',
-          title: AppLocalizations.of(context)!.groupEdit,
+          title: AppLocalizations.of(context).groupEdit,
           icon: Icons.group_rounded,
           onConfirm: (request) => onEditGroup((
             name: _group.name,
@@ -314,7 +314,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         builder: (ctx) => EditGroupModal(
           group: _group,
           keyItem: 'comment',
-          title: AppLocalizations.of(context)!.editComment,
+          title: AppLocalizations.of(context).editComment,
           icon: Icons.comment_rounded,
           onConfirm: (request) => onEditGroup((
             name: _group.name,
@@ -331,7 +331,7 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         builder: (ctx) => EditGroupModal(
           group: _group,
           keyItem: 'comment',
-          title: AppLocalizations.of(context)!.editComment,
+          title: AppLocalizations.of(context).editComment,
           icon: Icons.comment_rounded,
           onConfirm: (request) => onEditGroup((
             name: _group.name,

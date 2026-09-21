@@ -18,7 +18,7 @@ class SessionDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -31,8 +31,8 @@ class SessionDetailScreen extends StatelessWidget {
                 useRootNavigator:
                     false, // Prevents unexpected app exit on mobile when pressing back
                 builder: (context) => DeleteModal(
-                  title: AppLocalizations.of(context)!.sessionDelete,
-                  message: AppLocalizations.of(context)!.sessionDeleteMessage,
+                  title: AppLocalizations.of(context).sessionDelete,
+                  message: AppLocalizations.of(context).sessionDeleteMessage,
                   onDelete: () {
                     Navigator.maybePop(context);
                     onDelete(session);

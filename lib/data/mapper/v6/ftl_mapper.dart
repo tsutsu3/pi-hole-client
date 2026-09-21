@@ -64,6 +64,7 @@ extension InfoVersionMapper on s.InfoVersion {
     if (local == null || remote == null) {
       return false;
     }
+
     return local != remote;
   }
 }
@@ -243,6 +244,7 @@ extension DnsRepliesMapper on s.DnsReplies {
 extension InfoSystemMapper on s.InfoSystem {
   d.FtlSystem toDomain() {
     final raw = system.cpu.load.raw;
+
     return d.FtlSystem(
       uptime: system.uptime,
       ramUsage: system.memory.ram.percentUsed,
@@ -255,6 +257,7 @@ extension InfoSystemMapper on s.InfoSystem {
 
   double _average(List<double> list) {
     if (list.isEmpty) return 0.0;
+
     return list.reduce((a, b) => a + b) / list.length;
   }
 }

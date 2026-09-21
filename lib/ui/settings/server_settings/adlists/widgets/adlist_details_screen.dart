@@ -63,12 +63,12 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.adlistDetails),
+        title: Text(AppLocalizations.of(context).adlistDetails),
         actions: [
           IconButton(
             onPressed: () => openUrl(_adlist.address),
             icon: const Icon(Icons.travel_explore_rounded),
-            tooltip: AppLocalizations.of(context)!.adlistsSearchOnline,
+            tooltip: AppLocalizations.of(context).adlistsSearchOnline,
           ),
           IconButton(
             onPressed: () => showDialog(
@@ -76,8 +76,8 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
               useRootNavigator:
                   false, // Prevents unexpected app exit on mobile when pressing back
               builder: (context) => DeleteModal(
-                title: AppLocalizations.of(context)!.adlistDelete,
-                message: AppLocalizations.of(context)!.adlistDeleteMessage,
+                title: AppLocalizations.of(context).adlistDelete,
+                message: AppLocalizations.of(context).adlistDeleteMessage,
                 onDelete: () {
                   Navigator.maybePop(context);
                   widget.remove(_adlist);
@@ -93,15 +93,15 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            SectionLabel(label: AppLocalizations.of(context)!.adlistSettings),
+            SectionLabel(label: AppLocalizations.of(context).adlistSettings),
             ListTile(
               leading: const Icon(Icons.public_rounded),
-              title: Text(AppLocalizations.of(context)!.adlistAddress),
+              title: Text(AppLocalizations.of(context).adlistAddress),
               subtitle: Text(_adlist.address),
             ),
             ListTile(
               leading: const Icon(Icons.category_rounded),
-              title: Text(AppLocalizations.of(context)!.type),
+              title: Text(AppLocalizations.of(context).type),
               subtitle: Text(typeLabel),
               subtitleTextStyle: TextStyle(
                 color: _adlist.type == ListType.block
@@ -111,11 +111,11 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.check_rounded),
-              title: Text(AppLocalizations.of(context)!.status),
+              title: Text(AppLocalizations.of(context).status),
               subtitle: Text(
                 _adlist.enabled
-                    ? AppLocalizations.of(context)!.enabled
-                    : AppLocalizations.of(context)!.disabled,
+                    ? AppLocalizations.of(context).enabled
+                    : AppLocalizations.of(context).disabled,
               ),
               onTap: () {
                 onEditAdlist(_adlist.copyWith(enabled: !_adlist.enabled));
@@ -129,7 +129,7 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.group_rounded),
-              title: Text(AppLocalizations.of(context)!.groups),
+              title: Text(AppLocalizations.of(context).groups),
               subtitle: Text(getGroupNames().join(', ')),
               trailing: Icon(
                 Icons.edit_rounded,
@@ -139,10 +139,10 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
             ),
             ListTile(
               leading: const Icon(Icons.comment_rounded),
-              title: Text(AppLocalizations.of(context)!.comment),
+              title: Text(AppLocalizations.of(context).comment),
               subtitle: Text(
                 _adlist.comment == null || _adlist.comment!.isEmpty
-                    ? AppLocalizations.of(context)!.noComment
+                    ? AppLocalizations.of(context).noComment
                     : _adlist.comment!,
               ),
               trailing: Icon(
@@ -151,44 +151,44 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
               ),
               onTap: openCommentModal,
             ),
-            SectionLabel(label: AppLocalizations.of(context)!.adlistInfo),
+            SectionLabel(label: AppLocalizations.of(context).adlistInfo),
             ListTile(
               leading: const Icon(Icons.label_outline_rounded),
-              title: Text(AppLocalizations.of(context)!.id),
+              title: Text(AppLocalizations.of(context).id),
               subtitle: Text(_adlist.id.toString()),
             ),
             ListTile(
               leading: const Icon(Icons.monitor_heart_outlined),
-              title: Text(AppLocalizations.of(context)!.adlistStatus),
+              title: Text(AppLocalizations.of(context).adlistStatus),
               subtitle: Text(getAdlistStatusType(_adlist.status.index)),
             ),
             ListTile(
               leading: const Icon(Icons.domain_add_rounded),
-              title: Text(AppLocalizations.of(context)!.domains),
+              title: Text(AppLocalizations.of(context).domains),
               subtitle: Text(_adlist.number.toString()),
             ),
             ListTile(
               leading: const Icon(Icons.domain_disabled_rounded),
-              title: Text(AppLocalizations.of(context)!.domainsInvalid),
+              title: Text(AppLocalizations.of(context).domainsInvalid),
               subtitle: Text(_adlist.invalidDomains.toString()),
             ),
             ListTile(
               leading: const Icon(Icons.event_available_rounded),
-              title: Text(AppLocalizations.of(context)!.dateAdded),
+              title: Text(AppLocalizations.of(context).dateAdded),
               subtitle: Text(
                 formatTimestamp(_adlist.dateAdded, kUnifiedDateTimeFormat),
               ),
             ),
             ListTile(
               leading: const Icon(Icons.edit_calendar_rounded),
-              title: Text(AppLocalizations.of(context)!.dateModified),
+              title: Text(AppLocalizations.of(context).dateModified),
               subtitle: Text(
                 formatTimestamp(_adlist.dateModified, kUnifiedDateTimeFormat),
               ),
             ),
             ListTile(
               leading: const Icon(Icons.event_repeat_rounded),
-              title: Text(AppLocalizations.of(context)!.dateUpdated),
+              title: Text(AppLocalizations.of(context).dateUpdated),
               subtitle: Text(
                 formatTimestamp(_adlist.dateUpdated, kUnifiedDateTimeFormat),
               ),
@@ -205,6 +205,7 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
       final name = widget.groups[group];
       if (name != null) groupNames.add(name);
     }
+
     return groupNames;
   }
 
@@ -213,7 +214,7 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
     final appConfigViewModel = context.read<AppConfigViewModel>();
 
     final process = ProcessModal(context: context);
-    process.open(AppLocalizations.of(context)!.adlistUpdating);
+    process.open(AppLocalizations.of(context).adlistUpdating);
 
     try {
       await viewModel.updateAdlist.runAsync(updated);
@@ -229,7 +230,7 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.adlistUpdated,
+        label: AppLocalizations.of(context).adlistUpdated,
       );
     } catch (_) {
       if (!mounted) return;
@@ -238,7 +239,7 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
       showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.adlistUpdateFailed,
+        label: AppLocalizations.of(context).adlistUpdateFailed,
       );
     }
   }
@@ -258,7 +259,7 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
         builder: (ctx) => EditAdlistModal(
           adlist: _adlist,
           keyItem: 'comment',
-          title: AppLocalizations.of(context)!.editComment,
+          title: AppLocalizations.of(context).editComment,
           icon: Icons.comment_rounded,
           onConfirm: onEditAdlist,
           groups: widget.groups,
@@ -271,7 +272,7 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
         builder: (ctx) => EditAdlistModal(
           adlist: _adlist,
           keyItem: 'comment',
-          title: AppLocalizations.of(context)!.editComment,
+          title: AppLocalizations.of(context).editComment,
           icon: Icons.comment_rounded,
           onConfirm: onEditAdlist,
           groups: widget.groups,
@@ -297,7 +298,7 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
         builder: (ctx) => EditAdlistModal(
           adlist: _adlist,
           keyItem: 'groups',
-          title: AppLocalizations.of(context)!.editGroups,
+          title: AppLocalizations.of(context).editGroups,
           icon: Icons.group_rounded,
           onConfirm: onEditAdlist,
           groups: widget.groups,
@@ -310,7 +311,7 @@ class _AdlistDetailsScreenState extends State<AdlistDetailsScreen> {
         builder: (ctx) => EditAdlistModal(
           adlist: _adlist,
           keyItem: 'groups',
-          title: AppLocalizations.of(context)!.editGroups,
+          title: AppLocalizations.of(context).editGroups,
           icon: Icons.group_rounded,
           onConfirm: onEditAdlist,
           groups: widget.groups,

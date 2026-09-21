@@ -8,6 +8,7 @@ class LegalScreen extends StatelessWidget {
   Future<String> _loadLicensesAndNotice() async {
     try {
       final noticeText = await rootBundle.loadString('NOTICE');
+
       return noticeText;
     } catch (e, stack) {
       Error.throwWithStackTrace(
@@ -20,7 +21,7 @@ class LegalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.legalInfo)),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).legalInfo)),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -44,7 +45,7 @@ class LegalScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        AppLocalizations.of(context)!.noticeError,
+                        AppLocalizations.of(context).noticeError,
                         style: const TextStyle(fontSize: 24),
                         textAlign: TextAlign.center,
                       ),
@@ -52,7 +53,7 @@ class LegalScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text(
-                          AppLocalizations.of(context)!.noticeErrorDetail,
+                          AppLocalizations.of(context).noticeErrorDetail,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,

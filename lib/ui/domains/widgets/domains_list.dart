@@ -51,13 +51,13 @@ class _DomainsListState extends State<DomainsList> {
   void _scrollListener() {
     if (widget.scrollController.position.userScrollDirection ==
         ScrollDirection.reverse) {
-      if (mounted && isVisible == true) {
+      if (mounted && isVisible) {
         setState(() => isVisible = false);
       }
     } else {
       if (widget.scrollController.position.userScrollDirection ==
           ScrollDirection.forward) {
-        if (mounted && isVisible == false) {
+        if (mounted && !isVisible) {
           setState(() => isVisible = true);
         }
       }
@@ -103,7 +103,7 @@ class _DomainsListState extends State<DomainsList> {
       String domain,
     ) async {
       final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.domainAdding);
+      process.open(AppLocalizations.of(context).domainAdding);
 
       try {
         await viewModel.addDomain.runAsync((
@@ -117,7 +117,7 @@ class _DomainsListState extends State<DomainsList> {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.domainAdded,
+          label: AppLocalizations.of(context).domainAdded,
         );
       } catch (e) {
         if (!context.mounted) return;
@@ -127,8 +127,8 @@ class _DomainsListState extends State<DomainsList> {
           context: context,
           appConfigViewModel: appConfigViewModel,
           error: e,
-          alreadyExistsLabel: AppLocalizations.of(context)!.domainAlreadyAdded,
-          failedLabel: AppLocalizations.of(context)!.domainAddFailed,
+          alreadyExistsLabel: AppLocalizations.of(context).domainAlreadyAdded,
+          failedLabel: AppLocalizations.of(context).domainAddFailed,
         );
       }
     }
@@ -176,7 +176,7 @@ class _DomainsListState extends State<DomainsList> {
                 const CircularProgressIndicator(),
                 const SizedBox(height: 50),
                 Text(
-                  AppLocalizations.of(context)!.domainsLoading,
+                  AppLocalizations.of(context).domainsLoading,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -189,6 +189,7 @@ class _DomainsListState extends State<DomainsList> {
           itemsCount: domainsList.length,
           contentWidget: (index) {
             final thisDomain = domainsList[index];
+
             return Padding(
               padding:
                   index == 0 &&
@@ -229,7 +230,7 @@ class _DomainsListState extends State<DomainsList> {
             padding: const EdgeInsets.all(20),
             child: Center(
               child: Text(
-                AppLocalizations.of(context)!.domainsNone,
+                AppLocalizations.of(context).domainsNone,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24,
@@ -239,7 +240,7 @@ class _DomainsListState extends State<DomainsList> {
             ),
           ),
           errorGenerator: () => ErrorMessage(
-            message: AppLocalizations.of(context)!.domainsNotLoaded,
+            message: AppLocalizations.of(context).domainsNotLoaded,
           ),
           loadStatus: viewModel.loadingStatus,
           onRefresh: () async => viewModel.loadDomains.runAsync(),

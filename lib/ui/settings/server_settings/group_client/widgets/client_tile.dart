@@ -34,6 +34,7 @@ class ClientTile extends StatelessWidget {
         .where((name) => name != null && name.isNotEmpty)
         .cast<String>()
         .toList();
+
     return names.isEmpty ? '-' : names.join(', ');
   }
 
@@ -58,7 +59,7 @@ class ClientTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '${AppLocalizations.of(context)!.macAddress}: $macAddress',
+                '${AppLocalizations.of(context).macAddress}: $macAddress',
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontSize: 13, height: 1.4),
               ),
@@ -73,7 +74,7 @@ class ClientTile extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                '${AppLocalizations.of(context)!.groups}: $groupsText',
+                '${AppLocalizations.of(context).groups}: $groupsText',
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontSize: 13, height: 1.4),
               ),
@@ -130,6 +131,7 @@ class ClientTile extends StatelessWidget {
     if (_isIpAddress(client.client)) {
       return client.client;
     }
+
     return client.client;
   }
 
@@ -137,6 +139,7 @@ class ClientTile extends StatelessWidget {
     if (_isMacAddress(client.client)) {
       return client.client;
     }
+
     return ipToMac[ipAddress] ?? '-';
   }
 
@@ -144,6 +147,7 @@ class ClientTile extends StatelessWidget {
     if ((client.name ?? '').isNotEmpty) {
       return client.name!;
     }
+
     return ipToHostname[ipAddress] ?? '-';
   }
 
@@ -153,6 +157,7 @@ class ClientTile extends StatelessWidget {
 
   bool _isMacAddress(String value) {
     final macRegex = RegExp(r'^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$');
+
     return macRegex.hasMatch(value);
   }
 }

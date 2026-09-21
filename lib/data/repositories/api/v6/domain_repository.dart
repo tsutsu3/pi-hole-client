@@ -23,6 +23,7 @@ class DomainRepositoryV6 extends BaseV6SidRepository
       action: () async {
         final sid = await getSid();
         final result = await _client.getDomains(sid);
+
         return result.map((e) => e.toDomainLists());
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -50,6 +51,7 @@ class DomainRepositoryV6 extends BaseV6SidRepository
           groups: groups,
           enabled: enabled,
         );
+
         return mapDuplicateFailure(result).flatMap(
           (e) => checkProcessedErrors(
             e.processed?.errors.map((x) => x.error),
@@ -82,6 +84,7 @@ class DomainRepositoryV6 extends BaseV6SidRepository
           groups: groups,
           enabled: enabled,
         );
+
         return mapDuplicateFailure(result).flatMap(
           (e) => checkProcessedErrors(
             e.processed?.errors.map((x) => x.error),
@@ -108,6 +111,7 @@ class DomainRepositoryV6 extends BaseV6SidRepository
           kind: kind,
           domain: domain,
         );
+
         return result.map((_) => unit);
       },
       onRetry: (_, e) => renewSidIfExpired(e),

@@ -30,6 +30,7 @@ class DatabaseService {
   /// Throws an [Exception] if the database has not been initialized.
   Database get instance {
     if (_db == null) throw Exception('Database is not initialized');
+
     return _db!;
   }
 
@@ -56,6 +57,7 @@ class DatabaseService {
         onOpen: _onOpen,
       );
       logger.d('Database opened successfully at $_path');
+
       return Success(_db!);
     } catch (e, st) {
       return Failure(Exception('Database open failed: $e\n$st'));
@@ -72,6 +74,7 @@ class DatabaseService {
       await _db?.close();
       _db = null;
       logger.d('Database closed successfully');
+
       return Success.unit();
     } catch (e, st) {
       return Failure(Exception('Database close failed: $e\n$st'));
@@ -94,9 +97,11 @@ class DatabaseService {
     try {
       final result = await instance.rawQuery(sql, args);
       logger.d('Query success: ${result.length} rows returned');
+
       return Success(result);
     } catch (e, st) {
       logger.e('Raw query failed: $e\n$st');
+
       return Failure(Exception('Raw query failed: $e\n$st'));
     }
   }
@@ -135,9 +140,11 @@ class DatabaseService {
         offset: offset,
       );
       logger.d('Query success: ${result.length} rows returned');
+
       return Success(result);
     } catch (e, st) {
       logger.e('Query failed: $e\n$st');
+
       return Failure(Exception('Query failed: $e\n$st'));
     }
   }
@@ -161,12 +168,15 @@ class DatabaseService {
       );
       if (id == 0) {
         logger.e('Insert failed: returned ID = $id');
+
         return Failure(Exception('Insert failed: returned ID = $id'));
       }
       logger.d('Insert success: ID = $id');
+
       return Success(id);
     } catch (e, st) {
       logger.e('Insert exception: $e\n$st');
+
       return Failure(Exception('Insert exception: $e\n$st'));
     }
   }
@@ -192,12 +202,15 @@ class DatabaseService {
       );
       if (count == 0) {
         logger.e('Update failed: no rows affected');
+
         return Failure(Exception('Update failed: no rows affected'));
       }
       logger.d('Update success: $count rows affected');
+
       return Success(count);
     } catch (e, st) {
       logger.e('Update exception: $e\n$st');
+
       return Failure(Exception('Update exception: $e\n$st'));
     }
   }
@@ -224,9 +237,11 @@ class DatabaseService {
         return const Success(0);
       }
       logger.d('Delete success: $count rows affected');
+
       return Success(count);
     } catch (e, st) {
       logger.e('Delete exception: $e\n$st');
+
       return Failure(Exception('Delete exception: $e\n$st'));
     }
   }
@@ -244,9 +259,11 @@ class DatabaseService {
     try {
       final result = await instance.transaction(action);
       logger.d('Transaction success: $result');
+
       return Success(result);
     } catch (e, st) {
       logger.e('Transaction failed: $e\n$st');
+
       return Failure(Exception('Transaction failed: $e\n$st'));
     }
   }

@@ -23,7 +23,7 @@ class ServerStatusChips extends StatelessWidget {
 
     final locale = Platform.localeName;
     final graphColors = Theme.of(context).extension<GraphColors>()!;
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     final qpm = context.select<StatusViewModel, double?>(
       (p) => p.getQueriesPerMinute,
@@ -115,6 +115,7 @@ class ServerStatusChips extends StatelessWidget {
                 separatorBuilder: (_, _) => const SizedBox(width: 8),
                 itemBuilder: (context, index) {
                   final chip = chips[index];
+
                   return _StatusChip(
                     icon: chip.icon,
                     iconColor: chip.color,
@@ -135,6 +136,7 @@ class ServerStatusChips extends StatelessWidget {
 String _formatUptime(int? uptime) {
   if (uptime == null) return 'Up -';
   final d = Duration(seconds: uptime);
+
   return 'Up ${d.inDays}d ${d.inHours % 24}h ${d.inMinutes % 60}m';
 }
 

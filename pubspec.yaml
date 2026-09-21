@@ -107,6 +107,7 @@ dev_dependencies:
   full_coverage: ^1.0.0
   flutter_svg_test: ^1.0.3
   pub_version_plus: ^3.1.3
+  dart_code_linter: ^4.4.0
 
 flutter_launcher_icons:
   image_path: assets/icon/pi-hole-client-icon-medium.png

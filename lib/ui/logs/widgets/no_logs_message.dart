@@ -70,7 +70,7 @@ class NoLogsMessage extends StatelessWidget {
     DateTime? startTime,
     DateTime? endTime,
   ) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     if (startTime != null || endTime != null) {
       final start = startTime != null
@@ -84,6 +84,7 @@ class NoLogsMessage extends StatelessWidget {
     } else {
       final value = logsPerQuery == 0.5 ? '30' : logsPerQuery.toInt();
       final unit = logsPerQuery == 0.5 ? loc.minutes : loc.hours;
+
       return '${loc.noLogsDisplay} ${loc.fromLast} $value $unit';
     }
   }

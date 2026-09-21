@@ -26,7 +26,7 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
     } else {
       final status = await Permission.camera.request();
       if (mounted) {
-        if (status.isGranted == false) {
+        if (!status.isGranted) {
           setState(() {
             permission = 2;
           });
@@ -67,7 +67,7 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
                 const CircularProgressIndicator(),
                 const SizedBox(height: 30),
                 Text(
-                  AppLocalizations.of(context)!.gettingPermission,
+                  AppLocalizations.of(context).gettingPermission,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -111,7 +111,7 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
                 ),
                 const SizedBox(height: 25),
                 Text(
-                  AppLocalizations.of(context)!.cameraPermission,
+                  AppLocalizations.of(context).cameraPermission,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -136,7 +136,7 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Text(
-              AppLocalizations.of(context)!.qrScanner,
+              AppLocalizations.of(context).qrScanner,
               style: const TextStyle(fontSize: 24),
             ),
           ),
@@ -146,7 +146,7 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
       actions: [
         TextButton(
           onPressed: () => Navigator.maybePop(context),
-          child: Text(AppLocalizations.of(context)!.cancel),
+          child: Text(AppLocalizations.of(context).cancel),
         ),
       ],
     );

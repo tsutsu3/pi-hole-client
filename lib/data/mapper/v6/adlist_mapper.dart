@@ -31,6 +31,7 @@ extension ListsMapper on s.Lists {
     if (lists.length != 1) {
       throw StateError('Expected exactly 1 item in lists, got ${lists.length}');
     }
+
     return toDomain().first;
   }
 }

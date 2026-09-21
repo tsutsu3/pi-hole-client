@@ -21,7 +21,7 @@ class ActiveFilterChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
     final chips = <Widget>[];
 
     if (logsViewModel.startTime != null || logsViewModel.endTime != null) {

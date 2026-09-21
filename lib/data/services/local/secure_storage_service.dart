@@ -28,9 +28,11 @@ class SecureStorageService {
     try {
       await _secureStorage.write(key: key, value: value);
       logger.d('Value saved successfully: $key');
+
       return Success.unit();
     } catch (e, st) {
       logger.e('Failed to save value: $e\n$st');
+
       return Failure(Exception('Failed to save value: $e\n$st'));
     }
   }
@@ -45,12 +47,15 @@ class SecureStorageService {
       final value = await _secureStorage.read(key: key);
       if (value == null) {
         logger.w('No value found for key: $key');
+
         return Failure(Exception('No value found for key: $key'));
       }
       logger.d('Value retrieved successfully: $key');
+
       return Success(value);
     } catch (e, st) {
       logger.e('Failed to read value: $e\n$st');
+
       return Failure(Exception('Failed to read value: $e\n$st'));
     }
   }
@@ -64,9 +69,11 @@ class SecureStorageService {
     try {
       await _secureStorage.delete(key: key);
       logger.d('Value deleted successfully: $key');
+
       return Success.unit();
     } catch (e, st) {
       logger.e('Failed to delete value: $e\n$st');
+
       return Failure(Exception('Failed to delete value: $e\n$st'));
     }
   }
@@ -80,9 +87,11 @@ class SecureStorageService {
     try {
       await _secureStorage.deleteAll();
       logger.d('All values cleared successfully');
+
       return Success.unit();
     } catch (e, st) {
       logger.e('Failed to clear all values: $e\n$st');
+
       return Failure(Exception('Failed to clear all values: $e\n$st'));
     }
   }
@@ -96,9 +105,11 @@ class SecureStorageService {
     try {
       final allValues = await _secureStorage.readAll();
       logger.d('All values read successfully: ${allValues.length} items');
+
       return Success(allValues);
     } catch (e, st) {
       logger.e('Failed to read all values: $e\n$st');
+
       return Failure(Exception('Failed to read all values: $e\n$st'));
     }
   }

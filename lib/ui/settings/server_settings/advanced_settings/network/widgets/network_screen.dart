@@ -50,7 +50,7 @@ class NetworkScreen extends StatefulWidget {
 
 class _NetworkScreenState extends State<NetworkScreen> {
   Future<void> _removeDevice(Device device) async {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context);
     process.open(locale.deleting);
@@ -80,7 +80,7 @@ class _NetworkScreenState extends State<NetworkScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
 
     return ListenableBuilder(
       listenable: widget.viewModel,
@@ -99,6 +99,7 @@ class _NetworkScreenState extends State<NetworkScreen> {
                 onPressed: () {
                   if (context.canPop()) {
                     context.pop();
+
                     return;
                   }
                   context.goNamed(Routes.home);

@@ -39,6 +39,7 @@ class LocalAppConfigRepository implements AppConfigRepository {
         Exception('App config not loaded. Call fetchAppConfig() first.'),
       );
     }
+
     return Success(_appConfig!);
   }
 
@@ -74,6 +75,7 @@ class LocalAppConfigRepository implements AppConfigRepository {
       return Success(_appConfig!);
     } catch (e, st) {
       logger.e('Failed to load app config: $e\n$st');
+
       return Failure(Exception('Failed to load app config: $e\n$st'));
     }
   }
@@ -218,6 +220,7 @@ class LocalAppConfigRepository implements AppConfigRepository {
       await openDbIfNeeded(_database);
 
       await _secureStorage.deleteValue('passCode');
+
       return await _database.update('appConfig', {
         'autoRefreshTime': 5,
         'theme': 0,
@@ -237,6 +240,7 @@ class LocalAppConfigRepository implements AppConfigRepository {
       });
     } catch (e, st) {
       logger.e('Failed to restore app config: $e\n$st');
+
       return Failure(Exception('Failed to restore app config: $e\n$st'));
     }
   }
@@ -259,6 +263,7 @@ class LocalAppConfigRepository implements AppConfigRepository {
       return await _database.update('appConfig', {column: value});
     } catch (e, st) {
       logger.e('Failed to update $column: $e\n$st');
+
       return Failure(Exception('Failed to update $column: $e\n$st'));
     }
   }
@@ -282,6 +287,7 @@ class LocalAppConfigRepository implements AppConfigRepository {
       }
     } catch (e, st) {
       logger.e('Failed to update secret $key: $e\n$st');
+
       return Failure(Exception('Failed to update secret $key: $e\n$st'));
     }
   }

@@ -50,6 +50,7 @@ class TabVisibilityTicker extends StatelessWidget {
     // rebuilds when StatefulShellRoute deactivates the statistics branch.
     final branchActive = TickerMode.valuesOf(context).enabled;
     if (!branchActive) return const SizedBox.shrink();
+
     return ListenableBuilder(
       listenable: Listenable.merge([controller.animation, controller]),
       builder: (context, _) {

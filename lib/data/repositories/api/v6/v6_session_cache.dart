@@ -56,6 +56,7 @@ class V6SessionCache {
     if (_interactiveReauthRequired) {
       return Future.error(TotpRequiredException());
     }
+
     return _getOrLoad(() async {
       final r = await _creds.sid;
       final String sid;
@@ -126,6 +127,7 @@ class V6SessionCache {
     // when a separate Completer future has no listener.
     final pending = loader().then((sid) {
       _sid = sid;
+
       return sid;
     });
     _pendingLoad = pending;

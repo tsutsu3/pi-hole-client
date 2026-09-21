@@ -23,6 +23,7 @@ class SwitchServerModal extends StatelessWidget {
         size: 16,
       );
     }
+
     return null;
   }
 
@@ -40,7 +41,7 @@ class SwitchServerModal extends StatelessWidget {
             color: Theme.of(context).colorScheme.secondary,
           ),
           const SizedBox(height: 16),
-          Text(AppLocalizations.of(context)!.switchServer),
+          Text(AppLocalizations.of(context).switchServer),
         ],
       ),
       content: SizedBox(
@@ -70,7 +71,7 @@ class SwitchServerModal extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () => Navigator.maybePop(context),
-              child: Text(AppLocalizations.of(context)!.cancel),
+              child: Text(AppLocalizations.of(context).cancel),
             ),
           ],
         ),

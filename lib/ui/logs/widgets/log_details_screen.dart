@@ -60,7 +60,7 @@ class LogDetailsScreen extends StatelessWidget {
             onAddDomainToList(DomainType.deny, log);
           },
           icon: const Icon(Icons.gpp_bad_rounded),
-          tooltip: AppLocalizations.of(context)!.addToBlocklist,
+          tooltip: AppLocalizations.of(context).addToBlocklist,
         );
       } else {
         return IconButton(
@@ -69,19 +69,19 @@ class LogDetailsScreen extends StatelessWidget {
             onAddDomainToList(DomainType.allow, log);
           },
           icon: const Icon(Icons.verified_user_rounded),
-          tooltip: AppLocalizations.of(context)!.addToAllowlist,
+          tooltip: AppLocalizations.of(context).addToAllowlist,
         );
       }
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.logDetails),
+        title: Text(AppLocalizations.of(context).logDetails),
         actions: [
           IconButton(
             onPressed: () => openUrl('${Urls.googleSearch}${log.url}'),
             icon: const Icon(Icons.travel_explore_rounded),
-            tooltip: AppLocalizations.of(context)!.domainSearchOnline,
+            tooltip: AppLocalizations.of(context).domainSearchOnline,
           ),
           assignToListButton(),
           const SizedBox(width: 10),
@@ -92,22 +92,22 @@ class LogDetailsScreen extends StatelessWidget {
           children: [
             ListTile(
               leading: const Icon(Icons.link),
-              title: Text(AppLocalizations.of(context)!.url),
+              title: Text(AppLocalizations.of(context).url),
               subtitle: Text(log.url),
             ),
             ListTile(
               leading: const Icon(Icons.http_rounded),
-              title: Text(AppLocalizations.of(context)!.type),
+              title: Text(AppLocalizations.of(context).type),
               subtitle: Text(log.type.name.toUpperCase()),
             ),
             ListTile(
               leading: const Icon(Icons.phone_android_rounded),
-              title: Text(AppLocalizations.of(context)!.device),
+              title: Text(AppLocalizations.of(context).device),
               subtitle: Text(log.device),
             ),
             ListTile(
               leading: const Icon(Icons.access_time_outlined),
-              title: Text(AppLocalizations.of(context)!.time),
+              title: Text(AppLocalizations.of(context).time),
               subtitle: Text(
                 formatTimestamp(log.dateTime, kUnifiedDateTimeLogFormat),
               ),
@@ -115,19 +115,19 @@ class LogDetailsScreen extends StatelessWidget {
             if (log.status != null)
               item(
                 Icons.shield_outlined,
-                AppLocalizations.of(context)!.status,
+                AppLocalizations.of(context).status,
                 LogStatus(status: log.status!, showIcon: false),
               ),
             if (log.status == QueryStatusType.forwarded &&
                 log.answeredBy != null)
               ListTile(
                 leading: const Icon(Icons.domain),
-                title: Text(AppLocalizations.of(context)!.answeredBy),
+                title: Text(AppLocalizations.of(context).answeredBy),
                 subtitle: Text(log.answeredBy!),
               ),
             ListTile(
               leading: const Icon(Icons.system_update_alt_outlined),
-              title: Text(AppLocalizations.of(context)!.reply),
+              title: Text(AppLocalizations.of(context).reply),
               subtitle: Text(
                 '${log.replyType?.name.toUpperCase() ?? 'N/A'} (${prettyReplyTimeWithUnit(log.replyTime)})',
               ),

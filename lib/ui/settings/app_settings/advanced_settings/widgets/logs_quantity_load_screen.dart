@@ -48,19 +48,20 @@ class LogsQuantityLoadScreen extends StatelessWidget {
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.logsPerQueryUpdated,
+        label: AppLocalizations.of(context).logsPerQueryUpdated,
       );
     } else {
       showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.cantUpdateLogsPerQuery,
+        label: AppLocalizations.of(context).cantUpdateLogsPerQuery,
       );
     }
   }
 
   Widget _buildWarningCard(BuildContext context, AppLocalizations loc) {
     final appColors = Theme.of(context).extension<AppColors>()!;
+
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 20, left: 20, right: 20),
       child: Container(
@@ -87,7 +88,7 @@ class LogsQuantityLoadScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(title: Text(loc.logsQuantityPerLoad)),

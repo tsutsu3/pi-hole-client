@@ -162,15 +162,15 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   void validateAddress(String? value) => _validateField(
     value,
     isValid: isValidServerAddress,
-    invalidMessage: AppLocalizations.of(context)!.invalidAddress,
-    emptyMessage: AppLocalizations.of(context)!.ipCannotEmpty,
+    invalidMessage: AppLocalizations.of(context).invalidAddress,
+    emptyMessage: AppLocalizations.of(context).ipCannotEmpty,
     setError: (e) => addressFieldError = e,
   );
 
   void validateSubroute(String? value) => _validateField(
     value,
     isValid: isValidSubroute,
-    invalidMessage: AppLocalizations.of(context)!.invalidSubroute,
+    invalidMessage: AppLocalizations.of(context).invalidSubroute,
     emptyMessage: null,
     setError: (e) => subrouteFieldError = e,
   );
@@ -178,7 +178,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   void validatePort(String? value) => _validateField(
     value,
     isValid: isValidPort,
-    invalidMessage: AppLocalizations.of(context)!.invalidPort,
+    invalidMessage: AppLocalizations.of(context).invalidPort,
     emptyMessage: null,
     setError: (e) => portFieldError = e,
   );
@@ -229,7 +229,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         insetPadding: const EdgeInsets.symmetric(vertical: 24),
         child: SizedBox(
@@ -260,12 +260,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                           icon: const Icon(Icons.help_outline_rounded),
                           tooltip: AppLocalizations.of(
                             context,
-                          )!.howCreateConnection,
+                          ).howCreateConnection,
                         ),
                         IconButton(
                           tooltip: widget.server != null
-                              ? AppLocalizations.of(context)!.save
-                              : AppLocalizations.of(context)!.connect,
+                              ? AppLocalizations.of(context).save
+                              : AppLocalizations.of(context).connect,
                           onPressed: validData()
                               ? widget.server != null
                                     ? updateServer
@@ -295,14 +295,14 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 IconButton(
                   onPressed: () => openUrl(Urls.createAConnection),
                   icon: const Icon(Icons.help_outline_rounded),
-                  tooltip: AppLocalizations.of(context)!.howCreateConnection,
+                  tooltip: AppLocalizations.of(context).howCreateConnection,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: IconButton(
                     tooltip: widget.server != null
-                        ? AppLocalizations.of(context)!.save
-                        : AppLocalizations.of(context)!.connect,
+                        ? AppLocalizations.of(context).save
+                        : AppLocalizations.of(context).connect,
                     onPressed: validData()
                         ? widget.server != null
                               ? updateServer
@@ -336,7 +336,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       const CircularProgressIndicator(color: Colors.white),
                       const SizedBox(height: 30),
                       Text(
-                        AppLocalizations.of(context)!.connecting,
+                        AppLocalizations.of(context).connecting,
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
@@ -361,7 +361,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     required Exception error,
     required String version,
   }) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
 
     String label;
 
@@ -421,6 +421,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       if (info != null) {
         return info.sha256;
       }
+
       return '';
     } on HandshakeException {
       // Untrusted certificate (likely self-signed). Retrieve fingerprint for user verification.
@@ -450,8 +451,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context)!.serverCertificateHandshakeFailed,
+        label: AppLocalizations.of(context).serverCertificateHandshakeFailed,
       );
+
       return null;
     }
 
@@ -459,19 +461,19 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => CertificateDetailsDialog(
-        title: AppLocalizations.of(dialogContext)!.allowUntrustedCert,
+        title: AppLocalizations.of(dialogContext).allowUntrustedCert,
         description: AppLocalizations.of(
           dialogContext,
-        )!.serverCertificateUpdatePinHelp,
+        ).serverCertificateUpdatePinHelp,
         certificateInfo: info,
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
-            child: Text(AppLocalizations.of(dialogContext)!.cancel),
+            child: Text(AppLocalizations.of(dialogContext).cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, true),
-            child: Text(AppLocalizations.of(dialogContext)!.confirm),
+            child: Text(AppLocalizations.of(dialogContext).confirm),
           ),
         ],
       ),
@@ -514,8 +516,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       if (!mounted) return null;
       if (pin == null) {
         onValidationFailed?.call();
+
         return null;
       }
+
       return serverObj.copyWith(
         pinnedCertificateSha256: pin.isEmpty ? null : pin,
       );
@@ -523,6 +527,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       // Strict mode: verify certificate is trusted by the platform
       try {
         await widget.fetchTlsCertificate(uri, allowBadCertificates: false);
+
         // Certificate is trusted, proceed without pin
         // ignore: avoid_redundant_argument_values
         return serverObj.copyWith(pinnedCertificateSha256: null);
@@ -534,8 +539,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.sslErrorLong,
+          label: AppLocalizations.of(context).sslErrorLong,
         );
+
         return null;
       } catch (e) {
         // Other network errors - let connection test handle them
@@ -587,13 +593,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.connectionAlreadyExists,
+          label: AppLocalizations.of(context).connectionAlreadyExists,
         );
       case CreateUrlCheckFailed():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
+          label: AppLocalizations.of(context).cannotCheckUrlSaved,
         );
       case CreateApiError(:final error, :final version):
         handleApiErrorResult(
@@ -606,7 +612,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.cantSaveConnectionData,
+          label: AppLocalizations.of(context).cantSaveConnectionData,
         );
       case CreateSuccess():
         await Navigator.maybePop(context);
@@ -614,7 +620,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.connectedSuccessfully,
+          label: AppLocalizations.of(context).connectedSuccessfully,
         );
     }
   }
@@ -666,13 +672,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.connectionAlreadyExists,
+          label: AppLocalizations.of(context).connectionAlreadyExists,
         );
       case UpdateUrlCheckFailed():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
+          label: AppLocalizations.of(context).cannotCheckUrlSaved,
         );
       case UpdateApiError(:final error, :final version):
         handleApiErrorResult(
@@ -685,7 +691,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.cantSaveConnectionData,
+          label: AppLocalizations.of(context).cantSaveConnectionData,
         );
       case UpdateSuccess():
         await Navigator.maybePop(context);
@@ -693,7 +699,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.editServerSuccessfully,
+          label: AppLocalizations.of(context).editServerSuccessfully,
         );
     }
   }
@@ -746,7 +752,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    labelText: AppLocalizations.of(context)!.token,
+                    labelText: AppLocalizations.of(context).token,
                   ),
                 ),
               ),
@@ -755,7 +761,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 IconButton(
                   onPressed: openScanTokenModal,
                   icon: const Icon(Icons.qr_code_rounded),
-                  tooltip: AppLocalizations.of(context)!.scanQrCode,
+                  tooltip: AppLocalizations.of(context).scanQrCode,
                 ),
               ],
             ],
@@ -773,7 +779,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 ),
                 const SizedBox(width: 16),
                 Flexible(
-                  child: Text(AppLocalizations.of(context)!.tokenInstructions),
+                  child: Text(AppLocalizations.of(context).tokenInstructions),
                 ),
               ],
             ),
@@ -803,7 +809,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    labelText: AppLocalizations.of(context)!.password,
+                    labelText: AppLocalizations.of(context).password,
                   ),
                 ),
               ),
@@ -816,6 +822,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   Widget formItems() {
     final appColors = Theme.of(context).extension<AppColors>()!;
+
     return ListView(
       children: [
         Padding(
@@ -850,7 +857,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 ),
               ),
               SectionLabel(
-                label: AppLocalizations.of(context)!.connection,
+                label: AppLocalizations.of(context).connection,
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
               Padding(
@@ -863,7 +870,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    labelText: AppLocalizations.of(context)!.serverName,
+                    labelText: AppLocalizations.of(context).serverName,
                   ),
                 ),
               ),
@@ -901,7 +908,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    labelText: AppLocalizations.of(context)!.address,
+                    labelText: AppLocalizations.of(context).address,
                   ),
                 ),
               ),
@@ -917,7 +924,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),
-                    labelText: AppLocalizations.of(context)!.port,
+                    labelText: AppLocalizations.of(context).port,
                   ),
                 ),
               ),
@@ -938,7 +945,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     });
                   },
                   title: SectionLabel(
-                    label: AppLocalizations.of(context)!.advancedOptions,
+                    label: AppLocalizations.of(context).advancedOptions,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                   children: [
@@ -951,11 +958,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
-                        labelText: AppLocalizations.of(context)!.subrouteField,
-                        hintText: AppLocalizations.of(context)!.subrouteExample,
-                        helperText: AppLocalizations.of(
-                          context,
-                        )!.subrouteHelper,
+                        labelText: AppLocalizations.of(context).subrouteField,
+                        hintText: AppLocalizations.of(context).subrouteExample,
+                        helperText: AppLocalizations.of(context).subrouteHelper,
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -976,7 +981,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                         children: [
                           Expanded(
                             child: Text(
-                              AppLocalizations.of(context)!.allowUntrustedCert,
+                              AppLocalizations.of(context).allowUntrustedCert,
                             ),
                           ),
                           IconButton(
@@ -984,7 +989,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                             onPressed: () => openUrl(Urls.certConfigGuide),
                             tooltip: AppLocalizations.of(
                               context,
-                            )!.learnMoreAboutCertificates,
+                            ).learnMoreAboutCertificates,
                             padding: EdgeInsets.zero,
                             constraints: const BoxConstraints(
                               minWidth: 40,
@@ -996,7 +1001,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       subtitle: Text(
                         AppLocalizations.of(
                           context,
-                        )!.allowUntrustedCertDescription,
+                        ).allowUntrustedCertDescription,
                         style: TextStyle(
                           fontSize: 12,
                           color: appColors.queryOrange,
@@ -1010,12 +1015,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                           ? (v) => setState(() => ignoreCertificateErrors = v!)
                           : null,
                       title: Text(
-                        AppLocalizations.of(context)!.dontCheckCertificate,
+                        AppLocalizations.of(context).dontCheckCertificate,
                       ),
                       subtitle: Text(
                         AppLocalizations.of(
                           context,
-                        )!.dontCheckCertificateDescription,
+                        ).dontCheckCertificateDescription,
                         style: TextStyle(
                           fontSize: 12,
                           color: appColors.queryRed,
@@ -1027,13 +1032,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 ),
               ),
               SectionLabel(
-                label: AppLocalizations.of(context)!.version,
+                label: AppLocalizations.of(context).version,
                 padding: const EdgeInsets.only(top: 10, bottom: 10),
               ),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  AppLocalizations.of(context)!.versionDescription,
+                  AppLocalizations.of(context).versionDescription,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
@@ -1066,7 +1071,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 ),
               ),
               SectionLabel(
-                label: AppLocalizations.of(context)!.authentication,
+                label: AppLocalizations.of(context).authentication,
                 padding: const EdgeInsets.only(top: 20),
               ),
               Padding(
@@ -1091,9 +1096,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     onTap: () => {
                       setState(() => defaultCheckbox = !defaultCheckbox),
                     },
-                    child: Text(
-                      AppLocalizations.of(context)!.defaultConnection,
-                    ),
+                    child: Text(AppLocalizations.of(context).defaultConnection),
                   ),
                 ],
               ),

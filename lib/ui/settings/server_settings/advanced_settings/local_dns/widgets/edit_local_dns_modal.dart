@@ -50,7 +50,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
   }
 
   void validateHostName(String? value) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     if (normalizeLocalDnsNames(value ?? '') ==
         normalizeLocalDnsNames(widget.localDns.name)) {
       setState(() {
@@ -80,7 +80,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
   }
 
   void validateIp(String? value) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     if (value?.trim() == widget.localDns.ip.trim()) {
       setState(() {
         localDnsError = null;
@@ -113,7 +113,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
 
     Widget content() {
       return Container(
@@ -210,7 +210,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                   ),
                   const SizedBox(width: 14),
                   TextButton(
-                    onPressed: allDataValid == true
+                    onPressed: allDataValid
                         ? () {
                             if (widget.keyItem == 'name') {
                               widget.onConfirm(
@@ -235,7 +235,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                         : null,
                     style: ButtonStyle(
                       foregroundColor: WidgetStateProperty.all(
-                        allDataValid == true ? null : Colors.grey,
+                        allDataValid ? null : Colors.grey,
                       ),
                     ),
                     child: Text(locale.edit),
@@ -248,7 +248,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600, maxHeight: 480),

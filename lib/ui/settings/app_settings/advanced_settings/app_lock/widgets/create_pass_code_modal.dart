@@ -28,20 +28,20 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
         final result = await appConfigViewModel.setPassCode(_repeatedCode);
         if (!context.mounted) return;
 
-        if (result == true) {
+        if (result) {
           await Navigator.maybePop(context);
         } else {
           showErrorSnackBar(
             context: context,
             appConfigViewModel: appConfigViewModel,
-            label: AppLocalizations.of(context)!.passCodeNotSaved,
+            label: AppLocalizations.of(context).passCodeNotSaved,
           );
         }
       } else {
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.passcodesDontMatch,
+          label: AppLocalizations.of(context).passcodesDontMatch,
         );
       }
     }
@@ -50,8 +50,8 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
       appBar: AppBar(
         title: Text(
           _step == 0
-              ? AppLocalizations.of(context)!.enterPasscode
-              : AppLocalizations.of(context)!.repeatPasscode,
+              ? AppLocalizations.of(context).enterPasscode
+              : AppLocalizations.of(context).repeatPasscode,
         ),
         elevation: 5,
         actions: [
@@ -76,8 +76,8 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
             ),
             child: Text(
               _step == 0
-                  ? AppLocalizations.of(context)!.next
-                  : AppLocalizations.of(context)!.finish,
+                  ? AppLocalizations.of(context).next
+                  : AppLocalizations.of(context).finish,
             ),
           ),
         ],

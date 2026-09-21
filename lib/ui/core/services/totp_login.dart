@@ -41,6 +41,7 @@ Future<({bool cancelled, Result<Auth> result})> runTotpLogin({
       promptError = TotpPromptError.reused;
       continue;
     }
+
     // Rate limit or any other error is terminal - stop re-prompting.
     return (cancelled: false, result: result);
   }

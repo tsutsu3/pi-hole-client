@@ -47,6 +47,7 @@ extension DeviceListLookups on List<Device> {
         final diff = bytesA[i].compareTo(bytesB[i]);
         if (diff != 0) return diff;
       }
+
       return 0;
     });
 

@@ -31,6 +31,7 @@ class LocalDnsListView extends StatelessWidget {
       itemCount: localDnsInfo.length,
       itemBuilder: (context, index) {
         final localDns = localDnsInfo[index];
+
         return ListTile(
           leading: Icon(
             Icons.dns_rounded,

@@ -20,6 +20,7 @@ class DhcpRepositoryV6 extends BaseV6SidRepository implements DhcpRepository {
       action: () async {
         final sid = await getSid();
         final result = await _client.getDhcpLeases(sid);
+
         return result.map((e) => e.toDomain());
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -32,6 +33,7 @@ class DhcpRepositoryV6 extends BaseV6SidRepository implements DhcpRepository {
       action: () async {
         final sid = await getSid();
         final result = await _client.deleteDhcpLeases(sid, ip: ip);
+
         return result.map((_) => unit);
       },
       onRetry: (_, e) => renewSidIfExpired(e),

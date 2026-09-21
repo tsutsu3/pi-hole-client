@@ -28,6 +28,7 @@ class NetworkRepositoryV6 extends BaseV6SidRepository
           maxDevices: maxDevices,
           maxAddresses: maxAddresses,
         );
+
         return result.map((e) => e.toDomain());
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -43,6 +44,7 @@ class NetworkRepositoryV6 extends BaseV6SidRepository
           sid,
           deviceId: deviceId,
         );
+
         return result.map((_) => unit);
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -58,6 +60,7 @@ class NetworkRepositoryV6 extends BaseV6SidRepository
           sid,
           isDetailed: isDetailed,
         );
+
         return result.map((e) => e.toDomain());
       },
       onRetry: (_, e) => renewSidIfExpired(e),

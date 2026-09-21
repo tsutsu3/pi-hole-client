@@ -40,7 +40,7 @@ class DhcpScreen extends StatefulWidget {
 
 class _DhcpScreenState extends State<DhcpScreen> {
   Future<void> _removeLease(DhcpLease lease) async {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context);
     process.open(locale.deleting);
@@ -70,7 +70,7 @@ class _DhcpScreenState extends State<DhcpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
 
     return ListenableBuilder(
       listenable: widget.viewModel,

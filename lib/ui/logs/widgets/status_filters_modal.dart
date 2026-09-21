@@ -34,7 +34,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
   }
 
   void _updateStatusSelected(int option) {
-    if (_statusSelected.contains(option) == true) {
+    if (_statusSelected.contains(option)) {
       setState(() {
         _statusSelected = _statusSelected
             .where((status) => status != option)
@@ -129,7 +129,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
                       Padding(
                         padding: const EdgeInsets.only(top: 24, bottom: 24),
                         child: Text(
-                          AppLocalizations.of(context)!.logsStatus,
+                          AppLocalizations.of(context).logsStatus,
                           style: const TextStyle(fontSize: 24),
                         ),
                       ),
@@ -148,15 +148,15 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
                     onPressed: checkUncheckAll,
                     child: Text(
                       _statusSelected.length == serversViewModel.numShown
-                          ? AppLocalizations.of(context)!.uncheckAll
-                          : AppLocalizations.of(context)!.checkAll,
+                          ? AppLocalizations.of(context).uncheckAll
+                          : AppLocalizations.of(context).checkAll,
                     ),
                   ),
                   Row(
                     children: [
                       TextButton(
                         onPressed: () => Navigator.maybePop(context),
-                        child: Text(AppLocalizations.of(context)!.close),
+                        child: Text(AppLocalizations.of(context).close),
                       ),
                       const SizedBox(width: 20),
                       TextButton(
@@ -178,7 +178,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
                             ).colorScheme.primary.withValues(alpha: 0.1),
                           ),
                         ),
-                        child: Text(AppLocalizations.of(context)!.apply),
+                        child: Text(AppLocalizations.of(context).apply),
                       ),
                     ],
                   ),
@@ -190,7 +190,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
       );
     }
 
-    if (widget.window == true) {
+    if (widget.window) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 500),

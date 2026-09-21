@@ -34,41 +34,52 @@ Future<Result<T>> safeApiCall<T extends Object>(
 ) async {
   try {
     final result = await apiCall();
+
     return Success(result);
   } on TotpRequiredException catch (e) {
     logger.e('TOTP code required: ${e.message}');
+
     return Failure(e);
   } on TotpInvalidException catch (e) {
     logger.e('Invalid TOTP code: ${e.message}');
+
     return Failure(e);
   } on TotpReusedException catch (e) {
     logger.e('Reused TOTP code: ${e.message}');
+
     return Failure(e);
   } on TotpRateLimitException catch (e) {
     logger.e('TOTP rate limited: ${e.message}');
+
     return Failure(e);
   } on HttpStatusCodeException catch (e, st) {
     logger.e('HTTP error occurred: [${e.statusCode}] ${e.message}\n$st');
+
     return Failure(e);
   } on SocketException catch (e) {
     final msg = 'Network connection failed. ${e.message}';
     logger.e(msg);
+
     return Failure(HttpStatusCodeException(503, msg));
   } on TimeoutException catch (e) {
     final msg = 'Request timed out. ${e.message}';
     logger.e(msg);
+
     return Failure(HttpStatusCodeException(504, msg));
   } on HandshakeException catch (e) {
     final msg = 'SSL handshake failed. ${e.message}';
     logger.e(msg);
+
     return Failure(HttpStatusCodeException(495, msg));
   } on FormatException catch (e) {
     final msg = 'Response format is invalid. ${e.message}';
     logger.e(msg);
+
     return Failure(HttpStatusCodeException(422, msg));
   } catch (e, st) {
     final msg = 'Unexpected error occurred. $e\n$st';
     logger.e(msg);
+
     return Failure(HttpStatusCodeException(500, msg));
   }
 }

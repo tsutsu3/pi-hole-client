@@ -28,7 +28,7 @@ class QueriesLastHoursLine extends StatelessWidget {
 
     if (formattedData.containsKey('error')) {
       return ErrorMessage(
-        message: AppLocalizations.of(context)!.chartsNotLoaded,
+        message: AppLocalizations.of(context).chartsNotLoaded,
       );
     }
 
@@ -47,7 +47,7 @@ class QueriesLastHoursLine extends StatelessWidget {
 
     var xPosition = 0;
     var topPoint = 0;
-    final interval = reducedData == true ? averageIntervalCount : 1;
+    final interval = reducedData ? averageIntervalCount : 1;
 
     final domainsOverTime = data.domainsOverTime;
     final adsOverTime = data.adsOverTime;
@@ -146,6 +146,7 @@ class QueriesLastHoursLine extends StatelessWidget {
     BuildContext context,
   ) {
     final interval = calcInterval(data['topPoint']);
+
     return LineChartData(
       gridData: FlGridData(
         drawVerticalLine: false,

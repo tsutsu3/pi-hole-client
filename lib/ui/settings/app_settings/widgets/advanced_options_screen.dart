@@ -29,25 +29,25 @@ class AdvancedOptionsScreen extends StatelessWidget {
         serversViewModel.selectedServer?.apiVersion == SupportedApiVersions.v6;
 
     final logDescription = isV6
-        ? AppLocalizations.of(context)!.logsSettingNotApplicable
+        ? AppLocalizations.of(context).logsSettingNotApplicable
         : '${appConfigViewModel.logsPerQuery == 0.5 ? '30' : appConfigViewModel.logsPerQuery.toInt()} '
-              '${appConfigViewModel.logsPerQuery == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}';
+              '${appConfigViewModel.logsPerQuery == 0.5 ? AppLocalizations.of(context).minutes : AppLocalizations.of(context).hours}';
 
     Future<void> updateUseReducedData(bool newStatus) async {
       final result = await appConfigViewModel.setReducedDataCharts(newStatus);
       if (!context.mounted) return;
 
-      if (result == true) {
+      if (result) {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
+          label: AppLocalizations.of(context).settingsUpdatedSuccessfully,
         );
       } else {
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.cannotUpdateSettings,
+          label: AppLocalizations.of(context).cannotUpdateSettings,
         );
       }
     }
@@ -56,17 +56,17 @@ class AdvancedOptionsScreen extends StatelessWidget {
       final result = await appConfigViewModel.setHideZeroValues(newStatus);
       if (!context.mounted) return;
 
-      if (result == true) {
+      if (result) {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
+          label: AppLocalizations.of(context).settingsUpdatedSuccessfully,
         );
       } else {
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.cannotUpdateSettings,
+          label: AppLocalizations.of(context).cannotUpdateSettings,
         );
       }
     }
@@ -77,17 +77,17 @@ class AdvancedOptionsScreen extends StatelessWidget {
       );
       if (!context.mounted) return;
 
-      if (result == true) {
+      if (result) {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
+          label: AppLocalizations.of(context).settingsUpdatedSuccessfully,
         );
       } else {
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.cannotUpdateSettings,
+          label: AppLocalizations.of(context).cannotUpdateSettings,
         );
       }
     }
@@ -96,17 +96,17 @@ class AdvancedOptionsScreen extends StatelessWidget {
       final result = await appConfigViewModel.setLiveLog(newStatus);
       if (!context.mounted) return;
 
-      if (result == true) {
+      if (result) {
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
+          label: AppLocalizations.of(context).settingsUpdatedSuccessfully,
         );
       } else {
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context)!.cannotUpdateSettings,
+          label: AppLocalizations.of(context).cannotUpdateSettings,
         );
       }
     }
@@ -114,7 +114,7 @@ class AdvancedOptionsScreen extends StatelessWidget {
     Future<void> deleteApplicationData() async {
       Future<void> reset() async {
         final process = ProcessModal(context: context);
-        process.open(AppLocalizations.of(context)!.deleting);
+        process.open(AppLocalizations.of(context).deleting);
         await serversViewModel.deleteDbData();
         await appConfigViewModel.restoreAppConfig();
         if (!context.mounted) return;
@@ -190,25 +190,23 @@ class AdvancedOptionsScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.advancedSetup)),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).advancedSetup)),
       body: SafeArea(
         child: ListView(
           children: [
-            SectionLabel(label: AppLocalizations.of(context)!.security),
+            SectionLabel(label: AppLocalizations.of(context).security),
             ListTile(
               leading: const Icon(Icons.fingerprint_rounded),
-              title: Text(AppLocalizations.of(context)!.appUnlock),
-              subtitle: Text(
-                AppLocalizations.of(context)!.appUnlockDescription,
-              ),
+              title: Text(AppLocalizations.of(context).appUnlock),
+              subtitle: Text(AppLocalizations.of(context).appUnlockDescription),
               onTap: openAppUnlockModal,
             ),
-            SectionLabel(label: AppLocalizations.of(context)!.charts),
+            SectionLabel(label: AppLocalizations.of(context).charts),
             ListTile(
               leading: const Icon(Icons.stacked_line_chart_rounded),
-              title: Text(AppLocalizations.of(context)!.reducedDataCharts),
+              title: Text(AppLocalizations.of(context).reducedDataCharts),
               subtitle: Text(
-                AppLocalizations.of(context)!.reducedDataChartsDescription,
+                AppLocalizations.of(context).reducedDataChartsDescription,
               ),
               onTap: () =>
                   updateUseReducedData(!appConfigViewModel.reducedDataCharts),
@@ -219,9 +217,9 @@ class AdvancedOptionsScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.exposure_zero_rounded),
-              title: Text(AppLocalizations.of(context)!.hideZeroValues),
+              title: Text(AppLocalizations.of(context).hideZeroValues),
               subtitle: Text(
-                AppLocalizations.of(context)!.hideZeroValuesDescription,
+                AppLocalizations.of(context).hideZeroValuesDescription,
               ),
               onTap: () =>
                   updateHideZeroValues(!appConfigViewModel.hideZeroValues),
@@ -232,9 +230,9 @@ class AdvancedOptionsScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.animation_rounded),
-              title: Text(AppLocalizations.of(context)!.showLoadingAnimation),
+              title: Text(AppLocalizations.of(context).showLoadingAnimation),
               subtitle: Text(
-                AppLocalizations.of(context)!.showLoadingAnimationDescription,
+                AppLocalizations.of(context).showLoadingAnimationDescription,
               ),
               onTap: () => updateShowLoadingAnimation(
                 !appConfigViewModel.loadingAnimation,
@@ -246,28 +244,28 @@ class AdvancedOptionsScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.pie_chart_rounded),
-              title: Text(AppLocalizations.of(context)!.chartDisplayModeTitle),
+              title: Text(AppLocalizations.of(context).chartDisplayModeTitle),
               subtitle: Text(
-                AppLocalizations.of(context)!.chartDisplayModeSubtitle,
+                AppLocalizations.of(context).chartDisplayModeSubtitle,
               ),
               onTap: () => context.pushNamed(
                 Routes.settingsAppAdvancedChartVisualization,
               ),
             ),
-            SectionLabel(label: AppLocalizations.of(context)!.performance),
+            SectionLabel(label: AppLocalizations.of(context).performance),
             ListTile(
               leading: const Icon(Icons.update),
-              title: Text(AppLocalizations.of(context)!.autoRefreshTime),
+              title: Text(AppLocalizations.of(context).autoRefreshTime),
               subtitle: Text(
-                '${appConfigViewModel.getAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
+                '${appConfigViewModel.getAutoRefreshTime} ${AppLocalizations.of(context).seconds}',
               ),
               onTap: () =>
                   context.pushNamed(Routes.settingsAppAdvancedStatsRefreshTime),
             ),
             ListTile(
               leading: const Icon(Icons.timer_outlined),
-              title: Text(AppLocalizations.of(context)!.liveLog),
-              subtitle: Text(AppLocalizations.of(context)!.liveLogDescription),
+              title: Text(AppLocalizations.of(context).liveLog),
+              subtitle: Text(AppLocalizations.of(context).liveLogDescription),
               onTap: () => updateLiveLog(!appConfigViewModel.liveLog),
               trailing: Switch(
                 value: appConfigViewModel.liveLog,
@@ -276,9 +274,9 @@ class AdvancedOptionsScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.update),
-              title: Text(AppLocalizations.of(context)!.logAutoRefreshTime),
+              title: Text(AppLocalizations.of(context).logAutoRefreshTime),
               subtitle: Text(
-                '${appConfigViewModel.logAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
+                '${appConfigViewModel.logAutoRefreshTime} ${AppLocalizations.of(context).seconds}',
               ),
               onTap: () => context.pushNamed(
                 Routes.settingsAppAdvancedLogRefreshInterval,
@@ -286,22 +284,22 @@ class AdvancedOptionsScreen extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.list_rounded),
-              title: Text(AppLocalizations.of(context)!.logsQuantityPerLoad),
+              title: Text(AppLocalizations.of(context).logsQuantityPerLoad),
               subtitle: Text(logDescription),
               onTap: () =>
                   context.pushNamed(Routes.settingsAppAdvancedLogsQuantityLoad),
             ),
-            SectionLabel(label: AppLocalizations.of(context)!.others),
+            SectionLabel(label: AppLocalizations.of(context).others),
             ListTile(
               leading: const Icon(Icons.list),
-              title: Text(AppLocalizations.of(context)!.appLogs),
-              subtitle: Text(AppLocalizations.of(context)!.errorsApp),
+              title: Text(AppLocalizations.of(context).appLogs),
+              subtitle: Text(AppLocalizations.of(context).errorsApp),
               onTap: () => context.pushNamed(Routes.settingsAppAdvancedAppLogs),
             ),
             ListTile(
               leading: const Icon(Icons.delete),
-              title: Text(AppLocalizations.of(context)!.resetApplication),
-              subtitle: Text(AppLocalizations.of(context)!.erasesAppData),
+              title: Text(AppLocalizations.of(context).resetApplication),
+              subtitle: Text(AppLocalizations.of(context).erasesAppData),
               subtitleTextStyle: TextStyle(
                 color: appConfigViewModel.colors.commonRed ?? Colors.red,
               ),

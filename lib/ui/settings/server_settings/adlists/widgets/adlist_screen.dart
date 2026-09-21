@@ -91,15 +91,15 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
         tabs: [
           IconTab(
             icon: Icons.check_circle_rounded,
-            label: AppLocalizations.of(context)!.allowlist,
+            label: AppLocalizations.of(context).allowlist,
           ),
           IconTab(
             icon: Icons.block_rounded,
-            label: AppLocalizations.of(context)!.blocklist,
+            label: AppLocalizations.of(context).blocklist,
           ),
           IconTab(
             icon: Icons.rocket_launch_rounded,
-            label: AppLocalizations.of(context)!.updateGravity,
+            label: AppLocalizations.of(context).updateGravity,
           ),
         ],
         tabChildren: [
@@ -132,7 +132,7 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
         groupChip: viewModel.groupFilter != null
             ? Chip(
                 label: Text(
-                  '${AppLocalizations.of(context)!.groups}: ${groups[viewModel.groupFilter] ?? ''}',
+                  '${AppLocalizations.of(context).groups}: ${groups[viewModel.groupFilter] ?? ''}',
                 ),
                 deleteIcon: const Icon(Icons.close, size: 18),
                 onDeleted: viewModel.clearGroupFilter,
@@ -178,7 +178,7 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
                     child: SafeArea(
                       child: Center(
                         child: Text(
-                          AppLocalizations.of(context)!.adlistsSelectLeftColumn,
+                          AppLocalizations.of(context).adlistsSelectLeftColumn,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 24,

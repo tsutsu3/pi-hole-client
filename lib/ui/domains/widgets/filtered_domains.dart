@@ -90,7 +90,7 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
                 const Flexible(child: SizedBox(width: 16)),
                 Flexible(
                   child: Text(
-                    AppLocalizations.of(context)!.allowlist,
+                    AppLocalizations.of(context).allowlist,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -105,7 +105,7 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
                 const Flexible(child: SizedBox(width: 16)),
                 Flexible(
                   child: Text(
-                    AppLocalizations.of(context)!.blocklist,
+                    AppLocalizations.of(context).blocklist,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -134,7 +134,7 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
         }),
         groupChip: Chip(
           label: Text(
-            '${AppLocalizations.of(context)!.groups}: ${widget.groupName}',
+            '${AppLocalizations.of(context).groups}: ${widget.groupName}',
           ),
           deleteIcon: const Icon(Icons.close, size: 18),
           onDeleted: () {
@@ -175,7 +175,7 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
                   : SizedBox(
                       child: SafeArea(
                         child: Text(
-                          AppLocalizations.of(context)!.domainsSelectLeftColumn,
+                          AppLocalizations.of(context).domainsSelectLeftColumn,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 24,

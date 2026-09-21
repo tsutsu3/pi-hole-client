@@ -40,5 +40,6 @@ Future<bool> handleTotpReauth(BuildContext context) async {
   );
 
   await service.connect();
+
   return statusViewModel.getServerStatus == LoadStatus.loaded;
 }

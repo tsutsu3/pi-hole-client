@@ -16,6 +16,7 @@ bool isValidServerAddress(String value) =>
 /// Whether [value] is a valid port number (an integer in 0..65535).
 bool isValidPort(String value) {
   final port = int.tryParse(value);
+
   return port != null && port >= 0 && port <= 65535;
 }
 
@@ -28,6 +29,7 @@ bool isValidSubroute(String value) => _subroute.hasMatch(value);
 String normalizeLocalDnsNames(String value) {
   final trimmed = value.trim();
   if (trimmed.isEmpty) return '';
+
   return trimmed.split(_whitespace).join(' ');
 }
 
@@ -35,5 +37,6 @@ String normalizeLocalDnsNames(String value) {
 bool isValidLocalDnsNames(String value) {
   final normalized = normalizeLocalDnsNames(value);
   if (normalized.isEmpty) return false;
+
   return normalized.split(' ').every(_hostname.hasMatch);
 }

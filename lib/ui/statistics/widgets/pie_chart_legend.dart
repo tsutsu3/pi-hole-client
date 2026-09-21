@@ -93,6 +93,7 @@ class PieChartLegend extends StatelessWidget {
         );
         index++;
       });
+
       return items;
     }
 

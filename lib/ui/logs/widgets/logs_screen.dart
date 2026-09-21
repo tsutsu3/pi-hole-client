@@ -312,7 +312,7 @@ class _LogsScreenState extends State<LogsScreen> with WidgetsBindingObserver {
                 : SizedBox(
                     child: SafeArea(
                       child: Text(
-                        AppLocalizations.of(context)!.selectLogsLeftColumn,
+                        AppLocalizations.of(context).selectLogsLeftColumn,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 24,

@@ -90,6 +90,7 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
         animation: _controller,
         builder: (context, child) {
           final time = _controller.value;
+
           return Stack(
             alignment: Alignment.center,
             children: [
@@ -160,6 +161,7 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
               reservedSize: 35,
               getTitlesWidget: (value, _) {
                 final key = value.toInt();
+
                 return _titleCache.putIfAbsent(
                   key,
                   () => Text('$key', style: const TextStyle(fontSize: 12)),
@@ -195,7 +197,7 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
             ),
             const SizedBox(height: 8),
             Text(
-              AppLocalizations.of(context)!.loading,
+              AppLocalizations.of(context).loading,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,

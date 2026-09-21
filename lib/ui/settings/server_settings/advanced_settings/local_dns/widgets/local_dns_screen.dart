@@ -35,7 +35,7 @@ class LocalDnsScreen extends StatefulWidget {
 
 class _LocalDnsScreenState extends State<LocalDnsScreen> {
   Future<bool> _onAddLocalDns(Map<String, dynamic> value) async {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context)..open(locale.localDnsAdding);
 
@@ -50,6 +50,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         appConfigViewModel: appConfigViewModel,
         label: locale.localDnsAddSuccess,
       );
+
       return true;
     } catch (e) {
       if (!mounted) return false;
@@ -61,12 +62,13 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         alreadyExistsLabel: locale.localDnsAlreadyAdded,
         failedLabel: locale.localDnsAddFailed,
       );
+
       return false;
     }
   }
 
   Future<bool> _onUpdateLocalDns(LocalDns updated, LocalDns old) async {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context)..open(locale.updating);
 
@@ -82,6 +84,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         appConfigViewModel: appConfigViewModel,
         label: locale.localDnsUpdateSuccess,
       );
+
       return true;
     } catch (e) {
       if (!mounted) return false;
@@ -93,12 +96,13 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         alreadyExistsLabel: locale.localDnsAlreadyAdded,
         failedLabel: locale.localDnsUpdateFailed,
       );
+
       return false;
     }
   }
 
   Future<bool> _onRemoveLocalDns(LocalDns item) async {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final process = ProcessModal(context: context)..open(locale.deleting);
 
@@ -113,6 +117,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         appConfigViewModel: appConfigViewModel,
         label: locale.localDnsDeleteSuccess,
       );
+
       return true;
     } catch (_) {
       if (!mounted) return false;
@@ -122,6 +127,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         appConfigViewModel: appConfigViewModel,
         label: locale.localDnsDeleteFailed,
       );
+
       return false;
     }
   }
@@ -159,7 +165,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final locale = AppLocalizations.of(context)!;
+    final locale = AppLocalizations.of(context);
 
     return ListenableBuilder(
       listenable: widget.viewModel,

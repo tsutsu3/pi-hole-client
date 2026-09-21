@@ -13,7 +13,7 @@ Future<void> deleteDomain({
   required Domain domain,
 }) async {
   final process = ProcessModal(context: context);
-  process.open(AppLocalizations.of(context)!.deleting);
+  process.open(AppLocalizations.of(context).deleting);
 
   try {
     await viewModel.deleteDomain.runAsync(domain);
@@ -22,7 +22,7 @@ Future<void> deleteDomain({
     showSuccessSnackBar(
       context: context,
       appConfigViewModel: appConfigViewModel,
-      label: AppLocalizations.of(context)!.domainRemoved,
+      label: AppLocalizations.of(context).domainRemoved,
     );
   } catch (_) {
     if (!context.mounted) return;
@@ -30,7 +30,7 @@ Future<void> deleteDomain({
     showErrorSnackBar(
       context: context,
       appConfigViewModel: appConfigViewModel,
-      label: AppLocalizations.of(context)!.errorRemovingDomain,
+      label: AppLocalizations.of(context).errorRemovingDomain,
     );
   } finally {
     process.close();

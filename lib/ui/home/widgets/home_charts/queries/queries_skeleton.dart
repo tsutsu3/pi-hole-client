@@ -36,7 +36,7 @@ class QueriesSkeleton extends StatelessWidget {
         children: [
           Skeleton.keep(
             child: SectionLabel(
-              label: AppLocalizations.of(context)!.totalQueries24,
+              label: AppLocalizations.of(context).totalQueries24,
             ),
           ),
           Container(
@@ -59,11 +59,11 @@ class QueriesSkeleton extends StatelessWidget {
               children: [
                 QueriesLegendDot(
                   colorIndex: 0,
-                  label: AppLocalizations.of(context)!.blocked,
+                  label: AppLocalizations.of(context).blocked,
                 ),
                 QueriesLegendDot(
                   colorIndex: 3,
-                  label: AppLocalizations.of(context)!.notBlocked,
+                  label: AppLocalizations.of(context).notBlocked,
                 ),
               ],
             ),

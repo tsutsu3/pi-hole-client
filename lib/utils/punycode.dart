@@ -42,6 +42,7 @@ String decodePunycode(String domain) {
 /// Otherwise returns the label unchanged (plain ASCII label).
 String _decodeLabel(String label) {
   if (!label.startsWith('xn--')) return label;
+
   return _decode(label.substring(4));
 }
 
@@ -195,5 +196,6 @@ int _adapt(int delta, int numPoints, bool firstTime) {
     d ~/= _base - _tMin;
     k += _base;
   }
+
   return k + ((_base - _tMin + 1) * d) ~/ (d + _skew);
 }

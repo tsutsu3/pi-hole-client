@@ -81,7 +81,7 @@ class ClientActivityChartSection extends StatelessWidget {
 
   Widget _buildErrorChart(BuildContext context) {
     return ErrorDataChart(
-      topLabel: AppLocalizations.of(context)!.totalQueries24,
+      topLabel: AppLocalizations.of(context).totalQueries24,
     );
   }
 
@@ -110,7 +110,7 @@ class ClientActivityChartSection extends StatelessWidget {
             children: [
               Skeleton.keep(
                 child: SectionLabel(
-                  label: AppLocalizations.of(context)!.clientActivity24,
+                  label: AppLocalizations.of(context).clientActivity24,
                 ),
               ),
               Container(
@@ -156,7 +156,7 @@ class ClientActivityChartSection extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SectionLabel(label: AppLocalizations.of(context)!.clientActivity24),
+            SectionLabel(label: AppLocalizations.of(context).clientActivity24),
             Container(
               width: double.maxFinite,
               height: 350,
@@ -177,9 +177,7 @@ class ClientActivityChartSection extends StatelessWidget {
   }
 
   Widget _buildNoDataChart(BuildContext context) {
-    return NoDataChart(
-      topLabel: AppLocalizations.of(context)!.clientActivity24,
-    );
+    return NoDataChart(topLabel: AppLocalizations.of(context).clientActivity24);
   }
 
   Container _buildLegendSection(

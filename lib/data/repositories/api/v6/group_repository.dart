@@ -22,6 +22,7 @@ class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
       action: () async {
         final sid = await getSid();
         final result = await _client.getGroups(sid);
+
         return result.map((e) => e.toDomain());
       },
       onRetry: (_, e) => renewSidIfExpired(e),
@@ -43,6 +44,7 @@ class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
           comment: comment,
           enabled: enabled,
         );
+
         return mapDuplicateFailure(result).flatMap(
           (e) => checkProcessedErrors(
             e.processed?.errors.map((x) => x.error),
@@ -88,6 +90,7 @@ class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
         }
 
         final all = (await _client.getGroups(sid)).getOrThrow().toDomain();
+
         return Success(
           all.firstWhere(
             (g) => g.name == newName,
@@ -114,6 +117,7 @@ class GroupRepositoryV6 extends BaseV6SidRepository implements GroupRepository {
             error.message.contains('FOREIGN KEY constraint failed')) {
           return Failure(GroupInUseException());
         }
+
         return result;
       },
       onRetry: (_, e) => renewSidIfExpired(e),
