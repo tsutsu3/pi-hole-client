@@ -54,6 +54,8 @@ class ServerToggleWorker(
         val server = prefs.getServerInfo(serverId)
         if (server == null) {
             if (WidgetDebugConfig.DEBUG) Log.w(TAG, "No server info for $serverId")
+            // The server was removed; let the refresh workers reset its widgets.
+            WidgetUpdateHelper.refreshWidgetsForServer(applicationContext, serverId)
             return Result.success()
         }
 

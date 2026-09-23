@@ -46,6 +46,7 @@ class ServerPaddWorker(
         val server = prefs.getServerInfo(serverId)
         if (server == null) {
             if (WidgetDebugConfig.DEBUG) Log.w(TAG, "No server info for $serverId")
+            resetRemovedServerWidgets(serverId, prefs)
             return Result.success()
         }
 
@@ -118,6 +119,35 @@ class ServerPaddWorker(
         for (widgetId in compactIds) {
             val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue
             updateAppWidgetState(applicationContext, glanceId) { it.updateFrom(state) }
+            CompactGlanceWidget().update(applicationContext, glanceId)
+        }
+    }
+
+    /**
+     * Unbinds and blanks widgets whose server was removed in the app, so they
+     * show the unconfigured state and can be set up again.
+     */
+    private suspend fun resetRemovedServerWidgets(serverId: String, prefs: WidgetPrefs) {
+        val manager = AppWidgetManager.getInstance(applicationContext)
+        val glanceManager = GlanceAppWidgetManager(applicationContext)
+        val statsIds = prefs.getWidgetIdsForServer(
+            manager.getAppWidgetIds(ComponentName(applicationContext, PiHoleWidgetProvider::class.java)),
+            serverId,
+        )
+        val compactIds = prefs.getWidgetIdsForServer(
+            manager.getAppWidgetIds(ComponentName(applicationContext, CompactWidgetProvider::class.java)),
+            serverId,
+        )
+        for (widgetId in statsIds) {
+            prefs.clearWidget(widgetId)
+            val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue
+            updateAppWidgetState(applicationContext, glanceId) { it.clear() }
+            PiHoleGlanceWidget().update(applicationContext, glanceId)
+        }
+        for (widgetId in compactIds) {
+            prefs.clearWidget(widgetId)
+            val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue
+            updateAppWidgetState(applicationContext, glanceId) { it.clear() }
             CompactGlanceWidget().update(applicationContext, glanceId)
         }
     }
