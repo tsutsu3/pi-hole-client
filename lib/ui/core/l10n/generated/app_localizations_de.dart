@@ -999,10 +999,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get flushedNetworkTableSuccess => 'Netzwerktabelle wurde gelöscht.';
 
   @override
-  String get flushingLogs => 'Protokolle werden geleert …';
+  String get flushingLogs => 'Protokolle werden geleert…';
 
   @override
-  String get flushingNetworkTable => 'Netzwerktabelle wird gelöscht …';
+  String get flushingNetworkTable => 'Netzwerktabelle wird gelöscht…';
 
   @override
   String get forever => 'unbegrenzt';
@@ -1795,7 +1795,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get restartDnsResolver => 'DNS-Resolver neu starten';
 
   @override
-  String get restartingDnsResolver => 'DNS-Server wird neu gestartet …';
+  String get restartingDnsResolver => 'DNS-Server wird neu gestartet…';
 
   @override
   String get resume => 'Fortsetzen';
