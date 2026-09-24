@@ -975,7 +975,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get flushingLogs => 'Flushing logs…';
 
   @override
-  String get flushingNetworkTable => 'Clearing network table …';
+  String get flushingNetworkTable => 'Clearing network table…';
 
   @override
   String get forever => 'forever';
@@ -1761,7 +1761,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get restartDnsResolver => 'Restart DNS resolver';
 
   @override
-  String get restartingDnsResolver => 'Restarting DNS server …';
+  String get restartingDnsResolver => 'Restarting DNS server…';
 
   @override
   String get resume => 'Resume';

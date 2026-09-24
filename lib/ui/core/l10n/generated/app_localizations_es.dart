@@ -1000,7 +1000,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get flushingLogs => 'Vaciando registros…';
 
   @override
-  String get flushingNetworkTable => 'Borrando la tabla de red …';
+  String get flushingNetworkTable => 'Borrando la tabla de red…';
 
   @override
   String get forever => 'para siempre';
@@ -1789,7 +1789,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get restartDnsResolver => 'Reiniciar el resolvedor DNS';
 
   @override
-  String get restartingDnsResolver => 'Reiniciando el servidor DNS …';
+  String get restartingDnsResolver => 'Reiniciando el servidor DNS…';
 
   @override
   String get resume => 'Reanudar';

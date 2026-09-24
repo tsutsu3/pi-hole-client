@@ -1973,7 +1973,7 @@ abstract class AppLocalizations {
   /// No description provided for @flushingNetworkTable.
   ///
   /// In en, this message translates to:
-  /// **'Clearing network table …'**
+  /// **'Clearing network table…'**
   String get flushingNetworkTable;
 
   /// No description provided for @forever.
@@ -3467,7 +3467,7 @@ abstract class AppLocalizations {
   /// No description provided for @restartingDnsResolver.
   ///
   /// In en, this message translates to:
-  /// **'Restarting DNS server …'**
+  /// **'Restarting DNS server…'**
   String get restartingDnsResolver;
 
   /// No description provided for @resume.
