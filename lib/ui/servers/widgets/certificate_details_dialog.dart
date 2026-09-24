@@ -18,7 +18,7 @@ class CertificateDetailsDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context);
     final theme = Theme.of(context);
 
     Widget sectionTitle(IconData icon, String label) {
