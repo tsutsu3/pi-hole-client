@@ -113,6 +113,10 @@ class _AutoCompleteFieldState<T> extends State<AutoCompleteField<T>> {
   late TextEditingController _textCtrl;
   late bool _isExpanded;
 
+  // Shared by the field and the list so that desktop clicks on the list
+  // do not count as "tap outside" and unfocus the field.
+  final Object _tapRegionGroupId = Object();
+
   String? _selectedText;
 
   @override
@@ -215,6 +219,7 @@ class _AutoCompleteFieldState<T> extends State<AutoCompleteField<T>> {
                     textAlignVertical: TextAlignVertical.center,
                     controller: _textCtrl,
                     focusNode: _focusNode,
+                    groupId: _tapRegionGroupId,
                     keyboardType: widget.keyboardType ?? TextInputType.text,
                     decoration: InputDecoration(
                       hintText: widget.hintText,
@@ -275,40 +280,43 @@ class _AutoCompleteFieldState<T> extends State<AutoCompleteField<T>> {
 
   /// Build the suggestions list
   Widget _buildSuggestions(List<T> items) {
-    final listView = ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: widget.maxPopupHeight),
-      child: Material(
-        type: MaterialType.transparency,
-        child: ListView.builder(
-          shrinkWrap: true,
-          physics: const ClampingScrollPhysics(),
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            final it = items[index];
-            final title = widget.titleOf?.call(it) ?? widget.textOf(it);
-            final subtitle = widget.subtitleOf?.call(it);
+    final listView = TapRegion(
+      groupId: _tapRegionGroupId,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: widget.maxPopupHeight),
+        child: Material(
+          type: MaterialType.transparency,
+          child: ListView.builder(
+            shrinkWrap: true,
+            physics: const ClampingScrollPhysics(),
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              final it = items[index];
+              final title = widget.titleOf?.call(it) ?? widget.textOf(it);
+              final subtitle = widget.subtitleOf?.call(it);
 
-            return ListTile(
-              visualDensity: widget.visualDensity,
-              title: Text(title),
-              subtitle: subtitle != null
-                  ? Text(subtitle, overflow: TextOverflow.ellipsis)
-                  : null,
-              onTap: () {
-                final text = widget.textOf(it);
-                setState(() {
-                  _textCtrl.text = text;
-                  _textCtrl.selection = TextSelection.fromPosition(
-                    TextPosition(offset: _textCtrl.text.length),
-                  );
-                  _selectedText = text;
-                  _isExpanded = false;
-                });
-                widget.onChanged(text);
-                _focusNode.unfocus();
-              },
-            );
-          },
+              return ListTile(
+                visualDensity: widget.visualDensity,
+                title: Text(title),
+                subtitle: subtitle != null
+                    ? Text(subtitle, overflow: TextOverflow.ellipsis)
+                    : null,
+                onTap: () {
+                  final text = widget.textOf(it);
+                  setState(() {
+                    _textCtrl.text = text;
+                    _textCtrl.selection = TextSelection.fromPosition(
+                      TextPosition(offset: _textCtrl.text.length),
+                    );
+                    _selectedText = text;
+                    _isExpanded = false;
+                  });
+                  widget.onChanged(text);
+                  _focusNode.unfocus();
+                },
+              );
+            },
+          ),
         ),
       ),
     );
