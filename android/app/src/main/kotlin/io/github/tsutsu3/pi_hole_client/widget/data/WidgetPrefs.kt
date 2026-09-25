@@ -333,12 +333,38 @@ class WidgetPrefs private constructor(context: Context) {
     }
 
     /**
+     * Returns the ids of all placed widget instances across the three widget types.
+     */
+    fun getAllWidgetIds(context: Context): IntArray {
+        val manager = AppWidgetManager.getInstance(context)
+        return listOf(
+            PiHoleWidgetProvider::class.java,
+            CompactWidgetProvider::class.java,
+            ToggleWidgetProvider::class.java,
+        ).flatMap { type ->
+            manager.getAppWidgetIds(ComponentName(context, type)).toList()
+        }.toIntArray()
+    }
+
+    /**
      * Filters widget ids that are bound to the given server id.
      */
     fun getWidgetIdsForServer(appWidgetIds: IntArray, serverId: String): IntArray {
         return appWidgetIds.filter { widgetId ->
             getServerForWidget(widgetId) == serverId
         }.toIntArray()
+    }
+
+    /**
+     * Moves widgets bound to [oldServerId] over to [newServerId].
+     *
+     * The server id is the server address, so editing the address in the app
+     * gives the same server a new id.
+     */
+    fun remapServer(appWidgetIds: IntArray, oldServerId: String, newServerId: String) {
+        getWidgetIdsForServer(appWidgetIds, oldServerId).forEach { widgetId ->
+            setServerForWidget(widgetId, newServerId)
+        }
     }
 
     private fun keyForWidget(widgetId: Int) =
