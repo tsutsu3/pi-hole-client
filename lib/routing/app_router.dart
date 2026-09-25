@@ -296,6 +296,7 @@ GoRouter createAppRouter({
                         builder: (context, state) => ServerScopedRoute(
                           title: AppLocalizations.of(context).adlists,
                           required: RequiredApiVersion.v6Only,
+                          showBackButton: true,
                           builder: (bundle, _) => createAdlistScreen(bundle),
                         ),
                         routes: [
@@ -384,6 +385,7 @@ GoRouter createAppRouter({
                         builder: (context, state) => ServerScopedRoute(
                           title: AppLocalizations.of(context).advancedSetup,
                           required: RequiredApiVersion.v6Only,
+                          showBackButton: true,
                           builder: (_, _) =>
                               const AdvancedServerOptionsScreen(),
                         ),
@@ -573,6 +575,7 @@ GoRouter createAppRouter({
                         builder: (context, state) => ServerScopedRoute(
                           title: AppLocalizations.of(context).network,
                           required: RequiredApiVersion.v6Only,
+                          showBackButton: true,
                           builder: (bundle, _) => createNetworkScreen(bundle),
                         ),
                         routes: [

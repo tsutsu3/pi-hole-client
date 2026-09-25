@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/ui/components/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
@@ -32,6 +34,7 @@ class ServerScopedRoute extends StatelessWidget {
     required this.title,
     required this.builder,
     this.required = RequiredApiVersion.any,
+    this.showBackButton = false,
     super.key,
   });
 
@@ -40,6 +43,9 @@ class ServerScopedRoute extends StatelessWidget {
 
   /// Minimum API version required by the wrapped screen.
   final RequiredApiVersion required;
+
+  /// Always shows a back button on the fallback scaffolds.
+  final bool showBackButton;
 
   /// Builds the actual screen. `bundle` and `server` are guaranteed non-null.
   final Widget Function(RepositoryBundle bundle, Server server) builder;
@@ -52,20 +58,36 @@ class ServerScopedRoute extends StatelessWidget {
     );
 
     if (bundle == null || server == null) {
-      return Scaffold(
-        appBar: AppBar(title: Text(title)),
-        body: const SafeArea(child: EmptyDataScreen()),
-      );
+      return _fallbackScaffold(context, const EmptyDataScreen());
     }
 
     if (required == RequiredApiVersion.v6Only &&
         server.apiVersion == SupportedApiVersions.v5) {
-      return Scaffold(
-        appBar: AppBar(title: Text(title)),
-        body: const SafeArea(child: PiHoleV5NotSupportedScreen()),
-      );
+      return _fallbackScaffold(context, const PiHoleV5NotSupportedScreen());
     }
 
     return KeyedSubtree(key: ObjectKey(server), child: builder(bundle, server));
+  }
+
+  Widget _fallbackScaffold(BuildContext context, Widget body) {
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: !showBackButton,
+        leading: showBackButton
+            ? BackButton(
+                onPressed: () {
+                  if (context.canPop()) {
+                    context.pop();
+
+                    return;
+                  }
+                  context.goNamed(Routes.home);
+                },
+              )
+            : null,
+        title: Text(title),
+      ),
+      body: SafeArea(child: body),
+    );
   }
 }
