@@ -559,6 +559,234 @@ void main() {
         expect(authRepository.createSessionCallCount, 2);
         expect(authRepository.lastTotp, '123456');
       });
+
+      // Rollback changes if updateServer fails or the user cancels.
+      //
+      // updateServer runs the following steps:
+      //   1. Save the new password and token.
+      //   2. Login and create a new session if needed.
+      //   3. Check the blocking status.
+      //   4. Update the server (edit, or replace).
+      //
+      // If step2 fails or the user cancels 2FA:
+      //   - Same address: restore the old password.
+      //   - Address changed: remove the password and SID saved for the new
+      //     address, and restore the old password.
+      //
+      // If step 3 or 4 fails:
+      //   - Same address: logout the new session, restore the old password,
+      //     and remove the SID.
+      //   - Address changed: remove the password and SID saved for the new
+      //     address, and logout the new session.
+      //
+      // "Logout the new session" only happens when step 2 created one.
+      // The old password is restored only if it was loaded (secretsLoadSucceeded).
+      group('rollback', () {
+        const oldAddress = 'http://localhost:8081';
+        const newAddress = 'http://other.host:9999';
+
+        /// Checks every side effect of one updateServer run, in a fixed order.
+        void expectUpdateEffects({
+          required List<({String address, String password})> savedPasswords,
+          required List<String> deletedPasswords,
+          required List<String> deletedSids,
+          required int loginAttempts,
+          required int sessionsLoggedOut,
+          required String? totpDeclinedAddress,
+          required int editAttempts,
+          required int replaceAttempts,
+          required int autoRefreshRestarts,
+        }) {
+          expect(
+            serversViewModel.savedPasswords,
+            savedPasswords,
+            reason: 'savePassword calls (address, password), in order',
+          );
+          expect(
+            serversViewModel.deletedPasswordAddresses,
+            deletedPasswords,
+            reason: 'deletePassword calls',
+          );
+          expect(
+            serversViewModel.deletedSidAddresses,
+            deletedSids,
+            reason: 'deleteSid calls',
+          );
+          expect(
+            authRepository.createSessionCallCount,
+            loginAttempts,
+            reason: 'createSession calls',
+          );
+          expect(
+            authRepository.deleteCurrentSessionCallCount,
+            sessionsLoggedOut,
+            reason: 'deleteCurrentSession calls',
+          );
+          expect(
+            serversViewModel.lastMarkedTotpReauthDeclinedAddress,
+            totpDeclinedAddress,
+            reason: 'address marked as 2FA declined',
+          );
+          expect(
+            serversViewModel.editServerCallCount,
+            editAttempts,
+            reason: 'editServer calls',
+          );
+          expect(
+            serversViewModel.replaceServerCallCount,
+            replaceAttempts,
+            reason: 'replaceServer calls',
+          );
+          expect(
+            statusViewModel.startAutoRefreshCallCount,
+            autoRefreshRestarts,
+            reason: 'startAutoRefresh calls',
+          );
+        }
+
+        test('same address: 2FA cancel writes the old password back', () async {
+          authRepository.shouldRequireTotp = true;
+          final vm = buildViewModel();
+
+          final outcome = await vm.updateServer.runAsync(
+            updateReq(password: 'new-pass', initPassword: 'old-pass'),
+          );
+
+          expect(outcome, isA<UpdateCancelled>());
+          expectUpdateEffects(
+            savedPasswords: [
+              (address: oldAddress, password: 'new-pass'), // step 1
+              (address: oldAddress, password: 'old-pass'), // rollback
+            ],
+            deletedPasswords: [],
+            deletedSids: [],
+            // The password-only login asks for 2FA, then the user cancels.
+            loginAttempts: 1,
+            sessionsLoggedOut: 0,
+            totpDeclinedAddress: oldAddress,
+            editAttempts: 0,
+            replaceAttempts: 0,
+            autoRefreshRestarts: 1,
+          );
+        });
+
+        test(
+          'address changed: 2FA cancel deletes the new-address credentials',
+          () async {
+            authRepository.shouldRequireTotp = true;
+            final vm = buildViewModel();
+
+            final outcome = await vm.updateServer.runAsync(
+              updateReq(url: newAddress),
+            );
+
+            expect(outcome, isA<UpdateCancelled>());
+            expectUpdateEffects(
+              savedPasswords: [
+                (address: newAddress, password: 'pass'), // step 1
+                (address: oldAddress, password: 'pass'), // rollback
+              ],
+              deletedPasswords: [newAddress],
+              deletedSids: [newAddress],
+              loginAttempts: 1,
+              // No session was created, so there is nothing to log out.
+              sessionsLoggedOut: 0,
+              totpDeclinedAddress: newAddress,
+              editAttempts: 0,
+              replaceAttempts: 0,
+              autoRefreshRestarts: 1,
+            );
+          },
+        );
+
+        test(
+          'same address: login failure after a failed secret load leaves the new password (known issue)',
+          () async {
+            authRepository.shouldFail = true;
+            final vm = buildViewModel();
+
+            final outcome = await vm.updateServer.runAsync(
+              updateReq(
+                password: 'new-pass',
+                initPassword: '',
+                secretsLoadSucceeded: false,
+              ),
+            );
+
+            expect(outcome, isA<UpdateApiError>());
+            expectUpdateEffects(
+              savedPasswords: [
+                (address: oldAddress, password: 'new-pass'), // step 1
+              ],
+              deletedPasswords: [],
+              deletedSids: [],
+              loginAttempts: 1,
+              sessionsLoggedOut: 0,
+              totpDeclinedAddress: null,
+              editAttempts: 0,
+              replaceAttempts: 0,
+              autoRefreshRestarts: 1,
+            );
+          },
+        );
+
+        test(
+          'same address: status check failure logs out the new session',
+          () async {
+            dnsRepository.shouldFail = true;
+            final vm = buildViewModel();
+
+            final outcome = await vm.updateServer.runAsync(
+              updateReq(password: 'new-pass', initPassword: 'old-pass'),
+            );
+
+            expect(outcome, isA<UpdateApiError>());
+            expectUpdateEffects(
+              savedPasswords: [
+                (address: oldAddress, password: 'new-pass'), // step 1
+                (address: oldAddress, password: 'old-pass'), // rollback
+              ],
+              deletedPasswords: [],
+              deletedSids: [oldAddress],
+              loginAttempts: 1,
+              sessionsLoggedOut: 1,
+              totpDeclinedAddress: null,
+              editAttempts: 0,
+              replaceAttempts: 0,
+              autoRefreshRestarts: 1,
+            );
+          },
+        );
+
+        test(
+          'address changed: DB failure deletes the new-address credentials only',
+          () async {
+            serversViewModel.shouldFailReplaceServer = true;
+            final vm = buildViewModel();
+
+            final outcome = await vm.updateServer.runAsync(
+              updateReq(url: newAddress),
+            );
+
+            expect(outcome, isA<UpdateDbError>());
+            expectUpdateEffects(
+              savedPasswords: [
+                (address: newAddress, password: 'pass'), // step 1
+                // No rollback write: the old address was never changed.
+              ],
+              // Only the new address; the old server's data is kept.
+              deletedPasswords: [newAddress],
+              deletedSids: [newAddress],
+              loginAttempts: 1,
+              sessionsLoggedOut: 1,
+              totpDeclinedAddress: null,
+              editAttempts: 0,
+              replaceAttempts: 1,
+              autoRefreshRestarts: 1,
+            );
+          },
+        );
+      });
     });
   });
 }
