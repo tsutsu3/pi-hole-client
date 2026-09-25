@@ -1,7 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/routing/server_scoped_route.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -55,6 +59,40 @@ Widget _wrap({
       ],
       child: child,
     ),
+  );
+}
+
+Widget _wrapWithRouter({
+  required GoRouter router,
+  required FakeServersViewModel serversViewModel,
+  required RepositoryBundle? bundle,
+}) {
+  return MultiProvider(
+    providers: [
+      ChangeNotifierProvider<ServersViewModel>.value(value: serversViewModel),
+      Provider<RepositoryBundle?>.value(value: bundle),
+    ],
+    child: MaterialApp.router(
+      theme: lightTheme(null),
+      locale: const Locale('en'),
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      routerConfig: router,
+    ),
+  );
+}
+
+GoRouter _router({required String initialLocation, required Widget page}) {
+  return GoRouter(
+    initialLocation: initialLocation,
+    routes: [
+      GoRoute(
+        path: '/home',
+        name: Routes.home,
+        builder: (_, _) => const Text('HOME'),
+      ),
+      GoRoute(path: '/page', builder: (_, _) => page),
+    ],
   );
 }
 
@@ -249,6 +287,95 @@ void main() async {
 
         expect(find.byType(PiHoleV5NotSupportedScreen), findsNothing);
         expect(find.text('SESSIONS_OK'), findsOneWidget);
+      },
+    );
+  });
+
+  group('ServerScopedRoute showBackButton', () {
+    Widget unused(RepositoryBundle _, Server _) => const Text('DUMMY');
+
+    final v6OnlyPage = ServerScopedRoute(
+      title: 'Adlists',
+      required: RequiredApiVersion.v6Only,
+      showBackButton: true,
+      builder: unused,
+    );
+
+    testWidgets('goes to home when there is nothing to pop', (tester) async {
+      final vm = FakeServersViewModel()..selectedServer = _v5Server;
+      final bundle = createFakeRepositoryBundle(apiVersion: 'v5');
+      final router = _router(initialLocation: '/page', page: v6OnlyPage);
+
+      await tester.pumpWidget(
+        _wrapWithRouter(router: router, serversViewModel: vm, bundle: bundle),
+      );
+
+      expect(find.byType(PiHoleV5NotSupportedScreen), findsOneWidget);
+      expect(find.byType(BackButton), findsOneWidget);
+
+      await tester.tap(find.byType(BackButton));
+      await tester.pumpAndSettle();
+
+      expect(find.text('HOME'), findsOneWidget);
+      expect(router.canPop(), isFalse);
+    });
+
+    testWidgets('pops to the previous page when it can pop', (tester) async {
+      final vm = FakeServersViewModel()..selectedServer = _v5Server;
+      final bundle = createFakeRepositoryBundle(apiVersion: 'v5');
+      final router = _router(initialLocation: '/home', page: v6OnlyPage);
+
+      await tester.pumpWidget(
+        _wrapWithRouter(router: router, serversViewModel: vm, bundle: bundle),
+      );
+
+      unawaited(router.push('/page'));
+      await tester.pumpAndSettle();
+      expect(find.byType(PiHoleV5NotSupportedScreen), findsOneWidget);
+
+      await tester.tap(find.byType(BackButton));
+      await tester.pumpAndSettle();
+
+      expect(find.text('HOME'), findsOneWidget);
+      expect(router.canPop(), isFalse);
+    });
+
+    testWidgets('shows back button on the no selected server fallback', (
+      tester,
+    ) async {
+      final vm = FakeServersViewModel();
+      final router = _router(initialLocation: '/page', page: v6OnlyPage);
+
+      await tester.pumpWidget(
+        _wrapWithRouter(router: router, serversViewModel: vm, bundle: null),
+      );
+
+      expect(find.byType(EmptyDataScreen), findsOneWidget);
+      expect(find.byType(BackButton), findsOneWidget);
+      expect(router.canPop(), isFalse);
+    });
+
+    testWidgets(
+      'shows no back button when showBackButton is false and nothing to pop',
+      (tester) async {
+        final vm = FakeServersViewModel()..selectedServer = _v5Server;
+        final bundle = createFakeRepositoryBundle(apiVersion: 'v5');
+        final router = _router(
+          initialLocation: '/page',
+          page: ServerScopedRoute(
+            title: 'Adlists',
+            required: RequiredApiVersion.v6Only,
+            builder: unused,
+          ),
+        );
+
+        await tester.pumpWidget(
+          _wrapWithRouter(router: router, serversViewModel: vm, bundle: bundle),
+        );
+
+        expect(find.byType(PiHoleV5NotSupportedScreen), findsOneWidget);
+        expect(find.byType(BackButton), findsNothing);
+        expect(router.canPop(), isFalse);
       },
     );
   });
