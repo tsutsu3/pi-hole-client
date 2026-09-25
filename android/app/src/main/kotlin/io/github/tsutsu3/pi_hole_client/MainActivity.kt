@@ -83,6 +83,19 @@ class MainActivity : FlutterFragmentActivity() {
                     result.success(null)
                 }
 
+                "serverReplaced" -> {
+                    val oldServerId = call.argument<String>("oldServerId")
+                    val newServerId = call.argument<String>("newServerId")
+                    if (oldServerId.isNullOrEmpty() || newServerId.isNullOrEmpty()) {
+                        result.error("invalid_args", "oldServerId and newServerId are required", null)
+                        return@setMethodCallHandler
+                    }
+                    prefs.remapServer(prefs.getAllWidgetIds(this), oldServerId, newServerId)
+                    prefs.removeServer(oldServerId)
+                    // No refresh here. serversUpdated will be called after this, which refreshes the widgets.
+                    result.success(null)
+                }
+
                 "blockingUpdated" -> {
                     val serverId = requireServerId(call, result) ?: return@setMethodCallHandler
                     // Pi-hole resets TLS connections for up to ~1-2 s after a blocking toggle.

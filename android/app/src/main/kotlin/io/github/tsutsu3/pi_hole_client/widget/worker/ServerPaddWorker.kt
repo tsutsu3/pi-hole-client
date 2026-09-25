@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.util.Log
+import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.work.CoroutineWorker
@@ -46,6 +47,7 @@ class ServerPaddWorker(
         val server = prefs.getServerInfo(serverId)
         if (server == null) {
             if (WidgetDebugConfig.DEBUG) Log.w(TAG, "No server info for $serverId")
+            resetRemovedServerWidgets(serverId, prefs)
             return Result.success()
         }
 
@@ -100,8 +102,34 @@ class ServerPaddWorker(
     }
 
     private suspend fun broadcast(serverId: String, prefs: WidgetPrefs, state: WidgetState) {
-        val manager = AppWidgetManager.getInstance(applicationContext)
         val glanceManager = GlanceAppWidgetManager(applicationContext)
+        for ((widgetId, widget) in boundWidgets(serverId, prefs)) {
+            val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue
+            updateAppWidgetState(applicationContext, glanceId) { it.updateFrom(state) }
+            widget.update(applicationContext, glanceId)
+        }
+    }
+
+    /**
+     * Unbinds and blanks widgets whose server was removed in the app, so they
+     * show the unconfigured state and can be set up again.
+     */
+    private suspend fun resetRemovedServerWidgets(serverId: String, prefs: WidgetPrefs) {
+        val glanceManager = GlanceAppWidgetManager(applicationContext)
+        for ((widgetId, widget) in boundWidgets(serverId, prefs)) {
+            prefs.clearWidget(widgetId)
+            val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue
+            updateAppWidgetState(applicationContext, glanceId) { it.clear() }
+            widget.update(applicationContext, glanceId)
+        }
+    }
+
+    /**
+     * Returns the Stats and Compact widgets bound to [serverId], each paired
+     * with the Glance widget that renders it.
+     */
+    private fun boundWidgets(serverId: String, prefs: WidgetPrefs): List<Pair<Int, GlanceAppWidget>> {
+        val manager = AppWidgetManager.getInstance(applicationContext)
         val statsIds = prefs.getWidgetIdsForServer(
             manager.getAppWidgetIds(ComponentName(applicationContext, PiHoleWidgetProvider::class.java)),
             serverId,
@@ -110,15 +138,7 @@ class ServerPaddWorker(
             manager.getAppWidgetIds(ComponentName(applicationContext, CompactWidgetProvider::class.java)),
             serverId,
         )
-        for (widgetId in statsIds) {
-            val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue
-            updateAppWidgetState(applicationContext, glanceId) { it.updateFrom(state) }
-            PiHoleGlanceWidget().update(applicationContext, glanceId)
-        }
-        for (widgetId in compactIds) {
-            val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue
-            updateAppWidgetState(applicationContext, glanceId) { it.updateFrom(state) }
-            CompactGlanceWidget().update(applicationContext, glanceId)
-        }
+        return statsIds.map { it to PiHoleGlanceWidget() } +
+            compactIds.map { it to CompactGlanceWidget() }
     }
 }

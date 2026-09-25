@@ -54,6 +54,7 @@ class ServerToggleWorkerTest {
         // The follow-up PADD refresh needs a real WorkManager; not under test.
         mockkObject(WidgetUpdateHelper)
         every { WidgetUpdateHelper.enqueueServerPadd(any(), any(), any()) } returns Unit
+        every { WidgetUpdateHelper.refreshWidgetsForServer(any(), any(), any(), any(), any()) } returns Unit
     }
 
     @After
@@ -119,5 +120,15 @@ class ServerToggleWorkerTest {
         runWorker()
 
         verify { prefs.setSidValid(serverId, false) }
+    }
+
+    @Test
+    fun removedServerHandsResetToRefreshWorkers() {
+        every { prefs.getServerInfo(serverId) } returns null
+
+        runWorker()
+
+        verify { WidgetUpdateHelper.refreshWidgetsForServer(any(), serverId, any(), any(), any()) }
+        assertEquals(0, server.requestCount)
     }
 }

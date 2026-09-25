@@ -1,4 +1,5 @@
 import 'package:command_it/command_it.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache_store.dart';
@@ -6,12 +7,14 @@ import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/query_types.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
+import 'package:pi_hole_client/utils/widget_channel.dart';
 
 import '../../../../testing/fakes/repositories/local/fake_server_repository.dart';
 import '../../../../testing/fakes/services/fake_pihole_v6_api_client.dart';
 import '../../../../testing/fakes/services/fake_session_credential_service.dart';
 
 void main() async {
+  TestWidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
 
   group('ServersViewModel', () {
@@ -190,6 +193,38 @@ void main() async {
         expect(repository.lastReplacedOldAddress, server.address);
         expect(repository.lastReplacedNewServer, newServer);
         expect(listenerCalled, true);
+      });
+
+      test('remaps home widgets to the new address', () async {
+        const channel = MethodChannel('pihole/widget');
+        final methods = <String>[];
+        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(channel, (call) async {
+              methods.add(call.method);
+              if (call.method == 'serverReplaced') {
+                expect(call.arguments, {
+                  'oldServerId': server.address,
+                  'newServerId': newServer.address,
+                });
+              }
+              return null;
+            });
+        WidgetChannel.debugIsSupportedOverride = true;
+        addTearDown(() {
+          WidgetChannel.debugIsSupportedOverride = null;
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+              .setMockMethodCallHandler(channel, null);
+        });
+
+        await serversViewModel.addServer.runAsync(server);
+        methods.clear();
+
+        await serversViewModel.replaceServer.runAsync((
+          oldAddress: server.address,
+          newServer: newServer,
+        ));
+
+        expect(methods, ['serverReplaced', 'serversUpdated']);
       });
 
       test('updates selectedServer when the old address matches', () async {

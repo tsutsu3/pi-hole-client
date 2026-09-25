@@ -75,4 +75,17 @@ class WidgetPrefsTest {
         assertNull(prefs.getSid("http://removed"))
         assertFalse(prefs.hasUsableSession("http://removed"))
     }
+
+    @Test
+    fun remapServer_movesOnlyWidgetsBoundToTheOldServer() {
+        prefs.setServerForWidget(1, "http://old")
+        prefs.setServerForWidget(2, "http://old")
+        prefs.setServerForWidget(3, "http://other")
+
+        prefs.remapServer(intArrayOf(1, 2, 3), "http://old", "http://new")
+
+        assertEquals("http://new", prefs.getServerForWidget(1))
+        assertEquals("http://new", prefs.getServerForWidget(2))
+        assertEquals("http://other", prefs.getServerForWidget(3))
+    }
 }

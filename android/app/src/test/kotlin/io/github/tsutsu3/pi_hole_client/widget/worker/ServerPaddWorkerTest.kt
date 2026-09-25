@@ -110,4 +110,25 @@ class ServerPaddWorkerTest {
 
         assertEquals(0, server.requestCount)
     }
+
+    @Test
+    fun removedServerUnbindsItsWidgets() {
+        every { prefs.getServerInfo(serverId) } returns null
+        every { prefs.getWidgetIdsForServer(any(), serverId) } returns intArrayOf(42)
+
+        runWorker()
+
+        verify { prefs.clearWidget(42) }
+        assertEquals(0, server.requestCount)
+    }
+
+    @Test
+    fun knownServerKeepsItsWidgets() {
+        every { prefs.getWidgetIdsForServer(any(), serverId) } returns intArrayOf(42)
+        every { prefs.hasUsableSession(serverId) } returns false
+
+        runWorker()
+
+        verify(exactly = 0) { prefs.clearWidget(any()) }
+    }
 }

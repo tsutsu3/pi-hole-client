@@ -45,6 +45,7 @@ class ServerBlockingStatusWorker(
         val server = prefs.getServerInfo(serverId)
         if (server == null) {
             if (WidgetDebugConfig.DEBUG) Log.w(TAG, "No server info for $serverId")
+            resetRemovedServerWidgets(serverId, prefs)
             return Result.success()
         }
 
@@ -100,17 +101,34 @@ class ServerBlockingStatusWorker(
     }
 
     private suspend fun broadcast(serverId: String, prefs: WidgetPrefs, state: ToggleWidgetState) {
-        val manager = AppWidgetManager.getInstance(applicationContext)
         val glanceManager = GlanceAppWidgetManager(applicationContext)
-        val toggleIds = prefs.getWidgetIdsForServer(
-            manager.getAppWidgetIds(ComponentName(applicationContext, ToggleWidgetProvider::class.java)),
-            serverId,
-        )
-        for (widgetId in toggleIds) {
+        for (widgetId in boundToggleIds(serverId, prefs)) {
             val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue
             updateAppWidgetState(applicationContext, glanceId) { it.updateFromToggle(state) }
             ToggleGlanceWidget().update(applicationContext, glanceId)
         }
+    }
+
+    /**
+     * Unbinds and blanks widgets whose server was removed in the app, so they
+     * show the unconfigured state and can be set up again.
+     */
+    private suspend fun resetRemovedServerWidgets(serverId: String, prefs: WidgetPrefs) {
+        val glanceManager = GlanceAppWidgetManager(applicationContext)
+        for (widgetId in boundToggleIds(serverId, prefs)) {
+            prefs.clearWidget(widgetId)
+            val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue
+            updateAppWidgetState(applicationContext, glanceId) { it.clear() }
+            ToggleGlanceWidget().update(applicationContext, glanceId)
+        }
+    }
+
+    private fun boundToggleIds(serverId: String, prefs: WidgetPrefs): IntArray {
+        val manager = AppWidgetManager.getInstance(applicationContext)
+        return prefs.getWidgetIdsForServer(
+            manager.getAppWidgetIds(ComponentName(applicationContext, ToggleWidgetProvider::class.java)),
+            serverId,
+        )
     }
 
     private fun errorState(serverId: String, serverName: String) =

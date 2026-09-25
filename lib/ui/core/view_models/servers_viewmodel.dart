@@ -283,7 +283,10 @@ class ServersViewModel with ChangeNotifier {
           .toList();
     }
 
-    await WidgetChannel.sendServerRemoved(params.oldAddress);
+    await WidgetChannel.sendServerReplaced(
+      oldServerId: params.oldAddress,
+      newServerId: params.newServer.address,
+    );
     await WidgetChannel.sendServersUpdated(_serversList);
     notifyListeners();
   }

@@ -74,6 +74,23 @@ class WidgetChannel {
     }
   }
 
+  /// Moves widgets bound to [oldServerId] over to [newServerId] when a
+  /// server's address is changed.
+  static Future<void> sendServerReplaced({
+    required String oldServerId,
+    required String newServerId,
+  }) async {
+    if (!_isSupported()) return;
+    try {
+      await _channel.invokeMethod('serverReplaced', {
+        'oldServerId': oldServerId,
+        'newServerId': newServerId,
+      });
+    } catch (e) {
+      logger.w('Widget serverReplaced failed: $e');
+    }
+  }
+
   static Future<void> sendBlockingUpdated({
     required String serverAddress,
   }) async {
