@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
+import 'package:pi_hole_client/ui/core/ui/components/unlock.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
@@ -83,6 +84,86 @@ void main() async {
 
       expect(find.byType(Base), findsOneWidget);
       expect(find.byType(HomeScreen), findsOneWidget);
+    });
+
+    group('app lock', () {
+      Future<void> pumpApp(WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          MultiProvider(
+            providers: [
+              ChangeNotifierProvider<AppConfigViewModel>.value(
+                value: appConfigViewModel,
+              ),
+              ChangeNotifierProvider<ServersViewModel>.value(
+                value: serversViewModel,
+              ),
+              ChangeNotifierProvider<StatusViewModel>.value(
+                value: statusViewModel,
+              ),
+              ChangeNotifierProvider<LogsViewModel>.value(value: logsViewModel),
+              Provider<RepositoryBundle?>.value(
+                value: createFakeRepositoryBundle(),
+              ),
+            ],
+            child: const PiHoleClient(),
+          ),
+        );
+        await tester.pump(const Duration(seconds: 3));
+      }
+
+      Future<void> sendToBackgroundAndBack(WidgetTester tester) async {
+        for (final state in [
+          AppLifecycleState.inactive,
+          AppLifecycleState.hidden,
+          AppLifecycleState.inactive,
+          AppLifecycleState.resumed,
+        ]) {
+          tester.binding.handleAppLifecycleStateChanged(state);
+          await tester.pump(const Duration(seconds: 1));
+        }
+        await tester.pump(const Duration(seconds: 1));
+      }
+
+      testWidgets('does not lock after the passcode is removed', (
+        tester,
+      ) async {
+        await appConfigViewModel.setPassCode('1234');
+        await pumpApp(tester);
+        expect(find.byType(Unlock), findsOneWidget);
+
+        for (final digit in ['1', '2', '3', '4']) {
+          await tester.tap(find.text(digit));
+          await tester.pump();
+        }
+        await tester.pump(const Duration(seconds: 3));
+        expect(find.byType(Unlock), findsNothing);
+
+        await appConfigViewModel.setPassCode(null);
+        await tester.pump();
+
+        await sendToBackgroundAndBack(tester);
+        expect(find.byType(Unlock), findsNothing);
+      });
+
+      testWidgets('locks after a passcode is set while running', (
+        tester,
+      ) async {
+        await pumpApp(tester);
+        expect(find.byType(Unlock), findsNothing);
+
+        await appConfigViewModel.setPassCode('1234');
+        await tester.pump();
+
+        await sendToBackgroundAndBack(tester);
+        expect(find.byType(Unlock), findsOneWidget);
+      });
     });
   });
 }
