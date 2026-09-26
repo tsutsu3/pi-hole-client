@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/dns/dns.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
-import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/domain/model/server/server_auth.dart';
+import 'package:pi_hole_client/domain/use_cases/server_connection/connect_server_usecase.dart';
+import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_totp.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/services/totp_login.dart';
-import 'package:pi_hole_client/ui/core/types/resolve_totp.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/globals.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
@@ -193,108 +192,44 @@ class ServerConnectionService {
     }
 
     final bundle = createBundle(server: serverForLogin);
-    // Track whether createSession was called so the post-auth probe can be
-    // made with skipRenewal: true, preventing a duplicate session from being created
-    // by clearAndRenewSid if a transient error occurs right after login.
-    var sessionJustCreated = false;
-    if (serverForLogin.apiVersion == SupportedApiVersions.v6) {
-      final creds = await serversViewModel.fetchCredentials(
-        serverForLogin.address,
-      );
-      final auth = V6ServerAuth.of(creds.getOrNull()?.password ?? '');
-      switch (auth) {
-        case NoAuth():
-          break;
-        case PasswordAuth(password: final password):
-          // Try existing session first to avoid creating unnecessary sessions.
-          // Use skipRenewal: true so that no session renewal happens inside the
-          // probe - if the existing session is expired, createSession below is
-          // the sole place that creates a new session, preventing duplicates.
-          final preCheck = await bundle.dns.fetchBlockingStatus(
-            skipRenewal: true,
-          );
-          if (preCheck.isSuccess()) {
-            process?.close();
-
-            return preCheck;
-          }
-          // Only re-authenticate on auth errors (401/SidNotFoundException).
-          // Transient failures (503/504/timeout) should not create a new session
-          // as that would cause session multiplication on the Pi-hole side.
-          final preCheckErr = preCheck.exceptionOrNull();
-          if (!isReauthRequired(preCheckErr)) {
-            process?.close();
-
-            return Failure(
-              preCheckErr ?? Exception('connection pre-check failed'),
-            );
-          }
-          // Session is missing or expired - re-authenticate, prompting for a
-          // TOTP code when the server requires 2FA.
-          final login = await _createSessionWithTotp(bundle, password, process);
-          if (login.cancelled) {
-            process?.close();
-
-            return Failure(TotpCancelledException());
-          }
-
-          if (login.error != null) {
-            process?.close();
-
-            return Failure(login.error!);
-          }
-          sessionJustCreated = true;
-      }
-    }
-    // Use skipRenewal: true when a session was just created above to prevent
-    // clearAndRenewSid from creating a second session on transient errors.
-    // Transient errors (e.g. network timeout) are still retried.
-    final result = await bundle.dns.fetchBlockingStatus(
-      skipRenewal: sessionJustCreated,
+    final creds = await serversViewModel.fetchCredentials(
+      serverForLogin.address,
     );
+    final auth = ServerAuth.of(serverForLogin, (
+      password: creds.getOrNull()?.password ?? '',
+      token: creds.getOrNull()?.token ?? '',
+    ));
+    final outcome =
+        await ConnectServerUseCase(auth: bundle.auth, dns: bundle.dns).connect(
+          auth: auth,
+          policy: SessionPolicy.reuseIfValid,
+          resolveTotp: _resolveTotpBehindModal(process),
+        );
     process?.close();
 
-    return result;
+    return switch (outcome) {
+      ConnectSuccess(:final blocking) => Success(blocking),
+      ConnectCancelled() => Failure(TotpCancelledException()),
+      ConnectFailed(:final error) => Failure(error),
+    };
   }
 
-  /// Re-authenticates, prompting for a 6-digit TOTP code when the server
-  /// requires 2FA and re-prompting on a rejected code.
+  /// Returns [resolveTotp] with extra steps for the "Connecting..." dialog
+  /// ([process]).
   ///
-  /// The first attempt sends the password only. A 2FA server answers with
-  /// [TotpRequiredException]; the loop then collects a code via [resolveTotp]
-  /// and retries with `password + totp`, looping on [TotpInvalidException].
-  ///
-  /// Returns `cancelled: true` when the user dismisses the prompt, otherwise
-  /// the failing error (null on success).
-  ///
-  /// [process] is the "Connecting..." overlay; it is hidden while the TOTP
-  /// prompt is shown (otherwise it floats on top and blocks the prompt) and
-  /// re-shown while the entered code is validated.
-  Future<({bool cancelled, Exception? error})> _createSessionWithTotp(
-    RepositoryBundle bundle,
-    String password,
-    ProcessModal? process,
-  ) async {
-    final outcome = await runTotpLogin(
-      auth: bundle.auth,
-      password: password,
-      resolveTotp: ({error}) async {
-        // Hide the connecting overlay so the TOTP prompt is on top and usable.
-        process?.close();
-        final code = await resolveTotp(error: error);
-        // Re-show the connecting overlay while the entered code is validated.
-        if (code != null && context.mounted) {
-          process?.open(AppLocalizations.of(context).connecting);
-        }
+  /// The dialog is closed before the TOTP dialog opens, because it would
+  /// cover the TOTP dialog. After the user enters a code, the dialog opens
+  /// again while the code is checked.
+  ResolveTotp _resolveTotpBehindModal(ProcessModal? process) {
+    return ({error}) async {
+      process?.close();
+      final code = await resolveTotp(error: error);
+      if (code != null && context.mounted) {
+        process?.open(AppLocalizations.of(context).connecting);
+      }
 
-        return code;
-      },
-    );
-
-    return (
-      cancelled: outcome.cancelled,
-      error: outcome.result.exceptionOrNull(),
-    );
+      return code;
+    };
   }
 
   Future<void> _onSuccess(Blocking blocking, Server connectedServer) async {
