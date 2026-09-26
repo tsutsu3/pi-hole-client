@@ -523,6 +523,7 @@ import 'package:pi_hole_client/domain/services/logs_pagination_service.dart';
 import 'package:pi_hole_client/domain/use_cases/realtime_status/realtime_status_usecase.dart';
 import 'package:pi_hole_client/domain/use_cases/realtime_status/realtime_status_usecase_v5.dart';
 import 'package:pi_hole_client/domain/use_cases/realtime_status/realtime_status_usecase_v6.dart';
+import 'package:pi_hole_client/domain/use_cases/server_connection/connect_server_usecase.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_totp.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection/totp_login.dart';
 import 'package:pi_hole_client/main.dart';
