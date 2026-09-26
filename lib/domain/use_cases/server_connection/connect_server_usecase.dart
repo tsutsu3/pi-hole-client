@@ -3,7 +3,6 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/dns_repository.d
 import 'package:pi_hole_client/domain/model/dns/dns.dart';
 import 'package:pi_hole_client/domain/model/server/server_auth.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_totp.dart';
-import 'package:pi_hole_client/domain/use_cases/server_connection/totp_login.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 
 /// How [ConnectServerUseCase.connect] sets up a v6 session.
@@ -94,22 +93,34 @@ class ConnectServerUseCase {
     }
   }
 
+  /// Login, then checks the status.
+  ///
+  /// The first login sends only the password.
+  /// When the server needs 2FA, it returns [TotpRequiredException].
+  /// Then [resolveTotp] asks the user for a code, and the login is tried again with the code.
+  /// A wrong or reused code asks the user again. Any other error stops the login.
   Future<ConnectOutcome> _login(
     String password,
     ResolveTotp resolveTotp,
   ) async {
-    final login = await runTotpLogin(
-      auth: _auth,
-      password: password,
-      resolveTotp: resolveTotp,
-    );
-    if (login.cancelled) return const ConnectCancelled();
-    if (login.result.isError()) {
-      return ConnectFailed(
-        login.result.exceptionOrNull()!,
-        sessionCreated: false,
-      );
+    var result = await _auth.createSession(password);
+    if (result.exceptionOrNull() is TotpRequiredException) {
+      TotpPromptError? promptError;
+      do {
+        final code = await resolveTotp(error: promptError);
+        if (code == null) return const ConnectCancelled();
+
+        result = await _auth.createSession(password, totp: code);
+        promptError = switch (result.exceptionOrNull()) {
+          TotpInvalidException() => TotpPromptError.invalid,
+          TotpReusedException() => TotpPromptError.reused,
+          _ => null,
+        };
+      } while (promptError != null);
     }
+
+    final error = result.exceptionOrNull();
+    if (error != null) return ConnectFailed(error, sessionCreated: false);
 
     return _fetchStatus(sessionCreated: true);
   }

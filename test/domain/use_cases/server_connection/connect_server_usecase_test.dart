@@ -237,6 +237,67 @@ void main() {
         expect(promptErrors, [null, TotpPromptError.invalid]);
       });
 
+      test('re-prompts on a reused code, then login', () async {
+        auth
+          ..shouldRequireTotp = true
+          ..totpFailures.add(TotpReusedException());
+        final promptErrors = <TotpPromptError?>[];
+
+        final outcome = await connect(
+          const PasswordAuth('pass'),
+          SessionPolicy.forceNew,
+          resolveTotp: ({error}) async {
+            promptErrors.add(error);
+            return '123456';
+          },
+        );
+
+        expect(outcome, _isSuccess(sessionCreated: true));
+        // 3: password, reused totp, new totp
+        expectCalls(logins: 3, statusChecks: [true]);
+        expect(promptErrors, [null, TotpPromptError.reused]);
+      });
+
+      test('stops on a rate limit without asking again', () async {
+        auth
+          ..shouldRequireTotp = true
+          ..totpFailures.add(TotpRateLimitException());
+        var prompts = 0;
+
+        final outcome = await connect(
+          const PasswordAuth('pass'),
+          SessionPolicy.forceNew,
+          resolveTotp: ({error}) async {
+            prompts++;
+            return '123456';
+          },
+        );
+
+        expect(outcome, _isFailed(sessionCreated: false));
+        // 2: password, rate-limited totp
+        expectCalls(logins: 2, statusChecks: []);
+        expect((outcome as ConnectFailed).error, isA<TotpRateLimitException>());
+        expect(prompts, 1);
+      });
+
+      test('does not ask for a code on a non-2FA error', () async {
+        auth.shouldFail = true;
+        var prompts = 0;
+
+        final outcome = await connect(
+          const PasswordAuth('pass'),
+          SessionPolicy.forceNew,
+          resolveTotp: ({error}) async {
+            prompts++;
+            return '123456';
+          },
+        );
+
+        expect(outcome, _isFailed(sessionCreated: false));
+        expectCalls(logins: 1, statusChecks: []);
+        expect(prompts, 0);
+      });
+
       test('returns ConnectCancelled when the prompt is dismissed', () async {
         auth.shouldRequireTotp = true;
 
