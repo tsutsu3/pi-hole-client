@@ -76,7 +76,8 @@ class _PiHoleClientState extends State<PiHoleClient> {
           scaffoldMessengerKey: scaffoldMessengerKey,
           builder: (context, child) {
             return AppLock(
-              builder: (_, _) => child!,
+              builder: (_, _) =>
+                  _AppLockSync(passCode: passCode, child: child!),
               lockScreenBuilder: (context) => const Unlock(),
               initiallyEnabled: passCode != null,
               initialBackgroundLockLatency: Duration.zero,
@@ -86,4 +87,43 @@ class _PiHoleClientState extends State<PiHoleClient> {
       },
     );
   }
+}
+
+/// Keeps AppLock enabled only while a passcode is set.
+///
+/// AppLock reads `initiallyEnabled` only once, so later passcode changes
+/// must be passed to it by hand.
+class _AppLockSync extends StatefulWidget {
+  const _AppLockSync({required this.passCode, required this.child});
+
+  final String? passCode;
+  final Widget child;
+
+  @override
+  State<_AppLockSync> createState() => _AppLockSyncState();
+}
+
+class _AppLockSyncState extends State<_AppLockSync> {
+  @override
+  void didUpdateWidget(covariant _AppLockSync oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final added = oldWidget.passCode == null && widget.passCode != null;
+    final removed = oldWidget.passCode != null && widget.passCode == null;
+
+    if (added) {
+      _setLockEnabled(true);
+    } else if (removed) {
+      _setLockEnabled(false);
+    }
+  }
+
+  void _setLockEnabled(bool enabled) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      AppLock.of(context)?.setEnabled(enabled);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }
