@@ -10,11 +10,10 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundl
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/domain/model/server/server_auth.dart';
+import 'package:pi_hole_client/domain/use_cases/server_connection/connect_server_usecase.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_totp.dart';
-import 'package:pi_hole_client/domain/use_cases/server_connection/totp_login.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
-import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/url.dart';
 
@@ -265,40 +264,31 @@ class AddServerViewModel extends ChangeNotifier {
     await _serversViewModel.saveToken(req.url, req.token);
 
     final bundle = _createBundle(server: serverObj);
-    // Token auth (v5) has no session, so there is nothing to log in to.
-    if (serverAuth is V6ServerAuth) {
-      final password = switch (serverAuth) {
-        NoAuth() => '',
-        PasswordAuth(password: final password) => password,
-      };
-      final login = await runTotpLogin(
-        auth: bundle.auth,
-        password: password,
-        resolveTotp: req.resolveTotp,
-      );
-      if (login.cancelled) {
+    final outcome = await _connect(
+      bundle,
+      serverAuth,
+      SessionPolicy.forceNew,
+      req.resolveTotp,
+    );
+    switch (outcome) {
+      case ConnectCancelled():
         await _serversViewModel.deletePassword(req.url);
         await _serversViewModel.deleteToken(req.url);
 
         return const CreateCancelled();
-      }
-      if (login.result.isError()) {
+      case ConnectFailed(:final error, sessionCreated: false):
         await _serversViewModel.deletePassword(req.url);
         await _serversViewModel.deleteToken(req.url);
 
-        return CreateApiError(login.result.exceptionOrNull()!, req.apiVersion);
-      }
-    }
+        return CreateApiError(error, req.apiVersion);
+      case ConnectFailed(:final error, sessionCreated: true):
+        // The status check failed after the login.
+        // Also log out the new session and remove its SID.
+        await _cleanupCreateAttempt(bundle, req);
 
-    // Use skipRenewal: true because the session was just created above.
-    // Retrying with clearAndRenewSid would create a duplicate session.
-    // Transient errors (e.g. network timeout) are still retried.
-    final result = await bundle.dns.fetchBlockingStatus(skipRenewal: true);
-    if (result.isError()) {
-      // Connection test failed: clean up everything saved for this attempt.
-      await _cleanupCreateAttempt(bundle, req);
-
-      return CreateApiError(result.exceptionOrNull()!, req.apiVersion);
+        return CreateApiError(error, req.apiVersion);
+      case ConnectSuccess():
+        break;
     }
 
     // Persist the server row BEFORE reporting success.
@@ -405,46 +395,32 @@ class AddServerViewModel extends ChangeNotifier {
     await _serversViewModel.saveToken(attempt.targetAddress, req.token);
 
     final bundle = _createBundle(server: serverObj);
-    final auth = await _authenticate(
-      bundle: bundle,
-      req: req,
-      serverAuth: serverAuth,
-      isAddressChanged: isAddressChanged,
-    );
-    if (auth.cancelled) {
-      // User dismissed the TOTP prompt: undo this attempt's writes and keep the
-      // old server (row, credentials, session) intact, same as a failed save.
-      _serversViewModel.markTotpReauthDeclined(attempt.targetAddress);
-      if (auth.needsRollback) {
-        await attempt.rollback(bundle: bundle, sessionCreated: false);
-      }
-      await attempt.restoreSecrets();
-      attempt.restartAutoRefresh();
-      return const UpdateCancelled();
-    }
-    if (auth.error != null) {
-      // Only the address-changed branch wrote credentials under a new address,
-      // so it is the only one that needs a rollback before reporting the error.
-      if (auth.needsRollback) {
-        await attempt.rollback(bundle: bundle, sessionCreated: false);
-      }
-      await attempt.restoreSecrets();
-      attempt.restartAutoRefresh();
-      return UpdateApiError(auth.error!, req.apiVersion);
-    }
-    // skipRenewal: true only when a new session was just created above to avoid
-    // creating a duplicate session on transient retry failures.
-    final result = await bundle.dns.fetchBlockingStatus(
-      skipRenewal: auth.sessionCreated,
-    );
-
-    if (result.isError()) {
-      await attempt.rollback(
-        bundle: bundle,
-        sessionCreated: auth.sessionCreated,
-      );
-      attempt.restartAutoRefresh();
-      return UpdateApiError(result.exceptionOrNull()!, req.apiVersion);
+    // A new host or a new password is checked with a new session.
+    // Otherwise the current session is used while it still works.
+    final policy = isAddressChanged || req.password != req.initPassword
+        ? SessionPolicy.forceNew
+        : SessionPolicy.reuseIfValid;
+    final outcome = await _connect(bundle, serverAuth, policy, req.resolveTotp);
+    final ConnectSuccess connected;
+    switch (outcome) {
+      case ConnectCancelled():
+        // The user closed the TOTP dialog: undo this attempt's writes and keep
+        // the old server (row, credentials, session), same as a failed save.
+        _serversViewModel.markTotpReauthDeclined(attempt.targetAddress);
+        await attempt.rollbackFailedLogin(bundle);
+        attempt.restartAutoRefresh();
+        return const UpdateCancelled();
+      case ConnectFailed(:final error, sessionCreated: false):
+        await attempt.rollbackFailedLogin(bundle);
+        attempt.restartAutoRefresh();
+        return UpdateApiError(error, req.apiVersion);
+      case ConnectFailed(:final error, sessionCreated: true):
+        // The status check failed after the login.
+        await attempt.rollback(bundle: bundle, sessionCreated: true);
+        attempt.restartAutoRefresh();
+        return UpdateApiError(error, req.apiVersion);
+      case ConnectSuccess():
+        connected = outcome;
     }
 
     final server = serverObj.copyWith(defaultServer: req.defaultServer);
@@ -455,7 +431,7 @@ class AddServerViewModel extends ChangeNotifier {
       // (row, credentials, session) is left fully intact.
       await attempt.rollback(
         bundle: bundle,
-        sessionCreated: auth.sessionCreated,
+        sessionCreated: connected.sessionCreated,
       );
       attempt.restartAutoRefresh();
       return const UpdateDbError();
@@ -467,120 +443,16 @@ class AddServerViewModel extends ChangeNotifier {
     return const UpdateSuccess();
   }
 
-  /// Ensures a valid v6 session exists before the connection test.
-  ///
-  /// - Non-v6: nothing to do.
-  /// - Address changed: the new host has no session, so always create one.
-  /// - Same address, password changed: validate the new password by creating a
-  ///   session (so an unverified password can't silently replace the good one).
-  /// - Same address, password unchanged: reuse the current session and only log
-  ///   in again on a 401/SID-missing (avoids duplicate sessions on 503/504).
-  ///
-  /// On failure returns the error and `needsRollback` (true only for the
-  /// address-changed branch, which already wrote new-address credentials).
-  /// `cancelled` is true when the user dismissed the TOTP prompt.
-  Future<
-    ({
-      bool sessionCreated,
-      Exception? error,
-      bool needsRollback,
-      bool cancelled,
-    })
-  >
-  _authenticate({
-    required RepositoryBundle bundle,
-    required UpdateServerRequest req,
-    required ServerAuth serverAuth,
-    required bool isAddressChanged,
-  }) async {
-    // Maps a login attempt to the _authenticate result record. [needsRollback]
-    // is carried through unchanged for the failure/cancel paths.
-    Future<
-      ({
-        bool sessionCreated,
-        Exception? error,
-        bool needsRollback,
-        bool cancelled,
-      })
-    >
-    login({required V6ServerAuth auth, required bool needsRollback}) async {
-      final password = switch (auth) {
-        NoAuth() => '',
-        PasswordAuth(password: final password) => password,
-      };
-      final result = await runTotpLogin(
-        auth: bundle.auth,
-        password: password,
-        resolveTotp: req.resolveTotp,
-      );
-      if (result.cancelled) {
-        return (
-          sessionCreated: false,
-          error: null,
-          needsRollback: needsRollback,
-          cancelled: true,
-        );
-      }
-      if (result.result.isError()) {
-        return (
-          sessionCreated: false,
-          error: result.result.exceptionOrNull()!,
-          needsRollback: needsRollback,
-          cancelled: false,
-        );
-      }
-
-      return (
-        sessionCreated: true,
-        error: null,
-        needsRollback: false,
-        cancelled: false,
-      );
-    }
-
-    if (serverAuth is V6ServerAuth) {
-      // Address changed: new-address credentials were already written, so a
-      // failure/cancel needs a rollback.
-      if (isAddressChanged) {
-        return login(auth: serverAuth, needsRollback: true);
-      }
-
-      // Same address, password changed
-      if (req.password != req.initPassword) {
-        return login(auth: serverAuth, needsRollback: false);
-      }
-
-      // Same address, password unchanged
-      final preCheck = await bundle.dns.fetchBlockingStatus(skipRenewal: true);
-      if (preCheck.isError()) {
-        final err = preCheck.exceptionOrNull();
-        if (!isReauthRequired(err)) {
-          return (
-            sessionCreated: false,
-            error: err,
-            needsRollback: false,
-            cancelled: false,
-          );
-        }
-
-        return login(auth: serverAuth, needsRollback: false);
-      }
-
-      return (
-        sessionCreated: false,
-        error: null,
-        needsRollback: false,
-        cancelled: false,
-      );
-    }
-
-    // Token auth (v5 and the existing unknown-version fallback) has no session.
-    return (
-      sessionCreated: false,
-      error: null,
-      needsRollback: false,
-      cancelled: false,
-    );
+  Future<ConnectOutcome> _connect(
+    RepositoryBundle bundle,
+    ServerAuth auth,
+    SessionPolicy policy,
+    ResolveTotp resolveTotp,
+  ) {
+    return ConnectServerUseCase(
+      auth: bundle.auth,
+      dns: bundle.dns,
+    ).connect(auth: auth, policy: policy, resolveTotp: resolveTotp);
   }
 
   @override
@@ -649,6 +521,17 @@ class _SaveAttempt {
 
       return e;
     }
+  }
+
+  /// Undoes this attempt's writes when the login failed or was cancelled.
+  ///
+  /// No new session exists yet, and the old SID was not changed, so the SID
+  /// is kept. With a new address, the credentials saved there are removed.
+  Future<void> rollbackFailedLogin(RepositoryBundle bundle) async {
+    if (isAddressChanged) {
+      await rollback(bundle: bundle, sessionCreated: false);
+    }
+    await restoreSecrets();
   }
 
   /// Rolls back everything written for THIS save attempt on failure, always
