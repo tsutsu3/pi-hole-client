@@ -502,7 +502,17 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       return serverObj.copyWith(pinnedCertificateSha256: null);
     }
 
-    final uri = Uri.parse(serverObj.address);
+    final uri = Uri.tryParse(serverObj.address);
+    if (uri == null) {
+      onValidationFailed?.call();
+      showErrorSnackBar(
+        context: context,
+        appConfigViewModel: appConfigViewModel,
+        label: AppLocalizations.of(context).invalidAddress,
+      );
+
+      return null;
+    }
 
     if (allowUntrustedCert) {
       // Allow self-signed: prompt user to pin the certificate
