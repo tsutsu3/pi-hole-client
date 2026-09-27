@@ -11,6 +11,7 @@ import androidx.work.WorkerParameters
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
 import io.github.tsutsu3.pi_hole_client.widget.WidgetDebugConfig
 import io.github.tsutsu3.pi_hole_client.widget.common.PiHoleApiClient
+import io.github.tsutsu3.pi_hole_client.widget.common.piholeUrl
 import io.github.tsutsu3.pi_hole_client.widget.common.ToggleWidgetState
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetStatus
 import io.github.tsutsu3.pi_hole_client.widget.common.parseBlockingStatus
@@ -73,7 +74,7 @@ class ServerBlockingStatusWorker(
             return Result.success()
         }
 
-        val resp = client.getWithRetry("${server.address}/api/dns/blocking", sid)
+        val resp = client.getWithRetry(piholeUrl(server.address, "/api/dns/blocking"), sid)
 
         val state = when {
             PiHoleApiClient.isAuthFailure(resp.statusCode) -> {

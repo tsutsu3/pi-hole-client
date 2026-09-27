@@ -13,6 +13,7 @@ import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
 import io.github.tsutsu3.pi_hole_client.widget.WidgetDebugConfig
 import io.github.tsutsu3.pi_hole_client.widget.common.PaddResponseParser
 import io.github.tsutsu3.pi_hole_client.widget.common.PiHoleApiClient
+import io.github.tsutsu3.pi_hole_client.widget.common.piholeUrl
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetState
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetStatus
 import io.github.tsutsu3.pi_hole_client.widget.data.WidgetPrefs
@@ -75,7 +76,7 @@ class ServerPaddWorker(
             return Result.success()
         }
 
-        val resp = client.getWithRetry("${server.address}/api/padd", sid)
+        val resp = client.getWithRetry(piholeUrl(server.address, "/api/padd"), sid)
 
         val state = when {
             PiHoleApiClient.isAuthFailure(resp.statusCode) -> {
