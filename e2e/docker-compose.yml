@@ -13,6 +13,7 @@
 #   http://10.0.2.2:19081    caddy pass         -> v6
 #   http://10.0.2.2:19082    caddy fault        -> v6  (/api/dns/blocking = 503)
 #   http://10.0.2.2:19086    caddy fault-delete -> v6  (DELETE /api/auth* = 401)
+#   http://10.0.2.2:19087    caddy subroute     -> /pihole = v6, /pihole5 = v5
 #   https://10.0.2.2:19443   caddy TLS (self-signed, untrusted) -> v6
 services:
   pihole-v6-test:
@@ -60,11 +61,13 @@ services:
     image: caddy:2
     depends_on:
       - pihole-v6-test
+      - pihole-v5-test
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
     ports:
       - "19081:81"
       - "19082:82"
       - "19086:83"
+      - "19087:84"
       - "19443:443"
     restart: unless-stopped

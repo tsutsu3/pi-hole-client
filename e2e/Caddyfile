@@ -33,3 +33,17 @@
 
 	reverse_proxy pihole-v6-test:80
 }
+
+# :84 - Pi-hole behind a subroute: /pihole -> v6, /pihole5 -> v5.
+# Other paths return 404, so a client that drops the subroute fails.
+:84 {
+	handle_path /pihole/* {
+		reverse_proxy pihole-v6-test:80
+	}
+	handle_path /pihole5/* {
+		reverse_proxy pihole-v5-test:80
+	}
+	handle {
+		respond 404
+	}
+}
