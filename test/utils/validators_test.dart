@@ -82,6 +82,18 @@ void main() {
       expect(isValidSubroute('/admin.'), isFalse);
       expect(isValidSubroute('/admin:'), isFalse);
     });
+
+    test('rejects URL special characters and spaces', () {
+      expect(isValidSubroute('/pihole?'), isFalse);
+      expect(isValidSubroute('/pihole#'), isFalse);
+      expect(isValidSubroute('/pihole%'), isFalse);
+      expect(isValidSubroute('/pihole '), isFalse);
+    });
+
+    test('rejects an empty segment', () {
+      expect(isValidSubroute('/'), isFalse);
+      expect(isValidSubroute('/a//b'), isFalse);
+    });
   });
 
   group('normalizeLocalDnsNames', () {
