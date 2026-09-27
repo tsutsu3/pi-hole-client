@@ -213,6 +213,19 @@ class AppHarness {
   // UI helpers for the add-server form
   // ==========================================================================
 
+  /// Opens the advanced options and enters [subroute]. Call it after the other
+  /// fields, because opening the options adds a text field to the form.
+  Future<void> _enterSubroute(String subroute) async {
+    final advanced = find.text(l10n.advancedOptions);
+    await tester.ensureVisible(advanced);
+    await tester.tap(advanced);
+    await settle(frames: 4);
+
+    final field = find.widgetWithText(TextFormField, l10n.subrouteField);
+    await tester.ensureVisible(field);
+    await tester.enterText(field, subroute);
+  }
+
   /// Fills and submits the add-server form for a v6 server over HTTP.
   /// Assumes the default form state (HTTP + v6).
   Future<void> addV6ServerViaUi({
@@ -220,12 +233,14 @@ class AppHarness {
     required String password,
     String alias = 'it-v6',
     String port = '',
+    String subroute = '',
   }) async {
     final fields = find.byType(EditableText);
     await tester.enterText(fields.at(0), alias);
     await tester.enterText(fields.at(1), host);
     if (port.isNotEmpty) await tester.enterText(fields.at(2), port);
     await tester.enterText(fields.at(3), password);
+    if (subroute.isNotEmpty) await _enterSubroute(subroute);
     await settle(frames: 3);
 
     await tester.tap(find.byIcon(Icons.login_rounded));
@@ -241,6 +256,7 @@ class AppHarness {
     required String token,
     String alias = 'it-v5',
     String port = '',
+    String subroute = '',
   }) async {
     final fields = find.byType(EditableText);
     await tester.enterText(fields.at(0), alias);
@@ -248,6 +264,7 @@ class AppHarness {
     if (port.isNotEmpty) await tester.enterText(fields.at(2), port);
     await tester.tap(find.text('v5').last); // switch to v5
     await tester.enterText(fields.at(3), token);
+    if (subroute.isNotEmpty) await _enterSubroute(subroute);
     await settle(frames: 3);
 
     await tester.tap(find.byIcon(Icons.login_rounded));

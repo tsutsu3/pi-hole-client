@@ -298,6 +298,56 @@ void main() {
     });
   });
 
+  group('add (subroute)', () {
+    testWidgets('v6 behind a subroute connects and keeps the subroute', (
+      tester,
+    ) async {
+      final app = AppHarness(tester);
+      await app.boot();
+      final uri = Uri.parse(RealPiholeEnv.v6SubrouteBase);
+
+      await app.openAddServer();
+      await app.addV6ServerViaUi(
+        host: uri.host,
+        port: '${uri.port}',
+        subroute: uri.path,
+        password: RealPiholeEnv.v6Password,
+        alias: 'subroute-v6',
+      );
+
+      expect(
+        find.text(app.l10n.connectedSuccessfully),
+        findsOneWidget,
+        reason: 'the proxy only serves /pihole, so this fails without it',
+      );
+      expect(app.hasServer(RealPiholeEnv.v6SubrouteBase), isTrue);
+    });
+
+    testWidgets('v5 behind a subroute connects and keeps the subroute', (
+      tester,
+    ) async {
+      final app = AppHarness(tester);
+      await app.boot();
+      final uri = Uri.parse(RealPiholeEnv.v5SubrouteBase);
+
+      await app.openAddServer();
+      await app.addV5ServerViaUi(
+        host: uri.host,
+        port: '${uri.port}',
+        subroute: uri.path,
+        token: RealPiholeEnv.v5Token,
+        alias: 'subroute-v5',
+      );
+
+      expect(
+        find.text(app.l10n.connectedSuccessfully),
+        findsOneWidget,
+        reason: 'the proxy only serves /pihole5, so this fails without it',
+      );
+      expect(app.hasServer(RealPiholeEnv.v5SubrouteBase), isTrue);
+    });
+  });
+
   group('add (v6, no password)', () {
     testWidgets('password-less v6 connects and stores an empty sid', (
       tester,

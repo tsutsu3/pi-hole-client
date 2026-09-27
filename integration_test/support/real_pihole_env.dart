@@ -7,6 +7,7 @@
 /// | caddy fault    | 19082     | http://10.0.2.2:19082   | pass `test001` (blocking → 503) |
 /// | caddy fault-delete | 19086 | http://10.0.2.2:19086  | pass `test001` (DELETE /api/auth* → 401) |
 /// | caddy TLS      | 19443     | https://10.0.2.2:19443  | pass `test001` (self-signed) |
+/// | caddy subroute | 19087     | http://10.0.2.2:19087/pihole (v6), /pihole5 (v5) | same as the direct servers |
 ///
 /// Run example:
 /// ```sh
@@ -54,6 +55,16 @@ class RealPiholeEnv {
   static const String v6HttpsBase = String.fromEnvironment(
     'PIHOLE_V6_HTTPS_BASE',
     defaultValue: 'https://10.0.2.2:19443',
+  );
+
+  //  subroute proxy (/pihole -> v6, /pihole5 -> v5, other paths -> 404)
+  static const String v6SubrouteBase = String.fromEnvironment(
+    'PIHOLE_V6_SUBROUTE_BASE',
+    defaultValue: 'http://10.0.2.2:19087/pihole',
+  );
+  static const String v5SubrouteBase = String.fromEnvironment(
+    'PIHOLE_V5_SUBROUTE_BASE',
+    defaultValue: 'http://10.0.2.2:19087/pihole5',
   );
 
   //  fault proxy (auth ok, /api/dns/blocking -> 503)
