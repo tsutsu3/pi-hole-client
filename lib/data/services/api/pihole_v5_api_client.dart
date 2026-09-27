@@ -14,6 +14,7 @@ import 'package:pi_hole_client/data/services/utils/safe_api_call.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/misc.dart';
+import 'package:pi_hole_client/utils/url.dart';
 import 'package:result_dart/result_dart.dart';
 
 class PiholeV5ApiClient {
@@ -197,9 +198,10 @@ class PiholeV5ApiClient {
     required Map<String, String> params,
     int timeout = 10,
   }) async {
-    final uri = Uri.parse(
+    final uri = buildPiholeUri(
       _url,
-    ).resolve(_endpoint).replace(queryParameters: params);
+      _endpoint,
+    ).replace(queryParameters: params);
 
     final headers = <String, String>{'Content-Type': 'application/json'};
 

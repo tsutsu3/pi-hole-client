@@ -3614,4 +3614,62 @@ void main() {
       expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
+
+  // ==========================================================================
+  // Subroute
+  // ==========================================================================
+  group('subroute', () {
+    const blocking = {'blocking': 'enabled', 'timer': null, 'took': 0.003};
+
+    test('keeps the subroute in the request URL', () async {
+      final client = PiholeV6ApiClient(
+        url: 'http://localhost:8080/pihole',
+        client: mockClient,
+      );
+      mockGet(
+        mockClient,
+        Uri.parse('http://localhost:8080/pihole/api/dns/blocking'),
+        http.Response(jsonEncode(blocking), 200),
+      );
+
+      final result = await client.getDnsBlocking(sid);
+
+      expectSuccess(result, blocking);
+    });
+
+    test('removes a trailing /admin from the subroute', () async {
+      final client = PiholeV6ApiClient(
+        url: 'http://localhost:8080/pihole/admin',
+        client: mockClient,
+      );
+      mockGet(
+        mockClient,
+        Uri.parse('http://localhost:8080/pihole/api/dns/blocking'),
+        http.Response(jsonEncode(blocking), 200),
+      );
+
+      final result = await client.getDnsBlocking(sid);
+
+      expectSuccess(result, blocking);
+    });
+
+    test('keeps the subroute in a streaming request URL', () async {
+      final client = PiholeV6ApiClient(
+        url: 'http://localhost:8080/pihole',
+        client: mockClient,
+      );
+      mockStreamedResponse(
+        mockClient,
+        Uri.parse('http://localhost:8080/pihole/api/action/gravity'),
+        http.StreamedResponse(
+          Stream<List<int>>.fromIterable([utf8.encode('Line 1\n')]),
+          200,
+        ),
+      );
+
+      final result = await client.postActionGravity(sid).toList();
+
+      expect(result.first.getOrNull(), ['Line 1']);
+    });
+  });
 }

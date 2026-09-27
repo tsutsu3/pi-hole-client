@@ -1,3 +1,5 @@
+const _adminSegment = '/admin';
+
 /// Builds a server URL from its component parts.
 String buildServerUrl({
   required String scheme,
@@ -8,6 +10,32 @@ String buildServerUrl({
   final portSegment = port != '' ? ':$port' : '';
 
   return '$scheme://$host$portSegment$subroute';
+}
+
+/// Builds a Pi-hole URL from a server [address] and an absolute Pi-hole
+/// [path] such as `/api/auth` or `/admin/api.php`.
+///
+/// The subroute in [address] is kept, so `http://host/pihole` and `/api/auth`
+/// give `http://host/pihole/api/auth`.
+///
+/// A trailing `/admin` in the subroute is removed. Older docs told users to
+/// enter the web panel path as the subroute, and those servers must keep
+/// working.
+Uri buildPiholeUri(String address, String path) {
+  final base = Uri.parse(address);
+  var basePath = base.path;
+  if (basePath.endsWith('/')) {
+    basePath = basePath.substring(0, basePath.length - 1);
+  }
+  if (basePath.endsWith(_adminSegment)) {
+    basePath = basePath.substring(0, basePath.length - _adminSegment.length);
+  }
+  final target = Uri.parse(path);
+
+  return base.replace(
+    path: '$basePath${target.path}',
+    query: target.hasQuery ? target.query : null,
+  );
 }
 
 /// Compares two server URLs ignoring scheme/host case and a trailing slash.
