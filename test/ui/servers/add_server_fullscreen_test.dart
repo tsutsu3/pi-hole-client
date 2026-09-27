@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
@@ -1585,6 +1586,72 @@ void main() async {
         find.text('Cannot check if this URL is already saved.'),
         findsOneWidget,
       );
+    });
+
+    group('unexpected error in the save command', () {
+      setUp(() {
+        Command.globalExceptionHandler = (_, _) {};
+        serversViewModel.checkUrlExistsThrows = true;
+      });
+
+      tearDown(() {
+        Command.globalExceptionHandler = null;
+      });
+
+      double overlayOpacity(WidgetTester tester) => tester
+          .widget<AnimatedOpacity>(
+            find.ancestor(
+              of: find.text('Connecting...'),
+              matching: find.byType(AnimatedOpacity),
+            ),
+          )
+          .opacity;
+
+      testWidgets('adding a server hides the overlay and shows an error', (
+        WidgetTester tester,
+      ) async {
+        useLargeView(tester);
+
+        await tester.pumpWidget(
+          buildWidget(const AddServerFullscreen(window: false, title: 'test')),
+        );
+
+        await tester.enterText(find.byType(TextField).at(0), 'alias');
+        await tester.enterText(find.byType(TextField).at(1), 'localhost');
+        await tester.pump();
+
+        await tester.tap(find.byIcon(Icons.login_rounded));
+        await tester.pump(const Duration(milliseconds: 1000));
+
+        expect(overlayOpacity(tester), 0);
+        expect(find.text('Failed. Unknown error.'), findsOneWidget);
+        expect(serversViewModel.addServerCallCount, 0);
+      });
+
+      testWidgets('editing a server hides the overlay and shows an error', (
+        WidgetTester tester,
+      ) async {
+        useLargeView(tester);
+
+        await tester.pumpWidget(
+          buildWidget(
+            const AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: _serverV6,
+            ),
+          ),
+        );
+
+        await tester.enterText(find.byType(TextField).at(1), '192.168.1.10');
+
+        await tester.tap(find.byIcon(Icons.save_rounded));
+        await tester.pump(const Duration(milliseconds: 1000));
+
+        expect(overlayOpacity(tester), 0);
+        expect(find.text('Failed. Unknown error.'), findsOneWidget);
+        expect(serversViewModel.replaceServerCallCount, 0);
+      });
     });
 
     testWidgets('with no selected server, auto-refresh is not toggled', (

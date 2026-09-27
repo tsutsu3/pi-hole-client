@@ -561,6 +561,20 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     }
   }
 
+  /// Hides the connecting overlay after an unexpected error in the save
+  /// command. Command.globalExceptionHandler has already reported the error.
+  void _onSaveError(AppConfigViewModel appConfigViewModel) {
+    if (!mounted) return;
+    setState(() {
+      isConnecting = false;
+    });
+    showErrorSnackBar(
+      context: context,
+      appConfigViewModel: appConfigViewModel,
+      label: AppLocalizations.of(context).unknownError,
+    );
+  }
+
   Future<void> createServer() async {
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final viewModel = _ensureViewModel();
@@ -574,22 +588,28 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
     final url = _serverUrlFromForm();
 
-    final outcome = await viewModel.createServer.runAsync(
-      CreateServerRequest(
-        url: url,
-        alias: aliasFieldController.text,
-        apiVersion: piHoleVersion,
-        allowUntrustedCert: allowUntrustedCert,
-        ignoreCertificateErrors: ignoreCertificateErrors,
-        pinnedCertificateSha256: pinnedCertificateSha256,
-        password: passwordFieldController.text,
-        token: tokenFieldController.text,
-        defaultServer: defaultCheckbox,
-        resolveCertificate: (serverObj) =>
-            validateAndUpdateServerCertificate(serverObj: serverObj),
-        resolveTotp: ({error}) => showTotpInputModal(context, error: error),
-      ),
-    );
+    final CreateOutcome outcome;
+    try {
+      outcome = await viewModel.createServer.runAsync(
+        CreateServerRequest(
+          url: url,
+          alias: aliasFieldController.text,
+          apiVersion: piHoleVersion,
+          allowUntrustedCert: allowUntrustedCert,
+          ignoreCertificateErrors: ignoreCertificateErrors,
+          pinnedCertificateSha256: pinnedCertificateSha256,
+          password: passwordFieldController.text,
+          token: tokenFieldController.text,
+          defaultServer: defaultCheckbox,
+          resolveCertificate: (serverObj) =>
+              validateAndUpdateServerCertificate(serverObj: serverObj),
+          resolveTotp: ({error}) => showTotpInputModal(context, error: error),
+        ),
+      );
+    } catch (_) {
+      _onSaveError(appConfigViewModel);
+      return;
+    }
 
     if (!mounted) return;
     setState(() {
@@ -649,26 +669,32 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
     final newUrl = _serverUrlFromForm();
 
-    final outcome = await viewModel.updateServer.runAsync(
-      UpdateServerRequest(
-        url: newUrl,
-        alias: aliasFieldController.text,
-        apiVersion: piHoleVersion,
-        allowUntrustedCert: allowUntrustedCert,
-        ignoreCertificateErrors: ignoreCertificateErrors,
-        pinnedCertificateSha256: pinnedCertificateSha256,
-        password: passwordFieldController.text,
-        token: tokenFieldController.text,
-        defaultServer: defaultCheckbox,
-        oldServer: widget.server!,
-        initPassword: initPassword ?? '',
-        initToken: initToken ?? '',
-        secretsLoadSucceeded: _secretsLoadSucceeded,
-        resolveCertificate: (serverObj) =>
-            validateAndUpdateServerCertificate(serverObj: serverObj),
-        resolveTotp: ({error}) => showTotpInputModal(context, error: error),
-      ),
-    );
+    final UpdateOutcome outcome;
+    try {
+      outcome = await viewModel.updateServer.runAsync(
+        UpdateServerRequest(
+          url: newUrl,
+          alias: aliasFieldController.text,
+          apiVersion: piHoleVersion,
+          allowUntrustedCert: allowUntrustedCert,
+          ignoreCertificateErrors: ignoreCertificateErrors,
+          pinnedCertificateSha256: pinnedCertificateSha256,
+          password: passwordFieldController.text,
+          token: tokenFieldController.text,
+          defaultServer: defaultCheckbox,
+          oldServer: widget.server!,
+          initPassword: initPassword ?? '',
+          initToken: initToken ?? '',
+          secretsLoadSucceeded: _secretsLoadSucceeded,
+          resolveCertificate: (serverObj) =>
+              validateAndUpdateServerCertificate(serverObj: serverObj),
+          resolveTotp: ({error}) => showTotpInputModal(context, error: error),
+        ),
+      );
+    } catch (_) {
+      _onSaveError(appConfigViewModel);
+      return;
+    }
 
     if (!mounted) return;
     setState(() {
