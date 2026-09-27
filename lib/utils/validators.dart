@@ -4,7 +4,10 @@
 // state updates; it calls these to decide whether a value is valid.
 
 final _ipAddress = RegExp(r'^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$');
-final _domain = RegExp(r'^(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)|((\w|-)+)$');
+final _domain = RegExp(
+  r'^(?:([\w-]+\.)*[\w-]+\.[a-z]+|[\w-]+)$',
+  caseSensitive: false,
+);
 final _subroute = RegExp(r'^\/\b([A-Za-z0-9_\-~/]*)[^\/|\.|\:]$');
 final _hostname = RegExp(r'^[a-zA-Z0-9-_\.]+$');
 final _whitespace = RegExp(r'\s+');

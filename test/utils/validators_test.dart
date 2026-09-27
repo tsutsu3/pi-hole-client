@@ -14,6 +14,27 @@ void main() {
       expect(isValidServerAddress('my-server.example.com'), isTrue);
     });
 
+    test('accepts upper case letters and underscores', () {
+      expect(isValidServerAddress('Pi.Hole'), isTrue);
+      expect(isValidServerAddress('my_host.lan'), isTrue);
+      expect(isValidServerAddress('pi-hole'), isTrue);
+    });
+
+    test('rejects a value that only ends like a host', () {
+      expect(isValidServerAddress('Server IP: 184.27.155.254'), isFalse);
+      expect(isValidServerAddress('foo bar'), isFalse);
+      expect(isValidServerAddress('host:8080'), isFalse);
+      expect(isValidServerAddress('http://pi.hole'), isFalse);
+    });
+
+    test('rejects a pipe character', () {
+      expect(isValidServerAddress('a|b.com'), isFalse);
+    });
+
+    test('rejects an IPv4 address out of range', () {
+      expect(isValidServerAddress('10.0.0.256'), isFalse);
+    });
+
     test('rejects an empty value', () {
       expect(isValidServerAddress(''), isFalse);
     });
