@@ -44,6 +44,9 @@ services:
   piholeV6-subroute:
     container_name: piholeV6-subroute
     image: pihole/pihole:latest
+    ports:
+      - "59:53/tcp"
+      - "59:53/udp"
     expose:
       - "80"
     environment:
