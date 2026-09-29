@@ -1,4 +1,4 @@
-# Pi-hole V6 reverse proxy with self-signed certificate
+# Pi-hole reverse proxy with a self-signed certificate
 {
 	auto_https disable_redirects
 }
@@ -6,11 +6,35 @@
 :8443 {
 	tls /certs/server.crt /certs/server.key
 
-	reverse_proxy piholeV6-https:80
+	reverse_proxy piholeV6:80
 }
 
 :8444 {
 	tls /certs/server.crt /certs/server.key
 
-	reverse_proxy piholeV5-https:80
+	reverse_proxy piholeV5:80
+}
+
+# Pi-hole behind a subroute: /pihole -> V6, /pihole5 -> V5.
+# Other paths return 404, so a client that drops the subroute fails.
+(subroute) {
+	handle_path /pihole/* {
+		reverse_proxy piholeV6-subroute:80
+	}
+	handle_path /pihole5/* {
+		reverse_proxy piholeV5:80
+	}
+	handle {
+		respond 404
+	}
+}
+
+:8090 {
+	import subroute
+}
+
+:8445 {
+	tls /certs/server.crt /certs/server.key
+
+	import subroute
 }

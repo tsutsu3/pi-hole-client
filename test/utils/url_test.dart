@@ -41,6 +41,71 @@ void main() {
     });
   });
 
+  group('buildPiholeUri', () {
+    String build(String address, String path) =>
+        buildPiholeUri(address, path).toString();
+
+    test('appends the path to an address without a subroute', () {
+      expect(build('http://pi.hole', '/api/auth'), 'http://pi.hole/api/auth');
+    });
+
+    test('keeps the subroute', () {
+      expect(
+        build('http://pi.hole/pihole', '/api/auth'),
+        'http://pi.hole/pihole/api/auth',
+      );
+    });
+
+    test('keeps a subroute with several segments', () {
+      expect(
+        build('https://example.com:8443/a/b', '/api/auth'),
+        'https://example.com:8443/a/b/api/auth',
+      );
+    });
+
+    test('ignores a trailing slash on the address', () {
+      expect(
+        build('http://pi.hole/pihole/', '/api/auth'),
+        'http://pi.hole/pihole/api/auth',
+      );
+    });
+
+    test('removes a trailing /admin from the subroute', () {
+      expect(
+        build('http://pi.hole/admin', '/api/auth'),
+        'http://pi.hole/api/auth',
+      );
+      expect(
+        build('http://pi.hole/pihole/admin', '/admin/api.php'),
+        'http://pi.hole/pihole/admin/api.php',
+      );
+    });
+
+    test('keeps /admin when it is not the last segment', () {
+      expect(
+        build('http://pi.hole/admin/pihole', '/api/auth'),
+        'http://pi.hole/admin/pihole/api/auth',
+      );
+    });
+
+    test('keeps the query of the path', () {
+      expect(
+        build(
+          'http://pi.hole/pihole',
+          '/api/stats/top_clients?blocked=true&count=10',
+        ),
+        'http://pi.hole/pihole/api/stats/top_clients?blocked=true&count=10',
+      );
+    });
+
+    test('keeps an explicit port and percent-encoded segments', () {
+      expect(
+        build('http://pi.hole:8080', '/api/groups/my%20group'),
+        'http://pi.hole:8080/api/groups/my%20group',
+      );
+    });
+  });
+
   group('isSameEndpoint', () {
     test('returns true for identical URLs', () {
       expect(isSameEndpoint('https://pi.hole', 'https://pi.hole'), isTrue);

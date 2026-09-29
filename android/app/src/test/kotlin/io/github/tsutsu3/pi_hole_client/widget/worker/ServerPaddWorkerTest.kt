@@ -91,6 +91,26 @@ class ServerPaddWorkerTest {
     }
 
     @Test
+    fun subrouteIsKeptInRequestPath() {
+        every { prefs.getServerInfo(serverId) } returns WidgetServer(
+            serverId = serverId,
+            alias = "test",
+            address = "$serverId/pihole",
+            apiVersion = "v6",
+            allowUntrustedCert = false,
+            ignoreCertificateErrors = false,
+            pinnedCertificateSha256 = null,
+        )
+        every { prefs.hasUsableSession(serverId) } returns true
+        every { prefs.getSid(serverId) } returns ""
+        server.enqueue(MockResponse().setResponseCode(200).setBody("{}"))
+
+        runWorker()
+
+        assertEquals("/pihole/api/padd", server.takeRequest().path)
+    }
+
+    @Test
     fun realSidIsSentAsHeader() {
         every { prefs.hasUsableSession(serverId) } returns true
         every { prefs.getSid(serverId) } returns "abc123"

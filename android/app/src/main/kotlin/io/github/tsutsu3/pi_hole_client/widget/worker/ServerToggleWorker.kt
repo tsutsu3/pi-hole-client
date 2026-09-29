@@ -12,6 +12,7 @@ import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
 import io.github.tsutsu3.pi_hole_client.widget.WidgetDebugConfig
 import io.github.tsutsu3.pi_hole_client.widget.WidgetUpdateHelper
 import io.github.tsutsu3.pi_hole_client.widget.common.PiHoleApiClient
+import io.github.tsutsu3.pi_hole_client.widget.common.piholeUrl
 import io.github.tsutsu3.pi_hole_client.widget.common.ToggleWidgetState
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetStatus
 import io.github.tsutsu3.pi_hole_client.widget.common.parseBlockingStatus
@@ -83,7 +84,7 @@ class ServerToggleWorker(
             return Result.success()
         }
 
-        val statusResp = client.getWithRetry("${server.address}/api/dns/blocking", sid)
+        val statusResp = client.getWithRetry(piholeUrl(server.address, "/api/dns/blocking"), sid)
 
         if (PiHoleApiClient.isAuthFailure(statusResp.statusCode)) {
             if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Auth failure: ${statusResp.statusCode}")
@@ -104,7 +105,7 @@ class ServerToggleWorker(
             val body = JSONObject()
             body.put("blocking", nextBlocking)
             body.put("timer", JSONObject.NULL)
-            val toggleResp = client.post("${server.address}/api/dns/blocking", sid, body.toString())
+            val toggleResp = client.post(piholeUrl(server.address, "/api/dns/blocking"), sid, body.toString())
 
             if (PiHoleApiClient.isAuthFailure(toggleResp.statusCode)) {
                 if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Auth failure in toggle: ${toggleResp.statusCode}")

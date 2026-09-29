@@ -1349,4 +1349,44 @@ void main() {
       );
     });
   });
+
+  group('subroute', () {
+    const data = {'status': 'enable'};
+
+    test('keeps the subroute in the request URL', () async {
+      final client = PiholeV5ApiClient(
+        url: 'http://localhost:8080/pihole',
+        client: mockClient,
+      );
+      mockGet(
+        mockClient,
+        Uri.parse(
+          'http://localhost:8080/pihole/admin/api.php?auth=$token&enable',
+        ),
+        http.Response(jsonEncode(data), 200),
+      );
+
+      final result = await client.postDnsBlocking(token, enabled: true);
+
+      expectSuccess(result, data);
+    });
+
+    test('removes a trailing /admin from the subroute', () async {
+      final client = PiholeV5ApiClient(
+        url: 'http://localhost:8080/pihole/admin',
+        client: mockClient,
+      );
+      mockGet(
+        mockClient,
+        Uri.parse(
+          'http://localhost:8080/pihole/admin/api.php?auth=$token&enable',
+        ),
+        http.Response(jsonEncode(data), 200),
+      );
+
+      final result = await client.postDnsBlocking(token, enabled: true);
+
+      expectSuccess(result, data);
+    });
+  });
 }

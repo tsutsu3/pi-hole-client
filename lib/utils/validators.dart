@@ -8,7 +8,7 @@ final _domain = RegExp(
   r'^(?:([\w-]+\.)*[\w-]+\.[a-z]+|[\w-]+)$',
   caseSensitive: false,
 );
-final _subroute = RegExp(r'^\/\b([A-Za-z0-9_\-~/]*)[^\/|\.|\:]$');
+final _subroute = RegExp(r'^(?:/[\w~-]+)+$');
 final _hostname = RegExp(r'^[a-zA-Z0-9-_\.]+$');
 final _whitespace = RegExp(r'\s+');
 
@@ -23,8 +23,8 @@ bool isValidPort(String value) {
   return port != null && port >= 0 && port <= 65535;
 }
 
-/// Whether [value] is a valid subroute (leading slash, allowed characters,
-/// no trailing slash/dot/colon).
+/// Whether [value] is a valid subroute. One or more `/segment` parts, where
+/// each segment uses only letters, digits, `_`, `~` and `-`.
 bool isValidSubroute(String value) => _subroute.hasMatch(value);
 
 /// Trims Local DNS names and joins them with a single space, the same way the

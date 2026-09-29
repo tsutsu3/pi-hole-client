@@ -37,6 +37,7 @@ import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/misc.dart';
+import 'package:pi_hole_client/utils/url.dart';
 import 'package:result_dart/result_dart.dart';
 
 enum HttpMethod { get, post, put, patch, delete }
@@ -1324,7 +1325,7 @@ class PiholeV6ApiClient {
     String? sid,
     Map<String, dynamic>? body,
   }) async {
-    final uri = Uri.parse(_url).resolve(path);
+    final uri = buildPiholeUri(_url, path);
 
     final headers = <String, String>{
       'Content-Type': 'application/json',
@@ -1366,7 +1367,7 @@ class PiholeV6ApiClient {
     String? sid,
     Map<String, dynamic>? body,
   }) async {
-    final uri = Uri.parse(_url).resolve(path);
+    final uri = buildPiholeUri(_url, path);
     final headers = <String, String>{
       'Content-Type': 'application/json',
       'X-FTL-SID': ?sid,
