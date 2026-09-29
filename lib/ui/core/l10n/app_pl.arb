@@ -388,7 +388,7 @@
   "invalidIpAddress": "Nieprawidłowy adres IP",
   "invalidMaxResults": "Wpisz maksymalną liczbę większą niż 0.",
   "invalidPort": "Nieprawidłowy port",
-  "invalidSubroute": "Nieprawidłowa podtrasa. Pamiętaj, aby nie kończyć znakiem '/', '.' lub ':'.",
+  "invalidSubroute": "Nieprawidłowa podtrasa. Dozwolone są tylko znaki alfanumeryczne oraz '_', '-' i '~'.",
   "ipAddress": "Adres IP",
   "ipAddresses": "Adresy IP",
   "ipCannotEmpty": "Pole IP nie może być puste",

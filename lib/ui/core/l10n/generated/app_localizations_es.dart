@@ -1243,7 +1243,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get invalidSubroute =>
-      'Subruta inválida. Recuerda no terminar con \'/\', \'.\' o \':\'.';
+      'Subruta no válida. Solo se permiten caracteres alfanuméricos, \'_\', \'-\' y \'~\'.';
 
   @override
   String get ipAddress => 'Dirección IP';

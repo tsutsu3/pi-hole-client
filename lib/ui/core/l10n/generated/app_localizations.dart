@@ -2435,7 +2435,7 @@ abstract class AppLocalizations {
   /// No description provided for @invalidSubroute.
   ///
   /// In en, this message translates to:
-  /// **'Invalid subroute. Remember not to finish with a \'/\', \'.\' or \':\'.'**
+  /// **'Invalid subroute. Only alphanumeric characters, \'_\', \'-\', and \'~\' are allowed.'**
   String get invalidSubroute;
 
   /// No description provided for @ipAddress.

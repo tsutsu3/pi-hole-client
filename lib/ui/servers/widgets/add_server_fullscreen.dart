@@ -990,6 +990,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       controller: subrouteFieldController,
                       decoration: InputDecoration(
                         errorText: subrouteFieldError,
+                        errorMaxLines: 2,
                         prefixIcon: const Icon(Icons.route_rounded),
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),

@@ -1245,7 +1245,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get invalidSubroute =>
-      'Ungültig. Eintrag nicht mit einem \'/\', \'.\' oder \':\' beenden.';
+      'Ungültige Subroute. Nur alphanumerische Zeichen, \'_\', \'-\' und \'~\' sind erlaubt.';
 
   @override
   String get ipAddress => 'IP-Adresse';
