@@ -388,7 +388,7 @@
   "invalidIpAddress": "無効なIPアドレス",
   "invalidMaxResults": "0より大きい最大件数を入力してください。",
   "invalidPort": "無効なポート",
-  "invalidSubroute": "無効なサブルートです。「/」、「.」、または「:」で終わらないようにしてください。",
+  "invalidSubroute": "無効なサブルートです。英数字、「_」、「-」、「~」のみ使用できます。",
   "ipAddress": "IPアドレス",
   "ipAddresses": "IPアドレス一覧",
   "ipCannotEmpty": "IPフィールドを空にすることはできません",

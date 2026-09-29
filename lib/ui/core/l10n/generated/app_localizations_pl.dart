@@ -1227,7 +1227,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get invalidSubroute =>
-      'Nieprawidłowa podtrasa. Pamiętaj, aby nie kończyć znakiem \'/\', \'.\' lub \':\'.';
+      'Nieprawidłowa podtrasa. Dozwolone są tylko znaki alfanumeryczne oraz \'_\', \'-\' i \'~\'.';
 
   @override
   String get ipAddress => 'Adres IP';

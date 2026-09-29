@@ -1187,7 +1187,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get invalidPort => '無効なポート';
 
   @override
-  String get invalidSubroute => '無効なサブルートです。「/」、「.」、または「:」で終わらないようにしてください。';
+  String get invalidSubroute => '無効なサブルートです。英数字、「_」、「-」、「~」のみ使用できます。';
 
   @override
   String get ipAddress => 'IPアドレス';

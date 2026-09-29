@@ -538,7 +538,7 @@ void main() async {
       expect(find.text('Invalid IP or domain'), findsOneWidget);
       expect(
         find.text(
-          "Invalid subroute. Remember not to finish with a '/', '.' or ':'.",
+          "Invalid subroute. Only alphanumeric characters, '_', '-', and '~' are allowed.",
         ),
         findsOneWidget,
       );

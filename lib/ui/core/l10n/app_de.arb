@@ -388,7 +388,7 @@
   "invalidIpAddress": "Ungültige IP-Adresse",
   "invalidMaxResults": "Bitte eine maximale Anzahl größer als 0 eingeben.",
   "invalidPort": "Ungültiger Port",
-  "invalidSubroute": "Ungültig. Eintrag nicht mit einem '/', '.' oder ':' beenden.",
+  "invalidSubroute": "Ungültige Subroute. Nur alphanumerische Zeichen, '_', '-' und '~' sind erlaubt.",
   "ipAddress": "IP-Adresse",
   "ipAddresses": "IP-Adressen",
   "ipCannotEmpty": "IP Feld darf nicht leer sein",

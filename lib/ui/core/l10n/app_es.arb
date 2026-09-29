@@ -389,7 +389,7 @@
   "invalidIpAddress": "Dirección IP no válida",
   "invalidMaxResults": "Ingrese un número máximo mayor que 0.",
   "invalidPort": "Puerto no válido",
-  "invalidSubroute": "Subruta inválida. Recuerda no terminar con '/', '.' o ':'.",
+  "invalidSubroute": "Subruta no válida. Solo se permiten caracteres alfanuméricos, '_', '-' y '~'.",
   "ipAddress": "Dirección IP",
   "ipAddresses": "Direcciones IP",
   "ipCannotEmpty": "IP no puede estar vacío",
