@@ -144,9 +144,9 @@ class _NetworkScreenState extends State<NetworkScreen> {
                     if (isLoading) {
                       return Skeletonizer(
                         effect: ShimmerEffect(
-                          baseColor: Theme.of(context)
-                              .colorScheme
-                              .secondaryContainer,
+                          baseColor: Theme.of(
+                            context,
+                          ).colorScheme.secondaryContainer,
                           highlightColor: Theme.of(context).colorScheme.surface,
                         ),
                         child: NetworkListView(

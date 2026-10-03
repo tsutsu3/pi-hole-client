@@ -144,7 +144,8 @@ class _DomainsListState extends State<DomainsList> {
         showDialog(
           context: context,
           useSafeArea: !isSmallLandscape,
-          useRootNavigator: false, // Prevents unexpected app exit on mobile when pressing back
+          useRootNavigator:
+              false, // Prevents unexpected app exit on mobile when pressing back
           builder: (ctx) => AddDomainModal(
             selectedType: widget.type,
             addDomain: onAddDomain,

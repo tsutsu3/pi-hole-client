@@ -80,10 +80,7 @@ void main() async {
       await tester.pumpAndSettle();
 
       expect(loadCalls, 1);
-      expect(
-        serversViewModel.isTotpReauthDeclined(_serverV6.address),
-        isFalse,
-      );
+      expect(serversViewModel.isTotpReauthDeclined(_serverV6.address), isFalse);
       // No re-auth attempted when the load succeeds.
       expect(authRepository.createSessionCallCount, 0);
     });

@@ -220,12 +220,12 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
                         if (isLoading) {
                           return Skeletonizer(
                             effect: ShimmerEffect(
-                              baseColor: Theme.of(context)
-                                  .colorScheme
-                                  .secondaryContainer,
-                              highlightColor: Theme.of(context)
-                                  .colorScheme
-                                  .surface,
+                              baseColor: Theme.of(
+                                context,
+                              ).colorScheme.secondaryContainer,
+                              highlightColor: Theme.of(
+                                context,
+                              ).colorScheme.surface,
                             ),
                             child: LocalDnsListView(
                               localDnsInfo: _fakeLocalDnsInfo,

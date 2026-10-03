@@ -137,7 +137,8 @@ class _AdlistsListState extends State<AdlistsList> {
         showDialog(
           context: context,
           useSafeArea: !isSmallLandscape,
-          useRootNavigator: false, // Prevents unexpected app exit on mobile when pressing back
+          useRootNavigator:
+              false, // Prevents unexpected app exit on mobile when pressing back
           builder: (ctx) => AddAdlistModal(
             selectedType: widget.type,
             onAddAdlist: onAddAdlist,
