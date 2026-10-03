@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/ftl/pihole_server.dart';
+import 'package:pi_hole_client/ui/core/actions/refresh_with_totp_recovery.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
@@ -43,7 +44,16 @@ class ServerInfoScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 8),
                   child: IconButton(
                     icon: const Icon(Icons.refresh_rounded),
-                    onPressed: () => viewModel.loadServerInfo.run(),
+                    onPressed: () async {
+                      try {
+                        await refreshWithTotpRecovery(
+                          context,
+                          viewModel.loadServerInfo.runAsync,
+                        );
+                      } catch (_) {
+                        // Error handled by command.errors
+                      }
+                    },
                     tooltip: locale.refresh,
                   ),
                 ),
@@ -53,7 +63,10 @@ class ServerInfoScreen extends StatelessWidget {
               child: RefreshIndicator(
                 onRefresh: () async {
                   try {
-                    await viewModel.loadServerInfo.runAsync();
+                    await refreshWithTotpRecovery(
+                      context,
+                      viewModel.loadServerInfo.runAsync,
+                    );
                   } catch (_) {
                     // Error handled by command.errors
                   }

@@ -5,6 +5,7 @@ import 'package:pi_hole_client/domain/model/domain/domain.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
+import 'package:pi_hole_client/ui/core/actions/refresh_with_totp_recovery.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
@@ -143,8 +144,7 @@ class _DomainsListState extends State<DomainsList> {
         showDialog(
           context: context,
           useSafeArea: !isSmallLandscape,
-          useRootNavigator:
-              false, // Prevents unexpected app exit on mobile when pressing back
+          useRootNavigator: false, // Prevents unexpected app exit on mobile when pressing back
           builder: (ctx) => AddDomainModal(
             selectedType: widget.type,
             addDomain: onAddDomain,
@@ -243,7 +243,16 @@ class _DomainsListState extends State<DomainsList> {
             message: AppLocalizations.of(context).domainsNotLoaded,
           ),
           loadStatus: viewModel.loadingStatus,
-          onRefresh: () async => viewModel.loadDomains.runAsync(),
+          onRefresh: () async {
+            try {
+              await refreshWithTotpRecovery(
+                context,
+                viewModel.loadDomains.runAsync,
+              );
+            } catch (_) {
+              // Error handled by command.errors
+            }
+          },
           bottomSpaceHeight: 80,
         ),
         // Stale-While-Revalidate: a thin bar at the top while a background

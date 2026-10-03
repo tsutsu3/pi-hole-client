@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
+import 'package:pi_hole_client/ui/core/actions/refresh_with_totp_recovery.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
@@ -111,7 +112,16 @@ class _NetworkScreenState extends State<NetworkScreen> {
                   padding: const EdgeInsets.only(right: 8),
                   child: IconButton(
                     icon: const Icon(Icons.refresh_rounded),
-                    onPressed: () => viewModel.loadDevices.run(),
+                    onPressed: () async {
+                      try {
+                        await refreshWithTotpRecovery(
+                          context,
+                          viewModel.loadDevices.runAsync,
+                        );
+                      } catch (_) {
+                        // Error handled by command.errors
+                      }
+                    },
                     tooltip: locale.refresh,
                   ),
                 ),
@@ -121,7 +131,10 @@ class _NetworkScreenState extends State<NetworkScreen> {
               child: RefreshIndicator(
                 onRefresh: () async {
                   try {
-                    await viewModel.loadDevices.runAsync();
+                    await refreshWithTotpRecovery(
+                      context,
+                      viewModel.loadDevices.runAsync,
+                    );
                   } catch (_) {
                     // Error handled by command.errors
                   }
@@ -131,9 +144,9 @@ class _NetworkScreenState extends State<NetworkScreen> {
                     if (isLoading) {
                       return Skeletonizer(
                         effect: ShimmerEffect(
-                          baseColor: Theme.of(
-                            context,
-                          ).colorScheme.secondaryContainer,
+                          baseColor: Theme.of(context)
+                              .colorScheme
+                              .secondaryContainer,
                           highlightColor: Theme.of(context).colorScheme.surface,
                         ),
                         child: NetworkListView(

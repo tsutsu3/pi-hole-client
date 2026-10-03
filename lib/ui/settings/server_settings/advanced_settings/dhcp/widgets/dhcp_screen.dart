@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/domain/model/dhcp/dhcp.dart';
 import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
+import 'package:pi_hole_client/ui/core/actions/refresh_with_totp_recovery.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
@@ -90,7 +91,16 @@ class _DhcpScreenState extends State<DhcpScreen> {
                   padding: const EdgeInsets.only(right: 8),
                   child: IconButton(
                     icon: const Icon(Icons.refresh_rounded),
-                    onPressed: () => viewModel.loadLeases.run(),
+                    onPressed: () async {
+                      try {
+                        await refreshWithTotpRecovery(
+                          context,
+                          viewModel.loadLeases.runAsync,
+                        );
+                      } catch (_) {
+                        // Error handled by command.errors
+                      }
+                    },
                     tooltip: locale.refresh,
                   ),
                 ),
@@ -100,7 +110,10 @@ class _DhcpScreenState extends State<DhcpScreen> {
               child: RefreshIndicator(
                 onRefresh: () async {
                   try {
-                    await viewModel.loadLeases.runAsync();
+                    await refreshWithTotpRecovery(
+                      context,
+                      viewModel.loadLeases.runAsync,
+                    );
                   } catch (_) {
                     // Error handled by command.errors
                   }
@@ -110,9 +123,9 @@ class _DhcpScreenState extends State<DhcpScreen> {
                     if (isLoading) {
                       return Skeletonizer(
                         effect: ShimmerEffect(
-                          baseColor: Theme.of(
-                            context,
-                          ).colorScheme.secondaryContainer,
+                          baseColor: Theme.of(context)
+                              .colorScheme
+                              .secondaryContainer,
                           highlightColor: Theme.of(context).colorScheme.surface,
                         ),
                         child: DhcpListView(
