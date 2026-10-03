@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
+import 'package:pi_hole_client/ui/core/actions/refresh_with_totp_recovery.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
@@ -209,7 +210,16 @@ class _ClientsListState extends State<ClientsList> {
             message: AppLocalizations.of(context).clientsNotLoaded,
           ),
           loadStatus: clientsViewModel.loadingStatus,
-          onRefresh: () async => clientsViewModel.loadClients.runAsync(),
+          onRefresh: () async {
+            try {
+              await refreshWithTotpRecovery(
+                context,
+                clientsViewModel.loadClients.runAsync,
+              );
+            } catch (_) {
+              // Error handled by command.errors
+            }
+          },
           bottomSpaceHeight: 80,
         ),
         SafeArea(

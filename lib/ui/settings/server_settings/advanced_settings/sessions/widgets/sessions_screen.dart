@@ -4,6 +4,7 @@ import 'package:pi_hole_client/domain/model/auth/auth.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
+import 'package:pi_hole_client/ui/core/actions/refresh_with_totp_recovery.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
@@ -97,7 +98,16 @@ class _SessionsScreenState extends State<SessionsScreen> {
                   padding: const EdgeInsets.only(right: 8),
                   child: IconButton(
                     icon: const Icon(Icons.refresh_rounded),
-                    onPressed: () => viewModel.loadSessions.run(),
+                    onPressed: () async {
+                      try {
+                        await refreshWithTotpRecovery(
+                          context,
+                          viewModel.loadSessions.runAsync,
+                        );
+                      } catch (_) {
+                        // Error handled by command.errors
+                      }
+                    },
                     tooltip: locale.refresh,
                   ),
                 ),
@@ -107,7 +117,10 @@ class _SessionsScreenState extends State<SessionsScreen> {
               child: RefreshIndicator(
                 onRefresh: () async {
                   try {
-                    await viewModel.loadSessions.runAsync();
+                    await refreshWithTotpRecovery(
+                      context,
+                      viewModel.loadSessions.runAsync,
+                    );
                   } catch (_) {
                     // Error handled by command.errors
                   }
