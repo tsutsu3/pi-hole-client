@@ -15,6 +15,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/fin
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists/widgets/results_section.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists/widgets/search_form.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
+import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 
 class FindDomainsInListsScreen extends StatefulWidget {
@@ -39,7 +40,11 @@ class _FindDomainsInListsScreenState extends State<FindDomainsInListsScreen> {
     super.initState();
     Future.microtask(() async {
       if (!mounted) return;
-      await context.read<GroupsViewModel>().loadGroups.runAsync();
+      try {
+        await context.read<GroupsViewModel>().loadGroups.runAsync();
+      } catch (e) {
+        logger.w('Failed to load groups: $e');
+      }
     });
   }
 

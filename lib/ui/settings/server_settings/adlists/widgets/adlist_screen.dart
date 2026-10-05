@@ -17,6 +17,7 @@ import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlis
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/gravity_update.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/icon_tab.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
+import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 
 class AdlistScreen extends StatelessWidget {
@@ -53,7 +54,11 @@ class _AdlistScreenWidgetState extends State<AdlistScreenWidget>
 
       if (!mounted) return;
       final groupsViewModel = context.read<GroupsViewModel>();
-      await groupsViewModel.loadGroups.runAsync();
+      try {
+        await groupsViewModel.loadGroups.runAsync();
+      } catch (e) {
+        logger.w('Failed to load groups: $e');
+      }
 
       if (!mounted) return;
       final gravityUpdateViewModel = context.read<GravityUpdateViewModel>();
