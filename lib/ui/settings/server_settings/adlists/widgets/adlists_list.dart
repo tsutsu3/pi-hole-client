@@ -5,6 +5,7 @@ import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/list/adlist.dart';
 import 'package:pi_hole_client/routing/route_extra.dart';
 import 'package:pi_hole_client/routing/routes.dart';
+import 'package:pi_hole_client/ui/core/actions/refresh_with_totp_recovery.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
@@ -233,7 +234,16 @@ class _AdlistsListState extends State<AdlistsList> {
             message: AppLocalizations.of(context).adlistsNotLoaded,
           ),
           loadStatus: viewModel.loadingStatus,
-          onRefresh: () async => viewModel.loadAdlists.run(),
+          onRefresh: () async {
+            try {
+              await refreshWithTotpRecovery(
+                context,
+                viewModel.loadAdlists.runAsync,
+              );
+            } catch (_) {
+              // Error handled by command.errors
+            }
+          },
           bottomSpaceHeight: 80,
         ),
         SafeArea(

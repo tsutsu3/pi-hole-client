@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pi_hole_client/domain/model/group/group.dart';
+import 'package:pi_hole_client/ui/core/actions/refresh_with_totp_recovery.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content_list.dart';
@@ -245,7 +246,16 @@ class _GroupsListState extends State<GroupsList> {
             message: AppLocalizations.of(context).groupsNotLoaded,
           ),
           loadStatus: groupsViewModel.loadingStatus,
-          onRefresh: () async => groupsViewModel.loadGroups.runAsync(),
+          onRefresh: () async {
+            try {
+              await refreshWithTotpRecovery(
+                context,
+                groupsViewModel.loadGroups.runAsync,
+              );
+            } catch (_) {
+              // Error handled by command.errors
+            }
+          },
           bottomSpaceHeight: 80,
         ),
         SafeArea(

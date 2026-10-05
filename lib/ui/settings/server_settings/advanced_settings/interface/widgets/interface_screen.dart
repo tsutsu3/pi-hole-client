@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
+import 'package:pi_hole_client/ui/core/actions/refresh_with_totp_recovery.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/ui/core/ui/components/empty_data_screen.dart';
@@ -138,7 +139,16 @@ class _InterfaceScreenState extends State<InterfaceScreen> {
                   padding: const EdgeInsets.only(right: 8),
                   child: IconButton(
                     icon: const Icon(Icons.refresh_rounded),
-                    onPressed: () => viewModel.loadInterfaces.run(),
+                    onPressed: () async {
+                      try {
+                        await refreshWithTotpRecovery(
+                          context,
+                          viewModel.loadInterfaces.runAsync,
+                        );
+                      } catch (_) {
+                        // Error handled by command.errors
+                      }
+                    },
                     tooltip: locale.refresh,
                   ),
                 ),
@@ -148,7 +158,10 @@ class _InterfaceScreenState extends State<InterfaceScreen> {
               child: RefreshIndicator(
                 onRefresh: () async {
                   try {
-                    await viewModel.loadInterfaces.runAsync();
+                    await refreshWithTotpRecovery(
+                      context,
+                      viewModel.loadInterfaces.runAsync,
+                    );
                   } catch (_) {
                     // Error handled by command.errors
                   }
