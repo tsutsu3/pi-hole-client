@@ -10,6 +10,7 @@ import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domains_list.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domains_scaffold.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart';
+import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 
 class FilteredDomainLists extends StatefulWidget {
@@ -59,7 +60,11 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
 
       if (!mounted) return;
       final groupsViewModel = context.read<GroupsViewModel>();
-      await groupsViewModel.loadGroups.runAsync();
+      try {
+        await groupsViewModel.loadGroups.runAsync();
+      } catch (e) {
+        logger.w('Failed to load groups: $e');
+      }
     });
   }
 
