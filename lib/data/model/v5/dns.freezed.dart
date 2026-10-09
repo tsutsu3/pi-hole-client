@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'dns.dart';
@@ -9,6 +9,7 @@ part of 'dns.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $BlockingCopyWith<Blocking> get copyWith => _$BlockingCopyWithImpl<Blocking>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Blocking&&(identical(other.status, status) || other.status == status));
+  final _this = this as Blocking;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Blocking&&(identical(other.status, _this.status) || other.status == _this.status));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,status);
+int get hashCode {
+  final _this = this as Blocking;
+  return Object.hash(runtimeType,_this.status);
+}
 
 @override
 String toString() {
-  return 'Blocking(status: $status)';
+  final _this = this as Blocking;
+  return 'Blocking(status: ${_this.status})';
 }
 
 
@@ -66,7 +72,7 @@ class _$BlockingCopyWithImpl<$Res>
 /// Create a copy of Blocking
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? status = null,}) {
-  return _then(_self.copyWith(
+  return _then(Blocking(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -221,16 +227,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Blocking&&(identical(other.status, status) || other.status == status));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Blocking&&(identical(other.status, status) || other.status == status));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,status);
+int get hashCode {
+    return Object.hash(runtimeType,status);
+}
 
 @override
 String toString() {
-  return 'Blocking(status: $status)';
+    return 'Blocking(status: $status)';
 }
 
 

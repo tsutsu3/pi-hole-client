@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'app_config.dart';
@@ -9,6 +9,7 @@ part of 'app_config.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $AppConfigCopyWith<AppConfig> get copyWith => _$AppConfigCopyWithImpl<AppConfig>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfig&&(identical(other.autoRefreshTime, autoRefreshTime) || other.autoRefreshTime == autoRefreshTime)&&(identical(other.theme, theme) || other.theme == theme)&&(identical(other.language, language) || other.language == language)&&(identical(other.reducedDataCharts, reducedDataCharts) || other.reducedDataCharts == reducedDataCharts)&&(identical(other.logsPerQuery, logsPerQuery) || other.logsPerQuery == logsPerQuery)&&(identical(other.logAutoRefreshTime, logAutoRefreshTime) || other.logAutoRefreshTime == logAutoRefreshTime)&&(identical(other.liveLog, liveLog) || other.liveLog == liveLog)&&(identical(other.isLivelogPaused, isLivelogPaused) || other.isLivelogPaused == isLivelogPaused)&&(identical(other.useBiometricAuth, useBiometricAuth) || other.useBiometricAuth == useBiometricAuth)&&(identical(other.importantInfoReaden, importantInfoReaden) || other.importantInfoReaden == importantInfoReaden)&&(identical(other.hideZeroValues, hideZeroValues) || other.hideZeroValues == hideZeroValues)&&(identical(other.loadingAnimation, loadingAnimation) || other.loadingAnimation == loadingAnimation)&&(identical(other.statisticsVisualizationMode, statisticsVisualizationMode) || other.statisticsVisualizationMode == statisticsVisualizationMode)&&(identical(other.homeVisualizationMode, homeVisualizationMode) || other.homeVisualizationMode == homeVisualizationMode)&&(identical(other.sendCrashReports, sendCrashReports) || other.sendCrashReports == sendCrashReports)&&(identical(other.passCode, passCode) || other.passCode == passCode));
+  final _this = this as AppConfig;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfig&&(identical(other.autoRefreshTime, _this.autoRefreshTime) || other.autoRefreshTime == _this.autoRefreshTime)&&(identical(other.theme, _this.theme) || other.theme == _this.theme)&&(identical(other.language, _this.language) || other.language == _this.language)&&(identical(other.reducedDataCharts, _this.reducedDataCharts) || other.reducedDataCharts == _this.reducedDataCharts)&&(identical(other.logsPerQuery, _this.logsPerQuery) || other.logsPerQuery == _this.logsPerQuery)&&(identical(other.logAutoRefreshTime, _this.logAutoRefreshTime) || other.logAutoRefreshTime == _this.logAutoRefreshTime)&&(identical(other.liveLog, _this.liveLog) || other.liveLog == _this.liveLog)&&(identical(other.isLivelogPaused, _this.isLivelogPaused) || other.isLivelogPaused == _this.isLivelogPaused)&&(identical(other.useBiometricAuth, _this.useBiometricAuth) || other.useBiometricAuth == _this.useBiometricAuth)&&(identical(other.importantInfoReaden, _this.importantInfoReaden) || other.importantInfoReaden == _this.importantInfoReaden)&&(identical(other.hideZeroValues, _this.hideZeroValues) || other.hideZeroValues == _this.hideZeroValues)&&(identical(other.loadingAnimation, _this.loadingAnimation) || other.loadingAnimation == _this.loadingAnimation)&&(identical(other.statisticsVisualizationMode, _this.statisticsVisualizationMode) || other.statisticsVisualizationMode == _this.statisticsVisualizationMode)&&(identical(other.homeVisualizationMode, _this.homeVisualizationMode) || other.homeVisualizationMode == _this.homeVisualizationMode)&&(identical(other.sendCrashReports, _this.sendCrashReports) || other.sendCrashReports == _this.sendCrashReports)&&(identical(other.passCode, _this.passCode) || other.passCode == _this.passCode));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,autoRefreshTime,theme,language,reducedDataCharts,logsPerQuery,logAutoRefreshTime,liveLog,isLivelogPaused,useBiometricAuth,importantInfoReaden,hideZeroValues,loadingAnimation,statisticsVisualizationMode,homeVisualizationMode,sendCrashReports,passCode);
+int get hashCode {
+  final _this = this as AppConfig;
+  return Object.hash(runtimeType,_this.autoRefreshTime,_this.theme,_this.language,_this.reducedDataCharts,_this.logsPerQuery,_this.logAutoRefreshTime,_this.liveLog,_this.isLivelogPaused,_this.useBiometricAuth,_this.importantInfoReaden,_this.hideZeroValues,_this.loadingAnimation,_this.statisticsVisualizationMode,_this.homeVisualizationMode,_this.sendCrashReports,_this.passCode);
+}
 
 @override
 String toString() {
-  return 'AppConfig(autoRefreshTime: $autoRefreshTime, theme: $theme, language: $language, reducedDataCharts: $reducedDataCharts, logsPerQuery: $logsPerQuery, logAutoRefreshTime: $logAutoRefreshTime, liveLog: $liveLog, isLivelogPaused: $isLivelogPaused, useBiometricAuth: $useBiometricAuth, importantInfoReaden: $importantInfoReaden, hideZeroValues: $hideZeroValues, loadingAnimation: $loadingAnimation, statisticsVisualizationMode: $statisticsVisualizationMode, homeVisualizationMode: $homeVisualizationMode, sendCrashReports: $sendCrashReports, passCode: $passCode)';
+  final _this = this as AppConfig;
+  return 'AppConfig(autoRefreshTime: ${_this.autoRefreshTime}, theme: ${_this.theme}, language: ${_this.language}, reducedDataCharts: ${_this.reducedDataCharts}, logsPerQuery: ${_this.logsPerQuery}, logAutoRefreshTime: ${_this.logAutoRefreshTime}, liveLog: ${_this.liveLog}, isLivelogPaused: ${_this.isLivelogPaused}, useBiometricAuth: ${_this.useBiometricAuth}, importantInfoReaden: ${_this.importantInfoReaden}, hideZeroValues: ${_this.hideZeroValues}, loadingAnimation: ${_this.loadingAnimation}, statisticsVisualizationMode: ${_this.statisticsVisualizationMode}, homeVisualizationMode: ${_this.homeVisualizationMode}, sendCrashReports: ${_this.sendCrashReports}, passCode: ${_this.passCode})';
 }
 
 
@@ -63,7 +69,7 @@ class _$AppConfigCopyWithImpl<$Res>
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? autoRefreshTime = null,Object? theme = null,Object? language = null,Object? reducedDataCharts = null,Object? logsPerQuery = null,Object? logAutoRefreshTime = null,Object? liveLog = null,Object? isLivelogPaused = null,Object? useBiometricAuth = null,Object? importantInfoReaden = null,Object? hideZeroValues = null,Object? loadingAnimation = null,Object? statisticsVisualizationMode = null,Object? homeVisualizationMode = null,Object? sendCrashReports = null,Object? passCode = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(AppConfig(
 autoRefreshTime: null == autoRefreshTime ? _self.autoRefreshTime : autoRefreshTime // ignore: cast_nullable_to_non_nullable
 as int,theme: null == theme ? _self.theme : theme // ignore: cast_nullable_to_non_nullable
 as AppThemeMode,language: null == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
@@ -245,16 +251,18 @@ _$AppConfigCopyWith<_AppConfig> get copyWith => __$AppConfigCopyWithImpl<_AppCon
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfig&&(identical(other.autoRefreshTime, autoRefreshTime) || other.autoRefreshTime == autoRefreshTime)&&(identical(other.theme, theme) || other.theme == theme)&&(identical(other.language, language) || other.language == language)&&(identical(other.reducedDataCharts, reducedDataCharts) || other.reducedDataCharts == reducedDataCharts)&&(identical(other.logsPerQuery, logsPerQuery) || other.logsPerQuery == logsPerQuery)&&(identical(other.logAutoRefreshTime, logAutoRefreshTime) || other.logAutoRefreshTime == logAutoRefreshTime)&&(identical(other.liveLog, liveLog) || other.liveLog == liveLog)&&(identical(other.isLivelogPaused, isLivelogPaused) || other.isLivelogPaused == isLivelogPaused)&&(identical(other.useBiometricAuth, useBiometricAuth) || other.useBiometricAuth == useBiometricAuth)&&(identical(other.importantInfoReaden, importantInfoReaden) || other.importantInfoReaden == importantInfoReaden)&&(identical(other.hideZeroValues, hideZeroValues) || other.hideZeroValues == hideZeroValues)&&(identical(other.loadingAnimation, loadingAnimation) || other.loadingAnimation == loadingAnimation)&&(identical(other.statisticsVisualizationMode, statisticsVisualizationMode) || other.statisticsVisualizationMode == statisticsVisualizationMode)&&(identical(other.homeVisualizationMode, homeVisualizationMode) || other.homeVisualizationMode == homeVisualizationMode)&&(identical(other.sendCrashReports, sendCrashReports) || other.sendCrashReports == sendCrashReports)&&(identical(other.passCode, passCode) || other.passCode == passCode));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfig&&(identical(other.autoRefreshTime, autoRefreshTime) || other.autoRefreshTime == autoRefreshTime)&&(identical(other.theme, theme) || other.theme == theme)&&(identical(other.language, language) || other.language == language)&&(identical(other.reducedDataCharts, reducedDataCharts) || other.reducedDataCharts == reducedDataCharts)&&(identical(other.logsPerQuery, logsPerQuery) || other.logsPerQuery == logsPerQuery)&&(identical(other.logAutoRefreshTime, logAutoRefreshTime) || other.logAutoRefreshTime == logAutoRefreshTime)&&(identical(other.liveLog, liveLog) || other.liveLog == liveLog)&&(identical(other.isLivelogPaused, isLivelogPaused) || other.isLivelogPaused == isLivelogPaused)&&(identical(other.useBiometricAuth, useBiometricAuth) || other.useBiometricAuth == useBiometricAuth)&&(identical(other.importantInfoReaden, importantInfoReaden) || other.importantInfoReaden == importantInfoReaden)&&(identical(other.hideZeroValues, hideZeroValues) || other.hideZeroValues == hideZeroValues)&&(identical(other.loadingAnimation, loadingAnimation) || other.loadingAnimation == loadingAnimation)&&(identical(other.statisticsVisualizationMode, statisticsVisualizationMode) || other.statisticsVisualizationMode == statisticsVisualizationMode)&&(identical(other.homeVisualizationMode, homeVisualizationMode) || other.homeVisualizationMode == homeVisualizationMode)&&(identical(other.sendCrashReports, sendCrashReports) || other.sendCrashReports == sendCrashReports)&&(identical(other.passCode, passCode) || other.passCode == passCode));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,autoRefreshTime,theme,language,reducedDataCharts,logsPerQuery,logAutoRefreshTime,liveLog,isLivelogPaused,useBiometricAuth,importantInfoReaden,hideZeroValues,loadingAnimation,statisticsVisualizationMode,homeVisualizationMode,sendCrashReports,passCode);
+int get hashCode {
+    return Object.hash(runtimeType,autoRefreshTime,theme,language,reducedDataCharts,logsPerQuery,logAutoRefreshTime,liveLog,isLivelogPaused,useBiometricAuth,importantInfoReaden,hideZeroValues,loadingAnimation,statisticsVisualizationMode,homeVisualizationMode,sendCrashReports,passCode);
+}
 
 @override
 String toString() {
-  return 'AppConfig(autoRefreshTime: $autoRefreshTime, theme: $theme, language: $language, reducedDataCharts: $reducedDataCharts, logsPerQuery: $logsPerQuery, logAutoRefreshTime: $logAutoRefreshTime, liveLog: $liveLog, isLivelogPaused: $isLivelogPaused, useBiometricAuth: $useBiometricAuth, importantInfoReaden: $importantInfoReaden, hideZeroValues: $hideZeroValues, loadingAnimation: $loadingAnimation, statisticsVisualizationMode: $statisticsVisualizationMode, homeVisualizationMode: $homeVisualizationMode, sendCrashReports: $sendCrashReports, passCode: $passCode)';
+    return 'AppConfig(autoRefreshTime: $autoRefreshTime, theme: $theme, language: $language, reducedDataCharts: $reducedDataCharts, logsPerQuery: $logsPerQuery, logAutoRefreshTime: $logAutoRefreshTime, liveLog: $liveLog, isLivelogPaused: $isLivelogPaused, useBiometricAuth: $useBiometricAuth, importantInfoReaden: $importantInfoReaden, hideZeroValues: $hideZeroValues, loadingAnimation: $loadingAnimation, statisticsVisualizationMode: $statisticsVisualizationMode, homeVisualizationMode: $homeVisualizationMode, sendCrashReports: $sendCrashReports, passCode: $passCode)';
 }
 
 

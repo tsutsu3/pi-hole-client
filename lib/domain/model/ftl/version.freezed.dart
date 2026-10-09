@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'version.dart';
@@ -9,6 +9,7 @@ part of 'version.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $FtlVersionCopyWith<FtlVersion> get copyWith => _$FtlVersionCopyWithImpl<FtlVers
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlVersion&&(identical(other.core, core) || other.core == core)&&(identical(other.web, web) || other.web == web)&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.docker, docker) || other.docker == docker));
+  final _this = this as FtlVersion;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlVersion&&(identical(other.core, _this.core) || other.core == _this.core)&&(identical(other.web, _this.web) || other.web == _this.web)&&(identical(other.ftl, _this.ftl) || other.ftl == _this.ftl)&&(identical(other.docker, _this.docker) || other.docker == _this.docker));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,core,web,ftl,docker);
+int get hashCode {
+  final _this = this as FtlVersion;
+  return Object.hash(runtimeType,_this.core,_this.web,_this.ftl,_this.docker);
+}
 
 @override
 String toString() {
-  return 'FtlVersion(core: $core, web: $web, ftl: $ftl, docker: $docker)';
+  final _this = this as FtlVersion;
+  return 'FtlVersion(core: ${_this.core}, web: ${_this.web}, ftl: ${_this.ftl}, docker: ${_this.docker})';
 }
 
 
@@ -66,7 +72,7 @@ class _$FtlVersionCopyWithImpl<$Res>
 /// Create a copy of FtlVersion
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? core = null,Object? web = null,Object? ftl = null,Object? docker = null,}) {
-  return _then(_self.copyWith(
+  return _then(FtlVersion(
 core: null == core ? _self.core : core // ignore: cast_nullable_to_non_nullable
 as ComponentVersion,web: null == web ? _self.web : web // ignore: cast_nullable_to_non_nullable
 as ComponentVersion,ftl: null == ftl ? _self.ftl : ftl // ignore: cast_nullable_to_non_nullable
@@ -263,16 +269,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlVersion&&(identical(other.core, core) || other.core == core)&&(identical(other.web, web) || other.web == web)&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.docker, docker) || other.docker == docker));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlVersion&&(identical(other.core, core) || other.core == core)&&(identical(other.web, web) || other.web == web)&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.docker, docker) || other.docker == docker));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,core,web,ftl,docker);
+int get hashCode {
+    return Object.hash(runtimeType,core,web,ftl,docker);
+}
 
 @override
 String toString() {
-  return 'FtlVersion(core: $core, web: $web, ftl: $ftl, docker: $docker)';
+    return 'FtlVersion(core: $core, web: $web, ftl: $ftl, docker: $docker)';
 }
 
 
@@ -366,16 +374,21 @@ $ComponentVersionCopyWith<ComponentVersion> get copyWith => _$ComponentVersionCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ComponentVersion&&(identical(other.local, local) || other.local == local)&&(identical(other.remote, remote) || other.remote == remote)&&(identical(other.canUpdate, canUpdate) || other.canUpdate == canUpdate));
+  final _this = this as ComponentVersion;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ComponentVersion&&(identical(other.local, _this.local) || other.local == _this.local)&&(identical(other.remote, _this.remote) || other.remote == _this.remote)&&(identical(other.canUpdate, _this.canUpdate) || other.canUpdate == _this.canUpdate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,local,remote,canUpdate);
+int get hashCode {
+  final _this = this as ComponentVersion;
+  return Object.hash(runtimeType,_this.local,_this.remote,_this.canUpdate);
+}
 
 @override
 String toString() {
-  return 'ComponentVersion(local: $local, remote: $remote, canUpdate: $canUpdate)';
+  final _this = this as ComponentVersion;
+  return 'ComponentVersion(local: ${_this.local}, remote: ${_this.remote}, canUpdate: ${_this.canUpdate})';
 }
 
 
@@ -404,7 +417,7 @@ class _$ComponentVersionCopyWithImpl<$Res>
 /// Create a copy of ComponentVersion
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? local = null,Object? remote = null,Object? canUpdate = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(ComponentVersion(
 local: null == local ? _self.local : local // ignore: cast_nullable_to_non_nullable
 as VersionDetail,remote: null == remote ? _self.remote : remote // ignore: cast_nullable_to_non_nullable
 as VersionDetail,canUpdate: freezed == canUpdate ? _self.canUpdate : canUpdate // ignore: cast_nullable_to_non_nullable
@@ -581,16 +594,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ComponentVersion&&(identical(other.local, local) || other.local == local)&&(identical(other.remote, remote) || other.remote == remote)&&(identical(other.canUpdate, canUpdate) || other.canUpdate == canUpdate));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ComponentVersion&&(identical(other.local, local) || other.local == local)&&(identical(other.remote, remote) || other.remote == remote)&&(identical(other.canUpdate, canUpdate) || other.canUpdate == canUpdate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,local,remote,canUpdate);
+int get hashCode {
+    return Object.hash(runtimeType,local,remote,canUpdate);
+}
 
 @override
 String toString() {
-  return 'ComponentVersion(local: $local, remote: $remote, canUpdate: $canUpdate)';
+    return 'ComponentVersion(local: $local, remote: $remote, canUpdate: $canUpdate)';
 }
 
 
@@ -665,16 +680,21 @@ $VersionDetailCopyWith<VersionDetail> get copyWith => _$VersionDetailCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is VersionDetail&&(identical(other.version, version) || other.version == version)&&(identical(other.branch, branch) || other.branch == branch));
+  final _this = this as VersionDetail;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is VersionDetail&&(identical(other.version, _this.version) || other.version == _this.version)&&(identical(other.branch, _this.branch) || other.branch == _this.branch));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,version,branch);
+int get hashCode {
+  final _this = this as VersionDetail;
+  return Object.hash(runtimeType,_this.version,_this.branch);
+}
 
 @override
 String toString() {
-  return 'VersionDetail(version: $version, branch: $branch)';
+  final _this = this as VersionDetail;
+  return 'VersionDetail(version: ${_this.version}, branch: ${_this.branch})';
 }
 
 
@@ -703,7 +723,7 @@ class _$VersionDetailCopyWithImpl<$Res>
 /// Create a copy of VersionDetail
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? version = null,Object? branch = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(VersionDetail(
 version: null == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String,branch: freezed == branch ? _self.branch : branch // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -860,16 +880,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VersionDetail&&(identical(other.version, version) || other.version == version)&&(identical(other.branch, branch) || other.branch == branch));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _VersionDetail&&(identical(other.version, version) || other.version == version)&&(identical(other.branch, branch) || other.branch == branch));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,version,branch);
+int get hashCode {
+    return Object.hash(runtimeType,version,branch);
+}
 
 @override
 String toString() {
-  return 'VersionDetail(version: $version, branch: $branch)';
+    return 'VersionDetail(version: $version, branch: $branch)';
 }
 
 

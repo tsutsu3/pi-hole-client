@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'queries.dart';
@@ -9,6 +9,7 @@ part of 'queries.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $LogsCopyWith<Logs> get copyWith => _$LogsCopyWithImpl<Logs>(this as Logs, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Logs&&const DeepCollectionEquality().equals(other.logs, logs)&&(identical(other.cursor, cursor) || other.cursor == cursor)&&(identical(other.recordsTotal, recordsTotal) || other.recordsTotal == recordsTotal)&&(identical(other.recordsFiltered, recordsFiltered) || other.recordsFiltered == recordsFiltered));
+  final _this = this as Logs;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Logs&&const DeepCollectionEquality().equals(other.logs, _this.logs)&&(identical(other.cursor, _this.cursor) || other.cursor == _this.cursor)&&(identical(other.recordsTotal, _this.recordsTotal) || other.recordsTotal == _this.recordsTotal)&&(identical(other.recordsFiltered, _this.recordsFiltered) || other.recordsFiltered == _this.recordsFiltered));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(logs),cursor,recordsTotal,recordsFiltered);
+int get hashCode {
+  final _this = this as Logs;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.logs),_this.cursor,_this.recordsTotal,_this.recordsFiltered);
+}
 
 @override
 String toString() {
-  return 'Logs(logs: $logs, cursor: $cursor, recordsTotal: $recordsTotal, recordsFiltered: $recordsFiltered)';
+  final _this = this as Logs;
+  return 'Logs(logs: ${_this.logs}, cursor: ${_this.cursor}, recordsTotal: ${_this.recordsTotal}, recordsFiltered: ${_this.recordsFiltered})';
 }
 
 
@@ -66,7 +72,7 @@ class _$LogsCopyWithImpl<$Res>
 /// Create a copy of Logs
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? logs = null,Object? cursor = freezed,Object? recordsTotal = freezed,Object? recordsFiltered = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Logs(
 logs: null == logs ? _self.logs : logs // ignore: cast_nullable_to_non_nullable
 as List<Log>,cursor: freezed == cursor ? _self.cursor : cursor // ignore: cast_nullable_to_non_nullable
 as int?,recordsTotal: freezed == recordsTotal ? _self.recordsTotal : recordsTotal // ignore: cast_nullable_to_non_nullable
@@ -206,7 +212,7 @@ return $default(_that.logs,_that.cursor,_that.recordsTotal,_that.recordsFiltered
 
 @JsonSerializable(explicitToJson: true)
 class _Logs implements Logs {
-  const _Logs({required final  List<Log> logs, this.cursor, this.recordsTotal, this.recordsFiltered}): _logs = logs;
+  const _Logs({required  List<Log> logs, this.cursor, this.recordsTotal, this.recordsFiltered}): _logs = logs;
   factory _Logs.fromJson(Map<String, dynamic> json) => _$LogsFromJson(json);
 
  final  List<Log> _logs;
@@ -233,16 +239,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Logs&&const DeepCollectionEquality().equals(other._logs, _logs)&&(identical(other.cursor, cursor) || other.cursor == cursor)&&(identical(other.recordsTotal, recordsTotal) || other.recordsTotal == recordsTotal)&&(identical(other.recordsFiltered, recordsFiltered) || other.recordsFiltered == recordsFiltered));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Logs&&const DeepCollectionEquality().equals(other.logs, _logs)&&(identical(other.cursor, cursor) || other.cursor == cursor)&&(identical(other.recordsTotal, recordsTotal) || other.recordsTotal == recordsTotal)&&(identical(other.recordsFiltered, recordsFiltered) || other.recordsFiltered == recordsFiltered));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_logs),cursor,recordsTotal,recordsFiltered);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_logs),cursor,recordsTotal,recordsFiltered);
+}
 
 @override
 String toString() {
-  return 'Logs(logs: $logs, cursor: $cursor, recordsTotal: $recordsTotal, recordsFiltered: $recordsFiltered)';
+    return 'Logs(logs: $logs, cursor: $cursor, recordsTotal: $recordsTotal, recordsFiltered: $recordsFiltered)';
 }
 
 
@@ -287,9 +295,7 @@ as int?,
 /// @nodoc
 mixin _$Log {
 
- DateTime get dateTime; DnsRecordType get type; String get url; String get device; double get replyTime;// in seconds
- QueryStatusType? get status; ReplyType? get replyType; int? get id; String? get answeredBy;// v6-only fields
- String? get cname; String? get dnssec; int? get listId; String? get edeCode; String? get edeText;
+ DateTime get dateTime; DnsRecordType get type; String get url; String get device; double get replyTime; QueryStatusType? get status; ReplyType? get replyType; int? get id; String? get answeredBy; String? get cname; String? get dnssec; int? get listId; String? get edeCode; String? get edeText;
 /// Create a copy of Log
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -302,16 +308,21 @@ $LogCopyWith<Log> get copyWith => _$LogCopyWithImpl<Log>(this as Log, _$identity
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Log&&(identical(other.dateTime, dateTime) || other.dateTime == dateTime)&&(identical(other.type, type) || other.type == type)&&(identical(other.url, url) || other.url == url)&&(identical(other.device, device) || other.device == device)&&(identical(other.replyTime, replyTime) || other.replyTime == replyTime)&&(identical(other.status, status) || other.status == status)&&(identical(other.replyType, replyType) || other.replyType == replyType)&&(identical(other.id, id) || other.id == id)&&(identical(other.answeredBy, answeredBy) || other.answeredBy == answeredBy)&&(identical(other.cname, cname) || other.cname == cname)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.listId, listId) || other.listId == listId)&&(identical(other.edeCode, edeCode) || other.edeCode == edeCode)&&(identical(other.edeText, edeText) || other.edeText == edeText));
+  final _this = this as Log;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Log&&(identical(other.dateTime, _this.dateTime) || other.dateTime == _this.dateTime)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.url, _this.url) || other.url == _this.url)&&(identical(other.device, _this.device) || other.device == _this.device)&&(identical(other.replyTime, _this.replyTime) || other.replyTime == _this.replyTime)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.replyType, _this.replyType) || other.replyType == _this.replyType)&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.answeredBy, _this.answeredBy) || other.answeredBy == _this.answeredBy)&&(identical(other.cname, _this.cname) || other.cname == _this.cname)&&(identical(other.dnssec, _this.dnssec) || other.dnssec == _this.dnssec)&&(identical(other.listId, _this.listId) || other.listId == _this.listId)&&(identical(other.edeCode, _this.edeCode) || other.edeCode == _this.edeCode)&&(identical(other.edeText, _this.edeText) || other.edeText == _this.edeText));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,dateTime,type,url,device,replyTime,status,replyType,id,answeredBy,cname,dnssec,listId,edeCode,edeText);
+int get hashCode {
+  final _this = this as Log;
+  return Object.hash(runtimeType,_this.dateTime,_this.type,_this.url,_this.device,_this.replyTime,_this.status,_this.replyType,_this.id,_this.answeredBy,_this.cname,_this.dnssec,_this.listId,_this.edeCode,_this.edeText);
+}
 
 @override
 String toString() {
-  return 'Log(dateTime: $dateTime, type: $type, url: $url, device: $device, replyTime: $replyTime, status: $status, replyType: $replyType, id: $id, answeredBy: $answeredBy, cname: $cname, dnssec: $dnssec, listId: $listId, edeCode: $edeCode, edeText: $edeText)';
+  final _this = this as Log;
+  return 'Log(dateTime: ${_this.dateTime}, type: ${_this.type}, url: ${_this.url}, device: ${_this.device}, replyTime: ${_this.replyTime}, status: ${_this.status}, replyType: ${_this.replyType}, id: ${_this.id}, answeredBy: ${_this.answeredBy}, cname: ${_this.cname}, dnssec: ${_this.dnssec}, listId: ${_this.listId}, edeCode: ${_this.edeCode}, edeText: ${_this.edeText})';
 }
 
 
@@ -340,7 +351,7 @@ class _$LogCopyWithImpl<$Res>
 /// Create a copy of Log
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? dateTime = null,Object? type = null,Object? url = null,Object? device = null,Object? replyTime = null,Object? status = freezed,Object? replyType = freezed,Object? id = freezed,Object? answeredBy = freezed,Object? cname = freezed,Object? dnssec = freezed,Object? listId = freezed,Object? edeCode = freezed,Object? edeText = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Log(
 dateTime: null == dateTime ? _self.dateTime : dateTime // ignore: cast_nullable_to_non_nullable
 as DateTime,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as DnsRecordType,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
@@ -498,12 +509,10 @@ class _Log implements Log {
 @override final  String url;
 @override final  String device;
 @override final  double replyTime;
-// in seconds
 @override final  QueryStatusType? status;
 @override final  ReplyType? replyType;
 @override final  int? id;
 @override final  String? answeredBy;
-// v6-only fields
 @override final  String? cname;
 @override final  String? dnssec;
 @override final  int? listId;
@@ -523,16 +532,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Log&&(identical(other.dateTime, dateTime) || other.dateTime == dateTime)&&(identical(other.type, type) || other.type == type)&&(identical(other.url, url) || other.url == url)&&(identical(other.device, device) || other.device == device)&&(identical(other.replyTime, replyTime) || other.replyTime == replyTime)&&(identical(other.status, status) || other.status == status)&&(identical(other.replyType, replyType) || other.replyType == replyType)&&(identical(other.id, id) || other.id == id)&&(identical(other.answeredBy, answeredBy) || other.answeredBy == answeredBy)&&(identical(other.cname, cname) || other.cname == cname)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.listId, listId) || other.listId == listId)&&(identical(other.edeCode, edeCode) || other.edeCode == edeCode)&&(identical(other.edeText, edeText) || other.edeText == edeText));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Log&&(identical(other.dateTime, dateTime) || other.dateTime == dateTime)&&(identical(other.type, type) || other.type == type)&&(identical(other.url, url) || other.url == url)&&(identical(other.device, device) || other.device == device)&&(identical(other.replyTime, replyTime) || other.replyTime == replyTime)&&(identical(other.status, status) || other.status == status)&&(identical(other.replyType, replyType) || other.replyType == replyType)&&(identical(other.id, id) || other.id == id)&&(identical(other.answeredBy, answeredBy) || other.answeredBy == answeredBy)&&(identical(other.cname, cname) || other.cname == cname)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.listId, listId) || other.listId == listId)&&(identical(other.edeCode, edeCode) || other.edeCode == edeCode)&&(identical(other.edeText, edeText) || other.edeText == edeText));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,dateTime,type,url,device,replyTime,status,replyType,id,answeredBy,cname,dnssec,listId,edeCode,edeText);
+int get hashCode {
+    return Object.hash(runtimeType,dateTime,type,url,device,replyTime,status,replyType,id,answeredBy,cname,dnssec,listId,edeCode,edeText);
+}
 
 @override
 String toString() {
-  return 'Log(dateTime: $dateTime, type: $type, url: $url, device: $device, replyTime: $replyTime, status: $status, replyType: $replyType, id: $id, answeredBy: $answeredBy, cname: $cname, dnssec: $dnssec, listId: $listId, edeCode: $edeCode, edeText: $edeText)';
+    return 'Log(dateTime: $dateTime, type: $type, url: $url, device: $device, replyTime: $replyTime, status: $status, replyType: $replyType, id: $id, answeredBy: $answeredBy, cname: $cname, dnssec: $dnssec, listId: $listId, edeCode: $edeCode, edeText: $edeText)';
 }
 
 

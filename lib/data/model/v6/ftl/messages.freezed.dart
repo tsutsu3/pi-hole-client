@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'messages.dart';
@@ -9,6 +9,7 @@ part of 'messages.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $InfoMessagesCopyWith<InfoMessages> get copyWith => _$InfoMessagesCopyWithImpl<I
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoMessages&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.took, took) || other.took == took));
+  final _this = this as InfoMessages;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoMessages&&const DeepCollectionEquality().equals(other.messages, _this.messages)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(messages),took);
+int get hashCode {
+  final _this = this as InfoMessages;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.messages),_this.took);
+}
 
 @override
 String toString() {
-  return 'InfoMessages(messages: $messages, took: $took)';
+  final _this = this as InfoMessages;
+  return 'InfoMessages(messages: ${_this.messages}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$InfoMessagesCopyWithImpl<$Res>
 /// Create a copy of InfoMessages
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? messages = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(InfoMessages(
 messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
 as List<Message>,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -204,7 +210,7 @@ return $default(_that.messages,_that.took);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _InfoMessages implements InfoMessages {
-  const _InfoMessages({required final  List<Message> messages, required this.took}): _messages = messages;
+  const _InfoMessages({required  List<Message> messages, required this.took}): _messages = messages;
   factory _InfoMessages.fromJson(Map<String, dynamic> json) => _$InfoMessagesFromJson(json);
 
  final  List<Message> _messages;
@@ -229,16 +235,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoMessages&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoMessages&&const DeepCollectionEquality().equals(other.messages, _messages)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_messages),took);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_messages),took);
+}
 
 @override
 String toString() {
-  return 'InfoMessages(messages: $messages, took: $took)';
+    return 'InfoMessages(messages: $messages, took: $took)';
 }
 
 
@@ -294,16 +302,21 @@ $MessageCopyWith<Message> get copyWith => _$MessageCopyWithImpl<Message>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Message&&(identical(other.id, id) || other.id == id)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.type, type) || other.type == type)&&(identical(other.plain, plain) || other.plain == plain)&&(identical(other.html, html) || other.html == html));
+  final _this = this as Message;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Message&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.timestamp, _this.timestamp) || other.timestamp == _this.timestamp)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.plain, _this.plain) || other.plain == _this.plain)&&(identical(other.html, _this.html) || other.html == _this.html));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,timestamp,type,plain,html);
+int get hashCode {
+  final _this = this as Message;
+  return Object.hash(runtimeType,_this.id,_this.timestamp,_this.type,_this.plain,_this.html);
+}
 
 @override
 String toString() {
-  return 'Message(id: $id, timestamp: $timestamp, type: $type, plain: $plain, html: $html)';
+  final _this = this as Message;
+  return 'Message(id: ${_this.id}, timestamp: ${_this.timestamp}, type: ${_this.type}, plain: ${_this.plain}, html: ${_this.html})';
 }
 
 
@@ -332,7 +345,7 @@ class _$MessageCopyWithImpl<$Res>
 /// Create a copy of Message
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? timestamp = null,Object? type = null,Object? plain = null,Object? html = null,}) {
-  return _then(_self.copyWith(
+  return _then(Message(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as int,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
@@ -495,16 +508,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Message&&(identical(other.id, id) || other.id == id)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.type, type) || other.type == type)&&(identical(other.plain, plain) || other.plain == plain)&&(identical(other.html, html) || other.html == html));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Message&&(identical(other.id, id) || other.id == id)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.type, type) || other.type == type)&&(identical(other.plain, plain) || other.plain == plain)&&(identical(other.html, html) || other.html == html));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,timestamp,type,plain,html);
+int get hashCode {
+    return Object.hash(runtimeType,id,timestamp,type,plain,html);
+}
 
 @override
 String toString() {
-  return 'Message(id: $id, timestamp: $timestamp, type: $type, plain: $plain, html: $html)';
+    return 'Message(id: $id, timestamp: $timestamp, type: $type, plain: $plain, html: $html)';
 }
 
 

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'host.dart';
@@ -9,14 +9,14 @@ part of 'host.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FtlHost {
 
- String get domainName; String get arch; String get hostName; String get release; String get sysName; String get version; String? get model;// v6-only field
- DmiInfo? get dmi;
+ String get domainName; String get arch; String get hostName; String get release; String get sysName; String get version; String? get model; DmiInfo? get dmi;
 /// Create a copy of FtlHost
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,21 @@ $FtlHostCopyWith<FtlHost> get copyWith => _$FtlHostCopyWithImpl<FtlHost>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlHost&&(identical(other.domainName, domainName) || other.domainName == domainName)&&(identical(other.arch, arch) || other.arch == arch)&&(identical(other.hostName, hostName) || other.hostName == hostName)&&(identical(other.release, release) || other.release == release)&&(identical(other.sysName, sysName) || other.sysName == sysName)&&(identical(other.version, version) || other.version == version)&&(identical(other.model, model) || other.model == model)&&(identical(other.dmi, dmi) || other.dmi == dmi));
+  final _this = this as FtlHost;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlHost&&(identical(other.domainName, _this.domainName) || other.domainName == _this.domainName)&&(identical(other.arch, _this.arch) || other.arch == _this.arch)&&(identical(other.hostName, _this.hostName) || other.hostName == _this.hostName)&&(identical(other.release, _this.release) || other.release == _this.release)&&(identical(other.sysName, _this.sysName) || other.sysName == _this.sysName)&&(identical(other.version, _this.version) || other.version == _this.version)&&(identical(other.model, _this.model) || other.model == _this.model)&&(identical(other.dmi, _this.dmi) || other.dmi == _this.dmi));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domainName,arch,hostName,release,sysName,version,model,dmi);
+int get hashCode {
+  final _this = this as FtlHost;
+  return Object.hash(runtimeType,_this.domainName,_this.arch,_this.hostName,_this.release,_this.sysName,_this.version,_this.model,_this.dmi);
+}
 
 @override
 String toString() {
-  return 'FtlHost(domainName: $domainName, arch: $arch, hostName: $hostName, release: $release, sysName: $sysName, version: $version, model: $model, dmi: $dmi)';
+  final _this = this as FtlHost;
+  return 'FtlHost(domainName: ${_this.domainName}, arch: ${_this.arch}, hostName: ${_this.hostName}, release: ${_this.release}, sysName: ${_this.sysName}, version: ${_this.version}, model: ${_this.model}, dmi: ${_this.dmi})';
 }
 
 
@@ -67,7 +72,7 @@ class _$FtlHostCopyWithImpl<$Res>
 /// Create a copy of FtlHost
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domainName = null,Object? arch = null,Object? hostName = null,Object? release = null,Object? sysName = null,Object? version = null,Object? model = freezed,Object? dmi = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(FtlHost(
 domainName: null == domainName ? _self.domainName : domainName // ignore: cast_nullable_to_non_nullable
 as String,arch: null == arch ? _self.arch : arch // ignore: cast_nullable_to_non_nullable
 as String,hostName: null == hostName ? _self.hostName : hostName // ignore: cast_nullable_to_non_nullable
@@ -233,7 +238,6 @@ class _FtlHost implements FtlHost {
 @override final  String sysName;
 @override final  String version;
 @override final  String? model;
-// v6-only field
 @override final  DmiInfo? dmi;
 
 /// Create a copy of FtlHost
@@ -249,16 +253,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlHost&&(identical(other.domainName, domainName) || other.domainName == domainName)&&(identical(other.arch, arch) || other.arch == arch)&&(identical(other.hostName, hostName) || other.hostName == hostName)&&(identical(other.release, release) || other.release == release)&&(identical(other.sysName, sysName) || other.sysName == sysName)&&(identical(other.version, version) || other.version == version)&&(identical(other.model, model) || other.model == model)&&(identical(other.dmi, dmi) || other.dmi == dmi));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlHost&&(identical(other.domainName, domainName) || other.domainName == domainName)&&(identical(other.arch, arch) || other.arch == arch)&&(identical(other.hostName, hostName) || other.hostName == hostName)&&(identical(other.release, release) || other.release == release)&&(identical(other.sysName, sysName) || other.sysName == sysName)&&(identical(other.version, version) || other.version == version)&&(identical(other.model, model) || other.model == model)&&(identical(other.dmi, dmi) || other.dmi == dmi));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domainName,arch,hostName,release,sysName,version,model,dmi);
+int get hashCode {
+    return Object.hash(runtimeType,domainName,arch,hostName,release,sysName,version,model,dmi);
+}
 
 @override
 String toString() {
-  return 'FtlHost(domainName: $domainName, arch: $arch, hostName: $hostName, release: $release, sysName: $sysName, version: $version, model: $model, dmi: $dmi)';
+    return 'FtlHost(domainName: $domainName, arch: $arch, hostName: $hostName, release: $release, sysName: $sysName, version: $version, model: $model, dmi: $dmi)';
 }
 
 
@@ -332,16 +338,21 @@ $DmiInfoCopyWith<DmiInfo> get copyWith => _$DmiInfoCopyWithImpl<DmiInfo>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DmiInfo&&(identical(other.bios, bios) || other.bios == bios)&&(identical(other.board, board) || other.board == board)&&(identical(other.product, product) || other.product == product)&&(identical(other.sys, sys) || other.sys == sys));
+  final _this = this as DmiInfo;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DmiInfo&&(identical(other.bios, _this.bios) || other.bios == _this.bios)&&(identical(other.board, _this.board) || other.board == _this.board)&&(identical(other.product, _this.product) || other.product == _this.product)&&(identical(other.sys, _this.sys) || other.sys == _this.sys));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,bios,board,product,sys);
+int get hashCode {
+  final _this = this as DmiInfo;
+  return Object.hash(runtimeType,_this.bios,_this.board,_this.product,_this.sys);
+}
 
 @override
 String toString() {
-  return 'DmiInfo(bios: $bios, board: $board, product: $product, sys: $sys)';
+  final _this = this as DmiInfo;
+  return 'DmiInfo(bios: ${_this.bios}, board: ${_this.board}, product: ${_this.product}, sys: ${_this.sys})';
 }
 
 
@@ -370,7 +381,7 @@ class _$DmiInfoCopyWithImpl<$Res>
 /// Create a copy of DmiInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? bios = freezed,Object? board = freezed,Object? product = freezed,Object? sys = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DmiInfo(
 bios: freezed == bios ? _self.bios : bios // ignore: cast_nullable_to_non_nullable
 as DmiBios?,board: freezed == board ? _self.board : board // ignore: cast_nullable_to_non_nullable
 as DmiBoard?,product: freezed == product ? _self.product : product // ignore: cast_nullable_to_non_nullable
@@ -579,16 +590,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DmiInfo&&(identical(other.bios, bios) || other.bios == bios)&&(identical(other.board, board) || other.board == board)&&(identical(other.product, product) || other.product == product)&&(identical(other.sys, sys) || other.sys == sys));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DmiInfo&&(identical(other.bios, bios) || other.bios == bios)&&(identical(other.board, board) || other.board == board)&&(identical(other.product, product) || other.product == product)&&(identical(other.sys, sys) || other.sys == sys));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,bios,board,product,sys);
+int get hashCode {
+    return Object.hash(runtimeType,bios,board,product,sys);
+}
 
 @override
 String toString() {
-  return 'DmiInfo(bios: $bios, board: $board, product: $product, sys: $sys)';
+    return 'DmiInfo(bios: $bios, board: $board, product: $product, sys: $sys)';
 }
 
 
@@ -694,16 +707,21 @@ $DmiBiosCopyWith<DmiBios> get copyWith => _$DmiBiosCopyWithImpl<DmiBios>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DmiBios&&(identical(other.vendor, vendor) || other.vendor == vendor)&&(identical(other.version, version) || other.version == version)&&(identical(other.date, date) || other.date == date));
+  final _this = this as DmiBios;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DmiBios&&(identical(other.vendor, _this.vendor) || other.vendor == _this.vendor)&&(identical(other.version, _this.version) || other.version == _this.version)&&(identical(other.date, _this.date) || other.date == _this.date));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,vendor,version,date);
+int get hashCode {
+  final _this = this as DmiBios;
+  return Object.hash(runtimeType,_this.vendor,_this.version,_this.date);
+}
 
 @override
 String toString() {
-  return 'DmiBios(vendor: $vendor, version: $version, date: $date)';
+  final _this = this as DmiBios;
+  return 'DmiBios(vendor: ${_this.vendor}, version: ${_this.version}, date: ${_this.date})';
 }
 
 
@@ -732,7 +750,7 @@ class _$DmiBiosCopyWithImpl<$Res>
 /// Create a copy of DmiBios
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? vendor = freezed,Object? version = freezed,Object? date = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DmiBios(
 vendor: freezed == vendor ? _self.vendor : vendor // ignore: cast_nullable_to_non_nullable
 as String?,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String?,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
@@ -891,16 +909,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DmiBios&&(identical(other.vendor, vendor) || other.vendor == vendor)&&(identical(other.version, version) || other.version == version)&&(identical(other.date, date) || other.date == date));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DmiBios&&(identical(other.vendor, vendor) || other.vendor == vendor)&&(identical(other.version, version) || other.version == version)&&(identical(other.date, date) || other.date == date));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,vendor,version,date);
+int get hashCode {
+    return Object.hash(runtimeType,vendor,version,date);
+}
 
 @override
 String toString() {
-  return 'DmiBios(vendor: $vendor, version: $version, date: $date)';
+    return 'DmiBios(vendor: $vendor, version: $version, date: $date)';
 }
 
 
@@ -957,16 +977,21 @@ $DmiBoardCopyWith<DmiBoard> get copyWith => _$DmiBoardCopyWithImpl<DmiBoard>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DmiBoard&&(identical(other.name, name) || other.name == name)&&(identical(other.vendor, vendor) || other.vendor == vendor)&&(identical(other.version, version) || other.version == version));
+  final _this = this as DmiBoard;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DmiBoard&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.vendor, _this.vendor) || other.vendor == _this.vendor)&&(identical(other.version, _this.version) || other.version == _this.version));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,vendor,version);
+int get hashCode {
+  final _this = this as DmiBoard;
+  return Object.hash(runtimeType,_this.name,_this.vendor,_this.version);
+}
 
 @override
 String toString() {
-  return 'DmiBoard(name: $name, vendor: $vendor, version: $version)';
+  final _this = this as DmiBoard;
+  return 'DmiBoard(name: ${_this.name}, vendor: ${_this.vendor}, version: ${_this.version})';
 }
 
 
@@ -995,7 +1020,7 @@ class _$DmiBoardCopyWithImpl<$Res>
 /// Create a copy of DmiBoard
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,Object? vendor = freezed,Object? version = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DmiBoard(
 name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,vendor: freezed == vendor ? _self.vendor : vendor // ignore: cast_nullable_to_non_nullable
 as String?,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
@@ -1154,16 +1179,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DmiBoard&&(identical(other.name, name) || other.name == name)&&(identical(other.vendor, vendor) || other.vendor == vendor)&&(identical(other.version, version) || other.version == version));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DmiBoard&&(identical(other.name, name) || other.name == name)&&(identical(other.vendor, vendor) || other.vendor == vendor)&&(identical(other.version, version) || other.version == version));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,vendor,version);
+int get hashCode {
+    return Object.hash(runtimeType,name,vendor,version);
+}
 
 @override
 String toString() {
-  return 'DmiBoard(name: $name, vendor: $vendor, version: $version)';
+    return 'DmiBoard(name: $name, vendor: $vendor, version: $version)';
 }
 
 
@@ -1220,16 +1247,21 @@ $DmiProductCopyWith<DmiProduct> get copyWith => _$DmiProductCopyWithImpl<DmiProd
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DmiProduct&&(identical(other.name, name) || other.name == name)&&(identical(other.family, family) || other.family == family)&&(identical(other.version, version) || other.version == version));
+  final _this = this as DmiProduct;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DmiProduct&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.family, _this.family) || other.family == _this.family)&&(identical(other.version, _this.version) || other.version == _this.version));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,family,version);
+int get hashCode {
+  final _this = this as DmiProduct;
+  return Object.hash(runtimeType,_this.name,_this.family,_this.version);
+}
 
 @override
 String toString() {
-  return 'DmiProduct(name: $name, family: $family, version: $version)';
+  final _this = this as DmiProduct;
+  return 'DmiProduct(name: ${_this.name}, family: ${_this.family}, version: ${_this.version})';
 }
 
 
@@ -1258,7 +1290,7 @@ class _$DmiProductCopyWithImpl<$Res>
 /// Create a copy of DmiProduct
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,Object? family = freezed,Object? version = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DmiProduct(
 name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,family: freezed == family ? _self.family : family // ignore: cast_nullable_to_non_nullable
 as String?,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
@@ -1417,16 +1449,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DmiProduct&&(identical(other.name, name) || other.name == name)&&(identical(other.family, family) || other.family == family)&&(identical(other.version, version) || other.version == version));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DmiProduct&&(identical(other.name, name) || other.name == name)&&(identical(other.family, family) || other.family == family)&&(identical(other.version, version) || other.version == version));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,family,version);
+int get hashCode {
+    return Object.hash(runtimeType,name,family,version);
+}
 
 @override
 String toString() {
-  return 'DmiProduct(name: $name, family: $family, version: $version)';
+    return 'DmiProduct(name: $name, family: $family, version: $version)';
 }
 
 
@@ -1483,16 +1517,21 @@ $DmiSysCopyWith<DmiSys> get copyWith => _$DmiSysCopyWithImpl<DmiSys>(this as Dmi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DmiSys&&(identical(other.vendor, vendor) || other.vendor == vendor)&&(identical(other.version, version) || other.version == version));
+  final _this = this as DmiSys;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DmiSys&&(identical(other.vendor, _this.vendor) || other.vendor == _this.vendor)&&(identical(other.version, _this.version) || other.version == _this.version));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,vendor,version);
+int get hashCode {
+  final _this = this as DmiSys;
+  return Object.hash(runtimeType,_this.vendor,_this.version);
+}
 
 @override
 String toString() {
-  return 'DmiSys(vendor: $vendor, version: $version)';
+  final _this = this as DmiSys;
+  return 'DmiSys(vendor: ${_this.vendor}, version: ${_this.version})';
 }
 
 
@@ -1521,7 +1560,7 @@ class _$DmiSysCopyWithImpl<$Res>
 /// Create a copy of DmiSys
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? vendor = freezed,Object? version = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DmiSys(
 vendor: freezed == vendor ? _self.vendor : vendor // ignore: cast_nullable_to_non_nullable
 as String?,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -1678,16 +1717,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DmiSys&&(identical(other.vendor, vendor) || other.vendor == vendor)&&(identical(other.version, version) || other.version == version));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DmiSys&&(identical(other.vendor, vendor) || other.vendor == vendor)&&(identical(other.version, version) || other.version == version));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,vendor,version);
+int get hashCode {
+    return Object.hash(runtimeType,vendor,version);
+}
 
 @override
 String toString() {
-  return 'DmiSys(vendor: $vendor, version: $version)';
+    return 'DmiSys(vendor: $vendor, version: $version)';
 }
 
 

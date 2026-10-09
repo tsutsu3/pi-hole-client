@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'ftl.dart';
@@ -9,6 +9,7 @@ part of 'ftl.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $InfoFtlCopyWith<InfoFtl> get copyWith => _$InfoFtlCopyWithImpl<InfoFtl>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoFtl&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.took, took) || other.took == took));
+  final _this = this as InfoFtl;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoFtl&&(identical(other.ftl, _this.ftl) || other.ftl == _this.ftl)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ftl,took);
+int get hashCode {
+  final _this = this as InfoFtl;
+  return Object.hash(runtimeType,_this.ftl,_this.took);
+}
 
 @override
 String toString() {
-  return 'InfoFtl(ftl: $ftl, took: $took)';
+  final _this = this as InfoFtl;
+  return 'InfoFtl(ftl: ${_this.ftl}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$InfoFtlCopyWithImpl<$Res>
 /// Create a copy of InfoFtl
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ftl = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(InfoFtl(
 ftl: null == ftl ? _self.ftl : ftl // ignore: cast_nullable_to_non_nullable
 as Ftl,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -232,16 +238,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoFtl&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoFtl&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ftl,took);
+int get hashCode {
+    return Object.hash(runtimeType,ftl,took);
+}
 
 @override
 String toString() {
-  return 'InfoFtl(ftl: $ftl, took: $took)';
+    return 'InfoFtl(ftl: $ftl, took: $took)';
 }
 
 
@@ -306,16 +314,21 @@ $FtlCopyWith<Ftl> get copyWith => _$FtlCopyWithImpl<Ftl>(this as Ftl, _$identity
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Ftl&&(identical(other.database, database) || other.database == database)&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.memPercentage, memPercentage) || other.memPercentage == memPercentage)&&(identical(other.cpuPercentage, cpuPercentage) || other.cpuPercentage == cpuPercentage)&&(identical(other.allowDestructive, allowDestructive) || other.allowDestructive == allowDestructive)&&(identical(other.dnsmasq, dnsmasq) || other.dnsmasq == dnsmasq));
+  final _this = this as Ftl;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Ftl&&(identical(other.database, _this.database) || other.database == _this.database)&&(identical(other.privacyLevel, _this.privacyLevel) || other.privacyLevel == _this.privacyLevel)&&(identical(other.clients, _this.clients) || other.clients == _this.clients)&&(identical(other.pid, _this.pid) || other.pid == _this.pid)&&(identical(other.uptime, _this.uptime) || other.uptime == _this.uptime)&&(identical(other.memPercentage, _this.memPercentage) || other.memPercentage == _this.memPercentage)&&(identical(other.cpuPercentage, _this.cpuPercentage) || other.cpuPercentage == _this.cpuPercentage)&&(identical(other.allowDestructive, _this.allowDestructive) || other.allowDestructive == _this.allowDestructive)&&(identical(other.dnsmasq, _this.dnsmasq) || other.dnsmasq == _this.dnsmasq));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,database,privacyLevel,clients,pid,uptime,memPercentage,cpuPercentage,allowDestructive,dnsmasq);
+int get hashCode {
+  final _this = this as Ftl;
+  return Object.hash(runtimeType,_this.database,_this.privacyLevel,_this.clients,_this.pid,_this.uptime,_this.memPercentage,_this.cpuPercentage,_this.allowDestructive,_this.dnsmasq);
+}
 
 @override
 String toString() {
-  return 'Ftl(database: $database, privacyLevel: $privacyLevel, clients: $clients, pid: $pid, uptime: $uptime, memPercentage: $memPercentage, cpuPercentage: $cpuPercentage, allowDestructive: $allowDestructive, dnsmasq: $dnsmasq)';
+  final _this = this as Ftl;
+  return 'Ftl(database: ${_this.database}, privacyLevel: ${_this.privacyLevel}, clients: ${_this.clients}, pid: ${_this.pid}, uptime: ${_this.uptime}, memPercentage: ${_this.memPercentage}, cpuPercentage: ${_this.cpuPercentage}, allowDestructive: ${_this.allowDestructive}, dnsmasq: ${_this.dnsmasq})';
 }
 
 
@@ -344,7 +357,7 @@ class _$FtlCopyWithImpl<$Res>
 /// Create a copy of Ftl
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? database = null,Object? privacyLevel = null,Object? clients = null,Object? pid = null,Object? uptime = null,Object? memPercentage = null,Object? cpuPercentage = null,Object? allowDestructive = null,Object? dnsmasq = null,}) {
-  return _then(_self.copyWith(
+  return _then(Ftl(
 database: null == database ? _self.database : database // ignore: cast_nullable_to_non_nullable
 as Database,privacyLevel: null == privacyLevel ? _self.privacyLevel : privacyLevel // ignore: cast_nullable_to_non_nullable
 as int,clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
@@ -542,16 +555,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Ftl&&(identical(other.database, database) || other.database == database)&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.memPercentage, memPercentage) || other.memPercentage == memPercentage)&&(identical(other.cpuPercentage, cpuPercentage) || other.cpuPercentage == cpuPercentage)&&(identical(other.allowDestructive, allowDestructive) || other.allowDestructive == allowDestructive)&&(identical(other.dnsmasq, dnsmasq) || other.dnsmasq == dnsmasq));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Ftl&&(identical(other.database, database) || other.database == database)&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.memPercentage, memPercentage) || other.memPercentage == memPercentage)&&(identical(other.cpuPercentage, cpuPercentage) || other.cpuPercentage == cpuPercentage)&&(identical(other.allowDestructive, allowDestructive) || other.allowDestructive == allowDestructive)&&(identical(other.dnsmasq, dnsmasq) || other.dnsmasq == dnsmasq));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,database,privacyLevel,clients,pid,uptime,memPercentage,cpuPercentage,allowDestructive,dnsmasq);
+int get hashCode {
+    return Object.hash(runtimeType,database,privacyLevel,clients,pid,uptime,memPercentage,cpuPercentage,allowDestructive,dnsmasq);
+}
 
 @override
 String toString() {
-  return 'Ftl(database: $database, privacyLevel: $privacyLevel, clients: $clients, pid: $pid, uptime: $uptime, memPercentage: $memPercentage, cpuPercentage: $cpuPercentage, allowDestructive: $allowDestructive, dnsmasq: $dnsmasq)';
+    return 'Ftl(database: $database, privacyLevel: $privacyLevel, clients: $clients, pid: $pid, uptime: $uptime, memPercentage: $memPercentage, cpuPercentage: $cpuPercentage, allowDestructive: $allowDestructive, dnsmasq: $dnsmasq)';
 }
 
 
@@ -641,16 +656,21 @@ $DatabaseCopyWith<Database> get copyWith => _$DatabaseCopyWithImpl<Database>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Database&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.groups, groups) || other.groups == groups)&&(identical(other.lists, lists) || other.lists == lists)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.domains, domains) || other.domains == domains)&&(identical(other.regex, regex) || other.regex == regex));
+  final _this = this as Database;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Database&&(identical(other.gravity, _this.gravity) || other.gravity == _this.gravity)&&(identical(other.groups, _this.groups) || other.groups == _this.groups)&&(identical(other.lists, _this.lists) || other.lists == _this.lists)&&(identical(other.clients, _this.clients) || other.clients == _this.clients)&&(identical(other.domains, _this.domains) || other.domains == _this.domains)&&(identical(other.regex, _this.regex) || other.regex == _this.regex));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,gravity,groups,lists,clients,domains,regex);
+int get hashCode {
+  final _this = this as Database;
+  return Object.hash(runtimeType,_this.gravity,_this.groups,_this.lists,_this.clients,_this.domains,_this.regex);
+}
 
 @override
 String toString() {
-  return 'Database(gravity: $gravity, groups: $groups, lists: $lists, clients: $clients, domains: $domains, regex: $regex)';
+  final _this = this as Database;
+  return 'Database(gravity: ${_this.gravity}, groups: ${_this.groups}, lists: ${_this.lists}, clients: ${_this.clients}, domains: ${_this.domains}, regex: ${_this.regex})';
 }
 
 
@@ -679,7 +699,7 @@ class _$DatabaseCopyWithImpl<$Res>
 /// Create a copy of Database
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? gravity = null,Object? groups = null,Object? lists = null,Object? clients = null,Object? domains = null,Object? regex = null,}) {
-  return _then(_self.copyWith(
+  return _then(Database(
 gravity: null == gravity ? _self.gravity : gravity // ignore: cast_nullable_to_non_nullable
 as int,groups: null == groups ? _self.groups : groups // ignore: cast_nullable_to_non_nullable
 as int,lists: null == lists ? _self.lists : lists // ignore: cast_nullable_to_non_nullable
@@ -862,16 +882,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Database&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.groups, groups) || other.groups == groups)&&(identical(other.lists, lists) || other.lists == lists)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.domains, domains) || other.domains == domains)&&(identical(other.regex, regex) || other.regex == regex));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Database&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.groups, groups) || other.groups == groups)&&(identical(other.lists, lists) || other.lists == lists)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.domains, domains) || other.domains == domains)&&(identical(other.regex, regex) || other.regex == regex));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,gravity,groups,lists,clients,domains,regex);
+int get hashCode {
+    return Object.hash(runtimeType,gravity,groups,lists,clients,domains,regex);
+}
 
 @override
 String toString() {
-  return 'Database(gravity: $gravity, groups: $groups, lists: $lists, clients: $clients, domains: $domains, regex: $regex)';
+    return 'Database(gravity: $gravity, groups: $groups, lists: $lists, clients: $clients, domains: $domains, regex: $regex)';
 }
 
 
@@ -949,16 +971,21 @@ $DomainsCopyWith<Domains> get copyWith => _$DomainsCopyWithImpl<Domains>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Domains&&(identical(other.allowed, allowed) || other.allowed == allowed)&&(identical(other.denied, denied) || other.denied == denied));
+  final _this = this as Domains;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Domains&&(identical(other.allowed, _this.allowed) || other.allowed == _this.allowed)&&(identical(other.denied, _this.denied) || other.denied == _this.denied));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,allowed,denied);
+int get hashCode {
+  final _this = this as Domains;
+  return Object.hash(runtimeType,_this.allowed,_this.denied);
+}
 
 @override
 String toString() {
-  return 'Domains(allowed: $allowed, denied: $denied)';
+  final _this = this as Domains;
+  return 'Domains(allowed: ${_this.allowed}, denied: ${_this.denied})';
 }
 
 
@@ -987,7 +1014,7 @@ class _$DomainsCopyWithImpl<$Res>
 /// Create a copy of Domains
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? allowed = null,Object? denied = null,}) {
-  return _then(_self.copyWith(
+  return _then(Domains(
 allowed: null == allowed ? _self.allowed : allowed // ignore: cast_nullable_to_non_nullable
 as IntOrPair,denied: null == denied ? _self.denied : denied // ignore: cast_nullable_to_non_nullable
 as IntOrPair,
@@ -1162,16 +1189,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Domains&&(identical(other.allowed, allowed) || other.allowed == allowed)&&(identical(other.denied, denied) || other.denied == denied));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Domains&&(identical(other.allowed, allowed) || other.allowed == allowed)&&(identical(other.denied, denied) || other.denied == denied));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,allowed,denied);
+int get hashCode {
+    return Object.hash(runtimeType,allowed,denied);
+}
 
 @override
 String toString() {
-  return 'Domains(allowed: $allowed, denied: $denied)';
+    return 'Domains(allowed: $allowed, denied: $denied)';
 }
 
 
@@ -1245,16 +1274,21 @@ $RegexCopyWith<Regex> get copyWith => _$RegexCopyWithImpl<Regex>(this as Regex, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Regex&&(identical(other.allowed, allowed) || other.allowed == allowed)&&(identical(other.denied, denied) || other.denied == denied));
+  final _this = this as Regex;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Regex&&(identical(other.allowed, _this.allowed) || other.allowed == _this.allowed)&&(identical(other.denied, _this.denied) || other.denied == _this.denied));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,allowed,denied);
+int get hashCode {
+  final _this = this as Regex;
+  return Object.hash(runtimeType,_this.allowed,_this.denied);
+}
 
 @override
 String toString() {
-  return 'Regex(allowed: $allowed, denied: $denied)';
+  final _this = this as Regex;
+  return 'Regex(allowed: ${_this.allowed}, denied: ${_this.denied})';
 }
 
 
@@ -1283,7 +1317,7 @@ class _$RegexCopyWithImpl<$Res>
 /// Create a copy of Regex
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? allowed = null,Object? denied = null,}) {
-  return _then(_self.copyWith(
+  return _then(Regex(
 allowed: null == allowed ? _self.allowed : allowed // ignore: cast_nullable_to_non_nullable
 as IntOrPair,denied: null == denied ? _self.denied : denied // ignore: cast_nullable_to_non_nullable
 as IntOrPair,
@@ -1458,16 +1492,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Regex&&(identical(other.allowed, allowed) || other.allowed == allowed)&&(identical(other.denied, denied) || other.denied == denied));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Regex&&(identical(other.allowed, allowed) || other.allowed == allowed)&&(identical(other.denied, denied) || other.denied == denied));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,allowed,denied);
+int get hashCode {
+    return Object.hash(runtimeType,allowed,denied);
+}
 
 @override
 String toString() {
-  return 'Regex(allowed: $allowed, denied: $denied)';
+    return 'Regex(allowed: $allowed, denied: $denied)';
 }
 
 
@@ -1541,16 +1577,21 @@ $ClientsCopyWith<Clients> get copyWith => _$ClientsCopyWithImpl<Clients>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Clients&&(identical(other.total, total) || other.total == total)&&(identical(other.active, active) || other.active == active));
+  final _this = this as Clients;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Clients&&(identical(other.total, _this.total) || other.total == _this.total)&&(identical(other.active, _this.active) || other.active == _this.active));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,active);
+int get hashCode {
+  final _this = this as Clients;
+  return Object.hash(runtimeType,_this.total,_this.active);
+}
 
 @override
 String toString() {
-  return 'Clients(total: $total, active: $active)';
+  final _this = this as Clients;
+  return 'Clients(total: ${_this.total}, active: ${_this.active})';
 }
 
 
@@ -1579,7 +1620,7 @@ class _$ClientsCopyWithImpl<$Res>
 /// Create a copy of Clients
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? total = null,Object? active = null,}) {
-  return _then(_self.copyWith(
+  return _then(Clients(
 total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,active: null == active ? _self.active : active // ignore: cast_nullable_to_non_nullable
 as int,
@@ -1736,16 +1777,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Clients&&(identical(other.total, total) || other.total == total)&&(identical(other.active, active) || other.active == active));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Clients&&(identical(other.total, total) || other.total == total)&&(identical(other.active, active) || other.active == active));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,active);
+int get hashCode {
+    return Object.hash(runtimeType,total,active);
+}
 
 @override
 String toString() {
-  return 'Clients(total: $total, active: $active)';
+    return 'Clients(total: $total, active: $active)';
 }
 
 
@@ -1801,16 +1844,21 @@ $DnsmasqCopyWith<Dnsmasq> get copyWith => _$DnsmasqCopyWithImpl<Dnsmasq>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Dnsmasq&&(identical(other.dnsCacheInserted, dnsCacheInserted) || other.dnsCacheInserted == dnsCacheInserted)&&(identical(other.dnsCacheLiveFreed, dnsCacheLiveFreed) || other.dnsCacheLiveFreed == dnsCacheLiveFreed)&&(identical(other.dnsQueriesForwarded, dnsQueriesForwarded) || other.dnsQueriesForwarded == dnsQueriesForwarded)&&(identical(other.dnsAuthAnswered, dnsAuthAnswered) || other.dnsAuthAnswered == dnsAuthAnswered)&&(identical(other.dnsLocalAnswered, dnsLocalAnswered) || other.dnsLocalAnswered == dnsLocalAnswered)&&(identical(other.dnsStaleAnswered, dnsStaleAnswered) || other.dnsStaleAnswered == dnsStaleAnswered)&&(identical(other.dnsUnanswered, dnsUnanswered) || other.dnsUnanswered == dnsUnanswered)&&(identical(other.bootp, bootp) || other.bootp == bootp)&&(identical(other.pxe, pxe) || other.pxe == pxe)&&(identical(other.dhcpAck, dhcpAck) || other.dhcpAck == dhcpAck)&&(identical(other.dhcpDecline, dhcpDecline) || other.dhcpDecline == dhcpDecline)&&(identical(other.dhcpDiscover, dhcpDiscover) || other.dhcpDiscover == dhcpDiscover)&&(identical(other.dhcpInform, dhcpInform) || other.dhcpInform == dhcpInform)&&(identical(other.dhcpNak, dhcpNak) || other.dhcpNak == dhcpNak)&&(identical(other.dhcpOffer, dhcpOffer) || other.dhcpOffer == dhcpOffer)&&(identical(other.dhcpRelease, dhcpRelease) || other.dhcpRelease == dhcpRelease)&&(identical(other.dhcpRequest, dhcpRequest) || other.dhcpRequest == dhcpRequest)&&(identical(other.noAnswer, noAnswer) || other.noAnswer == noAnswer)&&(identical(other.leasesAllocated4, leasesAllocated4) || other.leasesAllocated4 == leasesAllocated4)&&(identical(other.leasesPruned4, leasesPruned4) || other.leasesPruned4 == leasesPruned4)&&(identical(other.leasesAllocated6, leasesAllocated6) || other.leasesAllocated6 == leasesAllocated6)&&(identical(other.leasesPruned6, leasesPruned6) || other.leasesPruned6 == leasesPruned6)&&(identical(other.tcpConnections, tcpConnections) || other.tcpConnections == tcpConnections)&&(identical(other.dnssecMaxCryptoUse, dnssecMaxCryptoUse) || other.dnssecMaxCryptoUse == dnssecMaxCryptoUse)&&(identical(other.dnssecMaxSigFail, dnssecMaxSigFail) || other.dnssecMaxSigFail == dnssecMaxSigFail)&&(identical(other.dnssecMaxWork, dnssecMaxWork) || other.dnssecMaxWork == dnssecMaxWork));
+  final _this = this as Dnsmasq;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Dnsmasq&&(identical(other.dnsCacheInserted, _this.dnsCacheInserted) || other.dnsCacheInserted == _this.dnsCacheInserted)&&(identical(other.dnsCacheLiveFreed, _this.dnsCacheLiveFreed) || other.dnsCacheLiveFreed == _this.dnsCacheLiveFreed)&&(identical(other.dnsQueriesForwarded, _this.dnsQueriesForwarded) || other.dnsQueriesForwarded == _this.dnsQueriesForwarded)&&(identical(other.dnsAuthAnswered, _this.dnsAuthAnswered) || other.dnsAuthAnswered == _this.dnsAuthAnswered)&&(identical(other.dnsLocalAnswered, _this.dnsLocalAnswered) || other.dnsLocalAnswered == _this.dnsLocalAnswered)&&(identical(other.dnsStaleAnswered, _this.dnsStaleAnswered) || other.dnsStaleAnswered == _this.dnsStaleAnswered)&&(identical(other.dnsUnanswered, _this.dnsUnanswered) || other.dnsUnanswered == _this.dnsUnanswered)&&(identical(other.bootp, _this.bootp) || other.bootp == _this.bootp)&&(identical(other.pxe, _this.pxe) || other.pxe == _this.pxe)&&(identical(other.dhcpAck, _this.dhcpAck) || other.dhcpAck == _this.dhcpAck)&&(identical(other.dhcpDecline, _this.dhcpDecline) || other.dhcpDecline == _this.dhcpDecline)&&(identical(other.dhcpDiscover, _this.dhcpDiscover) || other.dhcpDiscover == _this.dhcpDiscover)&&(identical(other.dhcpInform, _this.dhcpInform) || other.dhcpInform == _this.dhcpInform)&&(identical(other.dhcpNak, _this.dhcpNak) || other.dhcpNak == _this.dhcpNak)&&(identical(other.dhcpOffer, _this.dhcpOffer) || other.dhcpOffer == _this.dhcpOffer)&&(identical(other.dhcpRelease, _this.dhcpRelease) || other.dhcpRelease == _this.dhcpRelease)&&(identical(other.dhcpRequest, _this.dhcpRequest) || other.dhcpRequest == _this.dhcpRequest)&&(identical(other.noAnswer, _this.noAnswer) || other.noAnswer == _this.noAnswer)&&(identical(other.leasesAllocated4, _this.leasesAllocated4) || other.leasesAllocated4 == _this.leasesAllocated4)&&(identical(other.leasesPruned4, _this.leasesPruned4) || other.leasesPruned4 == _this.leasesPruned4)&&(identical(other.leasesAllocated6, _this.leasesAllocated6) || other.leasesAllocated6 == _this.leasesAllocated6)&&(identical(other.leasesPruned6, _this.leasesPruned6) || other.leasesPruned6 == _this.leasesPruned6)&&(identical(other.tcpConnections, _this.tcpConnections) || other.tcpConnections == _this.tcpConnections)&&(identical(other.dnssecMaxCryptoUse, _this.dnssecMaxCryptoUse) || other.dnssecMaxCryptoUse == _this.dnssecMaxCryptoUse)&&(identical(other.dnssecMaxSigFail, _this.dnssecMaxSigFail) || other.dnssecMaxSigFail == _this.dnssecMaxSigFail)&&(identical(other.dnssecMaxWork, _this.dnssecMaxWork) || other.dnssecMaxWork == _this.dnssecMaxWork));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,dnsCacheInserted,dnsCacheLiveFreed,dnsQueriesForwarded,dnsAuthAnswered,dnsLocalAnswered,dnsStaleAnswered,dnsUnanswered,bootp,pxe,dhcpAck,dhcpDecline,dhcpDiscover,dhcpInform,dhcpNak,dhcpOffer,dhcpRelease,dhcpRequest,noAnswer,leasesAllocated4,leasesPruned4,leasesAllocated6,leasesPruned6,tcpConnections,dnssecMaxCryptoUse,dnssecMaxSigFail,dnssecMaxWork]);
+int get hashCode {
+  final _this = this as Dnsmasq;
+  return Object.hashAll([runtimeType,_this.dnsCacheInserted,_this.dnsCacheLiveFreed,_this.dnsQueriesForwarded,_this.dnsAuthAnswered,_this.dnsLocalAnswered,_this.dnsStaleAnswered,_this.dnsUnanswered,_this.bootp,_this.pxe,_this.dhcpAck,_this.dhcpDecline,_this.dhcpDiscover,_this.dhcpInform,_this.dhcpNak,_this.dhcpOffer,_this.dhcpRelease,_this.dhcpRequest,_this.noAnswer,_this.leasesAllocated4,_this.leasesPruned4,_this.leasesAllocated6,_this.leasesPruned6,_this.tcpConnections,_this.dnssecMaxCryptoUse,_this.dnssecMaxSigFail,_this.dnssecMaxWork]);
+}
 
 @override
 String toString() {
-  return 'Dnsmasq(dnsCacheInserted: $dnsCacheInserted, dnsCacheLiveFreed: $dnsCacheLiveFreed, dnsQueriesForwarded: $dnsQueriesForwarded, dnsAuthAnswered: $dnsAuthAnswered, dnsLocalAnswered: $dnsLocalAnswered, dnsStaleAnswered: $dnsStaleAnswered, dnsUnanswered: $dnsUnanswered, bootp: $bootp, pxe: $pxe, dhcpAck: $dhcpAck, dhcpDecline: $dhcpDecline, dhcpDiscover: $dhcpDiscover, dhcpInform: $dhcpInform, dhcpNak: $dhcpNak, dhcpOffer: $dhcpOffer, dhcpRelease: $dhcpRelease, dhcpRequest: $dhcpRequest, noAnswer: $noAnswer, leasesAllocated4: $leasesAllocated4, leasesPruned4: $leasesPruned4, leasesAllocated6: $leasesAllocated6, leasesPruned6: $leasesPruned6, tcpConnections: $tcpConnections, dnssecMaxCryptoUse: $dnssecMaxCryptoUse, dnssecMaxSigFail: $dnssecMaxSigFail, dnssecMaxWork: $dnssecMaxWork)';
+  final _this = this as Dnsmasq;
+  return 'Dnsmasq(dnsCacheInserted: ${_this.dnsCacheInserted}, dnsCacheLiveFreed: ${_this.dnsCacheLiveFreed}, dnsQueriesForwarded: ${_this.dnsQueriesForwarded}, dnsAuthAnswered: ${_this.dnsAuthAnswered}, dnsLocalAnswered: ${_this.dnsLocalAnswered}, dnsStaleAnswered: ${_this.dnsStaleAnswered}, dnsUnanswered: ${_this.dnsUnanswered}, bootp: ${_this.bootp}, pxe: ${_this.pxe}, dhcpAck: ${_this.dhcpAck}, dhcpDecline: ${_this.dhcpDecline}, dhcpDiscover: ${_this.dhcpDiscover}, dhcpInform: ${_this.dhcpInform}, dhcpNak: ${_this.dhcpNak}, dhcpOffer: ${_this.dhcpOffer}, dhcpRelease: ${_this.dhcpRelease}, dhcpRequest: ${_this.dhcpRequest}, noAnswer: ${_this.noAnswer}, leasesAllocated4: ${_this.leasesAllocated4}, leasesPruned4: ${_this.leasesPruned4}, leasesAllocated6: ${_this.leasesAllocated6}, leasesPruned6: ${_this.leasesPruned6}, tcpConnections: ${_this.tcpConnections}, dnssecMaxCryptoUse: ${_this.dnssecMaxCryptoUse}, dnssecMaxSigFail: ${_this.dnssecMaxSigFail}, dnssecMaxWork: ${_this.dnssecMaxWork})';
 }
 
 
@@ -1839,7 +1887,7 @@ class _$DnsmasqCopyWithImpl<$Res>
 /// Create a copy of Dnsmasq
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? dnsCacheInserted = null,Object? dnsCacheLiveFreed = null,Object? dnsQueriesForwarded = null,Object? dnsAuthAnswered = null,Object? dnsLocalAnswered = null,Object? dnsStaleAnswered = null,Object? dnsUnanswered = null,Object? bootp = null,Object? pxe = null,Object? dhcpAck = null,Object? dhcpDecline = null,Object? dhcpDiscover = null,Object? dhcpInform = null,Object? dhcpNak = null,Object? dhcpOffer = null,Object? dhcpRelease = null,Object? dhcpRequest = null,Object? noAnswer = null,Object? leasesAllocated4 = null,Object? leasesPruned4 = null,Object? leasesAllocated6 = null,Object? leasesPruned6 = null,Object? tcpConnections = null,Object? dnssecMaxCryptoUse = null,Object? dnssecMaxSigFail = null,Object? dnssecMaxWork = null,}) {
-  return _then(_self.copyWith(
+  return _then(Dnsmasq(
 dnsCacheInserted: null == dnsCacheInserted ? _self.dnsCacheInserted : dnsCacheInserted // ignore: cast_nullable_to_non_nullable
 as int,dnsCacheLiveFreed: null == dnsCacheLiveFreed ? _self.dnsCacheLiveFreed : dnsCacheLiveFreed // ignore: cast_nullable_to_non_nullable
 as int,dnsQueriesForwarded: null == dnsQueriesForwarded ? _self.dnsQueriesForwarded : dnsQueriesForwarded // ignore: cast_nullable_to_non_nullable
@@ -2044,16 +2092,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Dnsmasq&&(identical(other.dnsCacheInserted, dnsCacheInserted) || other.dnsCacheInserted == dnsCacheInserted)&&(identical(other.dnsCacheLiveFreed, dnsCacheLiveFreed) || other.dnsCacheLiveFreed == dnsCacheLiveFreed)&&(identical(other.dnsQueriesForwarded, dnsQueriesForwarded) || other.dnsQueriesForwarded == dnsQueriesForwarded)&&(identical(other.dnsAuthAnswered, dnsAuthAnswered) || other.dnsAuthAnswered == dnsAuthAnswered)&&(identical(other.dnsLocalAnswered, dnsLocalAnswered) || other.dnsLocalAnswered == dnsLocalAnswered)&&(identical(other.dnsStaleAnswered, dnsStaleAnswered) || other.dnsStaleAnswered == dnsStaleAnswered)&&(identical(other.dnsUnanswered, dnsUnanswered) || other.dnsUnanswered == dnsUnanswered)&&(identical(other.bootp, bootp) || other.bootp == bootp)&&(identical(other.pxe, pxe) || other.pxe == pxe)&&(identical(other.dhcpAck, dhcpAck) || other.dhcpAck == dhcpAck)&&(identical(other.dhcpDecline, dhcpDecline) || other.dhcpDecline == dhcpDecline)&&(identical(other.dhcpDiscover, dhcpDiscover) || other.dhcpDiscover == dhcpDiscover)&&(identical(other.dhcpInform, dhcpInform) || other.dhcpInform == dhcpInform)&&(identical(other.dhcpNak, dhcpNak) || other.dhcpNak == dhcpNak)&&(identical(other.dhcpOffer, dhcpOffer) || other.dhcpOffer == dhcpOffer)&&(identical(other.dhcpRelease, dhcpRelease) || other.dhcpRelease == dhcpRelease)&&(identical(other.dhcpRequest, dhcpRequest) || other.dhcpRequest == dhcpRequest)&&(identical(other.noAnswer, noAnswer) || other.noAnswer == noAnswer)&&(identical(other.leasesAllocated4, leasesAllocated4) || other.leasesAllocated4 == leasesAllocated4)&&(identical(other.leasesPruned4, leasesPruned4) || other.leasesPruned4 == leasesPruned4)&&(identical(other.leasesAllocated6, leasesAllocated6) || other.leasesAllocated6 == leasesAllocated6)&&(identical(other.leasesPruned6, leasesPruned6) || other.leasesPruned6 == leasesPruned6)&&(identical(other.tcpConnections, tcpConnections) || other.tcpConnections == tcpConnections)&&(identical(other.dnssecMaxCryptoUse, dnssecMaxCryptoUse) || other.dnssecMaxCryptoUse == dnssecMaxCryptoUse)&&(identical(other.dnssecMaxSigFail, dnssecMaxSigFail) || other.dnssecMaxSigFail == dnssecMaxSigFail)&&(identical(other.dnssecMaxWork, dnssecMaxWork) || other.dnssecMaxWork == dnssecMaxWork));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Dnsmasq&&(identical(other.dnsCacheInserted, dnsCacheInserted) || other.dnsCacheInserted == dnsCacheInserted)&&(identical(other.dnsCacheLiveFreed, dnsCacheLiveFreed) || other.dnsCacheLiveFreed == dnsCacheLiveFreed)&&(identical(other.dnsQueriesForwarded, dnsQueriesForwarded) || other.dnsQueriesForwarded == dnsQueriesForwarded)&&(identical(other.dnsAuthAnswered, dnsAuthAnswered) || other.dnsAuthAnswered == dnsAuthAnswered)&&(identical(other.dnsLocalAnswered, dnsLocalAnswered) || other.dnsLocalAnswered == dnsLocalAnswered)&&(identical(other.dnsStaleAnswered, dnsStaleAnswered) || other.dnsStaleAnswered == dnsStaleAnswered)&&(identical(other.dnsUnanswered, dnsUnanswered) || other.dnsUnanswered == dnsUnanswered)&&(identical(other.bootp, bootp) || other.bootp == bootp)&&(identical(other.pxe, pxe) || other.pxe == pxe)&&(identical(other.dhcpAck, dhcpAck) || other.dhcpAck == dhcpAck)&&(identical(other.dhcpDecline, dhcpDecline) || other.dhcpDecline == dhcpDecline)&&(identical(other.dhcpDiscover, dhcpDiscover) || other.dhcpDiscover == dhcpDiscover)&&(identical(other.dhcpInform, dhcpInform) || other.dhcpInform == dhcpInform)&&(identical(other.dhcpNak, dhcpNak) || other.dhcpNak == dhcpNak)&&(identical(other.dhcpOffer, dhcpOffer) || other.dhcpOffer == dhcpOffer)&&(identical(other.dhcpRelease, dhcpRelease) || other.dhcpRelease == dhcpRelease)&&(identical(other.dhcpRequest, dhcpRequest) || other.dhcpRequest == dhcpRequest)&&(identical(other.noAnswer, noAnswer) || other.noAnswer == noAnswer)&&(identical(other.leasesAllocated4, leasesAllocated4) || other.leasesAllocated4 == leasesAllocated4)&&(identical(other.leasesPruned4, leasesPruned4) || other.leasesPruned4 == leasesPruned4)&&(identical(other.leasesAllocated6, leasesAllocated6) || other.leasesAllocated6 == leasesAllocated6)&&(identical(other.leasesPruned6, leasesPruned6) || other.leasesPruned6 == leasesPruned6)&&(identical(other.tcpConnections, tcpConnections) || other.tcpConnections == tcpConnections)&&(identical(other.dnssecMaxCryptoUse, dnssecMaxCryptoUse) || other.dnssecMaxCryptoUse == dnssecMaxCryptoUse)&&(identical(other.dnssecMaxSigFail, dnssecMaxSigFail) || other.dnssecMaxSigFail == dnssecMaxSigFail)&&(identical(other.dnssecMaxWork, dnssecMaxWork) || other.dnssecMaxWork == dnssecMaxWork));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,dnsCacheInserted,dnsCacheLiveFreed,dnsQueriesForwarded,dnsAuthAnswered,dnsLocalAnswered,dnsStaleAnswered,dnsUnanswered,bootp,pxe,dhcpAck,dhcpDecline,dhcpDiscover,dhcpInform,dhcpNak,dhcpOffer,dhcpRelease,dhcpRequest,noAnswer,leasesAllocated4,leasesPruned4,leasesAllocated6,leasesPruned6,tcpConnections,dnssecMaxCryptoUse,dnssecMaxSigFail,dnssecMaxWork]);
+int get hashCode {
+    return Object.hashAll([runtimeType,dnsCacheInserted,dnsCacheLiveFreed,dnsQueriesForwarded,dnsAuthAnswered,dnsLocalAnswered,dnsStaleAnswered,dnsUnanswered,bootp,pxe,dhcpAck,dhcpDecline,dhcpDiscover,dhcpInform,dhcpNak,dhcpOffer,dhcpRelease,dhcpRequest,noAnswer,leasesAllocated4,leasesPruned4,leasesAllocated6,leasesPruned6,tcpConnections,dnssecMaxCryptoUse,dnssecMaxSigFail,dnssecMaxWork]);
+}
 
 @override
 String toString() {
-  return 'Dnsmasq(dnsCacheInserted: $dnsCacheInserted, dnsCacheLiveFreed: $dnsCacheLiveFreed, dnsQueriesForwarded: $dnsQueriesForwarded, dnsAuthAnswered: $dnsAuthAnswered, dnsLocalAnswered: $dnsLocalAnswered, dnsStaleAnswered: $dnsStaleAnswered, dnsUnanswered: $dnsUnanswered, bootp: $bootp, pxe: $pxe, dhcpAck: $dhcpAck, dhcpDecline: $dhcpDecline, dhcpDiscover: $dhcpDiscover, dhcpInform: $dhcpInform, dhcpNak: $dhcpNak, dhcpOffer: $dhcpOffer, dhcpRelease: $dhcpRelease, dhcpRequest: $dhcpRequest, noAnswer: $noAnswer, leasesAllocated4: $leasesAllocated4, leasesPruned4: $leasesPruned4, leasesAllocated6: $leasesAllocated6, leasesPruned6: $leasesPruned6, tcpConnections: $tcpConnections, dnssecMaxCryptoUse: $dnssecMaxCryptoUse, dnssecMaxSigFail: $dnssecMaxSigFail, dnssecMaxWork: $dnssecMaxWork)';
+    return 'Dnsmasq(dnsCacheInserted: $dnsCacheInserted, dnsCacheLiveFreed: $dnsCacheLiveFreed, dnsQueriesForwarded: $dnsQueriesForwarded, dnsAuthAnswered: $dnsAuthAnswered, dnsLocalAnswered: $dnsLocalAnswered, dnsStaleAnswered: $dnsStaleAnswered, dnsUnanswered: $dnsUnanswered, bootp: $bootp, pxe: $pxe, dhcpAck: $dhcpAck, dhcpDecline: $dhcpDecline, dhcpDiscover: $dhcpDiscover, dhcpInform: $dhcpInform, dhcpNak: $dhcpNak, dhcpOffer: $dhcpOffer, dhcpRelease: $dhcpRelease, dhcpRequest: $dhcpRequest, noAnswer: $noAnswer, leasesAllocated4: $leasesAllocated4, leasesPruned4: $leasesPruned4, leasesAllocated6: $leasesAllocated6, leasesPruned6: $leasesPruned6, tcpConnections: $tcpConnections, dnssecMaxCryptoUse: $dnssecMaxCryptoUse, dnssecMaxSigFail: $dnssecMaxSigFail, dnssecMaxWork: $dnssecMaxWork)';
 }
 
 
@@ -2133,16 +2183,21 @@ $CountPairCopyWith<CountPair> get copyWith => _$CountPairCopyWithImpl<CountPair>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CountPair&&(identical(other.total, total) || other.total == total)&&(identical(other.enabled, enabled) || other.enabled == enabled));
+  final _this = this as CountPair;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CountPair&&(identical(other.total, _this.total) || other.total == _this.total)&&(identical(other.enabled, _this.enabled) || other.enabled == _this.enabled));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,enabled);
+int get hashCode {
+  final _this = this as CountPair;
+  return Object.hash(runtimeType,_this.total,_this.enabled);
+}
 
 @override
 String toString() {
-  return 'CountPair(total: $total, enabled: $enabled)';
+  final _this = this as CountPair;
+  return 'CountPair(total: ${_this.total}, enabled: ${_this.enabled})';
 }
 
 
@@ -2171,7 +2226,7 @@ class _$CountPairCopyWithImpl<$Res>
 /// Create a copy of CountPair
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? total = null,Object? enabled = null,}) {
-  return _then(_self.copyWith(
+  return _then(CountPair(
 total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,enabled: null == enabled ? _self.enabled : enabled // ignore: cast_nullable_to_non_nullable
 as int,
@@ -2328,16 +2383,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CountPair&&(identical(other.total, total) || other.total == total)&&(identical(other.enabled, enabled) || other.enabled == enabled));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CountPair&&(identical(other.total, total) || other.total == total)&&(identical(other.enabled, enabled) || other.enabled == enabled));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,enabled);
+int get hashCode {
+    return Object.hash(runtimeType,total,enabled);
+}
 
 @override
 String toString() {
-  return 'CountPair(total: $total, enabled: $enabled)';
+    return 'CountPair(total: $total, enabled: $enabled)';
 }
 
 
@@ -2385,7 +2442,7 @@ mixin _$IntOrPair {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is IntOrPair);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is IntOrPair);
 }
 
 
@@ -2394,7 +2451,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'IntOrPair()';
+    return 'IntOrPair()';
 }
 
 
@@ -2555,16 +2612,18 @@ _$IntValueCopyWith<_IntValue> get copyWith => __$IntValueCopyWithImpl<_IntValue>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IntValue&&(identical(other.value, value) || other.value == value));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _IntValue&&(identical(other.value, value) || other.value == value));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,value);
+int get hashCode {
+    return Object.hash(runtimeType,value);
+}
 
 @override
 String toString() {
-  return 'IntOrPair.intValue(value: $value)';
+    return 'IntOrPair.intValue(value: $value)';
 }
 
 
@@ -2621,16 +2680,18 @@ _$PairValueCopyWith<_PairValue> get copyWith => __$PairValueCopyWithImpl<_PairVa
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PairValue&&(identical(other.pair, pair) || other.pair == pair));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PairValue&&(identical(other.pair, pair) || other.pair == pair));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,pair);
+int get hashCode {
+    return Object.hash(runtimeType,pair);
+}
 
 @override
 String toString() {
-  return 'IntOrPair.pairValue(pair: $pair)';
+    return 'IntOrPair.pairValue(pair: $pair)';
 }
 
 

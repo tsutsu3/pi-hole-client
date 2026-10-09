@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'client.dart';
@@ -9,6 +9,7 @@ part of 'client.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $InfoClientCopyWith<InfoClient> get copyWith => _$InfoClientCopyWithImpl<InfoCli
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoClient&&(identical(other.remoteAddr, remoteAddr) || other.remoteAddr == remoteAddr)&&(identical(other.httpVersion, httpVersion) || other.httpVersion == httpVersion)&&(identical(other.method, method) || other.method == method)&&const DeepCollectionEquality().equals(other.headers, headers)&&(identical(other.took, took) || other.took == took));
+  final _this = this as InfoClient;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoClient&&(identical(other.remoteAddr, _this.remoteAddr) || other.remoteAddr == _this.remoteAddr)&&(identical(other.httpVersion, _this.httpVersion) || other.httpVersion == _this.httpVersion)&&(identical(other.method, _this.method) || other.method == _this.method)&&const DeepCollectionEquality().equals(other.headers, _this.headers)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,remoteAddr,httpVersion,method,const DeepCollectionEquality().hash(headers),took);
+int get hashCode {
+  final _this = this as InfoClient;
+  return Object.hash(runtimeType,_this.remoteAddr,_this.httpVersion,_this.method,const DeepCollectionEquality().hash(_this.headers),_this.took);
+}
 
 @override
 String toString() {
-  return 'InfoClient(remoteAddr: $remoteAddr, httpVersion: $httpVersion, method: $method, headers: $headers, took: $took)';
+  final _this = this as InfoClient;
+  return 'InfoClient(remoteAddr: ${_this.remoteAddr}, httpVersion: ${_this.httpVersion}, method: ${_this.method}, headers: ${_this.headers}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$InfoClientCopyWithImpl<$Res>
 /// Create a copy of InfoClient
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? remoteAddr = null,Object? httpVersion = null,Object? method = null,Object? headers = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(InfoClient(
 remoteAddr: null == remoteAddr ? _self.remoteAddr : remoteAddr // ignore: cast_nullable_to_non_nullable
 as String,httpVersion: null == httpVersion ? _self.httpVersion : httpVersion // ignore: cast_nullable_to_non_nullable
 as String,method: null == method ? _self.method : method // ignore: cast_nullable_to_non_nullable
@@ -207,7 +213,7 @@ return $default(_that.remoteAddr,_that.httpVersion,_that.method,_that.headers,_t
 
 @JsonSerializable(explicitToJson: true)
 class _InfoClient implements InfoClient {
-  const _InfoClient({@JsonKey(name: 'remote_addr') required this.remoteAddr, @JsonKey(name: 'http_version') required this.httpVersion, required this.method, required final  List<Header> headers, required this.took}): _headers = headers;
+  const _InfoClient({@JsonKey(name: 'remote_addr') required this.remoteAddr, @JsonKey(name: 'http_version') required this.httpVersion, required this.method, required  List<Header> headers, required this.took}): _headers = headers;
   factory _InfoClient.fromJson(Map<String, dynamic> json) => _$InfoClientFromJson(json);
 
 @override@JsonKey(name: 'remote_addr') final  String remoteAddr;
@@ -235,16 +241,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoClient&&(identical(other.remoteAddr, remoteAddr) || other.remoteAddr == remoteAddr)&&(identical(other.httpVersion, httpVersion) || other.httpVersion == httpVersion)&&(identical(other.method, method) || other.method == method)&&const DeepCollectionEquality().equals(other._headers, _headers)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoClient&&(identical(other.remoteAddr, remoteAddr) || other.remoteAddr == remoteAddr)&&(identical(other.httpVersion, httpVersion) || other.httpVersion == httpVersion)&&(identical(other.method, method) || other.method == method)&&const DeepCollectionEquality().equals(other.headers, _headers)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,remoteAddr,httpVersion,method,const DeepCollectionEquality().hash(_headers),took);
+int get hashCode {
+    return Object.hash(runtimeType,remoteAddr,httpVersion,method,const DeepCollectionEquality().hash(_headers),took);
+}
 
 @override
 String toString() {
-  return 'InfoClient(remoteAddr: $remoteAddr, httpVersion: $httpVersion, method: $method, headers: $headers, took: $took)';
+    return 'InfoClient(remoteAddr: $remoteAddr, httpVersion: $httpVersion, method: $method, headers: $headers, took: $took)';
 }
 
 
@@ -303,16 +311,21 @@ $HeaderCopyWith<Header> get copyWith => _$HeaderCopyWithImpl<Header>(this as Hea
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Header&&(identical(other.name, name) || other.name == name)&&(identical(other.value, value) || other.value == value));
+  final _this = this as Header;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Header&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.value, _this.value) || other.value == _this.value));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,value);
+int get hashCode {
+  final _this = this as Header;
+  return Object.hash(runtimeType,_this.name,_this.value);
+}
 
 @override
 String toString() {
-  return 'Header(name: $name, value: $value)';
+  final _this = this as Header;
+  return 'Header(name: ${_this.name}, value: ${_this.value})';
 }
 
 
@@ -341,7 +354,7 @@ class _$HeaderCopyWithImpl<$Res>
 /// Create a copy of Header
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? value = null,}) {
-  return _then(_self.copyWith(
+  return _then(Header(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as String,
@@ -498,16 +511,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Header&&(identical(other.name, name) || other.name == name)&&(identical(other.value, value) || other.value == value));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Header&&(identical(other.name, name) || other.name == name)&&(identical(other.value, value) || other.value == value));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,value);
+int get hashCode {
+    return Object.hash(runtimeType,name,value);
+}
 
 @override
 String toString() {
-  return 'Header(name: $name, value: $value)';
+    return 'Header(name: $name, value: $value)';
 }
 
 

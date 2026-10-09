@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'clients.dart';
@@ -9,6 +9,7 @@ part of 'clients.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $ClientsCopyWith<Clients> get copyWith => _$ClientsCopyWithImpl<Clients>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Clients&&const DeepCollectionEquality().equals(other.clients, clients)&&const DeepCollectionEquality().equals(other.clientEntries, clientEntries));
+  final _this = this as Clients;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Clients&&const DeepCollectionEquality().equals(other.clients, _this.clients)&&const DeepCollectionEquality().equals(other.clientEntries, _this.clientEntries));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(clients),const DeepCollectionEquality().hash(clientEntries));
+int get hashCode {
+  final _this = this as Clients;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.clients),const DeepCollectionEquality().hash(_this.clientEntries));
+}
 
 @override
 String toString() {
-  return 'Clients(clients: $clients, clientEntries: $clientEntries)';
+  final _this = this as Clients;
+  return 'Clients(clients: ${_this.clients}, clientEntries: ${_this.clientEntries})';
 }
 
 
@@ -66,7 +72,7 @@ class _$ClientsCopyWithImpl<$Res>
 /// Create a copy of Clients
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? clients = null,Object? clientEntries = null,}) {
-  return _then(_self.copyWith(
+  return _then(Clients(
 clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
 as List<Client>,clientEntries: null == clientEntries ? _self.clientEntries : clientEntries // ignore: cast_nullable_to_non_nullable
 as List<ClientOverTimeEntry>,
@@ -204,7 +210,7 @@ return $default(_that.clients,_that.clientEntries);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _Clients implements Clients {
-  const _Clients({required final  List<Client> clients, required final  List<ClientOverTimeEntry> clientEntries}): _clients = clients,_clientEntries = clientEntries;
+  const _Clients({required  List<Client> clients, required  List<ClientOverTimeEntry> clientEntries}): _clients = clients,_clientEntries = clientEntries;
   factory _Clients.fromJson(Map<String, dynamic> json) => _$ClientsFromJson(json);
 
  final  List<Client> _clients;
@@ -235,16 +241,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Clients&&const DeepCollectionEquality().equals(other._clients, _clients)&&const DeepCollectionEquality().equals(other._clientEntries, _clientEntries));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Clients&&const DeepCollectionEquality().equals(other.clients, _clients)&&const DeepCollectionEquality().equals(other.clientEntries, _clientEntries));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_clients),const DeepCollectionEquality().hash(_clientEntries));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_clients),const DeepCollectionEquality().hash(_clientEntries));
+}
 
 @override
 String toString() {
-  return 'Clients(clients: $clients, clientEntries: $clientEntries)';
+    return 'Clients(clients: $clients, clientEntries: $clientEntries)';
 }
 
 
@@ -300,16 +308,21 @@ $ClientCopyWith<Client> get copyWith => _$ClientCopyWithImpl<Client>(this as Cli
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Client&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.total, total) || other.total == total));
+  final _this = this as Client;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Client&&(identical(other.ip, _this.ip) || other.ip == _this.ip)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.total, _this.total) || other.total == _this.total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ip,name,total);
+int get hashCode {
+  final _this = this as Client;
+  return Object.hash(runtimeType,_this.ip,_this.name,_this.total);
+}
 
 @override
 String toString() {
-  return 'Client(ip: $ip, name: $name, total: $total)';
+  final _this = this as Client;
+  return 'Client(ip: ${_this.ip}, name: ${_this.name}, total: ${_this.total})';
 }
 
 
@@ -338,7 +351,7 @@ class _$ClientCopyWithImpl<$Res>
 /// Create a copy of Client
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ip = null,Object? name = freezed,Object? total = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Client(
 ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
 as String,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,total: freezed == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
@@ -497,16 +510,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Client&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.total, total) || other.total == total));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Client&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.total, total) || other.total == total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ip,name,total);
+int get hashCode {
+    return Object.hash(runtimeType,ip,name,total);
+}
 
 @override
 String toString() {
-  return 'Client(ip: $ip, name: $name, total: $total)';
+    return 'Client(ip: $ip, name: $name, total: $total)';
 }
 
 
@@ -563,16 +578,21 @@ $ClientOverTimeEntryCopyWith<ClientOverTimeEntry> get copyWith => _$ClientOverTi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClientOverTimeEntry&&(identical(other.time, time) || other.time == time)&&const DeepCollectionEquality().equals(other.values, values));
+  final _this = this as ClientOverTimeEntry;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ClientOverTimeEntry&&(identical(other.time, _this.time) || other.time == _this.time)&&const DeepCollectionEquality().equals(other.values, _this.values));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,time,const DeepCollectionEquality().hash(values));
+int get hashCode {
+  final _this = this as ClientOverTimeEntry;
+  return Object.hash(runtimeType,_this.time,const DeepCollectionEquality().hash(_this.values));
+}
 
 @override
 String toString() {
-  return 'ClientOverTimeEntry(time: $time, values: $values)';
+  final _this = this as ClientOverTimeEntry;
+  return 'ClientOverTimeEntry(time: ${_this.time}, values: ${_this.values})';
 }
 
 
@@ -601,7 +621,7 @@ class _$ClientOverTimeEntryCopyWithImpl<$Res>
 /// Create a copy of ClientOverTimeEntry
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? time = null,Object? values = null,}) {
-  return _then(_self.copyWith(
+  return _then(ClientOverTimeEntry(
 time: null == time ? _self.time : time // ignore: cast_nullable_to_non_nullable
 as DateTime,values: null == values ? _self.values : values // ignore: cast_nullable_to_non_nullable
 as List<int>,
@@ -739,7 +759,7 @@ return $default(_that.time,_that.values);case _:
 @JsonSerializable()
 
 class _ClientOverTimeEntry implements ClientOverTimeEntry {
-  const _ClientOverTimeEntry({required this.time, required final  List<int> values}): _values = values;
+  const _ClientOverTimeEntry({required this.time, required  List<int> values}): _values = values;
   factory _ClientOverTimeEntry.fromJson(Map<String, dynamic> json) => _$ClientOverTimeEntryFromJson(json);
 
 @override final  DateTime time;
@@ -764,16 +784,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClientOverTimeEntry&&(identical(other.time, time) || other.time == time)&&const DeepCollectionEquality().equals(other._values, _values));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ClientOverTimeEntry&&(identical(other.time, time) || other.time == time)&&const DeepCollectionEquality().equals(other.values, _values));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,time,const DeepCollectionEquality().hash(_values));
+int get hashCode {
+    return Object.hash(runtimeType,time,const DeepCollectionEquality().hash(_values));
+}
 
 @override
 String toString() {
-  return 'ClientOverTimeEntry(time: $time, values: $values)';
+    return 'ClientOverTimeEntry(time: $time, values: $values)';
 }
 
 

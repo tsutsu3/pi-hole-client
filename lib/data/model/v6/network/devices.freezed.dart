@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'devices.dart';
@@ -9,6 +9,7 @@ part of 'devices.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $DevicesCopyWith<Devices> get copyWith => _$DevicesCopyWithImpl<Devices>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Devices&&const DeepCollectionEquality().equals(other.devices, devices)&&(identical(other.took, took) || other.took == took));
+  final _this = this as Devices;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Devices&&const DeepCollectionEquality().equals(other.devices, _this.devices)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(devices),took);
+int get hashCode {
+  final _this = this as Devices;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.devices),_this.took);
+}
 
 @override
 String toString() {
-  return 'Devices(devices: $devices, took: $took)';
+  final _this = this as Devices;
+  return 'Devices(devices: ${_this.devices}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$DevicesCopyWithImpl<$Res>
 /// Create a copy of Devices
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? devices = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(Devices(
 devices: null == devices ? _self.devices : devices // ignore: cast_nullable_to_non_nullable
 as List<DeviceData>,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -204,7 +210,7 @@ return $default(_that.devices,_that.took);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _Devices implements Devices {
-  const _Devices({required final  List<DeviceData> devices, required this.took}): _devices = devices;
+  const _Devices({required  List<DeviceData> devices, required this.took}): _devices = devices;
   factory _Devices.fromJson(Map<String, dynamic> json) => _$DevicesFromJson(json);
 
  final  List<DeviceData> _devices;
@@ -229,16 +235,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Devices&&const DeepCollectionEquality().equals(other._devices, _devices)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Devices&&const DeepCollectionEquality().equals(other.devices, _devices)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_devices),took);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_devices),took);
+}
 
 @override
 String toString() {
-  return 'Devices(devices: $devices, took: $took)';
+    return 'Devices(devices: $devices, took: $took)';
 }
 
 
@@ -294,16 +302,21 @@ $DeviceDataCopyWith<DeviceData> get copyWith => _$DeviceDataCopyWithImpl<DeviceD
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeviceData&&(identical(other.id, id) || other.id == id)&&(identical(other.hwaddr, hwaddr) || other.hwaddr == hwaddr)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.firstSeen, firstSeen) || other.firstSeen == firstSeen)&&(identical(other.lastQuery, lastQuery) || other.lastQuery == lastQuery)&&(identical(other.numQueries, numQueries) || other.numQueries == numQueries)&&const DeepCollectionEquality().equals(other.ips, ips)&&(identical(other.macVendor, macVendor) || other.macVendor == macVendor));
+  final _this = this as DeviceData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeviceData&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.hwaddr, _this.hwaddr) || other.hwaddr == _this.hwaddr)&&(identical(other.interface, _this.interface) || other.interface == _this.interface)&&(identical(other.firstSeen, _this.firstSeen) || other.firstSeen == _this.firstSeen)&&(identical(other.lastQuery, _this.lastQuery) || other.lastQuery == _this.lastQuery)&&(identical(other.numQueries, _this.numQueries) || other.numQueries == _this.numQueries)&&const DeepCollectionEquality().equals(other.ips, _this.ips)&&(identical(other.macVendor, _this.macVendor) || other.macVendor == _this.macVendor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,hwaddr,interface,firstSeen,lastQuery,numQueries,const DeepCollectionEquality().hash(ips),macVendor);
+int get hashCode {
+  final _this = this as DeviceData;
+  return Object.hash(runtimeType,_this.id,_this.hwaddr,_this.interface,_this.firstSeen,_this.lastQuery,_this.numQueries,const DeepCollectionEquality().hash(_this.ips),_this.macVendor);
+}
 
 @override
 String toString() {
-  return 'DeviceData(id: $id, hwaddr: $hwaddr, interface: $interface, firstSeen: $firstSeen, lastQuery: $lastQuery, numQueries: $numQueries, ips: $ips, macVendor: $macVendor)';
+  final _this = this as DeviceData;
+  return 'DeviceData(id: ${_this.id}, hwaddr: ${_this.hwaddr}, interface: ${_this.interface}, firstSeen: ${_this.firstSeen}, lastQuery: ${_this.lastQuery}, numQueries: ${_this.numQueries}, ips: ${_this.ips}, macVendor: ${_this.macVendor})';
 }
 
 
@@ -332,7 +345,7 @@ class _$DeviceDataCopyWithImpl<$Res>
 /// Create a copy of DeviceData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? hwaddr = null,Object? interface = null,Object? firstSeen = null,Object? lastQuery = null,Object? numQueries = null,Object? ips = null,Object? macVendor = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DeviceData(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,hwaddr: null == hwaddr ? _self.hwaddr : hwaddr // ignore: cast_nullable_to_non_nullable
 as String,interface: null == interface ? _self.interface : interface // ignore: cast_nullable_to_non_nullable
@@ -476,7 +489,7 @@ return $default(_that.id,_that.hwaddr,_that.interface,_that.firstSeen,_that.last
 
 @JsonSerializable(explicitToJson: true)
 class _DeviceData implements DeviceData {
-  const _DeviceData({required this.id, required this.hwaddr, required this.interface, required this.firstSeen, required this.lastQuery, required this.numQueries, required final  List<DeviceIp> ips, this.macVendor}): _ips = ips;
+  const _DeviceData({required this.id, required this.hwaddr, required this.interface, required this.firstSeen, required this.lastQuery, required this.numQueries, required  List<DeviceIp> ips, this.macVendor}): _ips = ips;
   factory _DeviceData.fromJson(Map<String, dynamic> json) => _$DeviceDataFromJson(json);
 
 @override final  int id;
@@ -507,16 +520,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DeviceData&&(identical(other.id, id) || other.id == id)&&(identical(other.hwaddr, hwaddr) || other.hwaddr == hwaddr)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.firstSeen, firstSeen) || other.firstSeen == firstSeen)&&(identical(other.lastQuery, lastQuery) || other.lastQuery == lastQuery)&&(identical(other.numQueries, numQueries) || other.numQueries == numQueries)&&const DeepCollectionEquality().equals(other._ips, _ips)&&(identical(other.macVendor, macVendor) || other.macVendor == macVendor));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DeviceData&&(identical(other.id, id) || other.id == id)&&(identical(other.hwaddr, hwaddr) || other.hwaddr == hwaddr)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.firstSeen, firstSeen) || other.firstSeen == firstSeen)&&(identical(other.lastQuery, lastQuery) || other.lastQuery == lastQuery)&&(identical(other.numQueries, numQueries) || other.numQueries == numQueries)&&const DeepCollectionEquality().equals(other.ips, _ips)&&(identical(other.macVendor, macVendor) || other.macVendor == macVendor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,hwaddr,interface,firstSeen,lastQuery,numQueries,const DeepCollectionEquality().hash(_ips),macVendor);
+int get hashCode {
+    return Object.hash(runtimeType,id,hwaddr,interface,firstSeen,lastQuery,numQueries,const DeepCollectionEquality().hash(_ips),macVendor);
+}
 
 @override
 String toString() {
-  return 'DeviceData(id: $id, hwaddr: $hwaddr, interface: $interface, firstSeen: $firstSeen, lastQuery: $lastQuery, numQueries: $numQueries, ips: $ips, macVendor: $macVendor)';
+    return 'DeviceData(id: $id, hwaddr: $hwaddr, interface: $interface, firstSeen: $firstSeen, lastQuery: $lastQuery, numQueries: $numQueries, ips: $ips, macVendor: $macVendor)';
 }
 
 
@@ -578,16 +593,21 @@ $DeviceIpCopyWith<DeviceIp> get copyWith => _$DeviceIpCopyWithImpl<DeviceIp>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeviceIp&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.lastSeen, lastSeen) || other.lastSeen == lastSeen)&&(identical(other.nameUpdated, nameUpdated) || other.nameUpdated == nameUpdated)&&(identical(other.name, name) || other.name == name));
+  final _this = this as DeviceIp;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeviceIp&&(identical(other.ip, _this.ip) || other.ip == _this.ip)&&(identical(other.lastSeen, _this.lastSeen) || other.lastSeen == _this.lastSeen)&&(identical(other.nameUpdated, _this.nameUpdated) || other.nameUpdated == _this.nameUpdated)&&(identical(other.name, _this.name) || other.name == _this.name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ip,lastSeen,nameUpdated,name);
+int get hashCode {
+  final _this = this as DeviceIp;
+  return Object.hash(runtimeType,_this.ip,_this.lastSeen,_this.nameUpdated,_this.name);
+}
 
 @override
 String toString() {
-  return 'DeviceIp(ip: $ip, lastSeen: $lastSeen, nameUpdated: $nameUpdated, name: $name)';
+  final _this = this as DeviceIp;
+  return 'DeviceIp(ip: ${_this.ip}, lastSeen: ${_this.lastSeen}, nameUpdated: ${_this.nameUpdated}, name: ${_this.name})';
 }
 
 
@@ -616,7 +636,7 @@ class _$DeviceIpCopyWithImpl<$Res>
 /// Create a copy of DeviceIp
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ip = null,Object? lastSeen = null,Object? nameUpdated = null,Object? name = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DeviceIp(
 ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
 as String,lastSeen: null == lastSeen ? _self.lastSeen : lastSeen // ignore: cast_nullable_to_non_nullable
 as int,nameUpdated: null == nameUpdated ? _self.nameUpdated : nameUpdated // ignore: cast_nullable_to_non_nullable
@@ -777,16 +797,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DeviceIp&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.lastSeen, lastSeen) || other.lastSeen == lastSeen)&&(identical(other.nameUpdated, nameUpdated) || other.nameUpdated == nameUpdated)&&(identical(other.name, name) || other.name == name));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DeviceIp&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.lastSeen, lastSeen) || other.lastSeen == lastSeen)&&(identical(other.nameUpdated, nameUpdated) || other.nameUpdated == nameUpdated)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ip,lastSeen,nameUpdated,name);
+int get hashCode {
+    return Object.hash(runtimeType,ip,lastSeen,nameUpdated,name);
+}
 
 @override
 String toString() {
-  return 'DeviceIp(ip: $ip, lastSeen: $lastSeen, nameUpdated: $nameUpdated, name: $name)';
+    return 'DeviceIp(ip: $ip, lastSeen: $lastSeen, nameUpdated: $nameUpdated, name: $name)';
 }
 
 

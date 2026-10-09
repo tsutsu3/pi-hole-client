@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'domains.dart';
@@ -9,6 +9,7 @@ part of 'domains.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $DomainsCopyWith<Domains> get copyWith => _$DomainsCopyWithImpl<Domains>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Domains&&const DeepCollectionEquality().equals(other.data, data));
+  final _this = this as Domains;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Domains&&const DeepCollectionEquality().equals(other.data, _this.data));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(data));
+int get hashCode {
+  final _this = this as Domains;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.data));
+}
 
 @override
 String toString() {
-  return 'Domains(data: $data)';
+  final _this = this as Domains;
+  return 'Domains(data: ${_this.data})';
 }
 
 
@@ -66,7 +72,7 @@ class _$DomainsCopyWithImpl<$Res>
 /// Create a copy of Domains
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? data = null,}) {
-  return _then(_self.copyWith(
+  return _then(Domains(
 data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
 as List<Domain>,
   ));
@@ -203,7 +209,7 @@ return $default(_that.data);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _Domains implements Domains {
-  const _Domains({@MapOrEmptyListConverter() required final  List<Domain> data}): _data = data;
+  const _Domains({@MapOrEmptyListConverter() required  List<Domain> data}): _data = data;
   factory _Domains.fromJson(Map<String, dynamic> json) => _$DomainsFromJson(json);
 
  final  List<Domain> _data;
@@ -227,16 +233,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Domains&&const DeepCollectionEquality().equals(other._data, _data));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Domains&&const DeepCollectionEquality().equals(other.data, _data));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_data));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_data));
+}
 
 @override
 String toString() {
-  return 'Domains(data: $data)';
+    return 'Domains(data: $data)';
 }
 
 
@@ -291,16 +299,21 @@ $DomainCopyWith<Domain> get copyWith => _$DomainCopyWithImpl<Domain>(this as Dom
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Domain&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.comment, comment) || other.comment == comment)&&const DeepCollectionEquality().equals(other.groups, groups));
+  final _this = this as Domain;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Domain&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.domain, _this.domain) || other.domain == _this.domain)&&(identical(other.enabled, _this.enabled) || other.enabled == _this.enabled)&&(identical(other.dateAdded, _this.dateAdded) || other.dateAdded == _this.dateAdded)&&(identical(other.dateModified, _this.dateModified) || other.dateModified == _this.dateModified)&&(identical(other.comment, _this.comment) || other.comment == _this.comment)&&const DeepCollectionEquality().equals(other.groups, _this.groups));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,type,domain,enabled,dateAdded,dateModified,comment,const DeepCollectionEquality().hash(groups));
+int get hashCode {
+  final _this = this as Domain;
+  return Object.hash(runtimeType,_this.id,_this.type,_this.domain,_this.enabled,_this.dateAdded,_this.dateModified,_this.comment,const DeepCollectionEquality().hash(_this.groups));
+}
 
 @override
 String toString() {
-  return 'Domain(id: $id, type: $type, domain: $domain, enabled: $enabled, dateAdded: $dateAdded, dateModified: $dateModified, comment: $comment, groups: $groups)';
+  final _this = this as Domain;
+  return 'Domain(id: ${_this.id}, type: ${_this.type}, domain: ${_this.domain}, enabled: ${_this.enabled}, dateAdded: ${_this.dateAdded}, dateModified: ${_this.dateModified}, comment: ${_this.comment}, groups: ${_this.groups})';
 }
 
 
@@ -329,7 +342,7 @@ class _$DomainCopyWithImpl<$Res>
 /// Create a copy of Domain
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? type = null,Object? domain = null,Object? enabled = null,Object? dateAdded = null,Object? dateModified = null,Object? comment = null,Object? groups = null,}) {
-  return _then(_self.copyWith(
+  return _then(Domain(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as int,domain: null == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
@@ -473,7 +486,7 @@ return $default(_that.id,_that.type,_that.domain,_that.enabled,_that.dateAdded,_
 @JsonSerializable()
 
 class _Domain implements Domain {
-  const _Domain({required this.id, required this.type, required this.domain, required this.enabled, @JsonKey(name: 'date_added') required this.dateAdded, @JsonKey(name: 'date_modified') required this.dateModified, required this.comment, required final  List<int> groups}): _groups = groups;
+  const _Domain({required this.id, required this.type, required this.domain, required this.enabled, @JsonKey(name: 'date_added') required this.dateAdded, @JsonKey(name: 'date_modified') required this.dateModified, required this.comment, required  List<int> groups}): _groups = groups;
   factory _Domain.fromJson(Map<String, dynamic> json) => _$DomainFromJson(json);
 
 @override final  int id;
@@ -504,16 +517,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Domain&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.comment, comment) || other.comment == comment)&&const DeepCollectionEquality().equals(other._groups, _groups));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Domain&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.comment, comment) || other.comment == comment)&&const DeepCollectionEquality().equals(other.groups, _groups));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,type,domain,enabled,dateAdded,dateModified,comment,const DeepCollectionEquality().hash(_groups));
+int get hashCode {
+    return Object.hash(runtimeType,id,type,domain,enabled,dateAdded,dateModified,comment,const DeepCollectionEquality().hash(_groups));
+}
 
 @override
 String toString() {
-  return 'Domain(id: $id, type: $type, domain: $domain, enabled: $enabled, dateAdded: $dateAdded, dateModified: $dateModified, comment: $comment, groups: $groups)';
+    return 'Domain(id: $id, type: $type, domain: $domain, enabled: $enabled, dateAdded: $dateAdded, dateModified: $dateModified, comment: $comment, groups: $groups)';
 }
 
 
@@ -575,16 +590,21 @@ $DomainResponseCopyWith<DomainResponse> get copyWith => _$DomainResponseCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DomainResponse&&(identical(other.success, success) || other.success == success)&&(identical(other.message, message) || other.message == message));
+  final _this = this as DomainResponse;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DomainResponse&&(identical(other.success, _this.success) || other.success == _this.success)&&(identical(other.message, _this.message) || other.message == _this.message));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,success,message);
+int get hashCode {
+  final _this = this as DomainResponse;
+  return Object.hash(runtimeType,_this.success,_this.message);
+}
 
 @override
 String toString() {
-  return 'DomainResponse(success: $success, message: $message)';
+  final _this = this as DomainResponse;
+  return 'DomainResponse(success: ${_this.success}, message: ${_this.message})';
 }
 
 
@@ -613,7 +633,7 @@ class _$DomainResponseCopyWithImpl<$Res>
 /// Create a copy of DomainResponse
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? success = null,Object? message = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DomainResponse(
 success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
 as bool,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -770,16 +790,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DomainResponse&&(identical(other.success, success) || other.success == success)&&(identical(other.message, message) || other.message == message));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DomainResponse&&(identical(other.success, success) || other.success == success)&&(identical(other.message, message) || other.message == message));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,success,message);
+int get hashCode {
+    return Object.hash(runtimeType,success,message);
+}
 
 @override
 String toString() {
-  return 'DomainResponse(success: $success, message: $message)';
+    return 'DomainResponse(success: $success, message: $message)';
 }
 
 

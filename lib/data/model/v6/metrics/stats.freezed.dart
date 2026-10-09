@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'stats.dart';
@@ -9,6 +9,7 @@ part of 'stats.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $StatsSummaryCopyWith<StatsSummary> get copyWith => _$StatsSummaryCopyWithImpl<S
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsSummary&&(identical(other.queries, queries) || other.queries == queries)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.took, took) || other.took == took));
+  final _this = this as StatsSummary;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsSummary&&(identical(other.queries, _this.queries) || other.queries == _this.queries)&&(identical(other.clients, _this.clients) || other.clients == _this.clients)&&(identical(other.gravity, _this.gravity) || other.gravity == _this.gravity)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,queries,clients,gravity,took);
+int get hashCode {
+  final _this = this as StatsSummary;
+  return Object.hash(runtimeType,_this.queries,_this.clients,_this.gravity,_this.took);
+}
 
 @override
 String toString() {
-  return 'StatsSummary(queries: $queries, clients: $clients, gravity: $gravity, took: $took)';
+  final _this = this as StatsSummary;
+  return 'StatsSummary(queries: ${_this.queries}, clients: ${_this.clients}, gravity: ${_this.gravity}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$StatsSummaryCopyWithImpl<$Res>
 /// Create a copy of StatsSummary
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? queries = null,Object? clients = null,Object? gravity = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(StatsSummary(
 queries: null == queries ? _self.queries : queries // ignore: cast_nullable_to_non_nullable
 as StatsQueries,clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
 as StatsClients,gravity: null == gravity ? _self.gravity : gravity // ignore: cast_nullable_to_non_nullable
@@ -254,16 +260,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsSummary&&(identical(other.queries, queries) || other.queries == queries)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsSummary&&(identical(other.queries, queries) || other.queries == queries)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,queries,clients,gravity,took);
+int get hashCode {
+    return Object.hash(runtimeType,queries,clients,gravity,took);
+}
 
 @override
 String toString() {
-  return 'StatsSummary(queries: $queries, clients: $clients, gravity: $gravity, took: $took)';
+    return 'StatsSummary(queries: $queries, clients: $clients, gravity: $gravity, took: $took)';
 }
 
 
@@ -348,16 +356,21 @@ $StatsQueriesCopyWith<StatsQueries> get copyWith => _$StatsQueriesCopyWithImpl<S
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsQueries&&(identical(other.total, total) || other.total == total)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.percentBlocked, percentBlocked) || other.percentBlocked == percentBlocked)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.types, types) || other.types == types)&&(identical(other.status, status) || other.status == status)&&(identical(other.replies, replies) || other.replies == replies)&&(identical(other.frequency, frequency) || other.frequency == frequency));
+  final _this = this as StatsQueries;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsQueries&&(identical(other.total, _this.total) || other.total == _this.total)&&(identical(other.blocked, _this.blocked) || other.blocked == _this.blocked)&&(identical(other.percentBlocked, _this.percentBlocked) || other.percentBlocked == _this.percentBlocked)&&(identical(other.uniqueDomains, _this.uniqueDomains) || other.uniqueDomains == _this.uniqueDomains)&&(identical(other.forwarded, _this.forwarded) || other.forwarded == _this.forwarded)&&(identical(other.cached, _this.cached) || other.cached == _this.cached)&&(identical(other.types, _this.types) || other.types == _this.types)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.replies, _this.replies) || other.replies == _this.replies)&&(identical(other.frequency, _this.frequency) || other.frequency == _this.frequency));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,blocked,percentBlocked,uniqueDomains,forwarded,cached,types,status,replies,frequency);
+int get hashCode {
+  final _this = this as StatsQueries;
+  return Object.hash(runtimeType,_this.total,_this.blocked,_this.percentBlocked,_this.uniqueDomains,_this.forwarded,_this.cached,_this.types,_this.status,_this.replies,_this.frequency);
+}
 
 @override
 String toString() {
-  return 'StatsQueries(total: $total, blocked: $blocked, percentBlocked: $percentBlocked, uniqueDomains: $uniqueDomains, forwarded: $forwarded, cached: $cached, types: $types, status: $status, replies: $replies, frequency: $frequency)';
+  final _this = this as StatsQueries;
+  return 'StatsQueries(total: ${_this.total}, blocked: ${_this.blocked}, percentBlocked: ${_this.percentBlocked}, uniqueDomains: ${_this.uniqueDomains}, forwarded: ${_this.forwarded}, cached: ${_this.cached}, types: ${_this.types}, status: ${_this.status}, replies: ${_this.replies}, frequency: ${_this.frequency})';
 }
 
 
@@ -386,7 +399,7 @@ class _$StatsQueriesCopyWithImpl<$Res>
 /// Create a copy of StatsQueries
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? total = null,Object? blocked = null,Object? percentBlocked = null,Object? uniqueDomains = null,Object? forwarded = null,Object? cached = null,Object? types = null,Object? status = null,Object? replies = null,Object? frequency = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(StatsQueries(
 total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,blocked: null == blocked ? _self.blocked : blocked // ignore: cast_nullable_to_non_nullable
 as int,percentBlocked: null == percentBlocked ? _self.percentBlocked : percentBlocked // ignore: cast_nullable_to_non_nullable
@@ -586,16 +599,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsQueries&&(identical(other.total, total) || other.total == total)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.percentBlocked, percentBlocked) || other.percentBlocked == percentBlocked)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.types, types) || other.types == types)&&(identical(other.status, status) || other.status == status)&&(identical(other.replies, replies) || other.replies == replies)&&(identical(other.frequency, frequency) || other.frequency == frequency));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsQueries&&(identical(other.total, total) || other.total == total)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.percentBlocked, percentBlocked) || other.percentBlocked == percentBlocked)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.types, types) || other.types == types)&&(identical(other.status, status) || other.status == status)&&(identical(other.replies, replies) || other.replies == replies)&&(identical(other.frequency, frequency) || other.frequency == frequency));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,blocked,percentBlocked,uniqueDomains,forwarded,cached,types,status,replies,frequency);
+int get hashCode {
+    return Object.hash(runtimeType,total,blocked,percentBlocked,uniqueDomains,forwarded,cached,types,status,replies,frequency);
+}
 
 @override
 String toString() {
-  return 'StatsQueries(total: $total, blocked: $blocked, percentBlocked: $percentBlocked, uniqueDomains: $uniqueDomains, forwarded: $forwarded, cached: $cached, types: $types, status: $status, replies: $replies, frequency: $frequency)';
+    return 'StatsQueries(total: $total, blocked: $blocked, percentBlocked: $percentBlocked, uniqueDomains: $uniqueDomains, forwarded: $forwarded, cached: $cached, types: $types, status: $status, replies: $replies, frequency: $frequency)';
 }
 
 
@@ -686,16 +701,21 @@ $StatsTypesCopyWith<StatsTypes> get copyWith => _$StatsTypesCopyWithImpl<StatsTy
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsTypes&&(identical(other.a, a) || other.a == a)&&(identical(other.aaaa, aaaa) || other.aaaa == aaaa)&&(identical(other.any, any) || other.any == any)&&(identical(other.srv, srv) || other.srv == srv)&&(identical(other.soa, soa) || other.soa == soa)&&(identical(other.ptr, ptr) || other.ptr == ptr)&&(identical(other.txt, txt) || other.txt == txt)&&(identical(other.naptr, naptr) || other.naptr == naptr)&&(identical(other.mx, mx) || other.mx == mx)&&(identical(other.ds, ds) || other.ds == ds)&&(identical(other.rrsig, rrsig) || other.rrsig == rrsig)&&(identical(other.dnskey, dnskey) || other.dnskey == dnskey)&&(identical(other.ns, ns) || other.ns == ns)&&(identical(other.svcb, svcb) || other.svcb == svcb)&&(identical(other.https, https) || other.https == https)&&(identical(other.other, this.other) || other.other == this.other));
+  final _this = this as StatsTypes;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsTypes&&(identical(other.a, _this.a) || other.a == _this.a)&&(identical(other.aaaa, _this.aaaa) || other.aaaa == _this.aaaa)&&(identical(other.any, _this.any) || other.any == _this.any)&&(identical(other.srv, _this.srv) || other.srv == _this.srv)&&(identical(other.soa, _this.soa) || other.soa == _this.soa)&&(identical(other.ptr, _this.ptr) || other.ptr == _this.ptr)&&(identical(other.txt, _this.txt) || other.txt == _this.txt)&&(identical(other.naptr, _this.naptr) || other.naptr == _this.naptr)&&(identical(other.mx, _this.mx) || other.mx == _this.mx)&&(identical(other.ds, _this.ds) || other.ds == _this.ds)&&(identical(other.rrsig, _this.rrsig) || other.rrsig == _this.rrsig)&&(identical(other.dnskey, _this.dnskey) || other.dnskey == _this.dnskey)&&(identical(other.ns, _this.ns) || other.ns == _this.ns)&&(identical(other.svcb, _this.svcb) || other.svcb == _this.svcb)&&(identical(other.https, _this.https) || other.https == _this.https)&&(identical(other.other, _this.other) || other.other == _this.other));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,a,aaaa,any,srv,soa,ptr,txt,naptr,mx,ds,rrsig,dnskey,ns,svcb,https,other);
+int get hashCode {
+  final _this = this as StatsTypes;
+  return Object.hash(runtimeType,_this.a,_this.aaaa,_this.any,_this.srv,_this.soa,_this.ptr,_this.txt,_this.naptr,_this.mx,_this.ds,_this.rrsig,_this.dnskey,_this.ns,_this.svcb,_this.https,_this.other);
+}
 
 @override
 String toString() {
-  return 'StatsTypes(a: $a, aaaa: $aaaa, any: $any, srv: $srv, soa: $soa, ptr: $ptr, txt: $txt, naptr: $naptr, mx: $mx, ds: $ds, rrsig: $rrsig, dnskey: $dnskey, ns: $ns, svcb: $svcb, https: $https, other: $other)';
+  final _this = this as StatsTypes;
+  return 'StatsTypes(a: ${_this.a}, aaaa: ${_this.aaaa}, any: ${_this.any}, srv: ${_this.srv}, soa: ${_this.soa}, ptr: ${_this.ptr}, txt: ${_this.txt}, naptr: ${_this.naptr}, mx: ${_this.mx}, ds: ${_this.ds}, rrsig: ${_this.rrsig}, dnskey: ${_this.dnskey}, ns: ${_this.ns}, svcb: ${_this.svcb}, https: ${_this.https}, other: ${_this.other})';
 }
 
 
@@ -724,7 +744,7 @@ class _$StatsTypesCopyWithImpl<$Res>
 /// Create a copy of StatsTypes
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? a = null,Object? aaaa = null,Object? any = null,Object? srv = null,Object? soa = null,Object? ptr = null,Object? txt = null,Object? naptr = null,Object? mx = null,Object? ds = null,Object? rrsig = null,Object? dnskey = null,Object? ns = null,Object? svcb = null,Object? https = null,Object? other = null,}) {
-  return _then(_self.copyWith(
+  return _then(StatsTypes(
 a: null == a ? _self.a : a // ignore: cast_nullable_to_non_nullable
 as int,aaaa: null == aaaa ? _self.aaaa : aaaa // ignore: cast_nullable_to_non_nullable
 as int,any: null == any ? _self.any : any // ignore: cast_nullable_to_non_nullable
@@ -909,16 +929,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsTypes&&(identical(other.a, a) || other.a == a)&&(identical(other.aaaa, aaaa) || other.aaaa == aaaa)&&(identical(other.any, any) || other.any == any)&&(identical(other.srv, srv) || other.srv == srv)&&(identical(other.soa, soa) || other.soa == soa)&&(identical(other.ptr, ptr) || other.ptr == ptr)&&(identical(other.txt, txt) || other.txt == txt)&&(identical(other.naptr, naptr) || other.naptr == naptr)&&(identical(other.mx, mx) || other.mx == mx)&&(identical(other.ds, ds) || other.ds == ds)&&(identical(other.rrsig, rrsig) || other.rrsig == rrsig)&&(identical(other.dnskey, dnskey) || other.dnskey == dnskey)&&(identical(other.ns, ns) || other.ns == ns)&&(identical(other.svcb, svcb) || other.svcb == svcb)&&(identical(other.https, https) || other.https == https)&&(identical(other.other, this.other) || other.other == this.other));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsTypes&&(identical(other.a, a) || other.a == a)&&(identical(other.aaaa, aaaa) || other.aaaa == aaaa)&&(identical(other.any, any) || other.any == any)&&(identical(other.srv, srv) || other.srv == srv)&&(identical(other.soa, soa) || other.soa == soa)&&(identical(other.ptr, ptr) || other.ptr == ptr)&&(identical(other.txt, txt) || other.txt == txt)&&(identical(other.naptr, naptr) || other.naptr == naptr)&&(identical(other.mx, mx) || other.mx == mx)&&(identical(other.ds, ds) || other.ds == ds)&&(identical(other.rrsig, rrsig) || other.rrsig == rrsig)&&(identical(other.dnskey, dnskey) || other.dnskey == dnskey)&&(identical(other.ns, ns) || other.ns == ns)&&(identical(other.svcb, svcb) || other.svcb == svcb)&&(identical(other.https, https) || other.https == https)&&(identical(other.other, this.other) || other.other == this.other));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,a,aaaa,any,srv,soa,ptr,txt,naptr,mx,ds,rrsig,dnskey,ns,svcb,https,other);
+int get hashCode {
+    return Object.hash(runtimeType,a,aaaa,any,srv,soa,ptr,txt,naptr,mx,ds,rrsig,dnskey,ns,svcb,https,other);
+}
 
 @override
 String toString() {
-  return 'StatsTypes(a: $a, aaaa: $aaaa, any: $any, srv: $srv, soa: $soa, ptr: $ptr, txt: $txt, naptr: $naptr, mx: $mx, ds: $ds, rrsig: $rrsig, dnskey: $dnskey, ns: $ns, svcb: $svcb, https: $https, other: $other)';
+    return 'StatsTypes(a: $a, aaaa: $aaaa, any: $any, srv: $srv, soa: $soa, ptr: $ptr, txt: $txt, naptr: $naptr, mx: $mx, ds: $ds, rrsig: $rrsig, dnskey: $dnskey, ns: $ns, svcb: $svcb, https: $https, other: $other)';
 }
 
 
@@ -988,16 +1010,21 @@ $StatsStatusCopyWith<StatsStatus> get copyWith => _$StatsStatusCopyWithImpl<Stat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsStatus&&(identical(other.unknown, unknown) || other.unknown == unknown)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.regex, regex) || other.regex == regex)&&(identical(other.denylist, denylist) || other.denylist == denylist)&&(identical(other.externalBlockedIp, externalBlockedIp) || other.externalBlockedIp == externalBlockedIp)&&(identical(other.externalBlockedNull, externalBlockedNull) || other.externalBlockedNull == externalBlockedNull)&&(identical(other.externalBlockedNxra, externalBlockedNxra) || other.externalBlockedNxra == externalBlockedNxra)&&(identical(other.gravityCname, gravityCname) || other.gravityCname == gravityCname)&&(identical(other.regexCname, regexCname) || other.regexCname == regexCname)&&(identical(other.denylistCname, denylistCname) || other.denylistCname == denylistCname)&&(identical(other.retried, retried) || other.retried == retried)&&(identical(other.retriedDnssec, retriedDnssec) || other.retriedDnssec == retriedDnssec)&&(identical(other.inProgress, inProgress) || other.inProgress == inProgress)&&(identical(other.dbbusy, dbbusy) || other.dbbusy == dbbusy)&&(identical(other.specialDomain, specialDomain) || other.specialDomain == specialDomain)&&(identical(other.cacheStale, cacheStale) || other.cacheStale == cacheStale));
+  final _this = this as StatsStatus;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsStatus&&(identical(other.unknown, _this.unknown) || other.unknown == _this.unknown)&&(identical(other.gravity, _this.gravity) || other.gravity == _this.gravity)&&(identical(other.forwarded, _this.forwarded) || other.forwarded == _this.forwarded)&&(identical(other.cache, _this.cache) || other.cache == _this.cache)&&(identical(other.regex, _this.regex) || other.regex == _this.regex)&&(identical(other.denylist, _this.denylist) || other.denylist == _this.denylist)&&(identical(other.externalBlockedIp, _this.externalBlockedIp) || other.externalBlockedIp == _this.externalBlockedIp)&&(identical(other.externalBlockedNull, _this.externalBlockedNull) || other.externalBlockedNull == _this.externalBlockedNull)&&(identical(other.externalBlockedNxra, _this.externalBlockedNxra) || other.externalBlockedNxra == _this.externalBlockedNxra)&&(identical(other.gravityCname, _this.gravityCname) || other.gravityCname == _this.gravityCname)&&(identical(other.regexCname, _this.regexCname) || other.regexCname == _this.regexCname)&&(identical(other.denylistCname, _this.denylistCname) || other.denylistCname == _this.denylistCname)&&(identical(other.retried, _this.retried) || other.retried == _this.retried)&&(identical(other.retriedDnssec, _this.retriedDnssec) || other.retriedDnssec == _this.retriedDnssec)&&(identical(other.inProgress, _this.inProgress) || other.inProgress == _this.inProgress)&&(identical(other.dbbusy, _this.dbbusy) || other.dbbusy == _this.dbbusy)&&(identical(other.specialDomain, _this.specialDomain) || other.specialDomain == _this.specialDomain)&&(identical(other.cacheStale, _this.cacheStale) || other.cacheStale == _this.cacheStale));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,unknown,gravity,forwarded,cache,regex,denylist,externalBlockedIp,externalBlockedNull,externalBlockedNxra,gravityCname,regexCname,denylistCname,retried,retriedDnssec,inProgress,dbbusy,specialDomain,cacheStale);
+int get hashCode {
+  final _this = this as StatsStatus;
+  return Object.hash(runtimeType,_this.unknown,_this.gravity,_this.forwarded,_this.cache,_this.regex,_this.denylist,_this.externalBlockedIp,_this.externalBlockedNull,_this.externalBlockedNxra,_this.gravityCname,_this.regexCname,_this.denylistCname,_this.retried,_this.retriedDnssec,_this.inProgress,_this.dbbusy,_this.specialDomain,_this.cacheStale);
+}
 
 @override
 String toString() {
-  return 'StatsStatus(unknown: $unknown, gravity: $gravity, forwarded: $forwarded, cache: $cache, regex: $regex, denylist: $denylist, externalBlockedIp: $externalBlockedIp, externalBlockedNull: $externalBlockedNull, externalBlockedNxra: $externalBlockedNxra, gravityCname: $gravityCname, regexCname: $regexCname, denylistCname: $denylistCname, retried: $retried, retriedDnssec: $retriedDnssec, inProgress: $inProgress, dbbusy: $dbbusy, specialDomain: $specialDomain, cacheStale: $cacheStale)';
+  final _this = this as StatsStatus;
+  return 'StatsStatus(unknown: ${_this.unknown}, gravity: ${_this.gravity}, forwarded: ${_this.forwarded}, cache: ${_this.cache}, regex: ${_this.regex}, denylist: ${_this.denylist}, externalBlockedIp: ${_this.externalBlockedIp}, externalBlockedNull: ${_this.externalBlockedNull}, externalBlockedNxra: ${_this.externalBlockedNxra}, gravityCname: ${_this.gravityCname}, regexCname: ${_this.regexCname}, denylistCname: ${_this.denylistCname}, retried: ${_this.retried}, retriedDnssec: ${_this.retriedDnssec}, inProgress: ${_this.inProgress}, dbbusy: ${_this.dbbusy}, specialDomain: ${_this.specialDomain}, cacheStale: ${_this.cacheStale})';
 }
 
 
@@ -1026,7 +1053,7 @@ class _$StatsStatusCopyWithImpl<$Res>
 /// Create a copy of StatsStatus
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? unknown = null,Object? gravity = null,Object? forwarded = null,Object? cache = null,Object? regex = null,Object? denylist = null,Object? externalBlockedIp = null,Object? externalBlockedNull = null,Object? externalBlockedNxra = null,Object? gravityCname = null,Object? regexCname = null,Object? denylistCname = null,Object? retried = null,Object? retriedDnssec = null,Object? inProgress = null,Object? dbbusy = null,Object? specialDomain = null,Object? cacheStale = null,}) {
-  return _then(_self.copyWith(
+  return _then(StatsStatus(
 unknown: null == unknown ? _self.unknown : unknown // ignore: cast_nullable_to_non_nullable
 as int,gravity: null == gravity ? _self.gravity : gravity // ignore: cast_nullable_to_non_nullable
 as int,forwarded: null == forwarded ? _self.forwarded : forwarded // ignore: cast_nullable_to_non_nullable
@@ -1215,16 +1242,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsStatus&&(identical(other.unknown, unknown) || other.unknown == unknown)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.regex, regex) || other.regex == regex)&&(identical(other.denylist, denylist) || other.denylist == denylist)&&(identical(other.externalBlockedIp, externalBlockedIp) || other.externalBlockedIp == externalBlockedIp)&&(identical(other.externalBlockedNull, externalBlockedNull) || other.externalBlockedNull == externalBlockedNull)&&(identical(other.externalBlockedNxra, externalBlockedNxra) || other.externalBlockedNxra == externalBlockedNxra)&&(identical(other.gravityCname, gravityCname) || other.gravityCname == gravityCname)&&(identical(other.regexCname, regexCname) || other.regexCname == regexCname)&&(identical(other.denylistCname, denylistCname) || other.denylistCname == denylistCname)&&(identical(other.retried, retried) || other.retried == retried)&&(identical(other.retriedDnssec, retriedDnssec) || other.retriedDnssec == retriedDnssec)&&(identical(other.inProgress, inProgress) || other.inProgress == inProgress)&&(identical(other.dbbusy, dbbusy) || other.dbbusy == dbbusy)&&(identical(other.specialDomain, specialDomain) || other.specialDomain == specialDomain)&&(identical(other.cacheStale, cacheStale) || other.cacheStale == cacheStale));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsStatus&&(identical(other.unknown, unknown) || other.unknown == unknown)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.regex, regex) || other.regex == regex)&&(identical(other.denylist, denylist) || other.denylist == denylist)&&(identical(other.externalBlockedIp, externalBlockedIp) || other.externalBlockedIp == externalBlockedIp)&&(identical(other.externalBlockedNull, externalBlockedNull) || other.externalBlockedNull == externalBlockedNull)&&(identical(other.externalBlockedNxra, externalBlockedNxra) || other.externalBlockedNxra == externalBlockedNxra)&&(identical(other.gravityCname, gravityCname) || other.gravityCname == gravityCname)&&(identical(other.regexCname, regexCname) || other.regexCname == regexCname)&&(identical(other.denylistCname, denylistCname) || other.denylistCname == denylistCname)&&(identical(other.retried, retried) || other.retried == retried)&&(identical(other.retriedDnssec, retriedDnssec) || other.retriedDnssec == retriedDnssec)&&(identical(other.inProgress, inProgress) || other.inProgress == inProgress)&&(identical(other.dbbusy, dbbusy) || other.dbbusy == dbbusy)&&(identical(other.specialDomain, specialDomain) || other.specialDomain == specialDomain)&&(identical(other.cacheStale, cacheStale) || other.cacheStale == cacheStale));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,unknown,gravity,forwarded,cache,regex,denylist,externalBlockedIp,externalBlockedNull,externalBlockedNxra,gravityCname,regexCname,denylistCname,retried,retriedDnssec,inProgress,dbbusy,specialDomain,cacheStale);
+int get hashCode {
+    return Object.hash(runtimeType,unknown,gravity,forwarded,cache,regex,denylist,externalBlockedIp,externalBlockedNull,externalBlockedNxra,gravityCname,regexCname,denylistCname,retried,retriedDnssec,inProgress,dbbusy,specialDomain,cacheStale);
+}
 
 @override
 String toString() {
-  return 'StatsStatus(unknown: $unknown, gravity: $gravity, forwarded: $forwarded, cache: $cache, regex: $regex, denylist: $denylist, externalBlockedIp: $externalBlockedIp, externalBlockedNull: $externalBlockedNull, externalBlockedNxra: $externalBlockedNxra, gravityCname: $gravityCname, regexCname: $regexCname, denylistCname: $denylistCname, retried: $retried, retriedDnssec: $retriedDnssec, inProgress: $inProgress, dbbusy: $dbbusy, specialDomain: $specialDomain, cacheStale: $cacheStale)';
+    return 'StatsStatus(unknown: $unknown, gravity: $gravity, forwarded: $forwarded, cache: $cache, regex: $regex, denylist: $denylist, externalBlockedIp: $externalBlockedIp, externalBlockedNull: $externalBlockedNull, externalBlockedNxra: $externalBlockedNxra, gravityCname: $gravityCname, regexCname: $regexCname, denylistCname: $denylistCname, retried: $retried, retriedDnssec: $retriedDnssec, inProgress: $inProgress, dbbusy: $dbbusy, specialDomain: $specialDomain, cacheStale: $cacheStale)';
 }
 
 
@@ -1296,16 +1325,21 @@ $StatsRepliesCopyWith<StatsReplies> get copyWith => _$StatsRepliesCopyWithImpl<S
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsReplies&&(identical(other.unknown, unknown) || other.unknown == unknown)&&(identical(other.nodata, nodata) || other.nodata == nodata)&&(identical(other.nxdomain, nxdomain) || other.nxdomain == nxdomain)&&(identical(other.cname, cname) || other.cname == cname)&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.rrname, rrname) || other.rrname == rrname)&&(identical(other.servfail, servfail) || other.servfail == servfail)&&(identical(other.refused, refused) || other.refused == refused)&&(identical(other.notimp, notimp) || other.notimp == notimp)&&(identical(other.other, this.other) || other.other == this.other)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.none, none) || other.none == none)&&(identical(other.blob, blob) || other.blob == blob));
+  final _this = this as StatsReplies;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsReplies&&(identical(other.unknown, _this.unknown) || other.unknown == _this.unknown)&&(identical(other.nodata, _this.nodata) || other.nodata == _this.nodata)&&(identical(other.nxdomain, _this.nxdomain) || other.nxdomain == _this.nxdomain)&&(identical(other.cname, _this.cname) || other.cname == _this.cname)&&(identical(other.ip, _this.ip) || other.ip == _this.ip)&&(identical(other.domain, _this.domain) || other.domain == _this.domain)&&(identical(other.rrname, _this.rrname) || other.rrname == _this.rrname)&&(identical(other.servfail, _this.servfail) || other.servfail == _this.servfail)&&(identical(other.refused, _this.refused) || other.refused == _this.refused)&&(identical(other.notimp, _this.notimp) || other.notimp == _this.notimp)&&(identical(other.other, _this.other) || other.other == _this.other)&&(identical(other.dnssec, _this.dnssec) || other.dnssec == _this.dnssec)&&(identical(other.none, _this.none) || other.none == _this.none)&&(identical(other.blob, _this.blob) || other.blob == _this.blob));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,unknown,nodata,nxdomain,cname,ip,domain,rrname,servfail,refused,notimp,other,dnssec,none,blob);
+int get hashCode {
+  final _this = this as StatsReplies;
+  return Object.hash(runtimeType,_this.unknown,_this.nodata,_this.nxdomain,_this.cname,_this.ip,_this.domain,_this.rrname,_this.servfail,_this.refused,_this.notimp,_this.other,_this.dnssec,_this.none,_this.blob);
+}
 
 @override
 String toString() {
-  return 'StatsReplies(unknown: $unknown, nodata: $nodata, nxdomain: $nxdomain, cname: $cname, ip: $ip, domain: $domain, rrname: $rrname, servfail: $servfail, refused: $refused, notimp: $notimp, other: $other, dnssec: $dnssec, none: $none, blob: $blob)';
+  final _this = this as StatsReplies;
+  return 'StatsReplies(unknown: ${_this.unknown}, nodata: ${_this.nodata}, nxdomain: ${_this.nxdomain}, cname: ${_this.cname}, ip: ${_this.ip}, domain: ${_this.domain}, rrname: ${_this.rrname}, servfail: ${_this.servfail}, refused: ${_this.refused}, notimp: ${_this.notimp}, other: ${_this.other}, dnssec: ${_this.dnssec}, none: ${_this.none}, blob: ${_this.blob})';
 }
 
 
@@ -1334,7 +1368,7 @@ class _$StatsRepliesCopyWithImpl<$Res>
 /// Create a copy of StatsReplies
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? unknown = null,Object? nodata = null,Object? nxdomain = null,Object? cname = null,Object? ip = null,Object? domain = null,Object? rrname = null,Object? servfail = null,Object? refused = null,Object? notimp = null,Object? other = null,Object? dnssec = null,Object? none = null,Object? blob = null,}) {
-  return _then(_self.copyWith(
+  return _then(StatsReplies(
 unknown: null == unknown ? _self.unknown : unknown // ignore: cast_nullable_to_non_nullable
 as int,nodata: null == nodata ? _self.nodata : nodata // ignore: cast_nullable_to_non_nullable
 as int,nxdomain: null == nxdomain ? _self.nxdomain : nxdomain // ignore: cast_nullable_to_non_nullable
@@ -1515,16 +1549,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsReplies&&(identical(other.unknown, unknown) || other.unknown == unknown)&&(identical(other.nodata, nodata) || other.nodata == nodata)&&(identical(other.nxdomain, nxdomain) || other.nxdomain == nxdomain)&&(identical(other.cname, cname) || other.cname == cname)&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.rrname, rrname) || other.rrname == rrname)&&(identical(other.servfail, servfail) || other.servfail == servfail)&&(identical(other.refused, refused) || other.refused == refused)&&(identical(other.notimp, notimp) || other.notimp == notimp)&&(identical(other.other, this.other) || other.other == this.other)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.none, none) || other.none == none)&&(identical(other.blob, blob) || other.blob == blob));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsReplies&&(identical(other.unknown, unknown) || other.unknown == unknown)&&(identical(other.nodata, nodata) || other.nodata == nodata)&&(identical(other.nxdomain, nxdomain) || other.nxdomain == nxdomain)&&(identical(other.cname, cname) || other.cname == cname)&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.rrname, rrname) || other.rrname == rrname)&&(identical(other.servfail, servfail) || other.servfail == servfail)&&(identical(other.refused, refused) || other.refused == refused)&&(identical(other.notimp, notimp) || other.notimp == notimp)&&(identical(other.other, this.other) || other.other == this.other)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.none, none) || other.none == none)&&(identical(other.blob, blob) || other.blob == blob));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,unknown,nodata,nxdomain,cname,ip,domain,rrname,servfail,refused,notimp,other,dnssec,none,blob);
+int get hashCode {
+    return Object.hash(runtimeType,unknown,nodata,nxdomain,cname,ip,domain,rrname,servfail,refused,notimp,other,dnssec,none,blob);
+}
 
 @override
 String toString() {
-  return 'StatsReplies(unknown: $unknown, nodata: $nodata, nxdomain: $nxdomain, cname: $cname, ip: $ip, domain: $domain, rrname: $rrname, servfail: $servfail, refused: $refused, notimp: $notimp, other: $other, dnssec: $dnssec, none: $none, blob: $blob)';
+    return 'StatsReplies(unknown: $unknown, nodata: $nodata, nxdomain: $nxdomain, cname: $cname, ip: $ip, domain: $domain, rrname: $rrname, servfail: $servfail, refused: $refused, notimp: $notimp, other: $other, dnssec: $dnssec, none: $none, blob: $blob)';
 }
 
 
@@ -1592,16 +1628,21 @@ $StatsClientsCopyWith<StatsClients> get copyWith => _$StatsClientsCopyWithImpl<S
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsClients&&(identical(other.active, active) || other.active == active)&&(identical(other.total, total) || other.total == total));
+  final _this = this as StatsClients;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsClients&&(identical(other.active, _this.active) || other.active == _this.active)&&(identical(other.total, _this.total) || other.total == _this.total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,active,total);
+int get hashCode {
+  final _this = this as StatsClients;
+  return Object.hash(runtimeType,_this.active,_this.total);
+}
 
 @override
 String toString() {
-  return 'StatsClients(active: $active, total: $total)';
+  final _this = this as StatsClients;
+  return 'StatsClients(active: ${_this.active}, total: ${_this.total})';
 }
 
 
@@ -1630,7 +1671,7 @@ class _$StatsClientsCopyWithImpl<$Res>
 /// Create a copy of StatsClients
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? active = null,Object? total = null,}) {
-  return _then(_self.copyWith(
+  return _then(StatsClients(
 active: null == active ? _self.active : active // ignore: cast_nullable_to_non_nullable
 as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,
@@ -1787,16 +1828,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsClients&&(identical(other.active, active) || other.active == active)&&(identical(other.total, total) || other.total == total));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsClients&&(identical(other.active, active) || other.active == active)&&(identical(other.total, total) || other.total == total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,active,total);
+int get hashCode {
+    return Object.hash(runtimeType,active,total);
+}
 
 @override
 String toString() {
-  return 'StatsClients(active: $active, total: $total)';
+    return 'StatsClients(active: $active, total: $total)';
 }
 
 
@@ -1852,16 +1895,21 @@ $StatsGravityCopyWith<StatsGravity> get copyWith => _$StatsGravityCopyWithImpl<S
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsGravity&&(identical(other.domainsBeingBlocked, domainsBeingBlocked) || other.domainsBeingBlocked == domainsBeingBlocked)&&(identical(other.lastUpdate, lastUpdate) || other.lastUpdate == lastUpdate));
+  final _this = this as StatsGravity;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsGravity&&(identical(other.domainsBeingBlocked, _this.domainsBeingBlocked) || other.domainsBeingBlocked == _this.domainsBeingBlocked)&&(identical(other.lastUpdate, _this.lastUpdate) || other.lastUpdate == _this.lastUpdate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domainsBeingBlocked,lastUpdate);
+int get hashCode {
+  final _this = this as StatsGravity;
+  return Object.hash(runtimeType,_this.domainsBeingBlocked,_this.lastUpdate);
+}
 
 @override
 String toString() {
-  return 'StatsGravity(domainsBeingBlocked: $domainsBeingBlocked, lastUpdate: $lastUpdate)';
+  final _this = this as StatsGravity;
+  return 'StatsGravity(domainsBeingBlocked: ${_this.domainsBeingBlocked}, lastUpdate: ${_this.lastUpdate})';
 }
 
 
@@ -1890,7 +1938,7 @@ class _$StatsGravityCopyWithImpl<$Res>
 /// Create a copy of StatsGravity
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domainsBeingBlocked = null,Object? lastUpdate = null,}) {
-  return _then(_self.copyWith(
+  return _then(StatsGravity(
 domainsBeingBlocked: null == domainsBeingBlocked ? _self.domainsBeingBlocked : domainsBeingBlocked // ignore: cast_nullable_to_non_nullable
 as int,lastUpdate: null == lastUpdate ? _self.lastUpdate : lastUpdate // ignore: cast_nullable_to_non_nullable
 as int,
@@ -2047,16 +2095,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsGravity&&(identical(other.domainsBeingBlocked, domainsBeingBlocked) || other.domainsBeingBlocked == domainsBeingBlocked)&&(identical(other.lastUpdate, lastUpdate) || other.lastUpdate == lastUpdate));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsGravity&&(identical(other.domainsBeingBlocked, domainsBeingBlocked) || other.domainsBeingBlocked == domainsBeingBlocked)&&(identical(other.lastUpdate, lastUpdate) || other.lastUpdate == lastUpdate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domainsBeingBlocked,lastUpdate);
+int get hashCode {
+    return Object.hash(runtimeType,domainsBeingBlocked,lastUpdate);
+}
 
 @override
 String toString() {
-  return 'StatsGravity(domainsBeingBlocked: $domainsBeingBlocked, lastUpdate: $lastUpdate)';
+    return 'StatsGravity(domainsBeingBlocked: $domainsBeingBlocked, lastUpdate: $lastUpdate)';
 }
 
 
@@ -2112,16 +2162,21 @@ $StatsTopDomainsCopyWith<StatsTopDomains> get copyWith => _$StatsTopDomainsCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsTopDomains&&const DeepCollectionEquality().equals(other.domains, domains)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.blockedQueries, blockedQueries) || other.blockedQueries == blockedQueries)&&(identical(other.took, took) || other.took == took));
+  final _this = this as StatsTopDomains;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsTopDomains&&const DeepCollectionEquality().equals(other.domains, _this.domains)&&(identical(other.totalQueries, _this.totalQueries) || other.totalQueries == _this.totalQueries)&&(identical(other.blockedQueries, _this.blockedQueries) || other.blockedQueries == _this.blockedQueries)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(domains),totalQueries,blockedQueries,took);
+int get hashCode {
+  final _this = this as StatsTopDomains;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.domains),_this.totalQueries,_this.blockedQueries,_this.took);
+}
 
 @override
 String toString() {
-  return 'StatsTopDomains(domains: $domains, totalQueries: $totalQueries, blockedQueries: $blockedQueries, took: $took)';
+  final _this = this as StatsTopDomains;
+  return 'StatsTopDomains(domains: ${_this.domains}, totalQueries: ${_this.totalQueries}, blockedQueries: ${_this.blockedQueries}, took: ${_this.took})';
 }
 
 
@@ -2150,7 +2205,7 @@ class _$StatsTopDomainsCopyWithImpl<$Res>
 /// Create a copy of StatsTopDomains
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domains = null,Object? totalQueries = null,Object? blockedQueries = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(StatsTopDomains(
 domains: null == domains ? _self.domains : domains // ignore: cast_nullable_to_non_nullable
 as List<StatsDomain>,totalQueries: null == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
 as int,blockedQueries: null == blockedQueries ? _self.blockedQueries : blockedQueries // ignore: cast_nullable_to_non_nullable
@@ -2290,7 +2345,7 @@ return $default(_that.domains,_that.totalQueries,_that.blockedQueries,_that.took
 
 @JsonSerializable(explicitToJson: true)
 class _StatsTopDomains implements StatsTopDomains {
-  const _StatsTopDomains({required final  List<StatsDomain> domains, @JsonKey(name: 'total_queries') required this.totalQueries, @JsonKey(name: 'blocked_queries') required this.blockedQueries, required this.took}): _domains = domains;
+  const _StatsTopDomains({required  List<StatsDomain> domains, @JsonKey(name: 'total_queries') required this.totalQueries, @JsonKey(name: 'blocked_queries') required this.blockedQueries, required this.took}): _domains = domains;
   factory _StatsTopDomains.fromJson(Map<String, dynamic> json) => _$StatsTopDomainsFromJson(json);
 
  final  List<StatsDomain> _domains;
@@ -2317,16 +2372,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsTopDomains&&const DeepCollectionEquality().equals(other._domains, _domains)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.blockedQueries, blockedQueries) || other.blockedQueries == blockedQueries)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsTopDomains&&const DeepCollectionEquality().equals(other.domains, _domains)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.blockedQueries, blockedQueries) || other.blockedQueries == blockedQueries)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_domains),totalQueries,blockedQueries,took);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_domains),totalQueries,blockedQueries,took);
+}
 
 @override
 String toString() {
-  return 'StatsTopDomains(domains: $domains, totalQueries: $totalQueries, blockedQueries: $blockedQueries, took: $took)';
+    return 'StatsTopDomains(domains: $domains, totalQueries: $totalQueries, blockedQueries: $blockedQueries, took: $took)';
 }
 
 
@@ -2384,16 +2441,21 @@ $StatsDomainCopyWith<StatsDomain> get copyWith => _$StatsDomainCopyWithImpl<Stat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsDomain&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.count, count) || other.count == count));
+  final _this = this as StatsDomain;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsDomain&&(identical(other.domain, _this.domain) || other.domain == _this.domain)&&(identical(other.count, _this.count) || other.count == _this.count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domain,count);
+int get hashCode {
+  final _this = this as StatsDomain;
+  return Object.hash(runtimeType,_this.domain,_this.count);
+}
 
 @override
 String toString() {
-  return 'StatsDomain(domain: $domain, count: $count)';
+  final _this = this as StatsDomain;
+  return 'StatsDomain(domain: ${_this.domain}, count: ${_this.count})';
 }
 
 
@@ -2422,7 +2484,7 @@ class _$StatsDomainCopyWithImpl<$Res>
 /// Create a copy of StatsDomain
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domain = null,Object? count = null,}) {
-  return _then(_self.copyWith(
+  return _then(StatsDomain(
 domain: null == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
 as String,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
 as int,
@@ -2579,16 +2641,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsDomain&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsDomain&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domain,count);
+int get hashCode {
+    return Object.hash(runtimeType,domain,count);
+}
 
 @override
 String toString() {
-  return 'StatsDomain(domain: $domain, count: $count)';
+    return 'StatsDomain(domain: $domain, count: $count)';
 }
 
 
@@ -2644,16 +2708,21 @@ $StatsTopClientsCopyWith<StatsTopClients> get copyWith => _$StatsTopClientsCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsTopClients&&const DeepCollectionEquality().equals(other.clients, clients)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.blockedQueries, blockedQueries) || other.blockedQueries == blockedQueries)&&(identical(other.took, took) || other.took == took));
+  final _this = this as StatsTopClients;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsTopClients&&const DeepCollectionEquality().equals(other.clients, _this.clients)&&(identical(other.totalQueries, _this.totalQueries) || other.totalQueries == _this.totalQueries)&&(identical(other.blockedQueries, _this.blockedQueries) || other.blockedQueries == _this.blockedQueries)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(clients),totalQueries,blockedQueries,took);
+int get hashCode {
+  final _this = this as StatsTopClients;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.clients),_this.totalQueries,_this.blockedQueries,_this.took);
+}
 
 @override
 String toString() {
-  return 'StatsTopClients(clients: $clients, totalQueries: $totalQueries, blockedQueries: $blockedQueries, took: $took)';
+  final _this = this as StatsTopClients;
+  return 'StatsTopClients(clients: ${_this.clients}, totalQueries: ${_this.totalQueries}, blockedQueries: ${_this.blockedQueries}, took: ${_this.took})';
 }
 
 
@@ -2682,7 +2751,7 @@ class _$StatsTopClientsCopyWithImpl<$Res>
 /// Create a copy of StatsTopClients
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? clients = null,Object? totalQueries = null,Object? blockedQueries = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(StatsTopClients(
 clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
 as List<StatsClient>,totalQueries: null == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
 as int,blockedQueries: null == blockedQueries ? _self.blockedQueries : blockedQueries // ignore: cast_nullable_to_non_nullable
@@ -2822,7 +2891,7 @@ return $default(_that.clients,_that.totalQueries,_that.blockedQueries,_that.took
 
 @JsonSerializable(explicitToJson: true)
 class _StatsTopClients implements StatsTopClients {
-  const _StatsTopClients({required final  List<StatsClient> clients, @JsonKey(name: 'total_queries') required this.totalQueries, @JsonKey(name: 'blocked_queries') required this.blockedQueries, required this.took}): _clients = clients;
+  const _StatsTopClients({required  List<StatsClient> clients, @JsonKey(name: 'total_queries') required this.totalQueries, @JsonKey(name: 'blocked_queries') required this.blockedQueries, required this.took}): _clients = clients;
   factory _StatsTopClients.fromJson(Map<String, dynamic> json) => _$StatsTopClientsFromJson(json);
 
  final  List<StatsClient> _clients;
@@ -2849,16 +2918,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsTopClients&&const DeepCollectionEquality().equals(other._clients, _clients)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.blockedQueries, blockedQueries) || other.blockedQueries == blockedQueries)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsTopClients&&const DeepCollectionEquality().equals(other.clients, _clients)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.blockedQueries, blockedQueries) || other.blockedQueries == blockedQueries)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_clients),totalQueries,blockedQueries,took);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_clients),totalQueries,blockedQueries,took);
+}
 
 @override
 String toString() {
-  return 'StatsTopClients(clients: $clients, totalQueries: $totalQueries, blockedQueries: $blockedQueries, took: $took)';
+    return 'StatsTopClients(clients: $clients, totalQueries: $totalQueries, blockedQueries: $blockedQueries, took: $took)';
 }
 
 
@@ -2916,16 +2987,21 @@ $StatsClientCopyWith<StatsClient> get copyWith => _$StatsClientCopyWithImpl<Stat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsClient&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
+  final _this = this as StatsClient;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsClient&&(identical(other.ip, _this.ip) || other.ip == _this.ip)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.count, _this.count) || other.count == _this.count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ip,name,count);
+int get hashCode {
+  final _this = this as StatsClient;
+  return Object.hash(runtimeType,_this.ip,_this.name,_this.count);
+}
 
 @override
 String toString() {
-  return 'StatsClient(ip: $ip, name: $name, count: $count)';
+  final _this = this as StatsClient;
+  return 'StatsClient(ip: ${_this.ip}, name: ${_this.name}, count: ${_this.count})';
 }
 
 
@@ -2954,7 +3030,7 @@ class _$StatsClientCopyWithImpl<$Res>
 /// Create a copy of StatsClient
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ip = null,Object? name = null,Object? count = null,}) {
-  return _then(_self.copyWith(
+  return _then(StatsClient(
 ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
@@ -3113,16 +3189,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsClient&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsClient&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ip,name,count);
+int get hashCode {
+    return Object.hash(runtimeType,ip,name,count);
+}
 
 @override
 String toString() {
-  return 'StatsClient(ip: $ip, name: $name, count: $count)';
+    return 'StatsClient(ip: $ip, name: $name, count: $count)';
 }
 
 
@@ -3179,16 +3257,21 @@ $StatsUpstreamsCopyWith<StatsUpstreams> get copyWith => _$StatsUpstreamsCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsUpstreams&&const DeepCollectionEquality().equals(other.upstreams, upstreams)&&(identical(other.forwardedQueries, forwardedQueries) || other.forwardedQueries == forwardedQueries)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.took, took) || other.took == took));
+  final _this = this as StatsUpstreams;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsUpstreams&&const DeepCollectionEquality().equals(other.upstreams, _this.upstreams)&&(identical(other.forwardedQueries, _this.forwardedQueries) || other.forwardedQueries == _this.forwardedQueries)&&(identical(other.totalQueries, _this.totalQueries) || other.totalQueries == _this.totalQueries)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(upstreams),forwardedQueries,totalQueries,took);
+int get hashCode {
+  final _this = this as StatsUpstreams;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.upstreams),_this.forwardedQueries,_this.totalQueries,_this.took);
+}
 
 @override
 String toString() {
-  return 'StatsUpstreams(upstreams: $upstreams, forwardedQueries: $forwardedQueries, totalQueries: $totalQueries, took: $took)';
+  final _this = this as StatsUpstreams;
+  return 'StatsUpstreams(upstreams: ${_this.upstreams}, forwardedQueries: ${_this.forwardedQueries}, totalQueries: ${_this.totalQueries}, took: ${_this.took})';
 }
 
 
@@ -3217,7 +3300,7 @@ class _$StatsUpstreamsCopyWithImpl<$Res>
 /// Create a copy of StatsUpstreams
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? upstreams = null,Object? forwardedQueries = null,Object? totalQueries = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(StatsUpstreams(
 upstreams: null == upstreams ? _self.upstreams : upstreams // ignore: cast_nullable_to_non_nullable
 as List<StatsUpstream>,forwardedQueries: null == forwardedQueries ? _self.forwardedQueries : forwardedQueries // ignore: cast_nullable_to_non_nullable
 as int,totalQueries: null == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
@@ -3357,7 +3440,7 @@ return $default(_that.upstreams,_that.forwardedQueries,_that.totalQueries,_that.
 
 @JsonSerializable(explicitToJson: true)
 class _StatsUpstreams implements StatsUpstreams {
-  const _StatsUpstreams({required final  List<StatsUpstream> upstreams, @JsonKey(name: 'forwarded_queries') required this.forwardedQueries, @JsonKey(name: 'total_queries') required this.totalQueries, required this.took}): _upstreams = upstreams;
+  const _StatsUpstreams({required  List<StatsUpstream> upstreams, @JsonKey(name: 'forwarded_queries') required this.forwardedQueries, @JsonKey(name: 'total_queries') required this.totalQueries, required this.took}): _upstreams = upstreams;
   factory _StatsUpstreams.fromJson(Map<String, dynamic> json) => _$StatsUpstreamsFromJson(json);
 
  final  List<StatsUpstream> _upstreams;
@@ -3384,16 +3467,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsUpstreams&&const DeepCollectionEquality().equals(other._upstreams, _upstreams)&&(identical(other.forwardedQueries, forwardedQueries) || other.forwardedQueries == forwardedQueries)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsUpstreams&&const DeepCollectionEquality().equals(other.upstreams, _upstreams)&&(identical(other.forwardedQueries, forwardedQueries) || other.forwardedQueries == forwardedQueries)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_upstreams),forwardedQueries,totalQueries,took);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_upstreams),forwardedQueries,totalQueries,took);
+}
 
 @override
 String toString() {
-  return 'StatsUpstreams(upstreams: $upstreams, forwardedQueries: $forwardedQueries, totalQueries: $totalQueries, took: $took)';
+    return 'StatsUpstreams(upstreams: $upstreams, forwardedQueries: $forwardedQueries, totalQueries: $totalQueries, took: $took)';
 }
 
 
@@ -3451,16 +3536,21 @@ $StatsUpstreamCopyWith<StatsUpstream> get copyWith => _$StatsUpstreamCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsUpstream&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.port, port) || other.port == port)&&(identical(other.count, count) || other.count == count)&&(identical(other.statistics, statistics) || other.statistics == statistics));
+  final _this = this as StatsUpstream;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsUpstream&&(identical(other.ip, _this.ip) || other.ip == _this.ip)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.port, _this.port) || other.port == _this.port)&&(identical(other.count, _this.count) || other.count == _this.count)&&(identical(other.statistics, _this.statistics) || other.statistics == _this.statistics));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ip,name,port,count,statistics);
+int get hashCode {
+  final _this = this as StatsUpstream;
+  return Object.hash(runtimeType,_this.ip,_this.name,_this.port,_this.count,_this.statistics);
+}
 
 @override
 String toString() {
-  return 'StatsUpstream(ip: $ip, name: $name, port: $port, count: $count, statistics: $statistics)';
+  final _this = this as StatsUpstream;
+  return 'StatsUpstream(ip: ${_this.ip}, name: ${_this.name}, port: ${_this.port}, count: ${_this.count}, statistics: ${_this.statistics})';
 }
 
 
@@ -3489,7 +3579,7 @@ class _$StatsUpstreamCopyWithImpl<$Res>
 /// Create a copy of StatsUpstream
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ip = null,Object? name = null,Object? port = null,Object? count = null,Object? statistics = null,}) {
-  return _then(_self.copyWith(
+  return _then(StatsUpstream(
 ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,port: null == port ? _self.port : port // ignore: cast_nullable_to_non_nullable
@@ -3661,16 +3751,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsUpstream&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.port, port) || other.port == port)&&(identical(other.count, count) || other.count == count)&&(identical(other.statistics, statistics) || other.statistics == statistics));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsUpstream&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.port, port) || other.port == port)&&(identical(other.count, count) || other.count == count)&&(identical(other.statistics, statistics) || other.statistics == statistics));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ip,name,port,count,statistics);
+int get hashCode {
+    return Object.hash(runtimeType,ip,name,port,count,statistics);
+}
 
 @override
 String toString() {
-  return 'StatsUpstream(ip: $ip, name: $name, port: $port, count: $count, statistics: $statistics)';
+    return 'StatsUpstream(ip: $ip, name: $name, port: $port, count: $count, statistics: $statistics)';
 }
 
 
@@ -3738,16 +3830,21 @@ $StatisticsCopyWith<Statistics> get copyWith => _$StatisticsCopyWithImpl<Statist
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Statistics&&(identical(other.response, response) || other.response == response)&&(identical(other.variance, variance) || other.variance == variance));
+  final _this = this as Statistics;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Statistics&&(identical(other.response, _this.response) || other.response == _this.response)&&(identical(other.variance, _this.variance) || other.variance == _this.variance));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,response,variance);
+int get hashCode {
+  final _this = this as Statistics;
+  return Object.hash(runtimeType,_this.response,_this.variance);
+}
 
 @override
 String toString() {
-  return 'Statistics(response: $response, variance: $variance)';
+  final _this = this as Statistics;
+  return 'Statistics(response: ${_this.response}, variance: ${_this.variance})';
 }
 
 
@@ -3776,7 +3873,7 @@ class _$StatisticsCopyWithImpl<$Res>
 /// Create a copy of Statistics
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? response = null,Object? variance = null,}) {
-  return _then(_self.copyWith(
+  return _then(Statistics(
 response: null == response ? _self.response : response // ignore: cast_nullable_to_non_nullable
 as double,variance: null == variance ? _self.variance : variance // ignore: cast_nullable_to_non_nullable
 as double,
@@ -3933,16 +4030,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Statistics&&(identical(other.response, response) || other.response == response)&&(identical(other.variance, variance) || other.variance == variance));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Statistics&&(identical(other.response, response) || other.response == response)&&(identical(other.variance, variance) || other.variance == variance));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,response,variance);
+int get hashCode {
+    return Object.hash(runtimeType,response,variance);
+}
 
 @override
 String toString() {
-  return 'Statistics(response: $response, variance: $variance)';
+    return 'Statistics(response: $response, variance: $variance)';
 }
 
 

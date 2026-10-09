@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'top_domains.dart';
@@ -9,14 +9,14 @@ part of 'top_domains.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$TopDomains {
 
- List<QueryStat> get topQueries; List<QueryStat> get topAds;// v6-only fields
- int? get totalQueries; int? get blockedQueries;
+ List<QueryStat> get topQueries; List<QueryStat> get topAds; int? get totalQueries; int? get blockedQueries;
 /// Create a copy of TopDomains
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,21 @@ $TopDomainsCopyWith<TopDomains> get copyWith => _$TopDomainsCopyWithImpl<TopDoma
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TopDomains&&const DeepCollectionEquality().equals(other.topQueries, topQueries)&&const DeepCollectionEquality().equals(other.topAds, topAds)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.blockedQueries, blockedQueries) || other.blockedQueries == blockedQueries));
+  final _this = this as TopDomains;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TopDomains&&const DeepCollectionEquality().equals(other.topQueries, _this.topQueries)&&const DeepCollectionEquality().equals(other.topAds, _this.topAds)&&(identical(other.totalQueries, _this.totalQueries) || other.totalQueries == _this.totalQueries)&&(identical(other.blockedQueries, _this.blockedQueries) || other.blockedQueries == _this.blockedQueries));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(topQueries),const DeepCollectionEquality().hash(topAds),totalQueries,blockedQueries);
+int get hashCode {
+  final _this = this as TopDomains;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.topQueries),const DeepCollectionEquality().hash(_this.topAds),_this.totalQueries,_this.blockedQueries);
+}
 
 @override
 String toString() {
-  return 'TopDomains(topQueries: $topQueries, topAds: $topAds, totalQueries: $totalQueries, blockedQueries: $blockedQueries)';
+  final _this = this as TopDomains;
+  return 'TopDomains(topQueries: ${_this.topQueries}, topAds: ${_this.topAds}, totalQueries: ${_this.totalQueries}, blockedQueries: ${_this.blockedQueries})';
 }
 
 
@@ -67,7 +72,7 @@ class _$TopDomainsCopyWithImpl<$Res>
 /// Create a copy of TopDomains
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? topQueries = null,Object? topAds = null,Object? totalQueries = freezed,Object? blockedQueries = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(TopDomains(
 topQueries: null == topQueries ? _self.topQueries : topQueries // ignore: cast_nullable_to_non_nullable
 as List<QueryStat>,topAds: null == topAds ? _self.topAds : topAds // ignore: cast_nullable_to_non_nullable
 as List<QueryStat>,totalQueries: freezed == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
@@ -207,7 +212,7 @@ return $default(_that.topQueries,_that.topAds,_that.totalQueries,_that.blockedQu
 
 @JsonSerializable(explicitToJson: true)
 class _TopDomains implements TopDomains {
-  const _TopDomains({required final  List<QueryStat> topQueries, required final  List<QueryStat> topAds, this.totalQueries, this.blockedQueries}): _topQueries = topQueries,_topAds = topAds;
+  const _TopDomains({required  List<QueryStat> topQueries, required  List<QueryStat> topAds, this.totalQueries, this.blockedQueries}): _topQueries = topQueries,_topAds = topAds;
   factory _TopDomains.fromJson(Map<String, dynamic> json) => _$TopDomainsFromJson(json);
 
  final  List<QueryStat> _topQueries;
@@ -224,7 +229,6 @@ class _TopDomains implements TopDomains {
   return EqualUnmodifiableListView(_topAds);
 }
 
-// v6-only fields
 @override final  int? totalQueries;
 @override final  int? blockedQueries;
 
@@ -241,16 +245,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TopDomains&&const DeepCollectionEquality().equals(other._topQueries, _topQueries)&&const DeepCollectionEquality().equals(other._topAds, _topAds)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.blockedQueries, blockedQueries) || other.blockedQueries == blockedQueries));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TopDomains&&const DeepCollectionEquality().equals(other.topQueries, _topQueries)&&const DeepCollectionEquality().equals(other.topAds, _topAds)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.blockedQueries, blockedQueries) || other.blockedQueries == blockedQueries));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_topQueries),const DeepCollectionEquality().hash(_topAds),totalQueries,blockedQueries);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_topQueries),const DeepCollectionEquality().hash(_topAds),totalQueries,blockedQueries);
+}
 
 @override
 String toString() {
-  return 'TopDomains(topQueries: $topQueries, topAds: $topAds, totalQueries: $totalQueries, blockedQueries: $blockedQueries)';
+    return 'TopDomains(topQueries: $topQueries, topAds: $topAds, totalQueries: $totalQueries, blockedQueries: $blockedQueries)';
 }
 
 
@@ -308,16 +314,21 @@ $QueryStatCopyWith<QueryStat> get copyWith => _$QueryStatCopyWithImpl<QueryStat>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryStat&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.count, count) || other.count == count));
+  final _this = this as QueryStat;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryStat&&(identical(other.domain, _this.domain) || other.domain == _this.domain)&&(identical(other.count, _this.count) || other.count == _this.count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domain,count);
+int get hashCode {
+  final _this = this as QueryStat;
+  return Object.hash(runtimeType,_this.domain,_this.count);
+}
 
 @override
 String toString() {
-  return 'QueryStat(domain: $domain, count: $count)';
+  final _this = this as QueryStat;
+  return 'QueryStat(domain: ${_this.domain}, count: ${_this.count})';
 }
 
 
@@ -346,7 +357,7 @@ class _$QueryStatCopyWithImpl<$Res>
 /// Create a copy of QueryStat
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domain = null,Object? count = null,}) {
-  return _then(_self.copyWith(
+  return _then(QueryStat(
 domain: null == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
 as String,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
 as int,
@@ -503,16 +514,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _QueryStat&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _QueryStat&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domain,count);
+int get hashCode {
+    return Object.hash(runtimeType,domain,count);
+}
 
 @override
 String toString() {
-  return 'QueryStat(domain: $domain, count: $count)';
+    return 'QueryStat(domain: $domain, count: $count)';
 }
 
 

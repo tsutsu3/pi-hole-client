@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'config.dart';
@@ -9,6 +9,7 @@ part of 'config.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $ConfigCopyWith<Config> get copyWith => _$ConfigCopyWithImpl<Config>(this as Con
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Config&&(identical(other.dns, dns) || other.dns == dns));
+  final _this = this as Config;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Config&&(identical(other.dns, _this.dns) || other.dns == _this.dns));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,dns);
+int get hashCode {
+  final _this = this as Config;
+  return Object.hash(runtimeType,_this.dns);
+}
 
 @override
 String toString() {
-  return 'Config(dns: $dns)';
+  final _this = this as Config;
+  return 'Config(dns: ${_this.dns})';
 }
 
 
@@ -66,7 +72,7 @@ class _$ConfigCopyWithImpl<$Res>
 /// Create a copy of Config
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? dns = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Config(
 dns: freezed == dns ? _self.dns : dns // ignore: cast_nullable_to_non_nullable
 as DnsConfig?,
   ));
@@ -233,16 +239,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Config&&(identical(other.dns, dns) || other.dns == dns));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Config&&(identical(other.dns, dns) || other.dns == dns));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,dns);
+int get hashCode {
+    return Object.hash(runtimeType,dns);
+}
 
 @override
 String toString() {
-  return 'Config(dns: $dns)';
+    return 'Config(dns: $dns)';
 }
 
 

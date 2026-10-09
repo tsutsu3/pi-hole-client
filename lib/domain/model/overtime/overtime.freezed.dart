@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'overtime.dart';
@@ -9,6 +9,7 @@ part of 'overtime.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $OverTimeCopyWith<OverTime> get copyWith => _$OverTimeCopyWithImpl<OverTime>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OverTime&&const DeepCollectionEquality().equals(other.domainsOverTime, domainsOverTime)&&const DeepCollectionEquality().equals(other.adsOverTime, adsOverTime)&&const DeepCollectionEquality().equals(other.clients, clients)&&const DeepCollectionEquality().equals(other.clientEntries, clientEntries));
+  final _this = this as OverTime;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OverTime&&const DeepCollectionEquality().equals(other.domainsOverTime, _this.domainsOverTime)&&const DeepCollectionEquality().equals(other.adsOverTime, _this.adsOverTime)&&const DeepCollectionEquality().equals(other.clients, _this.clients)&&const DeepCollectionEquality().equals(other.clientEntries, _this.clientEntries));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(domainsOverTime),const DeepCollectionEquality().hash(adsOverTime),const DeepCollectionEquality().hash(clients),const DeepCollectionEquality().hash(clientEntries));
+int get hashCode {
+  final _this = this as OverTime;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.domainsOverTime),const DeepCollectionEquality().hash(_this.adsOverTime),const DeepCollectionEquality().hash(_this.clients),const DeepCollectionEquality().hash(_this.clientEntries));
+}
 
 @override
 String toString() {
-  return 'OverTime(domainsOverTime: $domainsOverTime, adsOverTime: $adsOverTime, clients: $clients, clientEntries: $clientEntries)';
+  final _this = this as OverTime;
+  return 'OverTime(domainsOverTime: ${_this.domainsOverTime}, adsOverTime: ${_this.adsOverTime}, clients: ${_this.clients}, clientEntries: ${_this.clientEntries})';
 }
 
 
@@ -66,7 +72,7 @@ class _$OverTimeCopyWithImpl<$Res>
 /// Create a copy of OverTime
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domainsOverTime = null,Object? adsOverTime = null,Object? clients = null,Object? clientEntries = null,}) {
-  return _then(_self.copyWith(
+  return _then(OverTime(
 domainsOverTime: null == domainsOverTime ? _self.domainsOverTime : domainsOverTime // ignore: cast_nullable_to_non_nullable
 as List<HistoryEntry>,adsOverTime: null == adsOverTime ? _self.adsOverTime : adsOverTime // ignore: cast_nullable_to_non_nullable
 as List<HistoryEntry>,clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
@@ -206,7 +212,7 @@ return $default(_that.domainsOverTime,_that.adsOverTime,_that.clients,_that.clie
 
 @JsonSerializable(explicitToJson: true)
 class _OverTime implements OverTime {
-   _OverTime({required final  List<HistoryEntry> domainsOverTime, required final  List<HistoryEntry> adsOverTime, required final  List<Client> clients, required final  List<ClientOverTimeEntry> clientEntries}): _domainsOverTime = domainsOverTime,_adsOverTime = adsOverTime,_clients = clients,_clientEntries = clientEntries;
+   _OverTime({required  List<HistoryEntry> domainsOverTime, required  List<HistoryEntry> adsOverTime, required  List<Client> clients, required  List<ClientOverTimeEntry> clientEntries}): _domainsOverTime = domainsOverTime,_adsOverTime = adsOverTime,_clients = clients,_clientEntries = clientEntries;
   factory _OverTime.fromJson(Map<String, dynamic> json) => _$OverTimeFromJson(json);
 
  final  List<HistoryEntry> _domainsOverTime;
@@ -251,16 +257,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OverTime&&const DeepCollectionEquality().equals(other._domainsOverTime, _domainsOverTime)&&const DeepCollectionEquality().equals(other._adsOverTime, _adsOverTime)&&const DeepCollectionEquality().equals(other._clients, _clients)&&const DeepCollectionEquality().equals(other._clientEntries, _clientEntries));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _OverTime&&const DeepCollectionEquality().equals(other.domainsOverTime, _domainsOverTime)&&const DeepCollectionEquality().equals(other.adsOverTime, _adsOverTime)&&const DeepCollectionEquality().equals(other.clients, _clients)&&const DeepCollectionEquality().equals(other.clientEntries, _clientEntries));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_domainsOverTime),const DeepCollectionEquality().hash(_adsOverTime),const DeepCollectionEquality().hash(_clients),const DeepCollectionEquality().hash(_clientEntries));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_domainsOverTime),const DeepCollectionEquality().hash(_adsOverTime),const DeepCollectionEquality().hash(_clients),const DeepCollectionEquality().hash(_clientEntries));
+}
 
 @override
 String toString() {
-  return 'OverTime(domainsOverTime: $domainsOverTime, adsOverTime: $adsOverTime, clients: $clients, clientEntries: $clientEntries)';
+    return 'OverTime(domainsOverTime: $domainsOverTime, adsOverTime: $adsOverTime, clients: $clients, clientEntries: $clientEntries)';
 }
 
 

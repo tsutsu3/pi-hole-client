@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'gravity_snapshot.dart';
@@ -9,6 +9,7 @@ part of 'gravity_snapshot.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $GravitySnapshotCopyWith<GravitySnapshot> get copyWith => _$GravitySnapshotCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GravitySnapshot&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.logs, logs)&&const DeepCollectionEquality().equals(other.messages, messages)&&(identical(other.startedAt, startedAt) || other.startedAt == startedAt)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt));
+  final _this = this as GravitySnapshot;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GravitySnapshot&&(identical(other.status, _this.status) || other.status == _this.status)&&const DeepCollectionEquality().equals(other.logs, _this.logs)&&const DeepCollectionEquality().equals(other.messages, _this.messages)&&(identical(other.startedAt, _this.startedAt) || other.startedAt == _this.startedAt)&&(identical(other.completedAt, _this.completedAt) || other.completedAt == _this.completedAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(logs),const DeepCollectionEquality().hash(messages),startedAt,completedAt);
+int get hashCode {
+  final _this = this as GravitySnapshot;
+  return Object.hash(runtimeType,_this.status,const DeepCollectionEquality().hash(_this.logs),const DeepCollectionEquality().hash(_this.messages),_this.startedAt,_this.completedAt);
+}
 
 @override
 String toString() {
-  return 'GravitySnapshot(status: $status, logs: $logs, messages: $messages, startedAt: $startedAt, completedAt: $completedAt)';
+  final _this = this as GravitySnapshot;
+  return 'GravitySnapshot(status: ${_this.status}, logs: ${_this.logs}, messages: ${_this.messages}, startedAt: ${_this.startedAt}, completedAt: ${_this.completedAt})';
 }
 
 
@@ -63,7 +69,7 @@ class _$GravitySnapshotCopyWithImpl<$Res>
 /// Create a copy of GravitySnapshot
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? logs = null,Object? messages = null,Object? startedAt = freezed,Object? completedAt = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(GravitySnapshot(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as GravityStatus,logs: null == logs ? _self.logs : logs // ignore: cast_nullable_to_non_nullable
 as List<String>,messages: null == messages ? _self.messages : messages // ignore: cast_nullable_to_non_nullable
@@ -204,7 +210,7 @@ return $default(_that.status,_that.logs,_that.messages,_that.startedAt,_that.com
 
 
 class _GravitySnapshot implements GravitySnapshot {
-  const _GravitySnapshot({required this.status, required final  List<String> logs, required final  List<FtlMessage> messages, this.startedAt, this.completedAt}): _logs = logs,_messages = messages;
+  const _GravitySnapshot({required this.status, required  List<String> logs, required  List<FtlMessage> messages, this.startedAt, this.completedAt}): _logs = logs,_messages = messages;
   
 
 @override final  GravityStatus status;
@@ -235,16 +241,18 @@ _$GravitySnapshotCopyWith<_GravitySnapshot> get copyWith => __$GravitySnapshotCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GravitySnapshot&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._logs, _logs)&&const DeepCollectionEquality().equals(other._messages, _messages)&&(identical(other.startedAt, startedAt) || other.startedAt == startedAt)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _GravitySnapshot&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.logs, _logs)&&const DeepCollectionEquality().equals(other.messages, _messages)&&(identical(other.startedAt, startedAt) || other.startedAt == startedAt)&&(identical(other.completedAt, completedAt) || other.completedAt == completedAt));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,status,const DeepCollectionEquality().hash(_logs),const DeepCollectionEquality().hash(_messages),startedAt,completedAt);
+int get hashCode {
+    return Object.hash(runtimeType,status,const DeepCollectionEquality().hash(_logs),const DeepCollectionEquality().hash(_messages),startedAt,completedAt);
+}
 
 @override
 String toString() {
-  return 'GravitySnapshot(status: $status, logs: $logs, messages: $messages, startedAt: $startedAt, completedAt: $completedAt)';
+    return 'GravitySnapshot(status: $status, logs: $logs, messages: $messages, startedAt: $startedAt, completedAt: $completedAt)';
 }
 
 

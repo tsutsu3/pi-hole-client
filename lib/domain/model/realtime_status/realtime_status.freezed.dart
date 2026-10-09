@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'realtime_status.dart';
@@ -9,6 +9,7 @@ part of 'realtime_status.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $RealtimeStatusCopyWith<RealtimeStatus> get copyWith => _$RealtimeStatusCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RealtimeStatus&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.status, status) || other.status == status)&&(identical(other.topDomains, topDomains) || other.topDomains == topDomains)&&(identical(other.topClients, topClients) || other.topClients == topClients)&&const DeepCollectionEquality().equals(other.forwardDestinations, forwardDestinations));
+  final _this = this as RealtimeStatus;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RealtimeStatus&&(identical(other.summary, _this.summary) || other.summary == _this.summary)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.topDomains, _this.topDomains) || other.topDomains == _this.topDomains)&&(identical(other.topClients, _this.topClients) || other.topClients == _this.topClients)&&const DeepCollectionEquality().equals(other.forwardDestinations, _this.forwardDestinations));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,summary,status,topDomains,topClients,const DeepCollectionEquality().hash(forwardDestinations));
+int get hashCode {
+  final _this = this as RealtimeStatus;
+  return Object.hash(runtimeType,_this.summary,_this.status,_this.topDomains,_this.topClients,const DeepCollectionEquality().hash(_this.forwardDestinations));
+}
 
 @override
 String toString() {
-  return 'RealtimeStatus(summary: $summary, status: $status, topDomains: $topDomains, topClients: $topClients, forwardDestinations: $forwardDestinations)';
+  final _this = this as RealtimeStatus;
+  return 'RealtimeStatus(summary: ${_this.summary}, status: ${_this.status}, topDomains: ${_this.topDomains}, topClients: ${_this.topClients}, forwardDestinations: ${_this.forwardDestinations})';
 }
 
 
@@ -66,7 +72,7 @@ class _$RealtimeStatusCopyWithImpl<$Res>
 /// Create a copy of RealtimeStatus
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? summary = null,Object? status = null,Object? topDomains = null,Object? topClients = null,Object? forwardDestinations = null,}) {
-  return _then(_self.copyWith(
+  return _then(RealtimeStatus(
 summary: null == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
 as Summary,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as DnsBlockingStatus,topDomains: null == topDomains ? _self.topDomains : topDomains // ignore: cast_nullable_to_non_nullable
@@ -234,7 +240,7 @@ return $default(_that.summary,_that.status,_that.topDomains,_that.topClients,_th
 
 @JsonSerializable(explicitToJson: true)
 class _RealtimeStatus implements RealtimeStatus {
-   _RealtimeStatus({required this.summary, required this.status, required this.topDomains, required this.topClients, required final  List<DestinationStat> forwardDestinations}): _forwardDestinations = forwardDestinations;
+   _RealtimeStatus({required this.summary, required this.status, required this.topDomains, required this.topClients, required  List<DestinationStat> forwardDestinations}): _forwardDestinations = forwardDestinations;
   factory _RealtimeStatus.fromJson(Map<String, dynamic> json) => _$RealtimeStatusFromJson(json);
 
 @override final  Summary summary;
@@ -262,16 +268,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RealtimeStatus&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.status, status) || other.status == status)&&(identical(other.topDomains, topDomains) || other.topDomains == topDomains)&&(identical(other.topClients, topClients) || other.topClients == topClients)&&const DeepCollectionEquality().equals(other._forwardDestinations, _forwardDestinations));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RealtimeStatus&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.status, status) || other.status == status)&&(identical(other.topDomains, topDomains) || other.topDomains == topDomains)&&(identical(other.topClients, topClients) || other.topClients == topClients)&&const DeepCollectionEquality().equals(other.forwardDestinations, _forwardDestinations));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,summary,status,topDomains,topClients,const DeepCollectionEquality().hash(_forwardDestinations));
+int get hashCode {
+    return Object.hash(runtimeType,summary,status,topDomains,topClients,const DeepCollectionEquality().hash(_forwardDestinations));
+}
 
 @override
 String toString() {
-  return 'RealtimeStatus(summary: $summary, status: $status, topDomains: $topDomains, topClients: $topClients, forwardDestinations: $forwardDestinations)';
+    return 'RealtimeStatus(summary: $summary, status: $status, topDomains: $topDomains, topClients: $topClients, forwardDestinations: $forwardDestinations)';
 }
 
 

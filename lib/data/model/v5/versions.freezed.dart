@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'versions.dart';
@@ -9,6 +9,7 @@ part of 'versions.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $VersionsCopyWith<Versions> get copyWith => _$VersionsCopyWithImpl<Versions>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Versions&&(identical(other.coreUpdate, coreUpdate) || other.coreUpdate == coreUpdate)&&(identical(other.webUpdate, webUpdate) || other.webUpdate == webUpdate)&&(identical(other.ftlUpdate, ftlUpdate) || other.ftlUpdate == ftlUpdate)&&(identical(other.coreCurrent, coreCurrent) || other.coreCurrent == coreCurrent)&&(identical(other.webCurrent, webCurrent) || other.webCurrent == webCurrent)&&(identical(other.ftlCurrent, ftlCurrent) || other.ftlCurrent == ftlCurrent)&&(identical(other.coreLatest, coreLatest) || other.coreLatest == coreLatest)&&(identical(other.webLatest, webLatest) || other.webLatest == webLatest)&&(identical(other.ftlLatest, ftlLatest) || other.ftlLatest == ftlLatest)&&(identical(other.coreBranch, coreBranch) || other.coreBranch == coreBranch)&&(identical(other.webBranch, webBranch) || other.webBranch == webBranch)&&(identical(other.ftlBranch, ftlBranch) || other.ftlBranch == ftlBranch)&&(identical(other.dockerUpdate, dockerUpdate) || other.dockerUpdate == dockerUpdate)&&(identical(other.dockerCurrent, dockerCurrent) || other.dockerCurrent == dockerCurrent)&&(identical(other.dockerLatest, dockerLatest) || other.dockerLatest == dockerLatest));
+  final _this = this as Versions;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Versions&&(identical(other.coreUpdate, _this.coreUpdate) || other.coreUpdate == _this.coreUpdate)&&(identical(other.webUpdate, _this.webUpdate) || other.webUpdate == _this.webUpdate)&&(identical(other.ftlUpdate, _this.ftlUpdate) || other.ftlUpdate == _this.ftlUpdate)&&(identical(other.coreCurrent, _this.coreCurrent) || other.coreCurrent == _this.coreCurrent)&&(identical(other.webCurrent, _this.webCurrent) || other.webCurrent == _this.webCurrent)&&(identical(other.ftlCurrent, _this.ftlCurrent) || other.ftlCurrent == _this.ftlCurrent)&&(identical(other.coreLatest, _this.coreLatest) || other.coreLatest == _this.coreLatest)&&(identical(other.webLatest, _this.webLatest) || other.webLatest == _this.webLatest)&&(identical(other.ftlLatest, _this.ftlLatest) || other.ftlLatest == _this.ftlLatest)&&(identical(other.coreBranch, _this.coreBranch) || other.coreBranch == _this.coreBranch)&&(identical(other.webBranch, _this.webBranch) || other.webBranch == _this.webBranch)&&(identical(other.ftlBranch, _this.ftlBranch) || other.ftlBranch == _this.ftlBranch)&&(identical(other.dockerUpdate, _this.dockerUpdate) || other.dockerUpdate == _this.dockerUpdate)&&(identical(other.dockerCurrent, _this.dockerCurrent) || other.dockerCurrent == _this.dockerCurrent)&&(identical(other.dockerLatest, _this.dockerLatest) || other.dockerLatest == _this.dockerLatest));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,coreUpdate,webUpdate,ftlUpdate,coreCurrent,webCurrent,ftlCurrent,coreLatest,webLatest,ftlLatest,coreBranch,webBranch,ftlBranch,dockerUpdate,dockerCurrent,dockerLatest);
+int get hashCode {
+  final _this = this as Versions;
+  return Object.hash(runtimeType,_this.coreUpdate,_this.webUpdate,_this.ftlUpdate,_this.coreCurrent,_this.webCurrent,_this.ftlCurrent,_this.coreLatest,_this.webLatest,_this.ftlLatest,_this.coreBranch,_this.webBranch,_this.ftlBranch,_this.dockerUpdate,_this.dockerCurrent,_this.dockerLatest);
+}
 
 @override
 String toString() {
-  return 'Versions(coreUpdate: $coreUpdate, webUpdate: $webUpdate, ftlUpdate: $ftlUpdate, coreCurrent: $coreCurrent, webCurrent: $webCurrent, ftlCurrent: $ftlCurrent, coreLatest: $coreLatest, webLatest: $webLatest, ftlLatest: $ftlLatest, coreBranch: $coreBranch, webBranch: $webBranch, ftlBranch: $ftlBranch, dockerUpdate: $dockerUpdate, dockerCurrent: $dockerCurrent, dockerLatest: $dockerLatest)';
+  final _this = this as Versions;
+  return 'Versions(coreUpdate: ${_this.coreUpdate}, webUpdate: ${_this.webUpdate}, ftlUpdate: ${_this.ftlUpdate}, coreCurrent: ${_this.coreCurrent}, webCurrent: ${_this.webCurrent}, ftlCurrent: ${_this.ftlCurrent}, coreLatest: ${_this.coreLatest}, webLatest: ${_this.webLatest}, ftlLatest: ${_this.ftlLatest}, coreBranch: ${_this.coreBranch}, webBranch: ${_this.webBranch}, ftlBranch: ${_this.ftlBranch}, dockerUpdate: ${_this.dockerUpdate}, dockerCurrent: ${_this.dockerCurrent}, dockerLatest: ${_this.dockerLatest})';
 }
 
 
@@ -66,7 +72,7 @@ class _$VersionsCopyWithImpl<$Res>
 /// Create a copy of Versions
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? coreUpdate = null,Object? webUpdate = null,Object? ftlUpdate = null,Object? coreCurrent = null,Object? webCurrent = null,Object? ftlCurrent = null,Object? coreLatest = null,Object? webLatest = null,Object? ftlLatest = null,Object? coreBranch = null,Object? webBranch = null,Object? ftlBranch = null,Object? dockerUpdate = freezed,Object? dockerCurrent = freezed,Object? dockerLatest = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Versions(
 coreUpdate: null == coreUpdate ? _self.coreUpdate : coreUpdate // ignore: cast_nullable_to_non_nullable
 as bool,webUpdate: null == webUpdate ? _self.webUpdate : webUpdate // ignore: cast_nullable_to_non_nullable
 as bool,ftlUpdate: null == ftlUpdate ? _self.ftlUpdate : ftlUpdate // ignore: cast_nullable_to_non_nullable
@@ -249,16 +255,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Versions&&(identical(other.coreUpdate, coreUpdate) || other.coreUpdate == coreUpdate)&&(identical(other.webUpdate, webUpdate) || other.webUpdate == webUpdate)&&(identical(other.ftlUpdate, ftlUpdate) || other.ftlUpdate == ftlUpdate)&&(identical(other.coreCurrent, coreCurrent) || other.coreCurrent == coreCurrent)&&(identical(other.webCurrent, webCurrent) || other.webCurrent == webCurrent)&&(identical(other.ftlCurrent, ftlCurrent) || other.ftlCurrent == ftlCurrent)&&(identical(other.coreLatest, coreLatest) || other.coreLatest == coreLatest)&&(identical(other.webLatest, webLatest) || other.webLatest == webLatest)&&(identical(other.ftlLatest, ftlLatest) || other.ftlLatest == ftlLatest)&&(identical(other.coreBranch, coreBranch) || other.coreBranch == coreBranch)&&(identical(other.webBranch, webBranch) || other.webBranch == webBranch)&&(identical(other.ftlBranch, ftlBranch) || other.ftlBranch == ftlBranch)&&(identical(other.dockerUpdate, dockerUpdate) || other.dockerUpdate == dockerUpdate)&&(identical(other.dockerCurrent, dockerCurrent) || other.dockerCurrent == dockerCurrent)&&(identical(other.dockerLatest, dockerLatest) || other.dockerLatest == dockerLatest));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Versions&&(identical(other.coreUpdate, coreUpdate) || other.coreUpdate == coreUpdate)&&(identical(other.webUpdate, webUpdate) || other.webUpdate == webUpdate)&&(identical(other.ftlUpdate, ftlUpdate) || other.ftlUpdate == ftlUpdate)&&(identical(other.coreCurrent, coreCurrent) || other.coreCurrent == coreCurrent)&&(identical(other.webCurrent, webCurrent) || other.webCurrent == webCurrent)&&(identical(other.ftlCurrent, ftlCurrent) || other.ftlCurrent == ftlCurrent)&&(identical(other.coreLatest, coreLatest) || other.coreLatest == coreLatest)&&(identical(other.webLatest, webLatest) || other.webLatest == webLatest)&&(identical(other.ftlLatest, ftlLatest) || other.ftlLatest == ftlLatest)&&(identical(other.coreBranch, coreBranch) || other.coreBranch == coreBranch)&&(identical(other.webBranch, webBranch) || other.webBranch == webBranch)&&(identical(other.ftlBranch, ftlBranch) || other.ftlBranch == ftlBranch)&&(identical(other.dockerUpdate, dockerUpdate) || other.dockerUpdate == dockerUpdate)&&(identical(other.dockerCurrent, dockerCurrent) || other.dockerCurrent == dockerCurrent)&&(identical(other.dockerLatest, dockerLatest) || other.dockerLatest == dockerLatest));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,coreUpdate,webUpdate,ftlUpdate,coreCurrent,webCurrent,ftlCurrent,coreLatest,webLatest,ftlLatest,coreBranch,webBranch,ftlBranch,dockerUpdate,dockerCurrent,dockerLatest);
+int get hashCode {
+    return Object.hash(runtimeType,coreUpdate,webUpdate,ftlUpdate,coreCurrent,webCurrent,ftlCurrent,coreLatest,webLatest,ftlLatest,coreBranch,webBranch,ftlBranch,dockerUpdate,dockerCurrent,dockerLatest);
+}
 
 @override
 String toString() {
-  return 'Versions(coreUpdate: $coreUpdate, webUpdate: $webUpdate, ftlUpdate: $ftlUpdate, coreCurrent: $coreCurrent, webCurrent: $webCurrent, ftlCurrent: $ftlCurrent, coreLatest: $coreLatest, webLatest: $webLatest, ftlLatest: $ftlLatest, coreBranch: $coreBranch, webBranch: $webBranch, ftlBranch: $ftlBranch, dockerUpdate: $dockerUpdate, dockerCurrent: $dockerCurrent, dockerLatest: $dockerLatest)';
+    return 'Versions(coreUpdate: $coreUpdate, webUpdate: $webUpdate, ftlUpdate: $ftlUpdate, coreCurrent: $coreCurrent, webCurrent: $webCurrent, ftlCurrent: $ftlCurrent, coreLatest: $coreLatest, webLatest: $webLatest, ftlLatest: $ftlLatest, coreBranch: $coreBranch, webBranch: $webBranch, ftlBranch: $ftlBranch, dockerUpdate: $dockerUpdate, dockerCurrent: $dockerCurrent, dockerLatest: $dockerLatest)';
 }
 
 

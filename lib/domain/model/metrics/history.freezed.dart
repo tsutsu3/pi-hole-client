@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'history.dart';
@@ -9,6 +9,7 @@ part of 'history.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $HistoryCopyWith<History> get copyWith => _$HistoryCopyWithImpl<History>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is History&&const DeepCollectionEquality().equals(other.domainsOverTime, domainsOverTime)&&const DeepCollectionEquality().equals(other.adsOverTime, adsOverTime));
+  final _this = this as History;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is History&&const DeepCollectionEquality().equals(other.domainsOverTime, _this.domainsOverTime)&&const DeepCollectionEquality().equals(other.adsOverTime, _this.adsOverTime));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(domainsOverTime),const DeepCollectionEquality().hash(adsOverTime));
+int get hashCode {
+  final _this = this as History;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.domainsOverTime),const DeepCollectionEquality().hash(_this.adsOverTime));
+}
 
 @override
 String toString() {
-  return 'History(domainsOverTime: $domainsOverTime, adsOverTime: $adsOverTime)';
+  final _this = this as History;
+  return 'History(domainsOverTime: ${_this.domainsOverTime}, adsOverTime: ${_this.adsOverTime})';
 }
 
 
@@ -66,7 +72,7 @@ class _$HistoryCopyWithImpl<$Res>
 /// Create a copy of History
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domainsOverTime = null,Object? adsOverTime = null,}) {
-  return _then(_self.copyWith(
+  return _then(History(
 domainsOverTime: null == domainsOverTime ? _self.domainsOverTime : domainsOverTime // ignore: cast_nullable_to_non_nullable
 as List<HistoryEntry>,adsOverTime: null == adsOverTime ? _self.adsOverTime : adsOverTime // ignore: cast_nullable_to_non_nullable
 as List<HistoryEntry>,
@@ -204,7 +210,7 @@ return $default(_that.domainsOverTime,_that.adsOverTime);case _:
 @JsonSerializable()
 
 class _History implements History {
-  const _History({required final  List<HistoryEntry> domainsOverTime, required final  List<HistoryEntry> adsOverTime}): _domainsOverTime = domainsOverTime,_adsOverTime = adsOverTime;
+  const _History({required  List<HistoryEntry> domainsOverTime, required  List<HistoryEntry> adsOverTime}): _domainsOverTime = domainsOverTime,_adsOverTime = adsOverTime;
   factory _History.fromJson(Map<String, dynamic> json) => _$HistoryFromJson(json);
 
  final  List<HistoryEntry> _domainsOverTime;
@@ -235,16 +241,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _History&&const DeepCollectionEquality().equals(other._domainsOverTime, _domainsOverTime)&&const DeepCollectionEquality().equals(other._adsOverTime, _adsOverTime));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _History&&const DeepCollectionEquality().equals(other.domainsOverTime, _domainsOverTime)&&const DeepCollectionEquality().equals(other.adsOverTime, _adsOverTime));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_domainsOverTime),const DeepCollectionEquality().hash(_adsOverTime));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_domainsOverTime),const DeepCollectionEquality().hash(_adsOverTime));
+}
 
 @override
 String toString() {
-  return 'History(domainsOverTime: $domainsOverTime, adsOverTime: $adsOverTime)';
+    return 'History(domainsOverTime: $domainsOverTime, adsOverTime: $adsOverTime)';
 }
 
 
@@ -287,9 +295,7 @@ as List<HistoryEntry>,
 /// @nodoc
 mixin _$HistoryEntry {
 
- DateTime get timestamp; int get count;// v5: total queries, v6: total or blocked depending on context
-// v6-only fields
- int? get blocked; int? get cached; int? get forwarded;
+ DateTime get timestamp; int get count; int? get blocked; int? get cached; int? get forwarded;
 /// Create a copy of HistoryEntry
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -302,16 +308,21 @@ $HistoryEntryCopyWith<HistoryEntry> get copyWith => _$HistoryEntryCopyWithImpl<H
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoryEntry&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.count, count) || other.count == count)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded));
+  final _this = this as HistoryEntry;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoryEntry&&(identical(other.timestamp, _this.timestamp) || other.timestamp == _this.timestamp)&&(identical(other.count, _this.count) || other.count == _this.count)&&(identical(other.blocked, _this.blocked) || other.blocked == _this.blocked)&&(identical(other.cached, _this.cached) || other.cached == _this.cached)&&(identical(other.forwarded, _this.forwarded) || other.forwarded == _this.forwarded));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,timestamp,count,blocked,cached,forwarded);
+int get hashCode {
+  final _this = this as HistoryEntry;
+  return Object.hash(runtimeType,_this.timestamp,_this.count,_this.blocked,_this.cached,_this.forwarded);
+}
 
 @override
 String toString() {
-  return 'HistoryEntry(timestamp: $timestamp, count: $count, blocked: $blocked, cached: $cached, forwarded: $forwarded)';
+  final _this = this as HistoryEntry;
+  return 'HistoryEntry(timestamp: ${_this.timestamp}, count: ${_this.count}, blocked: ${_this.blocked}, cached: ${_this.cached}, forwarded: ${_this.forwarded})';
 }
 
 
@@ -340,7 +351,7 @@ class _$HistoryEntryCopyWithImpl<$Res>
 /// Create a copy of HistoryEntry
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? timestamp = null,Object? count = null,Object? blocked = freezed,Object? cached = freezed,Object? forwarded = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(HistoryEntry(
 timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as DateTime,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
 as int,blocked: freezed == blocked ? _self.blocked : blocked // ignore: cast_nullable_to_non_nullable
@@ -486,8 +497,6 @@ class _HistoryEntry implements HistoryEntry {
 
 @override final  DateTime timestamp;
 @override final  int count;
-// v5: total queries, v6: total or blocked depending on context
-// v6-only fields
 @override final  int? blocked;
 @override final  int? cached;
 @override final  int? forwarded;
@@ -505,16 +514,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HistoryEntry&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.count, count) || other.count == count)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HistoryEntry&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.count, count) || other.count == count)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,timestamp,count,blocked,cached,forwarded);
+int get hashCode {
+    return Object.hash(runtimeType,timestamp,count,blocked,cached,forwarded);
+}
 
 @override
 String toString() {
-  return 'HistoryEntry(timestamp: $timestamp, count: $count, blocked: $blocked, cached: $cached, forwarded: $forwarded)';
+    return 'HistoryEntry(timestamp: $timestamp, count: $count, blocked: $blocked, cached: $cached, forwarded: $forwarded)';
 }
 
 

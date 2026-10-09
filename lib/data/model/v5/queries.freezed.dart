@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'queries.dart';
@@ -9,6 +9,7 @@ part of 'queries.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $QueriesCopyWith<Queries> get copyWith => _$QueriesCopyWithImpl<Queries>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Queries&&const DeepCollectionEquality().equals(other.data, data));
+  final _this = this as Queries;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Queries&&const DeepCollectionEquality().equals(other.data, _this.data));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(data));
+int get hashCode {
+  final _this = this as Queries;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.data));
+}
 
 @override
 String toString() {
-  return 'Queries(data: $data)';
+  final _this = this as Queries;
+  return 'Queries(data: ${_this.data})';
 }
 
 
@@ -66,7 +72,7 @@ class _$QueriesCopyWithImpl<$Res>
 /// Create a copy of Queries
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? data = null,}) {
-  return _then(_self.copyWith(
+  return _then(Queries(
 data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
 as List<List<String>>,
   ));
@@ -203,7 +209,7 @@ return $default(_that.data);case _:
 @JsonSerializable()
 
 class _Queries implements Queries {
-  const _Queries({@ListOfListStringOrEmptyConverter() required final  List<List<String>> data}): _data = data;
+  const _Queries({@ListOfListStringOrEmptyConverter() required  List<List<String>> data}): _data = data;
   factory _Queries.fromJson(Map<String, dynamic> json) => _$QueriesFromJson(json);
 
  final  List<List<String>> _data;
@@ -227,16 +233,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Queries&&const DeepCollectionEquality().equals(other._data, _data));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Queries&&const DeepCollectionEquality().equals(other.data, _data));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_data));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_data));
+}
 
 @override
 String toString() {
-  return 'Queries(data: $data)';
+    return 'Queries(data: $data)';
 }
 
 

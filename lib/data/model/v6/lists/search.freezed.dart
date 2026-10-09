@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'search.dart';
@@ -9,6 +9,7 @@ part of 'search.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $SearchCopyWith<Search> get copyWith => _$SearchCopyWithImpl<Search>(this as Sea
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Search&&(identical(other.search, search) || other.search == search)&&(identical(other.took, took) || other.took == took));
+  final _this = this as Search;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Search&&(identical(other.search, _this.search) || other.search == _this.search)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,search,took);
+int get hashCode {
+  final _this = this as Search;
+  return Object.hash(runtimeType,_this.search,_this.took);
+}
 
 @override
 String toString() {
-  return 'Search(search: $search, took: $took)';
+  final _this = this as Search;
+  return 'Search(search: ${_this.search}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$SearchCopyWithImpl<$Res>
 /// Create a copy of Search
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? search = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(Search(
 search: null == search ? _self.search : search // ignore: cast_nullable_to_non_nullable
 as SearchData,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -232,16 +238,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Search&&(identical(other.search, search) || other.search == search)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Search&&(identical(other.search, search) || other.search == search)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,search,took);
+int get hashCode {
+    return Object.hash(runtimeType,search,took);
+}
 
 @override
 String toString() {
-  return 'Search(search: $search, took: $took)';
+    return 'Search(search: $search, took: $took)';
 }
 
 
@@ -306,16 +314,21 @@ $SearchDataCopyWith<SearchData> get copyWith => _$SearchDataCopyWithImpl<SearchD
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchData&&const DeepCollectionEquality().equals(other.domains, domains)&&const DeepCollectionEquality().equals(other.gravity, gravity)&&(identical(other.parameters, parameters) || other.parameters == parameters)&&(identical(other.results, results) || other.results == results));
+  final _this = this as SearchData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchData&&const DeepCollectionEquality().equals(other.domains, _this.domains)&&const DeepCollectionEquality().equals(other.gravity, _this.gravity)&&(identical(other.parameters, _this.parameters) || other.parameters == _this.parameters)&&(identical(other.results, _this.results) || other.results == _this.results));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(domains),const DeepCollectionEquality().hash(gravity),parameters,results);
+int get hashCode {
+  final _this = this as SearchData;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.domains),const DeepCollectionEquality().hash(_this.gravity),_this.parameters,_this.results);
+}
 
 @override
 String toString() {
-  return 'SearchData(domains: $domains, gravity: $gravity, parameters: $parameters, results: $results)';
+  final _this = this as SearchData;
+  return 'SearchData(domains: ${_this.domains}, gravity: ${_this.gravity}, parameters: ${_this.parameters}, results: ${_this.results})';
 }
 
 
@@ -344,7 +357,7 @@ class _$SearchDataCopyWithImpl<$Res>
 /// Create a copy of SearchData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domains = null,Object? gravity = null,Object? parameters = null,Object? results = null,}) {
-  return _then(_self.copyWith(
+  return _then(SearchData(
 domains: null == domains ? _self.domains : domains // ignore: cast_nullable_to_non_nullable
 as List<DomainEntry>,gravity: null == gravity ? _self.gravity : gravity // ignore: cast_nullable_to_non_nullable
 as List<GravityEntry>,parameters: null == parameters ? _self.parameters : parameters // ignore: cast_nullable_to_non_nullable
@@ -502,7 +515,7 @@ return $default(_that.domains,_that.gravity,_that.parameters,_that.results);case
 @JsonSerializable()
 
 class _SearchData implements SearchData {
-  const _SearchData({required final  List<DomainEntry> domains, required final  List<GravityEntry> gravity, required this.parameters, required this.results}): _domains = domains,_gravity = gravity;
+  const _SearchData({required  List<DomainEntry> domains, required  List<GravityEntry> gravity, required this.parameters, required this.results}): _domains = domains,_gravity = gravity;
   factory _SearchData.fromJson(Map<String, dynamic> json) => _$SearchDataFromJson(json);
 
  final  List<DomainEntry> _domains;
@@ -535,16 +548,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchData&&const DeepCollectionEquality().equals(other._domains, _domains)&&const DeepCollectionEquality().equals(other._gravity, _gravity)&&(identical(other.parameters, parameters) || other.parameters == parameters)&&(identical(other.results, results) || other.results == results));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchData&&const DeepCollectionEquality().equals(other.domains, _domains)&&const DeepCollectionEquality().equals(other.gravity, _gravity)&&(identical(other.parameters, parameters) || other.parameters == parameters)&&(identical(other.results, results) || other.results == results));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_domains),const DeepCollectionEquality().hash(_gravity),parameters,results);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_domains),const DeepCollectionEquality().hash(_gravity),parameters,results);
+}
 
 @override
 String toString() {
-  return 'SearchData(domains: $domains, gravity: $gravity, parameters: $parameters, results: $results)';
+    return 'SearchData(domains: $domains, gravity: $gravity, parameters: $parameters, results: $results)';
 }
 
 
@@ -620,16 +635,21 @@ $DomainEntryCopyWith<DomainEntry> get copyWith => _$DomainEntryCopyWithImpl<Doma
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DomainEntry&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.type, type) || other.type == type)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.id, id) || other.id == id)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&const DeepCollectionEquality().equals(other.groups, groups)&&(identical(other.comment, comment) || other.comment == comment));
+  final _this = this as DomainEntry;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DomainEntry&&(identical(other.domain, _this.domain) || other.domain == _this.domain)&&(identical(other.enabled, _this.enabled) || other.enabled == _this.enabled)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.kind, _this.kind) || other.kind == _this.kind)&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.dateAdded, _this.dateAdded) || other.dateAdded == _this.dateAdded)&&(identical(other.dateModified, _this.dateModified) || other.dateModified == _this.dateModified)&&const DeepCollectionEquality().equals(other.groups, _this.groups)&&(identical(other.comment, _this.comment) || other.comment == _this.comment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domain,enabled,type,kind,id,dateAdded,dateModified,const DeepCollectionEquality().hash(groups),comment);
+int get hashCode {
+  final _this = this as DomainEntry;
+  return Object.hash(runtimeType,_this.domain,_this.enabled,_this.type,_this.kind,_this.id,_this.dateAdded,_this.dateModified,const DeepCollectionEquality().hash(_this.groups),_this.comment);
+}
 
 @override
 String toString() {
-  return 'DomainEntry(domain: $domain, enabled: $enabled, type: $type, kind: $kind, id: $id, dateAdded: $dateAdded, dateModified: $dateModified, groups: $groups, comment: $comment)';
+  final _this = this as DomainEntry;
+  return 'DomainEntry(domain: ${_this.domain}, enabled: ${_this.enabled}, type: ${_this.type}, kind: ${_this.kind}, id: ${_this.id}, dateAdded: ${_this.dateAdded}, dateModified: ${_this.dateModified}, groups: ${_this.groups}, comment: ${_this.comment})';
 }
 
 
@@ -658,7 +678,7 @@ class _$DomainEntryCopyWithImpl<$Res>
 /// Create a copy of DomainEntry
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domain = null,Object? enabled = null,Object? type = null,Object? kind = null,Object? id = null,Object? dateAdded = null,Object? dateModified = null,Object? groups = null,Object? comment = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DomainEntry(
 domain: null == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
 as String,enabled: null == enabled ? _self.enabled : enabled // ignore: cast_nullable_to_non_nullable
 as bool,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
@@ -803,7 +823,7 @@ return $default(_that.domain,_that.enabled,_that.type,_that.kind,_that.id,_that.
 @JsonSerializable()
 
 class _DomainEntry implements DomainEntry {
-  const _DomainEntry({required this.domain, required this.enabled, required this.type, required this.kind, required this.id, @JsonKey(name: 'date_added') required this.dateAdded, @JsonKey(name: 'date_modified') required this.dateModified, required final  List<int> groups, this.comment}): _groups = groups;
+  const _DomainEntry({required this.domain, required this.enabled, required this.type, required this.kind, required this.id, @JsonKey(name: 'date_added') required this.dateAdded, @JsonKey(name: 'date_modified') required this.dateModified, required  List<int> groups, this.comment}): _groups = groups;
   factory _DomainEntry.fromJson(Map<String, dynamic> json) => _$DomainEntryFromJson(json);
 
 @override final  String domain;
@@ -835,16 +855,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DomainEntry&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.type, type) || other.type == type)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.id, id) || other.id == id)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&const DeepCollectionEquality().equals(other._groups, _groups)&&(identical(other.comment, comment) || other.comment == comment));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DomainEntry&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.type, type) || other.type == type)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.id, id) || other.id == id)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&const DeepCollectionEquality().equals(other.groups, _groups)&&(identical(other.comment, comment) || other.comment == comment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domain,enabled,type,kind,id,dateAdded,dateModified,const DeepCollectionEquality().hash(_groups),comment);
+int get hashCode {
+    return Object.hash(runtimeType,domain,enabled,type,kind,id,dateAdded,dateModified,const DeepCollectionEquality().hash(_groups),comment);
+}
 
 @override
 String toString() {
-  return 'DomainEntry(domain: $domain, enabled: $enabled, type: $type, kind: $kind, id: $id, dateAdded: $dateAdded, dateModified: $dateModified, groups: $groups, comment: $comment)';
+    return 'DomainEntry(domain: $domain, enabled: $enabled, type: $type, kind: $kind, id: $id, dateAdded: $dateAdded, dateModified: $dateModified, groups: $groups, comment: $comment)';
 }
 
 
@@ -907,16 +929,21 @@ $GravityEntryCopyWith<GravityEntry> get copyWith => _$GravityEntryCopyWithImpl<G
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GravityEntry&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.address, address) || other.address == address)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.dateUpdated, dateUpdated) || other.dateUpdated == dateUpdated)&&(identical(other.number, number) || other.number == number)&&(identical(other.invalidDomains, invalidDomains) || other.invalidDomains == invalidDomains)&&(identical(other.abpEntries, abpEntries) || other.abpEntries == abpEntries)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.groups, groups)&&(identical(other.comment, comment) || other.comment == comment));
+  final _this = this as GravityEntry;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GravityEntry&&(identical(other.domain, _this.domain) || other.domain == _this.domain)&&(identical(other.address, _this.address) || other.address == _this.address)&&(identical(other.enabled, _this.enabled) || other.enabled == _this.enabled)&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.dateAdded, _this.dateAdded) || other.dateAdded == _this.dateAdded)&&(identical(other.dateModified, _this.dateModified) || other.dateModified == _this.dateModified)&&(identical(other.dateUpdated, _this.dateUpdated) || other.dateUpdated == _this.dateUpdated)&&(identical(other.number, _this.number) || other.number == _this.number)&&(identical(other.invalidDomains, _this.invalidDomains) || other.invalidDomains == _this.invalidDomains)&&(identical(other.abpEntries, _this.abpEntries) || other.abpEntries == _this.abpEntries)&&(identical(other.status, _this.status) || other.status == _this.status)&&const DeepCollectionEquality().equals(other.groups, _this.groups)&&(identical(other.comment, _this.comment) || other.comment == _this.comment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domain,address,enabled,id,type,dateAdded,dateModified,dateUpdated,number,invalidDomains,abpEntries,status,const DeepCollectionEquality().hash(groups),comment);
+int get hashCode {
+  final _this = this as GravityEntry;
+  return Object.hash(runtimeType,_this.domain,_this.address,_this.enabled,_this.id,_this.type,_this.dateAdded,_this.dateModified,_this.dateUpdated,_this.number,_this.invalidDomains,_this.abpEntries,_this.status,const DeepCollectionEquality().hash(_this.groups),_this.comment);
+}
 
 @override
 String toString() {
-  return 'GravityEntry(domain: $domain, address: $address, enabled: $enabled, id: $id, type: $type, dateAdded: $dateAdded, dateModified: $dateModified, dateUpdated: $dateUpdated, number: $number, invalidDomains: $invalidDomains, abpEntries: $abpEntries, status: $status, groups: $groups, comment: $comment)';
+  final _this = this as GravityEntry;
+  return 'GravityEntry(domain: ${_this.domain}, address: ${_this.address}, enabled: ${_this.enabled}, id: ${_this.id}, type: ${_this.type}, dateAdded: ${_this.dateAdded}, dateModified: ${_this.dateModified}, dateUpdated: ${_this.dateUpdated}, number: ${_this.number}, invalidDomains: ${_this.invalidDomains}, abpEntries: ${_this.abpEntries}, status: ${_this.status}, groups: ${_this.groups}, comment: ${_this.comment})';
 }
 
 
@@ -945,7 +972,7 @@ class _$GravityEntryCopyWithImpl<$Res>
 /// Create a copy of GravityEntry
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domain = null,Object? address = null,Object? enabled = null,Object? id = null,Object? type = null,Object? dateAdded = null,Object? dateModified = null,Object? dateUpdated = null,Object? number = null,Object? invalidDomains = null,Object? abpEntries = null,Object? status = null,Object? groups = null,Object? comment = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(GravityEntry(
 domain: null == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
 as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String,enabled: null == enabled ? _self.enabled : enabled // ignore: cast_nullable_to_non_nullable
@@ -1095,7 +1122,7 @@ return $default(_that.domain,_that.address,_that.enabled,_that.id,_that.type,_th
 @JsonSerializable()
 
 class _GravityEntry implements GravityEntry {
-  const _GravityEntry({required this.domain, required this.address, required this.enabled, required this.id, required this.type, @JsonKey(name: 'date_added') required this.dateAdded, @JsonKey(name: 'date_modified') required this.dateModified, @JsonKey(name: 'date_updated') required this.dateUpdated, required this.number, @JsonKey(name: 'invalid_domains') required this.invalidDomains, @JsonKey(name: 'abp_entries') required this.abpEntries, required this.status, required final  List<int> groups, this.comment}): _groups = groups;
+  const _GravityEntry({required this.domain, required this.address, required this.enabled, required this.id, required this.type, @JsonKey(name: 'date_added') required this.dateAdded, @JsonKey(name: 'date_modified') required this.dateModified, @JsonKey(name: 'date_updated') required this.dateUpdated, required this.number, @JsonKey(name: 'invalid_domains') required this.invalidDomains, @JsonKey(name: 'abp_entries') required this.abpEntries, required this.status, required  List<int> groups, this.comment}): _groups = groups;
   factory _GravityEntry.fromJson(Map<String, dynamic> json) => _$GravityEntryFromJson(json);
 
 @override final  String domain;
@@ -1132,16 +1159,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GravityEntry&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.address, address) || other.address == address)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.dateUpdated, dateUpdated) || other.dateUpdated == dateUpdated)&&(identical(other.number, number) || other.number == number)&&(identical(other.invalidDomains, invalidDomains) || other.invalidDomains == invalidDomains)&&(identical(other.abpEntries, abpEntries) || other.abpEntries == abpEntries)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other._groups, _groups)&&(identical(other.comment, comment) || other.comment == comment));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _GravityEntry&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.address, address) || other.address == address)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.dateUpdated, dateUpdated) || other.dateUpdated == dateUpdated)&&(identical(other.number, number) || other.number == number)&&(identical(other.invalidDomains, invalidDomains) || other.invalidDomains == invalidDomains)&&(identical(other.abpEntries, abpEntries) || other.abpEntries == abpEntries)&&(identical(other.status, status) || other.status == status)&&const DeepCollectionEquality().equals(other.groups, _groups)&&(identical(other.comment, comment) || other.comment == comment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domain,address,enabled,id,type,dateAdded,dateModified,dateUpdated,number,invalidDomains,abpEntries,status,const DeepCollectionEquality().hash(_groups),comment);
+int get hashCode {
+    return Object.hash(runtimeType,domain,address,enabled,id,type,dateAdded,dateModified,dateUpdated,number,invalidDomains,abpEntries,status,const DeepCollectionEquality().hash(_groups),comment);
+}
 
 @override
 String toString() {
-  return 'GravityEntry(domain: $domain, address: $address, enabled: $enabled, id: $id, type: $type, dateAdded: $dateAdded, dateModified: $dateModified, dateUpdated: $dateUpdated, number: $number, invalidDomains: $invalidDomains, abpEntries: $abpEntries, status: $status, groups: $groups, comment: $comment)';
+    return 'GravityEntry(domain: $domain, address: $address, enabled: $enabled, id: $id, type: $type, dateAdded: $dateAdded, dateModified: $dateModified, dateUpdated: $dateUpdated, number: $number, invalidDomains: $invalidDomains, abpEntries: $abpEntries, status: $status, groups: $groups, comment: $comment)';
 }
 
 
@@ -1209,16 +1238,21 @@ $SearchParametersCopyWith<SearchParameters> get copyWith => _$SearchParametersCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchParameters&&(identical(other.partial, partial) || other.partial == partial)&&(identical(other.N, N) || other.N == N)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.debug, debug) || other.debug == debug));
+  final _this = this as SearchParameters;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchParameters&&(identical(other.partial, _this.partial) || other.partial == _this.partial)&&(identical(other.N, _this.N) || other.N == _this.N)&&(identical(other.domain, _this.domain) || other.domain == _this.domain)&&(identical(other.debug, _this.debug) || other.debug == _this.debug));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,partial,N,domain,debug);
+int get hashCode {
+  final _this = this as SearchParameters;
+  return Object.hash(runtimeType,_this.partial,_this.N,_this.domain,_this.debug);
+}
 
 @override
 String toString() {
-  return 'SearchParameters(partial: $partial, N: $N, domain: $domain, debug: $debug)';
+  final _this = this as SearchParameters;
+  return 'SearchParameters(partial: ${_this.partial}, N: ${_this.N}, domain: ${_this.domain}, debug: ${_this.debug})';
 }
 
 
@@ -1247,7 +1281,7 @@ class _$SearchParametersCopyWithImpl<$Res>
 /// Create a copy of SearchParameters
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? partial = null,Object? N = null,Object? domain = null,Object? debug = null,}) {
-  return _then(_self.copyWith(
+  return _then(SearchParameters(
 partial: null == partial ? _self.partial : partial // ignore: cast_nullable_to_non_nullable
 as bool,N: null == N ? _self.N : N // ignore: cast_nullable_to_non_nullable
 as int,domain: null == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
@@ -1408,16 +1442,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchParameters&&(identical(other.partial, partial) || other.partial == partial)&&(identical(other.N, N) || other.N == N)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.debug, debug) || other.debug == debug));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchParameters&&(identical(other.partial, partial) || other.partial == partial)&&(identical(other.N, N) || other.N == N)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.debug, debug) || other.debug == debug));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,partial,N,domain,debug);
+int get hashCode {
+    return Object.hash(runtimeType,partial,N,domain,debug);
+}
 
 @override
 String toString() {
-  return 'SearchParameters(partial: $partial, N: $N, domain: $domain, debug: $debug)';
+    return 'SearchParameters(partial: $partial, N: $N, domain: $domain, debug: $debug)';
 }
 
 
@@ -1475,16 +1511,21 @@ $SearchResultsCopyWith<SearchResults> get copyWith => _$SearchResultsCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchResults&&(identical(other.domains, domains) || other.domains == domains)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.total, total) || other.total == total));
+  final _this = this as SearchResults;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SearchResults&&(identical(other.domains, _this.domains) || other.domains == _this.domains)&&(identical(other.gravity, _this.gravity) || other.gravity == _this.gravity)&&(identical(other.total, _this.total) || other.total == _this.total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domains,gravity,total);
+int get hashCode {
+  final _this = this as SearchResults;
+  return Object.hash(runtimeType,_this.domains,_this.gravity,_this.total);
+}
 
 @override
 String toString() {
-  return 'SearchResults(domains: $domains, gravity: $gravity, total: $total)';
+  final _this = this as SearchResults;
+  return 'SearchResults(domains: ${_this.domains}, gravity: ${_this.gravity}, total: ${_this.total})';
 }
 
 
@@ -1513,7 +1554,7 @@ class _$SearchResultsCopyWithImpl<$Res>
 /// Create a copy of SearchResults
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domains = null,Object? gravity = null,Object? total = null,}) {
-  return _then(_self.copyWith(
+  return _then(SearchResults(
 domains: null == domains ? _self.domains : domains // ignore: cast_nullable_to_non_nullable
 as DomainMatchCount,gravity: null == gravity ? _self.gravity : gravity // ignore: cast_nullable_to_non_nullable
 as GravityMatchCount,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
@@ -1690,16 +1731,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchResults&&(identical(other.domains, domains) || other.domains == domains)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.total, total) || other.total == total));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SearchResults&&(identical(other.domains, domains) || other.domains == domains)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.total, total) || other.total == total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domains,gravity,total);
+int get hashCode {
+    return Object.hash(runtimeType,domains,gravity,total);
+}
 
 @override
 String toString() {
-  return 'SearchResults(domains: $domains, gravity: $gravity, total: $total)';
+    return 'SearchResults(domains: $domains, gravity: $gravity, total: $total)';
 }
 
 
@@ -1774,16 +1817,21 @@ $DomainMatchCountCopyWith<DomainMatchCount> get copyWith => _$DomainMatchCountCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DomainMatchCount&&(identical(other.exact, exact) || other.exact == exact)&&(identical(other.regex, regex) || other.regex == regex));
+  final _this = this as DomainMatchCount;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DomainMatchCount&&(identical(other.exact, _this.exact) || other.exact == _this.exact)&&(identical(other.regex, _this.regex) || other.regex == _this.regex));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,exact,regex);
+int get hashCode {
+  final _this = this as DomainMatchCount;
+  return Object.hash(runtimeType,_this.exact,_this.regex);
+}
 
 @override
 String toString() {
-  return 'DomainMatchCount(exact: $exact, regex: $regex)';
+  final _this = this as DomainMatchCount;
+  return 'DomainMatchCount(exact: ${_this.exact}, regex: ${_this.regex})';
 }
 
 
@@ -1812,7 +1860,7 @@ class _$DomainMatchCountCopyWithImpl<$Res>
 /// Create a copy of DomainMatchCount
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? exact = null,Object? regex = null,}) {
-  return _then(_self.copyWith(
+  return _then(DomainMatchCount(
 exact: null == exact ? _self.exact : exact // ignore: cast_nullable_to_non_nullable
 as int,regex: null == regex ? _self.regex : regex // ignore: cast_nullable_to_non_nullable
 as int,
@@ -1969,16 +2017,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DomainMatchCount&&(identical(other.exact, exact) || other.exact == exact)&&(identical(other.regex, regex) || other.regex == regex));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DomainMatchCount&&(identical(other.exact, exact) || other.exact == exact)&&(identical(other.regex, regex) || other.regex == regex));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,exact,regex);
+int get hashCode {
+    return Object.hash(runtimeType,exact,regex);
+}
 
 @override
 String toString() {
-  return 'DomainMatchCount(exact: $exact, regex: $regex)';
+    return 'DomainMatchCount(exact: $exact, regex: $regex)';
 }
 
 
@@ -2034,16 +2084,21 @@ $GravityMatchCountCopyWith<GravityMatchCount> get copyWith => _$GravityMatchCoun
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GravityMatchCount&&(identical(other.allow, allow) || other.allow == allow)&&(identical(other.block, block) || other.block == block));
+  final _this = this as GravityMatchCount;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GravityMatchCount&&(identical(other.allow, _this.allow) || other.allow == _this.allow)&&(identical(other.block, _this.block) || other.block == _this.block));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,allow,block);
+int get hashCode {
+  final _this = this as GravityMatchCount;
+  return Object.hash(runtimeType,_this.allow,_this.block);
+}
 
 @override
 String toString() {
-  return 'GravityMatchCount(allow: $allow, block: $block)';
+  final _this = this as GravityMatchCount;
+  return 'GravityMatchCount(allow: ${_this.allow}, block: ${_this.block})';
 }
 
 
@@ -2072,7 +2127,7 @@ class _$GravityMatchCountCopyWithImpl<$Res>
 /// Create a copy of GravityMatchCount
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? allow = null,Object? block = null,}) {
-  return _then(_self.copyWith(
+  return _then(GravityMatchCount(
 allow: null == allow ? _self.allow : allow // ignore: cast_nullable_to_non_nullable
 as int,block: null == block ? _self.block : block // ignore: cast_nullable_to_non_nullable
 as int,
@@ -2229,16 +2284,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GravityMatchCount&&(identical(other.allow, allow) || other.allow == allow)&&(identical(other.block, block) || other.block == block));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _GravityMatchCount&&(identical(other.allow, allow) || other.allow == allow)&&(identical(other.block, block) || other.block == block));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,allow,block);
+int get hashCode {
+    return Object.hash(runtimeType,allow,block);
+}
 
 @override
 String toString() {
-  return 'GravityMatchCount(allow: $allow, block: $block)';
+    return 'GravityMatchCount(allow: $allow, block: $block)';
 }
 
 

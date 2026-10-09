@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'managed_client.dart';
@@ -9,6 +9,7 @@ part of 'managed_client.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $ManagedClientCopyWith<ManagedClient> get copyWith => _$ManagedClientCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ManagedClient&&(identical(other.id, id) || other.id == id)&&(identical(other.client, client) || other.client == client)&&const DeepCollectionEquality().equals(other.groups, groups)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.name, name) || other.name == name)&&(identical(other.comment, comment) || other.comment == comment));
+  final _this = this as ManagedClient;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ManagedClient&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.client, _this.client) || other.client == _this.client)&&const DeepCollectionEquality().equals(other.groups, _this.groups)&&(identical(other.dateAdded, _this.dateAdded) || other.dateAdded == _this.dateAdded)&&(identical(other.dateModified, _this.dateModified) || other.dateModified == _this.dateModified)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.comment, _this.comment) || other.comment == _this.comment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,client,const DeepCollectionEquality().hash(groups),dateAdded,dateModified,name,comment);
+int get hashCode {
+  final _this = this as ManagedClient;
+  return Object.hash(runtimeType,_this.id,_this.client,const DeepCollectionEquality().hash(_this.groups),_this.dateAdded,_this.dateModified,_this.name,_this.comment);
+}
 
 @override
 String toString() {
-  return 'ManagedClient(id: $id, client: $client, groups: $groups, dateAdded: $dateAdded, dateModified: $dateModified, name: $name, comment: $comment)';
+  final _this = this as ManagedClient;
+  return 'ManagedClient(id: ${_this.id}, client: ${_this.client}, groups: ${_this.groups}, dateAdded: ${_this.dateAdded}, dateModified: ${_this.dateModified}, name: ${_this.name}, comment: ${_this.comment})';
 }
 
 
@@ -66,7 +72,7 @@ class _$ManagedClientCopyWithImpl<$Res>
 /// Create a copy of ManagedClient
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? client = null,Object? groups = null,Object? dateAdded = null,Object? dateModified = null,Object? name = freezed,Object? comment = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(ManagedClient(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,client: null == client ? _self.client : client // ignore: cast_nullable_to_non_nullable
 as String,groups: null == groups ? _self.groups : groups // ignore: cast_nullable_to_non_nullable
@@ -209,7 +215,7 @@ return $default(_that.id,_that.client,_that.groups,_that.dateAdded,_that.dateMod
 @JsonSerializable()
 
 class _ManagedClient implements ManagedClient {
-  const _ManagedClient({required this.id, required this.client, required final  List<int> groups, required this.dateAdded, required this.dateModified, this.name, this.comment}): _groups = groups;
+  const _ManagedClient({required this.id, required this.client, required  List<int> groups, required this.dateAdded, required this.dateModified, this.name, this.comment}): _groups = groups;
   factory _ManagedClient.fromJson(Map<String, dynamic> json) => _$ManagedClientFromJson(json);
 
 @override final  int id;
@@ -239,16 +245,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ManagedClient&&(identical(other.id, id) || other.id == id)&&(identical(other.client, client) || other.client == client)&&const DeepCollectionEquality().equals(other._groups, _groups)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.name, name) || other.name == name)&&(identical(other.comment, comment) || other.comment == comment));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ManagedClient&&(identical(other.id, id) || other.id == id)&&(identical(other.client, client) || other.client == client)&&const DeepCollectionEquality().equals(other.groups, _groups)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.name, name) || other.name == name)&&(identical(other.comment, comment) || other.comment == comment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,client,const DeepCollectionEquality().hash(_groups),dateAdded,dateModified,name,comment);
+int get hashCode {
+    return Object.hash(runtimeType,id,client,const DeepCollectionEquality().hash(_groups),dateAdded,dateModified,name,comment);
+}
 
 @override
 String toString() {
-  return 'ManagedClient(id: $id, client: $client, groups: $groups, dateAdded: $dateAdded, dateModified: $dateModified, name: $name, comment: $comment)';
+    return 'ManagedClient(id: $id, client: $client, groups: $groups, dateAdded: $dateAdded, dateModified: $dateModified, name: $name, comment: $comment)';
 }
 
 

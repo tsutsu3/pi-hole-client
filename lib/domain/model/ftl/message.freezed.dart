@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'message.dart';
@@ -9,6 +9,7 @@ part of 'message.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $FtlMessageCopyWith<FtlMessage> get copyWith => _$FtlMessageCopyWithImpl<FtlMess
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlMessage&&(identical(other.id, id) || other.id == id)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.message, message) || other.message == message)&&(identical(other.url, url) || other.url == url));
+  final _this = this as FtlMessage;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlMessage&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.timestamp, _this.timestamp) || other.timestamp == _this.timestamp)&&(identical(other.message, _this.message) || other.message == _this.message)&&(identical(other.url, _this.url) || other.url == _this.url));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,timestamp,message,url);
+int get hashCode {
+  final _this = this as FtlMessage;
+  return Object.hash(runtimeType,_this.id,_this.timestamp,_this.message,_this.url);
+}
 
 @override
 String toString() {
-  return 'FtlMessage(id: $id, timestamp: $timestamp, message: $message, url: $url)';
+  final _this = this as FtlMessage;
+  return 'FtlMessage(id: ${_this.id}, timestamp: ${_this.timestamp}, message: ${_this.message}, url: ${_this.url})';
 }
 
 
@@ -66,7 +72,7 @@ class _$FtlMessageCopyWithImpl<$Res>
 /// Create a copy of FtlMessage
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? timestamp = null,Object? message = null,Object? url = null,}) {
-  return _then(_self.copyWith(
+  return _then(FtlMessage(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as DateTime,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
@@ -227,16 +233,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlMessage&&(identical(other.id, id) || other.id == id)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.message, message) || other.message == message)&&(identical(other.url, url) || other.url == url));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlMessage&&(identical(other.id, id) || other.id == id)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.message, message) || other.message == message)&&(identical(other.url, url) || other.url == url));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,timestamp,message,url);
+int get hashCode {
+    return Object.hash(runtimeType,id,timestamp,message,url);
+}
 
 @override
 String toString() {
-  return 'FtlMessage(id: $id, timestamp: $timestamp, message: $message, url: $url)';
+    return 'FtlMessage(id: $id, timestamp: $timestamp, message: $message, url: $url)';
 }
 
 

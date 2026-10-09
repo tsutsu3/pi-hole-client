@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'system.dart';
@@ -9,14 +9,14 @@ part of 'system.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FtlSystem {
 
- int get uptime; double get ramUsage; double get cpuUsage;// v6-only fields
- int? get procs; MemoryInfo? get memory; CpuLoad? get cpuLoad;
+ int get uptime; double get ramUsage; double get cpuUsage; int? get procs; MemoryInfo? get memory; CpuLoad? get cpuLoad;
 /// Create a copy of FtlSystem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,21 @@ $FtlSystemCopyWith<FtlSystem> get copyWith => _$FtlSystemCopyWithImpl<FtlSystem>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlSystem&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.ramUsage, ramUsage) || other.ramUsage == ramUsage)&&(identical(other.cpuUsage, cpuUsage) || other.cpuUsage == cpuUsage)&&(identical(other.procs, procs) || other.procs == procs)&&(identical(other.memory, memory) || other.memory == memory)&&(identical(other.cpuLoad, cpuLoad) || other.cpuLoad == cpuLoad));
+  final _this = this as FtlSystem;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlSystem&&(identical(other.uptime, _this.uptime) || other.uptime == _this.uptime)&&(identical(other.ramUsage, _this.ramUsage) || other.ramUsage == _this.ramUsage)&&(identical(other.cpuUsage, _this.cpuUsage) || other.cpuUsage == _this.cpuUsage)&&(identical(other.procs, _this.procs) || other.procs == _this.procs)&&(identical(other.memory, _this.memory) || other.memory == _this.memory)&&(identical(other.cpuLoad, _this.cpuLoad) || other.cpuLoad == _this.cpuLoad));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uptime,ramUsage,cpuUsage,procs,memory,cpuLoad);
+int get hashCode {
+  final _this = this as FtlSystem;
+  return Object.hash(runtimeType,_this.uptime,_this.ramUsage,_this.cpuUsage,_this.procs,_this.memory,_this.cpuLoad);
+}
 
 @override
 String toString() {
-  return 'FtlSystem(uptime: $uptime, ramUsage: $ramUsage, cpuUsage: $cpuUsage, procs: $procs, memory: $memory, cpuLoad: $cpuLoad)';
+  final _this = this as FtlSystem;
+  return 'FtlSystem(uptime: ${_this.uptime}, ramUsage: ${_this.ramUsage}, cpuUsage: ${_this.cpuUsage}, procs: ${_this.procs}, memory: ${_this.memory}, cpuLoad: ${_this.cpuLoad})';
 }
 
 
@@ -67,7 +72,7 @@ class _$FtlSystemCopyWithImpl<$Res>
 /// Create a copy of FtlSystem
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? uptime = null,Object? ramUsage = null,Object? cpuUsage = null,Object? procs = freezed,Object? memory = freezed,Object? cpuLoad = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(FtlSystem(
 uptime: null == uptime ? _self.uptime : uptime // ignore: cast_nullable_to_non_nullable
 as int,ramUsage: null == ramUsage ? _self.ramUsage : ramUsage // ignore: cast_nullable_to_non_nullable
 as double,cpuUsage: null == cpuUsage ? _self.cpuUsage : cpuUsage // ignore: cast_nullable_to_non_nullable
@@ -239,7 +244,6 @@ class _FtlSystem implements FtlSystem {
 @override final  int uptime;
 @override final  double ramUsage;
 @override final  double cpuUsage;
-// v6-only fields
 @override final  int? procs;
 @override final  MemoryInfo? memory;
 @override final  CpuLoad? cpuLoad;
@@ -257,16 +261,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlSystem&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.ramUsage, ramUsage) || other.ramUsage == ramUsage)&&(identical(other.cpuUsage, cpuUsage) || other.cpuUsage == cpuUsage)&&(identical(other.procs, procs) || other.procs == procs)&&(identical(other.memory, memory) || other.memory == memory)&&(identical(other.cpuLoad, cpuLoad) || other.cpuLoad == cpuLoad));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlSystem&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.ramUsage, ramUsage) || other.ramUsage == ramUsage)&&(identical(other.cpuUsage, cpuUsage) || other.cpuUsage == cpuUsage)&&(identical(other.procs, procs) || other.procs == procs)&&(identical(other.memory, memory) || other.memory == memory)&&(identical(other.cpuLoad, cpuLoad) || other.cpuLoad == cpuLoad));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uptime,ramUsage,cpuUsage,procs,memory,cpuLoad);
+int get hashCode {
+    return Object.hash(runtimeType,uptime,ramUsage,cpuUsage,procs,memory,cpuLoad);
+}
 
 @override
 String toString() {
-  return 'FtlSystem(uptime: $uptime, ramUsage: $ramUsage, cpuUsage: $cpuUsage, procs: $procs, memory: $memory, cpuLoad: $cpuLoad)';
+    return 'FtlSystem(uptime: $uptime, ramUsage: $ramUsage, cpuUsage: $cpuUsage, procs: $procs, memory: $memory, cpuLoad: $cpuLoad)';
 }
 
 
@@ -350,16 +356,21 @@ $MemoryInfoCopyWith<MemoryInfo> get copyWith => _$MemoryInfoCopyWithImpl<MemoryI
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MemoryInfo&&(identical(other.ram, ram) || other.ram == ram)&&(identical(other.swap, swap) || other.swap == swap));
+  final _this = this as MemoryInfo;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MemoryInfo&&(identical(other.ram, _this.ram) || other.ram == _this.ram)&&(identical(other.swap, _this.swap) || other.swap == _this.swap));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ram,swap);
+int get hashCode {
+  final _this = this as MemoryInfo;
+  return Object.hash(runtimeType,_this.ram,_this.swap);
+}
 
 @override
 String toString() {
-  return 'MemoryInfo(ram: $ram, swap: $swap)';
+  final _this = this as MemoryInfo;
+  return 'MemoryInfo(ram: ${_this.ram}, swap: ${_this.swap})';
 }
 
 
@@ -388,7 +399,7 @@ class _$MemoryInfoCopyWithImpl<$Res>
 /// Create a copy of MemoryInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ram = null,Object? swap = null,}) {
-  return _then(_self.copyWith(
+  return _then(MemoryInfo(
 ram: null == ram ? _self.ram : ram // ignore: cast_nullable_to_non_nullable
 as MemoryDetail,swap: null == swap ? _self.swap : swap // ignore: cast_nullable_to_non_nullable
 as MemoryDetail,
@@ -563,16 +574,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MemoryInfo&&(identical(other.ram, ram) || other.ram == ram)&&(identical(other.swap, swap) || other.swap == swap));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MemoryInfo&&(identical(other.ram, ram) || other.ram == ram)&&(identical(other.swap, swap) || other.swap == swap));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ram,swap);
+int get hashCode {
+    return Object.hash(runtimeType,ram,swap);
+}
 
 @override
 String toString() {
-  return 'MemoryInfo(ram: $ram, swap: $swap)';
+    return 'MemoryInfo(ram: $ram, swap: $swap)';
 }
 
 
@@ -646,16 +659,21 @@ $MemoryDetailCopyWith<MemoryDetail> get copyWith => _$MemoryDetailCopyWithImpl<M
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MemoryDetail&&(identical(other.total, total) || other.total == total)&&(identical(other.used, used) || other.used == used)&&(identical(other.free, free) || other.free == free));
+  final _this = this as MemoryDetail;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MemoryDetail&&(identical(other.total, _this.total) || other.total == _this.total)&&(identical(other.used, _this.used) || other.used == _this.used)&&(identical(other.free, _this.free) || other.free == _this.free));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,used,free);
+int get hashCode {
+  final _this = this as MemoryDetail;
+  return Object.hash(runtimeType,_this.total,_this.used,_this.free);
+}
 
 @override
 String toString() {
-  return 'MemoryDetail(total: $total, used: $used, free: $free)';
+  final _this = this as MemoryDetail;
+  return 'MemoryDetail(total: ${_this.total}, used: ${_this.used}, free: ${_this.free})';
 }
 
 
@@ -684,7 +702,7 @@ class _$MemoryDetailCopyWithImpl<$Res>
 /// Create a copy of MemoryDetail
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? total = null,Object? used = null,Object? free = null,}) {
-  return _then(_self.copyWith(
+  return _then(MemoryDetail(
 total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as double,used: null == used ? _self.used : used // ignore: cast_nullable_to_non_nullable
 as double,free: null == free ? _self.free : free // ignore: cast_nullable_to_non_nullable
@@ -843,16 +861,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MemoryDetail&&(identical(other.total, total) || other.total == total)&&(identical(other.used, used) || other.used == used)&&(identical(other.free, free) || other.free == free));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MemoryDetail&&(identical(other.total, total) || other.total == total)&&(identical(other.used, used) || other.used == used)&&(identical(other.free, free) || other.free == free));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,used,free);
+int get hashCode {
+    return Object.hash(runtimeType,total,used,free);
+}
 
 @override
 String toString() {
-  return 'MemoryDetail(total: $total, used: $used, free: $free)';
+    return 'MemoryDetail(total: $total, used: $used, free: $free)';
 }
 
 
@@ -909,16 +929,21 @@ $CpuLoadCopyWith<CpuLoad> get copyWith => _$CpuLoadCopyWithImpl<CpuLoad>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CpuLoad&&(identical(other.avg1m, avg1m) || other.avg1m == avg1m)&&(identical(other.avg5m, avg5m) || other.avg5m == avg5m)&&(identical(other.avg15m, avg15m) || other.avg15m == avg15m));
+  final _this = this as CpuLoad;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CpuLoad&&(identical(other.avg1m, _this.avg1m) || other.avg1m == _this.avg1m)&&(identical(other.avg5m, _this.avg5m) || other.avg5m == _this.avg5m)&&(identical(other.avg15m, _this.avg15m) || other.avg15m == _this.avg15m));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,avg1m,avg5m,avg15m);
+int get hashCode {
+  final _this = this as CpuLoad;
+  return Object.hash(runtimeType,_this.avg1m,_this.avg5m,_this.avg15m);
+}
 
 @override
 String toString() {
-  return 'CpuLoad(avg1m: $avg1m, avg5m: $avg5m, avg15m: $avg15m)';
+  final _this = this as CpuLoad;
+  return 'CpuLoad(avg1m: ${_this.avg1m}, avg5m: ${_this.avg5m}, avg15m: ${_this.avg15m})';
 }
 
 
@@ -947,7 +972,7 @@ class _$CpuLoadCopyWithImpl<$Res>
 /// Create a copy of CpuLoad
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? avg1m = null,Object? avg5m = null,Object? avg15m = null,}) {
-  return _then(_self.copyWith(
+  return _then(CpuLoad(
 avg1m: null == avg1m ? _self.avg1m : avg1m // ignore: cast_nullable_to_non_nullable
 as double,avg5m: null == avg5m ? _self.avg5m : avg5m // ignore: cast_nullable_to_non_nullable
 as double,avg15m: null == avg15m ? _self.avg15m : avg15m // ignore: cast_nullable_to_non_nullable
@@ -1106,16 +1131,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CpuLoad&&(identical(other.avg1m, avg1m) || other.avg1m == avg1m)&&(identical(other.avg5m, avg5m) || other.avg5m == avg5m)&&(identical(other.avg15m, avg15m) || other.avg15m == avg15m));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CpuLoad&&(identical(other.avg1m, avg1m) || other.avg1m == avg1m)&&(identical(other.avg5m, avg5m) || other.avg5m == avg5m)&&(identical(other.avg15m, avg15m) || other.avg15m == avg15m));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,avg1m,avg5m,avg15m);
+int get hashCode {
+    return Object.hash(runtimeType,avg1m,avg5m,avg15m);
+}
 
 @override
 String toString() {
-  return 'CpuLoad(avg1m: $avg1m, avg5m: $avg5m, avg15m: $avg15m)';
+    return 'CpuLoad(avg1m: $avg1m, avg5m: $avg5m, avg15m: $avg15m)';
 }
 
 

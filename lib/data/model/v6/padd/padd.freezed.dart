@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'padd.dart';
@@ -9,6 +9,7 @@ part of 'padd.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $PaddCopyWith<Padd> get copyWith => _$PaddCopyWithImpl<Padd>(this as Padd, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Padd&&(identical(other.activeClients, activeClients) || other.activeClients == activeClients)&&(identical(other.gravitySize, gravitySize) || other.gravitySize == gravitySize)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.queries, queries) || other.queries == queries)&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.iface, iface) || other.iface == iface)&&(identical(other.nodeName, nodeName) || other.nodeName == nodeName)&&(identical(other.config, config) || other.config == config)&&(identical(other.cpuPercent, cpuPercent) || other.cpuPercent == cpuPercent)&&(identical(other.memPercent, memPercent) || other.memPercent == memPercent)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.sensors, sensors) || other.sensors == sensors)&&(identical(other.system, system) || other.system == system)&&(identical(other.version, version) || other.version == version)&&(identical(other.took, took) || other.took == took)&&(identical(other.recentBlocked, recentBlocked) || other.recentBlocked == recentBlocked)&&(identical(other.topDomain, topDomain) || other.topDomain == topDomain)&&(identical(other.topBlocked, topBlocked) || other.topBlocked == topBlocked)&&(identical(other.topClient, topClient) || other.topClient == topClient)&&(identical(other.hostModel, hostModel) || other.hostModel == hostModel));
+  final _this = this as Padd;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Padd&&(identical(other.activeClients, _this.activeClients) || other.activeClients == _this.activeClients)&&(identical(other.gravitySize, _this.gravitySize) || other.gravitySize == _this.gravitySize)&&(identical(other.blocking, _this.blocking) || other.blocking == _this.blocking)&&(identical(other.queries, _this.queries) || other.queries == _this.queries)&&(identical(other.cache, _this.cache) || other.cache == _this.cache)&&(identical(other.iface, _this.iface) || other.iface == _this.iface)&&(identical(other.nodeName, _this.nodeName) || other.nodeName == _this.nodeName)&&(identical(other.config, _this.config) || other.config == _this.config)&&(identical(other.cpuPercent, _this.cpuPercent) || other.cpuPercent == _this.cpuPercent)&&(identical(other.memPercent, _this.memPercent) || other.memPercent == _this.memPercent)&&(identical(other.pid, _this.pid) || other.pid == _this.pid)&&(identical(other.sensors, _this.sensors) || other.sensors == _this.sensors)&&(identical(other.system, _this.system) || other.system == _this.system)&&(identical(other.version, _this.version) || other.version == _this.version)&&(identical(other.took, _this.took) || other.took == _this.took)&&(identical(other.recentBlocked, _this.recentBlocked) || other.recentBlocked == _this.recentBlocked)&&(identical(other.topDomain, _this.topDomain) || other.topDomain == _this.topDomain)&&(identical(other.topBlocked, _this.topBlocked) || other.topBlocked == _this.topBlocked)&&(identical(other.topClient, _this.topClient) || other.topClient == _this.topClient)&&(identical(other.hostModel, _this.hostModel) || other.hostModel == _this.hostModel));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,activeClients,gravitySize,blocking,queries,cache,iface,nodeName,config,cpuPercent,memPercent,pid,sensors,system,version,took,recentBlocked,topDomain,topBlocked,topClient,hostModel]);
+int get hashCode {
+  final _this = this as Padd;
+  return Object.hashAll([runtimeType,_this.activeClients,_this.gravitySize,_this.blocking,_this.queries,_this.cache,_this.iface,_this.nodeName,_this.config,_this.cpuPercent,_this.memPercent,_this.pid,_this.sensors,_this.system,_this.version,_this.took,_this.recentBlocked,_this.topDomain,_this.topBlocked,_this.topClient,_this.hostModel]);
+}
 
 @override
 String toString() {
-  return 'Padd(activeClients: $activeClients, gravitySize: $gravitySize, blocking: $blocking, queries: $queries, cache: $cache, iface: $iface, nodeName: $nodeName, config: $config, cpuPercent: $cpuPercent, memPercent: $memPercent, pid: $pid, sensors: $sensors, system: $system, version: $version, took: $took, recentBlocked: $recentBlocked, topDomain: $topDomain, topBlocked: $topBlocked, topClient: $topClient, hostModel: $hostModel)';
+  final _this = this as Padd;
+  return 'Padd(activeClients: ${_this.activeClients}, gravitySize: ${_this.gravitySize}, blocking: ${_this.blocking}, queries: ${_this.queries}, cache: ${_this.cache}, iface: ${_this.iface}, nodeName: ${_this.nodeName}, config: ${_this.config}, cpuPercent: ${_this.cpuPercent}, memPercent: ${_this.memPercent}, pid: ${_this.pid}, sensors: ${_this.sensors}, system: ${_this.system}, version: ${_this.version}, took: ${_this.took}, recentBlocked: ${_this.recentBlocked}, topDomain: ${_this.topDomain}, topBlocked: ${_this.topBlocked}, topClient: ${_this.topClient}, hostModel: ${_this.hostModel})';
 }
 
 
@@ -66,7 +72,7 @@ class _$PaddCopyWithImpl<$Res>
 /// Create a copy of Padd
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? activeClients = null,Object? gravitySize = null,Object? blocking = null,Object? queries = null,Object? cache = null,Object? iface = null,Object? nodeName = null,Object? config = null,Object? cpuPercent = null,Object? memPercent = null,Object? pid = null,Object? sensors = null,Object? system = null,Object? version = null,Object? took = null,Object? recentBlocked = freezed,Object? topDomain = freezed,Object? topBlocked = freezed,Object? topClient = freezed,Object? hostModel = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Padd(
 activeClients: null == activeClients ? _self.activeClients : activeClients // ignore: cast_nullable_to_non_nullable
 as int,gravitySize: null == gravitySize ? _self.gravitySize : gravitySize // ignore: cast_nullable_to_non_nullable
 as int,blocking: null == blocking ? _self.blocking : blocking // ignore: cast_nullable_to_non_nullable
@@ -322,16 +328,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Padd&&(identical(other.activeClients, activeClients) || other.activeClients == activeClients)&&(identical(other.gravitySize, gravitySize) || other.gravitySize == gravitySize)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.queries, queries) || other.queries == queries)&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.iface, iface) || other.iface == iface)&&(identical(other.nodeName, nodeName) || other.nodeName == nodeName)&&(identical(other.config, config) || other.config == config)&&(identical(other.cpuPercent, cpuPercent) || other.cpuPercent == cpuPercent)&&(identical(other.memPercent, memPercent) || other.memPercent == memPercent)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.sensors, sensors) || other.sensors == sensors)&&(identical(other.system, system) || other.system == system)&&(identical(other.version, version) || other.version == version)&&(identical(other.took, took) || other.took == took)&&(identical(other.recentBlocked, recentBlocked) || other.recentBlocked == recentBlocked)&&(identical(other.topDomain, topDomain) || other.topDomain == topDomain)&&(identical(other.topBlocked, topBlocked) || other.topBlocked == topBlocked)&&(identical(other.topClient, topClient) || other.topClient == topClient)&&(identical(other.hostModel, hostModel) || other.hostModel == hostModel));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Padd&&(identical(other.activeClients, activeClients) || other.activeClients == activeClients)&&(identical(other.gravitySize, gravitySize) || other.gravitySize == gravitySize)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.queries, queries) || other.queries == queries)&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.iface, iface) || other.iface == iface)&&(identical(other.nodeName, nodeName) || other.nodeName == nodeName)&&(identical(other.config, config) || other.config == config)&&(identical(other.cpuPercent, cpuPercent) || other.cpuPercent == cpuPercent)&&(identical(other.memPercent, memPercent) || other.memPercent == memPercent)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.sensors, sensors) || other.sensors == sensors)&&(identical(other.system, system) || other.system == system)&&(identical(other.version, version) || other.version == version)&&(identical(other.took, took) || other.took == took)&&(identical(other.recentBlocked, recentBlocked) || other.recentBlocked == recentBlocked)&&(identical(other.topDomain, topDomain) || other.topDomain == topDomain)&&(identical(other.topBlocked, topBlocked) || other.topBlocked == topBlocked)&&(identical(other.topClient, topClient) || other.topClient == topClient)&&(identical(other.hostModel, hostModel) || other.hostModel == hostModel));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,activeClients,gravitySize,blocking,queries,cache,iface,nodeName,config,cpuPercent,memPercent,pid,sensors,system,version,took,recentBlocked,topDomain,topBlocked,topClient,hostModel]);
+int get hashCode {
+    return Object.hashAll([runtimeType,activeClients,gravitySize,blocking,queries,cache,iface,nodeName,config,cpuPercent,memPercent,pid,sensors,system,version,took,recentBlocked,topDomain,topBlocked,topClient,hostModel]);
+}
 
 @override
 String toString() {
-  return 'Padd(activeClients: $activeClients, gravitySize: $gravitySize, blocking: $blocking, queries: $queries, cache: $cache, iface: $iface, nodeName: $nodeName, config: $config, cpuPercent: $cpuPercent, memPercent: $memPercent, pid: $pid, sensors: $sensors, system: $system, version: $version, took: $took, recentBlocked: $recentBlocked, topDomain: $topDomain, topBlocked: $topBlocked, topClient: $topClient, hostModel: $hostModel)';
+    return 'Padd(activeClients: $activeClients, gravitySize: $gravitySize, blocking: $blocking, queries: $queries, cache: $cache, iface: $iface, nodeName: $nodeName, config: $config, cpuPercent: $cpuPercent, memPercent: $memPercent, pid: $pid, sensors: $sensors, system: $system, version: $version, took: $took, recentBlocked: $recentBlocked, topDomain: $topDomain, topBlocked: $topBlocked, topClient: $topClient, hostModel: $hostModel)';
 }
 
 
@@ -468,16 +476,21 @@ $PaddQueriesCopyWith<PaddQueries> get copyWith => _$PaddQueriesCopyWithImpl<Padd
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddQueries&&(identical(other.total, total) || other.total == total)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.percentBlocked, percentBlocked) || other.percentBlocked == percentBlocked));
+  final _this = this as PaddQueries;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddQueries&&(identical(other.total, _this.total) || other.total == _this.total)&&(identical(other.blocked, _this.blocked) || other.blocked == _this.blocked)&&(identical(other.percentBlocked, _this.percentBlocked) || other.percentBlocked == _this.percentBlocked));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,blocked,percentBlocked);
+int get hashCode {
+  final _this = this as PaddQueries;
+  return Object.hash(runtimeType,_this.total,_this.blocked,_this.percentBlocked);
+}
 
 @override
 String toString() {
-  return 'PaddQueries(total: $total, blocked: $blocked, percentBlocked: $percentBlocked)';
+  final _this = this as PaddQueries;
+  return 'PaddQueries(total: ${_this.total}, blocked: ${_this.blocked}, percentBlocked: ${_this.percentBlocked})';
 }
 
 
@@ -506,7 +519,7 @@ class _$PaddQueriesCopyWithImpl<$Res>
 /// Create a copy of PaddQueries
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? total = null,Object? blocked = null,Object? percentBlocked = null,}) {
-  return _then(_self.copyWith(
+  return _then(PaddQueries(
 total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,blocked: null == blocked ? _self.blocked : blocked // ignore: cast_nullable_to_non_nullable
 as int,percentBlocked: null == percentBlocked ? _self.percentBlocked : percentBlocked // ignore: cast_nullable_to_non_nullable
@@ -665,16 +678,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddQueries&&(identical(other.total, total) || other.total == total)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.percentBlocked, percentBlocked) || other.percentBlocked == percentBlocked));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddQueries&&(identical(other.total, total) || other.total == total)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.percentBlocked, percentBlocked) || other.percentBlocked == percentBlocked));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,blocked,percentBlocked);
+int get hashCode {
+    return Object.hash(runtimeType,total,blocked,percentBlocked);
+}
 
 @override
 String toString() {
-  return 'PaddQueries(total: $total, blocked: $blocked, percentBlocked: $percentBlocked)';
+    return 'PaddQueries(total: $total, blocked: $blocked, percentBlocked: $percentBlocked)';
 }
 
 
@@ -731,16 +746,21 @@ $PaddCacheCopyWith<PaddCache> get copyWith => _$PaddCacheCopyWithImpl<PaddCache>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddCache&&(identical(other.size, size) || other.size == size)&&(identical(other.inserted, inserted) || other.inserted == inserted)&&(identical(other.evicted, evicted) || other.evicted == evicted));
+  final _this = this as PaddCache;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddCache&&(identical(other.size, _this.size) || other.size == _this.size)&&(identical(other.inserted, _this.inserted) || other.inserted == _this.inserted)&&(identical(other.evicted, _this.evicted) || other.evicted == _this.evicted));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,size,inserted,evicted);
+int get hashCode {
+  final _this = this as PaddCache;
+  return Object.hash(runtimeType,_this.size,_this.inserted,_this.evicted);
+}
 
 @override
 String toString() {
-  return 'PaddCache(size: $size, inserted: $inserted, evicted: $evicted)';
+  final _this = this as PaddCache;
+  return 'PaddCache(size: ${_this.size}, inserted: ${_this.inserted}, evicted: ${_this.evicted})';
 }
 
 
@@ -769,7 +789,7 @@ class _$PaddCacheCopyWithImpl<$Res>
 /// Create a copy of PaddCache
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? size = null,Object? inserted = null,Object? evicted = null,}) {
-  return _then(_self.copyWith(
+  return _then(PaddCache(
 size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
 as int,inserted: null == inserted ? _self.inserted : inserted // ignore: cast_nullable_to_non_nullable
 as int,evicted: null == evicted ? _self.evicted : evicted // ignore: cast_nullable_to_non_nullable
@@ -928,16 +948,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddCache&&(identical(other.size, size) || other.size == size)&&(identical(other.inserted, inserted) || other.inserted == inserted)&&(identical(other.evicted, evicted) || other.evicted == evicted));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddCache&&(identical(other.size, size) || other.size == size)&&(identical(other.inserted, inserted) || other.inserted == inserted)&&(identical(other.evicted, evicted) || other.evicted == evicted));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,size,inserted,evicted);
+int get hashCode {
+    return Object.hash(runtimeType,size,inserted,evicted);
+}
 
 @override
 String toString() {
-  return 'PaddCache(size: $size, inserted: $inserted, evicted: $evicted)';
+    return 'PaddCache(size: $size, inserted: $inserted, evicted: $evicted)';
 }
 
 
@@ -994,16 +1016,21 @@ $PaddIfaceCopyWith<PaddIface> get copyWith => _$PaddIfaceCopyWithImpl<PaddIface>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddIface&&(identical(other.v4, v4) || other.v4 == v4)&&(identical(other.v6, v6) || other.v6 == v6));
+  final _this = this as PaddIface;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddIface&&(identical(other.v4, _this.v4) || other.v4 == _this.v4)&&(identical(other.v6, _this.v6) || other.v6 == _this.v6));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,v4,v6);
+int get hashCode {
+  final _this = this as PaddIface;
+  return Object.hash(runtimeType,_this.v4,_this.v6);
+}
 
 @override
 String toString() {
-  return 'PaddIface(v4: $v4, v6: $v6)';
+  final _this = this as PaddIface;
+  return 'PaddIface(v4: ${_this.v4}, v6: ${_this.v6})';
 }
 
 
@@ -1032,7 +1059,7 @@ class _$PaddIfaceCopyWithImpl<$Res>
 /// Create a copy of PaddIface
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? v4 = null,Object? v6 = null,}) {
-  return _then(_self.copyWith(
+  return _then(PaddIface(
 v4: null == v4 ? _self.v4 : v4 // ignore: cast_nullable_to_non_nullable
 as PaddIfaceV4,v6: null == v6 ? _self.v6 : v6 // ignore: cast_nullable_to_non_nullable
 as PaddIfaceV6,
@@ -1207,16 +1234,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddIface&&(identical(other.v4, v4) || other.v4 == v4)&&(identical(other.v6, v6) || other.v6 == v6));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddIface&&(identical(other.v4, v4) || other.v4 == v4)&&(identical(other.v6, v6) || other.v6 == v6));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,v4,v6);
+int get hashCode {
+    return Object.hash(runtimeType,v4,v6);
+}
 
 @override
 String toString() {
-  return 'PaddIface(v4: $v4, v6: $v6)';
+    return 'PaddIface(v4: $v4, v6: $v6)';
 }
 
 
@@ -1290,16 +1319,21 @@ $PaddIfaceV4CopyWith<PaddIfaceV4> get copyWith => _$PaddIfaceV4CopyWithImpl<Padd
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddIfaceV4&&(identical(other.rxBytes, rxBytes) || other.rxBytes == rxBytes)&&(identical(other.txBytes, txBytes) || other.txBytes == txBytes)&&(identical(other.numAddrs, numAddrs) || other.numAddrs == numAddrs)&&(identical(other.name, name) || other.name == name)&&(identical(other.addr, addr) || other.addr == addr)&&(identical(other.gwAddr, gwAddr) || other.gwAddr == gwAddr));
+  final _this = this as PaddIfaceV4;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddIfaceV4&&(identical(other.rxBytes, _this.rxBytes) || other.rxBytes == _this.rxBytes)&&(identical(other.txBytes, _this.txBytes) || other.txBytes == _this.txBytes)&&(identical(other.numAddrs, _this.numAddrs) || other.numAddrs == _this.numAddrs)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.addr, _this.addr) || other.addr == _this.addr)&&(identical(other.gwAddr, _this.gwAddr) || other.gwAddr == _this.gwAddr));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,rxBytes,txBytes,numAddrs,name,addr,gwAddr);
+int get hashCode {
+  final _this = this as PaddIfaceV4;
+  return Object.hash(runtimeType,_this.rxBytes,_this.txBytes,_this.numAddrs,_this.name,_this.addr,_this.gwAddr);
+}
 
 @override
 String toString() {
-  return 'PaddIfaceV4(rxBytes: $rxBytes, txBytes: $txBytes, numAddrs: $numAddrs, name: $name, addr: $addr, gwAddr: $gwAddr)';
+  final _this = this as PaddIfaceV4;
+  return 'PaddIfaceV4(rxBytes: ${_this.rxBytes}, txBytes: ${_this.txBytes}, numAddrs: ${_this.numAddrs}, name: ${_this.name}, addr: ${_this.addr}, gwAddr: ${_this.gwAddr})';
 }
 
 
@@ -1328,7 +1362,7 @@ class _$PaddIfaceV4CopyWithImpl<$Res>
 /// Create a copy of PaddIfaceV4
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? rxBytes = null,Object? txBytes = null,Object? numAddrs = null,Object? name = null,Object? addr = freezed,Object? gwAddr = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(PaddIfaceV4(
 rxBytes: null == rxBytes ? _self.rxBytes : rxBytes // ignore: cast_nullable_to_non_nullable
 as PaddIfaceBytes,txBytes: null == txBytes ? _self.txBytes : txBytes // ignore: cast_nullable_to_non_nullable
 as PaddIfaceBytes,numAddrs: null == numAddrs ? _self.numAddrs : numAddrs // ignore: cast_nullable_to_non_nullable
@@ -1511,16 +1545,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddIfaceV4&&(identical(other.rxBytes, rxBytes) || other.rxBytes == rxBytes)&&(identical(other.txBytes, txBytes) || other.txBytes == txBytes)&&(identical(other.numAddrs, numAddrs) || other.numAddrs == numAddrs)&&(identical(other.name, name) || other.name == name)&&(identical(other.addr, addr) || other.addr == addr)&&(identical(other.gwAddr, gwAddr) || other.gwAddr == gwAddr));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddIfaceV4&&(identical(other.rxBytes, rxBytes) || other.rxBytes == rxBytes)&&(identical(other.txBytes, txBytes) || other.txBytes == txBytes)&&(identical(other.numAddrs, numAddrs) || other.numAddrs == numAddrs)&&(identical(other.name, name) || other.name == name)&&(identical(other.addr, addr) || other.addr == addr)&&(identical(other.gwAddr, gwAddr) || other.gwAddr == gwAddr));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,rxBytes,txBytes,numAddrs,name,addr,gwAddr);
+int get hashCode {
+    return Object.hash(runtimeType,rxBytes,txBytes,numAddrs,name,addr,gwAddr);
+}
 
 @override
 String toString() {
-  return 'PaddIfaceV4(rxBytes: $rxBytes, txBytes: $txBytes, numAddrs: $numAddrs, name: $name, addr: $addr, gwAddr: $gwAddr)';
+    return 'PaddIfaceV4(rxBytes: $rxBytes, txBytes: $txBytes, numAddrs: $numAddrs, name: $name, addr: $addr, gwAddr: $gwAddr)';
 }
 
 
@@ -1598,16 +1634,21 @@ $PaddIfaceV6CopyWith<PaddIfaceV6> get copyWith => _$PaddIfaceV6CopyWithImpl<Padd
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddIfaceV6&&(identical(other.numAddrs, numAddrs) || other.numAddrs == numAddrs)&&(identical(other.name, name) || other.name == name)&&(identical(other.addr, addr) || other.addr == addr)&&(identical(other.gwAddr, gwAddr) || other.gwAddr == gwAddr));
+  final _this = this as PaddIfaceV6;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddIfaceV6&&(identical(other.numAddrs, _this.numAddrs) || other.numAddrs == _this.numAddrs)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.addr, _this.addr) || other.addr == _this.addr)&&(identical(other.gwAddr, _this.gwAddr) || other.gwAddr == _this.gwAddr));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,numAddrs,name,addr,gwAddr);
+int get hashCode {
+  final _this = this as PaddIfaceV6;
+  return Object.hash(runtimeType,_this.numAddrs,_this.name,_this.addr,_this.gwAddr);
+}
 
 @override
 String toString() {
-  return 'PaddIfaceV6(numAddrs: $numAddrs, name: $name, addr: $addr, gwAddr: $gwAddr)';
+  final _this = this as PaddIfaceV6;
+  return 'PaddIfaceV6(numAddrs: ${_this.numAddrs}, name: ${_this.name}, addr: ${_this.addr}, gwAddr: ${_this.gwAddr})';
 }
 
 
@@ -1636,7 +1677,7 @@ class _$PaddIfaceV6CopyWithImpl<$Res>
 /// Create a copy of PaddIfaceV6
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? numAddrs = null,Object? name = null,Object? addr = freezed,Object? gwAddr = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(PaddIfaceV6(
 numAddrs: null == numAddrs ? _self.numAddrs : numAddrs // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,addr: freezed == addr ? _self.addr : addr // ignore: cast_nullable_to_non_nullable
@@ -1797,16 +1838,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddIfaceV6&&(identical(other.numAddrs, numAddrs) || other.numAddrs == numAddrs)&&(identical(other.name, name) || other.name == name)&&(identical(other.addr, addr) || other.addr == addr)&&(identical(other.gwAddr, gwAddr) || other.gwAddr == gwAddr));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddIfaceV6&&(identical(other.numAddrs, numAddrs) || other.numAddrs == numAddrs)&&(identical(other.name, name) || other.name == name)&&(identical(other.addr, addr) || other.addr == addr)&&(identical(other.gwAddr, gwAddr) || other.gwAddr == gwAddr));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,numAddrs,name,addr,gwAddr);
+int get hashCode {
+    return Object.hash(runtimeType,numAddrs,name,addr,gwAddr);
+}
 
 @override
 String toString() {
-  return 'PaddIfaceV6(numAddrs: $numAddrs, name: $name, addr: $addr, gwAddr: $gwAddr)';
+    return 'PaddIfaceV6(numAddrs: $numAddrs, name: $name, addr: $addr, gwAddr: $gwAddr)';
 }
 
 
@@ -1864,16 +1907,21 @@ $PaddIfaceBytesCopyWith<PaddIfaceBytes> get copyWith => _$PaddIfaceBytesCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddIfaceBytes&&(identical(other.value, value) || other.value == value)&&(identical(other.unit, unit) || other.unit == unit));
+  final _this = this as PaddIfaceBytes;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddIfaceBytes&&(identical(other.value, _this.value) || other.value == _this.value)&&(identical(other.unit, _this.unit) || other.unit == _this.unit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,value,unit);
+int get hashCode {
+  final _this = this as PaddIfaceBytes;
+  return Object.hash(runtimeType,_this.value,_this.unit);
+}
 
 @override
 String toString() {
-  return 'PaddIfaceBytes(value: $value, unit: $unit)';
+  final _this = this as PaddIfaceBytes;
+  return 'PaddIfaceBytes(value: ${_this.value}, unit: ${_this.unit})';
 }
 
 
@@ -1902,7 +1950,7 @@ class _$PaddIfaceBytesCopyWithImpl<$Res>
 /// Create a copy of PaddIfaceBytes
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? value = null,Object? unit = null,}) {
-  return _then(_self.copyWith(
+  return _then(PaddIfaceBytes(
 value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as double,unit: null == unit ? _self.unit : unit // ignore: cast_nullable_to_non_nullable
 as String,
@@ -2059,16 +2107,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddIfaceBytes&&(identical(other.value, value) || other.value == value)&&(identical(other.unit, unit) || other.unit == unit));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddIfaceBytes&&(identical(other.value, value) || other.value == value)&&(identical(other.unit, unit) || other.unit == unit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,value,unit);
+int get hashCode {
+    return Object.hash(runtimeType,value,unit);
+}
 
 @override
 String toString() {
-  return 'PaddIfaceBytes(value: $value, unit: $unit)';
+    return 'PaddIfaceBytes(value: $value, unit: $unit)';
 }
 
 
@@ -2124,16 +2174,21 @@ $PaddConfigCopyWith<PaddConfig> get copyWith => _$PaddConfigCopyWithImpl<PaddCon
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddConfig&&(identical(other.dhcpActive, dhcpActive) || other.dhcpActive == dhcpActive)&&(identical(other.dhcpStart, dhcpStart) || other.dhcpStart == dhcpStart)&&(identical(other.dhcpEnd, dhcpEnd) || other.dhcpEnd == dhcpEnd)&&(identical(other.dhcpIpv6, dhcpIpv6) || other.dhcpIpv6 == dhcpIpv6)&&(identical(other.dnsDomain, dnsDomain) || other.dnsDomain == dnsDomain)&&(identical(other.dnsPort, dnsPort) || other.dnsPort == dnsPort)&&(identical(other.dnsNumUpstreams, dnsNumUpstreams) || other.dnsNumUpstreams == dnsNumUpstreams)&&(identical(other.dnsDnssec, dnsDnssec) || other.dnsDnssec == dnsDnssec)&&(identical(other.dnsRevServerActive, dnsRevServerActive) || other.dnsRevServerActive == dnsRevServerActive)&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel));
+  final _this = this as PaddConfig;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddConfig&&(identical(other.dhcpActive, _this.dhcpActive) || other.dhcpActive == _this.dhcpActive)&&(identical(other.dhcpStart, _this.dhcpStart) || other.dhcpStart == _this.dhcpStart)&&(identical(other.dhcpEnd, _this.dhcpEnd) || other.dhcpEnd == _this.dhcpEnd)&&(identical(other.dhcpIpv6, _this.dhcpIpv6) || other.dhcpIpv6 == _this.dhcpIpv6)&&(identical(other.dnsDomain, _this.dnsDomain) || other.dnsDomain == _this.dnsDomain)&&(identical(other.dnsPort, _this.dnsPort) || other.dnsPort == _this.dnsPort)&&(identical(other.dnsNumUpstreams, _this.dnsNumUpstreams) || other.dnsNumUpstreams == _this.dnsNumUpstreams)&&(identical(other.dnsDnssec, _this.dnsDnssec) || other.dnsDnssec == _this.dnsDnssec)&&(identical(other.dnsRevServerActive, _this.dnsRevServerActive) || other.dnsRevServerActive == _this.dnsRevServerActive)&&(identical(other.privacyLevel, _this.privacyLevel) || other.privacyLevel == _this.privacyLevel));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,dhcpActive,dhcpStart,dhcpEnd,dhcpIpv6,dnsDomain,dnsPort,dnsNumUpstreams,dnsDnssec,dnsRevServerActive,privacyLevel);
+int get hashCode {
+  final _this = this as PaddConfig;
+  return Object.hash(runtimeType,_this.dhcpActive,_this.dhcpStart,_this.dhcpEnd,_this.dhcpIpv6,_this.dnsDomain,_this.dnsPort,_this.dnsNumUpstreams,_this.dnsDnssec,_this.dnsRevServerActive,_this.privacyLevel);
+}
 
 @override
 String toString() {
-  return 'PaddConfig(dhcpActive: $dhcpActive, dhcpStart: $dhcpStart, dhcpEnd: $dhcpEnd, dhcpIpv6: $dhcpIpv6, dnsDomain: $dnsDomain, dnsPort: $dnsPort, dnsNumUpstreams: $dnsNumUpstreams, dnsDnssec: $dnsDnssec, dnsRevServerActive: $dnsRevServerActive, privacyLevel: $privacyLevel)';
+  final _this = this as PaddConfig;
+  return 'PaddConfig(dhcpActive: ${_this.dhcpActive}, dhcpStart: ${_this.dhcpStart}, dhcpEnd: ${_this.dhcpEnd}, dhcpIpv6: ${_this.dhcpIpv6}, dnsDomain: ${_this.dnsDomain}, dnsPort: ${_this.dnsPort}, dnsNumUpstreams: ${_this.dnsNumUpstreams}, dnsDnssec: ${_this.dnsDnssec}, dnsRevServerActive: ${_this.dnsRevServerActive}, privacyLevel: ${_this.privacyLevel})';
 }
 
 
@@ -2162,7 +2217,7 @@ class _$PaddConfigCopyWithImpl<$Res>
 /// Create a copy of PaddConfig
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? dhcpActive = null,Object? dhcpStart = null,Object? dhcpEnd = null,Object? dhcpIpv6 = null,Object? dnsDomain = null,Object? dnsPort = null,Object? dnsNumUpstreams = null,Object? dnsDnssec = null,Object? dnsRevServerActive = null,Object? privacyLevel = null,}) {
-  return _then(_self.copyWith(
+  return _then(PaddConfig(
 dhcpActive: null == dhcpActive ? _self.dhcpActive : dhcpActive // ignore: cast_nullable_to_non_nullable
 as bool,dhcpStart: null == dhcpStart ? _self.dhcpStart : dhcpStart // ignore: cast_nullable_to_non_nullable
 as String,dhcpEnd: null == dhcpEnd ? _self.dhcpEnd : dhcpEnd // ignore: cast_nullable_to_non_nullable
@@ -2335,16 +2390,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddConfig&&(identical(other.dhcpActive, dhcpActive) || other.dhcpActive == dhcpActive)&&(identical(other.dhcpStart, dhcpStart) || other.dhcpStart == dhcpStart)&&(identical(other.dhcpEnd, dhcpEnd) || other.dhcpEnd == dhcpEnd)&&(identical(other.dhcpIpv6, dhcpIpv6) || other.dhcpIpv6 == dhcpIpv6)&&(identical(other.dnsDomain, dnsDomain) || other.dnsDomain == dnsDomain)&&(identical(other.dnsPort, dnsPort) || other.dnsPort == dnsPort)&&(identical(other.dnsNumUpstreams, dnsNumUpstreams) || other.dnsNumUpstreams == dnsNumUpstreams)&&(identical(other.dnsDnssec, dnsDnssec) || other.dnsDnssec == dnsDnssec)&&(identical(other.dnsRevServerActive, dnsRevServerActive) || other.dnsRevServerActive == dnsRevServerActive)&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddConfig&&(identical(other.dhcpActive, dhcpActive) || other.dhcpActive == dhcpActive)&&(identical(other.dhcpStart, dhcpStart) || other.dhcpStart == dhcpStart)&&(identical(other.dhcpEnd, dhcpEnd) || other.dhcpEnd == dhcpEnd)&&(identical(other.dhcpIpv6, dhcpIpv6) || other.dhcpIpv6 == dhcpIpv6)&&(identical(other.dnsDomain, dnsDomain) || other.dnsDomain == dnsDomain)&&(identical(other.dnsPort, dnsPort) || other.dnsPort == dnsPort)&&(identical(other.dnsNumUpstreams, dnsNumUpstreams) || other.dnsNumUpstreams == dnsNumUpstreams)&&(identical(other.dnsDnssec, dnsDnssec) || other.dnsDnssec == dnsDnssec)&&(identical(other.dnsRevServerActive, dnsRevServerActive) || other.dnsRevServerActive == dnsRevServerActive)&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,dhcpActive,dhcpStart,dhcpEnd,dhcpIpv6,dnsDomain,dnsPort,dnsNumUpstreams,dnsDnssec,dnsRevServerActive,privacyLevel);
+int get hashCode {
+    return Object.hash(runtimeType,dhcpActive,dhcpStart,dhcpEnd,dhcpIpv6,dnsDomain,dnsPort,dnsNumUpstreams,dnsDnssec,dnsRevServerActive,privacyLevel);
+}
 
 @override
 String toString() {
-  return 'PaddConfig(dhcpActive: $dhcpActive, dhcpStart: $dhcpStart, dhcpEnd: $dhcpEnd, dhcpIpv6: $dhcpIpv6, dnsDomain: $dnsDomain, dnsPort: $dnsPort, dnsNumUpstreams: $dnsNumUpstreams, dnsDnssec: $dnsDnssec, dnsRevServerActive: $dnsRevServerActive, privacyLevel: $privacyLevel)';
+    return 'PaddConfig(dhcpActive: $dhcpActive, dhcpStart: $dhcpStart, dhcpEnd: $dhcpEnd, dhcpIpv6: $dhcpIpv6, dnsDomain: $dnsDomain, dnsPort: $dnsPort, dnsNumUpstreams: $dnsNumUpstreams, dnsDnssec: $dnsDnssec, dnsRevServerActive: $dnsRevServerActive, privacyLevel: $privacyLevel)';
 }
 
 
@@ -2408,16 +2465,21 @@ $PaddSensorsCopyWith<PaddSensors> get copyWith => _$PaddSensorsCopyWithImpl<Padd
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSensors&&(identical(other.hotLimit, hotLimit) || other.hotLimit == hotLimit)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp));
+  final _this = this as PaddSensors;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSensors&&(identical(other.hotLimit, _this.hotLimit) || other.hotLimit == _this.hotLimit)&&(identical(other.unit, _this.unit) || other.unit == _this.unit)&&(identical(other.cpuTemp, _this.cpuTemp) || other.cpuTemp == _this.cpuTemp));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,hotLimit,unit,cpuTemp);
+int get hashCode {
+  final _this = this as PaddSensors;
+  return Object.hash(runtimeType,_this.hotLimit,_this.unit,_this.cpuTemp);
+}
 
 @override
 String toString() {
-  return 'PaddSensors(hotLimit: $hotLimit, unit: $unit, cpuTemp: $cpuTemp)';
+  final _this = this as PaddSensors;
+  return 'PaddSensors(hotLimit: ${_this.hotLimit}, unit: ${_this.unit}, cpuTemp: ${_this.cpuTemp})';
 }
 
 
@@ -2446,7 +2508,7 @@ class _$PaddSensorsCopyWithImpl<$Res>
 /// Create a copy of PaddSensors
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? hotLimit = null,Object? unit = null,Object? cpuTemp = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(PaddSensors(
 hotLimit: null == hotLimit ? _self.hotLimit : hotLimit // ignore: cast_nullable_to_non_nullable
 as double,unit: null == unit ? _self.unit : unit // ignore: cast_nullable_to_non_nullable
 as String,cpuTemp: freezed == cpuTemp ? _self.cpuTemp : cpuTemp // ignore: cast_nullable_to_non_nullable
@@ -2605,16 +2667,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSensors&&(identical(other.hotLimit, hotLimit) || other.hotLimit == hotLimit)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSensors&&(identical(other.hotLimit, hotLimit) || other.hotLimit == hotLimit)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,hotLimit,unit,cpuTemp);
+int get hashCode {
+    return Object.hash(runtimeType,hotLimit,unit,cpuTemp);
+}
 
 @override
 String toString() {
-  return 'PaddSensors(hotLimit: $hotLimit, unit: $unit, cpuTemp: $cpuTemp)';
+    return 'PaddSensors(hotLimit: $hotLimit, unit: $unit, cpuTemp: $cpuTemp)';
 }
 
 
@@ -2671,16 +2735,21 @@ $PaddSystemCopyWith<PaddSystem> get copyWith => _$PaddSystemCopyWithImpl<PaddSys
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystem&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.memory, memory) || other.memory == memory)&&(identical(other.procs, procs) || other.procs == procs)&&(identical(other.cpu, cpu) || other.cpu == cpu)&&(identical(other.ftl, ftl) || other.ftl == ftl));
+  final _this = this as PaddSystem;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystem&&(identical(other.uptime, _this.uptime) || other.uptime == _this.uptime)&&(identical(other.memory, _this.memory) || other.memory == _this.memory)&&(identical(other.procs, _this.procs) || other.procs == _this.procs)&&(identical(other.cpu, _this.cpu) || other.cpu == _this.cpu)&&(identical(other.ftl, _this.ftl) || other.ftl == _this.ftl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uptime,memory,procs,cpu,ftl);
+int get hashCode {
+  final _this = this as PaddSystem;
+  return Object.hash(runtimeType,_this.uptime,_this.memory,_this.procs,_this.cpu,_this.ftl);
+}
 
 @override
 String toString() {
-  return 'PaddSystem(uptime: $uptime, memory: $memory, procs: $procs, cpu: $cpu, ftl: $ftl)';
+  final _this = this as PaddSystem;
+  return 'PaddSystem(uptime: ${_this.uptime}, memory: ${_this.memory}, procs: ${_this.procs}, cpu: ${_this.cpu}, ftl: ${_this.ftl})';
 }
 
 
@@ -2709,7 +2778,7 @@ class _$PaddSystemCopyWithImpl<$Res>
 /// Create a copy of PaddSystem
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? uptime = null,Object? memory = null,Object? procs = null,Object? cpu = null,Object? ftl = null,}) {
-  return _then(_self.copyWith(
+  return _then(PaddSystem(
 uptime: null == uptime ? _self.uptime : uptime // ignore: cast_nullable_to_non_nullable
 as int,memory: null == memory ? _self.memory : memory // ignore: cast_nullable_to_non_nullable
 as PaddSystemMemory,procs: null == procs ? _self.procs : procs // ignore: cast_nullable_to_non_nullable
@@ -2899,16 +2968,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystem&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.memory, memory) || other.memory == memory)&&(identical(other.procs, procs) || other.procs == procs)&&(identical(other.cpu, cpu) || other.cpu == cpu)&&(identical(other.ftl, ftl) || other.ftl == ftl));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystem&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.memory, memory) || other.memory == memory)&&(identical(other.procs, procs) || other.procs == procs)&&(identical(other.cpu, cpu) || other.cpu == cpu)&&(identical(other.ftl, ftl) || other.ftl == ftl));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uptime,memory,procs,cpu,ftl);
+int get hashCode {
+    return Object.hash(runtimeType,uptime,memory,procs,cpu,ftl);
+}
 
 @override
 String toString() {
-  return 'PaddSystem(uptime: $uptime, memory: $memory, procs: $procs, cpu: $cpu, ftl: $ftl)';
+    return 'PaddSystem(uptime: $uptime, memory: $memory, procs: $procs, cpu: $cpu, ftl: $ftl)';
 }
 
 
@@ -2994,16 +3065,21 @@ $PaddSystemMemoryCopyWith<PaddSystemMemory> get copyWith => _$PaddSystemMemoryCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystemMemory&&(identical(other.ram, ram) || other.ram == ram)&&(identical(other.swap, swap) || other.swap == swap));
+  final _this = this as PaddSystemMemory;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystemMemory&&(identical(other.ram, _this.ram) || other.ram == _this.ram)&&(identical(other.swap, _this.swap) || other.swap == _this.swap));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ram,swap);
+int get hashCode {
+  final _this = this as PaddSystemMemory;
+  return Object.hash(runtimeType,_this.ram,_this.swap);
+}
 
 @override
 String toString() {
-  return 'PaddSystemMemory(ram: $ram, swap: $swap)';
+  final _this = this as PaddSystemMemory;
+  return 'PaddSystemMemory(ram: ${_this.ram}, swap: ${_this.swap})';
 }
 
 
@@ -3032,7 +3108,7 @@ class _$PaddSystemMemoryCopyWithImpl<$Res>
 /// Create a copy of PaddSystemMemory
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ram = null,Object? swap = null,}) {
-  return _then(_self.copyWith(
+  return _then(PaddSystemMemory(
 ram: null == ram ? _self.ram : ram // ignore: cast_nullable_to_non_nullable
 as PaddSystemRam,swap: null == swap ? _self.swap : swap // ignore: cast_nullable_to_non_nullable
 as PaddSystemSwap,
@@ -3207,16 +3283,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystemMemory&&(identical(other.ram, ram) || other.ram == ram)&&(identical(other.swap, swap) || other.swap == swap));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystemMemory&&(identical(other.ram, ram) || other.ram == ram)&&(identical(other.swap, swap) || other.swap == swap));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ram,swap);
+int get hashCode {
+    return Object.hash(runtimeType,ram,swap);
+}
 
 @override
 String toString() {
-  return 'PaddSystemMemory(ram: $ram, swap: $swap)';
+    return 'PaddSystemMemory(ram: $ram, swap: $swap)';
 }
 
 
@@ -3290,16 +3368,21 @@ $PaddSystemRamCopyWith<PaddSystemRam> get copyWith => _$PaddSystemRamCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystemRam&&(identical(other.total, total) || other.total == total)&&(identical(other.free, free) || other.free == free)&&(identical(other.used, used) || other.used == used)&&(identical(other.available, available) || other.available == available)&&(identical(other.percentUsed, percentUsed) || other.percentUsed == percentUsed));
+  final _this = this as PaddSystemRam;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystemRam&&(identical(other.total, _this.total) || other.total == _this.total)&&(identical(other.free, _this.free) || other.free == _this.free)&&(identical(other.used, _this.used) || other.used == _this.used)&&(identical(other.available, _this.available) || other.available == _this.available)&&(identical(other.percentUsed, _this.percentUsed) || other.percentUsed == _this.percentUsed));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,free,used,available,percentUsed);
+int get hashCode {
+  final _this = this as PaddSystemRam;
+  return Object.hash(runtimeType,_this.total,_this.free,_this.used,_this.available,_this.percentUsed);
+}
 
 @override
 String toString() {
-  return 'PaddSystemRam(total: $total, free: $free, used: $used, available: $available, percentUsed: $percentUsed)';
+  final _this = this as PaddSystemRam;
+  return 'PaddSystemRam(total: ${_this.total}, free: ${_this.free}, used: ${_this.used}, available: ${_this.available}, percentUsed: ${_this.percentUsed})';
 }
 
 
@@ -3328,7 +3411,7 @@ class _$PaddSystemRamCopyWithImpl<$Res>
 /// Create a copy of PaddSystemRam
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? total = null,Object? free = null,Object? used = null,Object? available = null,Object? percentUsed = null,}) {
-  return _then(_self.copyWith(
+  return _then(PaddSystemRam(
 total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,free: null == free ? _self.free : free // ignore: cast_nullable_to_non_nullable
 as int,used: null == used ? _self.used : used // ignore: cast_nullable_to_non_nullable
@@ -3491,16 +3574,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystemRam&&(identical(other.total, total) || other.total == total)&&(identical(other.free, free) || other.free == free)&&(identical(other.used, used) || other.used == used)&&(identical(other.available, available) || other.available == available)&&(identical(other.percentUsed, percentUsed) || other.percentUsed == percentUsed));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystemRam&&(identical(other.total, total) || other.total == total)&&(identical(other.free, free) || other.free == free)&&(identical(other.used, used) || other.used == used)&&(identical(other.available, available) || other.available == available)&&(identical(other.percentUsed, percentUsed) || other.percentUsed == percentUsed));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,free,used,available,percentUsed);
+int get hashCode {
+    return Object.hash(runtimeType,total,free,used,available,percentUsed);
+}
 
 @override
 String toString() {
-  return 'PaddSystemRam(total: $total, free: $free, used: $used, available: $available, percentUsed: $percentUsed)';
+    return 'PaddSystemRam(total: $total, free: $free, used: $used, available: $available, percentUsed: $percentUsed)';
 }
 
 
@@ -3559,16 +3644,21 @@ $PaddSystemSwapCopyWith<PaddSystemSwap> get copyWith => _$PaddSystemSwapCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystemSwap&&(identical(other.total, total) || other.total == total)&&(identical(other.used, used) || other.used == used)&&(identical(other.free, free) || other.free == free)&&(identical(other.percentUsed, percentUsed) || other.percentUsed == percentUsed));
+  final _this = this as PaddSystemSwap;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystemSwap&&(identical(other.total, _this.total) || other.total == _this.total)&&(identical(other.used, _this.used) || other.used == _this.used)&&(identical(other.free, _this.free) || other.free == _this.free)&&(identical(other.percentUsed, _this.percentUsed) || other.percentUsed == _this.percentUsed));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,used,free,percentUsed);
+int get hashCode {
+  final _this = this as PaddSystemSwap;
+  return Object.hash(runtimeType,_this.total,_this.used,_this.free,_this.percentUsed);
+}
 
 @override
 String toString() {
-  return 'PaddSystemSwap(total: $total, used: $used, free: $free, percentUsed: $percentUsed)';
+  final _this = this as PaddSystemSwap;
+  return 'PaddSystemSwap(total: ${_this.total}, used: ${_this.used}, free: ${_this.free}, percentUsed: ${_this.percentUsed})';
 }
 
 
@@ -3597,7 +3687,7 @@ class _$PaddSystemSwapCopyWithImpl<$Res>
 /// Create a copy of PaddSystemSwap
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? total = null,Object? used = null,Object? free = null,Object? percentUsed = null,}) {
-  return _then(_self.copyWith(
+  return _then(PaddSystemSwap(
 total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,used: null == used ? _self.used : used // ignore: cast_nullable_to_non_nullable
 as int,free: null == free ? _self.free : free // ignore: cast_nullable_to_non_nullable
@@ -3758,16 +3848,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystemSwap&&(identical(other.total, total) || other.total == total)&&(identical(other.used, used) || other.used == used)&&(identical(other.free, free) || other.free == free)&&(identical(other.percentUsed, percentUsed) || other.percentUsed == percentUsed));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystemSwap&&(identical(other.total, total) || other.total == total)&&(identical(other.used, used) || other.used == used)&&(identical(other.free, free) || other.free == free)&&(identical(other.percentUsed, percentUsed) || other.percentUsed == percentUsed));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,used,free,percentUsed);
+int get hashCode {
+    return Object.hash(runtimeType,total,used,free,percentUsed);
+}
 
 @override
 String toString() {
-  return 'PaddSystemSwap(total: $total, used: $used, free: $free, percentUsed: $percentUsed)';
+    return 'PaddSystemSwap(total: $total, used: $used, free: $free, percentUsed: $percentUsed)';
 }
 
 
@@ -3825,16 +3917,21 @@ $PaddSystemCpuCopyWith<PaddSystemCpu> get copyWith => _$PaddSystemCpuCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystemCpu&&(identical(other.nprocs, nprocs) || other.nprocs == nprocs)&&(identical(other.load, load) || other.load == load)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu));
+  final _this = this as PaddSystemCpu;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystemCpu&&(identical(other.nprocs, _this.nprocs) || other.nprocs == _this.nprocs)&&(identical(other.load, _this.load) || other.load == _this.load)&&(identical(other.percentCpu, _this.percentCpu) || other.percentCpu == _this.percentCpu));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,nprocs,load,percentCpu);
+int get hashCode {
+  final _this = this as PaddSystemCpu;
+  return Object.hash(runtimeType,_this.nprocs,_this.load,_this.percentCpu);
+}
 
 @override
 String toString() {
-  return 'PaddSystemCpu(nprocs: $nprocs, load: $load, percentCpu: $percentCpu)';
+  final _this = this as PaddSystemCpu;
+  return 'PaddSystemCpu(nprocs: ${_this.nprocs}, load: ${_this.load}, percentCpu: ${_this.percentCpu})';
 }
 
 
@@ -3863,7 +3960,7 @@ class _$PaddSystemCpuCopyWithImpl<$Res>
 /// Create a copy of PaddSystemCpu
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? nprocs = null,Object? load = null,Object? percentCpu = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(PaddSystemCpu(
 nprocs: null == nprocs ? _self.nprocs : nprocs // ignore: cast_nullable_to_non_nullable
 as int,load: null == load ? _self.load : load // ignore: cast_nullable_to_non_nullable
 as PaddSystemLoad,percentCpu: freezed == percentCpu ? _self.percentCpu : percentCpu // ignore: cast_nullable_to_non_nullable
@@ -4031,16 +4128,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystemCpu&&(identical(other.nprocs, nprocs) || other.nprocs == nprocs)&&(identical(other.load, load) || other.load == load)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystemCpu&&(identical(other.nprocs, nprocs) || other.nprocs == nprocs)&&(identical(other.load, load) || other.load == load)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,nprocs,load,percentCpu);
+int get hashCode {
+    return Object.hash(runtimeType,nprocs,load,percentCpu);
+}
 
 @override
 String toString() {
-  return 'PaddSystemCpu(nprocs: $nprocs, load: $load, percentCpu: $percentCpu)';
+    return 'PaddSystemCpu(nprocs: $nprocs, load: $load, percentCpu: $percentCpu)';
 }
 
 
@@ -4106,16 +4205,21 @@ $PaddSystemLoadCopyWith<PaddSystemLoad> get copyWith => _$PaddSystemLoadCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystemLoad&&const DeepCollectionEquality().equals(other.raw, raw)&&const DeepCollectionEquality().equals(other.percent, percent));
+  final _this = this as PaddSystemLoad;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystemLoad&&const DeepCollectionEquality().equals(other.raw, _this.raw)&&const DeepCollectionEquality().equals(other.percent, _this.percent));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(raw),const DeepCollectionEquality().hash(percent));
+int get hashCode {
+  final _this = this as PaddSystemLoad;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.raw),const DeepCollectionEquality().hash(_this.percent));
+}
 
 @override
 String toString() {
-  return 'PaddSystemLoad(raw: $raw, percent: $percent)';
+  final _this = this as PaddSystemLoad;
+  return 'PaddSystemLoad(raw: ${_this.raw}, percent: ${_this.percent})';
 }
 
 
@@ -4144,7 +4248,7 @@ class _$PaddSystemLoadCopyWithImpl<$Res>
 /// Create a copy of PaddSystemLoad
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? raw = null,Object? percent = null,}) {
-  return _then(_self.copyWith(
+  return _then(PaddSystemLoad(
 raw: null == raw ? _self.raw : raw // ignore: cast_nullable_to_non_nullable
 as List<double>,percent: null == percent ? _self.percent : percent // ignore: cast_nullable_to_non_nullable
 as List<double>,
@@ -4282,7 +4386,7 @@ return $default(_that.raw,_that.percent);case _:
 @JsonSerializable()
 
 class _PaddSystemLoad implements PaddSystemLoad {
-  const _PaddSystemLoad({required final  List<double> raw, required final  List<double> percent}): _raw = raw,_percent = percent;
+  const _PaddSystemLoad({required  List<double> raw, required  List<double> percent}): _raw = raw,_percent = percent;
   factory _PaddSystemLoad.fromJson(Map<String, dynamic> json) => _$PaddSystemLoadFromJson(json);
 
  final  List<double> _raw;
@@ -4313,16 +4417,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystemLoad&&const DeepCollectionEquality().equals(other._raw, _raw)&&const DeepCollectionEquality().equals(other._percent, _percent));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystemLoad&&const DeepCollectionEquality().equals(other.raw, _raw)&&const DeepCollectionEquality().equals(other.percent, _percent));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_raw),const DeepCollectionEquality().hash(_percent));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_raw),const DeepCollectionEquality().hash(_percent));
+}
 
 @override
 String toString() {
-  return 'PaddSystemLoad(raw: $raw, percent: $percent)';
+    return 'PaddSystemLoad(raw: $raw, percent: $percent)';
 }
 
 
@@ -4378,16 +4484,21 @@ $PaddSystemFtlCopyWith<PaddSystemFtl> get copyWith => _$PaddSystemFtlCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystemFtl&&(identical(other.percentMem, percentMem) || other.percentMem == percentMem)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu));
+  final _this = this as PaddSystemFtl;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystemFtl&&(identical(other.percentMem, _this.percentMem) || other.percentMem == _this.percentMem)&&(identical(other.percentCpu, _this.percentCpu) || other.percentCpu == _this.percentCpu));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,percentMem,percentCpu);
+int get hashCode {
+  final _this = this as PaddSystemFtl;
+  return Object.hash(runtimeType,_this.percentMem,_this.percentCpu);
+}
 
 @override
 String toString() {
-  return 'PaddSystemFtl(percentMem: $percentMem, percentCpu: $percentCpu)';
+  final _this = this as PaddSystemFtl;
+  return 'PaddSystemFtl(percentMem: ${_this.percentMem}, percentCpu: ${_this.percentCpu})';
 }
 
 
@@ -4416,7 +4527,7 @@ class _$PaddSystemFtlCopyWithImpl<$Res>
 /// Create a copy of PaddSystemFtl
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? percentMem = null,Object? percentCpu = null,}) {
-  return _then(_self.copyWith(
+  return _then(PaddSystemFtl(
 percentMem: null == percentMem ? _self.percentMem : percentMem // ignore: cast_nullable_to_non_nullable
 as double,percentCpu: null == percentCpu ? _self.percentCpu : percentCpu // ignore: cast_nullable_to_non_nullable
 as double,
@@ -4573,16 +4684,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystemFtl&&(identical(other.percentMem, percentMem) || other.percentMem == percentMem)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystemFtl&&(identical(other.percentMem, percentMem) || other.percentMem == percentMem)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,percentMem,percentCpu);
+int get hashCode {
+    return Object.hash(runtimeType,percentMem,percentCpu);
+}
 
 @override
 String toString() {
-  return 'PaddSystemFtl(percentMem: $percentMem, percentCpu: $percentCpu)';
+    return 'PaddSystemFtl(percentMem: $percentMem, percentCpu: $percentCpu)';
 }
 
 

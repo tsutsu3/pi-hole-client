@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'domain.dart';
@@ -9,6 +9,7 @@ part of 'domain.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $DomainListsCopyWith<DomainLists> get copyWith => _$DomainListsCopyWithImpl<Doma
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DomainLists&&const DeepCollectionEquality().equals(other.allowExact, allowExact)&&const DeepCollectionEquality().equals(other.allowRegex, allowRegex)&&const DeepCollectionEquality().equals(other.denyExact, denyExact)&&const DeepCollectionEquality().equals(other.denyRegex, denyRegex));
+  final _this = this as DomainLists;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DomainLists&&const DeepCollectionEquality().equals(other.allowExact, _this.allowExact)&&const DeepCollectionEquality().equals(other.allowRegex, _this.allowRegex)&&const DeepCollectionEquality().equals(other.denyExact, _this.denyExact)&&const DeepCollectionEquality().equals(other.denyRegex, _this.denyRegex));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(allowExact),const DeepCollectionEquality().hash(allowRegex),const DeepCollectionEquality().hash(denyExact),const DeepCollectionEquality().hash(denyRegex));
+int get hashCode {
+  final _this = this as DomainLists;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.allowExact),const DeepCollectionEquality().hash(_this.allowRegex),const DeepCollectionEquality().hash(_this.denyExact),const DeepCollectionEquality().hash(_this.denyRegex));
+}
 
 @override
 String toString() {
-  return 'DomainLists(allowExact: $allowExact, allowRegex: $allowRegex, denyExact: $denyExact, denyRegex: $denyRegex)';
+  final _this = this as DomainLists;
+  return 'DomainLists(allowExact: ${_this.allowExact}, allowRegex: ${_this.allowRegex}, denyExact: ${_this.denyExact}, denyRegex: ${_this.denyRegex})';
 }
 
 
@@ -66,7 +72,7 @@ class _$DomainListsCopyWithImpl<$Res>
 /// Create a copy of DomainLists
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? allowExact = null,Object? allowRegex = null,Object? denyExact = null,Object? denyRegex = null,}) {
-  return _then(_self.copyWith(
+  return _then(DomainLists(
 allowExact: null == allowExact ? _self.allowExact : allowExact // ignore: cast_nullable_to_non_nullable
 as List<Domain>,allowRegex: null == allowRegex ? _self.allowRegex : allowRegex // ignore: cast_nullable_to_non_nullable
 as List<Domain>,denyExact: null == denyExact ? _self.denyExact : denyExact // ignore: cast_nullable_to_non_nullable
@@ -206,7 +212,7 @@ return $default(_that.allowExact,_that.allowRegex,_that.denyExact,_that.denyRege
 
 @JsonSerializable(explicitToJson: true)
 class _DomainLists implements DomainLists {
-  const _DomainLists({required final  List<Domain> allowExact, required final  List<Domain> allowRegex, required final  List<Domain> denyExact, required final  List<Domain> denyRegex}): _allowExact = allowExact,_allowRegex = allowRegex,_denyExact = denyExact,_denyRegex = denyRegex;
+  const _DomainLists({required  List<Domain> allowExact, required  List<Domain> allowRegex, required  List<Domain> denyExact, required  List<Domain> denyRegex}): _allowExact = allowExact,_allowRegex = allowRegex,_denyExact = denyExact,_denyRegex = denyRegex;
   factory _DomainLists.fromJson(Map<String, dynamic> json) => _$DomainListsFromJson(json);
 
  final  List<Domain> _allowExact;
@@ -251,16 +257,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DomainLists&&const DeepCollectionEquality().equals(other._allowExact, _allowExact)&&const DeepCollectionEquality().equals(other._allowRegex, _allowRegex)&&const DeepCollectionEquality().equals(other._denyExact, _denyExact)&&const DeepCollectionEquality().equals(other._denyRegex, _denyRegex));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DomainLists&&const DeepCollectionEquality().equals(other.allowExact, _allowExact)&&const DeepCollectionEquality().equals(other.allowRegex, _allowRegex)&&const DeepCollectionEquality().equals(other.denyExact, _denyExact)&&const DeepCollectionEquality().equals(other.denyRegex, _denyRegex));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_allowExact),const DeepCollectionEquality().hash(_allowRegex),const DeepCollectionEquality().hash(_denyExact),const DeepCollectionEquality().hash(_denyRegex));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_allowExact),const DeepCollectionEquality().hash(_allowRegex),const DeepCollectionEquality().hash(_denyExact),const DeepCollectionEquality().hash(_denyRegex));
+}
 
 @override
 String toString() {
-  return 'DomainLists(allowExact: $allowExact, allowRegex: $allowRegex, denyExact: $denyExact, denyRegex: $denyRegex)';
+    return 'DomainLists(allowExact: $allowExact, allowRegex: $allowRegex, denyExact: $denyExact, denyRegex: $denyRegex)';
 }
 
 
@@ -318,16 +326,21 @@ $DomainCopyWith<Domain> get copyWith => _$DomainCopyWithImpl<Domain>(this as Dom
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Domain&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.punyCode, punyCode) || other.punyCode == punyCode)&&(identical(other.type, type) || other.type == type)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.comment, comment) || other.comment == comment)&&const DeepCollectionEquality().equals(other.groups, groups)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified));
+  final _this = this as Domain;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Domain&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.punyCode, _this.punyCode) || other.punyCode == _this.punyCode)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.kind, _this.kind) || other.kind == _this.kind)&&(identical(other.comment, _this.comment) || other.comment == _this.comment)&&const DeepCollectionEquality().equals(other.groups, _this.groups)&&(identical(other.enabled, _this.enabled) || other.enabled == _this.enabled)&&(identical(other.dateAdded, _this.dateAdded) || other.dateAdded == _this.dateAdded)&&(identical(other.dateModified, _this.dateModified) || other.dateModified == _this.dateModified));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,punyCode,type,kind,comment,const DeepCollectionEquality().hash(groups),enabled,dateAdded,dateModified);
+int get hashCode {
+  final _this = this as Domain;
+  return Object.hash(runtimeType,_this.id,_this.name,_this.punyCode,_this.type,_this.kind,_this.comment,const DeepCollectionEquality().hash(_this.groups),_this.enabled,_this.dateAdded,_this.dateModified);
+}
 
 @override
 String toString() {
-  return 'Domain(id: $id, name: $name, punyCode: $punyCode, type: $type, kind: $kind, comment: $comment, groups: $groups, enabled: $enabled, dateAdded: $dateAdded, dateModified: $dateModified)';
+  final _this = this as Domain;
+  return 'Domain(id: ${_this.id}, name: ${_this.name}, punyCode: ${_this.punyCode}, type: ${_this.type}, kind: ${_this.kind}, comment: ${_this.comment}, groups: ${_this.groups}, enabled: ${_this.enabled}, dateAdded: ${_this.dateAdded}, dateModified: ${_this.dateModified})';
 }
 
 
@@ -356,7 +369,7 @@ class _$DomainCopyWithImpl<$Res>
 /// Create a copy of Domain
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? punyCode = null,Object? type = null,Object? kind = null,Object? comment = freezed,Object? groups = null,Object? enabled = null,Object? dateAdded = null,Object? dateModified = null,}) {
-  return _then(_self.copyWith(
+  return _then(Domain(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,punyCode: null == punyCode ? _self.punyCode : punyCode // ignore: cast_nullable_to_non_nullable
@@ -502,7 +515,7 @@ return $default(_that.id,_that.name,_that.punyCode,_that.type,_that.kind,_that.c
 @JsonSerializable()
 
 class _Domain implements Domain {
-  const _Domain({required this.id, required this.name, required this.punyCode, required this.type, required this.kind, required this.comment, required final  List<int> groups, required this.enabled, required this.dateAdded, required this.dateModified}): _groups = groups;
+  const _Domain({required this.id, required this.name, required this.punyCode, required this.type, required this.kind, required this.comment, required  List<int> groups, required this.enabled, required this.dateAdded, required this.dateModified}): _groups = groups;
   factory _Domain.fromJson(Map<String, dynamic> json) => _$DomainFromJson(json);
 
 @override final  int id;
@@ -535,16 +548,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Domain&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.punyCode, punyCode) || other.punyCode == punyCode)&&(identical(other.type, type) || other.type == type)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.comment, comment) || other.comment == comment)&&const DeepCollectionEquality().equals(other._groups, _groups)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Domain&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.punyCode, punyCode) || other.punyCode == punyCode)&&(identical(other.type, type) || other.type == type)&&(identical(other.kind, kind) || other.kind == kind)&&(identical(other.comment, comment) || other.comment == comment)&&const DeepCollectionEquality().equals(other.groups, _groups)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,punyCode,type,kind,comment,const DeepCollectionEquality().hash(_groups),enabled,dateAdded,dateModified);
+int get hashCode {
+    return Object.hash(runtimeType,id,name,punyCode,type,kind,comment,const DeepCollectionEquality().hash(_groups),enabled,dateAdded,dateModified);
+}
 
 @override
 String toString() {
-  return 'Domain(id: $id, name: $name, punyCode: $punyCode, type: $type, kind: $kind, comment: $comment, groups: $groups, enabled: $enabled, dateAdded: $dateAdded, dateModified: $dateModified)';
+    return 'Domain(id: $id, name: $name, punyCode: $punyCode, type: $type, kind: $kind, comment: $comment, groups: $groups, enabled: $enabled, dateAdded: $dateAdded, dateModified: $dateModified)';
 }
 
 
