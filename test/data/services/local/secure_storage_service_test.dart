@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import '../utils/mocks.mocks.dart';
 
 void main() {
@@ -48,6 +49,7 @@ void main() {
       ).thenAnswer((_) async => null);
       final result = await service.getValue('testKey');
       expect(result.isError(), true);
+      expect(result.exceptionOrNull(), isA<ValueNotFoundException>());
       expect(
         result.exceptionOrNull()?.toString(),
         contains('No value found for key: testKey'),
@@ -60,6 +62,7 @@ void main() {
       ).thenThrow(Exception('read error'));
       final result = await service.getValue('testKey');
       expect(result.isError(), true);
+      expect(result.exceptionOrNull(), isNot(isA<ValueNotFoundException>()));
       expect(
         result.exceptionOrNull()?.toString(),
         contains('Failed to read value: Exception: read error'),

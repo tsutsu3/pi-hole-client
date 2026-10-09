@@ -67,7 +67,6 @@ class UpdateServerRequest {
     required this.oldServer,
     required this.initPassword,
     required this.initToken,
-    required this.secretsLoadSucceeded,
     required this.resolveCertificate,
     required this.resolveTotp,
   });
@@ -87,11 +86,6 @@ class UpdateServerRequest {
   /// secrets when a save attempt fails.
   final String initPassword;
   final String initToken;
-
-  /// Whether the stored secrets were actually read. When false the restore is
-  /// skipped so empty placeholders never overwrite a credential still in secure
-  /// storage.
-  final bool secretsLoadSucceeded;
 
   final ResolveCertificate resolveCertificate;
   final ResolveTotp resolveTotp;
@@ -491,14 +485,9 @@ class _SaveAttempt {
     }
   }
 
-  /// Only restore when the original secrets were actually read. If the initial
-  /// load failed, initPassword/initToken are empty placeholders and writing
-  /// them back would wipe a credential that is still in secure storage.
   Future<void> restoreSecrets() async {
-    if (req.secretsLoadSucceeded) {
-      await _serversViewModel.savePassword(oldAddress, req.initPassword);
-      await _serversViewModel.saveToken(oldAddress, req.initToken);
-    }
+    await _serversViewModel.savePassword(oldAddress, req.initPassword);
+    await _serversViewModel.saveToken(oldAddress, req.initToken);
   }
 
   /// Writes [server] to the DB: replace when the address changed, otherwise edit

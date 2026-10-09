@@ -29,7 +29,7 @@ abstract interface class ServerRepository {
   Future<Result<String>> fetchPassword(String address);
 
   /// Fetches stored credentials (token + password) for the edit screen.
-  /// Returns empty strings if not stored.
+  /// Returns empty strings if not stored, and a failure if the read fails.
   Future<Result<({String token, String password})>> fetchCredentials(
     String address,
   );

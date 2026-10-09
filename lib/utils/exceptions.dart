@@ -51,6 +51,17 @@ class SidNotFoundException implements Exception {
   String toString() => 'SidNotFoundException: $message';
 }
 
+/// Exception indicating that secure storage has no value for the key.
+/// A read error is reported with a different exception.
+class ValueNotFoundException implements Exception {
+  /// Creates a ValueNotFoundException with an optional [message].
+  ValueNotFoundException([this.message = 'Value not found.']);
+  final String message;
+
+  @override
+  String toString() => 'ValueNotFoundException: $message';
+}
+
 /// Exception indicating the server requires a TOTP (2FA) code to complete
 /// login. Pi-hole v6 returns this when the password is correct but no TOTP
 /// token was sent (HTTP 400, error key `bad_request`).

@@ -565,6 +565,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get couldntEnableServer => 'Server konnte nicht aktiviert werden.';
 
   @override
+  String get couldntLoadCredentials =>
+      'Gespeicherte Anmeldedaten konnten nicht geladen werden';
+
+  @override
   String get couldntLoadLogs => 'Logs konnten nicht geladen werden';
 
   @override
@@ -1755,6 +1759,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get release => 'Veröffentlichung';
+
+  @override
+  String get reload => 'Neu laden';
 
   @override
   String get remove => 'Entfernen';

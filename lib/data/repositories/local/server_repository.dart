@@ -4,6 +4,7 @@ import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/data/services/utils/database_utils.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -411,6 +412,9 @@ class LocalServerRepository implements ServerRepository {
     try {
       final token = await _secureStorage.getValue('${address}_token');
       final password = await _secureStorage.getValue('${address}_password');
+      if (_isReadError(token) || _isReadError(password)) {
+        return Failure(Exception('Failed to fetch credentials'));
+      }
 
       return Success((
         token: token.getOrElse((_) => ''),
@@ -486,6 +490,12 @@ class LocalServerRepository implements ServerRepository {
 
       return Failure(Exception('Failed to delete sid: $e\n$st'));
     }
+  }
+
+  bool _isReadError(Result<String> result) {
+    final error = result.exceptionOrNull();
+
+    return error != null && error is! ValueNotFoundException;
   }
 
   String? _serverAddressFromSecretKey(String key) {
