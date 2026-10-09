@@ -44,6 +44,8 @@ class AddServerFullscreen extends StatefulWidget {
 
 enum ConnectionType { http, https }
 
+enum _SecretsLoadStatus { loading, loaded, failed }
+
 class _AddServerFullscreenState extends State<AddServerFullscreen> {
   TextEditingController addressFieldController = TextEditingController();
   String? addressFieldError;
@@ -72,16 +74,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   String? initPassword;
   bool _advancedOptionsExpanded = false;
 
-  /// Whether the edit screen has finished loading the stored secrets. Always
-  /// true in add mode; false until [_loadSecrets] completes in edit mode so the
-  /// Save button can't fire (and overwrite credentials) before they are ready.
-  bool _secretsLoaded = true;
-
-  /// Whether [_loadSecrets] actually read the stored secrets. Stays false when
-  /// the secure-storage read fails, so the save rollback won't write back the
-  /// empty placeholders and wipe a credential that is still present. Forwarded
-  /// to the view model via [UpdateServerRequest.secretsLoadSucceeded].
-  bool _secretsLoadSucceeded = false;
+  /// State of the stored secrets on the edit screen.
+  _SecretsLoadStatus _secretsLoadStatus = _SecretsLoadStatus.loaded;
 
   @override
   void initState() {
@@ -114,7 +108,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       pinnedCertificateSha256 = widget.server!.pinnedCertificateSha256;
       // For edit mode, expand Advanced Options if HTTPS
       _advancedOptionsExpanded = connectionType == ConnectionType.https;
-      _secretsLoaded = false;
+      _secretsLoadStatus = _SecretsLoadStatus.loading;
       _loadSecrets();
     }
   }
@@ -190,39 +184,39 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     subroute: subrouteFieldController.text,
   );
 
+  /// Loads the stored secrets of the edited server into the form.
   Future<void> _loadSecrets() async {
-    var password = '';
-    var token = '';
-    var loaded = false;
-    if (widget.server != null) {
-      try {
-        final serversViewModel = context.read<ServersViewModel>();
-        final result = await serversViewModel.fetchCredentials(
-          widget.server!.address,
-        );
-        final creds = result.getOrNull();
-        if (creds != null) {
-          password = creds.password;
-          token = creds.token;
-          loaded = true;
-        }
-      } catch (e) {
-        password = '';
-        token = '';
+    ({String token, String password})? creds;
+    try {
+      final serversViewModel = context.read<ServersViewModel>();
+      final result = await serversViewModel.fetchCredentials(
+        widget.server!.address,
+      );
+      creds = result.getOrNull();
+    } catch (e) {
+      creds = null;
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      if (creds == null) {
+        _secretsLoadStatus = _SecretsLoadStatus.failed;
+
+        return;
       }
-    }
-    // Mark loaded on both the success and failure paths so the Save button is
-    // never permanently disabled if the credential read throws.
-    if (mounted) {
-      setState(() {
-        passwordFieldController.text = password;
-        tokenFieldController.text = token;
-        initToken = token;
-        initPassword = password;
-        _secretsLoadSucceeded = loaded;
-        _secretsLoaded = true;
-      });
-    }
+
+      passwordFieldController.text = creds.password;
+      tokenFieldController.text = creds.token;
+      initToken = creds.token;
+      initPassword = creds.password;
+      _secretsLoadStatus = _SecretsLoadStatus.loaded;
+    });
+  }
+
+  void _reloadSecrets() {
+    setState(() => _secretsLoadStatus = _SecretsLoadStatus.loading);
+    _loadSecrets();
   }
 
   @override
@@ -685,7 +679,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           oldServer: widget.server!,
           initPassword: initPassword ?? '',
           initToken: initToken ?? '',
-          secretsLoadSucceeded: _secretsLoadSucceeded,
           resolveCertificate: (serverObj) =>
               validateAndUpdateServerCertificate(serverObj: serverObj),
           resolveTotp: ({error}) => showTotpInputModal(context, error: error),
@@ -749,12 +742,32 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         aliasFieldController.text != '';
     if (!fieldsFilled) return false;
 
-    // In edit mode the Save button stays disabled until the stored secrets have
-    // loaded, so a save can't overwrite credentials before they are ready.
-    final isEditMode = widget.server != null;
-    if (isEditMode && !_secretsLoaded) return false;
+    return _secretsLoadStatus == _SecretsLoadStatus.loaded;
+  }
 
-    return true;
+  Widget _buildSecretsLoadError(BuildContext context) {
+    final errorColor = Theme.of(context).colorScheme.error;
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Row(
+        children: [
+          Icon(Icons.error_outline_rounded, size: 20, color: errorColor),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              AppLocalizations.of(context).couldntLoadCredentials,
+              style: TextStyle(color: errorColor),
+            ),
+          ),
+          TextButton(
+            onPressed: _reloadSecrets,
+            style: TextButton.styleFrom(foregroundColor: errorColor),
+            child: Text(AppLocalizations.of(context).reload),
+          ),
+        ],
+      ),
+    );
   }
 
   void openScanTokenModal() {
@@ -1111,6 +1124,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 label: AppLocalizations.of(context).authentication,
                 padding: const EdgeInsets.only(top: 20),
               ),
+              if (_secretsLoadStatus == _SecretsLoadStatus.failed)
+                _buildSecretsLoadError(context),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: piHoleVersion == SupportedApiVersions.v5

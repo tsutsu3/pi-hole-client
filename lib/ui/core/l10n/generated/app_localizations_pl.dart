@@ -554,6 +554,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get couldntEnableServer => 'Nie można włączyć serwera.';
 
   @override
+  String get couldntLoadCredentials =>
+      'Nie można wczytać zapisanych danych logowania';
+
+  @override
   String get couldntLoadLogs => 'Nie udało się załadować logów';
 
   @override
@@ -1732,6 +1736,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get release => 'Wydanie';
+
+  @override
+  String get reload => 'Wczytaj ponownie';
 
   @override
   String get remove => 'Usuń';

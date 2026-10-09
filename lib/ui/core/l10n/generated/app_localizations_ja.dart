@@ -538,6 +538,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get couldntEnableServer => 'サーバーを有効化できませんでした。';
 
   @override
+  String get couldntLoadCredentials => '保存済みの認証情報を読み込めませんでした';
+
+  @override
   String get couldntLoadLogs => 'ログを読み込めませんでした';
 
   @override
@@ -1671,6 +1674,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get release => 'リリース';
+
+  @override
+  String get reload => 'リロード';
 
   @override
   String get remove => '削除';

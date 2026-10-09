@@ -1154,6 +1154,12 @@ abstract class AppLocalizations {
   /// **'Couldn\'t enable server.'**
   String get couldntEnableServer;
 
+  /// No description provided for @couldntLoadCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved credentials couldn\'t be loaded'**
+  String get couldntLoadCredentials;
+
   /// No description provided for @couldntLoadLogs.
   ///
   /// In en, this message translates to:
@@ -3391,6 +3397,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Release'**
   String get release;
+
+  /// No description provided for @reload.
+  ///
+  /// In en, this message translates to:
+  /// **'Reload'**
+  String get reload;
 
   /// No description provided for @remove.
   ///

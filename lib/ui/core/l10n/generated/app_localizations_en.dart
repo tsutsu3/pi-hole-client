@@ -552,6 +552,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get couldntEnableServer => 'Couldn\'t enable server.';
 
   @override
+  String get couldntLoadCredentials => 'Saved credentials couldn\'t be loaded';
+
+  @override
   String get couldntLoadLogs => 'Logs couldn\'t be loaded';
 
   @override
@@ -1721,6 +1724,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get release => 'Release';
+
+  @override
+  String get reload => 'Reload';
 
   @override
   String get remove => 'Remove';

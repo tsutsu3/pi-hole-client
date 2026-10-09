@@ -113,7 +113,6 @@ void main() {
       String apiVersion = SupportedApiVersions.v6,
       String password = 'pass',
       String? initPassword,
-      bool secretsLoadSucceeded = true,
       Server oldServer = _oldServer,
       ResolveCertificate? resolveCertificate,
       ResolveTotp? resolveTotp,
@@ -131,7 +130,6 @@ void main() {
         oldServer: oldServer,
         initPassword: initPassword ?? password,
         initToken: 'token',
-        secretsLoadSucceeded: secretsLoadSucceeded,
         resolveCertificate: resolveCertificate ?? (server) async => server,
         resolveTotp: resolveTotp ?? ({error}) async => null,
       );
@@ -580,7 +578,6 @@ void main() {
       //     address, and logout the new session.
       //
       // "Logout the new session" only happens when step 2 created one.
-      // The old password is restored only if it was loaded (secretsLoadSucceeded).
       group('rollback', () {
         const oldAddress = 'http://localhost:8081';
         const newAddress = 'http://other.host:9999';
@@ -700,23 +697,20 @@ void main() {
         );
 
         test(
-          'same address: login failure after a failed secret load leaves the new password (known issue)',
+          'same address: login failure writes the old empty password back',
           () async {
             authRepository.shouldFail = true;
             final vm = buildViewModel();
 
             final outcome = await vm.updateServer.runAsync(
-              updateReq(
-                password: 'new-pass',
-                initPassword: '',
-                secretsLoadSucceeded: false,
-              ),
+              updateReq(password: 'new-pass', initPassword: ''),
             );
 
             expect(outcome, isA<UpdateApiError>());
             expectUpdateEffects(
               savedPasswords: [
                 (address: oldAddress, password: 'new-pass'), // step 1
+                (address: oldAddress, password: ''), // rollback
               ],
               deletedPasswords: [],
               deletedSids: [],

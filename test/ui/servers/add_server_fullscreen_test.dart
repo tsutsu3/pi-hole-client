@@ -2149,45 +2149,67 @@ void main() async {
       },
     );
 
-    testWidgets(
-      'a failed credential load does not wipe the stored secret when the save '
-      'fails',
-      (WidgetTester tester) async {
-        useLargeView(tester);
+    testWidgets('a failed credential load shows an error and blocks saving', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
 
-        // Secure-storage read fails on load, so initPassword is an empty
-        // placeholder even though a real secret still exists in storage.
-        serversViewModel.failFetchCredentials = true;
-        fakeDnsRepository
-          ..shouldFail = true
-          ..failureException = HttpStatusCodeException(503);
+      serversViewModel.failFetchCredentials = true;
 
-        await tester.pumpWidget(
-          buildWidget(
-            const AddServerFullscreen(
-              window: false,
-              title: 'test',
-              server: _serverV6,
-            ),
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverV6,
           ),
-        );
-        // Let the (failing) credential load settle before editing the field so
-        // it can't overwrite the value entered below. pumpAndSettle is unusable
-        // here because the connecting spinner animates indefinitely.
-        await tester.pump();
-        await tester.pump(const Duration(milliseconds: 500));
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
 
-        // Re-enter the (correct) password and save; the connection then fails.
-        await tester.enterText(find.byType(TextField).at(3), 'real-pass');
-        await tester.pump();
+      expect(find.text("Saved credentials couldn't be loaded"), findsOneWidget);
 
-        await tester.tap(find.byIcon(Icons.save_rounded));
-        await tester.pump(const Duration(milliseconds: 1000));
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
 
-        // The rollback must not restore the empty placeholder over the secret.
-        expect(find.text('Failed. Check address.'), findsOneWidget);
-        expect(serversViewModel.lastSavedPassword, 'real-pass');
-      },
-    );
+      expect(serversViewModel.editServerCallCount, 0);
+      expect(serversViewModel.savePasswordCallCount, 0);
+    });
+
+    testWidgets('reloading the credentials after a failed load allows saving', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      serversViewModel.failFetchCredentials = true;
+
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverV6,
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+
+      serversViewModel.failFetchCredentials = false;
+      await tester.tap(find.text('Reload'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+
+      expect(find.text("Saved credentials couldn't be loaded"), findsNothing);
+      final authField = tester.widget<TextField>(find.byType(TextField).at(3));
+      expect(authField.controller!.text, 'stored-pass');
+
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      expect(serversViewModel.editServerCallCount, 1);
+      expect(serversViewModel.savePasswordCallCount, 1);
+    });
   });
 }
