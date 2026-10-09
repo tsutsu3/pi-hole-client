@@ -1,4 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -41,14 +42,15 @@ class SecureStorageService {
   ///
   /// Returns a [Result<String>] with:
   /// - [Success] containing the value if found.
-  /// - [Failure] if not found or an error occurs.
+  /// - [Failure] with [ValueNotFoundException] if not found.
+  /// - [Failure] with another exception if the read fails.
   Future<Result<String>> getValue(String key) async {
     try {
       final value = await _secureStorage.read(key: key);
       if (value == null) {
         logger.w('No value found for key: $key');
 
-        return Failure(Exception('No value found for key: $key'));
+        return Failure(ValueNotFoundException('No value found for key: $key'));
       }
       logger.d('Value retrieved successfully: $key');
 

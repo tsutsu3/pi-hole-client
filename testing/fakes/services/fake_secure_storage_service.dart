@@ -1,4 +1,5 @@
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
 
 class FakeSecureStorageService implements SecureStorageService {
@@ -37,9 +38,7 @@ class FakeSecureStorageService implements SecureStorageService {
       throw Exception('Forced read exception');
     }
     final value = store[key];
-    return value != null
-        ? Success(value)
-        : Failure(Exception('Value not found'));
+    return value != null ? Success(value) : Failure(ValueNotFoundException());
   }
 
   @override

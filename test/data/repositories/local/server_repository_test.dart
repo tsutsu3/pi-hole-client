@@ -788,4 +788,42 @@ void main() {
       );
     });
   });
+
+  group('ServerRepository.fetchCredentials', () {
+    const address = 'http://localhost';
+    late LocalServerRepository repository;
+    late FakeSecureStorageService ssSerivce;
+
+    setUp(() {
+      ssSerivce = FakeSecureStorageService();
+      repository = LocalServerRepository(
+        FakeDatabaseService(path: dbName),
+        ssSerivce,
+      );
+    });
+
+    test('returns the stored token and password', () async {
+      await ssSerivce.saveValue('${address}_token', 'token123');
+      await ssSerivce.saveValue('${address}_password', 'pass123');
+
+      final result = await repository.fetchCredentials(address);
+
+      expect(result.getOrNull(), (token: 'token123', password: 'pass123'));
+    });
+
+    test('returns empty strings when nothing is stored', () async {
+      final result = await repository.fetchCredentials(address);
+
+      expect(result.getOrNull(), (token: '', password: ''));
+    });
+
+    test('returns Failure when the storage read fails', () async {
+      await ssSerivce.saveValue('${address}_password', 'pass123');
+      ssSerivce.shouldFailRead = true;
+
+      final result = await repository.fetchCredentials(address);
+
+      expect(result.isError(), true);
+    });
+  });
 }
