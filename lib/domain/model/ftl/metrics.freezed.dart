@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'metrics.dart';
@@ -9,6 +9,7 @@ part of 'metrics.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $FtlDnsMetricsCopyWith<FtlDnsMetrics> get copyWith => _$FtlDnsMetricsCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlDnsMetrics&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.replies, replies) || other.replies == replies));
+  final _this = this as FtlDnsMetrics;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlDnsMetrics&&(identical(other.cache, _this.cache) || other.cache == _this.cache)&&(identical(other.replies, _this.replies) || other.replies == _this.replies));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cache,replies);
+int get hashCode {
+  final _this = this as FtlDnsMetrics;
+  return Object.hash(runtimeType,_this.cache,_this.replies);
+}
 
 @override
 String toString() {
-  return 'FtlDnsMetrics(cache: $cache, replies: $replies)';
+  final _this = this as FtlDnsMetrics;
+  return 'FtlDnsMetrics(cache: ${_this.cache}, replies: ${_this.replies})';
 }
 
 
@@ -66,7 +72,7 @@ class _$FtlDnsMetricsCopyWithImpl<$Res>
 /// Create a copy of FtlDnsMetrics
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? cache = null,Object? replies = null,}) {
-  return _then(_self.copyWith(
+  return _then(FtlDnsMetrics(
 cache: null == cache ? _self.cache : cache // ignore: cast_nullable_to_non_nullable
 as DnsCache,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
 as DnsReplies,
@@ -241,16 +247,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlDnsMetrics&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.replies, replies) || other.replies == replies));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlDnsMetrics&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.replies, replies) || other.replies == replies));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cache,replies);
+int get hashCode {
+    return Object.hash(runtimeType,cache,replies);
+}
 
 @override
 String toString() {
-  return 'FtlDnsMetrics(cache: $cache, replies: $replies)';
+    return 'FtlDnsMetrics(cache: $cache, replies: $replies)';
 }
 
 
@@ -324,16 +332,21 @@ $DnsCacheCopyWith<DnsCache> get copyWith => _$DnsCacheCopyWithImpl<DnsCache>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsCache&&(identical(other.size, size) || other.size == size)&&(identical(other.records, records) || other.records == records)&&(identical(other.inserted, inserted) || other.inserted == inserted)&&(identical(other.evicted, evicted) || other.evicted == evicted)&&(identical(other.expired, expired) || other.expired == expired)&&(identical(other.immortal, immortal) || other.immortal == immortal)&&const DeepCollectionEquality().equals(other.typePercentages, typePercentages));
+  final _this = this as DnsCache;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsCache&&(identical(other.size, _this.size) || other.size == _this.size)&&(identical(other.records, _this.records) || other.records == _this.records)&&(identical(other.inserted, _this.inserted) || other.inserted == _this.inserted)&&(identical(other.evicted, _this.evicted) || other.evicted == _this.evicted)&&(identical(other.expired, _this.expired) || other.expired == _this.expired)&&(identical(other.immortal, _this.immortal) || other.immortal == _this.immortal)&&const DeepCollectionEquality().equals(other.typePercentages, _this.typePercentages));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,size,records,inserted,evicted,expired,immortal,const DeepCollectionEquality().hash(typePercentages));
+int get hashCode {
+  final _this = this as DnsCache;
+  return Object.hash(runtimeType,_this.size,_this.records,_this.inserted,_this.evicted,_this.expired,_this.immortal,const DeepCollectionEquality().hash(_this.typePercentages));
+}
 
 @override
 String toString() {
-  return 'DnsCache(size: $size, records: $records, inserted: $inserted, evicted: $evicted, expired: $expired, immortal: $immortal, typePercentages: $typePercentages)';
+  final _this = this as DnsCache;
+  return 'DnsCache(size: ${_this.size}, records: ${_this.records}, inserted: ${_this.inserted}, evicted: ${_this.evicted}, expired: ${_this.expired}, immortal: ${_this.immortal}, typePercentages: ${_this.typePercentages})';
 }
 
 
@@ -362,7 +375,7 @@ class _$DnsCacheCopyWithImpl<$Res>
 /// Create a copy of DnsCache
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? size = null,Object? records = null,Object? inserted = null,Object? evicted = null,Object? expired = null,Object? immortal = null,Object? typePercentages = null,}) {
-  return _then(_self.copyWith(
+  return _then(DnsCache(
 size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
 as int,records: null == records ? _self.records : records // ignore: cast_nullable_to_non_nullable
 as int,inserted: null == inserted ? _self.inserted : inserted // ignore: cast_nullable_to_non_nullable
@@ -505,7 +518,7 @@ return $default(_that.size,_that.records,_that.inserted,_that.evicted,_that.expi
 
 @JsonSerializable(explicitToJson: true)
 class _DnsCache implements DnsCache {
-  const _DnsCache({required this.size, required this.records, required this.inserted, required this.evicted, required this.expired, required this.immortal, required final  List<DnsTypePercentage> typePercentages}): _typePercentages = typePercentages;
+  const _DnsCache({required this.size, required this.records, required this.inserted, required this.evicted, required this.expired, required this.immortal, required  List<DnsTypePercentage> typePercentages}): _typePercentages = typePercentages;
   factory _DnsCache.fromJson(Map<String, dynamic> json) => _$DnsCacheFromJson(json);
 
 @override final  int size;
@@ -535,16 +548,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsCache&&(identical(other.size, size) || other.size == size)&&(identical(other.records, records) || other.records == records)&&(identical(other.inserted, inserted) || other.inserted == inserted)&&(identical(other.evicted, evicted) || other.evicted == evicted)&&(identical(other.expired, expired) || other.expired == expired)&&(identical(other.immortal, immortal) || other.immortal == immortal)&&const DeepCollectionEquality().equals(other._typePercentages, _typePercentages));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsCache&&(identical(other.size, size) || other.size == size)&&(identical(other.records, records) || other.records == records)&&(identical(other.inserted, inserted) || other.inserted == inserted)&&(identical(other.evicted, evicted) || other.evicted == evicted)&&(identical(other.expired, expired) || other.expired == expired)&&(identical(other.immortal, immortal) || other.immortal == immortal)&&const DeepCollectionEquality().equals(other.typePercentages, _typePercentages));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,size,records,inserted,evicted,expired,immortal,const DeepCollectionEquality().hash(_typePercentages));
+int get hashCode {
+    return Object.hash(runtimeType,size,records,inserted,evicted,expired,immortal,const DeepCollectionEquality().hash(_typePercentages));
+}
 
 @override
 String toString() {
-  return 'DnsCache(size: $size, records: $records, inserted: $inserted, evicted: $evicted, expired: $expired, immortal: $immortal, typePercentages: $typePercentages)';
+    return 'DnsCache(size: $size, records: $records, inserted: $inserted, evicted: $evicted, expired: $expired, immortal: $immortal, typePercentages: $typePercentages)';
 }
 
 
@@ -605,16 +620,21 @@ $DnsTypePercentageCopyWith<DnsTypePercentage> get copyWith => _$DnsTypePercentag
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsTypePercentage&&(identical(other.type, type) || other.type == type)&&(identical(other.isStale, isStale) || other.isStale == isStale)&&(identical(other.percentage, percentage) || other.percentage == percentage));
+  final _this = this as DnsTypePercentage;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsTypePercentage&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.isStale, _this.isStale) || other.isStale == _this.isStale)&&(identical(other.percentage, _this.percentage) || other.percentage == _this.percentage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,type,isStale,percentage);
+int get hashCode {
+  final _this = this as DnsTypePercentage;
+  return Object.hash(runtimeType,_this.type,_this.isStale,_this.percentage);
+}
 
 @override
 String toString() {
-  return 'DnsTypePercentage(type: $type, isStale: $isStale, percentage: $percentage)';
+  final _this = this as DnsTypePercentage;
+  return 'DnsTypePercentage(type: ${_this.type}, isStale: ${_this.isStale}, percentage: ${_this.percentage})';
 }
 
 
@@ -643,7 +663,7 @@ class _$DnsTypePercentageCopyWithImpl<$Res>
 /// Create a copy of DnsTypePercentage
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? isStale = null,Object? percentage = null,}) {
-  return _then(_self.copyWith(
+  return _then(DnsTypePercentage(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as DnsRecordType,isStale: null == isStale ? _self.isStale : isStale // ignore: cast_nullable_to_non_nullable
 as bool,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
@@ -802,16 +822,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsTypePercentage&&(identical(other.type, type) || other.type == type)&&(identical(other.isStale, isStale) || other.isStale == isStale)&&(identical(other.percentage, percentage) || other.percentage == percentage));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsTypePercentage&&(identical(other.type, type) || other.type == type)&&(identical(other.isStale, isStale) || other.isStale == isStale)&&(identical(other.percentage, percentage) || other.percentage == percentage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,type,isStale,percentage);
+int get hashCode {
+    return Object.hash(runtimeType,type,isStale,percentage);
+}
 
 @override
 String toString() {
-  return 'DnsTypePercentage(type: $type, isStale: $isStale, percentage: $percentage)';
+    return 'DnsTypePercentage(type: $type, isStale: $isStale, percentage: $percentage)';
 }
 
 
@@ -868,16 +890,21 @@ $DnsRepliesCopyWith<DnsReplies> get copyWith => _$DnsRepliesCopyWithImpl<DnsRepl
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsReplies&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.unanswered, unanswered) || other.unanswered == unanswered)&&(identical(other.local, local) || other.local == local)&&(identical(other.optimized, optimized) || other.optimized == optimized)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.sum, sum) || other.sum == sum));
+  final _this = this as DnsReplies;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsReplies&&(identical(other.forwarded, _this.forwarded) || other.forwarded == _this.forwarded)&&(identical(other.unanswered, _this.unanswered) || other.unanswered == _this.unanswered)&&(identical(other.local, _this.local) || other.local == _this.local)&&(identical(other.optimized, _this.optimized) || other.optimized == _this.optimized)&&(identical(other.auth, _this.auth) || other.auth == _this.auth)&&(identical(other.sum, _this.sum) || other.sum == _this.sum));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,forwarded,unanswered,local,optimized,auth,sum);
+int get hashCode {
+  final _this = this as DnsReplies;
+  return Object.hash(runtimeType,_this.forwarded,_this.unanswered,_this.local,_this.optimized,_this.auth,_this.sum);
+}
 
 @override
 String toString() {
-  return 'DnsReplies(forwarded: $forwarded, unanswered: $unanswered, local: $local, optimized: $optimized, auth: $auth, sum: $sum)';
+  final _this = this as DnsReplies;
+  return 'DnsReplies(forwarded: ${_this.forwarded}, unanswered: ${_this.unanswered}, local: ${_this.local}, optimized: ${_this.optimized}, auth: ${_this.auth}, sum: ${_this.sum})';
 }
 
 
@@ -906,7 +933,7 @@ class _$DnsRepliesCopyWithImpl<$Res>
 /// Create a copy of DnsReplies
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? forwarded = null,Object? unanswered = null,Object? local = null,Object? optimized = null,Object? auth = null,Object? sum = null,}) {
-  return _then(_self.copyWith(
+  return _then(DnsReplies(
 forwarded: null == forwarded ? _self.forwarded : forwarded // ignore: cast_nullable_to_non_nullable
 as int,unanswered: null == unanswered ? _self.unanswered : unanswered // ignore: cast_nullable_to_non_nullable
 as int,local: null == local ? _self.local : local // ignore: cast_nullable_to_non_nullable
@@ -1071,16 +1098,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsReplies&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.unanswered, unanswered) || other.unanswered == unanswered)&&(identical(other.local, local) || other.local == local)&&(identical(other.optimized, optimized) || other.optimized == optimized)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.sum, sum) || other.sum == sum));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsReplies&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.unanswered, unanswered) || other.unanswered == unanswered)&&(identical(other.local, local) || other.local == local)&&(identical(other.optimized, optimized) || other.optimized == optimized)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.sum, sum) || other.sum == sum));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,forwarded,unanswered,local,optimized,auth,sum);
+int get hashCode {
+    return Object.hash(runtimeType,forwarded,unanswered,local,optimized,auth,sum);
+}
 
 @override
 String toString() {
-  return 'DnsReplies(forwarded: $forwarded, unanswered: $unanswered, local: $local, optimized: $optimized, auth: $auth, sum: $sum)';
+    return 'DnsReplies(forwarded: $forwarded, unanswered: $unanswered, local: $local, optimized: $optimized, auth: $auth, sum: $sum)';
 }
 
 

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'language_option.dart';
@@ -9,6 +9,7 @@ part of 'language_option.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $LanguageOptionCopyWith<LanguageOption> get copyWith => _$LanguageOptionCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LanguageOption&&(identical(other.key, key) || other.key == key)&&(identical(other.index, index) || other.index == index)&&(identical(other.displayName, displayName) || other.displayName == displayName));
+  final _this = this as LanguageOption;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LanguageOption&&(identical(other.key, _this.key) || other.key == _this.key)&&(identical(other.index, _this.index) || other.index == _this.index)&&(identical(other.displayName, _this.displayName) || other.displayName == _this.displayName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,key,index,displayName);
+int get hashCode {
+  final _this = this as LanguageOption;
+  return Object.hash(runtimeType,_this.key,_this.index,_this.displayName);
+}
 
 @override
 String toString() {
-  return 'LanguageOption(key: $key, index: $index, displayName: $displayName)';
+  final _this = this as LanguageOption;
+  return 'LanguageOption(key: ${_this.key}, index: ${_this.index}, displayName: ${_this.displayName})';
 }
 
 
@@ -63,7 +69,7 @@ class _$LanguageOptionCopyWithImpl<$Res>
 /// Create a copy of LanguageOption
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? key = null,Object? index = null,Object? displayName = null,}) {
-  return _then(_self.copyWith(
+  return _then(LanguageOption(
 key: null == key ? _self.key : key // ignore: cast_nullable_to_non_nullable
 as String,index: null == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
 as int,displayName: null == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
@@ -219,16 +225,18 @@ _$LanguageOptionCopyWith<_LanguageOption> get copyWith => __$LanguageOptionCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LanguageOption&&(identical(other.key, key) || other.key == key)&&(identical(other.index, index) || other.index == index)&&(identical(other.displayName, displayName) || other.displayName == displayName));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LanguageOption&&(identical(other.key, key) || other.key == key)&&(identical(other.index, index) || other.index == index)&&(identical(other.displayName, displayName) || other.displayName == displayName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,key,index,displayName);
+int get hashCode {
+    return Object.hash(runtimeType,key,index,displayName);
+}
 
 @override
 String toString() {
-  return 'LanguageOption(key: $key, index: $index, displayName: $displayName)';
+    return 'LanguageOption(key: $key, index: $index, displayName: $displayName)';
 }
 
 

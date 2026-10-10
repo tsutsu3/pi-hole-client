@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'over_time_data.dart';
@@ -9,6 +9,7 @@ part of 'over_time_data.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $OverTimeDataCopyWith<OverTimeData> get copyWith => _$OverTimeDataCopyWithImpl<O
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OverTimeData&&const DeepCollectionEquality().equals(other.domainsOverTime, domainsOverTime)&&const DeepCollectionEquality().equals(other.adsOverTime, adsOverTime)&&const DeepCollectionEquality().equals(other.clients, clients)&&const DeepCollectionEquality().equals(other.overTime, overTime));
+  final _this = this as OverTimeData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OverTimeData&&const DeepCollectionEquality().equals(other.domainsOverTime, _this.domainsOverTime)&&const DeepCollectionEquality().equals(other.adsOverTime, _this.adsOverTime)&&const DeepCollectionEquality().equals(other.clients, _this.clients)&&const DeepCollectionEquality().equals(other.overTime, _this.overTime));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(domainsOverTime),const DeepCollectionEquality().hash(adsOverTime),const DeepCollectionEquality().hash(clients),const DeepCollectionEquality().hash(overTime));
+int get hashCode {
+  final _this = this as OverTimeData;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.domainsOverTime),const DeepCollectionEquality().hash(_this.adsOverTime),const DeepCollectionEquality().hash(_this.clients),const DeepCollectionEquality().hash(_this.overTime));
+}
 
 @override
 String toString() {
-  return 'OverTimeData(domainsOverTime: $domainsOverTime, adsOverTime: $adsOverTime, clients: $clients, overTime: $overTime)';
+  final _this = this as OverTimeData;
+  return 'OverTimeData(domainsOverTime: ${_this.domainsOverTime}, adsOverTime: ${_this.adsOverTime}, clients: ${_this.clients}, overTime: ${_this.overTime})';
 }
 
 
@@ -66,7 +72,7 @@ class _$OverTimeDataCopyWithImpl<$Res>
 /// Create a copy of OverTimeData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domainsOverTime = null,Object? adsOverTime = null,Object? clients = null,Object? overTime = null,}) {
-  return _then(_self.copyWith(
+  return _then(OverTimeData(
 domainsOverTime: null == domainsOverTime ? _self.domainsOverTime : domainsOverTime // ignore: cast_nullable_to_non_nullable
 as Map<String, int>,adsOverTime: null == adsOverTime ? _self.adsOverTime : adsOverTime // ignore: cast_nullable_to_non_nullable
 as Map<String, int>,clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
@@ -206,7 +212,7 @@ return $default(_that.domainsOverTime,_that.adsOverTime,_that.clients,_that.over
 
 @JsonSerializable(explicitToJson: true)
 class _OverTimeData implements OverTimeData {
-  const _OverTimeData({@JsonKey(name: 'domains_over_time') required final  Map<String, int> domainsOverTime, @JsonKey(name: 'ads_over_time') required final  Map<String, int> adsOverTime, @MapOrEmptyListConverter() required final  List<Client> clients, @JsonKey(name: 'over_time')@MapListOrEmptyListConverter() required final  Map<String, List<int>> overTime}): _domainsOverTime = domainsOverTime,_adsOverTime = adsOverTime,_clients = clients,_overTime = overTime;
+  const _OverTimeData({@JsonKey(name: 'domains_over_time') required  Map<String, int> domainsOverTime, @JsonKey(name: 'ads_over_time') required  Map<String, int> adsOverTime, @MapOrEmptyListConverter() required  List<Client> clients, @JsonKey(name: 'over_time')@MapListOrEmptyListConverter() required  Map<String, List<int>> overTime}): _domainsOverTime = domainsOverTime,_adsOverTime = adsOverTime,_clients = clients,_overTime = overTime;
   factory _OverTimeData.fromJson(Map<String, dynamic> json) => _$OverTimeDataFromJson(json);
 
  final  Map<String, int> _domainsOverTime;
@@ -251,16 +257,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OverTimeData&&const DeepCollectionEquality().equals(other._domainsOverTime, _domainsOverTime)&&const DeepCollectionEquality().equals(other._adsOverTime, _adsOverTime)&&const DeepCollectionEquality().equals(other._clients, _clients)&&const DeepCollectionEquality().equals(other._overTime, _overTime));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _OverTimeData&&const DeepCollectionEquality().equals(other.domainsOverTime, _domainsOverTime)&&const DeepCollectionEquality().equals(other.adsOverTime, _adsOverTime)&&const DeepCollectionEquality().equals(other.clients, _clients)&&const DeepCollectionEquality().equals(other.overTime, _overTime));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_domainsOverTime),const DeepCollectionEquality().hash(_adsOverTime),const DeepCollectionEquality().hash(_clients),const DeepCollectionEquality().hash(_overTime));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_domainsOverTime),const DeepCollectionEquality().hash(_adsOverTime),const DeepCollectionEquality().hash(_clients),const DeepCollectionEquality().hash(_overTime));
+}
 
 @override
 String toString() {
-  return 'OverTimeData(domainsOverTime: $domainsOverTime, adsOverTime: $adsOverTime, clients: $clients, overTime: $overTime)';
+    return 'OverTimeData(domainsOverTime: $domainsOverTime, adsOverTime: $adsOverTime, clients: $clients, overTime: $overTime)';
 }
 
 
@@ -318,16 +326,21 @@ $ClientCopyWith<Client> get copyWith => _$ClientCopyWithImpl<Client>(this as Cli
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Client&&(identical(other.name, name) || other.name == name)&&(identical(other.ip, ip) || other.ip == ip));
+  final _this = this as Client;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Client&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.ip, _this.ip) || other.ip == _this.ip));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,ip);
+int get hashCode {
+  final _this = this as Client;
+  return Object.hash(runtimeType,_this.name,_this.ip);
+}
 
 @override
 String toString() {
-  return 'Client(name: $name, ip: $ip)';
+  final _this = this as Client;
+  return 'Client(name: ${_this.name}, ip: ${_this.ip})';
 }
 
 
@@ -356,7 +369,7 @@ class _$ClientCopyWithImpl<$Res>
 /// Create a copy of Client
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? ip = null,}) {
-  return _then(_self.copyWith(
+  return _then(Client(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
 as String,
@@ -513,16 +526,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Client&&(identical(other.name, name) || other.name == name)&&(identical(other.ip, ip) || other.ip == ip));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Client&&(identical(other.name, name) || other.name == name)&&(identical(other.ip, ip) || other.ip == ip));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,ip);
+int get hashCode {
+    return Object.hash(runtimeType,name,ip);
+}
 
 @override
 String toString() {
-  return 'Client(name: $name, ip: $ip)';
+    return 'Client(name: $name, ip: $ip)';
 }
 
 

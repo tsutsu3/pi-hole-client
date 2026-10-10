@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'host.dart';
@@ -9,6 +9,7 @@ part of 'host.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $InfoHostCopyWith<InfoHost> get copyWith => _$InfoHostCopyWithImpl<InfoHost>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoHost&&(identical(other.host, host) || other.host == host)&&(identical(other.took, took) || other.took == took));
+  final _this = this as InfoHost;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoHost&&(identical(other.host, _this.host) || other.host == _this.host)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,host,took);
+int get hashCode {
+  final _this = this as InfoHost;
+  return Object.hash(runtimeType,_this.host,_this.took);
+}
 
 @override
 String toString() {
-  return 'InfoHost(host: $host, took: $took)';
+  final _this = this as InfoHost;
+  return 'InfoHost(host: ${_this.host}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$InfoHostCopyWithImpl<$Res>
 /// Create a copy of InfoHost
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? host = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(InfoHost(
 host: null == host ? _self.host : host // ignore: cast_nullable_to_non_nullable
 as HostData,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -232,16 +238,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoHost&&(identical(other.host, host) || other.host == host)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoHost&&(identical(other.host, host) || other.host == host)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,host,took);
+int get hashCode {
+    return Object.hash(runtimeType,host,took);
+}
 
 @override
 String toString() {
-  return 'InfoHost(host: $host, took: $took)';
+    return 'InfoHost(host: $host, took: $took)';
 }
 
 
@@ -306,16 +314,21 @@ $HostDataCopyWith<HostData> get copyWith => _$HostDataCopyWithImpl<HostData>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HostData&&(identical(other.uname, uname) || other.uname == uname)&&(identical(other.model, model) || other.model == model)&&(identical(other.dmi, dmi) || other.dmi == dmi));
+  final _this = this as HostData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HostData&&(identical(other.uname, _this.uname) || other.uname == _this.uname)&&(identical(other.model, _this.model) || other.model == _this.model)&&(identical(other.dmi, _this.dmi) || other.dmi == _this.dmi));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uname,model,dmi);
+int get hashCode {
+  final _this = this as HostData;
+  return Object.hash(runtimeType,_this.uname,_this.model,_this.dmi);
+}
 
 @override
 String toString() {
-  return 'HostData(uname: $uname, model: $model, dmi: $dmi)';
+  final _this = this as HostData;
+  return 'HostData(uname: ${_this.uname}, model: ${_this.model}, dmi: ${_this.dmi})';
 }
 
 
@@ -344,7 +357,7 @@ class _$HostDataCopyWithImpl<$Res>
 /// Create a copy of HostData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? uname = null,Object? model = freezed,Object? dmi = null,}) {
-  return _then(_self.copyWith(
+  return _then(HostData(
 uname: null == uname ? _self.uname : uname // ignore: cast_nullable_to_non_nullable
 as HostUname,model: freezed == model ? _self.model : model // ignore: cast_nullable_to_non_nullable
 as String?,dmi: null == dmi ? _self.dmi : dmi // ignore: cast_nullable_to_non_nullable
@@ -521,16 +534,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HostData&&(identical(other.uname, uname) || other.uname == uname)&&(identical(other.model, model) || other.model == model)&&(identical(other.dmi, dmi) || other.dmi == dmi));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HostData&&(identical(other.uname, uname) || other.uname == uname)&&(identical(other.model, model) || other.model == model)&&(identical(other.dmi, dmi) || other.dmi == dmi));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,uname,model,dmi);
+int get hashCode {
+    return Object.hash(runtimeType,uname,model,dmi);
+}
 
 @override
 String toString() {
-  return 'HostData(uname: $uname, model: $model, dmi: $dmi)';
+    return 'HostData(uname: $uname, model: $model, dmi: $dmi)';
 }
 
 
@@ -605,16 +620,21 @@ $HostUnameCopyWith<HostUname> get copyWith => _$HostUnameCopyWithImpl<HostUname>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HostUname&&(identical(other.domainname, domainname) || other.domainname == domainname)&&(identical(other.machine, machine) || other.machine == machine)&&(identical(other.nodename, nodename) || other.nodename == nodename)&&(identical(other.release, release) || other.release == release)&&(identical(other.sysname, sysname) || other.sysname == sysname)&&(identical(other.version, version) || other.version == version));
+  final _this = this as HostUname;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HostUname&&(identical(other.domainname, _this.domainname) || other.domainname == _this.domainname)&&(identical(other.machine, _this.machine) || other.machine == _this.machine)&&(identical(other.nodename, _this.nodename) || other.nodename == _this.nodename)&&(identical(other.release, _this.release) || other.release == _this.release)&&(identical(other.sysname, _this.sysname) || other.sysname == _this.sysname)&&(identical(other.version, _this.version) || other.version == _this.version));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domainname,machine,nodename,release,sysname,version);
+int get hashCode {
+  final _this = this as HostUname;
+  return Object.hash(runtimeType,_this.domainname,_this.machine,_this.nodename,_this.release,_this.sysname,_this.version);
+}
 
 @override
 String toString() {
-  return 'HostUname(domainname: $domainname, machine: $machine, nodename: $nodename, release: $release, sysname: $sysname, version: $version)';
+  final _this = this as HostUname;
+  return 'HostUname(domainname: ${_this.domainname}, machine: ${_this.machine}, nodename: ${_this.nodename}, release: ${_this.release}, sysname: ${_this.sysname}, version: ${_this.version})';
 }
 
 
@@ -643,7 +663,7 @@ class _$HostUnameCopyWithImpl<$Res>
 /// Create a copy of HostUname
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domainname = null,Object? machine = null,Object? nodename = null,Object? release = null,Object? sysname = null,Object? version = null,}) {
-  return _then(_self.copyWith(
+  return _then(HostUname(
 domainname: null == domainname ? _self.domainname : domainname // ignore: cast_nullable_to_non_nullable
 as String,machine: null == machine ? _self.machine : machine // ignore: cast_nullable_to_non_nullable
 as String,nodename: null == nodename ? _self.nodename : nodename // ignore: cast_nullable_to_non_nullable
@@ -808,16 +828,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HostUname&&(identical(other.domainname, domainname) || other.domainname == domainname)&&(identical(other.machine, machine) || other.machine == machine)&&(identical(other.nodename, nodename) || other.nodename == nodename)&&(identical(other.release, release) || other.release == release)&&(identical(other.sysname, sysname) || other.sysname == sysname)&&(identical(other.version, version) || other.version == version));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HostUname&&(identical(other.domainname, domainname) || other.domainname == domainname)&&(identical(other.machine, machine) || other.machine == machine)&&(identical(other.nodename, nodename) || other.nodename == nodename)&&(identical(other.release, release) || other.release == release)&&(identical(other.sysname, sysname) || other.sysname == sysname)&&(identical(other.version, version) || other.version == version));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domainname,machine,nodename,release,sysname,version);
+int get hashCode {
+    return Object.hash(runtimeType,domainname,machine,nodename,release,sysname,version);
+}
 
 @override
 String toString() {
-  return 'HostUname(domainname: $domainname, machine: $machine, nodename: $nodename, release: $release, sysname: $sysname, version: $version)';
+    return 'HostUname(domainname: $domainname, machine: $machine, nodename: $nodename, release: $release, sysname: $sysname, version: $version)';
 }
 
 
@@ -877,16 +899,21 @@ $HostDmiCopyWith<HostDmi> get copyWith => _$HostDmiCopyWithImpl<HostDmi>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HostDmi&&(identical(other.bios, bios) || other.bios == bios)&&(identical(other.board, board) || other.board == board)&&(identical(other.product, product) || other.product == product)&&(identical(other.sys, sys) || other.sys == sys));
+  final _this = this as HostDmi;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HostDmi&&(identical(other.bios, _this.bios) || other.bios == _this.bios)&&(identical(other.board, _this.board) || other.board == _this.board)&&(identical(other.product, _this.product) || other.product == _this.product)&&(identical(other.sys, _this.sys) || other.sys == _this.sys));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,bios,board,product,sys);
+int get hashCode {
+  final _this = this as HostDmi;
+  return Object.hash(runtimeType,_this.bios,_this.board,_this.product,_this.sys);
+}
 
 @override
 String toString() {
-  return 'HostDmi(bios: $bios, board: $board, product: $product, sys: $sys)';
+  final _this = this as HostDmi;
+  return 'HostDmi(bios: ${_this.bios}, board: ${_this.board}, product: ${_this.product}, sys: ${_this.sys})';
 }
 
 
@@ -915,7 +942,7 @@ class _$HostDmiCopyWithImpl<$Res>
 /// Create a copy of HostDmi
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? bios = null,Object? board = null,Object? product = null,Object? sys = null,}) {
-  return _then(_self.copyWith(
+  return _then(HostDmi(
 bios: null == bios ? _self.bios : bios // ignore: cast_nullable_to_non_nullable
 as BiosInfo,board: null == board ? _self.board : board // ignore: cast_nullable_to_non_nullable
 as BoardInfo,product: null == product ? _self.product : product // ignore: cast_nullable_to_non_nullable
@@ -1112,16 +1139,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HostDmi&&(identical(other.bios, bios) || other.bios == bios)&&(identical(other.board, board) || other.board == board)&&(identical(other.product, product) || other.product == product)&&(identical(other.sys, sys) || other.sys == sys));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HostDmi&&(identical(other.bios, bios) || other.bios == bios)&&(identical(other.board, board) || other.board == board)&&(identical(other.product, product) || other.product == product)&&(identical(other.sys, sys) || other.sys == sys));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,bios,board,product,sys);
+int get hashCode {
+    return Object.hash(runtimeType,bios,board,product,sys);
+}
 
 @override
 String toString() {
-  return 'HostDmi(bios: $bios, board: $board, product: $product, sys: $sys)';
+    return 'HostDmi(bios: $bios, board: $board, product: $product, sys: $sys)';
 }
 
 
@@ -1215,16 +1244,21 @@ $BiosInfoCopyWith<BiosInfo> get copyWith => _$BiosInfoCopyWithImpl<BiosInfo>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BiosInfo&&(identical(other.vendor, vendor) || other.vendor == vendor));
+  final _this = this as BiosInfo;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BiosInfo&&(identical(other.vendor, _this.vendor) || other.vendor == _this.vendor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,vendor);
+int get hashCode {
+  final _this = this as BiosInfo;
+  return Object.hash(runtimeType,_this.vendor);
+}
 
 @override
 String toString() {
-  return 'BiosInfo(vendor: $vendor)';
+  final _this = this as BiosInfo;
+  return 'BiosInfo(vendor: ${_this.vendor})';
 }
 
 
@@ -1253,7 +1287,7 @@ class _$BiosInfoCopyWithImpl<$Res>
 /// Create a copy of BiosInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? vendor = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(BiosInfo(
 vendor: freezed == vendor ? _self.vendor : vendor // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -1408,16 +1442,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BiosInfo&&(identical(other.vendor, vendor) || other.vendor == vendor));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _BiosInfo&&(identical(other.vendor, vendor) || other.vendor == vendor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,vendor);
+int get hashCode {
+    return Object.hash(runtimeType,vendor);
+}
 
 @override
 String toString() {
-  return 'BiosInfo(vendor: $vendor)';
+    return 'BiosInfo(vendor: $vendor)';
 }
 
 
@@ -1472,16 +1508,21 @@ $BoardInfoCopyWith<BoardInfo> get copyWith => _$BoardInfoCopyWithImpl<BoardInfo>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BoardInfo&&(identical(other.name, name) || other.name == name)&&(identical(other.vendor, vendor) || other.vendor == vendor)&&(identical(other.version, version) || other.version == version));
+  final _this = this as BoardInfo;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BoardInfo&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.vendor, _this.vendor) || other.vendor == _this.vendor)&&(identical(other.version, _this.version) || other.version == _this.version));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,vendor,version);
+int get hashCode {
+  final _this = this as BoardInfo;
+  return Object.hash(runtimeType,_this.name,_this.vendor,_this.version);
+}
 
 @override
 String toString() {
-  return 'BoardInfo(name: $name, vendor: $vendor, version: $version)';
+  final _this = this as BoardInfo;
+  return 'BoardInfo(name: ${_this.name}, vendor: ${_this.vendor}, version: ${_this.version})';
 }
 
 
@@ -1510,7 +1551,7 @@ class _$BoardInfoCopyWithImpl<$Res>
 /// Create a copy of BoardInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,Object? vendor = freezed,Object? version = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(BoardInfo(
 name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,vendor: freezed == vendor ? _self.vendor : vendor // ignore: cast_nullable_to_non_nullable
 as String?,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
@@ -1669,16 +1710,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BoardInfo&&(identical(other.name, name) || other.name == name)&&(identical(other.vendor, vendor) || other.vendor == vendor)&&(identical(other.version, version) || other.version == version));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _BoardInfo&&(identical(other.name, name) || other.name == name)&&(identical(other.vendor, vendor) || other.vendor == vendor)&&(identical(other.version, version) || other.version == version));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,vendor,version);
+int get hashCode {
+    return Object.hash(runtimeType,name,vendor,version);
+}
 
 @override
 String toString() {
-  return 'BoardInfo(name: $name, vendor: $vendor, version: $version)';
+    return 'BoardInfo(name: $name, vendor: $vendor, version: $version)';
 }
 
 
@@ -1735,16 +1778,21 @@ $ProductInfoCopyWith<ProductInfo> get copyWith => _$ProductInfoCopyWithImpl<Prod
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductInfo&&(identical(other.name, name) || other.name == name)&&(identical(other.version, version) || other.version == version)&&(identical(other.family, family) || other.family == family));
+  final _this = this as ProductInfo;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductInfo&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.version, _this.version) || other.version == _this.version)&&(identical(other.family, _this.family) || other.family == _this.family));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,version,family);
+int get hashCode {
+  final _this = this as ProductInfo;
+  return Object.hash(runtimeType,_this.name,_this.version,_this.family);
+}
 
 @override
 String toString() {
-  return 'ProductInfo(name: $name, version: $version, family: $family)';
+  final _this = this as ProductInfo;
+  return 'ProductInfo(name: ${_this.name}, version: ${_this.version}, family: ${_this.family})';
 }
 
 
@@ -1773,7 +1821,7 @@ class _$ProductInfoCopyWithImpl<$Res>
 /// Create a copy of ProductInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,Object? version = freezed,Object? family = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(ProductInfo(
 name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String?,family: freezed == family ? _self.family : family // ignore: cast_nullable_to_non_nullable
@@ -1932,16 +1980,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductInfo&&(identical(other.name, name) || other.name == name)&&(identical(other.version, version) || other.version == version)&&(identical(other.family, family) || other.family == family));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductInfo&&(identical(other.name, name) || other.name == name)&&(identical(other.version, version) || other.version == version)&&(identical(other.family, family) || other.family == family));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,version,family);
+int get hashCode {
+    return Object.hash(runtimeType,name,version,family);
+}
 
 @override
 String toString() {
-  return 'ProductInfo(name: $name, version: $version, family: $family)';
+    return 'ProductInfo(name: $name, version: $version, family: $family)';
 }
 
 
@@ -1998,16 +2048,21 @@ $SystemInfoCopyWith<SystemInfo> get copyWith => _$SystemInfoCopyWithImpl<SystemI
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SystemInfo&&(identical(other.vendor, vendor) || other.vendor == vendor));
+  final _this = this as SystemInfo;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SystemInfo&&(identical(other.vendor, _this.vendor) || other.vendor == _this.vendor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,vendor);
+int get hashCode {
+  final _this = this as SystemInfo;
+  return Object.hash(runtimeType,_this.vendor);
+}
 
 @override
 String toString() {
-  return 'SystemInfo(vendor: $vendor)';
+  final _this = this as SystemInfo;
+  return 'SystemInfo(vendor: ${_this.vendor})';
 }
 
 
@@ -2036,7 +2091,7 @@ class _$SystemInfoCopyWithImpl<$Res>
 /// Create a copy of SystemInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? vendor = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(SystemInfo(
 vendor: freezed == vendor ? _self.vendor : vendor // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -2191,16 +2246,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SystemInfo&&(identical(other.vendor, vendor) || other.vendor == vendor));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SystemInfo&&(identical(other.vendor, vendor) || other.vendor == vendor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,vendor);
+int get hashCode {
+    return Object.hash(runtimeType,vendor);
+}
 
 @override
 String toString() {
-  return 'SystemInfo(vendor: $vendor)';
+    return 'SystemInfo(vendor: $vendor)';
 }
 
 

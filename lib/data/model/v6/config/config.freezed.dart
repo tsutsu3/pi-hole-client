@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'config.dart';
@@ -9,6 +9,7 @@ part of 'config.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $ConfigCopyWith<Config> get copyWith => _$ConfigCopyWithImpl<Config>(this as Con
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Config&&(identical(other.config, config) || other.config == config)&&(identical(other.took, took) || other.took == took));
+  final _this = this as Config;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Config&&(identical(other.config, _this.config) || other.config == _this.config)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,config,took);
+int get hashCode {
+  final _this = this as Config;
+  return Object.hash(runtimeType,_this.config,_this.took);
+}
 
 @override
 String toString() {
-  return 'Config(config: $config, took: $took)';
+  final _this = this as Config;
+  return 'Config(config: ${_this.config}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$ConfigCopyWithImpl<$Res>
 /// Create a copy of Config
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? config = freezed,Object? took = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Config(
 config: freezed == config ? _self.config : config // ignore: cast_nullable_to_non_nullable
 as ConfigData?,took: freezed == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double?,
@@ -235,16 +241,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Config&&(identical(other.config, config) || other.config == config)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Config&&(identical(other.config, config) || other.config == config)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,config,took);
+int get hashCode {
+    return Object.hash(runtimeType,config,took);
+}
 
 @override
 String toString() {
-  return 'Config(config: $config, took: $took)';
+    return 'Config(config: $config, took: $took)';
 }
 
 
@@ -312,16 +320,21 @@ $ConfigDataCopyWith<ConfigData> get copyWith => _$ConfigDataCopyWithImpl<ConfigD
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ConfigData&&(identical(other.dns, dns) || other.dns == dns)&&(identical(other.dhcp, dhcp) || other.dhcp == dhcp)&&(identical(other.ntp, ntp) || other.ntp == ntp)&&(identical(other.resolver, resolver) || other.resolver == resolver)&&(identical(other.database, database) || other.database == database)&&(identical(other.webserver, webserver) || other.webserver == webserver)&&(identical(other.files, files) || other.files == files)&&(identical(other.misc, misc) || other.misc == misc)&&(identical(other.debug, debug) || other.debug == debug));
+  final _this = this as ConfigData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ConfigData&&(identical(other.dns, _this.dns) || other.dns == _this.dns)&&(identical(other.dhcp, _this.dhcp) || other.dhcp == _this.dhcp)&&(identical(other.ntp, _this.ntp) || other.ntp == _this.ntp)&&(identical(other.resolver, _this.resolver) || other.resolver == _this.resolver)&&(identical(other.database, _this.database) || other.database == _this.database)&&(identical(other.webserver, _this.webserver) || other.webserver == _this.webserver)&&(identical(other.files, _this.files) || other.files == _this.files)&&(identical(other.misc, _this.misc) || other.misc == _this.misc)&&(identical(other.debug, _this.debug) || other.debug == _this.debug));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,dns,dhcp,ntp,resolver,database,webserver,files,misc,debug);
+int get hashCode {
+  final _this = this as ConfigData;
+  return Object.hash(runtimeType,_this.dns,_this.dhcp,_this.ntp,_this.resolver,_this.database,_this.webserver,_this.files,_this.misc,_this.debug);
+}
 
 @override
 String toString() {
-  return 'ConfigData(dns: $dns, dhcp: $dhcp, ntp: $ntp, resolver: $resolver, database: $database, webserver: $webserver, files: $files, misc: $misc, debug: $debug)';
+  final _this = this as ConfigData;
+  return 'ConfigData(dns: ${_this.dns}, dhcp: ${_this.dhcp}, ntp: ${_this.ntp}, resolver: ${_this.resolver}, database: ${_this.database}, webserver: ${_this.webserver}, files: ${_this.files}, misc: ${_this.misc}, debug: ${_this.debug})';
 }
 
 
@@ -350,7 +363,7 @@ class _$ConfigDataCopyWithImpl<$Res>
 /// Create a copy of ConfigData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? dns = freezed,Object? dhcp = freezed,Object? ntp = freezed,Object? resolver = freezed,Object? database = freezed,Object? webserver = freezed,Object? files = freezed,Object? misc = freezed,Object? debug = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(ConfigData(
 dns: freezed == dns ? _self.dns : dns // ignore: cast_nullable_to_non_nullable
 as Dns?,dhcp: freezed == dhcp ? _self.dhcp : dhcp // ignore: cast_nullable_to_non_nullable
 as Dhcp?,ntp: freezed == ntp ? _self.ntp : ntp // ignore: cast_nullable_to_non_nullable
@@ -629,16 +642,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ConfigData&&(identical(other.dns, dns) || other.dns == dns)&&(identical(other.dhcp, dhcp) || other.dhcp == dhcp)&&(identical(other.ntp, ntp) || other.ntp == ntp)&&(identical(other.resolver, resolver) || other.resolver == resolver)&&(identical(other.database, database) || other.database == database)&&(identical(other.webserver, webserver) || other.webserver == webserver)&&(identical(other.files, files) || other.files == files)&&(identical(other.misc, misc) || other.misc == misc)&&(identical(other.debug, debug) || other.debug == debug));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ConfigData&&(identical(other.dns, dns) || other.dns == dns)&&(identical(other.dhcp, dhcp) || other.dhcp == dhcp)&&(identical(other.ntp, ntp) || other.ntp == ntp)&&(identical(other.resolver, resolver) || other.resolver == resolver)&&(identical(other.database, database) || other.database == database)&&(identical(other.webserver, webserver) || other.webserver == webserver)&&(identical(other.files, files) || other.files == files)&&(identical(other.misc, misc) || other.misc == misc)&&(identical(other.debug, debug) || other.debug == debug));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,dns,dhcp,ntp,resolver,database,webserver,files,misc,debug);
+int get hashCode {
+    return Object.hash(runtimeType,dns,dhcp,ntp,resolver,database,webserver,files,misc,debug);
+}
 
 @override
 String toString() {
-  return 'ConfigData(dns: $dns, dhcp: $dhcp, ntp: $ntp, resolver: $resolver, database: $database, webserver: $webserver, files: $files, misc: $misc, debug: $debug)';
+    return 'ConfigData(dns: $dns, dhcp: $dhcp, ntp: $ntp, resolver: $resolver, database: $database, webserver: $webserver, files: $files, misc: $misc, debug: $debug)';
 }
 
 
@@ -796,9 +811,7 @@ $DebugCopyWith<$Res>? get debug {
 /// @nodoc
 mixin _$Dns {
 
- List<String>? get upstreams;@JsonKey(name: 'CNAMEdeepInspect') bool? get cnameDeepInspect; bool? get blockESNI;@JsonKey(name: 'EDNS0ECS') bool? get edns0ECS; bool? get ignoreLocalhost; bool? get showDNSSEC; bool? get analyzeOnlyAandAAAA; String? get piholePTR; String? get replyWhenBusy; int? get blockTTL; List<String>? get hosts; bool? get domainNeeded; bool? get expandHosts;@DomainConverter() Domain? get domain;// >= 6.3
- bool? get bogusPriv; bool? get dnssec; String? get interface; String? get hostRecord; String? get listeningMode; bool? get queryLogging; List<String>? get cnameRecords; int? get port; bool? get localise;// >= 6.3
- DnsCache? get cache; List<String>? get revServers; DnsBlocking? get blocking; SpecialDomains? get specialDomains; DnsReply? get reply; RateLimit? get rateLimit;
+ List<String>? get upstreams;@JsonKey(name: 'CNAMEdeepInspect') bool? get cnameDeepInspect; bool? get blockESNI;@JsonKey(name: 'EDNS0ECS') bool? get edns0ECS; bool? get ignoreLocalhost; bool? get showDNSSEC; bool? get analyzeOnlyAandAAAA; String? get piholePTR; String? get replyWhenBusy; int? get blockTTL; List<String>? get hosts; bool? get domainNeeded; bool? get expandHosts;@DomainConverter() Domain? get domain; bool? get bogusPriv; bool? get dnssec; String? get interface; String? get hostRecord; String? get listeningMode; bool? get queryLogging; List<String>? get cnameRecords; int? get port; bool? get localise; DnsCache? get cache; List<String>? get revServers; DnsBlocking? get blocking; SpecialDomains? get specialDomains; DnsReply? get reply; RateLimit? get rateLimit;
 /// Create a copy of Dns
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -811,16 +824,21 @@ $DnsCopyWith<Dns> get copyWith => _$DnsCopyWithImpl<Dns>(this as Dns, _$identity
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Dns&&const DeepCollectionEquality().equals(other.upstreams, upstreams)&&(identical(other.cnameDeepInspect, cnameDeepInspect) || other.cnameDeepInspect == cnameDeepInspect)&&(identical(other.blockESNI, blockESNI) || other.blockESNI == blockESNI)&&(identical(other.edns0ECS, edns0ECS) || other.edns0ECS == edns0ECS)&&(identical(other.ignoreLocalhost, ignoreLocalhost) || other.ignoreLocalhost == ignoreLocalhost)&&(identical(other.showDNSSEC, showDNSSEC) || other.showDNSSEC == showDNSSEC)&&(identical(other.analyzeOnlyAandAAAA, analyzeOnlyAandAAAA) || other.analyzeOnlyAandAAAA == analyzeOnlyAandAAAA)&&(identical(other.piholePTR, piholePTR) || other.piholePTR == piholePTR)&&(identical(other.replyWhenBusy, replyWhenBusy) || other.replyWhenBusy == replyWhenBusy)&&(identical(other.blockTTL, blockTTL) || other.blockTTL == blockTTL)&&const DeepCollectionEquality().equals(other.hosts, hosts)&&(identical(other.domainNeeded, domainNeeded) || other.domainNeeded == domainNeeded)&&(identical(other.expandHosts, expandHosts) || other.expandHosts == expandHosts)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.bogusPriv, bogusPriv) || other.bogusPriv == bogusPriv)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.hostRecord, hostRecord) || other.hostRecord == hostRecord)&&(identical(other.listeningMode, listeningMode) || other.listeningMode == listeningMode)&&(identical(other.queryLogging, queryLogging) || other.queryLogging == queryLogging)&&const DeepCollectionEquality().equals(other.cnameRecords, cnameRecords)&&(identical(other.port, port) || other.port == port)&&(identical(other.localise, localise) || other.localise == localise)&&(identical(other.cache, cache) || other.cache == cache)&&const DeepCollectionEquality().equals(other.revServers, revServers)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.specialDomains, specialDomains) || other.specialDomains == specialDomains)&&(identical(other.reply, reply) || other.reply == reply)&&(identical(other.rateLimit, rateLimit) || other.rateLimit == rateLimit));
+  final _this = this as Dns;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Dns&&const DeepCollectionEquality().equals(other.upstreams, _this.upstreams)&&(identical(other.cnameDeepInspect, _this.cnameDeepInspect) || other.cnameDeepInspect == _this.cnameDeepInspect)&&(identical(other.blockESNI, _this.blockESNI) || other.blockESNI == _this.blockESNI)&&(identical(other.edns0ECS, _this.edns0ECS) || other.edns0ECS == _this.edns0ECS)&&(identical(other.ignoreLocalhost, _this.ignoreLocalhost) || other.ignoreLocalhost == _this.ignoreLocalhost)&&(identical(other.showDNSSEC, _this.showDNSSEC) || other.showDNSSEC == _this.showDNSSEC)&&(identical(other.analyzeOnlyAandAAAA, _this.analyzeOnlyAandAAAA) || other.analyzeOnlyAandAAAA == _this.analyzeOnlyAandAAAA)&&(identical(other.piholePTR, _this.piholePTR) || other.piholePTR == _this.piholePTR)&&(identical(other.replyWhenBusy, _this.replyWhenBusy) || other.replyWhenBusy == _this.replyWhenBusy)&&(identical(other.blockTTL, _this.blockTTL) || other.blockTTL == _this.blockTTL)&&const DeepCollectionEquality().equals(other.hosts, _this.hosts)&&(identical(other.domainNeeded, _this.domainNeeded) || other.domainNeeded == _this.domainNeeded)&&(identical(other.expandHosts, _this.expandHosts) || other.expandHosts == _this.expandHosts)&&(identical(other.domain, _this.domain) || other.domain == _this.domain)&&(identical(other.bogusPriv, _this.bogusPriv) || other.bogusPriv == _this.bogusPriv)&&(identical(other.dnssec, _this.dnssec) || other.dnssec == _this.dnssec)&&(identical(other.interface, _this.interface) || other.interface == _this.interface)&&(identical(other.hostRecord, _this.hostRecord) || other.hostRecord == _this.hostRecord)&&(identical(other.listeningMode, _this.listeningMode) || other.listeningMode == _this.listeningMode)&&(identical(other.queryLogging, _this.queryLogging) || other.queryLogging == _this.queryLogging)&&const DeepCollectionEquality().equals(other.cnameRecords, _this.cnameRecords)&&(identical(other.port, _this.port) || other.port == _this.port)&&(identical(other.localise, _this.localise) || other.localise == _this.localise)&&(identical(other.cache, _this.cache) || other.cache == _this.cache)&&const DeepCollectionEquality().equals(other.revServers, _this.revServers)&&(identical(other.blocking, _this.blocking) || other.blocking == _this.blocking)&&(identical(other.specialDomains, _this.specialDomains) || other.specialDomains == _this.specialDomains)&&(identical(other.reply, _this.reply) || other.reply == _this.reply)&&(identical(other.rateLimit, _this.rateLimit) || other.rateLimit == _this.rateLimit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,const DeepCollectionEquality().hash(upstreams),cnameDeepInspect,blockESNI,edns0ECS,ignoreLocalhost,showDNSSEC,analyzeOnlyAandAAAA,piholePTR,replyWhenBusy,blockTTL,const DeepCollectionEquality().hash(hosts),domainNeeded,expandHosts,domain,bogusPriv,dnssec,interface,hostRecord,listeningMode,queryLogging,const DeepCollectionEquality().hash(cnameRecords),port,localise,cache,const DeepCollectionEquality().hash(revServers),blocking,specialDomains,reply,rateLimit]);
+int get hashCode {
+  final _this = this as Dns;
+  return Object.hashAll([runtimeType,const DeepCollectionEquality().hash(_this.upstreams),_this.cnameDeepInspect,_this.blockESNI,_this.edns0ECS,_this.ignoreLocalhost,_this.showDNSSEC,_this.analyzeOnlyAandAAAA,_this.piholePTR,_this.replyWhenBusy,_this.blockTTL,const DeepCollectionEquality().hash(_this.hosts),_this.domainNeeded,_this.expandHosts,_this.domain,_this.bogusPriv,_this.dnssec,_this.interface,_this.hostRecord,_this.listeningMode,_this.queryLogging,const DeepCollectionEquality().hash(_this.cnameRecords),_this.port,_this.localise,_this.cache,const DeepCollectionEquality().hash(_this.revServers),_this.blocking,_this.specialDomains,_this.reply,_this.rateLimit]);
+}
 
 @override
 String toString() {
-  return 'Dns(upstreams: $upstreams, cnameDeepInspect: $cnameDeepInspect, blockESNI: $blockESNI, edns0ECS: $edns0ECS, ignoreLocalhost: $ignoreLocalhost, showDNSSEC: $showDNSSEC, analyzeOnlyAandAAAA: $analyzeOnlyAandAAAA, piholePTR: $piholePTR, replyWhenBusy: $replyWhenBusy, blockTTL: $blockTTL, hosts: $hosts, domainNeeded: $domainNeeded, expandHosts: $expandHosts, domain: $domain, bogusPriv: $bogusPriv, dnssec: $dnssec, interface: $interface, hostRecord: $hostRecord, listeningMode: $listeningMode, queryLogging: $queryLogging, cnameRecords: $cnameRecords, port: $port, localise: $localise, cache: $cache, revServers: $revServers, blocking: $blocking, specialDomains: $specialDomains, reply: $reply, rateLimit: $rateLimit)';
+  final _this = this as Dns;
+  return 'Dns(upstreams: ${_this.upstreams}, cnameDeepInspect: ${_this.cnameDeepInspect}, blockESNI: ${_this.blockESNI}, edns0ECS: ${_this.edns0ECS}, ignoreLocalhost: ${_this.ignoreLocalhost}, showDNSSEC: ${_this.showDNSSEC}, analyzeOnlyAandAAAA: ${_this.analyzeOnlyAandAAAA}, piholePTR: ${_this.piholePTR}, replyWhenBusy: ${_this.replyWhenBusy}, blockTTL: ${_this.blockTTL}, hosts: ${_this.hosts}, domainNeeded: ${_this.domainNeeded}, expandHosts: ${_this.expandHosts}, domain: ${_this.domain}, bogusPriv: ${_this.bogusPriv}, dnssec: ${_this.dnssec}, interface: ${_this.interface}, hostRecord: ${_this.hostRecord}, listeningMode: ${_this.listeningMode}, queryLogging: ${_this.queryLogging}, cnameRecords: ${_this.cnameRecords}, port: ${_this.port}, localise: ${_this.localise}, cache: ${_this.cache}, revServers: ${_this.revServers}, blocking: ${_this.blocking}, specialDomains: ${_this.specialDomains}, reply: ${_this.reply}, rateLimit: ${_this.rateLimit})';
 }
 
 
@@ -849,7 +867,7 @@ class _$DnsCopyWithImpl<$Res>
 /// Create a copy of Dns
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? upstreams = freezed,Object? cnameDeepInspect = freezed,Object? blockESNI = freezed,Object? edns0ECS = freezed,Object? ignoreLocalhost = freezed,Object? showDNSSEC = freezed,Object? analyzeOnlyAandAAAA = freezed,Object? piholePTR = freezed,Object? replyWhenBusy = freezed,Object? blockTTL = freezed,Object? hosts = freezed,Object? domainNeeded = freezed,Object? expandHosts = freezed,Object? domain = freezed,Object? bogusPriv = freezed,Object? dnssec = freezed,Object? interface = freezed,Object? hostRecord = freezed,Object? listeningMode = freezed,Object? queryLogging = freezed,Object? cnameRecords = freezed,Object? port = freezed,Object? localise = freezed,Object? cache = freezed,Object? revServers = freezed,Object? blocking = freezed,Object? specialDomains = freezed,Object? reply = freezed,Object? rateLimit = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Dns(
 upstreams: freezed == upstreams ? _self.upstreams : upstreams // ignore: cast_nullable_to_non_nullable
 as List<String>?,cnameDeepInspect: freezed == cnameDeepInspect ? _self.cnameDeepInspect : cnameDeepInspect // ignore: cast_nullable_to_non_nullable
 as bool?,blockESNI: freezed == blockESNI ? _self.blockESNI : blockESNI // ignore: cast_nullable_to_non_nullable
@@ -1086,7 +1104,7 @@ return $default(_that.upstreams,_that.cnameDeepInspect,_that.blockESNI,_that.edn
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class _Dns implements Dns {
-  const _Dns({final  List<String>? upstreams, @JsonKey(name: 'CNAMEdeepInspect') this.cnameDeepInspect, this.blockESNI, @JsonKey(name: 'EDNS0ECS') this.edns0ECS, this.ignoreLocalhost, this.showDNSSEC, this.analyzeOnlyAandAAAA, this.piholePTR, this.replyWhenBusy, this.blockTTL, final  List<String>? hosts, this.domainNeeded, this.expandHosts, @DomainConverter() this.domain, this.bogusPriv, this.dnssec, this.interface, this.hostRecord, this.listeningMode, this.queryLogging, final  List<String>? cnameRecords, this.port, this.localise, this.cache, final  List<String>? revServers, this.blocking, this.specialDomains, this.reply, this.rateLimit}): _upstreams = upstreams,_hosts = hosts,_cnameRecords = cnameRecords,_revServers = revServers;
+  const _Dns({ List<String>? upstreams, @JsonKey(name: 'CNAMEdeepInspect') this.cnameDeepInspect, this.blockESNI, @JsonKey(name: 'EDNS0ECS') this.edns0ECS, this.ignoreLocalhost, this.showDNSSEC, this.analyzeOnlyAandAAAA, this.piholePTR, this.replyWhenBusy, this.blockTTL,  List<String>? hosts, this.domainNeeded, this.expandHosts, @DomainConverter() this.domain, this.bogusPriv, this.dnssec, this.interface, this.hostRecord, this.listeningMode, this.queryLogging,  List<String>? cnameRecords, this.port, this.localise, this.cache,  List<String>? revServers, this.blocking, this.specialDomains, this.reply, this.rateLimit}): _upstreams = upstreams,_hosts = hosts,_cnameRecords = cnameRecords,_revServers = revServers;
   factory _Dns.fromJson(Map<String, dynamic> json) => _$DnsFromJson(json);
 
  final  List<String>? _upstreams;
@@ -1119,7 +1137,6 @@ class _Dns implements Dns {
 @override final  bool? domainNeeded;
 @override final  bool? expandHosts;
 @override@DomainConverter() final  Domain? domain;
-// >= 6.3
 @override final  bool? bogusPriv;
 @override final  bool? dnssec;
 @override final  String? interface;
@@ -1137,7 +1154,6 @@ class _Dns implements Dns {
 
 @override final  int? port;
 @override final  bool? localise;
-// >= 6.3
 @override final  DnsCache? cache;
  final  List<String>? _revServers;
 @override List<String>? get revServers {
@@ -1166,16 +1182,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Dns&&const DeepCollectionEquality().equals(other._upstreams, _upstreams)&&(identical(other.cnameDeepInspect, cnameDeepInspect) || other.cnameDeepInspect == cnameDeepInspect)&&(identical(other.blockESNI, blockESNI) || other.blockESNI == blockESNI)&&(identical(other.edns0ECS, edns0ECS) || other.edns0ECS == edns0ECS)&&(identical(other.ignoreLocalhost, ignoreLocalhost) || other.ignoreLocalhost == ignoreLocalhost)&&(identical(other.showDNSSEC, showDNSSEC) || other.showDNSSEC == showDNSSEC)&&(identical(other.analyzeOnlyAandAAAA, analyzeOnlyAandAAAA) || other.analyzeOnlyAandAAAA == analyzeOnlyAandAAAA)&&(identical(other.piholePTR, piholePTR) || other.piholePTR == piholePTR)&&(identical(other.replyWhenBusy, replyWhenBusy) || other.replyWhenBusy == replyWhenBusy)&&(identical(other.blockTTL, blockTTL) || other.blockTTL == blockTTL)&&const DeepCollectionEquality().equals(other._hosts, _hosts)&&(identical(other.domainNeeded, domainNeeded) || other.domainNeeded == domainNeeded)&&(identical(other.expandHosts, expandHosts) || other.expandHosts == expandHosts)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.bogusPriv, bogusPriv) || other.bogusPriv == bogusPriv)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.hostRecord, hostRecord) || other.hostRecord == hostRecord)&&(identical(other.listeningMode, listeningMode) || other.listeningMode == listeningMode)&&(identical(other.queryLogging, queryLogging) || other.queryLogging == queryLogging)&&const DeepCollectionEquality().equals(other._cnameRecords, _cnameRecords)&&(identical(other.port, port) || other.port == port)&&(identical(other.localise, localise) || other.localise == localise)&&(identical(other.cache, cache) || other.cache == cache)&&const DeepCollectionEquality().equals(other._revServers, _revServers)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.specialDomains, specialDomains) || other.specialDomains == specialDomains)&&(identical(other.reply, reply) || other.reply == reply)&&(identical(other.rateLimit, rateLimit) || other.rateLimit == rateLimit));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Dns&&const DeepCollectionEquality().equals(other.upstreams, _upstreams)&&(identical(other.cnameDeepInspect, cnameDeepInspect) || other.cnameDeepInspect == cnameDeepInspect)&&(identical(other.blockESNI, blockESNI) || other.blockESNI == blockESNI)&&(identical(other.edns0ECS, edns0ECS) || other.edns0ECS == edns0ECS)&&(identical(other.ignoreLocalhost, ignoreLocalhost) || other.ignoreLocalhost == ignoreLocalhost)&&(identical(other.showDNSSEC, showDNSSEC) || other.showDNSSEC == showDNSSEC)&&(identical(other.analyzeOnlyAandAAAA, analyzeOnlyAandAAAA) || other.analyzeOnlyAandAAAA == analyzeOnlyAandAAAA)&&(identical(other.piholePTR, piholePTR) || other.piholePTR == piholePTR)&&(identical(other.replyWhenBusy, replyWhenBusy) || other.replyWhenBusy == replyWhenBusy)&&(identical(other.blockTTL, blockTTL) || other.blockTTL == blockTTL)&&const DeepCollectionEquality().equals(other.hosts, _hosts)&&(identical(other.domainNeeded, domainNeeded) || other.domainNeeded == domainNeeded)&&(identical(other.expandHosts, expandHosts) || other.expandHosts == expandHosts)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.bogusPriv, bogusPriv) || other.bogusPriv == bogusPriv)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.hostRecord, hostRecord) || other.hostRecord == hostRecord)&&(identical(other.listeningMode, listeningMode) || other.listeningMode == listeningMode)&&(identical(other.queryLogging, queryLogging) || other.queryLogging == queryLogging)&&const DeepCollectionEquality().equals(other.cnameRecords, _cnameRecords)&&(identical(other.port, port) || other.port == port)&&(identical(other.localise, localise) || other.localise == localise)&&(identical(other.cache, cache) || other.cache == cache)&&const DeepCollectionEquality().equals(other.revServers, _revServers)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.specialDomains, specialDomains) || other.specialDomains == specialDomains)&&(identical(other.reply, reply) || other.reply == reply)&&(identical(other.rateLimit, rateLimit) || other.rateLimit == rateLimit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,const DeepCollectionEquality().hash(_upstreams),cnameDeepInspect,blockESNI,edns0ECS,ignoreLocalhost,showDNSSEC,analyzeOnlyAandAAAA,piholePTR,replyWhenBusy,blockTTL,const DeepCollectionEquality().hash(_hosts),domainNeeded,expandHosts,domain,bogusPriv,dnssec,interface,hostRecord,listeningMode,queryLogging,const DeepCollectionEquality().hash(_cnameRecords),port,localise,cache,const DeepCollectionEquality().hash(_revServers),blocking,specialDomains,reply,rateLimit]);
+int get hashCode {
+    return Object.hashAll([runtimeType,const DeepCollectionEquality().hash(_upstreams),cnameDeepInspect,blockESNI,edns0ECS,ignoreLocalhost,showDNSSEC,analyzeOnlyAandAAAA,piholePTR,replyWhenBusy,blockTTL,const DeepCollectionEquality().hash(_hosts),domainNeeded,expandHosts,domain,bogusPriv,dnssec,interface,hostRecord,listeningMode,queryLogging,const DeepCollectionEquality().hash(_cnameRecords),port,localise,cache,const DeepCollectionEquality().hash(_revServers),blocking,specialDomains,reply,rateLimit]);
+}
 
 @override
 String toString() {
-  return 'Dns(upstreams: $upstreams, cnameDeepInspect: $cnameDeepInspect, blockESNI: $blockESNI, edns0ECS: $edns0ECS, ignoreLocalhost: $ignoreLocalhost, showDNSSEC: $showDNSSEC, analyzeOnlyAandAAAA: $analyzeOnlyAandAAAA, piholePTR: $piholePTR, replyWhenBusy: $replyWhenBusy, blockTTL: $blockTTL, hosts: $hosts, domainNeeded: $domainNeeded, expandHosts: $expandHosts, domain: $domain, bogusPriv: $bogusPriv, dnssec: $dnssec, interface: $interface, hostRecord: $hostRecord, listeningMode: $listeningMode, queryLogging: $queryLogging, cnameRecords: $cnameRecords, port: $port, localise: $localise, cache: $cache, revServers: $revServers, blocking: $blocking, specialDomains: $specialDomains, reply: $reply, rateLimit: $rateLimit)';
+    return 'Dns(upstreams: $upstreams, cnameDeepInspect: $cnameDeepInspect, blockESNI: $blockESNI, edns0ECS: $edns0ECS, ignoreLocalhost: $ignoreLocalhost, showDNSSEC: $showDNSSEC, analyzeOnlyAandAAAA: $analyzeOnlyAandAAAA, piholePTR: $piholePTR, replyWhenBusy: $replyWhenBusy, blockTTL: $blockTTL, hosts: $hosts, domainNeeded: $domainNeeded, expandHosts: $expandHosts, domain: $domain, bogusPriv: $bogusPriv, dnssec: $dnssec, interface: $interface, hostRecord: $hostRecord, listeningMode: $listeningMode, queryLogging: $queryLogging, cnameRecords: $cnameRecords, port: $port, localise: $localise, cache: $cache, revServers: $revServers, blocking: $blocking, specialDomains: $specialDomains, reply: $reply, rateLimit: $rateLimit)';
 }
 
 
@@ -1330,16 +1348,21 @@ $DnsCacheCopyWith<DnsCache> get copyWith => _$DnsCacheCopyWithImpl<DnsCache>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsCache&&(identical(other.size, size) || other.size == size)&&(identical(other.optimizer, optimizer) || other.optimizer == optimizer)&&(identical(other.upstreamBlockedTTL, upstreamBlockedTTL) || other.upstreamBlockedTTL == upstreamBlockedTTL));
+  final _this = this as DnsCache;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsCache&&(identical(other.size, _this.size) || other.size == _this.size)&&(identical(other.optimizer, _this.optimizer) || other.optimizer == _this.optimizer)&&(identical(other.upstreamBlockedTTL, _this.upstreamBlockedTTL) || other.upstreamBlockedTTL == _this.upstreamBlockedTTL));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,size,optimizer,upstreamBlockedTTL);
+int get hashCode {
+  final _this = this as DnsCache;
+  return Object.hash(runtimeType,_this.size,_this.optimizer,_this.upstreamBlockedTTL);
+}
 
 @override
 String toString() {
-  return 'DnsCache(size: $size, optimizer: $optimizer, upstreamBlockedTTL: $upstreamBlockedTTL)';
+  final _this = this as DnsCache;
+  return 'DnsCache(size: ${_this.size}, optimizer: ${_this.optimizer}, upstreamBlockedTTL: ${_this.upstreamBlockedTTL})';
 }
 
 
@@ -1368,7 +1391,7 @@ class _$DnsCacheCopyWithImpl<$Res>
 /// Create a copy of DnsCache
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? size = freezed,Object? optimizer = freezed,Object? upstreamBlockedTTL = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DnsCache(
 size: freezed == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
 as int?,optimizer: freezed == optimizer ? _self.optimizer : optimizer // ignore: cast_nullable_to_non_nullable
 as int?,upstreamBlockedTTL: freezed == upstreamBlockedTTL ? _self.upstreamBlockedTTL : upstreamBlockedTTL // ignore: cast_nullable_to_non_nullable
@@ -1527,16 +1550,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsCache&&(identical(other.size, size) || other.size == size)&&(identical(other.optimizer, optimizer) || other.optimizer == optimizer)&&(identical(other.upstreamBlockedTTL, upstreamBlockedTTL) || other.upstreamBlockedTTL == upstreamBlockedTTL));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsCache&&(identical(other.size, size) || other.size == size)&&(identical(other.optimizer, optimizer) || other.optimizer == optimizer)&&(identical(other.upstreamBlockedTTL, upstreamBlockedTTL) || other.upstreamBlockedTTL == upstreamBlockedTTL));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,size,optimizer,upstreamBlockedTTL);
+int get hashCode {
+    return Object.hash(runtimeType,size,optimizer,upstreamBlockedTTL);
+}
 
 @override
 String toString() {
-  return 'DnsCache(size: $size, optimizer: $optimizer, upstreamBlockedTTL: $upstreamBlockedTTL)';
+    return 'DnsCache(size: $size, optimizer: $optimizer, upstreamBlockedTTL: $upstreamBlockedTTL)';
 }
 
 
@@ -1593,16 +1618,21 @@ $DnsBlockingCopyWith<DnsBlocking> get copyWith => _$DnsBlockingCopyWithImpl<DnsB
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsBlocking&&(identical(other.active, active) || other.active == active)&&(identical(other.mode, mode) || other.mode == mode)&&(identical(other.edns, edns) || other.edns == edns));
+  final _this = this as DnsBlocking;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsBlocking&&(identical(other.active, _this.active) || other.active == _this.active)&&(identical(other.mode, _this.mode) || other.mode == _this.mode)&&(identical(other.edns, _this.edns) || other.edns == _this.edns));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,active,mode,edns);
+int get hashCode {
+  final _this = this as DnsBlocking;
+  return Object.hash(runtimeType,_this.active,_this.mode,_this.edns);
+}
 
 @override
 String toString() {
-  return 'DnsBlocking(active: $active, mode: $mode, edns: $edns)';
+  final _this = this as DnsBlocking;
+  return 'DnsBlocking(active: ${_this.active}, mode: ${_this.mode}, edns: ${_this.edns})';
 }
 
 
@@ -1631,7 +1661,7 @@ class _$DnsBlockingCopyWithImpl<$Res>
 /// Create a copy of DnsBlocking
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? active = freezed,Object? mode = freezed,Object? edns = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DnsBlocking(
 active: freezed == active ? _self.active : active // ignore: cast_nullable_to_non_nullable
 as bool?,mode: freezed == mode ? _self.mode : mode // ignore: cast_nullable_to_non_nullable
 as String?,edns: freezed == edns ? _self.edns : edns // ignore: cast_nullable_to_non_nullable
@@ -1790,16 +1820,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsBlocking&&(identical(other.active, active) || other.active == active)&&(identical(other.mode, mode) || other.mode == mode)&&(identical(other.edns, edns) || other.edns == edns));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsBlocking&&(identical(other.active, active) || other.active == active)&&(identical(other.mode, mode) || other.mode == mode)&&(identical(other.edns, edns) || other.edns == edns));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,active,mode,edns);
+int get hashCode {
+    return Object.hash(runtimeType,active,mode,edns);
+}
 
 @override
 String toString() {
-  return 'DnsBlocking(active: $active, mode: $mode, edns: $edns)';
+    return 'DnsBlocking(active: $active, mode: $mode, edns: $edns)';
 }
 
 
@@ -1856,16 +1888,21 @@ $SpecialDomainsCopyWith<SpecialDomains> get copyWith => _$SpecialDomainsCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SpecialDomains&&(identical(other.mozillaCanary, mozillaCanary) || other.mozillaCanary == mozillaCanary)&&(identical(other.iCloudPrivateRelay, iCloudPrivateRelay) || other.iCloudPrivateRelay == iCloudPrivateRelay)&&(identical(other.designatedResolver, designatedResolver) || other.designatedResolver == designatedResolver));
+  final _this = this as SpecialDomains;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SpecialDomains&&(identical(other.mozillaCanary, _this.mozillaCanary) || other.mozillaCanary == _this.mozillaCanary)&&(identical(other.iCloudPrivateRelay, _this.iCloudPrivateRelay) || other.iCloudPrivateRelay == _this.iCloudPrivateRelay)&&(identical(other.designatedResolver, _this.designatedResolver) || other.designatedResolver == _this.designatedResolver));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,mozillaCanary,iCloudPrivateRelay,designatedResolver);
+int get hashCode {
+  final _this = this as SpecialDomains;
+  return Object.hash(runtimeType,_this.mozillaCanary,_this.iCloudPrivateRelay,_this.designatedResolver);
+}
 
 @override
 String toString() {
-  return 'SpecialDomains(mozillaCanary: $mozillaCanary, iCloudPrivateRelay: $iCloudPrivateRelay, designatedResolver: $designatedResolver)';
+  final _this = this as SpecialDomains;
+  return 'SpecialDomains(mozillaCanary: ${_this.mozillaCanary}, iCloudPrivateRelay: ${_this.iCloudPrivateRelay}, designatedResolver: ${_this.designatedResolver})';
 }
 
 
@@ -1894,7 +1931,7 @@ class _$SpecialDomainsCopyWithImpl<$Res>
 /// Create a copy of SpecialDomains
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? mozillaCanary = freezed,Object? iCloudPrivateRelay = freezed,Object? designatedResolver = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(SpecialDomains(
 mozillaCanary: freezed == mozillaCanary ? _self.mozillaCanary : mozillaCanary // ignore: cast_nullable_to_non_nullable
 as bool?,iCloudPrivateRelay: freezed == iCloudPrivateRelay ? _self.iCloudPrivateRelay : iCloudPrivateRelay // ignore: cast_nullable_to_non_nullable
 as bool?,designatedResolver: freezed == designatedResolver ? _self.designatedResolver : designatedResolver // ignore: cast_nullable_to_non_nullable
@@ -2053,16 +2090,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SpecialDomains&&(identical(other.mozillaCanary, mozillaCanary) || other.mozillaCanary == mozillaCanary)&&(identical(other.iCloudPrivateRelay, iCloudPrivateRelay) || other.iCloudPrivateRelay == iCloudPrivateRelay)&&(identical(other.designatedResolver, designatedResolver) || other.designatedResolver == designatedResolver));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SpecialDomains&&(identical(other.mozillaCanary, mozillaCanary) || other.mozillaCanary == mozillaCanary)&&(identical(other.iCloudPrivateRelay, iCloudPrivateRelay) || other.iCloudPrivateRelay == iCloudPrivateRelay)&&(identical(other.designatedResolver, designatedResolver) || other.designatedResolver == designatedResolver));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,mozillaCanary,iCloudPrivateRelay,designatedResolver);
+int get hashCode {
+    return Object.hash(runtimeType,mozillaCanary,iCloudPrivateRelay,designatedResolver);
+}
 
 @override
 String toString() {
-  return 'SpecialDomains(mozillaCanary: $mozillaCanary, iCloudPrivateRelay: $iCloudPrivateRelay, designatedResolver: $designatedResolver)';
+    return 'SpecialDomains(mozillaCanary: $mozillaCanary, iCloudPrivateRelay: $iCloudPrivateRelay, designatedResolver: $designatedResolver)';
 }
 
 
@@ -2119,16 +2158,21 @@ $DnsReplyCopyWith<DnsReply> get copyWith => _$DnsReplyCopyWithImpl<DnsReply>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsReply&&(identical(other.host, host) || other.host == host)&&(identical(other.blocking, blocking) || other.blocking == blocking));
+  final _this = this as DnsReply;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsReply&&(identical(other.host, _this.host) || other.host == _this.host)&&(identical(other.blocking, _this.blocking) || other.blocking == _this.blocking));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,host,blocking);
+int get hashCode {
+  final _this = this as DnsReply;
+  return Object.hash(runtimeType,_this.host,_this.blocking);
+}
 
 @override
 String toString() {
-  return 'DnsReply(host: $host, blocking: $blocking)';
+  final _this = this as DnsReply;
+  return 'DnsReply(host: ${_this.host}, blocking: ${_this.blocking})';
 }
 
 
@@ -2157,7 +2201,7 @@ class _$DnsReplyCopyWithImpl<$Res>
 /// Create a copy of DnsReply
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? host = freezed,Object? blocking = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DnsReply(
 host: freezed == host ? _self.host : host // ignore: cast_nullable_to_non_nullable
 as ReplyHost?,blocking: freezed == blocking ? _self.blocking : blocking // ignore: cast_nullable_to_non_nullable
 as ReplyHost?,
@@ -2338,16 +2382,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsReply&&(identical(other.host, host) || other.host == host)&&(identical(other.blocking, blocking) || other.blocking == blocking));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsReply&&(identical(other.host, host) || other.host == host)&&(identical(other.blocking, blocking) || other.blocking == blocking));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,host,blocking);
+int get hashCode {
+    return Object.hash(runtimeType,host,blocking);
+}
 
 @override
 String toString() {
-  return 'DnsReply(host: $host, blocking: $blocking)';
+    return 'DnsReply(host: $host, blocking: $blocking)';
 }
 
 
@@ -2427,16 +2473,21 @@ $ReplyHostCopyWith<ReplyHost> get copyWith => _$ReplyHostCopyWithImpl<ReplyHost>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReplyHost&&(identical(other.force4, force4) || other.force4 == force4)&&(identical(other.force6, force6) || other.force6 == force6)&&(identical(other.ipv4, ipv4) || other.ipv4 == ipv4)&&(identical(other.ipv6, ipv6) || other.ipv6 == ipv6));
+  final _this = this as ReplyHost;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ReplyHost&&(identical(other.force4, _this.force4) || other.force4 == _this.force4)&&(identical(other.force6, _this.force6) || other.force6 == _this.force6)&&(identical(other.ipv4, _this.ipv4) || other.ipv4 == _this.ipv4)&&(identical(other.ipv6, _this.ipv6) || other.ipv6 == _this.ipv6));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,force4,force6,ipv4,ipv6);
+int get hashCode {
+  final _this = this as ReplyHost;
+  return Object.hash(runtimeType,_this.force4,_this.force6,_this.ipv4,_this.ipv6);
+}
 
 @override
 String toString() {
-  return 'ReplyHost(force4: $force4, force6: $force6, ipv4: $ipv4, ipv6: $ipv6)';
+  final _this = this as ReplyHost;
+  return 'ReplyHost(force4: ${_this.force4}, force6: ${_this.force6}, ipv4: ${_this.ipv4}, ipv6: ${_this.ipv6})';
 }
 
 
@@ -2465,7 +2516,7 @@ class _$ReplyHostCopyWithImpl<$Res>
 /// Create a copy of ReplyHost
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? force4 = freezed,Object? force6 = freezed,Object? ipv4 = freezed,Object? ipv6 = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(ReplyHost(
 force4: freezed == force4 ? _self.force4 : force4 // ignore: cast_nullable_to_non_nullable
 as bool?,force6: freezed == force6 ? _self.force6 : force6 // ignore: cast_nullable_to_non_nullable
 as bool?,ipv4: freezed == ipv4 ? _self.ipv4 : ipv4 // ignore: cast_nullable_to_non_nullable
@@ -2626,16 +2677,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReplyHost&&(identical(other.force4, force4) || other.force4 == force4)&&(identical(other.force6, force6) || other.force6 == force6)&&(identical(other.ipv4, ipv4) || other.ipv4 == ipv4)&&(identical(other.ipv6, ipv6) || other.ipv6 == ipv6));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ReplyHost&&(identical(other.force4, force4) || other.force4 == force4)&&(identical(other.force6, force6) || other.force6 == force6)&&(identical(other.ipv4, ipv4) || other.ipv4 == ipv4)&&(identical(other.ipv6, ipv6) || other.ipv6 == ipv6));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,force4,force6,ipv4,ipv6);
+int get hashCode {
+    return Object.hash(runtimeType,force4,force6,ipv4,ipv6);
+}
 
 @override
 String toString() {
-  return 'ReplyHost(force4: $force4, force6: $force6, ipv4: $ipv4, ipv6: $ipv6)';
+    return 'ReplyHost(force4: $force4, force6: $force6, ipv4: $ipv4, ipv6: $ipv6)';
 }
 
 
@@ -2693,16 +2746,21 @@ $RateLimitCopyWith<RateLimit> get copyWith => _$RateLimitCopyWithImpl<RateLimit>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RateLimit&&(identical(other.count, count) || other.count == count)&&(identical(other.interval, interval) || other.interval == interval));
+  final _this = this as RateLimit;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RateLimit&&(identical(other.count, _this.count) || other.count == _this.count)&&(identical(other.interval, _this.interval) || other.interval == _this.interval));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count,interval);
+int get hashCode {
+  final _this = this as RateLimit;
+  return Object.hash(runtimeType,_this.count,_this.interval);
+}
 
 @override
 String toString() {
-  return 'RateLimit(count: $count, interval: $interval)';
+  final _this = this as RateLimit;
+  return 'RateLimit(count: ${_this.count}, interval: ${_this.interval})';
 }
 
 
@@ -2731,7 +2789,7 @@ class _$RateLimitCopyWithImpl<$Res>
 /// Create a copy of RateLimit
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? count = freezed,Object? interval = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(RateLimit(
 count: freezed == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
 as int?,interval: freezed == interval ? _self.interval : interval // ignore: cast_nullable_to_non_nullable
 as int?,
@@ -2888,16 +2946,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RateLimit&&(identical(other.count, count) || other.count == count)&&(identical(other.interval, interval) || other.interval == interval));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RateLimit&&(identical(other.count, count) || other.count == count)&&(identical(other.interval, interval) || other.interval == interval));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count,interval);
+int get hashCode {
+    return Object.hash(runtimeType,count,interval);
+}
 
 @override
 String toString() {
-  return 'RateLimit(count: $count, interval: $interval)';
+    return 'RateLimit(count: $count, interval: $interval)';
 }
 
 
@@ -2953,16 +3013,21 @@ $DhcpCopyWith<Dhcp> get copyWith => _$DhcpCopyWithImpl<Dhcp>(this as Dhcp, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Dhcp&&(identical(other.active, active) || other.active == active)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end)&&(identical(other.router, router) || other.router == router)&&(identical(other.netmask, netmask) || other.netmask == netmask)&&(identical(other.leaseTime, leaseTime) || other.leaseTime == leaseTime)&&(identical(other.ipv6, ipv6) || other.ipv6 == ipv6)&&(identical(other.rapidCommit, rapidCommit) || other.rapidCommit == rapidCommit)&&(identical(other.multiDNS, multiDNS) || other.multiDNS == multiDNS)&&(identical(other.logging, logging) || other.logging == logging)&&(identical(other.ignoreUnknownClients, ignoreUnknownClients) || other.ignoreUnknownClients == ignoreUnknownClients)&&const DeepCollectionEquality().equals(other.hosts, hosts));
+  final _this = this as Dhcp;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Dhcp&&(identical(other.active, _this.active) || other.active == _this.active)&&(identical(other.start, _this.start) || other.start == _this.start)&&(identical(other.end, _this.end) || other.end == _this.end)&&(identical(other.router, _this.router) || other.router == _this.router)&&(identical(other.netmask, _this.netmask) || other.netmask == _this.netmask)&&(identical(other.leaseTime, _this.leaseTime) || other.leaseTime == _this.leaseTime)&&(identical(other.ipv6, _this.ipv6) || other.ipv6 == _this.ipv6)&&(identical(other.rapidCommit, _this.rapidCommit) || other.rapidCommit == _this.rapidCommit)&&(identical(other.multiDNS, _this.multiDNS) || other.multiDNS == _this.multiDNS)&&(identical(other.logging, _this.logging) || other.logging == _this.logging)&&(identical(other.ignoreUnknownClients, _this.ignoreUnknownClients) || other.ignoreUnknownClients == _this.ignoreUnknownClients)&&const DeepCollectionEquality().equals(other.hosts, _this.hosts));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,active,start,end,router,netmask,leaseTime,ipv6,rapidCommit,multiDNS,logging,ignoreUnknownClients,const DeepCollectionEquality().hash(hosts));
+int get hashCode {
+  final _this = this as Dhcp;
+  return Object.hash(runtimeType,_this.active,_this.start,_this.end,_this.router,_this.netmask,_this.leaseTime,_this.ipv6,_this.rapidCommit,_this.multiDNS,_this.logging,_this.ignoreUnknownClients,const DeepCollectionEquality().hash(_this.hosts));
+}
 
 @override
 String toString() {
-  return 'Dhcp(active: $active, start: $start, end: $end, router: $router, netmask: $netmask, leaseTime: $leaseTime, ipv6: $ipv6, rapidCommit: $rapidCommit, multiDNS: $multiDNS, logging: $logging, ignoreUnknownClients: $ignoreUnknownClients, hosts: $hosts)';
+  final _this = this as Dhcp;
+  return 'Dhcp(active: ${_this.active}, start: ${_this.start}, end: ${_this.end}, router: ${_this.router}, netmask: ${_this.netmask}, leaseTime: ${_this.leaseTime}, ipv6: ${_this.ipv6}, rapidCommit: ${_this.rapidCommit}, multiDNS: ${_this.multiDNS}, logging: ${_this.logging}, ignoreUnknownClients: ${_this.ignoreUnknownClients}, hosts: ${_this.hosts})';
 }
 
 
@@ -2991,7 +3056,7 @@ class _$DhcpCopyWithImpl<$Res>
 /// Create a copy of Dhcp
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? active = freezed,Object? start = freezed,Object? end = freezed,Object? router = freezed,Object? netmask = freezed,Object? leaseTime = freezed,Object? ipv6 = freezed,Object? rapidCommit = freezed,Object? multiDNS = freezed,Object? logging = freezed,Object? ignoreUnknownClients = freezed,Object? hosts = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Dhcp(
 active: freezed == active ? _self.active : active // ignore: cast_nullable_to_non_nullable
 as bool?,start: freezed == start ? _self.start : start // ignore: cast_nullable_to_non_nullable
 as String?,end: freezed == end ? _self.end : end // ignore: cast_nullable_to_non_nullable
@@ -3139,7 +3204,7 @@ return $default(_that.active,_that.start,_that.end,_that.router,_that.netmask,_t
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class _Dhcp implements Dhcp {
-  const _Dhcp({this.active, this.start, this.end, this.router, this.netmask, this.leaseTime, this.ipv6, this.rapidCommit, this.multiDNS, this.logging, this.ignoreUnknownClients, final  List<String>? hosts}): _hosts = hosts;
+  const _Dhcp({this.active, this.start, this.end, this.router, this.netmask, this.leaseTime, this.ipv6, this.rapidCommit, this.multiDNS, this.logging, this.ignoreUnknownClients,  List<String>? hosts}): _hosts = hosts;
   factory _Dhcp.fromJson(Map<String, dynamic> json) => _$DhcpFromJson(json);
 
 @override final  bool? active;
@@ -3176,16 +3241,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Dhcp&&(identical(other.active, active) || other.active == active)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end)&&(identical(other.router, router) || other.router == router)&&(identical(other.netmask, netmask) || other.netmask == netmask)&&(identical(other.leaseTime, leaseTime) || other.leaseTime == leaseTime)&&(identical(other.ipv6, ipv6) || other.ipv6 == ipv6)&&(identical(other.rapidCommit, rapidCommit) || other.rapidCommit == rapidCommit)&&(identical(other.multiDNS, multiDNS) || other.multiDNS == multiDNS)&&(identical(other.logging, logging) || other.logging == logging)&&(identical(other.ignoreUnknownClients, ignoreUnknownClients) || other.ignoreUnknownClients == ignoreUnknownClients)&&const DeepCollectionEquality().equals(other._hosts, _hosts));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Dhcp&&(identical(other.active, active) || other.active == active)&&(identical(other.start, start) || other.start == start)&&(identical(other.end, end) || other.end == end)&&(identical(other.router, router) || other.router == router)&&(identical(other.netmask, netmask) || other.netmask == netmask)&&(identical(other.leaseTime, leaseTime) || other.leaseTime == leaseTime)&&(identical(other.ipv6, ipv6) || other.ipv6 == ipv6)&&(identical(other.rapidCommit, rapidCommit) || other.rapidCommit == rapidCommit)&&(identical(other.multiDNS, multiDNS) || other.multiDNS == multiDNS)&&(identical(other.logging, logging) || other.logging == logging)&&(identical(other.ignoreUnknownClients, ignoreUnknownClients) || other.ignoreUnknownClients == ignoreUnknownClients)&&const DeepCollectionEquality().equals(other.hosts, _hosts));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,active,start,end,router,netmask,leaseTime,ipv6,rapidCommit,multiDNS,logging,ignoreUnknownClients,const DeepCollectionEquality().hash(_hosts));
+int get hashCode {
+    return Object.hash(runtimeType,active,start,end,router,netmask,leaseTime,ipv6,rapidCommit,multiDNS,logging,ignoreUnknownClients,const DeepCollectionEquality().hash(_hosts));
+}
 
 @override
 String toString() {
-  return 'Dhcp(active: $active, start: $start, end: $end, router: $router, netmask: $netmask, leaseTime: $leaseTime, ipv6: $ipv6, rapidCommit: $rapidCommit, multiDNS: $multiDNS, logging: $logging, ignoreUnknownClients: $ignoreUnknownClients, hosts: $hosts)';
+    return 'Dhcp(active: $active, start: $start, end: $end, router: $router, netmask: $netmask, leaseTime: $leaseTime, ipv6: $ipv6, rapidCommit: $rapidCommit, multiDNS: $multiDNS, logging: $logging, ignoreUnknownClients: $ignoreUnknownClients, hosts: $hosts)';
 }
 
 
@@ -3251,16 +3318,21 @@ $NtpCopyWith<Ntp> get copyWith => _$NtpCopyWithImpl<Ntp>(this as Ntp, _$identity
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Ntp&&(identical(other.ipv4, ipv4) || other.ipv4 == ipv4)&&(identical(other.ipv6, ipv6) || other.ipv6 == ipv6)&&(identical(other.sync, sync) || other.sync == sync));
+  final _this = this as Ntp;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Ntp&&(identical(other.ipv4, _this.ipv4) || other.ipv4 == _this.ipv4)&&(identical(other.ipv6, _this.ipv6) || other.ipv6 == _this.ipv6)&&(identical(other.sync, _this.sync) || other.sync == _this.sync));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ipv4,ipv6,sync);
+int get hashCode {
+  final _this = this as Ntp;
+  return Object.hash(runtimeType,_this.ipv4,_this.ipv6,_this.sync);
+}
 
 @override
 String toString() {
-  return 'Ntp(ipv4: $ipv4, ipv6: $ipv6, sync: $sync)';
+  final _this = this as Ntp;
+  return 'Ntp(ipv4: ${_this.ipv4}, ipv6: ${_this.ipv6}, sync: ${_this.sync})';
 }
 
 
@@ -3289,7 +3361,7 @@ class _$NtpCopyWithImpl<$Res>
 /// Create a copy of Ntp
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ipv4 = freezed,Object? ipv6 = freezed,Object? sync = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Ntp(
 ipv4: freezed == ipv4 ? _self.ipv4 : ipv4 // ignore: cast_nullable_to_non_nullable
 as NtpEntry?,ipv6: freezed == ipv6 ? _self.ipv6 : ipv6 // ignore: cast_nullable_to_non_nullable
 as NtpEntry?,sync: freezed == sync ? _self.sync : sync // ignore: cast_nullable_to_non_nullable
@@ -3484,16 +3556,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Ntp&&(identical(other.ipv4, ipv4) || other.ipv4 == ipv4)&&(identical(other.ipv6, ipv6) || other.ipv6 == ipv6)&&(identical(other.sync, sync) || other.sync == sync));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Ntp&&(identical(other.ipv4, ipv4) || other.ipv4 == ipv4)&&(identical(other.ipv6, ipv6) || other.ipv6 == ipv6)&&(identical(other.sync, sync) || other.sync == sync));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ipv4,ipv6,sync);
+int get hashCode {
+    return Object.hash(runtimeType,ipv4,ipv6,sync);
+}
 
 @override
 String toString() {
-  return 'Ntp(ipv4: $ipv4, ipv6: $ipv6, sync: $sync)';
+    return 'Ntp(ipv4: $ipv4, ipv6: $ipv6, sync: $sync)';
 }
 
 
@@ -3586,16 +3660,21 @@ $NtpEntryCopyWith<NtpEntry> get copyWith => _$NtpEntryCopyWithImpl<NtpEntry>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NtpEntry&&(identical(other.active, active) || other.active == active)&&(identical(other.address, address) || other.address == address));
+  final _this = this as NtpEntry;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NtpEntry&&(identical(other.active, _this.active) || other.active == _this.active)&&(identical(other.address, _this.address) || other.address == _this.address));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,active,address);
+int get hashCode {
+  final _this = this as NtpEntry;
+  return Object.hash(runtimeType,_this.active,_this.address);
+}
 
 @override
 String toString() {
-  return 'NtpEntry(active: $active, address: $address)';
+  final _this = this as NtpEntry;
+  return 'NtpEntry(active: ${_this.active}, address: ${_this.address})';
 }
 
 
@@ -3624,7 +3703,7 @@ class _$NtpEntryCopyWithImpl<$Res>
 /// Create a copy of NtpEntry
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? active = freezed,Object? address = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(NtpEntry(
 active: freezed == active ? _self.active : active // ignore: cast_nullable_to_non_nullable
 as bool?,address: freezed == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -3781,16 +3860,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NtpEntry&&(identical(other.active, active) || other.active == active)&&(identical(other.address, address) || other.address == address));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NtpEntry&&(identical(other.active, active) || other.active == active)&&(identical(other.address, address) || other.address == address));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,active,address);
+int get hashCode {
+    return Object.hash(runtimeType,active,address);
+}
 
 @override
 String toString() {
-  return 'NtpEntry(active: $active, address: $address)';
+    return 'NtpEntry(active: $active, address: $address)';
 }
 
 
@@ -3846,16 +3927,21 @@ $NtpSyncCopyWith<NtpSync> get copyWith => _$NtpSyncCopyWithImpl<NtpSync>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NtpSync&&(identical(other.active, active) || other.active == active)&&(identical(other.server, server) || other.server == server)&&(identical(other.interval, interval) || other.interval == interval)&&(identical(other.count, count) || other.count == count)&&(identical(other.rtc, rtc) || other.rtc == rtc));
+  final _this = this as NtpSync;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NtpSync&&(identical(other.active, _this.active) || other.active == _this.active)&&(identical(other.server, _this.server) || other.server == _this.server)&&(identical(other.interval, _this.interval) || other.interval == _this.interval)&&(identical(other.count, _this.count) || other.count == _this.count)&&(identical(other.rtc, _this.rtc) || other.rtc == _this.rtc));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,active,server,interval,count,rtc);
+int get hashCode {
+  final _this = this as NtpSync;
+  return Object.hash(runtimeType,_this.active,_this.server,_this.interval,_this.count,_this.rtc);
+}
 
 @override
 String toString() {
-  return 'NtpSync(active: $active, server: $server, interval: $interval, count: $count, rtc: $rtc)';
+  final _this = this as NtpSync;
+  return 'NtpSync(active: ${_this.active}, server: ${_this.server}, interval: ${_this.interval}, count: ${_this.count}, rtc: ${_this.rtc})';
 }
 
 
@@ -3884,7 +3970,7 @@ class _$NtpSyncCopyWithImpl<$Res>
 /// Create a copy of NtpSync
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? active = freezed,Object? server = freezed,Object? interval = freezed,Object? count = freezed,Object? rtc = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(NtpSync(
 active: freezed == active ? _self.active : active // ignore: cast_nullable_to_non_nullable
 as bool?,server: freezed == server ? _self.server : server // ignore: cast_nullable_to_non_nullable
 as String?,interval: freezed == interval ? _self.interval : interval // ignore: cast_nullable_to_non_nullable
@@ -4059,16 +4145,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NtpSync&&(identical(other.active, active) || other.active == active)&&(identical(other.server, server) || other.server == server)&&(identical(other.interval, interval) || other.interval == interval)&&(identical(other.count, count) || other.count == count)&&(identical(other.rtc, rtc) || other.rtc == rtc));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NtpSync&&(identical(other.active, active) || other.active == active)&&(identical(other.server, server) || other.server == server)&&(identical(other.interval, interval) || other.interval == interval)&&(identical(other.count, count) || other.count == count)&&(identical(other.rtc, rtc) || other.rtc == rtc));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,active,server,interval,count,rtc);
+int get hashCode {
+    return Object.hash(runtimeType,active,server,interval,count,rtc);
+}
 
 @override
 String toString() {
-  return 'NtpSync(active: $active, server: $server, interval: $interval, count: $count, rtc: $rtc)';
+    return 'NtpSync(active: $active, server: $server, interval: $interval, count: $count, rtc: $rtc)';
 }
 
 
@@ -4139,16 +4227,21 @@ $NtpRtcCopyWith<NtpRtc> get copyWith => _$NtpRtcCopyWithImpl<NtpRtc>(this as Ntp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is NtpRtc&&(identical(other.set, set) || other.set == set)&&(identical(other.device, device) || other.device == device)&&(identical(other.utc, utc) || other.utc == utc));
+  final _this = this as NtpRtc;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is NtpRtc&&(identical(other.set, _this.set) || other.set == _this.set)&&(identical(other.device, _this.device) || other.device == _this.device)&&(identical(other.utc, _this.utc) || other.utc == _this.utc));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,set,device,utc);
+int get hashCode {
+  final _this = this as NtpRtc;
+  return Object.hash(runtimeType,_this.set,_this.device,_this.utc);
+}
 
 @override
 String toString() {
-  return 'NtpRtc(set: $set, device: $device, utc: $utc)';
+  final _this = this as NtpRtc;
+  return 'NtpRtc(set: ${_this.set}, device: ${_this.device}, utc: ${_this.utc})';
 }
 
 
@@ -4177,7 +4270,7 @@ class _$NtpRtcCopyWithImpl<$Res>
 /// Create a copy of NtpRtc
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? set = freezed,Object? device = freezed,Object? utc = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(NtpRtc(
 set: freezed == set ? _self.set : set // ignore: cast_nullable_to_non_nullable
 as bool?,device: freezed == device ? _self.device : device // ignore: cast_nullable_to_non_nullable
 as String?,utc: freezed == utc ? _self.utc : utc // ignore: cast_nullable_to_non_nullable
@@ -4336,16 +4429,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NtpRtc&&(identical(other.set, set) || other.set == set)&&(identical(other.device, device) || other.device == device)&&(identical(other.utc, utc) || other.utc == utc));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _NtpRtc&&(identical(other.set, set) || other.set == set)&&(identical(other.device, device) || other.device == device)&&(identical(other.utc, utc) || other.utc == utc));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,set,device,utc);
+int get hashCode {
+    return Object.hash(runtimeType,set,device,utc);
+}
 
 @override
 String toString() {
-  return 'NtpRtc(set: $set, device: $device, utc: $utc)';
+    return 'NtpRtc(set: $set, device: $device, utc: $utc)';
 }
 
 
@@ -4402,16 +4497,21 @@ $ResolverCopyWith<Resolver> get copyWith => _$ResolverCopyWithImpl<Resolver>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Resolver&&(identical(other.resolveIPv4, resolveIPv4) || other.resolveIPv4 == resolveIPv4)&&(identical(other.resolveIPv6, resolveIPv6) || other.resolveIPv6 == resolveIPv6)&&(identical(other.networkNames, networkNames) || other.networkNames == networkNames)&&(identical(other.refreshNames, refreshNames) || other.refreshNames == refreshNames));
+  final _this = this as Resolver;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Resolver&&(identical(other.resolveIPv4, _this.resolveIPv4) || other.resolveIPv4 == _this.resolveIPv4)&&(identical(other.resolveIPv6, _this.resolveIPv6) || other.resolveIPv6 == _this.resolveIPv6)&&(identical(other.networkNames, _this.networkNames) || other.networkNames == _this.networkNames)&&(identical(other.refreshNames, _this.refreshNames) || other.refreshNames == _this.refreshNames));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,resolveIPv4,resolveIPv6,networkNames,refreshNames);
+int get hashCode {
+  final _this = this as Resolver;
+  return Object.hash(runtimeType,_this.resolveIPv4,_this.resolveIPv6,_this.networkNames,_this.refreshNames);
+}
 
 @override
 String toString() {
-  return 'Resolver(resolveIPv4: $resolveIPv4, resolveIPv6: $resolveIPv6, networkNames: $networkNames, refreshNames: $refreshNames)';
+  final _this = this as Resolver;
+  return 'Resolver(resolveIPv4: ${_this.resolveIPv4}, resolveIPv6: ${_this.resolveIPv6}, networkNames: ${_this.networkNames}, refreshNames: ${_this.refreshNames})';
 }
 
 
@@ -4440,7 +4540,7 @@ class _$ResolverCopyWithImpl<$Res>
 /// Create a copy of Resolver
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? resolveIPv4 = freezed,Object? resolveIPv6 = freezed,Object? networkNames = freezed,Object? refreshNames = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Resolver(
 resolveIPv4: freezed == resolveIPv4 ? _self.resolveIPv4 : resolveIPv4 // ignore: cast_nullable_to_non_nullable
 as bool?,resolveIPv6: freezed == resolveIPv6 ? _self.resolveIPv6 : resolveIPv6 // ignore: cast_nullable_to_non_nullable
 as bool?,networkNames: freezed == networkNames ? _self.networkNames : networkNames // ignore: cast_nullable_to_non_nullable
@@ -4601,16 +4701,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Resolver&&(identical(other.resolveIPv4, resolveIPv4) || other.resolveIPv4 == resolveIPv4)&&(identical(other.resolveIPv6, resolveIPv6) || other.resolveIPv6 == resolveIPv6)&&(identical(other.networkNames, networkNames) || other.networkNames == networkNames)&&(identical(other.refreshNames, refreshNames) || other.refreshNames == refreshNames));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Resolver&&(identical(other.resolveIPv4, resolveIPv4) || other.resolveIPv4 == resolveIPv4)&&(identical(other.resolveIPv6, resolveIPv6) || other.resolveIPv6 == resolveIPv6)&&(identical(other.networkNames, networkNames) || other.networkNames == networkNames)&&(identical(other.refreshNames, refreshNames) || other.refreshNames == refreshNames));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,resolveIPv4,resolveIPv6,networkNames,refreshNames);
+int get hashCode {
+    return Object.hash(runtimeType,resolveIPv4,resolveIPv6,networkNames,refreshNames);
+}
 
 @override
 String toString() {
-  return 'Resolver(resolveIPv4: $resolveIPv4, resolveIPv6: $resolveIPv6, networkNames: $networkNames, refreshNames: $refreshNames)';
+    return 'Resolver(resolveIPv4: $resolveIPv4, resolveIPv6: $resolveIPv6, networkNames: $networkNames, refreshNames: $refreshNames)';
 }
 
 
@@ -4668,16 +4770,21 @@ $DatabaseCopyWith<Database> get copyWith => _$DatabaseCopyWithImpl<Database>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Database&&(identical(other.dbImport, dbImport) || other.dbImport == dbImport)&&(identical(other.maxDBdays, maxDBdays) || other.maxDBdays == maxDBdays)&&(identical(other.dbInterval, dbInterval) || other.dbInterval == dbInterval)&&(identical(other.useWAL, useWAL) || other.useWAL == useWAL)&&(identical(other.network, network) || other.network == network));
+  final _this = this as Database;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Database&&(identical(other.dbImport, _this.dbImport) || other.dbImport == _this.dbImport)&&(identical(other.maxDBdays, _this.maxDBdays) || other.maxDBdays == _this.maxDBdays)&&(identical(other.dbInterval, _this.dbInterval) || other.dbInterval == _this.dbInterval)&&(identical(other.useWAL, _this.useWAL) || other.useWAL == _this.useWAL)&&(identical(other.network, _this.network) || other.network == _this.network));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,dbImport,maxDBdays,dbInterval,useWAL,network);
+int get hashCode {
+  final _this = this as Database;
+  return Object.hash(runtimeType,_this.dbImport,_this.maxDBdays,_this.dbInterval,_this.useWAL,_this.network);
+}
 
 @override
 String toString() {
-  return 'Database(dbImport: $dbImport, maxDBdays: $maxDBdays, dbInterval: $dbInterval, useWAL: $useWAL, network: $network)';
+  final _this = this as Database;
+  return 'Database(dbImport: ${_this.dbImport}, maxDBdays: ${_this.maxDBdays}, dbInterval: ${_this.dbInterval}, useWAL: ${_this.useWAL}, network: ${_this.network})';
 }
 
 
@@ -4706,7 +4813,7 @@ class _$DatabaseCopyWithImpl<$Res>
 /// Create a copy of Database
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? dbImport = freezed,Object? maxDBdays = freezed,Object? dbInterval = freezed,Object? useWAL = freezed,Object? network = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Database(
 dbImport: freezed == dbImport ? _self.dbImport : dbImport // ignore: cast_nullable_to_non_nullable
 as bool?,maxDBdays: freezed == maxDBdays ? _self.maxDBdays : maxDBdays // ignore: cast_nullable_to_non_nullable
 as int?,dbInterval: freezed == dbInterval ? _self.dbInterval : dbInterval // ignore: cast_nullable_to_non_nullable
@@ -4881,16 +4988,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Database&&(identical(other.dbImport, dbImport) || other.dbImport == dbImport)&&(identical(other.maxDBdays, maxDBdays) || other.maxDBdays == maxDBdays)&&(identical(other.dbInterval, dbInterval) || other.dbInterval == dbInterval)&&(identical(other.useWAL, useWAL) || other.useWAL == useWAL)&&(identical(other.network, network) || other.network == network));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Database&&(identical(other.dbImport, dbImport) || other.dbImport == dbImport)&&(identical(other.maxDBdays, maxDBdays) || other.maxDBdays == maxDBdays)&&(identical(other.dbInterval, dbInterval) || other.dbInterval == dbInterval)&&(identical(other.useWAL, useWAL) || other.useWAL == useWAL)&&(identical(other.network, network) || other.network == network));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,dbImport,maxDBdays,dbInterval,useWAL,network);
+int get hashCode {
+    return Object.hash(runtimeType,dbImport,maxDBdays,dbInterval,useWAL,network);
+}
 
 @override
 String toString() {
-  return 'Database(dbImport: $dbImport, maxDBdays: $maxDBdays, dbInterval: $dbInterval, useWAL: $useWAL, network: $network)';
+    return 'Database(dbImport: $dbImport, maxDBdays: $maxDBdays, dbInterval: $dbInterval, useWAL: $useWAL, network: $network)';
 }
 
 
@@ -4961,16 +5070,21 @@ $DatabaseNetworkCopyWith<DatabaseNetwork> get copyWith => _$DatabaseNetworkCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DatabaseNetwork&&(identical(other.parseARPcache, parseARPcache) || other.parseARPcache == parseARPcache)&&(identical(other.expire, expire) || other.expire == expire));
+  final _this = this as DatabaseNetwork;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DatabaseNetwork&&(identical(other.parseARPcache, _this.parseARPcache) || other.parseARPcache == _this.parseARPcache)&&(identical(other.expire, _this.expire) || other.expire == _this.expire));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,parseARPcache,expire);
+int get hashCode {
+  final _this = this as DatabaseNetwork;
+  return Object.hash(runtimeType,_this.parseARPcache,_this.expire);
+}
 
 @override
 String toString() {
-  return 'DatabaseNetwork(parseARPcache: $parseARPcache, expire: $expire)';
+  final _this = this as DatabaseNetwork;
+  return 'DatabaseNetwork(parseARPcache: ${_this.parseARPcache}, expire: ${_this.expire})';
 }
 
 
@@ -4999,7 +5113,7 @@ class _$DatabaseNetworkCopyWithImpl<$Res>
 /// Create a copy of DatabaseNetwork
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? parseARPcache = freezed,Object? expire = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DatabaseNetwork(
 parseARPcache: freezed == parseARPcache ? _self.parseARPcache : parseARPcache // ignore: cast_nullable_to_non_nullable
 as bool?,expire: freezed == expire ? _self.expire : expire // ignore: cast_nullable_to_non_nullable
 as int?,
@@ -5156,16 +5270,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DatabaseNetwork&&(identical(other.parseARPcache, parseARPcache) || other.parseARPcache == parseARPcache)&&(identical(other.expire, expire) || other.expire == expire));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DatabaseNetwork&&(identical(other.parseARPcache, parseARPcache) || other.parseARPcache == parseARPcache)&&(identical(other.expire, expire) || other.expire == expire));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,parseARPcache,expire);
+int get hashCode {
+    return Object.hash(runtimeType,parseARPcache,expire);
+}
 
 @override
 String toString() {
-  return 'DatabaseNetwork(parseARPcache: $parseARPcache, expire: $expire)';
+    return 'DatabaseNetwork(parseARPcache: $parseARPcache, expire: $expire)';
 }
 
 
@@ -5208,8 +5324,7 @@ as int?,
 /// @nodoc
 mixin _$Webserver {
 
- String? get domain; String? get acl; String? get port; int? get threads; List<String>? get headers;@JsonKey(name: 'serve_all') bool? get serveAll; List<String>? get advancedOpts;// >= 6.3
- WebSession? get session; WebTls? get tls; WebPaths? get paths; WebInterface? get interface; WebApi? get api;
+ String? get domain; String? get acl; String? get port; int? get threads; List<String>? get headers;@JsonKey(name: 'serve_all') bool? get serveAll; List<String>? get advancedOpts; WebSession? get session; WebTls? get tls; WebPaths? get paths; WebInterface? get interface; WebApi? get api;
 /// Create a copy of Webserver
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -5222,16 +5337,21 @@ $WebserverCopyWith<Webserver> get copyWith => _$WebserverCopyWithImpl<Webserver>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Webserver&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.acl, acl) || other.acl == acl)&&(identical(other.port, port) || other.port == port)&&(identical(other.threads, threads) || other.threads == threads)&&const DeepCollectionEquality().equals(other.headers, headers)&&(identical(other.serveAll, serveAll) || other.serveAll == serveAll)&&const DeepCollectionEquality().equals(other.advancedOpts, advancedOpts)&&(identical(other.session, session) || other.session == session)&&(identical(other.tls, tls) || other.tls == tls)&&(identical(other.paths, paths) || other.paths == paths)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.api, api) || other.api == api));
+  final _this = this as Webserver;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Webserver&&(identical(other.domain, _this.domain) || other.domain == _this.domain)&&(identical(other.acl, _this.acl) || other.acl == _this.acl)&&(identical(other.port, _this.port) || other.port == _this.port)&&(identical(other.threads, _this.threads) || other.threads == _this.threads)&&const DeepCollectionEquality().equals(other.headers, _this.headers)&&(identical(other.serveAll, _this.serveAll) || other.serveAll == _this.serveAll)&&const DeepCollectionEquality().equals(other.advancedOpts, _this.advancedOpts)&&(identical(other.session, _this.session) || other.session == _this.session)&&(identical(other.tls, _this.tls) || other.tls == _this.tls)&&(identical(other.paths, _this.paths) || other.paths == _this.paths)&&(identical(other.interface, _this.interface) || other.interface == _this.interface)&&(identical(other.api, _this.api) || other.api == _this.api));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domain,acl,port,threads,const DeepCollectionEquality().hash(headers),serveAll,const DeepCollectionEquality().hash(advancedOpts),session,tls,paths,interface,api);
+int get hashCode {
+  final _this = this as Webserver;
+  return Object.hash(runtimeType,_this.domain,_this.acl,_this.port,_this.threads,const DeepCollectionEquality().hash(_this.headers),_this.serveAll,const DeepCollectionEquality().hash(_this.advancedOpts),_this.session,_this.tls,_this.paths,_this.interface,_this.api);
+}
 
 @override
 String toString() {
-  return 'Webserver(domain: $domain, acl: $acl, port: $port, threads: $threads, headers: $headers, serveAll: $serveAll, advancedOpts: $advancedOpts, session: $session, tls: $tls, paths: $paths, interface: $interface, api: $api)';
+  final _this = this as Webserver;
+  return 'Webserver(domain: ${_this.domain}, acl: ${_this.acl}, port: ${_this.port}, threads: ${_this.threads}, headers: ${_this.headers}, serveAll: ${_this.serveAll}, advancedOpts: ${_this.advancedOpts}, session: ${_this.session}, tls: ${_this.tls}, paths: ${_this.paths}, interface: ${_this.interface}, api: ${_this.api})';
 }
 
 
@@ -5260,7 +5380,7 @@ class _$WebserverCopyWithImpl<$Res>
 /// Create a copy of Webserver
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domain = freezed,Object? acl = freezed,Object? port = freezed,Object? threads = freezed,Object? headers = freezed,Object? serveAll = freezed,Object? advancedOpts = freezed,Object? session = freezed,Object? tls = freezed,Object? paths = freezed,Object? interface = freezed,Object? api = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Webserver(
 domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
 as String?,acl: freezed == acl ? _self.acl : acl // ignore: cast_nullable_to_non_nullable
 as String?,port: freezed == port ? _self.port : port // ignore: cast_nullable_to_non_nullable
@@ -5468,7 +5588,7 @@ return $default(_that.domain,_that.acl,_that.port,_that.threads,_that.headers,_t
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class _Webserver implements Webserver {
-  const _Webserver({this.domain, this.acl, this.port, this.threads, final  List<String>? headers, @JsonKey(name: 'serve_all') this.serveAll, final  List<String>? advancedOpts, this.session, this.tls, this.paths, this.interface, this.api}): _headers = headers,_advancedOpts = advancedOpts;
+  const _Webserver({this.domain, this.acl, this.port, this.threads,  List<String>? headers, @JsonKey(name: 'serve_all') this.serveAll,  List<String>? advancedOpts, this.session, this.tls, this.paths, this.interface, this.api}): _headers = headers,_advancedOpts = advancedOpts;
   factory _Webserver.fromJson(Map<String, dynamic> json) => _$WebserverFromJson(json);
 
 @override final  String? domain;
@@ -5494,7 +5614,6 @@ class _Webserver implements Webserver {
   return EqualUnmodifiableListView(value);
 }
 
-// >= 6.3
 @override final  WebSession? session;
 @override final  WebTls? tls;
 @override final  WebPaths? paths;
@@ -5514,16 +5633,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Webserver&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.acl, acl) || other.acl == acl)&&(identical(other.port, port) || other.port == port)&&(identical(other.threads, threads) || other.threads == threads)&&const DeepCollectionEquality().equals(other._headers, _headers)&&(identical(other.serveAll, serveAll) || other.serveAll == serveAll)&&const DeepCollectionEquality().equals(other._advancedOpts, _advancedOpts)&&(identical(other.session, session) || other.session == session)&&(identical(other.tls, tls) || other.tls == tls)&&(identical(other.paths, paths) || other.paths == paths)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.api, api) || other.api == api));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Webserver&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.acl, acl) || other.acl == acl)&&(identical(other.port, port) || other.port == port)&&(identical(other.threads, threads) || other.threads == threads)&&const DeepCollectionEquality().equals(other.headers, _headers)&&(identical(other.serveAll, serveAll) || other.serveAll == serveAll)&&const DeepCollectionEquality().equals(other.advancedOpts, _advancedOpts)&&(identical(other.session, session) || other.session == session)&&(identical(other.tls, tls) || other.tls == tls)&&(identical(other.paths, paths) || other.paths == paths)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.api, api) || other.api == api));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domain,acl,port,threads,const DeepCollectionEquality().hash(_headers),serveAll,const DeepCollectionEquality().hash(_advancedOpts),session,tls,paths,interface,api);
+int get hashCode {
+    return Object.hash(runtimeType,domain,acl,port,threads,const DeepCollectionEquality().hash(_headers),serveAll,const DeepCollectionEquality().hash(_advancedOpts),session,tls,paths,interface,api);
+}
 
 @override
 String toString() {
-  return 'Webserver(domain: $domain, acl: $acl, port: $port, threads: $threads, headers: $headers, serveAll: $serveAll, advancedOpts: $advancedOpts, session: $session, tls: $tls, paths: $paths, interface: $interface, api: $api)';
+    return 'Webserver(domain: $domain, acl: $acl, port: $port, threads: $threads, headers: $headers, serveAll: $serveAll, advancedOpts: $advancedOpts, session: $session, tls: $tls, paths: $paths, interface: $interface, api: $api)';
 }
 
 
@@ -5649,16 +5770,21 @@ $WebSessionCopyWith<WebSession> get copyWith => _$WebSessionCopyWithImpl<WebSess
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebSession&&(identical(other.timeout, timeout) || other.timeout == timeout)&&(identical(other.restore, restore) || other.restore == restore));
+  final _this = this as WebSession;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebSession&&(identical(other.timeout, _this.timeout) || other.timeout == _this.timeout)&&(identical(other.restore, _this.restore) || other.restore == _this.restore));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,timeout,restore);
+int get hashCode {
+  final _this = this as WebSession;
+  return Object.hash(runtimeType,_this.timeout,_this.restore);
+}
 
 @override
 String toString() {
-  return 'WebSession(timeout: $timeout, restore: $restore)';
+  final _this = this as WebSession;
+  return 'WebSession(timeout: ${_this.timeout}, restore: ${_this.restore})';
 }
 
 
@@ -5687,7 +5813,7 @@ class _$WebSessionCopyWithImpl<$Res>
 /// Create a copy of WebSession
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? timeout = freezed,Object? restore = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(WebSession(
 timeout: freezed == timeout ? _self.timeout : timeout // ignore: cast_nullable_to_non_nullable
 as int?,restore: freezed == restore ? _self.restore : restore // ignore: cast_nullable_to_non_nullable
 as bool?,
@@ -5844,16 +5970,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebSession&&(identical(other.timeout, timeout) || other.timeout == timeout)&&(identical(other.restore, restore) || other.restore == restore));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebSession&&(identical(other.timeout, timeout) || other.timeout == timeout)&&(identical(other.restore, restore) || other.restore == restore));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,timeout,restore);
+int get hashCode {
+    return Object.hash(runtimeType,timeout,restore);
+}
 
 @override
 String toString() {
-  return 'WebSession(timeout: $timeout, restore: $restore)';
+    return 'WebSession(timeout: $timeout, restore: $restore)';
 }
 
 
@@ -5909,16 +6037,21 @@ $WebTlsCopyWith<WebTls> get copyWith => _$WebTlsCopyWithImpl<WebTls>(this as Web
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebTls&&(identical(other.cert, cert) || other.cert == cert)&&(identical(other.validity, validity) || other.validity == validity));
+  final _this = this as WebTls;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebTls&&(identical(other.cert, _this.cert) || other.cert == _this.cert)&&(identical(other.validity, _this.validity) || other.validity == _this.validity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cert,validity);
+int get hashCode {
+  final _this = this as WebTls;
+  return Object.hash(runtimeType,_this.cert,_this.validity);
+}
 
 @override
 String toString() {
-  return 'WebTls(cert: $cert, validity: $validity)';
+  final _this = this as WebTls;
+  return 'WebTls(cert: ${_this.cert}, validity: ${_this.validity})';
 }
 
 
@@ -5947,7 +6080,7 @@ class _$WebTlsCopyWithImpl<$Res>
 /// Create a copy of WebTls
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? cert = freezed,Object? validity = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(WebTls(
 cert: freezed == cert ? _self.cert : cert // ignore: cast_nullable_to_non_nullable
 as String?,validity: freezed == validity ? _self.validity : validity // ignore: cast_nullable_to_non_nullable
 as int?,
@@ -6104,16 +6237,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebTls&&(identical(other.cert, cert) || other.cert == cert)&&(identical(other.validity, validity) || other.validity == validity));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebTls&&(identical(other.cert, cert) || other.cert == cert)&&(identical(other.validity, validity) || other.validity == validity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cert,validity);
+int get hashCode {
+    return Object.hash(runtimeType,cert,validity);
+}
 
 @override
 String toString() {
-  return 'WebTls(cert: $cert, validity: $validity)';
+    return 'WebTls(cert: $cert, validity: $validity)';
 }
 
 
@@ -6169,16 +6304,21 @@ $WebPathsCopyWith<WebPaths> get copyWith => _$WebPathsCopyWithImpl<WebPaths>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebPaths&&(identical(other.webroot, webroot) || other.webroot == webroot)&&(identical(other.webhome, webhome) || other.webhome == webhome)&&(identical(other.prefix, prefix) || other.prefix == prefix));
+  final _this = this as WebPaths;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebPaths&&(identical(other.webroot, _this.webroot) || other.webroot == _this.webroot)&&(identical(other.webhome, _this.webhome) || other.webhome == _this.webhome)&&(identical(other.prefix, _this.prefix) || other.prefix == _this.prefix));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,webroot,webhome,prefix);
+int get hashCode {
+  final _this = this as WebPaths;
+  return Object.hash(runtimeType,_this.webroot,_this.webhome,_this.prefix);
+}
 
 @override
 String toString() {
-  return 'WebPaths(webroot: $webroot, webhome: $webhome, prefix: $prefix)';
+  final _this = this as WebPaths;
+  return 'WebPaths(webroot: ${_this.webroot}, webhome: ${_this.webhome}, prefix: ${_this.prefix})';
 }
 
 
@@ -6207,7 +6347,7 @@ class _$WebPathsCopyWithImpl<$Res>
 /// Create a copy of WebPaths
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? webroot = freezed,Object? webhome = freezed,Object? prefix = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(WebPaths(
 webroot: freezed == webroot ? _self.webroot : webroot // ignore: cast_nullable_to_non_nullable
 as String?,webhome: freezed == webhome ? _self.webhome : webhome // ignore: cast_nullable_to_non_nullable
 as String?,prefix: freezed == prefix ? _self.prefix : prefix // ignore: cast_nullable_to_non_nullable
@@ -6366,16 +6506,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebPaths&&(identical(other.webroot, webroot) || other.webroot == webroot)&&(identical(other.webhome, webhome) || other.webhome == webhome)&&(identical(other.prefix, prefix) || other.prefix == prefix));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebPaths&&(identical(other.webroot, webroot) || other.webroot == webroot)&&(identical(other.webhome, webhome) || other.webhome == webhome)&&(identical(other.prefix, prefix) || other.prefix == prefix));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,webroot,webhome,prefix);
+int get hashCode {
+    return Object.hash(runtimeType,webroot,webhome,prefix);
+}
 
 @override
 String toString() {
-  return 'WebPaths(webroot: $webroot, webhome: $webhome, prefix: $prefix)';
+    return 'WebPaths(webroot: $webroot, webhome: $webhome, prefix: $prefix)';
 }
 
 
@@ -6432,16 +6574,21 @@ $WebInterfaceCopyWith<WebInterface> get copyWith => _$WebInterfaceCopyWithImpl<W
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebInterface&&(identical(other.boxed, boxed) || other.boxed == boxed)&&(identical(other.theme, theme) || other.theme == theme));
+  final _this = this as WebInterface;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebInterface&&(identical(other.boxed, _this.boxed) || other.boxed == _this.boxed)&&(identical(other.theme, _this.theme) || other.theme == _this.theme));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,boxed,theme);
+int get hashCode {
+  final _this = this as WebInterface;
+  return Object.hash(runtimeType,_this.boxed,_this.theme);
+}
 
 @override
 String toString() {
-  return 'WebInterface(boxed: $boxed, theme: $theme)';
+  final _this = this as WebInterface;
+  return 'WebInterface(boxed: ${_this.boxed}, theme: ${_this.theme})';
 }
 
 
@@ -6470,7 +6617,7 @@ class _$WebInterfaceCopyWithImpl<$Res>
 /// Create a copy of WebInterface
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? boxed = freezed,Object? theme = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(WebInterface(
 boxed: freezed == boxed ? _self.boxed : boxed // ignore: cast_nullable_to_non_nullable
 as bool?,theme: freezed == theme ? _self.theme : theme // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -6627,16 +6774,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebInterface&&(identical(other.boxed, boxed) || other.boxed == boxed)&&(identical(other.theme, theme) || other.theme == theme));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebInterface&&(identical(other.boxed, boxed) || other.boxed == boxed)&&(identical(other.theme, theme) || other.theme == theme));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,boxed,theme);
+int get hashCode {
+    return Object.hash(runtimeType,boxed,theme);
+}
 
 @override
 String toString() {
-  return 'WebInterface(boxed: $boxed, theme: $theme)';
+    return 'WebInterface(boxed: $boxed, theme: $theme)';
 }
 
 
@@ -6692,16 +6841,21 @@ $WebApiCopyWith<WebApi> get copyWith => _$WebApiCopyWithImpl<WebApi>(this as Web
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebApi&&(identical(other.maxSessions, maxSessions) || other.maxSessions == maxSessions)&&(identical(other.prettyJSON, prettyJSON) || other.prettyJSON == prettyJSON)&&(identical(other.password, password) || other.password == password)&&(identical(other.pwhash, pwhash) || other.pwhash == pwhash)&&(identical(other.totpSecret, totpSecret) || other.totpSecret == totpSecret)&&(identical(other.appPwhash, appPwhash) || other.appPwhash == appPwhash)&&(identical(other.appSudo, appSudo) || other.appSudo == appSudo)&&(identical(other.cliPw, cliPw) || other.cliPw == cliPw)&&const DeepCollectionEquality().equals(other.excludeClients, excludeClients)&&const DeepCollectionEquality().equals(other.excludeDomains, excludeDomains)&&(identical(other.maxHistory, maxHistory) || other.maxHistory == maxHistory)&&(identical(other.maxClients, maxClients) || other.maxClients == maxClients)&&(identical(other.clientHistoryGlobalMax, clientHistoryGlobalMax) || other.clientHistoryGlobalMax == clientHistoryGlobalMax)&&(identical(other.allowDestructive, allowDestructive) || other.allowDestructive == allowDestructive)&&(identical(other.temp, temp) || other.temp == temp));
+  final _this = this as WebApi;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebApi&&(identical(other.maxSessions, _this.maxSessions) || other.maxSessions == _this.maxSessions)&&(identical(other.prettyJSON, _this.prettyJSON) || other.prettyJSON == _this.prettyJSON)&&(identical(other.password, _this.password) || other.password == _this.password)&&(identical(other.pwhash, _this.pwhash) || other.pwhash == _this.pwhash)&&(identical(other.totpSecret, _this.totpSecret) || other.totpSecret == _this.totpSecret)&&(identical(other.appPwhash, _this.appPwhash) || other.appPwhash == _this.appPwhash)&&(identical(other.appSudo, _this.appSudo) || other.appSudo == _this.appSudo)&&(identical(other.cliPw, _this.cliPw) || other.cliPw == _this.cliPw)&&const DeepCollectionEquality().equals(other.excludeClients, _this.excludeClients)&&const DeepCollectionEquality().equals(other.excludeDomains, _this.excludeDomains)&&(identical(other.maxHistory, _this.maxHistory) || other.maxHistory == _this.maxHistory)&&(identical(other.maxClients, _this.maxClients) || other.maxClients == _this.maxClients)&&(identical(other.clientHistoryGlobalMax, _this.clientHistoryGlobalMax) || other.clientHistoryGlobalMax == _this.clientHistoryGlobalMax)&&(identical(other.allowDestructive, _this.allowDestructive) || other.allowDestructive == _this.allowDestructive)&&(identical(other.temp, _this.temp) || other.temp == _this.temp));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,maxSessions,prettyJSON,password,pwhash,totpSecret,appPwhash,appSudo,cliPw,const DeepCollectionEquality().hash(excludeClients),const DeepCollectionEquality().hash(excludeDomains),maxHistory,maxClients,clientHistoryGlobalMax,allowDestructive,temp);
+int get hashCode {
+  final _this = this as WebApi;
+  return Object.hash(runtimeType,_this.maxSessions,_this.prettyJSON,_this.password,_this.pwhash,_this.totpSecret,_this.appPwhash,_this.appSudo,_this.cliPw,const DeepCollectionEquality().hash(_this.excludeClients),const DeepCollectionEquality().hash(_this.excludeDomains),_this.maxHistory,_this.maxClients,_this.clientHistoryGlobalMax,_this.allowDestructive,_this.temp);
+}
 
 @override
 String toString() {
-  return 'WebApi(maxSessions: $maxSessions, prettyJSON: $prettyJSON, password: $password, pwhash: $pwhash, totpSecret: $totpSecret, appPwhash: $appPwhash, appSudo: $appSudo, cliPw: $cliPw, excludeClients: $excludeClients, excludeDomains: $excludeDomains, maxHistory: $maxHistory, maxClients: $maxClients, clientHistoryGlobalMax: $clientHistoryGlobalMax, allowDestructive: $allowDestructive, temp: $temp)';
+  final _this = this as WebApi;
+  return 'WebApi(maxSessions: ${_this.maxSessions}, prettyJSON: ${_this.prettyJSON}, password: ${_this.password}, pwhash: ${_this.pwhash}, totpSecret: ${_this.totpSecret}, appPwhash: ${_this.appPwhash}, appSudo: ${_this.appSudo}, cliPw: ${_this.cliPw}, excludeClients: ${_this.excludeClients}, excludeDomains: ${_this.excludeDomains}, maxHistory: ${_this.maxHistory}, maxClients: ${_this.maxClients}, clientHistoryGlobalMax: ${_this.clientHistoryGlobalMax}, allowDestructive: ${_this.allowDestructive}, temp: ${_this.temp})';
 }
 
 
@@ -6730,7 +6884,7 @@ class _$WebApiCopyWithImpl<$Res>
 /// Create a copy of WebApi
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? maxSessions = freezed,Object? prettyJSON = freezed,Object? password = freezed,Object? pwhash = freezed,Object? totpSecret = freezed,Object? appPwhash = freezed,Object? appSudo = freezed,Object? cliPw = freezed,Object? excludeClients = freezed,Object? excludeDomains = freezed,Object? maxHistory = freezed,Object? maxClients = freezed,Object? clientHistoryGlobalMax = freezed,Object? allowDestructive = freezed,Object? temp = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(WebApi(
 maxSessions: freezed == maxSessions ? _self.maxSessions : maxSessions // ignore: cast_nullable_to_non_nullable
 as int?,prettyJSON: freezed == prettyJSON ? _self.prettyJSON : prettyJSON // ignore: cast_nullable_to_non_nullable
 as bool?,password: freezed == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
@@ -6893,7 +7047,7 @@ return $default(_that.maxSessions,_that.prettyJSON,_that.password,_that.pwhash,_
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class _WebApi implements WebApi {
-  const _WebApi({@JsonKey(name: 'max_sessions') this.maxSessions, this.prettyJSON, this.password, this.pwhash, @JsonKey(name: 'totp_secret') this.totpSecret, @JsonKey(name: 'app_pwhash') this.appPwhash, @JsonKey(name: 'app_sudo') this.appSudo, @JsonKey(name: 'cli_pw') this.cliPw, final  List<String>? excludeClients, final  List<String>? excludeDomains, this.maxHistory, this.maxClients, @JsonKey(name: 'client_history_global_max') this.clientHistoryGlobalMax, @JsonKey(name: 'allow_destructive') this.allowDestructive, this.temp}): _excludeClients = excludeClients,_excludeDomains = excludeDomains;
+  const _WebApi({@JsonKey(name: 'max_sessions') this.maxSessions, this.prettyJSON, this.password, this.pwhash, @JsonKey(name: 'totp_secret') this.totpSecret, @JsonKey(name: 'app_pwhash') this.appPwhash, @JsonKey(name: 'app_sudo') this.appSudo, @JsonKey(name: 'cli_pw') this.cliPw,  List<String>? excludeClients,  List<String>? excludeDomains, this.maxHistory, this.maxClients, @JsonKey(name: 'client_history_global_max') this.clientHistoryGlobalMax, @JsonKey(name: 'allow_destructive') this.allowDestructive, this.temp}): _excludeClients = excludeClients,_excludeDomains = excludeDomains;
   factory _WebApi.fromJson(Map<String, dynamic> json) => _$WebApiFromJson(json);
 
 @override@JsonKey(name: 'max_sessions') final  int? maxSessions;
@@ -6941,16 +7095,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebApi&&(identical(other.maxSessions, maxSessions) || other.maxSessions == maxSessions)&&(identical(other.prettyJSON, prettyJSON) || other.prettyJSON == prettyJSON)&&(identical(other.password, password) || other.password == password)&&(identical(other.pwhash, pwhash) || other.pwhash == pwhash)&&(identical(other.totpSecret, totpSecret) || other.totpSecret == totpSecret)&&(identical(other.appPwhash, appPwhash) || other.appPwhash == appPwhash)&&(identical(other.appSudo, appSudo) || other.appSudo == appSudo)&&(identical(other.cliPw, cliPw) || other.cliPw == cliPw)&&const DeepCollectionEquality().equals(other._excludeClients, _excludeClients)&&const DeepCollectionEquality().equals(other._excludeDomains, _excludeDomains)&&(identical(other.maxHistory, maxHistory) || other.maxHistory == maxHistory)&&(identical(other.maxClients, maxClients) || other.maxClients == maxClients)&&(identical(other.clientHistoryGlobalMax, clientHistoryGlobalMax) || other.clientHistoryGlobalMax == clientHistoryGlobalMax)&&(identical(other.allowDestructive, allowDestructive) || other.allowDestructive == allowDestructive)&&(identical(other.temp, temp) || other.temp == temp));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebApi&&(identical(other.maxSessions, maxSessions) || other.maxSessions == maxSessions)&&(identical(other.prettyJSON, prettyJSON) || other.prettyJSON == prettyJSON)&&(identical(other.password, password) || other.password == password)&&(identical(other.pwhash, pwhash) || other.pwhash == pwhash)&&(identical(other.totpSecret, totpSecret) || other.totpSecret == totpSecret)&&(identical(other.appPwhash, appPwhash) || other.appPwhash == appPwhash)&&(identical(other.appSudo, appSudo) || other.appSudo == appSudo)&&(identical(other.cliPw, cliPw) || other.cliPw == cliPw)&&const DeepCollectionEquality().equals(other.excludeClients, _excludeClients)&&const DeepCollectionEquality().equals(other.excludeDomains, _excludeDomains)&&(identical(other.maxHistory, maxHistory) || other.maxHistory == maxHistory)&&(identical(other.maxClients, maxClients) || other.maxClients == maxClients)&&(identical(other.clientHistoryGlobalMax, clientHistoryGlobalMax) || other.clientHistoryGlobalMax == clientHistoryGlobalMax)&&(identical(other.allowDestructive, allowDestructive) || other.allowDestructive == allowDestructive)&&(identical(other.temp, temp) || other.temp == temp));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,maxSessions,prettyJSON,password,pwhash,totpSecret,appPwhash,appSudo,cliPw,const DeepCollectionEquality().hash(_excludeClients),const DeepCollectionEquality().hash(_excludeDomains),maxHistory,maxClients,clientHistoryGlobalMax,allowDestructive,temp);
+int get hashCode {
+    return Object.hash(runtimeType,maxSessions,prettyJSON,password,pwhash,totpSecret,appPwhash,appSudo,cliPw,const DeepCollectionEquality().hash(_excludeClients),const DeepCollectionEquality().hash(_excludeDomains),maxHistory,maxClients,clientHistoryGlobalMax,allowDestructive,temp);
+}
 
 @override
 String toString() {
-  return 'WebApi(maxSessions: $maxSessions, prettyJSON: $prettyJSON, password: $password, pwhash: $pwhash, totpSecret: $totpSecret, appPwhash: $appPwhash, appSudo: $appSudo, cliPw: $cliPw, excludeClients: $excludeClients, excludeDomains: $excludeDomains, maxHistory: $maxHistory, maxClients: $maxClients, clientHistoryGlobalMax: $clientHistoryGlobalMax, allowDestructive: $allowDestructive, temp: $temp)';
+    return 'WebApi(maxSessions: $maxSessions, prettyJSON: $prettyJSON, password: $password, pwhash: $pwhash, totpSecret: $totpSecret, appPwhash: $appPwhash, appSudo: $appSudo, cliPw: $cliPw, excludeClients: $excludeClients, excludeDomains: $excludeDomains, maxHistory: $maxHistory, maxClients: $maxClients, clientHistoryGlobalMax: $clientHistoryGlobalMax, allowDestructive: $allowDestructive, temp: $temp)';
 }
 
 
@@ -7031,16 +7187,21 @@ $TempCopyWith<Temp> get copyWith => _$TempCopyWithImpl<Temp>(this as Temp, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Temp&&(identical(other.limit, limit) || other.limit == limit)&&(identical(other.unit, unit) || other.unit == unit));
+  final _this = this as Temp;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Temp&&(identical(other.limit, _this.limit) || other.limit == _this.limit)&&(identical(other.unit, _this.unit) || other.unit == _this.unit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,limit,unit);
+int get hashCode {
+  final _this = this as Temp;
+  return Object.hash(runtimeType,_this.limit,_this.unit);
+}
 
 @override
 String toString() {
-  return 'Temp(limit: $limit, unit: $unit)';
+  final _this = this as Temp;
+  return 'Temp(limit: ${_this.limit}, unit: ${_this.unit})';
 }
 
 
@@ -7069,7 +7230,7 @@ class _$TempCopyWithImpl<$Res>
 /// Create a copy of Temp
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? limit = freezed,Object? unit = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Temp(
 limit: freezed == limit ? _self.limit : limit // ignore: cast_nullable_to_non_nullable
 as double?,unit: freezed == unit ? _self.unit : unit // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -7226,16 +7387,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Temp&&(identical(other.limit, limit) || other.limit == limit)&&(identical(other.unit, unit) || other.unit == unit));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Temp&&(identical(other.limit, limit) || other.limit == limit)&&(identical(other.unit, unit) || other.unit == unit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,limit,unit);
+int get hashCode {
+    return Object.hash(runtimeType,limit,unit);
+}
 
 @override
 String toString() {
-  return 'Temp(limit: $limit, unit: $unit)';
+    return 'Temp(limit: $limit, unit: $unit)';
 }
 
 
@@ -7291,16 +7454,21 @@ $FilesCopyWith<Files> get copyWith => _$FilesCopyWithImpl<Files>(this as Files, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Files&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.database, database) || other.database == database)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.gravityTmp, gravityTmp) || other.gravityTmp == gravityTmp)&&(identical(other.macvendor, macvendor) || other.macvendor == macvendor)&&(identical(other.setupVars, setupVars) || other.setupVars == setupVars)&&(identical(other.pcap, pcap) || other.pcap == pcap)&&(identical(other.log, log) || other.log == log));
+  final _this = this as Files;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Files&&(identical(other.pid, _this.pid) || other.pid == _this.pid)&&(identical(other.database, _this.database) || other.database == _this.database)&&(identical(other.gravity, _this.gravity) || other.gravity == _this.gravity)&&(identical(other.gravityTmp, _this.gravityTmp) || other.gravityTmp == _this.gravityTmp)&&(identical(other.macvendor, _this.macvendor) || other.macvendor == _this.macvendor)&&(identical(other.setupVars, _this.setupVars) || other.setupVars == _this.setupVars)&&(identical(other.pcap, _this.pcap) || other.pcap == _this.pcap)&&(identical(other.log, _this.log) || other.log == _this.log));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,pid,database,gravity,gravityTmp,macvendor,setupVars,pcap,log);
+int get hashCode {
+  final _this = this as Files;
+  return Object.hash(runtimeType,_this.pid,_this.database,_this.gravity,_this.gravityTmp,_this.macvendor,_this.setupVars,_this.pcap,_this.log);
+}
 
 @override
 String toString() {
-  return 'Files(pid: $pid, database: $database, gravity: $gravity, gravityTmp: $gravityTmp, macvendor: $macvendor, setupVars: $setupVars, pcap: $pcap, log: $log)';
+  final _this = this as Files;
+  return 'Files(pid: ${_this.pid}, database: ${_this.database}, gravity: ${_this.gravity}, gravityTmp: ${_this.gravityTmp}, macvendor: ${_this.macvendor}, setupVars: ${_this.setupVars}, pcap: ${_this.pcap}, log: ${_this.log})';
 }
 
 
@@ -7329,7 +7497,7 @@ class _$FilesCopyWithImpl<$Res>
 /// Create a copy of Files
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? pid = freezed,Object? database = freezed,Object? gravity = freezed,Object? gravityTmp = freezed,Object? macvendor = freezed,Object? setupVars = freezed,Object? pcap = freezed,Object? log = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Files(
 pid: freezed == pid ? _self.pid : pid // ignore: cast_nullable_to_non_nullable
 as String?,database: freezed == database ? _self.database : database // ignore: cast_nullable_to_non_nullable
 as String?,gravity: freezed == gravity ? _self.gravity : gravity // ignore: cast_nullable_to_non_nullable
@@ -7510,16 +7678,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Files&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.database, database) || other.database == database)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.gravityTmp, gravityTmp) || other.gravityTmp == gravityTmp)&&(identical(other.macvendor, macvendor) || other.macvendor == macvendor)&&(identical(other.setupVars, setupVars) || other.setupVars == setupVars)&&(identical(other.pcap, pcap) || other.pcap == pcap)&&(identical(other.log, log) || other.log == log));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Files&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.database, database) || other.database == database)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.gravityTmp, gravityTmp) || other.gravityTmp == gravityTmp)&&(identical(other.macvendor, macvendor) || other.macvendor == macvendor)&&(identical(other.setupVars, setupVars) || other.setupVars == setupVars)&&(identical(other.pcap, pcap) || other.pcap == pcap)&&(identical(other.log, log) || other.log == log));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,pid,database,gravity,gravityTmp,macvendor,setupVars,pcap,log);
+int get hashCode {
+    return Object.hash(runtimeType,pid,database,gravity,gravityTmp,macvendor,setupVars,pcap,log);
+}
 
 @override
 String toString() {
-  return 'Files(pid: $pid, database: $database, gravity: $gravity, gravityTmp: $gravityTmp, macvendor: $macvendor, setupVars: $setupVars, pcap: $pcap, log: $log)';
+    return 'Files(pid: $pid, database: $database, gravity: $gravity, gravityTmp: $gravityTmp, macvendor: $macvendor, setupVars: $setupVars, pcap: $pcap, log: $log)';
 }
 
 
@@ -7593,16 +7763,21 @@ $LogFilesCopyWith<LogFiles> get copyWith => _$LogFilesCopyWithImpl<LogFiles>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LogFiles&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.dnsmasq, dnsmasq) || other.dnsmasq == dnsmasq)&&(identical(other.webserver, webserver) || other.webserver == webserver));
+  final _this = this as LogFiles;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LogFiles&&(identical(other.ftl, _this.ftl) || other.ftl == _this.ftl)&&(identical(other.dnsmasq, _this.dnsmasq) || other.dnsmasq == _this.dnsmasq)&&(identical(other.webserver, _this.webserver) || other.webserver == _this.webserver));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ftl,dnsmasq,webserver);
+int get hashCode {
+  final _this = this as LogFiles;
+  return Object.hash(runtimeType,_this.ftl,_this.dnsmasq,_this.webserver);
+}
 
 @override
 String toString() {
-  return 'LogFiles(ftl: $ftl, dnsmasq: $dnsmasq, webserver: $webserver)';
+  final _this = this as LogFiles;
+  return 'LogFiles(ftl: ${_this.ftl}, dnsmasq: ${_this.dnsmasq}, webserver: ${_this.webserver})';
 }
 
 
@@ -7631,7 +7806,7 @@ class _$LogFilesCopyWithImpl<$Res>
 /// Create a copy of LogFiles
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ftl = freezed,Object? dnsmasq = freezed,Object? webserver = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(LogFiles(
 ftl: freezed == ftl ? _self.ftl : ftl // ignore: cast_nullable_to_non_nullable
 as String?,dnsmasq: freezed == dnsmasq ? _self.dnsmasq : dnsmasq // ignore: cast_nullable_to_non_nullable
 as String?,webserver: freezed == webserver ? _self.webserver : webserver // ignore: cast_nullable_to_non_nullable
@@ -7790,16 +7965,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LogFiles&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.dnsmasq, dnsmasq) || other.dnsmasq == dnsmasq)&&(identical(other.webserver, webserver) || other.webserver == webserver));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LogFiles&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.dnsmasq, dnsmasq) || other.dnsmasq == dnsmasq)&&(identical(other.webserver, webserver) || other.webserver == webserver));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ftl,dnsmasq,webserver);
+int get hashCode {
+    return Object.hash(runtimeType,ftl,dnsmasq,webserver);
+}
 
 @override
 String toString() {
-  return 'LogFiles(ftl: $ftl, dnsmasq: $dnsmasq, webserver: $webserver)';
+    return 'LogFiles(ftl: $ftl, dnsmasq: $dnsmasq, webserver: $webserver)';
 }
 
 
@@ -7843,8 +8020,7 @@ as String?,
 /// @nodoc
 mixin _$Misc {
 
- int? get nice;@JsonKey(name: 'delay_startup') int? get delayStartup; bool? get addr2line;@JsonKey(name: 'etc_dnsmasq_d') bool? get etcDnsmasqD; int? get privacylevel;@JsonKey(name: 'dnsmasq_lines') List<String>? get dnsmasqLines; bool? get extraLogging; bool? get readOnly; bool? get normalizeCPU;// >= 6.3
- Check? get check;
+ int? get nice;@JsonKey(name: 'delay_startup') int? get delayStartup; bool? get addr2line;@JsonKey(name: 'etc_dnsmasq_d') bool? get etcDnsmasqD; int? get privacylevel;@JsonKey(name: 'dnsmasq_lines') List<String>? get dnsmasqLines; bool? get extraLogging; bool? get readOnly; bool? get normalizeCPU; Check? get check;
 /// Create a copy of Misc
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -7857,16 +8033,21 @@ $MiscCopyWith<Misc> get copyWith => _$MiscCopyWithImpl<Misc>(this as Misc, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Misc&&(identical(other.nice, nice) || other.nice == nice)&&(identical(other.delayStartup, delayStartup) || other.delayStartup == delayStartup)&&(identical(other.addr2line, addr2line) || other.addr2line == addr2line)&&(identical(other.etcDnsmasqD, etcDnsmasqD) || other.etcDnsmasqD == etcDnsmasqD)&&(identical(other.privacylevel, privacylevel) || other.privacylevel == privacylevel)&&const DeepCollectionEquality().equals(other.dnsmasqLines, dnsmasqLines)&&(identical(other.extraLogging, extraLogging) || other.extraLogging == extraLogging)&&(identical(other.readOnly, readOnly) || other.readOnly == readOnly)&&(identical(other.normalizeCPU, normalizeCPU) || other.normalizeCPU == normalizeCPU)&&(identical(other.check, check) || other.check == check));
+  final _this = this as Misc;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Misc&&(identical(other.nice, _this.nice) || other.nice == _this.nice)&&(identical(other.delayStartup, _this.delayStartup) || other.delayStartup == _this.delayStartup)&&(identical(other.addr2line, _this.addr2line) || other.addr2line == _this.addr2line)&&(identical(other.etcDnsmasqD, _this.etcDnsmasqD) || other.etcDnsmasqD == _this.etcDnsmasqD)&&(identical(other.privacylevel, _this.privacylevel) || other.privacylevel == _this.privacylevel)&&const DeepCollectionEquality().equals(other.dnsmasqLines, _this.dnsmasqLines)&&(identical(other.extraLogging, _this.extraLogging) || other.extraLogging == _this.extraLogging)&&(identical(other.readOnly, _this.readOnly) || other.readOnly == _this.readOnly)&&(identical(other.normalizeCPU, _this.normalizeCPU) || other.normalizeCPU == _this.normalizeCPU)&&(identical(other.check, _this.check) || other.check == _this.check));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,nice,delayStartup,addr2line,etcDnsmasqD,privacylevel,const DeepCollectionEquality().hash(dnsmasqLines),extraLogging,readOnly,normalizeCPU,check);
+int get hashCode {
+  final _this = this as Misc;
+  return Object.hash(runtimeType,_this.nice,_this.delayStartup,_this.addr2line,_this.etcDnsmasqD,_this.privacylevel,const DeepCollectionEquality().hash(_this.dnsmasqLines),_this.extraLogging,_this.readOnly,_this.normalizeCPU,_this.check);
+}
 
 @override
 String toString() {
-  return 'Misc(nice: $nice, delayStartup: $delayStartup, addr2line: $addr2line, etcDnsmasqD: $etcDnsmasqD, privacylevel: $privacylevel, dnsmasqLines: $dnsmasqLines, extraLogging: $extraLogging, readOnly: $readOnly, normalizeCPU: $normalizeCPU, check: $check)';
+  final _this = this as Misc;
+  return 'Misc(nice: ${_this.nice}, delayStartup: ${_this.delayStartup}, addr2line: ${_this.addr2line}, etcDnsmasqD: ${_this.etcDnsmasqD}, privacylevel: ${_this.privacylevel}, dnsmasqLines: ${_this.dnsmasqLines}, extraLogging: ${_this.extraLogging}, readOnly: ${_this.readOnly}, normalizeCPU: ${_this.normalizeCPU}, check: ${_this.check})';
 }
 
 
@@ -7895,7 +8076,7 @@ class _$MiscCopyWithImpl<$Res>
 /// Create a copy of Misc
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? nice = freezed,Object? delayStartup = freezed,Object? addr2line = freezed,Object? etcDnsmasqD = freezed,Object? privacylevel = freezed,Object? dnsmasqLines = freezed,Object? extraLogging = freezed,Object? readOnly = freezed,Object? normalizeCPU = freezed,Object? check = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Misc(
 nice: freezed == nice ? _self.nice : nice // ignore: cast_nullable_to_non_nullable
 as int?,delayStartup: freezed == delayStartup ? _self.delayStartup : delayStartup // ignore: cast_nullable_to_non_nullable
 as int?,addr2line: freezed == addr2line ? _self.addr2line : addr2line // ignore: cast_nullable_to_non_nullable
@@ -8053,7 +8234,7 @@ return $default(_that.nice,_that.delayStartup,_that.addr2line,_that.etcDnsmasqD,
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class _Misc implements Misc {
-  const _Misc({this.nice, @JsonKey(name: 'delay_startup') this.delayStartup, this.addr2line, @JsonKey(name: 'etc_dnsmasq_d') this.etcDnsmasqD, this.privacylevel, @JsonKey(name: 'dnsmasq_lines') final  List<String>? dnsmasqLines, this.extraLogging, this.readOnly, this.normalizeCPU, this.check}): _dnsmasqLines = dnsmasqLines;
+  const _Misc({this.nice, @JsonKey(name: 'delay_startup') this.delayStartup, this.addr2line, @JsonKey(name: 'etc_dnsmasq_d') this.etcDnsmasqD, this.privacylevel, @JsonKey(name: 'dnsmasq_lines')  List<String>? dnsmasqLines, this.extraLogging, this.readOnly, this.normalizeCPU, this.check}): _dnsmasqLines = dnsmasqLines;
   factory _Misc.fromJson(Map<String, dynamic> json) => _$MiscFromJson(json);
 
 @override final  int? nice;
@@ -8073,7 +8254,6 @@ class _Misc implements Misc {
 @override final  bool? extraLogging;
 @override final  bool? readOnly;
 @override final  bool? normalizeCPU;
-// >= 6.3
 @override final  Check? check;
 
 /// Create a copy of Misc
@@ -8089,16 +8269,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Misc&&(identical(other.nice, nice) || other.nice == nice)&&(identical(other.delayStartup, delayStartup) || other.delayStartup == delayStartup)&&(identical(other.addr2line, addr2line) || other.addr2line == addr2line)&&(identical(other.etcDnsmasqD, etcDnsmasqD) || other.etcDnsmasqD == etcDnsmasqD)&&(identical(other.privacylevel, privacylevel) || other.privacylevel == privacylevel)&&const DeepCollectionEquality().equals(other._dnsmasqLines, _dnsmasqLines)&&(identical(other.extraLogging, extraLogging) || other.extraLogging == extraLogging)&&(identical(other.readOnly, readOnly) || other.readOnly == readOnly)&&(identical(other.normalizeCPU, normalizeCPU) || other.normalizeCPU == normalizeCPU)&&(identical(other.check, check) || other.check == check));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Misc&&(identical(other.nice, nice) || other.nice == nice)&&(identical(other.delayStartup, delayStartup) || other.delayStartup == delayStartup)&&(identical(other.addr2line, addr2line) || other.addr2line == addr2line)&&(identical(other.etcDnsmasqD, etcDnsmasqD) || other.etcDnsmasqD == etcDnsmasqD)&&(identical(other.privacylevel, privacylevel) || other.privacylevel == privacylevel)&&const DeepCollectionEquality().equals(other.dnsmasqLines, _dnsmasqLines)&&(identical(other.extraLogging, extraLogging) || other.extraLogging == extraLogging)&&(identical(other.readOnly, readOnly) || other.readOnly == readOnly)&&(identical(other.normalizeCPU, normalizeCPU) || other.normalizeCPU == normalizeCPU)&&(identical(other.check, check) || other.check == check));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,nice,delayStartup,addr2line,etcDnsmasqD,privacylevel,const DeepCollectionEquality().hash(_dnsmasqLines),extraLogging,readOnly,normalizeCPU,check);
+int get hashCode {
+    return Object.hash(runtimeType,nice,delayStartup,addr2line,etcDnsmasqD,privacylevel,const DeepCollectionEquality().hash(_dnsmasqLines),extraLogging,readOnly,normalizeCPU,check);
+}
 
 @override
 String toString() {
-  return 'Misc(nice: $nice, delayStartup: $delayStartup, addr2line: $addr2line, etcDnsmasqD: $etcDnsmasqD, privacylevel: $privacylevel, dnsmasqLines: $dnsmasqLines, extraLogging: $extraLogging, readOnly: $readOnly, normalizeCPU: $normalizeCPU, check: $check)';
+    return 'Misc(nice: $nice, delayStartup: $delayStartup, addr2line: $addr2line, etcDnsmasqD: $etcDnsmasqD, privacylevel: $privacylevel, dnsmasqLines: $dnsmasqLines, extraLogging: $extraLogging, readOnly: $readOnly, normalizeCPU: $normalizeCPU, check: $check)';
 }
 
 
@@ -8174,16 +8356,21 @@ $CheckCopyWith<Check> get copyWith => _$CheckCopyWithImpl<Check>(this as Check, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Check&&(identical(other.load, load) || other.load == load)&&(identical(other.shmem, shmem) || other.shmem == shmem)&&(identical(other.disk, disk) || other.disk == disk));
+  final _this = this as Check;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Check&&(identical(other.load, _this.load) || other.load == _this.load)&&(identical(other.shmem, _this.shmem) || other.shmem == _this.shmem)&&(identical(other.disk, _this.disk) || other.disk == _this.disk));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,load,shmem,disk);
+int get hashCode {
+  final _this = this as Check;
+  return Object.hash(runtimeType,_this.load,_this.shmem,_this.disk);
+}
 
 @override
 String toString() {
-  return 'Check(load: $load, shmem: $shmem, disk: $disk)';
+  final _this = this as Check;
+  return 'Check(load: ${_this.load}, shmem: ${_this.shmem}, disk: ${_this.disk})';
 }
 
 
@@ -8212,7 +8399,7 @@ class _$CheckCopyWithImpl<$Res>
 /// Create a copy of Check
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? load = freezed,Object? shmem = freezed,Object? disk = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Check(
 load: freezed == load ? _self.load : load // ignore: cast_nullable_to_non_nullable
 as bool?,shmem: freezed == shmem ? _self.shmem : shmem // ignore: cast_nullable_to_non_nullable
 as int?,disk: freezed == disk ? _self.disk : disk // ignore: cast_nullable_to_non_nullable
@@ -8371,16 +8558,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Check&&(identical(other.load, load) || other.load == load)&&(identical(other.shmem, shmem) || other.shmem == shmem)&&(identical(other.disk, disk) || other.disk == disk));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Check&&(identical(other.load, load) || other.load == load)&&(identical(other.shmem, shmem) || other.shmem == shmem)&&(identical(other.disk, disk) || other.disk == disk));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,load,shmem,disk);
+int get hashCode {
+    return Object.hash(runtimeType,load,shmem,disk);
+}
 
 @override
 String toString() {
-  return 'Check(load: $load, shmem: $shmem, disk: $disk)';
+    return 'Check(load: $load, shmem: $shmem, disk: $disk)';
 }
 
 
@@ -8437,16 +8626,21 @@ $DebugCopyWith<Debug> get copyWith => _$DebugCopyWithImpl<Debug>(this as Debug, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Debug&&(identical(other.database, database) || other.database == database)&&(identical(other.networking, networking) || other.networking == networking)&&(identical(other.locks, locks) || other.locks == locks)&&(identical(other.queries, queries) || other.queries == queries)&&(identical(other.flags, flags) || other.flags == flags)&&(identical(other.shmem, shmem) || other.shmem == shmem)&&(identical(other.gc, gc) || other.gc == gc)&&(identical(other.arp, arp) || other.arp == arp)&&(identical(other.regex, regex) || other.regex == regex)&&(identical(other.api, api) || other.api == api)&&(identical(other.tls, tls) || other.tls == tls)&&(identical(other.overtime, overtime) || other.overtime == overtime)&&(identical(other.status, status) || other.status == status)&&(identical(other.caps, caps) || other.caps == caps)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.vectors, vectors) || other.vectors == vectors)&&(identical(other.resolver, resolver) || other.resolver == resolver)&&(identical(other.edns0, edns0) || other.edns0 == edns0)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.aliasclients, aliasclients) || other.aliasclients == aliasclients)&&(identical(other.events, events) || other.events == events)&&(identical(other.helper, helper) || other.helper == helper)&&(identical(other.config, config) || other.config == config)&&(identical(other.inotify, inotify) || other.inotify == inotify)&&(identical(other.webserver, webserver) || other.webserver == webserver)&&(identical(other.extra, extra) || other.extra == extra)&&(identical(other.reserved, reserved) || other.reserved == reserved)&&(identical(other.ntp, ntp) || other.ntp == ntp)&&(identical(other.netlink, netlink) || other.netlink == netlink)&&(identical(other.all, all) || other.all == all));
+  final _this = this as Debug;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Debug&&(identical(other.database, _this.database) || other.database == _this.database)&&(identical(other.networking, _this.networking) || other.networking == _this.networking)&&(identical(other.locks, _this.locks) || other.locks == _this.locks)&&(identical(other.queries, _this.queries) || other.queries == _this.queries)&&(identical(other.flags, _this.flags) || other.flags == _this.flags)&&(identical(other.shmem, _this.shmem) || other.shmem == _this.shmem)&&(identical(other.gc, _this.gc) || other.gc == _this.gc)&&(identical(other.arp, _this.arp) || other.arp == _this.arp)&&(identical(other.regex, _this.regex) || other.regex == _this.regex)&&(identical(other.api, _this.api) || other.api == _this.api)&&(identical(other.tls, _this.tls) || other.tls == _this.tls)&&(identical(other.overtime, _this.overtime) || other.overtime == _this.overtime)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.caps, _this.caps) || other.caps == _this.caps)&&(identical(other.dnssec, _this.dnssec) || other.dnssec == _this.dnssec)&&(identical(other.vectors, _this.vectors) || other.vectors == _this.vectors)&&(identical(other.resolver, _this.resolver) || other.resolver == _this.resolver)&&(identical(other.edns0, _this.edns0) || other.edns0 == _this.edns0)&&(identical(other.clients, _this.clients) || other.clients == _this.clients)&&(identical(other.aliasclients, _this.aliasclients) || other.aliasclients == _this.aliasclients)&&(identical(other.events, _this.events) || other.events == _this.events)&&(identical(other.helper, _this.helper) || other.helper == _this.helper)&&(identical(other.config, _this.config) || other.config == _this.config)&&(identical(other.inotify, _this.inotify) || other.inotify == _this.inotify)&&(identical(other.webserver, _this.webserver) || other.webserver == _this.webserver)&&(identical(other.extra, _this.extra) || other.extra == _this.extra)&&(identical(other.reserved, _this.reserved) || other.reserved == _this.reserved)&&(identical(other.ntp, _this.ntp) || other.ntp == _this.ntp)&&(identical(other.netlink, _this.netlink) || other.netlink == _this.netlink)&&(identical(other.all, _this.all) || other.all == _this.all));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,database,networking,locks,queries,flags,shmem,gc,arp,regex,api,tls,overtime,status,caps,dnssec,vectors,resolver,edns0,clients,aliasclients,events,helper,config,inotify,webserver,extra,reserved,ntp,netlink,all]);
+int get hashCode {
+  final _this = this as Debug;
+  return Object.hashAll([runtimeType,_this.database,_this.networking,_this.locks,_this.queries,_this.flags,_this.shmem,_this.gc,_this.arp,_this.regex,_this.api,_this.tls,_this.overtime,_this.status,_this.caps,_this.dnssec,_this.vectors,_this.resolver,_this.edns0,_this.clients,_this.aliasclients,_this.events,_this.helper,_this.config,_this.inotify,_this.webserver,_this.extra,_this.reserved,_this.ntp,_this.netlink,_this.all]);
+}
 
 @override
 String toString() {
-  return 'Debug(database: $database, networking: $networking, locks: $locks, queries: $queries, flags: $flags, shmem: $shmem, gc: $gc, arp: $arp, regex: $regex, api: $api, tls: $tls, overtime: $overtime, status: $status, caps: $caps, dnssec: $dnssec, vectors: $vectors, resolver: $resolver, edns0: $edns0, clients: $clients, aliasclients: $aliasclients, events: $events, helper: $helper, config: $config, inotify: $inotify, webserver: $webserver, extra: $extra, reserved: $reserved, ntp: $ntp, netlink: $netlink, all: $all)';
+  final _this = this as Debug;
+  return 'Debug(database: ${_this.database}, networking: ${_this.networking}, locks: ${_this.locks}, queries: ${_this.queries}, flags: ${_this.flags}, shmem: ${_this.shmem}, gc: ${_this.gc}, arp: ${_this.arp}, regex: ${_this.regex}, api: ${_this.api}, tls: ${_this.tls}, overtime: ${_this.overtime}, status: ${_this.status}, caps: ${_this.caps}, dnssec: ${_this.dnssec}, vectors: ${_this.vectors}, resolver: ${_this.resolver}, edns0: ${_this.edns0}, clients: ${_this.clients}, aliasclients: ${_this.aliasclients}, events: ${_this.events}, helper: ${_this.helper}, config: ${_this.config}, inotify: ${_this.inotify}, webserver: ${_this.webserver}, extra: ${_this.extra}, reserved: ${_this.reserved}, ntp: ${_this.ntp}, netlink: ${_this.netlink}, all: ${_this.all})';
 }
 
 
@@ -8475,7 +8669,7 @@ class _$DebugCopyWithImpl<$Res>
 /// Create a copy of Debug
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? database = freezed,Object? networking = freezed,Object? locks = freezed,Object? queries = freezed,Object? flags = freezed,Object? shmem = freezed,Object? gc = freezed,Object? arp = freezed,Object? regex = freezed,Object? api = freezed,Object? tls = freezed,Object? overtime = freezed,Object? status = freezed,Object? caps = freezed,Object? dnssec = freezed,Object? vectors = freezed,Object? resolver = freezed,Object? edns0 = freezed,Object? clients = freezed,Object? aliasclients = freezed,Object? events = freezed,Object? helper = freezed,Object? config = freezed,Object? inotify = freezed,Object? webserver = freezed,Object? extra = freezed,Object? reserved = freezed,Object? ntp = freezed,Object? netlink = freezed,Object? all = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Debug(
 database: freezed == database ? _self.database : database // ignore: cast_nullable_to_non_nullable
 as bool?,networking: freezed == networking ? _self.networking : networking // ignore: cast_nullable_to_non_nullable
 as bool?,locks: freezed == locks ? _self.locks : locks // ignore: cast_nullable_to_non_nullable
@@ -8688,16 +8882,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Debug&&(identical(other.database, database) || other.database == database)&&(identical(other.networking, networking) || other.networking == networking)&&(identical(other.locks, locks) || other.locks == locks)&&(identical(other.queries, queries) || other.queries == queries)&&(identical(other.flags, flags) || other.flags == flags)&&(identical(other.shmem, shmem) || other.shmem == shmem)&&(identical(other.gc, gc) || other.gc == gc)&&(identical(other.arp, arp) || other.arp == arp)&&(identical(other.regex, regex) || other.regex == regex)&&(identical(other.api, api) || other.api == api)&&(identical(other.tls, tls) || other.tls == tls)&&(identical(other.overtime, overtime) || other.overtime == overtime)&&(identical(other.status, status) || other.status == status)&&(identical(other.caps, caps) || other.caps == caps)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.vectors, vectors) || other.vectors == vectors)&&(identical(other.resolver, resolver) || other.resolver == resolver)&&(identical(other.edns0, edns0) || other.edns0 == edns0)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.aliasclients, aliasclients) || other.aliasclients == aliasclients)&&(identical(other.events, events) || other.events == events)&&(identical(other.helper, helper) || other.helper == helper)&&(identical(other.config, config) || other.config == config)&&(identical(other.inotify, inotify) || other.inotify == inotify)&&(identical(other.webserver, webserver) || other.webserver == webserver)&&(identical(other.extra, extra) || other.extra == extra)&&(identical(other.reserved, reserved) || other.reserved == reserved)&&(identical(other.ntp, ntp) || other.ntp == ntp)&&(identical(other.netlink, netlink) || other.netlink == netlink)&&(identical(other.all, all) || other.all == all));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Debug&&(identical(other.database, database) || other.database == database)&&(identical(other.networking, networking) || other.networking == networking)&&(identical(other.locks, locks) || other.locks == locks)&&(identical(other.queries, queries) || other.queries == queries)&&(identical(other.flags, flags) || other.flags == flags)&&(identical(other.shmem, shmem) || other.shmem == shmem)&&(identical(other.gc, gc) || other.gc == gc)&&(identical(other.arp, arp) || other.arp == arp)&&(identical(other.regex, regex) || other.regex == regex)&&(identical(other.api, api) || other.api == api)&&(identical(other.tls, tls) || other.tls == tls)&&(identical(other.overtime, overtime) || other.overtime == overtime)&&(identical(other.status, status) || other.status == status)&&(identical(other.caps, caps) || other.caps == caps)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.vectors, vectors) || other.vectors == vectors)&&(identical(other.resolver, resolver) || other.resolver == resolver)&&(identical(other.edns0, edns0) || other.edns0 == edns0)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.aliasclients, aliasclients) || other.aliasclients == aliasclients)&&(identical(other.events, events) || other.events == events)&&(identical(other.helper, helper) || other.helper == helper)&&(identical(other.config, config) || other.config == config)&&(identical(other.inotify, inotify) || other.inotify == inotify)&&(identical(other.webserver, webserver) || other.webserver == webserver)&&(identical(other.extra, extra) || other.extra == extra)&&(identical(other.reserved, reserved) || other.reserved == reserved)&&(identical(other.ntp, ntp) || other.ntp == ntp)&&(identical(other.netlink, netlink) || other.netlink == netlink)&&(identical(other.all, all) || other.all == all));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,database,networking,locks,queries,flags,shmem,gc,arp,regex,api,tls,overtime,status,caps,dnssec,vectors,resolver,edns0,clients,aliasclients,events,helper,config,inotify,webserver,extra,reserved,ntp,netlink,all]);
+int get hashCode {
+    return Object.hashAll([runtimeType,database,networking,locks,queries,flags,shmem,gc,arp,regex,api,tls,overtime,status,caps,dnssec,vectors,resolver,edns0,clients,aliasclients,events,helper,config,inotify,webserver,extra,reserved,ntp,netlink,all]);
+}
 
 @override
 String toString() {
-  return 'Debug(database: $database, networking: $networking, locks: $locks, queries: $queries, flags: $flags, shmem: $shmem, gc: $gc, arp: $arp, regex: $regex, api: $api, tls: $tls, overtime: $overtime, status: $status, caps: $caps, dnssec: $dnssec, vectors: $vectors, resolver: $resolver, edns0: $edns0, clients: $clients, aliasclients: $aliasclients, events: $events, helper: $helper, config: $config, inotify: $inotify, webserver: $webserver, extra: $extra, reserved: $reserved, ntp: $ntp, netlink: $netlink, all: $all)';
+    return 'Debug(database: $database, networking: $networking, locks: $locks, queries: $queries, flags: $flags, shmem: $shmem, gc: $gc, arp: $arp, regex: $regex, api: $api, tls: $tls, overtime: $overtime, status: $status, caps: $caps, dnssec: $dnssec, vectors: $vectors, resolver: $resolver, edns0: $edns0, clients: $clients, aliasclients: $aliasclients, events: $events, helper: $helper, config: $config, inotify: $inotify, webserver: $webserver, extra: $extra, reserved: $reserved, ntp: $ntp, netlink: $netlink, all: $all)';
 }
 
 
@@ -8781,16 +8977,21 @@ $DomainCopyWith<Domain> get copyWith => _$DomainCopyWithImpl<Domain>(this as Dom
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Domain&&(identical(other.name, name) || other.name == name)&&(identical(other.local, local) || other.local == local));
+  final _this = this as Domain;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Domain&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.local, _this.local) || other.local == _this.local));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,local);
+int get hashCode {
+  final _this = this as Domain;
+  return Object.hash(runtimeType,_this.name,_this.local);
+}
 
 @override
 String toString() {
-  return 'Domain(name: $name, local: $local)';
+  final _this = this as Domain;
+  return 'Domain(name: ${_this.name}, local: ${_this.local})';
 }
 
 
@@ -8819,7 +9020,7 @@ class _$DomainCopyWithImpl<$Res>
 /// Create a copy of Domain
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? local = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Domain(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,local: freezed == local ? _self.local : local // ignore: cast_nullable_to_non_nullable
 as bool?,
@@ -8976,16 +9177,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Domain&&(identical(other.name, name) || other.name == name)&&(identical(other.local, local) || other.local == local));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Domain&&(identical(other.name, name) || other.name == name)&&(identical(other.local, local) || other.local == local));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,local);
+int get hashCode {
+    return Object.hash(runtimeType,name,local);
+}
 
 @override
 String toString() {
-  return 'Domain(name: $name, local: $local)';
+    return 'Domain(name: $name, local: $local)';
 }
 
 

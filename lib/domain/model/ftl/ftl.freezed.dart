@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'ftl.dart';
@@ -9,14 +9,14 @@ part of 'ftl.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FtlInfo {
 
- int get privacyLevel;// v6-only fields
- int? get pid; int? get uptime; double? get percentMem; double? get percentCpu; double? get queryFrequency; bool? get allowDestructive; FtlDatabase? get database; FtlClients? get clients;
+ int get privacyLevel; int? get pid; int? get uptime; double? get percentMem; double? get percentCpu; double? get queryFrequency; bool? get allowDestructive; FtlDatabase? get database; FtlClients? get clients;
 /// Create a copy of FtlInfo
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,21 @@ $FtlInfoCopyWith<FtlInfo> get copyWith => _$FtlInfoCopyWithImpl<FtlInfo>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlInfo&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.percentMem, percentMem) || other.percentMem == percentMem)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu)&&(identical(other.queryFrequency, queryFrequency) || other.queryFrequency == queryFrequency)&&(identical(other.allowDestructive, allowDestructive) || other.allowDestructive == allowDestructive)&&(identical(other.database, database) || other.database == database)&&(identical(other.clients, clients) || other.clients == clients));
+  final _this = this as FtlInfo;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlInfo&&(identical(other.privacyLevel, _this.privacyLevel) || other.privacyLevel == _this.privacyLevel)&&(identical(other.pid, _this.pid) || other.pid == _this.pid)&&(identical(other.uptime, _this.uptime) || other.uptime == _this.uptime)&&(identical(other.percentMem, _this.percentMem) || other.percentMem == _this.percentMem)&&(identical(other.percentCpu, _this.percentCpu) || other.percentCpu == _this.percentCpu)&&(identical(other.queryFrequency, _this.queryFrequency) || other.queryFrequency == _this.queryFrequency)&&(identical(other.allowDestructive, _this.allowDestructive) || other.allowDestructive == _this.allowDestructive)&&(identical(other.database, _this.database) || other.database == _this.database)&&(identical(other.clients, _this.clients) || other.clients == _this.clients));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,privacyLevel,pid,uptime,percentMem,percentCpu,queryFrequency,allowDestructive,database,clients);
+int get hashCode {
+  final _this = this as FtlInfo;
+  return Object.hash(runtimeType,_this.privacyLevel,_this.pid,_this.uptime,_this.percentMem,_this.percentCpu,_this.queryFrequency,_this.allowDestructive,_this.database,_this.clients);
+}
 
 @override
 String toString() {
-  return 'FtlInfo(privacyLevel: $privacyLevel, pid: $pid, uptime: $uptime, percentMem: $percentMem, percentCpu: $percentCpu, queryFrequency: $queryFrequency, allowDestructive: $allowDestructive, database: $database, clients: $clients)';
+  final _this = this as FtlInfo;
+  return 'FtlInfo(privacyLevel: ${_this.privacyLevel}, pid: ${_this.pid}, uptime: ${_this.uptime}, percentMem: ${_this.percentMem}, percentCpu: ${_this.percentCpu}, queryFrequency: ${_this.queryFrequency}, allowDestructive: ${_this.allowDestructive}, database: ${_this.database}, clients: ${_this.clients})';
 }
 
 
@@ -67,7 +72,7 @@ class _$FtlInfoCopyWithImpl<$Res>
 /// Create a copy of FtlInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? privacyLevel = null,Object? pid = freezed,Object? uptime = freezed,Object? percentMem = freezed,Object? percentCpu = freezed,Object? queryFrequency = freezed,Object? allowDestructive = freezed,Object? database = freezed,Object? clients = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(FtlInfo(
 privacyLevel: null == privacyLevel ? _self.privacyLevel : privacyLevel // ignore: cast_nullable_to_non_nullable
 as int,pid: freezed == pid ? _self.pid : pid // ignore: cast_nullable_to_non_nullable
 as int?,uptime: freezed == uptime ? _self.uptime : uptime // ignore: cast_nullable_to_non_nullable
@@ -240,7 +245,6 @@ class _FtlInfo implements FtlInfo {
   factory _FtlInfo.fromJson(Map<String, dynamic> json) => _$FtlInfoFromJson(json);
 
 @override final  int privacyLevel;
-// v6-only fields
 @override final  int? pid;
 @override final  int? uptime;
 @override final  double? percentMem;
@@ -263,16 +267,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlInfo&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.percentMem, percentMem) || other.percentMem == percentMem)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu)&&(identical(other.queryFrequency, queryFrequency) || other.queryFrequency == queryFrequency)&&(identical(other.allowDestructive, allowDestructive) || other.allowDestructive == allowDestructive)&&(identical(other.database, database) || other.database == database)&&(identical(other.clients, clients) || other.clients == clients));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlInfo&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.percentMem, percentMem) || other.percentMem == percentMem)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu)&&(identical(other.queryFrequency, queryFrequency) || other.queryFrequency == queryFrequency)&&(identical(other.allowDestructive, allowDestructive) || other.allowDestructive == allowDestructive)&&(identical(other.database, database) || other.database == database)&&(identical(other.clients, clients) || other.clients == clients));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,privacyLevel,pid,uptime,percentMem,percentCpu,queryFrequency,allowDestructive,database,clients);
+int get hashCode {
+    return Object.hash(runtimeType,privacyLevel,pid,uptime,percentMem,percentCpu,queryFrequency,allowDestructive,database,clients);
+}
 
 @override
 String toString() {
-  return 'FtlInfo(privacyLevel: $privacyLevel, pid: $pid, uptime: $uptime, percentMem: $percentMem, percentCpu: $percentCpu, queryFrequency: $queryFrequency, allowDestructive: $allowDestructive, database: $database, clients: $clients)';
+    return 'FtlInfo(privacyLevel: $privacyLevel, pid: $pid, uptime: $uptime, percentMem: $percentMem, percentCpu: $percentCpu, queryFrequency: $queryFrequency, allowDestructive: $allowDestructive, database: $database, clients: $clients)';
 }
 
 
@@ -359,16 +365,21 @@ $FtlDatabaseCopyWith<FtlDatabase> get copyWith => _$FtlDatabaseCopyWithImpl<FtlD
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlDatabase&&(identical(other.gravityDomains, gravityDomains) || other.gravityDomains == gravityDomains)&&(identical(other.allowedExact, allowedExact) || other.allowedExact == allowedExact)&&(identical(other.allowedRegex, allowedRegex) || other.allowedRegex == allowedRegex)&&(identical(other.deniedExact, deniedExact) || other.deniedExact == deniedExact)&&(identical(other.deniedRegex, deniedRegex) || other.deniedRegex == deniedRegex));
+  final _this = this as FtlDatabase;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlDatabase&&(identical(other.gravityDomains, _this.gravityDomains) || other.gravityDomains == _this.gravityDomains)&&(identical(other.allowedExact, _this.allowedExact) || other.allowedExact == _this.allowedExact)&&(identical(other.allowedRegex, _this.allowedRegex) || other.allowedRegex == _this.allowedRegex)&&(identical(other.deniedExact, _this.deniedExact) || other.deniedExact == _this.deniedExact)&&(identical(other.deniedRegex, _this.deniedRegex) || other.deniedRegex == _this.deniedRegex));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,gravityDomains,allowedExact,allowedRegex,deniedExact,deniedRegex);
+int get hashCode {
+  final _this = this as FtlDatabase;
+  return Object.hash(runtimeType,_this.gravityDomains,_this.allowedExact,_this.allowedRegex,_this.deniedExact,_this.deniedRegex);
+}
 
 @override
 String toString() {
-  return 'FtlDatabase(gravityDomains: $gravityDomains, allowedExact: $allowedExact, allowedRegex: $allowedRegex, deniedExact: $deniedExact, deniedRegex: $deniedRegex)';
+  final _this = this as FtlDatabase;
+  return 'FtlDatabase(gravityDomains: ${_this.gravityDomains}, allowedExact: ${_this.allowedExact}, allowedRegex: ${_this.allowedRegex}, deniedExact: ${_this.deniedExact}, deniedRegex: ${_this.deniedRegex})';
 }
 
 
@@ -397,7 +408,7 @@ class _$FtlDatabaseCopyWithImpl<$Res>
 /// Create a copy of FtlDatabase
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? gravityDomains = null,Object? allowedExact = null,Object? allowedRegex = null,Object? deniedExact = null,Object? deniedRegex = null,}) {
-  return _then(_self.copyWith(
+  return _then(FtlDatabase(
 gravityDomains: null == gravityDomains ? _self.gravityDomains : gravityDomains // ignore: cast_nullable_to_non_nullable
 as int,allowedExact: null == allowedExact ? _self.allowedExact : allowedExact // ignore: cast_nullable_to_non_nullable
 as int,allowedRegex: null == allowedRegex ? _self.allowedRegex : allowedRegex // ignore: cast_nullable_to_non_nullable
@@ -560,16 +571,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlDatabase&&(identical(other.gravityDomains, gravityDomains) || other.gravityDomains == gravityDomains)&&(identical(other.allowedExact, allowedExact) || other.allowedExact == allowedExact)&&(identical(other.allowedRegex, allowedRegex) || other.allowedRegex == allowedRegex)&&(identical(other.deniedExact, deniedExact) || other.deniedExact == deniedExact)&&(identical(other.deniedRegex, deniedRegex) || other.deniedRegex == deniedRegex));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlDatabase&&(identical(other.gravityDomains, gravityDomains) || other.gravityDomains == gravityDomains)&&(identical(other.allowedExact, allowedExact) || other.allowedExact == allowedExact)&&(identical(other.allowedRegex, allowedRegex) || other.allowedRegex == allowedRegex)&&(identical(other.deniedExact, deniedExact) || other.deniedExact == deniedExact)&&(identical(other.deniedRegex, deniedRegex) || other.deniedRegex == deniedRegex));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,gravityDomains,allowedExact,allowedRegex,deniedExact,deniedRegex);
+int get hashCode {
+    return Object.hash(runtimeType,gravityDomains,allowedExact,allowedRegex,deniedExact,deniedRegex);
+}
 
 @override
 String toString() {
-  return 'FtlDatabase(gravityDomains: $gravityDomains, allowedExact: $allowedExact, allowedRegex: $allowedRegex, deniedExact: $deniedExact, deniedRegex: $deniedRegex)';
+    return 'FtlDatabase(gravityDomains: $gravityDomains, allowedExact: $allowedExact, allowedRegex: $allowedRegex, deniedExact: $deniedExact, deniedRegex: $deniedRegex)';
 }
 
 
@@ -628,16 +641,21 @@ $FtlClientsCopyWith<FtlClients> get copyWith => _$FtlClientsCopyWithImpl<FtlClie
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlClients&&(identical(other.total, total) || other.total == total)&&(identical(other.active, active) || other.active == active));
+  final _this = this as FtlClients;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlClients&&(identical(other.total, _this.total) || other.total == _this.total)&&(identical(other.active, _this.active) || other.active == _this.active));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,active);
+int get hashCode {
+  final _this = this as FtlClients;
+  return Object.hash(runtimeType,_this.total,_this.active);
+}
 
 @override
 String toString() {
-  return 'FtlClients(total: $total, active: $active)';
+  final _this = this as FtlClients;
+  return 'FtlClients(total: ${_this.total}, active: ${_this.active})';
 }
 
 
@@ -666,7 +684,7 @@ class _$FtlClientsCopyWithImpl<$Res>
 /// Create a copy of FtlClients
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? total = null,Object? active = null,}) {
-  return _then(_self.copyWith(
+  return _then(FtlClients(
 total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,active: null == active ? _self.active : active // ignore: cast_nullable_to_non_nullable
 as int,
@@ -823,16 +841,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlClients&&(identical(other.total, total) || other.total == total)&&(identical(other.active, active) || other.active == active));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlClients&&(identical(other.total, total) || other.total == total)&&(identical(other.active, active) || other.active == active));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,total,active);
+int get hashCode {
+    return Object.hash(runtimeType,total,active);
+}
 
 @override
 String toString() {
-  return 'FtlClients(total: $total, active: $active)';
+    return 'FtlClients(total: $total, active: $active)';
 }
 
 

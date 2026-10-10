@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'dns_config.dart';
@@ -9,14 +9,14 @@ part of 'dns_config.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$DnsConfig {
 
- bool get queryLogging;// v6-only fields
- List<String>? get upstreams; bool? get dnssec; bool? get bogusPriv; bool? get domainNeeded; bool? get expandHosts; ListeningMode? get listeningMode; int? get port; int? get blockTTL; List<String>? get cnameRecords; List<String>? get revServers; List<String>? get hosts; DnsBlockingConfig? get blocking; DnsRateLimitConfig? get rateLimit;
+ bool get queryLogging; List<String>? get upstreams; bool? get dnssec; bool? get bogusPriv; bool? get domainNeeded; bool? get expandHosts; ListeningMode? get listeningMode; int? get port; int? get blockTTL; List<String>? get cnameRecords; List<String>? get revServers; List<String>? get hosts; DnsBlockingConfig? get blocking; DnsRateLimitConfig? get rateLimit;
 /// Create a copy of DnsConfig
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,21 @@ $DnsConfigCopyWith<DnsConfig> get copyWith => _$DnsConfigCopyWithImpl<DnsConfig>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsConfig&&(identical(other.queryLogging, queryLogging) || other.queryLogging == queryLogging)&&const DeepCollectionEquality().equals(other.upstreams, upstreams)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.bogusPriv, bogusPriv) || other.bogusPriv == bogusPriv)&&(identical(other.domainNeeded, domainNeeded) || other.domainNeeded == domainNeeded)&&(identical(other.expandHosts, expandHosts) || other.expandHosts == expandHosts)&&(identical(other.listeningMode, listeningMode) || other.listeningMode == listeningMode)&&(identical(other.port, port) || other.port == port)&&(identical(other.blockTTL, blockTTL) || other.blockTTL == blockTTL)&&const DeepCollectionEquality().equals(other.cnameRecords, cnameRecords)&&const DeepCollectionEquality().equals(other.revServers, revServers)&&const DeepCollectionEquality().equals(other.hosts, hosts)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.rateLimit, rateLimit) || other.rateLimit == rateLimit));
+  final _this = this as DnsConfig;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsConfig&&(identical(other.queryLogging, _this.queryLogging) || other.queryLogging == _this.queryLogging)&&const DeepCollectionEquality().equals(other.upstreams, _this.upstreams)&&(identical(other.dnssec, _this.dnssec) || other.dnssec == _this.dnssec)&&(identical(other.bogusPriv, _this.bogusPriv) || other.bogusPriv == _this.bogusPriv)&&(identical(other.domainNeeded, _this.domainNeeded) || other.domainNeeded == _this.domainNeeded)&&(identical(other.expandHosts, _this.expandHosts) || other.expandHosts == _this.expandHosts)&&(identical(other.listeningMode, _this.listeningMode) || other.listeningMode == _this.listeningMode)&&(identical(other.port, _this.port) || other.port == _this.port)&&(identical(other.blockTTL, _this.blockTTL) || other.blockTTL == _this.blockTTL)&&const DeepCollectionEquality().equals(other.cnameRecords, _this.cnameRecords)&&const DeepCollectionEquality().equals(other.revServers, _this.revServers)&&const DeepCollectionEquality().equals(other.hosts, _this.hosts)&&(identical(other.blocking, _this.blocking) || other.blocking == _this.blocking)&&(identical(other.rateLimit, _this.rateLimit) || other.rateLimit == _this.rateLimit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,queryLogging,const DeepCollectionEquality().hash(upstreams),dnssec,bogusPriv,domainNeeded,expandHosts,listeningMode,port,blockTTL,const DeepCollectionEquality().hash(cnameRecords),const DeepCollectionEquality().hash(revServers),const DeepCollectionEquality().hash(hosts),blocking,rateLimit);
+int get hashCode {
+  final _this = this as DnsConfig;
+  return Object.hash(runtimeType,_this.queryLogging,const DeepCollectionEquality().hash(_this.upstreams),_this.dnssec,_this.bogusPriv,_this.domainNeeded,_this.expandHosts,_this.listeningMode,_this.port,_this.blockTTL,const DeepCollectionEquality().hash(_this.cnameRecords),const DeepCollectionEquality().hash(_this.revServers),const DeepCollectionEquality().hash(_this.hosts),_this.blocking,_this.rateLimit);
+}
 
 @override
 String toString() {
-  return 'DnsConfig(queryLogging: $queryLogging, upstreams: $upstreams, dnssec: $dnssec, bogusPriv: $bogusPriv, domainNeeded: $domainNeeded, expandHosts: $expandHosts, listeningMode: $listeningMode, port: $port, blockTTL: $blockTTL, cnameRecords: $cnameRecords, revServers: $revServers, hosts: $hosts, blocking: $blocking, rateLimit: $rateLimit)';
+  final _this = this as DnsConfig;
+  return 'DnsConfig(queryLogging: ${_this.queryLogging}, upstreams: ${_this.upstreams}, dnssec: ${_this.dnssec}, bogusPriv: ${_this.bogusPriv}, domainNeeded: ${_this.domainNeeded}, expandHosts: ${_this.expandHosts}, listeningMode: ${_this.listeningMode}, port: ${_this.port}, blockTTL: ${_this.blockTTL}, cnameRecords: ${_this.cnameRecords}, revServers: ${_this.revServers}, hosts: ${_this.hosts}, blocking: ${_this.blocking}, rateLimit: ${_this.rateLimit})';
 }
 
 
@@ -67,7 +72,7 @@ class _$DnsConfigCopyWithImpl<$Res>
 /// Create a copy of DnsConfig
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? queryLogging = null,Object? upstreams = freezed,Object? dnssec = freezed,Object? bogusPriv = freezed,Object? domainNeeded = freezed,Object? expandHosts = freezed,Object? listeningMode = freezed,Object? port = freezed,Object? blockTTL = freezed,Object? cnameRecords = freezed,Object? revServers = freezed,Object? hosts = freezed,Object? blocking = freezed,Object? rateLimit = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(DnsConfig(
 queryLogging: null == queryLogging ? _self.queryLogging : queryLogging // ignore: cast_nullable_to_non_nullable
 as bool,upstreams: freezed == upstreams ? _self.upstreams : upstreams // ignore: cast_nullable_to_non_nullable
 as List<String>?,dnssec: freezed == dnssec ? _self.dnssec : dnssec // ignore: cast_nullable_to_non_nullable
@@ -241,13 +246,11 @@ return $default(_that.queryLogging,_that.upstreams,_that.dnssec,_that.bogusPriv,
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class _DnsConfig implements DnsConfig {
-  const _DnsConfig({required this.queryLogging, final  List<String>? upstreams, this.dnssec, this.bogusPriv, this.domainNeeded, this.expandHosts, this.listeningMode, this.port, this.blockTTL, final  List<String>? cnameRecords, final  List<String>? revServers, final  List<String>? hosts, this.blocking, this.rateLimit}): _upstreams = upstreams,_cnameRecords = cnameRecords,_revServers = revServers,_hosts = hosts;
+  const _DnsConfig({required this.queryLogging,  List<String>? upstreams, this.dnssec, this.bogusPriv, this.domainNeeded, this.expandHosts, this.listeningMode, this.port, this.blockTTL,  List<String>? cnameRecords,  List<String>? revServers,  List<String>? hosts, this.blocking, this.rateLimit}): _upstreams = upstreams,_cnameRecords = cnameRecords,_revServers = revServers,_hosts = hosts;
   factory _DnsConfig.fromJson(Map<String, dynamic> json) => _$DnsConfigFromJson(json);
 
 @override final  bool queryLogging;
-// v6-only fields
  final  List<String>? _upstreams;
-// v6-only fields
 @override List<String>? get upstreams {
   final value = _upstreams;
   if (value == null) return null;
@@ -306,16 +309,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsConfig&&(identical(other.queryLogging, queryLogging) || other.queryLogging == queryLogging)&&const DeepCollectionEquality().equals(other._upstreams, _upstreams)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.bogusPriv, bogusPriv) || other.bogusPriv == bogusPriv)&&(identical(other.domainNeeded, domainNeeded) || other.domainNeeded == domainNeeded)&&(identical(other.expandHosts, expandHosts) || other.expandHosts == expandHosts)&&(identical(other.listeningMode, listeningMode) || other.listeningMode == listeningMode)&&(identical(other.port, port) || other.port == port)&&(identical(other.blockTTL, blockTTL) || other.blockTTL == blockTTL)&&const DeepCollectionEquality().equals(other._cnameRecords, _cnameRecords)&&const DeepCollectionEquality().equals(other._revServers, _revServers)&&const DeepCollectionEquality().equals(other._hosts, _hosts)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.rateLimit, rateLimit) || other.rateLimit == rateLimit));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsConfig&&(identical(other.queryLogging, queryLogging) || other.queryLogging == queryLogging)&&const DeepCollectionEquality().equals(other.upstreams, _upstreams)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.bogusPriv, bogusPriv) || other.bogusPriv == bogusPriv)&&(identical(other.domainNeeded, domainNeeded) || other.domainNeeded == domainNeeded)&&(identical(other.expandHosts, expandHosts) || other.expandHosts == expandHosts)&&(identical(other.listeningMode, listeningMode) || other.listeningMode == listeningMode)&&(identical(other.port, port) || other.port == port)&&(identical(other.blockTTL, blockTTL) || other.blockTTL == blockTTL)&&const DeepCollectionEquality().equals(other.cnameRecords, _cnameRecords)&&const DeepCollectionEquality().equals(other.revServers, _revServers)&&const DeepCollectionEquality().equals(other.hosts, _hosts)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.rateLimit, rateLimit) || other.rateLimit == rateLimit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,queryLogging,const DeepCollectionEquality().hash(_upstreams),dnssec,bogusPriv,domainNeeded,expandHosts,listeningMode,port,blockTTL,const DeepCollectionEquality().hash(_cnameRecords),const DeepCollectionEquality().hash(_revServers),const DeepCollectionEquality().hash(_hosts),blocking,rateLimit);
+int get hashCode {
+    return Object.hash(runtimeType,queryLogging,const DeepCollectionEquality().hash(_upstreams),dnssec,bogusPriv,domainNeeded,expandHosts,listeningMode,port,blockTTL,const DeepCollectionEquality().hash(_cnameRecords),const DeepCollectionEquality().hash(_revServers),const DeepCollectionEquality().hash(_hosts),blocking,rateLimit);
+}
 
 @override
 String toString() {
-  return 'DnsConfig(queryLogging: $queryLogging, upstreams: $upstreams, dnssec: $dnssec, bogusPriv: $bogusPriv, domainNeeded: $domainNeeded, expandHosts: $expandHosts, listeningMode: $listeningMode, port: $port, blockTTL: $blockTTL, cnameRecords: $cnameRecords, revServers: $revServers, hosts: $hosts, blocking: $blocking, rateLimit: $rateLimit)';
+    return 'DnsConfig(queryLogging: $queryLogging, upstreams: $upstreams, dnssec: $dnssec, bogusPriv: $bogusPriv, domainNeeded: $domainNeeded, expandHosts: $expandHosts, listeningMode: $listeningMode, port: $port, blockTTL: $blockTTL, cnameRecords: $cnameRecords, revServers: $revServers, hosts: $hosts, blocking: $blocking, rateLimit: $rateLimit)';
 }
 
 
@@ -407,16 +412,21 @@ $DnsBlockingConfigCopyWith<DnsBlockingConfig> get copyWith => _$DnsBlockingConfi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsBlockingConfig&&(identical(other.active, active) || other.active == active)&&(identical(other.mode, mode) || other.mode == mode));
+  final _this = this as DnsBlockingConfig;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsBlockingConfig&&(identical(other.active, _this.active) || other.active == _this.active)&&(identical(other.mode, _this.mode) || other.mode == _this.mode));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,active,mode);
+int get hashCode {
+  final _this = this as DnsBlockingConfig;
+  return Object.hash(runtimeType,_this.active,_this.mode);
+}
 
 @override
 String toString() {
-  return 'DnsBlockingConfig(active: $active, mode: $mode)';
+  final _this = this as DnsBlockingConfig;
+  return 'DnsBlockingConfig(active: ${_this.active}, mode: ${_this.mode})';
 }
 
 
@@ -445,7 +455,7 @@ class _$DnsBlockingConfigCopyWithImpl<$Res>
 /// Create a copy of DnsBlockingConfig
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? active = null,Object? mode = null,}) {
-  return _then(_self.copyWith(
+  return _then(DnsBlockingConfig(
 active: null == active ? _self.active : active // ignore: cast_nullable_to_non_nullable
 as bool,mode: null == mode ? _self.mode : mode // ignore: cast_nullable_to_non_nullable
 as BlockingMode,
@@ -602,16 +612,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsBlockingConfig&&(identical(other.active, active) || other.active == active)&&(identical(other.mode, mode) || other.mode == mode));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsBlockingConfig&&(identical(other.active, active) || other.active == active)&&(identical(other.mode, mode) || other.mode == mode));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,active,mode);
+int get hashCode {
+    return Object.hash(runtimeType,active,mode);
+}
 
 @override
 String toString() {
-  return 'DnsBlockingConfig(active: $active, mode: $mode)';
+    return 'DnsBlockingConfig(active: $active, mode: $mode)';
 }
 
 
@@ -667,16 +679,21 @@ $DnsRateLimitConfigCopyWith<DnsRateLimitConfig> get copyWith => _$DnsRateLimitCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsRateLimitConfig&&(identical(other.count, count) || other.count == count)&&(identical(other.interval, interval) || other.interval == interval));
+  final _this = this as DnsRateLimitConfig;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsRateLimitConfig&&(identical(other.count, _this.count) || other.count == _this.count)&&(identical(other.interval, _this.interval) || other.interval == _this.interval));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count,interval);
+int get hashCode {
+  final _this = this as DnsRateLimitConfig;
+  return Object.hash(runtimeType,_this.count,_this.interval);
+}
 
 @override
 String toString() {
-  return 'DnsRateLimitConfig(count: $count, interval: $interval)';
+  final _this = this as DnsRateLimitConfig;
+  return 'DnsRateLimitConfig(count: ${_this.count}, interval: ${_this.interval})';
 }
 
 
@@ -705,7 +722,7 @@ class _$DnsRateLimitConfigCopyWithImpl<$Res>
 /// Create a copy of DnsRateLimitConfig
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? count = null,Object? interval = null,}) {
-  return _then(_self.copyWith(
+  return _then(DnsRateLimitConfig(
 count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
 as int,interval: null == interval ? _self.interval : interval // ignore: cast_nullable_to_non_nullable
 as int,
@@ -862,16 +879,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsRateLimitConfig&&(identical(other.count, count) || other.count == count)&&(identical(other.interval, interval) || other.interval == interval));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsRateLimitConfig&&(identical(other.count, count) || other.count == count)&&(identical(other.interval, interval) || other.interval == interval));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,count,interval);
+int get hashCode {
+    return Object.hash(runtimeType,count,interval);
+}
 
 @override
 String toString() {
-  return 'DnsRateLimitConfig(count: $count, interval: $interval)';
+    return 'DnsRateLimitConfig(count: $count, interval: $interval)';
 }
 
 

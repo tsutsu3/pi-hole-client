@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'pihole_server.dart';
@@ -9,6 +9,7 @@ part of 'pihole_server.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $PiholeServerCopyWith<PiholeServer> get copyWith => _$PiholeServerCopyWithImpl<P
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PiholeServer&&(identical(other.host, host) || other.host == host)&&(identical(other.sensor, sensor) || other.sensor == sensor)&&(identical(other.system, system) || other.system == system)&&(identical(other.version, version) || other.version == version));
+  final _this = this as PiholeServer;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PiholeServer&&(identical(other.host, _this.host) || other.host == _this.host)&&(identical(other.sensor, _this.sensor) || other.sensor == _this.sensor)&&(identical(other.system, _this.system) || other.system == _this.system)&&(identical(other.version, _this.version) || other.version == _this.version));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,host,sensor,system,version);
+int get hashCode {
+  final _this = this as PiholeServer;
+  return Object.hash(runtimeType,_this.host,_this.sensor,_this.system,_this.version);
+}
 
 @override
 String toString() {
-  return 'PiholeServer(host: $host, sensor: $sensor, system: $system, version: $version)';
+  final _this = this as PiholeServer;
+  return 'PiholeServer(host: ${_this.host}, sensor: ${_this.sensor}, system: ${_this.system}, version: ${_this.version})';
 }
 
 
@@ -66,7 +72,7 @@ class _$PiholeServerCopyWithImpl<$Res>
 /// Create a copy of PiholeServer
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? host = freezed,Object? sensor = freezed,Object? system = freezed,Object? version = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(PiholeServer(
 host: freezed == host ? _self.host : host // ignore: cast_nullable_to_non_nullable
 as FtlHost?,sensor: freezed == sensor ? _self.sensor : sensor // ignore: cast_nullable_to_non_nullable
 as FtlSensor?,system: freezed == system ? _self.system : system // ignore: cast_nullable_to_non_nullable
@@ -275,16 +281,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PiholeServer&&(identical(other.host, host) || other.host == host)&&(identical(other.sensor, sensor) || other.sensor == sensor)&&(identical(other.system, system) || other.system == system)&&(identical(other.version, version) || other.version == version));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PiholeServer&&(identical(other.host, host) || other.host == host)&&(identical(other.sensor, sensor) || other.sensor == sensor)&&(identical(other.system, system) || other.system == system)&&(identical(other.version, version) || other.version == version));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,host,sensor,system,version);
+int get hashCode {
+    return Object.hash(runtimeType,host,sensor,system,version);
+}
 
 @override
 String toString() {
-  return 'PiholeServer(host: $host, sensor: $sensor, system: $system, version: $version)';
+    return 'PiholeServer(host: $host, sensor: $sensor, system: $system, version: $version)';
 }
 
 

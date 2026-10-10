@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'auth.dart';
@@ -9,6 +9,7 @@ part of 'auth.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $PasswordCopyWith<Password> get copyWith => _$PasswordCopyWithImpl<Password>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Password&&(identical(other.password, password) || other.password == password));
+  final _this = this as Password;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Password&&(identical(other.password, _this.password) || other.password == _this.password));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,password);
+int get hashCode {
+  final _this = this as Password;
+  return Object.hash(runtimeType,_this.password);
+}
 
 @override
 String toString() {
-  return 'Password(password: $password)';
+  final _this = this as Password;
+  return 'Password(password: ${_this.password})';
 }
 
 
@@ -66,7 +72,7 @@ class _$PasswordCopyWithImpl<$Res>
 /// Create a copy of Password
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? password = null,}) {
-  return _then(_self.copyWith(
+  return _then(Password(
 password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -221,16 +227,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Password&&(identical(other.password, password) || other.password == password));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Password&&(identical(other.password, password) || other.password == password));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,password);
+int get hashCode {
+    return Object.hash(runtimeType,password);
+}
 
 @override
 String toString() {
-  return 'Password(password: $password)';
+    return 'Password(password: $password)';
 }
 
 
@@ -285,16 +293,21 @@ $SessionCopyWith<Session> get copyWith => _$SessionCopyWithImpl<Session>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Session&&(identical(other.session, session) || other.session == session)&&(identical(other.took, took) || other.took == took));
+  final _this = this as Session;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Session&&(identical(other.session, _this.session) || other.session == _this.session)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,session,took);
+int get hashCode {
+  final _this = this as Session;
+  return Object.hash(runtimeType,_this.session,_this.took);
+}
 
 @override
 String toString() {
-  return 'Session(session: $session, took: $took)';
+  final _this = this as Session;
+  return 'Session(session: ${_this.session}, took: ${_this.took})';
 }
 
 
@@ -323,7 +336,7 @@ class _$SessionCopyWithImpl<$Res>
 /// Create a copy of Session
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? session = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(Session(
 session: null == session ? _self.session : session // ignore: cast_nullable_to_non_nullable
 as SessionDetail,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -489,16 +502,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Session&&(identical(other.session, session) || other.session == session)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Session&&(identical(other.session, session) || other.session == session)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,session,took);
+int get hashCode {
+    return Object.hash(runtimeType,session,took);
+}
 
 @override
 String toString() {
-  return 'Session(session: $session, took: $took)';
+    return 'Session(session: $session, took: $took)';
 }
 
 
@@ -563,16 +578,21 @@ $SessionDetailCopyWith<SessionDetail> get copyWith => _$SessionDetailCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionDetail&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.totp, totp) || other.totp == totp)&&(identical(other.sid, sid) || other.sid == sid)&&(identical(other.csrf, csrf) || other.csrf == csrf)&&(identical(other.validity, validity) || other.validity == validity)&&(identical(other.message, message) || other.message == message));
+  final _this = this as SessionDetail;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionDetail&&(identical(other.valid, _this.valid) || other.valid == _this.valid)&&(identical(other.totp, _this.totp) || other.totp == _this.totp)&&(identical(other.sid, _this.sid) || other.sid == _this.sid)&&(identical(other.csrf, _this.csrf) || other.csrf == _this.csrf)&&(identical(other.validity, _this.validity) || other.validity == _this.validity)&&(identical(other.message, _this.message) || other.message == _this.message));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,valid,totp,sid,csrf,validity,message);
+int get hashCode {
+  final _this = this as SessionDetail;
+  return Object.hash(runtimeType,_this.valid,_this.totp,_this.sid,_this.csrf,_this.validity,_this.message);
+}
 
 @override
 String toString() {
-  return 'SessionDetail(valid: $valid, totp: $totp, sid: $sid, csrf: $csrf, validity: $validity, message: $message)';
+  final _this = this as SessionDetail;
+  return 'SessionDetail(valid: ${_this.valid}, totp: ${_this.totp}, sid: ${_this.sid}, csrf: ${_this.csrf}, validity: ${_this.validity}, message: ${_this.message})';
 }
 
 
@@ -601,7 +621,7 @@ class _$SessionDetailCopyWithImpl<$Res>
 /// Create a copy of SessionDetail
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? valid = null,Object? totp = null,Object? sid = freezed,Object? csrf = freezed,Object? validity = null,Object? message = null,}) {
-  return _then(_self.copyWith(
+  return _then(SessionDetail(
 valid: null == valid ? _self.valid : valid // ignore: cast_nullable_to_non_nullable
 as bool,totp: null == totp ? _self.totp : totp // ignore: cast_nullable_to_non_nullable
 as bool,sid: freezed == sid ? _self.sid : sid // ignore: cast_nullable_to_non_nullable
@@ -766,16 +786,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionDetail&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.totp, totp) || other.totp == totp)&&(identical(other.sid, sid) || other.sid == sid)&&(identical(other.csrf, csrf) || other.csrf == csrf)&&(identical(other.validity, validity) || other.validity == validity)&&(identical(other.message, message) || other.message == message));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionDetail&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.totp, totp) || other.totp == totp)&&(identical(other.sid, sid) || other.sid == sid)&&(identical(other.csrf, csrf) || other.csrf == csrf)&&(identical(other.validity, validity) || other.validity == validity)&&(identical(other.message, message) || other.message == message));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,valid,totp,sid,csrf,validity,message);
+int get hashCode {
+    return Object.hash(runtimeType,valid,totp,sid,csrf,validity,message);
+}
 
 @override
 String toString() {
-  return 'SessionDetail(valid: $valid, totp: $totp, sid: $sid, csrf: $csrf, validity: $validity, message: $message)';
+    return 'SessionDetail(valid: $valid, totp: $totp, sid: $sid, csrf: $csrf, validity: $validity, message: $message)';
 }
 
 

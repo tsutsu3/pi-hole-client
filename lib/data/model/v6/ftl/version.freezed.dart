@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'version.dart';
@@ -9,6 +9,7 @@ part of 'version.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $InfoVersionCopyWith<InfoVersion> get copyWith => _$InfoVersionCopyWithImpl<Info
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoVersion&&(identical(other.version, version) || other.version == version)&&(identical(other.took, took) || other.took == took));
+  final _this = this as InfoVersion;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoVersion&&(identical(other.version, _this.version) || other.version == _this.version)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,version,took);
+int get hashCode {
+  final _this = this as InfoVersion;
+  return Object.hash(runtimeType,_this.version,_this.took);
+}
 
 @override
 String toString() {
-  return 'InfoVersion(version: $version, took: $took)';
+  final _this = this as InfoVersion;
+  return 'InfoVersion(version: ${_this.version}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$InfoVersionCopyWithImpl<$Res>
 /// Create a copy of InfoVersion
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? version = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(InfoVersion(
 version: null == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as VersionData,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -232,16 +238,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoVersion&&(identical(other.version, version) || other.version == version)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoVersion&&(identical(other.version, version) || other.version == version)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,version,took);
+int get hashCode {
+    return Object.hash(runtimeType,version,took);
+}
 
 @override
 String toString() {
-  return 'InfoVersion(version: $version, took: $took)';
+    return 'InfoVersion(version: $version, took: $took)';
 }
 
 
@@ -306,16 +314,21 @@ $VersionDataCopyWith<VersionData> get copyWith => _$VersionDataCopyWithImpl<Vers
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is VersionData&&(identical(other.core, core) || other.core == core)&&(identical(other.web, web) || other.web == web)&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.docker, docker) || other.docker == docker));
+  final _this = this as VersionData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is VersionData&&(identical(other.core, _this.core) || other.core == _this.core)&&(identical(other.web, _this.web) || other.web == _this.web)&&(identical(other.ftl, _this.ftl) || other.ftl == _this.ftl)&&(identical(other.docker, _this.docker) || other.docker == _this.docker));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,core,web,ftl,docker);
+int get hashCode {
+  final _this = this as VersionData;
+  return Object.hash(runtimeType,_this.core,_this.web,_this.ftl,_this.docker);
+}
 
 @override
 String toString() {
-  return 'VersionData(core: $core, web: $web, ftl: $ftl, docker: $docker)';
+  final _this = this as VersionData;
+  return 'VersionData(core: ${_this.core}, web: ${_this.web}, ftl: ${_this.ftl}, docker: ${_this.docker})';
 }
 
 
@@ -344,7 +357,7 @@ class _$VersionDataCopyWithImpl<$Res>
 /// Create a copy of VersionData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? core = null,Object? web = null,Object? ftl = null,Object? docker = null,}) {
-  return _then(_self.copyWith(
+  return _then(VersionData(
 core: null == core ? _self.core : core // ignore: cast_nullable_to_non_nullable
 as Core,web: null == web ? _self.web : web // ignore: cast_nullable_to_non_nullable
 as Web,ftl: null == ftl ? _self.ftl : ftl // ignore: cast_nullable_to_non_nullable
@@ -541,16 +554,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VersionData&&(identical(other.core, core) || other.core == core)&&(identical(other.web, web) || other.web == web)&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.docker, docker) || other.docker == docker));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _VersionData&&(identical(other.core, core) || other.core == core)&&(identical(other.web, web) || other.web == web)&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.docker, docker) || other.docker == docker));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,core,web,ftl,docker);
+int get hashCode {
+    return Object.hash(runtimeType,core,web,ftl,docker);
+}
 
 @override
 String toString() {
-  return 'VersionData(core: $core, web: $web, ftl: $ftl, docker: $docker)';
+    return 'VersionData(core: $core, web: $web, ftl: $ftl, docker: $docker)';
 }
 
 
@@ -644,16 +659,21 @@ $CoreCopyWith<Core> get copyWith => _$CoreCopyWithImpl<Core>(this as Core, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Core&&(identical(other.local, local) || other.local == local)&&(identical(other.remote, remote) || other.remote == remote));
+  final _this = this as Core;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Core&&(identical(other.local, _this.local) || other.local == _this.local)&&(identical(other.remote, _this.remote) || other.remote == _this.remote));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,local,remote);
+int get hashCode {
+  final _this = this as Core;
+  return Object.hash(runtimeType,_this.local,_this.remote);
+}
 
 @override
 String toString() {
-  return 'Core(local: $local, remote: $remote)';
+  final _this = this as Core;
+  return 'Core(local: ${_this.local}, remote: ${_this.remote})';
 }
 
 
@@ -682,7 +702,7 @@ class _$CoreCopyWithImpl<$Res>
 /// Create a copy of Core
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? local = null,Object? remote = null,}) {
-  return _then(_self.copyWith(
+  return _then(Core(
 local: null == local ? _self.local : local // ignore: cast_nullable_to_non_nullable
 as LocalVersion,remote: null == remote ? _self.remote : remote // ignore: cast_nullable_to_non_nullable
 as RemoteVersion,
@@ -857,16 +877,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Core&&(identical(other.local, local) || other.local == local)&&(identical(other.remote, remote) || other.remote == remote));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Core&&(identical(other.local, local) || other.local == local)&&(identical(other.remote, remote) || other.remote == remote));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,local,remote);
+int get hashCode {
+    return Object.hash(runtimeType,local,remote);
+}
 
 @override
 String toString() {
-  return 'Core(local: $local, remote: $remote)';
+    return 'Core(local: $local, remote: $remote)';
 }
 
 
@@ -940,16 +962,21 @@ $WebCopyWith<Web> get copyWith => _$WebCopyWithImpl<Web>(this as Web, _$identity
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Web&&(identical(other.local, local) || other.local == local)&&(identical(other.remote, remote) || other.remote == remote));
+  final _this = this as Web;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Web&&(identical(other.local, _this.local) || other.local == _this.local)&&(identical(other.remote, _this.remote) || other.remote == _this.remote));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,local,remote);
+int get hashCode {
+  final _this = this as Web;
+  return Object.hash(runtimeType,_this.local,_this.remote);
+}
 
 @override
 String toString() {
-  return 'Web(local: $local, remote: $remote)';
+  final _this = this as Web;
+  return 'Web(local: ${_this.local}, remote: ${_this.remote})';
 }
 
 
@@ -978,7 +1005,7 @@ class _$WebCopyWithImpl<$Res>
 /// Create a copy of Web
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? local = null,Object? remote = null,}) {
-  return _then(_self.copyWith(
+  return _then(Web(
 local: null == local ? _self.local : local // ignore: cast_nullable_to_non_nullable
 as LocalVersion,remote: null == remote ? _self.remote : remote // ignore: cast_nullable_to_non_nullable
 as RemoteVersion,
@@ -1153,16 +1180,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Web&&(identical(other.local, local) || other.local == local)&&(identical(other.remote, remote) || other.remote == remote));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Web&&(identical(other.local, local) || other.local == local)&&(identical(other.remote, remote) || other.remote == remote));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,local,remote);
+int get hashCode {
+    return Object.hash(runtimeType,local,remote);
+}
 
 @override
 String toString() {
-  return 'Web(local: $local, remote: $remote)';
+    return 'Web(local: $local, remote: $remote)';
 }
 
 
@@ -1236,16 +1265,21 @@ $FTLCopyWith<FTL> get copyWith => _$FTLCopyWithImpl<FTL>(this as FTL, _$identity
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FTL&&(identical(other.local, local) || other.local == local)&&(identical(other.remote, remote) || other.remote == remote));
+  final _this = this as FTL;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FTL&&(identical(other.local, _this.local) || other.local == _this.local)&&(identical(other.remote, _this.remote) || other.remote == _this.remote));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,local,remote);
+int get hashCode {
+  final _this = this as FTL;
+  return Object.hash(runtimeType,_this.local,_this.remote);
+}
 
 @override
 String toString() {
-  return 'FTL(local: $local, remote: $remote)';
+  final _this = this as FTL;
+  return 'FTL(local: ${_this.local}, remote: ${_this.remote})';
 }
 
 
@@ -1274,7 +1308,7 @@ class _$FTLCopyWithImpl<$Res>
 /// Create a copy of FTL
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? local = null,Object? remote = null,}) {
-  return _then(_self.copyWith(
+  return _then(FTL(
 local: null == local ? _self.local : local // ignore: cast_nullable_to_non_nullable
 as LocalFTL,remote: null == remote ? _self.remote : remote // ignore: cast_nullable_to_non_nullable
 as RemoteVersion,
@@ -1449,16 +1483,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FTL&&(identical(other.local, local) || other.local == local)&&(identical(other.remote, remote) || other.remote == remote));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FTL&&(identical(other.local, local) || other.local == local)&&(identical(other.remote, remote) || other.remote == remote));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,local,remote);
+int get hashCode {
+    return Object.hash(runtimeType,local,remote);
+}
 
 @override
 String toString() {
-  return 'FTL(local: $local, remote: $remote)';
+    return 'FTL(local: $local, remote: $remote)';
 }
 
 
@@ -1532,16 +1568,21 @@ $DockerCopyWith<Docker> get copyWith => _$DockerCopyWithImpl<Docker>(this as Doc
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Docker&&(identical(other.local, local) || other.local == local)&&(identical(other.remote, remote) || other.remote == remote));
+  final _this = this as Docker;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Docker&&(identical(other.local, _this.local) || other.local == _this.local)&&(identical(other.remote, _this.remote) || other.remote == _this.remote));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,local,remote);
+int get hashCode {
+  final _this = this as Docker;
+  return Object.hash(runtimeType,_this.local,_this.remote);
+}
 
 @override
 String toString() {
-  return 'Docker(local: $local, remote: $remote)';
+  final _this = this as Docker;
+  return 'Docker(local: ${_this.local}, remote: ${_this.remote})';
 }
 
 
@@ -1570,7 +1611,7 @@ class _$DockerCopyWithImpl<$Res>
 /// Create a copy of Docker
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? local = freezed,Object? remote = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Docker(
 local: freezed == local ? _self.local : local // ignore: cast_nullable_to_non_nullable
 as String?,remote: freezed == remote ? _self.remote : remote // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -1727,16 +1768,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Docker&&(identical(other.local, local) || other.local == local)&&(identical(other.remote, remote) || other.remote == remote));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Docker&&(identical(other.local, local) || other.local == local)&&(identical(other.remote, remote) || other.remote == remote));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,local,remote);
+int get hashCode {
+    return Object.hash(runtimeType,local,remote);
+}
 
 @override
 String toString() {
-  return 'Docker(local: $local, remote: $remote)';
+    return 'Docker(local: $local, remote: $remote)';
 }
 
 
@@ -1792,16 +1835,21 @@ $LocalVersionCopyWith<LocalVersion> get copyWith => _$LocalVersionCopyWithImpl<L
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalVersion&&(identical(other.branch, branch) || other.branch == branch)&&(identical(other.version, version) || other.version == version)&&(identical(other.hash, hash) || other.hash == hash));
+  final _this = this as LocalVersion;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalVersion&&(identical(other.branch, _this.branch) || other.branch == _this.branch)&&(identical(other.version, _this.version) || other.version == _this.version)&&(identical(other.hash, _this.hash) || other.hash == _this.hash));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,branch,version,hash);
+int get hashCode {
+  final _this = this as LocalVersion;
+  return Object.hash(runtimeType,_this.branch,_this.version,_this.hash);
+}
 
 @override
 String toString() {
-  return 'LocalVersion(branch: $branch, version: $version, hash: $hash)';
+  final _this = this as LocalVersion;
+  return 'LocalVersion(branch: ${_this.branch}, version: ${_this.version}, hash: ${_this.hash})';
 }
 
 
@@ -1830,7 +1878,7 @@ class _$LocalVersionCopyWithImpl<$Res>
 /// Create a copy of LocalVersion
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? branch = freezed,Object? version = freezed,Object? hash = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(LocalVersion(
 branch: freezed == branch ? _self.branch : branch // ignore: cast_nullable_to_non_nullable
 as String?,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String?,hash: freezed == hash ? _self.hash : hash // ignore: cast_nullable_to_non_nullable
@@ -1989,16 +2037,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalVersion&&(identical(other.branch, branch) || other.branch == branch)&&(identical(other.version, version) || other.version == version)&&(identical(other.hash, hash) || other.hash == hash));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalVersion&&(identical(other.branch, branch) || other.branch == branch)&&(identical(other.version, version) || other.version == version)&&(identical(other.hash, hash) || other.hash == hash));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,branch,version,hash);
+int get hashCode {
+    return Object.hash(runtimeType,branch,version,hash);
+}
 
 @override
 String toString() {
-  return 'LocalVersion(branch: $branch, version: $version, hash: $hash)';
+    return 'LocalVersion(branch: $branch, version: $version, hash: $hash)';
 }
 
 
@@ -2055,16 +2105,21 @@ $RemoteVersionCopyWith<RemoteVersion> get copyWith => _$RemoteVersionCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RemoteVersion&&(identical(other.version, version) || other.version == version)&&(identical(other.hash, hash) || other.hash == hash));
+  final _this = this as RemoteVersion;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RemoteVersion&&(identical(other.version, _this.version) || other.version == _this.version)&&(identical(other.hash, _this.hash) || other.hash == _this.hash));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,version,hash);
+int get hashCode {
+  final _this = this as RemoteVersion;
+  return Object.hash(runtimeType,_this.version,_this.hash);
+}
 
 @override
 String toString() {
-  return 'RemoteVersion(version: $version, hash: $hash)';
+  final _this = this as RemoteVersion;
+  return 'RemoteVersion(version: ${_this.version}, hash: ${_this.hash})';
 }
 
 
@@ -2093,7 +2148,7 @@ class _$RemoteVersionCopyWithImpl<$Res>
 /// Create a copy of RemoteVersion
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? version = freezed,Object? hash = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(RemoteVersion(
 version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String?,hash: freezed == hash ? _self.hash : hash // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -2250,16 +2305,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RemoteVersion&&(identical(other.version, version) || other.version == version)&&(identical(other.hash, hash) || other.hash == hash));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RemoteVersion&&(identical(other.version, version) || other.version == version)&&(identical(other.hash, hash) || other.hash == hash));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,version,hash);
+int get hashCode {
+    return Object.hash(runtimeType,version,hash);
+}
 
 @override
 String toString() {
-  return 'RemoteVersion(version: $version, hash: $hash)';
+    return 'RemoteVersion(version: $version, hash: $hash)';
 }
 
 
@@ -2315,16 +2372,21 @@ $LocalFTLCopyWith<LocalFTL> get copyWith => _$LocalFTLCopyWithImpl<LocalFTL>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalFTL&&(identical(other.branch, branch) || other.branch == branch)&&(identical(other.version, version) || other.version == version)&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.date, date) || other.date == date));
+  final _this = this as LocalFTL;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is LocalFTL&&(identical(other.branch, _this.branch) || other.branch == _this.branch)&&(identical(other.version, _this.version) || other.version == _this.version)&&(identical(other.hash, _this.hash) || other.hash == _this.hash)&&(identical(other.date, _this.date) || other.date == _this.date));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,branch,version,hash,date);
+int get hashCode {
+  final _this = this as LocalFTL;
+  return Object.hash(runtimeType,_this.branch,_this.version,_this.hash,_this.date);
+}
 
 @override
 String toString() {
-  return 'LocalFTL(branch: $branch, version: $version, hash: $hash, date: $date)';
+  final _this = this as LocalFTL;
+  return 'LocalFTL(branch: ${_this.branch}, version: ${_this.version}, hash: ${_this.hash}, date: ${_this.date})';
 }
 
 
@@ -2353,7 +2415,7 @@ class _$LocalFTLCopyWithImpl<$Res>
 /// Create a copy of LocalFTL
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? branch = freezed,Object? version = freezed,Object? hash = freezed,Object? date = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(LocalFTL(
 branch: freezed == branch ? _self.branch : branch // ignore: cast_nullable_to_non_nullable
 as String?,version: freezed == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String?,hash: freezed == hash ? _self.hash : hash // ignore: cast_nullable_to_non_nullable
@@ -2514,16 +2576,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalFTL&&(identical(other.branch, branch) || other.branch == branch)&&(identical(other.version, version) || other.version == version)&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.date, date) || other.date == date));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _LocalFTL&&(identical(other.branch, branch) || other.branch == branch)&&(identical(other.version, version) || other.version == version)&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.date, date) || other.date == date));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,branch,version,hash,date);
+int get hashCode {
+    return Object.hash(runtimeType,branch,version,hash,date);
+}
 
 @override
 String toString() {
-  return 'LocalFTL(branch: $branch, version: $version, hash: $hash, date: $date)';
+    return 'LocalFTL(branch: $branch, version: $version, hash: $hash, date: $date)';
 }
 
 

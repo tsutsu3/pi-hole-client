@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'metrics.dart';
@@ -9,6 +9,7 @@ part of 'metrics.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $InfoMetricsCopyWith<InfoMetrics> get copyWith => _$InfoMetricsCopyWithImpl<Info
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoMetrics&&(identical(other.metrics, metrics) || other.metrics == metrics)&&(identical(other.took, took) || other.took == took));
+  final _this = this as InfoMetrics;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoMetrics&&(identical(other.metrics, _this.metrics) || other.metrics == _this.metrics)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,metrics,took);
+int get hashCode {
+  final _this = this as InfoMetrics;
+  return Object.hash(runtimeType,_this.metrics,_this.took);
+}
 
 @override
 String toString() {
-  return 'InfoMetrics(metrics: $metrics, took: $took)';
+  final _this = this as InfoMetrics;
+  return 'InfoMetrics(metrics: ${_this.metrics}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$InfoMetricsCopyWithImpl<$Res>
 /// Create a copy of InfoMetrics
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? metrics = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(InfoMetrics(
 metrics: null == metrics ? _self.metrics : metrics // ignore: cast_nullable_to_non_nullable
 as MetricsData,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -232,16 +238,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoMetrics&&(identical(other.metrics, metrics) || other.metrics == metrics)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoMetrics&&(identical(other.metrics, metrics) || other.metrics == metrics)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,metrics,took);
+int get hashCode {
+    return Object.hash(runtimeType,metrics,took);
+}
 
 @override
 String toString() {
-  return 'InfoMetrics(metrics: $metrics, took: $took)';
+    return 'InfoMetrics(metrics: $metrics, took: $took)';
 }
 
 
@@ -306,16 +314,21 @@ $MetricsDataCopyWith<MetricsData> get copyWith => _$MetricsDataCopyWithImpl<Metr
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MetricsData&&(identical(other.dns, dns) || other.dns == dns)&&(identical(other.dhcp, dhcp) || other.dhcp == dhcp));
+  final _this = this as MetricsData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MetricsData&&(identical(other.dns, _this.dns) || other.dns == _this.dns)&&(identical(other.dhcp, _this.dhcp) || other.dhcp == _this.dhcp));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,dns,dhcp);
+int get hashCode {
+  final _this = this as MetricsData;
+  return Object.hash(runtimeType,_this.dns,_this.dhcp);
+}
 
 @override
 String toString() {
-  return 'MetricsData(dns: $dns, dhcp: $dhcp)';
+  final _this = this as MetricsData;
+  return 'MetricsData(dns: ${_this.dns}, dhcp: ${_this.dhcp})';
 }
 
 
@@ -344,7 +357,7 @@ class _$MetricsDataCopyWithImpl<$Res>
 /// Create a copy of MetricsData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? dns = null,Object? dhcp = null,}) {
-  return _then(_self.copyWith(
+  return _then(MetricsData(
 dns: null == dns ? _self.dns : dns // ignore: cast_nullable_to_non_nullable
 as DnsMetrics,dhcp: null == dhcp ? _self.dhcp : dhcp // ignore: cast_nullable_to_non_nullable
 as DhcpMetrics,
@@ -519,16 +532,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MetricsData&&(identical(other.dns, dns) || other.dns == dns)&&(identical(other.dhcp, dhcp) || other.dhcp == dhcp));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _MetricsData&&(identical(other.dns, dns) || other.dns == dns)&&(identical(other.dhcp, dhcp) || other.dhcp == dhcp));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,dns,dhcp);
+int get hashCode {
+    return Object.hash(runtimeType,dns,dhcp);
+}
 
 @override
 String toString() {
-  return 'MetricsData(dns: $dns, dhcp: $dhcp)';
+    return 'MetricsData(dns: $dns, dhcp: $dhcp)';
 }
 
 
@@ -602,16 +617,21 @@ $DnsMetricsCopyWith<DnsMetrics> get copyWith => _$DnsMetricsCopyWithImpl<DnsMetr
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsMetrics&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.replies, replies) || other.replies == replies));
+  final _this = this as DnsMetrics;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsMetrics&&(identical(other.cache, _this.cache) || other.cache == _this.cache)&&(identical(other.replies, _this.replies) || other.replies == _this.replies));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cache,replies);
+int get hashCode {
+  final _this = this as DnsMetrics;
+  return Object.hash(runtimeType,_this.cache,_this.replies);
+}
 
 @override
 String toString() {
-  return 'DnsMetrics(cache: $cache, replies: $replies)';
+  final _this = this as DnsMetrics;
+  return 'DnsMetrics(cache: ${_this.cache}, replies: ${_this.replies})';
 }
 
 
@@ -640,7 +660,7 @@ class _$DnsMetricsCopyWithImpl<$Res>
 /// Create a copy of DnsMetrics
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? cache = null,Object? replies = null,}) {
-  return _then(_self.copyWith(
+  return _then(DnsMetrics(
 cache: null == cache ? _self.cache : cache // ignore: cast_nullable_to_non_nullable
 as DnsCache,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
 as DnsReplies,
@@ -815,16 +835,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsMetrics&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.replies, replies) || other.replies == replies));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsMetrics&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.replies, replies) || other.replies == replies));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cache,replies);
+int get hashCode {
+    return Object.hash(runtimeType,cache,replies);
+}
 
 @override
 String toString() {
-  return 'DnsMetrics(cache: $cache, replies: $replies)';
+    return 'DnsMetrics(cache: $cache, replies: $replies)';
 }
 
 
@@ -898,16 +920,21 @@ $DnsCacheCopyWith<DnsCache> get copyWith => _$DnsCacheCopyWithImpl<DnsCache>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsCache&&(identical(other.size, size) || other.size == size)&&(identical(other.inserted, inserted) || other.inserted == inserted)&&(identical(other.evicted, evicted) || other.evicted == evicted)&&(identical(other.expired, expired) || other.expired == expired)&&(identical(other.immortal, immortal) || other.immortal == immortal)&&const DeepCollectionEquality().equals(other.content, content));
+  final _this = this as DnsCache;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsCache&&(identical(other.size, _this.size) || other.size == _this.size)&&(identical(other.inserted, _this.inserted) || other.inserted == _this.inserted)&&(identical(other.evicted, _this.evicted) || other.evicted == _this.evicted)&&(identical(other.expired, _this.expired) || other.expired == _this.expired)&&(identical(other.immortal, _this.immortal) || other.immortal == _this.immortal)&&const DeepCollectionEquality().equals(other.content, _this.content));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,size,inserted,evicted,expired,immortal,const DeepCollectionEquality().hash(content));
+int get hashCode {
+  final _this = this as DnsCache;
+  return Object.hash(runtimeType,_this.size,_this.inserted,_this.evicted,_this.expired,_this.immortal,const DeepCollectionEquality().hash(_this.content));
+}
 
 @override
 String toString() {
-  return 'DnsCache(size: $size, inserted: $inserted, evicted: $evicted, expired: $expired, immortal: $immortal, content: $content)';
+  final _this = this as DnsCache;
+  return 'DnsCache(size: ${_this.size}, inserted: ${_this.inserted}, evicted: ${_this.evicted}, expired: ${_this.expired}, immortal: ${_this.immortal}, content: ${_this.content})';
 }
 
 
@@ -936,7 +963,7 @@ class _$DnsCacheCopyWithImpl<$Res>
 /// Create a copy of DnsCache
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? size = null,Object? inserted = null,Object? evicted = null,Object? expired = null,Object? immortal = null,Object? content = null,}) {
-  return _then(_self.copyWith(
+  return _then(DnsCache(
 size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
 as int,inserted: null == inserted ? _self.inserted : inserted // ignore: cast_nullable_to_non_nullable
 as int,evicted: null == evicted ? _self.evicted : evicted // ignore: cast_nullable_to_non_nullable
@@ -1078,7 +1105,7 @@ return $default(_that.size,_that.inserted,_that.evicted,_that.expired,_that.immo
 
 @JsonSerializable(explicitToJson: true)
 class _DnsCache implements DnsCache {
-  const _DnsCache({required this.size, required this.inserted, required this.evicted, required this.expired, required this.immortal, required final  List<DnsCacheEntry> content}): _content = content;
+  const _DnsCache({required this.size, required this.inserted, required this.evicted, required this.expired, required this.immortal, required  List<DnsCacheEntry> content}): _content = content;
   factory _DnsCache.fromJson(Map<String, dynamic> json) => _$DnsCacheFromJson(json);
 
 @override final  int size;
@@ -1107,16 +1134,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsCache&&(identical(other.size, size) || other.size == size)&&(identical(other.inserted, inserted) || other.inserted == inserted)&&(identical(other.evicted, evicted) || other.evicted == evicted)&&(identical(other.expired, expired) || other.expired == expired)&&(identical(other.immortal, immortal) || other.immortal == immortal)&&const DeepCollectionEquality().equals(other._content, _content));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsCache&&(identical(other.size, size) || other.size == size)&&(identical(other.inserted, inserted) || other.inserted == inserted)&&(identical(other.evicted, evicted) || other.evicted == evicted)&&(identical(other.expired, expired) || other.expired == expired)&&(identical(other.immortal, immortal) || other.immortal == immortal)&&const DeepCollectionEquality().equals(other.content, _content));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,size,inserted,evicted,expired,immortal,const DeepCollectionEquality().hash(_content));
+int get hashCode {
+    return Object.hash(runtimeType,size,inserted,evicted,expired,immortal,const DeepCollectionEquality().hash(_content));
+}
 
 @override
 String toString() {
-  return 'DnsCache(size: $size, inserted: $inserted, evicted: $evicted, expired: $expired, immortal: $immortal, content: $content)';
+    return 'DnsCache(size: $size, inserted: $inserted, evicted: $evicted, expired: $expired, immortal: $immortal, content: $content)';
 }
 
 
@@ -1176,16 +1205,21 @@ $DnsCacheEntryCopyWith<DnsCacheEntry> get copyWith => _$DnsCacheEntryCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsCacheEntry&&(identical(other.type, type) || other.type == type)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
+  final _this = this as DnsCacheEntry;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsCacheEntry&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.count, _this.count) || other.count == _this.count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,type,name,count);
+int get hashCode {
+  final _this = this as DnsCacheEntry;
+  return Object.hash(runtimeType,_this.type,_this.name,_this.count);
+}
 
 @override
 String toString() {
-  return 'DnsCacheEntry(type: $type, name: $name, count: $count)';
+  final _this = this as DnsCacheEntry;
+  return 'DnsCacheEntry(type: ${_this.type}, name: ${_this.name}, count: ${_this.count})';
 }
 
 
@@ -1214,7 +1248,7 @@ class _$DnsCacheEntryCopyWithImpl<$Res>
 /// Create a copy of DnsCacheEntry
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? name = null,Object? count = null,}) {
-  return _then(_self.copyWith(
+  return _then(DnsCacheEntry(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
@@ -1382,16 +1416,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsCacheEntry&&(identical(other.type, type) || other.type == type)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsCacheEntry&&(identical(other.type, type) || other.type == type)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,type,name,count);
+int get hashCode {
+    return Object.hash(runtimeType,type,name,count);
+}
 
 @override
 String toString() {
-  return 'DnsCacheEntry(type: $type, name: $name, count: $count)';
+    return 'DnsCacheEntry(type: $type, name: $name, count: $count)';
 }
 
 
@@ -1457,16 +1493,21 @@ $DnsCacheCountCopyWith<DnsCacheCount> get copyWith => _$DnsCacheCountCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsCacheCount&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.stale, stale) || other.stale == stale));
+  final _this = this as DnsCacheCount;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsCacheCount&&(identical(other.valid, _this.valid) || other.valid == _this.valid)&&(identical(other.stale, _this.stale) || other.stale == _this.stale));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,valid,stale);
+int get hashCode {
+  final _this = this as DnsCacheCount;
+  return Object.hash(runtimeType,_this.valid,_this.stale);
+}
 
 @override
 String toString() {
-  return 'DnsCacheCount(valid: $valid, stale: $stale)';
+  final _this = this as DnsCacheCount;
+  return 'DnsCacheCount(valid: ${_this.valid}, stale: ${_this.stale})';
 }
 
 
@@ -1495,7 +1536,7 @@ class _$DnsCacheCountCopyWithImpl<$Res>
 /// Create a copy of DnsCacheCount
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? valid = null,Object? stale = null,}) {
-  return _then(_self.copyWith(
+  return _then(DnsCacheCount(
 valid: null == valid ? _self.valid : valid // ignore: cast_nullable_to_non_nullable
 as int,stale: null == stale ? _self.stale : stale // ignore: cast_nullable_to_non_nullable
 as int,
@@ -1652,16 +1693,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsCacheCount&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.stale, stale) || other.stale == stale));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsCacheCount&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.stale, stale) || other.stale == stale));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,valid,stale);
+int get hashCode {
+    return Object.hash(runtimeType,valid,stale);
+}
 
 @override
 String toString() {
-  return 'DnsCacheCount(valid: $valid, stale: $stale)';
+    return 'DnsCacheCount(valid: $valid, stale: $stale)';
 }
 
 
@@ -1717,16 +1760,21 @@ $DnsRepliesCopyWith<DnsReplies> get copyWith => _$DnsRepliesCopyWithImpl<DnsRepl
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsReplies&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.unanswered, unanswered) || other.unanswered == unanswered)&&(identical(other.local, local) || other.local == local)&&(identical(other.optimized, optimized) || other.optimized == optimized)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.sum, sum) || other.sum == sum));
+  final _this = this as DnsReplies;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsReplies&&(identical(other.forwarded, _this.forwarded) || other.forwarded == _this.forwarded)&&(identical(other.unanswered, _this.unanswered) || other.unanswered == _this.unanswered)&&(identical(other.local, _this.local) || other.local == _this.local)&&(identical(other.optimized, _this.optimized) || other.optimized == _this.optimized)&&(identical(other.auth, _this.auth) || other.auth == _this.auth)&&(identical(other.sum, _this.sum) || other.sum == _this.sum));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,forwarded,unanswered,local,optimized,auth,sum);
+int get hashCode {
+  final _this = this as DnsReplies;
+  return Object.hash(runtimeType,_this.forwarded,_this.unanswered,_this.local,_this.optimized,_this.auth,_this.sum);
+}
 
 @override
 String toString() {
-  return 'DnsReplies(forwarded: $forwarded, unanswered: $unanswered, local: $local, optimized: $optimized, auth: $auth, sum: $sum)';
+  final _this = this as DnsReplies;
+  return 'DnsReplies(forwarded: ${_this.forwarded}, unanswered: ${_this.unanswered}, local: ${_this.local}, optimized: ${_this.optimized}, auth: ${_this.auth}, sum: ${_this.sum})';
 }
 
 
@@ -1755,7 +1803,7 @@ class _$DnsRepliesCopyWithImpl<$Res>
 /// Create a copy of DnsReplies
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? forwarded = null,Object? unanswered = null,Object? local = null,Object? optimized = null,Object? auth = null,Object? sum = null,}) {
-  return _then(_self.copyWith(
+  return _then(DnsReplies(
 forwarded: null == forwarded ? _self.forwarded : forwarded // ignore: cast_nullable_to_non_nullable
 as int,unanswered: null == unanswered ? _self.unanswered : unanswered // ignore: cast_nullable_to_non_nullable
 as int,local: null == local ? _self.local : local // ignore: cast_nullable_to_non_nullable
@@ -1920,16 +1968,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsReplies&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.unanswered, unanswered) || other.unanswered == unanswered)&&(identical(other.local, local) || other.local == local)&&(identical(other.optimized, optimized) || other.optimized == optimized)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.sum, sum) || other.sum == sum));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsReplies&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.unanswered, unanswered) || other.unanswered == unanswered)&&(identical(other.local, local) || other.local == local)&&(identical(other.optimized, optimized) || other.optimized == optimized)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.sum, sum) || other.sum == sum));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,forwarded,unanswered,local,optimized,auth,sum);
+int get hashCode {
+    return Object.hash(runtimeType,forwarded,unanswered,local,optimized,auth,sum);
+}
 
 @override
 String toString() {
-  return 'DnsReplies(forwarded: $forwarded, unanswered: $unanswered, local: $local, optimized: $optimized, auth: $auth, sum: $sum)';
+    return 'DnsReplies(forwarded: $forwarded, unanswered: $unanswered, local: $local, optimized: $optimized, auth: $auth, sum: $sum)';
 }
 
 
@@ -1989,16 +2039,21 @@ $DhcpMetricsCopyWith<DhcpMetrics> get copyWith => _$DhcpMetricsCopyWithImpl<Dhcp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DhcpMetrics&&(identical(other.ack, ack) || other.ack == ack)&&(identical(other.nak, nak) || other.nak == nak)&&(identical(other.decline, decline) || other.decline == decline)&&(identical(other.offer, offer) || other.offer == offer)&&(identical(other.discover, discover) || other.discover == discover)&&(identical(other.inform, inform) || other.inform == inform)&&(identical(other.request, request) || other.request == request)&&(identical(other.release, release) || other.release == release)&&(identical(other.noanswer, noanswer) || other.noanswer == noanswer)&&(identical(other.bootp, bootp) || other.bootp == bootp)&&(identical(other.pxe, pxe) || other.pxe == pxe)&&(identical(other.leases, leases) || other.leases == leases));
+  final _this = this as DhcpMetrics;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DhcpMetrics&&(identical(other.ack, _this.ack) || other.ack == _this.ack)&&(identical(other.nak, _this.nak) || other.nak == _this.nak)&&(identical(other.decline, _this.decline) || other.decline == _this.decline)&&(identical(other.offer, _this.offer) || other.offer == _this.offer)&&(identical(other.discover, _this.discover) || other.discover == _this.discover)&&(identical(other.inform, _this.inform) || other.inform == _this.inform)&&(identical(other.request, _this.request) || other.request == _this.request)&&(identical(other.release, _this.release) || other.release == _this.release)&&(identical(other.noanswer, _this.noanswer) || other.noanswer == _this.noanswer)&&(identical(other.bootp, _this.bootp) || other.bootp == _this.bootp)&&(identical(other.pxe, _this.pxe) || other.pxe == _this.pxe)&&(identical(other.leases, _this.leases) || other.leases == _this.leases));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ack,nak,decline,offer,discover,inform,request,release,noanswer,bootp,pxe,leases);
+int get hashCode {
+  final _this = this as DhcpMetrics;
+  return Object.hash(runtimeType,_this.ack,_this.nak,_this.decline,_this.offer,_this.discover,_this.inform,_this.request,_this.release,_this.noanswer,_this.bootp,_this.pxe,_this.leases);
+}
 
 @override
 String toString() {
-  return 'DhcpMetrics(ack: $ack, nak: $nak, decline: $decline, offer: $offer, discover: $discover, inform: $inform, request: $request, release: $release, noanswer: $noanswer, bootp: $bootp, pxe: $pxe, leases: $leases)';
+  final _this = this as DhcpMetrics;
+  return 'DhcpMetrics(ack: ${_this.ack}, nak: ${_this.nak}, decline: ${_this.decline}, offer: ${_this.offer}, discover: ${_this.discover}, inform: ${_this.inform}, request: ${_this.request}, release: ${_this.release}, noanswer: ${_this.noanswer}, bootp: ${_this.bootp}, pxe: ${_this.pxe}, leases: ${_this.leases})';
 }
 
 
@@ -2027,7 +2082,7 @@ class _$DhcpMetricsCopyWithImpl<$Res>
 /// Create a copy of DhcpMetrics
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ack = null,Object? nak = null,Object? decline = null,Object? offer = null,Object? discover = null,Object? inform = null,Object? request = null,Object? release = null,Object? noanswer = null,Object? bootp = null,Object? pxe = null,Object? leases = null,}) {
-  return _then(_self.copyWith(
+  return _then(DhcpMetrics(
 ack: null == ack ? _self.ack : ack // ignore: cast_nullable_to_non_nullable
 as int,nak: null == nak ? _self.nak : nak // ignore: cast_nullable_to_non_nullable
 as int,decline: null == decline ? _self.decline : decline // ignore: cast_nullable_to_non_nullable
@@ -2213,16 +2268,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DhcpMetrics&&(identical(other.ack, ack) || other.ack == ack)&&(identical(other.nak, nak) || other.nak == nak)&&(identical(other.decline, decline) || other.decline == decline)&&(identical(other.offer, offer) || other.offer == offer)&&(identical(other.discover, discover) || other.discover == discover)&&(identical(other.inform, inform) || other.inform == inform)&&(identical(other.request, request) || other.request == request)&&(identical(other.release, release) || other.release == release)&&(identical(other.noanswer, noanswer) || other.noanswer == noanswer)&&(identical(other.bootp, bootp) || other.bootp == bootp)&&(identical(other.pxe, pxe) || other.pxe == pxe)&&(identical(other.leases, leases) || other.leases == leases));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DhcpMetrics&&(identical(other.ack, ack) || other.ack == ack)&&(identical(other.nak, nak) || other.nak == nak)&&(identical(other.decline, decline) || other.decline == decline)&&(identical(other.offer, offer) || other.offer == offer)&&(identical(other.discover, discover) || other.discover == discover)&&(identical(other.inform, inform) || other.inform == inform)&&(identical(other.request, request) || other.request == request)&&(identical(other.release, release) || other.release == release)&&(identical(other.noanswer, noanswer) || other.noanswer == noanswer)&&(identical(other.bootp, bootp) || other.bootp == bootp)&&(identical(other.pxe, pxe) || other.pxe == pxe)&&(identical(other.leases, leases) || other.leases == leases));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ack,nak,decline,offer,discover,inform,request,release,noanswer,bootp,pxe,leases);
+int get hashCode {
+    return Object.hash(runtimeType,ack,nak,decline,offer,discover,inform,request,release,noanswer,bootp,pxe,leases);
+}
 
 @override
 String toString() {
-  return 'DhcpMetrics(ack: $ack, nak: $nak, decline: $decline, offer: $offer, discover: $discover, inform: $inform, request: $request, release: $release, noanswer: $noanswer, bootp: $bootp, pxe: $pxe, leases: $leases)';
+    return 'DhcpMetrics(ack: $ack, nak: $nak, decline: $decline, offer: $offer, discover: $discover, inform: $inform, request: $request, release: $release, noanswer: $noanswer, bootp: $bootp, pxe: $pxe, leases: $leases)';
 }
 
 
@@ -2297,16 +2354,21 @@ $DhcpLeasesCopyWith<DhcpLeases> get copyWith => _$DhcpLeasesCopyWithImpl<DhcpLea
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DhcpLeases&&(identical(other.allocated4, allocated4) || other.allocated4 == allocated4)&&(identical(other.pruned4, pruned4) || other.pruned4 == pruned4)&&(identical(other.allocated6, allocated6) || other.allocated6 == allocated6)&&(identical(other.pruned6, pruned6) || other.pruned6 == pruned6));
+  final _this = this as DhcpLeases;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DhcpLeases&&(identical(other.allocated4, _this.allocated4) || other.allocated4 == _this.allocated4)&&(identical(other.pruned4, _this.pruned4) || other.pruned4 == _this.pruned4)&&(identical(other.allocated6, _this.allocated6) || other.allocated6 == _this.allocated6)&&(identical(other.pruned6, _this.pruned6) || other.pruned6 == _this.pruned6));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,allocated4,pruned4,allocated6,pruned6);
+int get hashCode {
+  final _this = this as DhcpLeases;
+  return Object.hash(runtimeType,_this.allocated4,_this.pruned4,_this.allocated6,_this.pruned6);
+}
 
 @override
 String toString() {
-  return 'DhcpLeases(allocated4: $allocated4, pruned4: $pruned4, allocated6: $allocated6, pruned6: $pruned6)';
+  final _this = this as DhcpLeases;
+  return 'DhcpLeases(allocated4: ${_this.allocated4}, pruned4: ${_this.pruned4}, allocated6: ${_this.allocated6}, pruned6: ${_this.pruned6})';
 }
 
 
@@ -2335,7 +2397,7 @@ class _$DhcpLeasesCopyWithImpl<$Res>
 /// Create a copy of DhcpLeases
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? allocated4 = null,Object? pruned4 = null,Object? allocated6 = null,Object? pruned6 = null,}) {
-  return _then(_self.copyWith(
+  return _then(DhcpLeases(
 allocated4: null == allocated4 ? _self.allocated4 : allocated4 // ignore: cast_nullable_to_non_nullable
 as int,pruned4: null == pruned4 ? _self.pruned4 : pruned4 // ignore: cast_nullable_to_non_nullable
 as int,allocated6: null == allocated6 ? _self.allocated6 : allocated6 // ignore: cast_nullable_to_non_nullable
@@ -2496,16 +2558,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DhcpLeases&&(identical(other.allocated4, allocated4) || other.allocated4 == allocated4)&&(identical(other.pruned4, pruned4) || other.pruned4 == pruned4)&&(identical(other.allocated6, allocated6) || other.allocated6 == allocated6)&&(identical(other.pruned6, pruned6) || other.pruned6 == pruned6));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DhcpLeases&&(identical(other.allocated4, allocated4) || other.allocated4 == allocated4)&&(identical(other.pruned4, pruned4) || other.pruned4 == pruned4)&&(identical(other.allocated6, allocated6) || other.allocated6 == allocated6)&&(identical(other.pruned6, pruned6) || other.pruned6 == pruned6));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,allocated4,pruned4,allocated6,pruned6);
+int get hashCode {
+    return Object.hash(runtimeType,allocated4,pruned4,allocated6,pruned6);
+}
 
 @override
 String toString() {
-  return 'DhcpLeases(allocated4: $allocated4, pruned4: $pruned4, allocated6: $allocated6, pruned6: $pruned6)';
+    return 'DhcpLeases(allocated4: $allocated4, pruned4: $pruned4, allocated6: $allocated6, pruned6: $pruned6)';
 }
 
 

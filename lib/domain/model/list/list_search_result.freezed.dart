@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'list_search_result.dart';
@@ -9,6 +9,7 @@ part of 'list_search_result.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $ListSearchResultCopyWith<ListSearchResult> get copyWith => _$ListSearchResultCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ListSearchResult&&const DeepCollectionEquality().equals(other.domains, domains)&&const DeepCollectionEquality().equals(other.gravityMatches, gravityMatches)&&(identical(other.meta, meta) || other.meta == meta));
+  final _this = this as ListSearchResult;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ListSearchResult&&const DeepCollectionEquality().equals(other.domains, _this.domains)&&const DeepCollectionEquality().equals(other.gravityMatches, _this.gravityMatches)&&(identical(other.meta, _this.meta) || other.meta == _this.meta));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(domains),const DeepCollectionEquality().hash(gravityMatches),meta);
+int get hashCode {
+  final _this = this as ListSearchResult;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.domains),const DeepCollectionEquality().hash(_this.gravityMatches),_this.meta);
+}
 
 @override
 String toString() {
-  return 'ListSearchResult(domains: $domains, gravityMatches: $gravityMatches, meta: $meta)';
+  final _this = this as ListSearchResult;
+  return 'ListSearchResult(domains: ${_this.domains}, gravityMatches: ${_this.gravityMatches}, meta: ${_this.meta})';
 }
 
 
@@ -63,7 +69,7 @@ class _$ListSearchResultCopyWithImpl<$Res>
 /// Create a copy of ListSearchResult
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domains = null,Object? gravityMatches = null,Object? meta = null,}) {
-  return _then(_self.copyWith(
+  return _then(ListSearchResult(
 domains: null == domains ? _self.domains : domains // ignore: cast_nullable_to_non_nullable
 as List<Domain>,gravityMatches: null == gravityMatches ? _self.gravityMatches : gravityMatches // ignore: cast_nullable_to_non_nullable
 as List<GravityMatch>,meta: null == meta ? _self.meta : meta // ignore: cast_nullable_to_non_nullable
@@ -211,7 +217,7 @@ return $default(_that.domains,_that.gravityMatches,_that.meta);case _:
 
 
 class _ListSearchResult implements ListSearchResult {
-  const _ListSearchResult({required final  List<Domain> domains, required final  List<GravityMatch> gravityMatches, required this.meta}): _domains = domains,_gravityMatches = gravityMatches;
+  const _ListSearchResult({required  List<Domain> domains, required  List<GravityMatch> gravityMatches, required this.meta}): _domains = domains,_gravityMatches = gravityMatches;
   
 
  final  List<Domain> _domains;
@@ -240,16 +246,18 @@ _$ListSearchResultCopyWith<_ListSearchResult> get copyWith => __$ListSearchResul
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ListSearchResult&&const DeepCollectionEquality().equals(other._domains, _domains)&&const DeepCollectionEquality().equals(other._gravityMatches, _gravityMatches)&&(identical(other.meta, meta) || other.meta == meta));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ListSearchResult&&const DeepCollectionEquality().equals(other.domains, _domains)&&const DeepCollectionEquality().equals(other.gravityMatches, _gravityMatches)&&(identical(other.meta, meta) || other.meta == meta));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_domains),const DeepCollectionEquality().hash(_gravityMatches),meta);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_domains),const DeepCollectionEquality().hash(_gravityMatches),meta);
+}
 
 @override
 String toString() {
-  return 'ListSearchResult(domains: $domains, gravityMatches: $gravityMatches, meta: $meta)';
+    return 'ListSearchResult(domains: $domains, gravityMatches: $gravityMatches, meta: $meta)';
 }
 
 
@@ -312,16 +320,21 @@ $GravityMatchCopyWith<GravityMatch> get copyWith => _$GravityMatchCopyWithImpl<G
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GravityMatch&&(identical(other.adlist, adlist) || other.adlist == adlist)&&(identical(other.matchedDomain, matchedDomain) || other.matchedDomain == matchedDomain));
+  final _this = this as GravityMatch;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GravityMatch&&(identical(other.adlist, _this.adlist) || other.adlist == _this.adlist)&&(identical(other.matchedDomain, _this.matchedDomain) || other.matchedDomain == _this.matchedDomain));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,adlist,matchedDomain);
+int get hashCode {
+  final _this = this as GravityMatch;
+  return Object.hash(runtimeType,_this.adlist,_this.matchedDomain);
+}
 
 @override
 String toString() {
-  return 'GravityMatch(adlist: $adlist, matchedDomain: $matchedDomain)';
+  final _this = this as GravityMatch;
+  return 'GravityMatch(adlist: ${_this.adlist}, matchedDomain: ${_this.matchedDomain})';
 }
 
 
@@ -350,7 +363,7 @@ class _$GravityMatchCopyWithImpl<$Res>
 /// Create a copy of GravityMatch
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? adlist = null,Object? matchedDomain = null,}) {
-  return _then(_self.copyWith(
+  return _then(GravityMatch(
 adlist: null == adlist ? _self.adlist : adlist // ignore: cast_nullable_to_non_nullable
 as Adlist,matchedDomain: null == matchedDomain ? _self.matchedDomain : matchedDomain // ignore: cast_nullable_to_non_nullable
 as String,
@@ -513,16 +526,18 @@ _$GravityMatchCopyWith<_GravityMatch> get copyWith => __$GravityMatchCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GravityMatch&&(identical(other.adlist, adlist) || other.adlist == adlist)&&(identical(other.matchedDomain, matchedDomain) || other.matchedDomain == matchedDomain));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _GravityMatch&&(identical(other.adlist, adlist) || other.adlist == adlist)&&(identical(other.matchedDomain, matchedDomain) || other.matchedDomain == matchedDomain));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,adlist,matchedDomain);
+int get hashCode {
+    return Object.hash(runtimeType,adlist,matchedDomain);
+}
 
 @override
 String toString() {
-  return 'GravityMatch(adlist: $adlist, matchedDomain: $matchedDomain)';
+    return 'GravityMatch(adlist: $adlist, matchedDomain: $matchedDomain)';
 }
 
 
@@ -584,16 +599,21 @@ $ListSearchMetaCopyWith<ListSearchMeta> get copyWith => _$ListSearchMetaCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ListSearchMeta&&(identical(other.domainsExact, domainsExact) || other.domainsExact == domainsExact)&&(identical(other.domainsRegex, domainsRegex) || other.domainsRegex == domainsRegex)&&(identical(other.gravityAllow, gravityAllow) || other.gravityAllow == gravityAllow)&&(identical(other.gravityBlock, gravityBlock) || other.gravityBlock == gravityBlock)&&(identical(other.total, total) || other.total == total));
+  final _this = this as ListSearchMeta;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ListSearchMeta&&(identical(other.domainsExact, _this.domainsExact) || other.domainsExact == _this.domainsExact)&&(identical(other.domainsRegex, _this.domainsRegex) || other.domainsRegex == _this.domainsRegex)&&(identical(other.gravityAllow, _this.gravityAllow) || other.gravityAllow == _this.gravityAllow)&&(identical(other.gravityBlock, _this.gravityBlock) || other.gravityBlock == _this.gravityBlock)&&(identical(other.total, _this.total) || other.total == _this.total));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,domainsExact,domainsRegex,gravityAllow,gravityBlock,total);
+int get hashCode {
+  final _this = this as ListSearchMeta;
+  return Object.hash(runtimeType,_this.domainsExact,_this.domainsRegex,_this.gravityAllow,_this.gravityBlock,_this.total);
+}
 
 @override
 String toString() {
-  return 'ListSearchMeta(domainsExact: $domainsExact, domainsRegex: $domainsRegex, gravityAllow: $gravityAllow, gravityBlock: $gravityBlock, total: $total)';
+  final _this = this as ListSearchMeta;
+  return 'ListSearchMeta(domainsExact: ${_this.domainsExact}, domainsRegex: ${_this.domainsRegex}, gravityAllow: ${_this.gravityAllow}, gravityBlock: ${_this.gravityBlock}, total: ${_this.total})';
 }
 
 
@@ -622,7 +642,7 @@ class _$ListSearchMetaCopyWithImpl<$Res>
 /// Create a copy of ListSearchMeta
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domainsExact = null,Object? domainsRegex = null,Object? gravityAllow = null,Object? gravityBlock = null,Object? total = null,}) {
-  return _then(_self.copyWith(
+  return _then(ListSearchMeta(
 domainsExact: null == domainsExact ? _self.domainsExact : domainsExact // ignore: cast_nullable_to_non_nullable
 as int,domainsRegex: null == domainsRegex ? _self.domainsRegex : domainsRegex // ignore: cast_nullable_to_non_nullable
 as int,gravityAllow: null == gravityAllow ? _self.gravityAllow : gravityAllow // ignore: cast_nullable_to_non_nullable
@@ -782,16 +802,18 @@ _$ListSearchMetaCopyWith<_ListSearchMeta> get copyWith => __$ListSearchMetaCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ListSearchMeta&&(identical(other.domainsExact, domainsExact) || other.domainsExact == domainsExact)&&(identical(other.domainsRegex, domainsRegex) || other.domainsRegex == domainsRegex)&&(identical(other.gravityAllow, gravityAllow) || other.gravityAllow == gravityAllow)&&(identical(other.gravityBlock, gravityBlock) || other.gravityBlock == gravityBlock)&&(identical(other.total, total) || other.total == total));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ListSearchMeta&&(identical(other.domainsExact, domainsExact) || other.domainsExact == domainsExact)&&(identical(other.domainsRegex, domainsRegex) || other.domainsRegex == domainsRegex)&&(identical(other.gravityAllow, gravityAllow) || other.gravityAllow == gravityAllow)&&(identical(other.gravityBlock, gravityBlock) || other.gravityBlock == gravityBlock)&&(identical(other.total, total) || other.total == total));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,domainsExact,domainsRegex,gravityAllow,gravityBlock,total);
+int get hashCode {
+    return Object.hash(runtimeType,domainsExact,domainsRegex,gravityAllow,gravityBlock,total);
+}
 
 @override
 String toString() {
-  return 'ListSearchMeta(domainsExact: $domainsExact, domainsRegex: $domainsRegex, gravityAllow: $gravityAllow, gravityBlock: $gravityBlock, total: $total)';
+    return 'ListSearchMeta(domainsExact: $domainsExact, domainsRegex: $domainsRegex, gravityAllow: $gravityAllow, gravityBlock: $gravityBlock, total: $total)';
 }
 
 

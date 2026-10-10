@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'routes.dart';
@@ -9,6 +9,7 @@ part of 'routes.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $RoutesCopyWith<Routes> get copyWith => _$RoutesCopyWithImpl<Routes>(this as Rou
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Routes&&const DeepCollectionEquality().equals(other.routes, routes)&&(identical(other.took, took) || other.took == took));
+  final _this = this as Routes;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Routes&&const DeepCollectionEquality().equals(other.routes, _this.routes)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(routes),took);
+int get hashCode {
+  final _this = this as Routes;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.routes),_this.took);
+}
 
 @override
 String toString() {
-  return 'Routes(routes: $routes, took: $took)';
+  final _this = this as Routes;
+  return 'Routes(routes: ${_this.routes}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$RoutesCopyWithImpl<$Res>
 /// Create a copy of Routes
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? routes = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(Routes(
 routes: null == routes ? _self.routes : routes // ignore: cast_nullable_to_non_nullable
 as List<RouteData>,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -204,7 +210,7 @@ return $default(_that.routes,_that.took);case _:
 @JsonSerializable()
 
 class _Routes implements Routes {
-  const _Routes({required final  List<RouteData> routes, required this.took}): _routes = routes;
+  const _Routes({required  List<RouteData> routes, required this.took}): _routes = routes;
   factory _Routes.fromJson(Map<String, dynamic> json) => _$RoutesFromJson(json);
 
  final  List<RouteData> _routes;
@@ -229,16 +235,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Routes&&const DeepCollectionEquality().equals(other._routes, _routes)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Routes&&const DeepCollectionEquality().equals(other.routes, _routes)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_routes),took);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_routes),took);
+}
 
 @override
 String toString() {
-  return 'Routes(routes: $routes, took: $took)';
+    return 'Routes(routes: $routes, took: $took)';
 }
 
 
@@ -294,16 +302,21 @@ $RouteDataCopyWith<RouteData> get copyWith => _$RouteDataCopyWithImpl<RouteData>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RouteData&&(identical(other.table, table) || other.table == table)&&(identical(other.family, family) || other.family == family)&&(identical(other.protocol, protocol) || other.protocol == protocol)&&(identical(other.scope, scope) || other.scope == scope)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.flags, flags)&&(identical(other.dst, dst) || other.dst == dst)&&(identical(other.iflags, iflags) || other.iflags == iflags)&&(identical(other.gateway, gateway) || other.gateway == gateway)&&(identical(other.oif, oif) || other.oif == oif)&&(identical(other.iif, iif) || other.iif == iif)&&(identical(other.src, src) || other.src == src)&&(identical(other.prefsrc, prefsrc) || other.prefsrc == prefsrc)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.pref, pref) || other.pref == pref)&&(identical(other.cstamp, cstamp) || other.cstamp == cstamp)&&(identical(other.tstamp, tstamp) || other.tstamp == tstamp)&&(identical(other.expires, expires) || other.expires == expires)&&(identical(other.error, error) || other.error == error)&&(identical(other.used, used) || other.used == used));
+  final _this = this as RouteData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RouteData&&(identical(other.table, _this.table) || other.table == _this.table)&&(identical(other.family, _this.family) || other.family == _this.family)&&(identical(other.protocol, _this.protocol) || other.protocol == _this.protocol)&&(identical(other.scope, _this.scope) || other.scope == _this.scope)&&(identical(other.type, _this.type) || other.type == _this.type)&&const DeepCollectionEquality().equals(other.flags, _this.flags)&&(identical(other.dst, _this.dst) || other.dst == _this.dst)&&(identical(other.iflags, _this.iflags) || other.iflags == _this.iflags)&&(identical(other.gateway, _this.gateway) || other.gateway == _this.gateway)&&(identical(other.oif, _this.oif) || other.oif == _this.oif)&&(identical(other.iif, _this.iif) || other.iif == _this.iif)&&(identical(other.src, _this.src) || other.src == _this.src)&&(identical(other.prefsrc, _this.prefsrc) || other.prefsrc == _this.prefsrc)&&(identical(other.priority, _this.priority) || other.priority == _this.priority)&&(identical(other.pref, _this.pref) || other.pref == _this.pref)&&(identical(other.cstamp, _this.cstamp) || other.cstamp == _this.cstamp)&&(identical(other.tstamp, _this.tstamp) || other.tstamp == _this.tstamp)&&(identical(other.expires, _this.expires) || other.expires == _this.expires)&&(identical(other.error, _this.error) || other.error == _this.error)&&(identical(other.used, _this.used) || other.used == _this.used));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,table,family,protocol,scope,type,const DeepCollectionEquality().hash(flags),dst,iflags,gateway,oif,iif,src,prefsrc,priority,pref,cstamp,tstamp,expires,error,used]);
+int get hashCode {
+  final _this = this as RouteData;
+  return Object.hashAll([runtimeType,_this.table,_this.family,_this.protocol,_this.scope,_this.type,const DeepCollectionEquality().hash(_this.flags),_this.dst,_this.iflags,_this.gateway,_this.oif,_this.iif,_this.src,_this.prefsrc,_this.priority,_this.pref,_this.cstamp,_this.tstamp,_this.expires,_this.error,_this.used]);
+}
 
 @override
 String toString() {
-  return 'RouteData(table: $table, family: $family, protocol: $protocol, scope: $scope, type: $type, flags: $flags, dst: $dst, iflags: $iflags, gateway: $gateway, oif: $oif, iif: $iif, src: $src, prefsrc: $prefsrc, priority: $priority, pref: $pref, cstamp: $cstamp, tstamp: $tstamp, expires: $expires, error: $error, used: $used)';
+  final _this = this as RouteData;
+  return 'RouteData(table: ${_this.table}, family: ${_this.family}, protocol: ${_this.protocol}, scope: ${_this.scope}, type: ${_this.type}, flags: ${_this.flags}, dst: ${_this.dst}, iflags: ${_this.iflags}, gateway: ${_this.gateway}, oif: ${_this.oif}, iif: ${_this.iif}, src: ${_this.src}, prefsrc: ${_this.prefsrc}, priority: ${_this.priority}, pref: ${_this.pref}, cstamp: ${_this.cstamp}, tstamp: ${_this.tstamp}, expires: ${_this.expires}, error: ${_this.error}, used: ${_this.used})';
 }
 
 
@@ -332,7 +345,7 @@ class _$RouteDataCopyWithImpl<$Res>
 /// Create a copy of RouteData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? table = null,Object? family = null,Object? protocol = null,Object? scope = null,Object? type = null,Object? flags = null,Object? dst = null,Object? iflags = freezed,Object? gateway = freezed,Object? oif = freezed,Object? iif = freezed,Object? src = freezed,Object? prefsrc = freezed,Object? priority = freezed,Object? pref = freezed,Object? cstamp = freezed,Object? tstamp = freezed,Object? expires = freezed,Object? error = freezed,Object? used = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(RouteData(
 table: null == table ? _self.table : table // ignore: cast_nullable_to_non_nullable
 as int,family: null == family ? _self.family : family // ignore: cast_nullable_to_non_nullable
 as String,protocol: null == protocol ? _self.protocol : protocol // ignore: cast_nullable_to_non_nullable
@@ -488,7 +501,7 @@ return $default(_that.table,_that.family,_that.protocol,_that.scope,_that.type,_
 @JsonSerializable()
 
 class _RouteData implements RouteData {
-  const _RouteData({required this.table, required this.family, required this.protocol, required this.scope, required this.type, required final  List<String> flags, required this.dst, this.iflags, this.gateway, this.oif, this.iif, this.src, this.prefsrc, this.priority, this.pref, this.cstamp, this.tstamp, this.expires, this.error, this.used}): _flags = flags;
+  const _RouteData({required this.table, required this.family, required this.protocol, required this.scope, required this.type, required  List<String> flags, required this.dst, this.iflags, this.gateway, this.oif, this.iif, this.src, this.prefsrc, this.priority, this.pref, this.cstamp, this.tstamp, this.expires, this.error, this.used}): _flags = flags;
   factory _RouteData.fromJson(Map<String, dynamic> json) => _$RouteDataFromJson(json);
 
 @override final  int table;
@@ -531,16 +544,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RouteData&&(identical(other.table, table) || other.table == table)&&(identical(other.family, family) || other.family == family)&&(identical(other.protocol, protocol) || other.protocol == protocol)&&(identical(other.scope, scope) || other.scope == scope)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other._flags, _flags)&&(identical(other.dst, dst) || other.dst == dst)&&(identical(other.iflags, iflags) || other.iflags == iflags)&&(identical(other.gateway, gateway) || other.gateway == gateway)&&(identical(other.oif, oif) || other.oif == oif)&&(identical(other.iif, iif) || other.iif == iif)&&(identical(other.src, src) || other.src == src)&&(identical(other.prefsrc, prefsrc) || other.prefsrc == prefsrc)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.pref, pref) || other.pref == pref)&&(identical(other.cstamp, cstamp) || other.cstamp == cstamp)&&(identical(other.tstamp, tstamp) || other.tstamp == tstamp)&&(identical(other.expires, expires) || other.expires == expires)&&(identical(other.error, error) || other.error == error)&&(identical(other.used, used) || other.used == used));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RouteData&&(identical(other.table, table) || other.table == table)&&(identical(other.family, family) || other.family == family)&&(identical(other.protocol, protocol) || other.protocol == protocol)&&(identical(other.scope, scope) || other.scope == scope)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.flags, _flags)&&(identical(other.dst, dst) || other.dst == dst)&&(identical(other.iflags, iflags) || other.iflags == iflags)&&(identical(other.gateway, gateway) || other.gateway == gateway)&&(identical(other.oif, oif) || other.oif == oif)&&(identical(other.iif, iif) || other.iif == iif)&&(identical(other.src, src) || other.src == src)&&(identical(other.prefsrc, prefsrc) || other.prefsrc == prefsrc)&&(identical(other.priority, priority) || other.priority == priority)&&(identical(other.pref, pref) || other.pref == pref)&&(identical(other.cstamp, cstamp) || other.cstamp == cstamp)&&(identical(other.tstamp, tstamp) || other.tstamp == tstamp)&&(identical(other.expires, expires) || other.expires == expires)&&(identical(other.error, error) || other.error == error)&&(identical(other.used, used) || other.used == used));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,table,family,protocol,scope,type,const DeepCollectionEquality().hash(_flags),dst,iflags,gateway,oif,iif,src,prefsrc,priority,pref,cstamp,tstamp,expires,error,used]);
+int get hashCode {
+    return Object.hashAll([runtimeType,table,family,protocol,scope,type,const DeepCollectionEquality().hash(_flags),dst,iflags,gateway,oif,iif,src,prefsrc,priority,pref,cstamp,tstamp,expires,error,used]);
+}
 
 @override
 String toString() {
-  return 'RouteData(table: $table, family: $family, protocol: $protocol, scope: $scope, type: $type, flags: $flags, dst: $dst, iflags: $iflags, gateway: $gateway, oif: $oif, iif: $iif, src: $src, prefsrc: $prefsrc, priority: $priority, pref: $pref, cstamp: $cstamp, tstamp: $tstamp, expires: $expires, error: $error, used: $used)';
+    return 'RouteData(table: $table, family: $family, protocol: $protocol, scope: $scope, type: $type, flags: $flags, dst: $dst, iflags: $iflags, gateway: $gateway, oif: $oif, iif: $iif, src: $src, prefsrc: $prefsrc, priority: $priority, pref: $pref, cstamp: $cstamp, tstamp: $tstamp, expires: $expires, error: $error, used: $used)';
 }
 
 

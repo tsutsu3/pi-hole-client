@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'groups.dart';
@@ -9,6 +9,7 @@ part of 'groups.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $GroupsCopyWith<Groups> get copyWith => _$GroupsCopyWithImpl<Groups>(this as Gro
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Groups&&const DeepCollectionEquality().equals(other.groups, groups)&&(identical(other.took, took) || other.took == took)&&(identical(other.processed, processed) || other.processed == processed));
+  final _this = this as Groups;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Groups&&const DeepCollectionEquality().equals(other.groups, _this.groups)&&(identical(other.took, _this.took) || other.took == _this.took)&&(identical(other.processed, _this.processed) || other.processed == _this.processed));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(groups),took,processed);
+int get hashCode {
+  final _this = this as Groups;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.groups),_this.took,_this.processed);
+}
 
 @override
 String toString() {
-  return 'Groups(groups: $groups, took: $took, processed: $processed)';
+  final _this = this as Groups;
+  return 'Groups(groups: ${_this.groups}, took: ${_this.took}, processed: ${_this.processed})';
 }
 
 
@@ -66,7 +72,7 @@ class _$GroupsCopyWithImpl<$Res>
 /// Create a copy of Groups
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? groups = null,Object? took = null,Object? processed = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Groups(
 groups: null == groups ? _self.groups : groups // ignore: cast_nullable_to_non_nullable
 as List<Group>,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,processed: freezed == processed ? _self.processed : processed // ignore: cast_nullable_to_non_nullable
@@ -217,7 +223,7 @@ return $default(_that.groups,_that.took,_that.processed);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _Groups implements Groups {
-  const _Groups({required final  List<Group> groups, required this.took, this.processed}): _groups = groups;
+  const _Groups({required  List<Group> groups, required this.took, this.processed}): _groups = groups;
   factory _Groups.fromJson(Map<String, dynamic> json) => _$GroupsFromJson(json);
 
  final  List<Group> _groups;
@@ -243,16 +249,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Groups&&const DeepCollectionEquality().equals(other._groups, _groups)&&(identical(other.took, took) || other.took == took)&&(identical(other.processed, processed) || other.processed == processed));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Groups&&const DeepCollectionEquality().equals(other.groups, _groups)&&(identical(other.took, took) || other.took == took)&&(identical(other.processed, processed) || other.processed == processed));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_groups),took,processed);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_groups),took,processed);
+}
 
 @override
 String toString() {
-  return 'Groups(groups: $groups, took: $took, processed: $processed)';
+    return 'Groups(groups: $groups, took: $took, processed: $processed)';
 }
 
 
@@ -321,16 +329,21 @@ $GroupCopyWith<Group> get copyWith => _$GroupCopyWithImpl<Group>(this as Group, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Group&&(identical(other.name, name) || other.name == name)&&(identical(other.id, id) || other.id == id)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.comment, comment) || other.comment == comment));
+  final _this = this as Group;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Group&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.enabled, _this.enabled) || other.enabled == _this.enabled)&&(identical(other.dateAdded, _this.dateAdded) || other.dateAdded == _this.dateAdded)&&(identical(other.dateModified, _this.dateModified) || other.dateModified == _this.dateModified)&&(identical(other.comment, _this.comment) || other.comment == _this.comment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,id,enabled,dateAdded,dateModified,comment);
+int get hashCode {
+  final _this = this as Group;
+  return Object.hash(runtimeType,_this.name,_this.id,_this.enabled,_this.dateAdded,_this.dateModified,_this.comment);
+}
 
 @override
 String toString() {
-  return 'Group(name: $name, id: $id, enabled: $enabled, dateAdded: $dateAdded, dateModified: $dateModified, comment: $comment)';
+  final _this = this as Group;
+  return 'Group(name: ${_this.name}, id: ${_this.id}, enabled: ${_this.enabled}, dateAdded: ${_this.dateAdded}, dateModified: ${_this.dateModified}, comment: ${_this.comment})';
 }
 
 
@@ -359,7 +372,7 @@ class _$GroupCopyWithImpl<$Res>
 /// Create a copy of Group
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? id = null,Object? enabled = null,Object? dateAdded = null,Object? dateModified = null,Object? comment = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Group(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,enabled: null == enabled ? _self.enabled : enabled // ignore: cast_nullable_to_non_nullable
@@ -524,16 +537,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Group&&(identical(other.name, name) || other.name == name)&&(identical(other.id, id) || other.id == id)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.comment, comment) || other.comment == comment));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Group&&(identical(other.name, name) || other.name == name)&&(identical(other.id, id) || other.id == id)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.comment, comment) || other.comment == comment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,id,enabled,dateAdded,dateModified,comment);
+int get hashCode {
+    return Object.hash(runtimeType,name,id,enabled,dateAdded,dateModified,comment);
+}
 
 @override
 String toString() {
-  return 'Group(name: $name, id: $id, enabled: $enabled, dateAdded: $dateAdded, dateModified: $dateModified, comment: $comment)';
+    return 'Group(name: $name, id: $id, enabled: $enabled, dateAdded: $dateAdded, dateModified: $dateModified, comment: $comment)';
 }
 
 
@@ -593,16 +608,21 @@ $ProcessedCopyWith<Processed> get copyWith => _$ProcessedCopyWithImpl<Processed>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Processed&&const DeepCollectionEquality().equals(other.success, success)&&const DeepCollectionEquality().equals(other.errors, errors));
+  final _this = this as Processed;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Processed&&const DeepCollectionEquality().equals(other.success, _this.success)&&const DeepCollectionEquality().equals(other.errors, _this.errors));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(success),const DeepCollectionEquality().hash(errors));
+int get hashCode {
+  final _this = this as Processed;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.success),const DeepCollectionEquality().hash(_this.errors));
+}
 
 @override
 String toString() {
-  return 'Processed(success: $success, errors: $errors)';
+  final _this = this as Processed;
+  return 'Processed(success: ${_this.success}, errors: ${_this.errors})';
 }
 
 
@@ -631,7 +651,7 @@ class _$ProcessedCopyWithImpl<$Res>
 /// Create a copy of Processed
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? success = null,Object? errors = null,}) {
-  return _then(_self.copyWith(
+  return _then(Processed(
 success: null == success ? _self.success : success // ignore: cast_nullable_to_non_nullable
 as List<ProcessedSuccess>,errors: null == errors ? _self.errors : errors // ignore: cast_nullable_to_non_nullable
 as List<ProcessedError>,
@@ -769,7 +789,7 @@ return $default(_that.success,_that.errors);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _Processed implements Processed {
-  const _Processed({required final  List<ProcessedSuccess> success, required final  List<ProcessedError> errors}): _success = success,_errors = errors;
+  const _Processed({required  List<ProcessedSuccess> success, required  List<ProcessedError> errors}): _success = success,_errors = errors;
   factory _Processed.fromJson(Map<String, dynamic> json) => _$ProcessedFromJson(json);
 
  final  List<ProcessedSuccess> _success;
@@ -800,16 +820,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Processed&&const DeepCollectionEquality().equals(other._success, _success)&&const DeepCollectionEquality().equals(other._errors, _errors));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Processed&&const DeepCollectionEquality().equals(other.success, _success)&&const DeepCollectionEquality().equals(other.errors, _errors));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_success),const DeepCollectionEquality().hash(_errors));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_success),const DeepCollectionEquality().hash(_errors));
+}
 
 @override
 String toString() {
-  return 'Processed(success: $success, errors: $errors)';
+    return 'Processed(success: $success, errors: $errors)';
 }
 
 
@@ -865,16 +887,21 @@ $ProcessedSuccessCopyWith<ProcessedSuccess> get copyWith => _$ProcessedSuccessCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProcessedSuccess&&(identical(other.item, item) || other.item == item));
+  final _this = this as ProcessedSuccess;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProcessedSuccess&&(identical(other.item, _this.item) || other.item == _this.item));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,item);
+int get hashCode {
+  final _this = this as ProcessedSuccess;
+  return Object.hash(runtimeType,_this.item);
+}
 
 @override
 String toString() {
-  return 'ProcessedSuccess(item: $item)';
+  final _this = this as ProcessedSuccess;
+  return 'ProcessedSuccess(item: ${_this.item})';
 }
 
 
@@ -903,7 +930,7 @@ class _$ProcessedSuccessCopyWithImpl<$Res>
 /// Create a copy of ProcessedSuccess
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? item = null,}) {
-  return _then(_self.copyWith(
+  return _then(ProcessedSuccess(
 item: null == item ? _self.item : item // ignore: cast_nullable_to_non_nullable
 as String,
   ));
@@ -1058,16 +1085,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProcessedSuccess&&(identical(other.item, item) || other.item == item));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProcessedSuccess&&(identical(other.item, item) || other.item == item));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,item);
+int get hashCode {
+    return Object.hash(runtimeType,item);
+}
 
 @override
 String toString() {
-  return 'ProcessedSuccess(item: $item)';
+    return 'ProcessedSuccess(item: $item)';
 }
 
 
@@ -1122,16 +1151,21 @@ $ProcessedErrorCopyWith<ProcessedError> get copyWith => _$ProcessedErrorCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProcessedError&&(identical(other.item, item) || other.item == item)&&(identical(other.error, error) || other.error == error));
+  final _this = this as ProcessedError;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProcessedError&&(identical(other.item, _this.item) || other.item == _this.item)&&(identical(other.error, _this.error) || other.error == _this.error));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,item,error);
+int get hashCode {
+  final _this = this as ProcessedError;
+  return Object.hash(runtimeType,_this.item,_this.error);
+}
 
 @override
 String toString() {
-  return 'ProcessedError(item: $item, error: $error)';
+  final _this = this as ProcessedError;
+  return 'ProcessedError(item: ${_this.item}, error: ${_this.error})';
 }
 
 
@@ -1160,7 +1194,7 @@ class _$ProcessedErrorCopyWithImpl<$Res>
 /// Create a copy of ProcessedError
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? item = null,Object? error = null,}) {
-  return _then(_self.copyWith(
+  return _then(ProcessedError(
 item: null == item ? _self.item : item // ignore: cast_nullable_to_non_nullable
 as String,error: null == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
 as String,
@@ -1317,16 +1351,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProcessedError&&(identical(other.item, item) || other.item == item)&&(identical(other.error, error) || other.error == error));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProcessedError&&(identical(other.item, item) || other.item == item)&&(identical(other.error, error) || other.error == error));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,item,error);
+int get hashCode {
+    return Object.hash(runtimeType,item,error);
+}
 
 @override
 String toString() {
-  return 'ProcessedError(item: $item, error: $error)';
+    return 'ProcessedError(item: $item, error: $error)';
 }
 
 

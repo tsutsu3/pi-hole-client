@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'sessions.dart';
@@ -9,6 +9,7 @@ part of 'sessions.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $AuthSessionsCopyWith<AuthSessions> get copyWith => _$AuthSessionsCopyWithImpl<A
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthSessions&&const DeepCollectionEquality().equals(other.sessions, sessions)&&(identical(other.took, took) || other.took == took));
+  final _this = this as AuthSessions;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthSessions&&const DeepCollectionEquality().equals(other.sessions, _this.sessions)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(sessions),took);
+int get hashCode {
+  final _this = this as AuthSessions;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.sessions),_this.took);
+}
 
 @override
 String toString() {
-  return 'AuthSessions(sessions: $sessions, took: $took)';
+  final _this = this as AuthSessions;
+  return 'AuthSessions(sessions: ${_this.sessions}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$AuthSessionsCopyWithImpl<$Res>
 /// Create a copy of AuthSessions
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? sessions = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(AuthSessions(
 sessions: null == sessions ? _self.sessions : sessions // ignore: cast_nullable_to_non_nullable
 as List<SessionData>,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -204,7 +210,7 @@ return $default(_that.sessions,_that.took);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _AuthSessions implements AuthSessions {
-  const _AuthSessions({required final  List<SessionData> sessions, required this.took}): _sessions = sessions;
+  const _AuthSessions({required  List<SessionData> sessions, required this.took}): _sessions = sessions;
   factory _AuthSessions.fromJson(Map<String, dynamic> json) => _$AuthSessionsFromJson(json);
 
  final  List<SessionData> _sessions;
@@ -229,16 +235,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthSessions&&const DeepCollectionEquality().equals(other._sessions, _sessions)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthSessions&&const DeepCollectionEquality().equals(other.sessions, _sessions)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_sessions),took);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_sessions),took);
+}
 
 @override
 String toString() {
-  return 'AuthSessions(sessions: $sessions, took: $took)';
+    return 'AuthSessions(sessions: $sessions, took: $took)';
 }
 
 
@@ -294,16 +302,21 @@ $SessionDataCopyWith<SessionData> get copyWith => _$SessionDataCopyWithImpl<Sess
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionData&&(identical(other.id, id) || other.id == id)&&(identical(other.currentSession, currentSession) || other.currentSession == currentSession)&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.tls, tls) || other.tls == tls)&&(identical(other.app, app) || other.app == app)&&(identical(other.cli, cli) || other.cli == cli)&&(identical(other.loginAt, loginAt) || other.loginAt == loginAt)&&(identical(other.lastActive, lastActive) || other.lastActive == lastActive)&&(identical(other.validUntil, validUntil) || other.validUntil == validUntil)&&(identical(other.remoteAddr, remoteAddr) || other.remoteAddr == remoteAddr)&&(identical(other.userAgent, userAgent) || other.userAgent == userAgent)&&(identical(other.xForwardedFor, xForwardedFor) || other.xForwardedFor == xForwardedFor));
+  final _this = this as SessionData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SessionData&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.currentSession, _this.currentSession) || other.currentSession == _this.currentSession)&&(identical(other.valid, _this.valid) || other.valid == _this.valid)&&(identical(other.tls, _this.tls) || other.tls == _this.tls)&&(identical(other.app, _this.app) || other.app == _this.app)&&(identical(other.cli, _this.cli) || other.cli == _this.cli)&&(identical(other.loginAt, _this.loginAt) || other.loginAt == _this.loginAt)&&(identical(other.lastActive, _this.lastActive) || other.lastActive == _this.lastActive)&&(identical(other.validUntil, _this.validUntil) || other.validUntil == _this.validUntil)&&(identical(other.remoteAddr, _this.remoteAddr) || other.remoteAddr == _this.remoteAddr)&&(identical(other.userAgent, _this.userAgent) || other.userAgent == _this.userAgent)&&(identical(other.xForwardedFor, _this.xForwardedFor) || other.xForwardedFor == _this.xForwardedFor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,currentSession,valid,tls,app,cli,loginAt,lastActive,validUntil,remoteAddr,userAgent,xForwardedFor);
+int get hashCode {
+  final _this = this as SessionData;
+  return Object.hash(runtimeType,_this.id,_this.currentSession,_this.valid,_this.tls,_this.app,_this.cli,_this.loginAt,_this.lastActive,_this.validUntil,_this.remoteAddr,_this.userAgent,_this.xForwardedFor);
+}
 
 @override
 String toString() {
-  return 'SessionData(id: $id, currentSession: $currentSession, valid: $valid, tls: $tls, app: $app, cli: $cli, loginAt: $loginAt, lastActive: $lastActive, validUntil: $validUntil, remoteAddr: $remoteAddr, userAgent: $userAgent, xForwardedFor: $xForwardedFor)';
+  final _this = this as SessionData;
+  return 'SessionData(id: ${_this.id}, currentSession: ${_this.currentSession}, valid: ${_this.valid}, tls: ${_this.tls}, app: ${_this.app}, cli: ${_this.cli}, loginAt: ${_this.loginAt}, lastActive: ${_this.lastActive}, validUntil: ${_this.validUntil}, remoteAddr: ${_this.remoteAddr}, userAgent: ${_this.userAgent}, xForwardedFor: ${_this.xForwardedFor})';
 }
 
 
@@ -332,7 +345,7 @@ class _$SessionDataCopyWithImpl<$Res>
 /// Create a copy of SessionData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? currentSession = null,Object? valid = null,Object? tls = null,Object? app = null,Object? cli = null,Object? loginAt = null,Object? lastActive = null,Object? validUntil = null,Object? remoteAddr = null,Object? userAgent = freezed,Object? xForwardedFor = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(SessionData(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,currentSession: null == currentSession ? _self.currentSession : currentSession // ignore: cast_nullable_to_non_nullable
 as bool,valid: null == valid ? _self.valid : valid // ignore: cast_nullable_to_non_nullable
@@ -518,16 +531,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionData&&(identical(other.id, id) || other.id == id)&&(identical(other.currentSession, currentSession) || other.currentSession == currentSession)&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.tls, tls) || other.tls == tls)&&(identical(other.app, app) || other.app == app)&&(identical(other.cli, cli) || other.cli == cli)&&(identical(other.loginAt, loginAt) || other.loginAt == loginAt)&&(identical(other.lastActive, lastActive) || other.lastActive == lastActive)&&(identical(other.validUntil, validUntil) || other.validUntil == validUntil)&&(identical(other.remoteAddr, remoteAddr) || other.remoteAddr == remoteAddr)&&(identical(other.userAgent, userAgent) || other.userAgent == userAgent)&&(identical(other.xForwardedFor, xForwardedFor) || other.xForwardedFor == xForwardedFor));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SessionData&&(identical(other.id, id) || other.id == id)&&(identical(other.currentSession, currentSession) || other.currentSession == currentSession)&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.tls, tls) || other.tls == tls)&&(identical(other.app, app) || other.app == app)&&(identical(other.cli, cli) || other.cli == cli)&&(identical(other.loginAt, loginAt) || other.loginAt == loginAt)&&(identical(other.lastActive, lastActive) || other.lastActive == lastActive)&&(identical(other.validUntil, validUntil) || other.validUntil == validUntil)&&(identical(other.remoteAddr, remoteAddr) || other.remoteAddr == remoteAddr)&&(identical(other.userAgent, userAgent) || other.userAgent == userAgent)&&(identical(other.xForwardedFor, xForwardedFor) || other.xForwardedFor == xForwardedFor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,currentSession,valid,tls,app,cli,loginAt,lastActive,validUntil,remoteAddr,userAgent,xForwardedFor);
+int get hashCode {
+    return Object.hash(runtimeType,id,currentSession,valid,tls,app,cli,loginAt,lastActive,validUntil,remoteAddr,userAgent,xForwardedFor);
+}
 
 @override
 String toString() {
-  return 'SessionData(id: $id, currentSession: $currentSession, valid: $valid, tls: $tls, app: $app, cli: $cli, loginAt: $loginAt, lastActive: $lastActive, validUntil: $validUntil, remoteAddr: $remoteAddr, userAgent: $userAgent, xForwardedFor: $xForwardedFor)';
+    return 'SessionData(id: $id, currentSession: $currentSession, valid: $valid, tls: $tls, app: $app, cli: $cli, loginAt: $loginAt, lastActive: $lastActive, validUntil: $validUntil, remoteAddr: $remoteAddr, userAgent: $userAgent, xForwardedFor: $xForwardedFor)';
 }
 
 
@@ -602,16 +617,21 @@ $TlsCopyWith<Tls> get copyWith => _$TlsCopyWithImpl<Tls>(this as Tls, _$identity
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Tls&&(identical(other.login, login) || other.login == login)&&(identical(other.mixed, mixed) || other.mixed == mixed));
+  final _this = this as Tls;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Tls&&(identical(other.login, _this.login) || other.login == _this.login)&&(identical(other.mixed, _this.mixed) || other.mixed == _this.mixed));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,login,mixed);
+int get hashCode {
+  final _this = this as Tls;
+  return Object.hash(runtimeType,_this.login,_this.mixed);
+}
 
 @override
 String toString() {
-  return 'Tls(login: $login, mixed: $mixed)';
+  final _this = this as Tls;
+  return 'Tls(login: ${_this.login}, mixed: ${_this.mixed})';
 }
 
 
@@ -640,7 +660,7 @@ class _$TlsCopyWithImpl<$Res>
 /// Create a copy of Tls
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? login = null,Object? mixed = null,}) {
-  return _then(_self.copyWith(
+  return _then(Tls(
 login: null == login ? _self.login : login // ignore: cast_nullable_to_non_nullable
 as bool,mixed: null == mixed ? _self.mixed : mixed // ignore: cast_nullable_to_non_nullable
 as bool,
@@ -797,16 +817,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Tls&&(identical(other.login, login) || other.login == login)&&(identical(other.mixed, mixed) || other.mixed == mixed));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Tls&&(identical(other.login, login) || other.login == login)&&(identical(other.mixed, mixed) || other.mixed == mixed));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,login,mixed);
+int get hashCode {
+    return Object.hash(runtimeType,login,mixed);
+}
 
 @override
 String toString() {
-  return 'Tls(login: $login, mixed: $mixed)';
+    return 'Tls(login: $login, mixed: $mixed)';
 }
 
 

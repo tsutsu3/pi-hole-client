@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'dhcp.dart';
@@ -9,6 +9,7 @@ part of 'dhcp.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $DhcpCopyWith<Dhcp> get copyWith => _$DhcpCopyWithImpl<Dhcp>(this as Dhcp, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Dhcp&&const DeepCollectionEquality().equals(other.leases, leases)&&(identical(other.took, took) || other.took == took));
+  final _this = this as Dhcp;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Dhcp&&const DeepCollectionEquality().equals(other.leases, _this.leases)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(leases),took);
+int get hashCode {
+  final _this = this as Dhcp;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.leases),_this.took);
+}
 
 @override
 String toString() {
-  return 'Dhcp(leases: $leases, took: $took)';
+  final _this = this as Dhcp;
+  return 'Dhcp(leases: ${_this.leases}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$DhcpCopyWithImpl<$Res>
 /// Create a copy of Dhcp
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? leases = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(Dhcp(
 leases: null == leases ? _self.leases : leases // ignore: cast_nullable_to_non_nullable
 as List<DhcpData>,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -204,7 +210,7 @@ return $default(_that.leases,_that.took);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _Dhcp implements Dhcp {
-  const _Dhcp({required final  List<DhcpData> leases, required this.took}): _leases = leases;
+  const _Dhcp({required  List<DhcpData> leases, required this.took}): _leases = leases;
   factory _Dhcp.fromJson(Map<String, dynamic> json) => _$DhcpFromJson(json);
 
  final  List<DhcpData> _leases;
@@ -229,16 +235,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Dhcp&&const DeepCollectionEquality().equals(other._leases, _leases)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Dhcp&&const DeepCollectionEquality().equals(other.leases, _leases)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_leases),took);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_leases),took);
+}
 
 @override
 String toString() {
-  return 'Dhcp(leases: $leases, took: $took)';
+    return 'Dhcp(leases: $leases, took: $took)';
 }
 
 
@@ -294,16 +302,21 @@ $DhcpDataCopyWith<DhcpData> get copyWith => _$DhcpDataCopyWithImpl<DhcpData>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DhcpData&&(identical(other.expires, expires) || other.expires == expires)&&(identical(other.name, name) || other.name == name)&&(identical(other.hwaddr, hwaddr) || other.hwaddr == hwaddr)&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.clientid, clientid) || other.clientid == clientid));
+  final _this = this as DhcpData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DhcpData&&(identical(other.expires, _this.expires) || other.expires == _this.expires)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.hwaddr, _this.hwaddr) || other.hwaddr == _this.hwaddr)&&(identical(other.ip, _this.ip) || other.ip == _this.ip)&&(identical(other.clientid, _this.clientid) || other.clientid == _this.clientid));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,expires,name,hwaddr,ip,clientid);
+int get hashCode {
+  final _this = this as DhcpData;
+  return Object.hash(runtimeType,_this.expires,_this.name,_this.hwaddr,_this.ip,_this.clientid);
+}
 
 @override
 String toString() {
-  return 'DhcpData(expires: $expires, name: $name, hwaddr: $hwaddr, ip: $ip, clientid: $clientid)';
+  final _this = this as DhcpData;
+  return 'DhcpData(expires: ${_this.expires}, name: ${_this.name}, hwaddr: ${_this.hwaddr}, ip: ${_this.ip}, clientid: ${_this.clientid})';
 }
 
 
@@ -332,7 +345,7 @@ class _$DhcpDataCopyWithImpl<$Res>
 /// Create a copy of DhcpData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? expires = null,Object? name = null,Object? hwaddr = null,Object? ip = null,Object? clientid = null,}) {
-  return _then(_self.copyWith(
+  return _then(DhcpData(
 expires: null == expires ? _self.expires : expires // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,hwaddr: null == hwaddr ? _self.hwaddr : hwaddr // ignore: cast_nullable_to_non_nullable
@@ -495,16 +508,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DhcpData&&(identical(other.expires, expires) || other.expires == expires)&&(identical(other.name, name) || other.name == name)&&(identical(other.hwaddr, hwaddr) || other.hwaddr == hwaddr)&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.clientid, clientid) || other.clientid == clientid));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DhcpData&&(identical(other.expires, expires) || other.expires == expires)&&(identical(other.name, name) || other.name == name)&&(identical(other.hwaddr, hwaddr) || other.hwaddr == hwaddr)&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.clientid, clientid) || other.clientid == clientid));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,expires,name,hwaddr,ip,clientid);
+int get hashCode {
+    return Object.hash(runtimeType,expires,name,hwaddr,ip,clientid);
+}
 
 @override
 String toString() {
-  return 'DhcpData(expires: $expires, name: $name, hwaddr: $hwaddr, ip: $ip, clientid: $clientid)';
+    return 'DhcpData(expires: $expires, name: $name, hwaddr: $hwaddr, ip: $ip, clientid: $clientid)';
 }
 
 

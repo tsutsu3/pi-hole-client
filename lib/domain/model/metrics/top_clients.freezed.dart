@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'top_clients.dart';
@@ -9,14 +9,14 @@ part of 'top_clients.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$TopClients {
 
- List<SourceStat> get topSources; List<SourceStat> get topSourcesBlocked;// v6-only fields
- int? get totalQueries; int? get blockedQueries;
+ List<SourceStat> get topSources; List<SourceStat> get topSourcesBlocked; int? get totalQueries; int? get blockedQueries;
 /// Create a copy of TopClients
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,21 @@ $TopClientsCopyWith<TopClients> get copyWith => _$TopClientsCopyWithImpl<TopClie
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TopClients&&const DeepCollectionEquality().equals(other.topSources, topSources)&&const DeepCollectionEquality().equals(other.topSourcesBlocked, topSourcesBlocked)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.blockedQueries, blockedQueries) || other.blockedQueries == blockedQueries));
+  final _this = this as TopClients;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TopClients&&const DeepCollectionEquality().equals(other.topSources, _this.topSources)&&const DeepCollectionEquality().equals(other.topSourcesBlocked, _this.topSourcesBlocked)&&(identical(other.totalQueries, _this.totalQueries) || other.totalQueries == _this.totalQueries)&&(identical(other.blockedQueries, _this.blockedQueries) || other.blockedQueries == _this.blockedQueries));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(topSources),const DeepCollectionEquality().hash(topSourcesBlocked),totalQueries,blockedQueries);
+int get hashCode {
+  final _this = this as TopClients;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.topSources),const DeepCollectionEquality().hash(_this.topSourcesBlocked),_this.totalQueries,_this.blockedQueries);
+}
 
 @override
 String toString() {
-  return 'TopClients(topSources: $topSources, topSourcesBlocked: $topSourcesBlocked, totalQueries: $totalQueries, blockedQueries: $blockedQueries)';
+  final _this = this as TopClients;
+  return 'TopClients(topSources: ${_this.topSources}, topSourcesBlocked: ${_this.topSourcesBlocked}, totalQueries: ${_this.totalQueries}, blockedQueries: ${_this.blockedQueries})';
 }
 
 
@@ -67,7 +72,7 @@ class _$TopClientsCopyWithImpl<$Res>
 /// Create a copy of TopClients
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? topSources = null,Object? topSourcesBlocked = null,Object? totalQueries = freezed,Object? blockedQueries = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(TopClients(
 topSources: null == topSources ? _self.topSources : topSources // ignore: cast_nullable_to_non_nullable
 as List<SourceStat>,topSourcesBlocked: null == topSourcesBlocked ? _self.topSourcesBlocked : topSourcesBlocked // ignore: cast_nullable_to_non_nullable
 as List<SourceStat>,totalQueries: freezed == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
@@ -207,7 +212,7 @@ return $default(_that.topSources,_that.topSourcesBlocked,_that.totalQueries,_tha
 
 @JsonSerializable(explicitToJson: true)
 class _TopClients implements TopClients {
-  const _TopClients({required final  List<SourceStat> topSources, required final  List<SourceStat> topSourcesBlocked, this.totalQueries, this.blockedQueries}): _topSources = topSources,_topSourcesBlocked = topSourcesBlocked;
+  const _TopClients({required  List<SourceStat> topSources, required  List<SourceStat> topSourcesBlocked, this.totalQueries, this.blockedQueries}): _topSources = topSources,_topSourcesBlocked = topSourcesBlocked;
   factory _TopClients.fromJson(Map<String, dynamic> json) => _$TopClientsFromJson(json);
 
  final  List<SourceStat> _topSources;
@@ -224,7 +229,6 @@ class _TopClients implements TopClients {
   return EqualUnmodifiableListView(_topSourcesBlocked);
 }
 
-// v6-only fields
 @override final  int? totalQueries;
 @override final  int? blockedQueries;
 
@@ -241,16 +245,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TopClients&&const DeepCollectionEquality().equals(other._topSources, _topSources)&&const DeepCollectionEquality().equals(other._topSourcesBlocked, _topSourcesBlocked)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.blockedQueries, blockedQueries) || other.blockedQueries == blockedQueries));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TopClients&&const DeepCollectionEquality().equals(other.topSources, _topSources)&&const DeepCollectionEquality().equals(other.topSourcesBlocked, _topSourcesBlocked)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.blockedQueries, blockedQueries) || other.blockedQueries == blockedQueries));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_topSources),const DeepCollectionEquality().hash(_topSourcesBlocked),totalQueries,blockedQueries);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_topSources),const DeepCollectionEquality().hash(_topSourcesBlocked),totalQueries,blockedQueries);
+}
 
 @override
 String toString() {
-  return 'TopClients(topSources: $topSources, topSourcesBlocked: $topSourcesBlocked, totalQueries: $totalQueries, blockedQueries: $blockedQueries)';
+    return 'TopClients(topSources: $topSources, topSourcesBlocked: $topSourcesBlocked, totalQueries: $totalQueries, blockedQueries: $blockedQueries)';
 }
 
 
@@ -308,16 +314,21 @@ $SourceStatCopyWith<SourceStat> get copyWith => _$SourceStatCopyWithImpl<SourceS
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SourceStat&&(identical(other.source, source) || other.source == source)&&(identical(other.count, count) || other.count == count));
+  final _this = this as SourceStat;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SourceStat&&(identical(other.source, _this.source) || other.source == _this.source)&&(identical(other.count, _this.count) || other.count == _this.count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,source,count);
+int get hashCode {
+  final _this = this as SourceStat;
+  return Object.hash(runtimeType,_this.source,_this.count);
+}
 
 @override
 String toString() {
-  return 'SourceStat(source: $source, count: $count)';
+  final _this = this as SourceStat;
+  return 'SourceStat(source: ${_this.source}, count: ${_this.count})';
 }
 
 
@@ -346,7 +357,7 @@ class _$SourceStatCopyWithImpl<$Res>
 /// Create a copy of SourceStat
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? source = null,Object? count = null,}) {
-  return _then(_self.copyWith(
+  return _then(SourceStat(
 source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
 as String,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
 as int,
@@ -503,16 +514,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SourceStat&&(identical(other.source, source) || other.source == source)&&(identical(other.count, count) || other.count == count));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SourceStat&&(identical(other.source, source) || other.source == source)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,source,count);
+int get hashCode {
+    return Object.hash(runtimeType,source,count);
+}
 
 @override
 String toString() {
-  return 'SourceStat(source: $source, count: $count)';
+    return 'SourceStat(source: $source, count: $count)';
 }
 
 

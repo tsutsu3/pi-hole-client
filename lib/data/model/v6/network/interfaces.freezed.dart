@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'interfaces.dart';
@@ -9,6 +9,7 @@ part of 'interfaces.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $InterfacesCopyWith<Interfaces> get copyWith => _$InterfacesCopyWithImpl<Interfa
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Interfaces&&const DeepCollectionEquality().equals(other.interfaces, interfaces)&&(identical(other.took, took) || other.took == took));
+  final _this = this as Interfaces;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Interfaces&&const DeepCollectionEquality().equals(other.interfaces, _this.interfaces)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(interfaces),took);
+int get hashCode {
+  final _this = this as Interfaces;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.interfaces),_this.took);
+}
 
 @override
 String toString() {
-  return 'Interfaces(interfaces: $interfaces, took: $took)';
+  final _this = this as Interfaces;
+  return 'Interfaces(interfaces: ${_this.interfaces}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$InterfacesCopyWithImpl<$Res>
 /// Create a copy of Interfaces
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? interfaces = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(Interfaces(
 interfaces: null == interfaces ? _self.interfaces : interfaces // ignore: cast_nullable_to_non_nullable
 as List<InterfaceData>,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -204,7 +210,7 @@ return $default(_that.interfaces,_that.took);case _:
 @JsonSerializable()
 
 class _Interfaces implements Interfaces {
-  const _Interfaces({required final  List<InterfaceData> interfaces, required this.took}): _interfaces = interfaces;
+  const _Interfaces({required  List<InterfaceData> interfaces, required this.took}): _interfaces = interfaces;
   factory _Interfaces.fromJson(Map<String, dynamic> json) => _$InterfacesFromJson(json);
 
  final  List<InterfaceData> _interfaces;
@@ -229,16 +235,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Interfaces&&const DeepCollectionEquality().equals(other._interfaces, _interfaces)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Interfaces&&const DeepCollectionEquality().equals(other.interfaces, _interfaces)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_interfaces),took);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_interfaces),took);
+}
 
 @override
 String toString() {
-  return 'Interfaces(interfaces: $interfaces, took: $took)';
+    return 'Interfaces(interfaces: $interfaces, took: $took)';
 }
 
 
@@ -294,16 +302,21 @@ $InterfaceDataCopyWith<InterfaceData> get copyWith => _$InterfaceDataCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InterfaceData&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.flags, flags)&&(identical(other.state, state) || other.state == state)&&(identical(other.protoDown, protoDown) || other.protoDown == protoDown)&&(identical(other.address, address) || other.address == address)&&(identical(other.broadcast, broadcast) || other.broadcast == broadcast)&&(identical(other.carrier, carrier) || other.carrier == carrier)&&(identical(other.stats, stats) || other.stats == stats)&&const DeepCollectionEquality().equals(other.addresses, addresses)&&(identical(other.index, index) || other.index == index)&&(identical(other.family, family) || other.family == family)&&(identical(other.speed, speed) || other.speed == speed)&&(identical(other.permAddress, permAddress) || other.permAddress == permAddress)&&(identical(other.ifname, ifname) || other.ifname == ifname)&&(identical(other.txqlen, txqlen) || other.txqlen == txqlen)&&(identical(other.linkmode, linkmode) || other.linkmode == linkmode)&&(identical(other.mtu, mtu) || other.mtu == mtu)&&(identical(other.minMtu, minMtu) || other.minMtu == minMtu)&&(identical(other.maxMtu, maxMtu) || other.maxMtu == maxMtu)&&(identical(other.group, group) || other.group == group)&&(identical(other.promiscuity, promiscuity) || other.promiscuity == promiscuity)&&const DeepCollectionEquality().equals(other.unknown, unknown)&&(identical(other.numTxQueues, numTxQueues) || other.numTxQueues == numTxQueues)&&(identical(other.numRxQueues, numRxQueues) || other.numRxQueues == numRxQueues)&&(identical(other.gsoMaxSegs, gsoMaxSegs) || other.gsoMaxSegs == gsoMaxSegs)&&(identical(other.gsoMaxSize, gsoMaxSize) || other.gsoMaxSize == gsoMaxSize)&&(identical(other.map, map) || other.map == map)&&(identical(other.carrierChanges, carrierChanges) || other.carrierChanges == carrierChanges)&&(identical(other.carrierUpCount, carrierUpCount) || other.carrierUpCount == carrierUpCount)&&(identical(other.carrierDownCount, carrierDownCount) || other.carrierDownCount == carrierDownCount)&&(identical(other.linkKind, linkKind) || other.linkKind == linkKind)&&(identical(other.qdisc, qdisc) || other.qdisc == qdisc)&&(identical(other.parentDevName, parentDevName) || other.parentDevName == parentDevName)&&(identical(other.parentDevBusName, parentDevBusName) || other.parentDevBusName == parentDevBusName));
+  final _this = this as InterfaceData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InterfaceData&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.type, _this.type) || other.type == _this.type)&&const DeepCollectionEquality().equals(other.flags, _this.flags)&&(identical(other.state, _this.state) || other.state == _this.state)&&(identical(other.protoDown, _this.protoDown) || other.protoDown == _this.protoDown)&&(identical(other.address, _this.address) || other.address == _this.address)&&(identical(other.broadcast, _this.broadcast) || other.broadcast == _this.broadcast)&&(identical(other.carrier, _this.carrier) || other.carrier == _this.carrier)&&(identical(other.stats, _this.stats) || other.stats == _this.stats)&&const DeepCollectionEquality().equals(other.addresses, _this.addresses)&&(identical(other.index, _this.index) || other.index == _this.index)&&(identical(other.family, _this.family) || other.family == _this.family)&&(identical(other.speed, _this.speed) || other.speed == _this.speed)&&(identical(other.permAddress, _this.permAddress) || other.permAddress == _this.permAddress)&&(identical(other.ifname, _this.ifname) || other.ifname == _this.ifname)&&(identical(other.txqlen, _this.txqlen) || other.txqlen == _this.txqlen)&&(identical(other.linkmode, _this.linkmode) || other.linkmode == _this.linkmode)&&(identical(other.mtu, _this.mtu) || other.mtu == _this.mtu)&&(identical(other.minMtu, _this.minMtu) || other.minMtu == _this.minMtu)&&(identical(other.maxMtu, _this.maxMtu) || other.maxMtu == _this.maxMtu)&&(identical(other.group, _this.group) || other.group == _this.group)&&(identical(other.promiscuity, _this.promiscuity) || other.promiscuity == _this.promiscuity)&&const DeepCollectionEquality().equals(other.unknown, _this.unknown)&&(identical(other.numTxQueues, _this.numTxQueues) || other.numTxQueues == _this.numTxQueues)&&(identical(other.numRxQueues, _this.numRxQueues) || other.numRxQueues == _this.numRxQueues)&&(identical(other.gsoMaxSegs, _this.gsoMaxSegs) || other.gsoMaxSegs == _this.gsoMaxSegs)&&(identical(other.gsoMaxSize, _this.gsoMaxSize) || other.gsoMaxSize == _this.gsoMaxSize)&&(identical(other.map, _this.map) || other.map == _this.map)&&(identical(other.carrierChanges, _this.carrierChanges) || other.carrierChanges == _this.carrierChanges)&&(identical(other.carrierUpCount, _this.carrierUpCount) || other.carrierUpCount == _this.carrierUpCount)&&(identical(other.carrierDownCount, _this.carrierDownCount) || other.carrierDownCount == _this.carrierDownCount)&&(identical(other.linkKind, _this.linkKind) || other.linkKind == _this.linkKind)&&(identical(other.qdisc, _this.qdisc) || other.qdisc == _this.qdisc)&&(identical(other.parentDevName, _this.parentDevName) || other.parentDevName == _this.parentDevName)&&(identical(other.parentDevBusName, _this.parentDevBusName) || other.parentDevBusName == _this.parentDevBusName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,name,type,const DeepCollectionEquality().hash(flags),state,protoDown,address,broadcast,carrier,stats,const DeepCollectionEquality().hash(addresses),index,family,speed,permAddress,ifname,txqlen,linkmode,mtu,minMtu,maxMtu,group,promiscuity,const DeepCollectionEquality().hash(unknown),numTxQueues,numRxQueues,gsoMaxSegs,gsoMaxSize,map,carrierChanges,carrierUpCount,carrierDownCount,linkKind,qdisc,parentDevName,parentDevBusName]);
+int get hashCode {
+  final _this = this as InterfaceData;
+  return Object.hashAll([runtimeType,_this.name,_this.type,const DeepCollectionEquality().hash(_this.flags),_this.state,_this.protoDown,_this.address,_this.broadcast,_this.carrier,_this.stats,const DeepCollectionEquality().hash(_this.addresses),_this.index,_this.family,_this.speed,_this.permAddress,_this.ifname,_this.txqlen,_this.linkmode,_this.mtu,_this.minMtu,_this.maxMtu,_this.group,_this.promiscuity,const DeepCollectionEquality().hash(_this.unknown),_this.numTxQueues,_this.numRxQueues,_this.gsoMaxSegs,_this.gsoMaxSize,_this.map,_this.carrierChanges,_this.carrierUpCount,_this.carrierDownCount,_this.linkKind,_this.qdisc,_this.parentDevName,_this.parentDevBusName]);
+}
 
 @override
 String toString() {
-  return 'InterfaceData(name: $name, type: $type, flags: $flags, state: $state, protoDown: $protoDown, address: $address, broadcast: $broadcast, carrier: $carrier, stats: $stats, addresses: $addresses, index: $index, family: $family, speed: $speed, permAddress: $permAddress, ifname: $ifname, txqlen: $txqlen, linkmode: $linkmode, mtu: $mtu, minMtu: $minMtu, maxMtu: $maxMtu, group: $group, promiscuity: $promiscuity, unknown: $unknown, numTxQueues: $numTxQueues, numRxQueues: $numRxQueues, gsoMaxSegs: $gsoMaxSegs, gsoMaxSize: $gsoMaxSize, map: $map, carrierChanges: $carrierChanges, carrierUpCount: $carrierUpCount, carrierDownCount: $carrierDownCount, linkKind: $linkKind, qdisc: $qdisc, parentDevName: $parentDevName, parentDevBusName: $parentDevBusName)';
+  final _this = this as InterfaceData;
+  return 'InterfaceData(name: ${_this.name}, type: ${_this.type}, flags: ${_this.flags}, state: ${_this.state}, protoDown: ${_this.protoDown}, address: ${_this.address}, broadcast: ${_this.broadcast}, carrier: ${_this.carrier}, stats: ${_this.stats}, addresses: ${_this.addresses}, index: ${_this.index}, family: ${_this.family}, speed: ${_this.speed}, permAddress: ${_this.permAddress}, ifname: ${_this.ifname}, txqlen: ${_this.txqlen}, linkmode: ${_this.linkmode}, mtu: ${_this.mtu}, minMtu: ${_this.minMtu}, maxMtu: ${_this.maxMtu}, group: ${_this.group}, promiscuity: ${_this.promiscuity}, unknown: ${_this.unknown}, numTxQueues: ${_this.numTxQueues}, numRxQueues: ${_this.numRxQueues}, gsoMaxSegs: ${_this.gsoMaxSegs}, gsoMaxSize: ${_this.gsoMaxSize}, map: ${_this.map}, carrierChanges: ${_this.carrierChanges}, carrierUpCount: ${_this.carrierUpCount}, carrierDownCount: ${_this.carrierDownCount}, linkKind: ${_this.linkKind}, qdisc: ${_this.qdisc}, parentDevName: ${_this.parentDevName}, parentDevBusName: ${_this.parentDevBusName})';
 }
 
 
@@ -332,7 +345,7 @@ class _$InterfaceDataCopyWithImpl<$Res>
 /// Create a copy of InterfaceData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? type = null,Object? flags = null,Object? state = null,Object? protoDown = null,Object? address = null,Object? broadcast = null,Object? carrier = null,Object? stats = null,Object? addresses = null,Object? index = freezed,Object? family = freezed,Object? speed = freezed,Object? permAddress = freezed,Object? ifname = freezed,Object? txqlen = freezed,Object? linkmode = freezed,Object? mtu = freezed,Object? minMtu = freezed,Object? maxMtu = freezed,Object? group = freezed,Object? promiscuity = freezed,Object? unknown = freezed,Object? numTxQueues = freezed,Object? numRxQueues = freezed,Object? gsoMaxSegs = freezed,Object? gsoMaxSize = freezed,Object? map = freezed,Object? carrierChanges = freezed,Object? carrierUpCount = freezed,Object? carrierDownCount = freezed,Object? linkKind = freezed,Object? qdisc = freezed,Object? parentDevName = freezed,Object? parentDevBusName = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(InterfaceData(
 name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String,flags: null == flags ? _self.flags : flags // ignore: cast_nullable_to_non_nullable
@@ -512,7 +525,7 @@ return $default(_that.name,_that.type,_that.flags,_that.state,_that.protoDown,_t
 @JsonSerializable()
 
 class _InterfaceData implements InterfaceData {
-  const _InterfaceData({required this.name, required this.type, required final  List<String> flags, required this.state, @JsonKey(name: 'proto_down') required this.protoDown, required this.address, required this.broadcast, required this.carrier, required this.stats, required final  List<InterfaceAddress> addresses, this.index, this.family, this.speed, @JsonKey(name: 'perm_address') this.permAddress, this.ifname, this.txqlen, this.linkmode, this.mtu, @JsonKey(name: 'min_mtu') this.minMtu, @JsonKey(name: 'max_mtu') this.maxMtu, this.group, this.promiscuity, final  List<int>? unknown, @JsonKey(name: 'num_tx_queues') this.numTxQueues, @JsonKey(name: 'num_rx_queues') this.numRxQueues, @JsonKey(name: 'gso_max_segs') this.gsoMaxSegs, @JsonKey(name: 'gso_max_size') this.gsoMaxSize, this.map, @JsonKey(name: 'carrier_changes') this.carrierChanges, @JsonKey(name: 'carrier_up_count') this.carrierUpCount, @JsonKey(name: 'carrier_down_count') this.carrierDownCount, @JsonKey(name: 'link_kind') this.linkKind, this.qdisc, @JsonKey(name: 'parent_dev_name') this.parentDevName, @JsonKey(name: 'parent_dev_bus_name') this.parentDevBusName}): _flags = flags,_addresses = addresses,_unknown = unknown;
+  const _InterfaceData({required this.name, required this.type, required  List<String> flags, required this.state, @JsonKey(name: 'proto_down') required this.protoDown, required this.address, required this.broadcast, required this.carrier, required this.stats, required  List<InterfaceAddress> addresses, this.index, this.family, this.speed, @JsonKey(name: 'perm_address') this.permAddress, this.ifname, this.txqlen, this.linkmode, this.mtu, @JsonKey(name: 'min_mtu') this.minMtu, @JsonKey(name: 'max_mtu') this.maxMtu, this.group, this.promiscuity,  List<int>? unknown, @JsonKey(name: 'num_tx_queues') this.numTxQueues, @JsonKey(name: 'num_rx_queues') this.numRxQueues, @JsonKey(name: 'gso_max_segs') this.gsoMaxSegs, @JsonKey(name: 'gso_max_size') this.gsoMaxSize, this.map, @JsonKey(name: 'carrier_changes') this.carrierChanges, @JsonKey(name: 'carrier_up_count') this.carrierUpCount, @JsonKey(name: 'carrier_down_count') this.carrierDownCount, @JsonKey(name: 'link_kind') this.linkKind, this.qdisc, @JsonKey(name: 'parent_dev_name') this.parentDevName, @JsonKey(name: 'parent_dev_bus_name') this.parentDevBusName}): _flags = flags,_addresses = addresses,_unknown = unknown;
   factory _InterfaceData.fromJson(Map<String, dynamic> json) => _$InterfaceDataFromJson(json);
 
 @override final  String name;
@@ -584,16 +597,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InterfaceData&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other._flags, _flags)&&(identical(other.state, state) || other.state == state)&&(identical(other.protoDown, protoDown) || other.protoDown == protoDown)&&(identical(other.address, address) || other.address == address)&&(identical(other.broadcast, broadcast) || other.broadcast == broadcast)&&(identical(other.carrier, carrier) || other.carrier == carrier)&&(identical(other.stats, stats) || other.stats == stats)&&const DeepCollectionEquality().equals(other._addresses, _addresses)&&(identical(other.index, index) || other.index == index)&&(identical(other.family, family) || other.family == family)&&(identical(other.speed, speed) || other.speed == speed)&&(identical(other.permAddress, permAddress) || other.permAddress == permAddress)&&(identical(other.ifname, ifname) || other.ifname == ifname)&&(identical(other.txqlen, txqlen) || other.txqlen == txqlen)&&(identical(other.linkmode, linkmode) || other.linkmode == linkmode)&&(identical(other.mtu, mtu) || other.mtu == mtu)&&(identical(other.minMtu, minMtu) || other.minMtu == minMtu)&&(identical(other.maxMtu, maxMtu) || other.maxMtu == maxMtu)&&(identical(other.group, group) || other.group == group)&&(identical(other.promiscuity, promiscuity) || other.promiscuity == promiscuity)&&const DeepCollectionEquality().equals(other._unknown, _unknown)&&(identical(other.numTxQueues, numTxQueues) || other.numTxQueues == numTxQueues)&&(identical(other.numRxQueues, numRxQueues) || other.numRxQueues == numRxQueues)&&(identical(other.gsoMaxSegs, gsoMaxSegs) || other.gsoMaxSegs == gsoMaxSegs)&&(identical(other.gsoMaxSize, gsoMaxSize) || other.gsoMaxSize == gsoMaxSize)&&(identical(other.map, map) || other.map == map)&&(identical(other.carrierChanges, carrierChanges) || other.carrierChanges == carrierChanges)&&(identical(other.carrierUpCount, carrierUpCount) || other.carrierUpCount == carrierUpCount)&&(identical(other.carrierDownCount, carrierDownCount) || other.carrierDownCount == carrierDownCount)&&(identical(other.linkKind, linkKind) || other.linkKind == linkKind)&&(identical(other.qdisc, qdisc) || other.qdisc == qdisc)&&(identical(other.parentDevName, parentDevName) || other.parentDevName == parentDevName)&&(identical(other.parentDevBusName, parentDevBusName) || other.parentDevBusName == parentDevBusName));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _InterfaceData&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.flags, _flags)&&(identical(other.state, state) || other.state == state)&&(identical(other.protoDown, protoDown) || other.protoDown == protoDown)&&(identical(other.address, address) || other.address == address)&&(identical(other.broadcast, broadcast) || other.broadcast == broadcast)&&(identical(other.carrier, carrier) || other.carrier == carrier)&&(identical(other.stats, stats) || other.stats == stats)&&const DeepCollectionEquality().equals(other.addresses, _addresses)&&(identical(other.index, index) || other.index == index)&&(identical(other.family, family) || other.family == family)&&(identical(other.speed, speed) || other.speed == speed)&&(identical(other.permAddress, permAddress) || other.permAddress == permAddress)&&(identical(other.ifname, ifname) || other.ifname == ifname)&&(identical(other.txqlen, txqlen) || other.txqlen == txqlen)&&(identical(other.linkmode, linkmode) || other.linkmode == linkmode)&&(identical(other.mtu, mtu) || other.mtu == mtu)&&(identical(other.minMtu, minMtu) || other.minMtu == minMtu)&&(identical(other.maxMtu, maxMtu) || other.maxMtu == maxMtu)&&(identical(other.group, group) || other.group == group)&&(identical(other.promiscuity, promiscuity) || other.promiscuity == promiscuity)&&const DeepCollectionEquality().equals(other.unknown, _unknown)&&(identical(other.numTxQueues, numTxQueues) || other.numTxQueues == numTxQueues)&&(identical(other.numRxQueues, numRxQueues) || other.numRxQueues == numRxQueues)&&(identical(other.gsoMaxSegs, gsoMaxSegs) || other.gsoMaxSegs == gsoMaxSegs)&&(identical(other.gsoMaxSize, gsoMaxSize) || other.gsoMaxSize == gsoMaxSize)&&(identical(other.map, map) || other.map == map)&&(identical(other.carrierChanges, carrierChanges) || other.carrierChanges == carrierChanges)&&(identical(other.carrierUpCount, carrierUpCount) || other.carrierUpCount == carrierUpCount)&&(identical(other.carrierDownCount, carrierDownCount) || other.carrierDownCount == carrierDownCount)&&(identical(other.linkKind, linkKind) || other.linkKind == linkKind)&&(identical(other.qdisc, qdisc) || other.qdisc == qdisc)&&(identical(other.parentDevName, parentDevName) || other.parentDevName == parentDevName)&&(identical(other.parentDevBusName, parentDevBusName) || other.parentDevBusName == parentDevBusName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,name,type,const DeepCollectionEquality().hash(_flags),state,protoDown,address,broadcast,carrier,stats,const DeepCollectionEquality().hash(_addresses),index,family,speed,permAddress,ifname,txqlen,linkmode,mtu,minMtu,maxMtu,group,promiscuity,const DeepCollectionEquality().hash(_unknown),numTxQueues,numRxQueues,gsoMaxSegs,gsoMaxSize,map,carrierChanges,carrierUpCount,carrierDownCount,linkKind,qdisc,parentDevName,parentDevBusName]);
+int get hashCode {
+    return Object.hashAll([runtimeType,name,type,const DeepCollectionEquality().hash(_flags),state,protoDown,address,broadcast,carrier,stats,const DeepCollectionEquality().hash(_addresses),index,family,speed,permAddress,ifname,txqlen,linkmode,mtu,minMtu,maxMtu,group,promiscuity,const DeepCollectionEquality().hash(_unknown),numTxQueues,numRxQueues,gsoMaxSegs,gsoMaxSize,map,carrierChanges,carrierUpCount,carrierDownCount,linkKind,qdisc,parentDevName,parentDevBusName]);
+}
 
 @override
 String toString() {
-  return 'InterfaceData(name: $name, type: $type, flags: $flags, state: $state, protoDown: $protoDown, address: $address, broadcast: $broadcast, carrier: $carrier, stats: $stats, addresses: $addresses, index: $index, family: $family, speed: $speed, permAddress: $permAddress, ifname: $ifname, txqlen: $txqlen, linkmode: $linkmode, mtu: $mtu, minMtu: $minMtu, maxMtu: $maxMtu, group: $group, promiscuity: $promiscuity, unknown: $unknown, numTxQueues: $numTxQueues, numRxQueues: $numRxQueues, gsoMaxSegs: $gsoMaxSegs, gsoMaxSize: $gsoMaxSize, map: $map, carrierChanges: $carrierChanges, carrierUpCount: $carrierUpCount, carrierDownCount: $carrierDownCount, linkKind: $linkKind, qdisc: $qdisc, parentDevName: $parentDevName, parentDevBusName: $parentDevBusName)';
+    return 'InterfaceData(name: $name, type: $type, flags: $flags, state: $state, protoDown: $protoDown, address: $address, broadcast: $broadcast, carrier: $carrier, stats: $stats, addresses: $addresses, index: $index, family: $family, speed: $speed, permAddress: $permAddress, ifname: $ifname, txqlen: $txqlen, linkmode: $linkmode, mtu: $mtu, minMtu: $minMtu, maxMtu: $maxMtu, group: $group, promiscuity: $promiscuity, unknown: $unknown, numTxQueues: $numTxQueues, numRxQueues: $numRxQueues, gsoMaxSegs: $gsoMaxSegs, gsoMaxSize: $gsoMaxSize, map: $map, carrierChanges: $carrierChanges, carrierUpCount: $carrierUpCount, carrierDownCount: $carrierDownCount, linkKind: $linkKind, qdisc: $qdisc, parentDevName: $parentDevName, parentDevBusName: $parentDevBusName)';
 }
 
 
@@ -691,16 +706,21 @@ $InterfaceStatsCopyWith<InterfaceStats> get copyWith => _$InterfaceStatsCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InterfaceStats&&(identical(other.rxBytes, rxBytes) || other.rxBytes == rxBytes)&&(identical(other.txBytes, txBytes) || other.txBytes == txBytes)&&(identical(other.bits, bits) || other.bits == bits)&&(identical(other.rxPackets, rxPackets) || other.rxPackets == rxPackets)&&(identical(other.txPackets, txPackets) || other.txPackets == txPackets)&&(identical(other.rxErrors, rxErrors) || other.rxErrors == rxErrors)&&(identical(other.txErrors, txErrors) || other.txErrors == txErrors)&&(identical(other.rxDropped, rxDropped) || other.rxDropped == rxDropped)&&(identical(other.txDropped, txDropped) || other.txDropped == txDropped)&&(identical(other.multicast, multicast) || other.multicast == multicast)&&(identical(other.collisions, collisions) || other.collisions == collisions)&&(identical(other.rxLengthErrors, rxLengthErrors) || other.rxLengthErrors == rxLengthErrors)&&(identical(other.rxOverErrors, rxOverErrors) || other.rxOverErrors == rxOverErrors)&&(identical(other.rxCrcErrors, rxCrcErrors) || other.rxCrcErrors == rxCrcErrors)&&(identical(other.rxFrameErrors, rxFrameErrors) || other.rxFrameErrors == rxFrameErrors)&&(identical(other.rxFifoErrors, rxFifoErrors) || other.rxFifoErrors == rxFifoErrors)&&(identical(other.rxMissedErrors, rxMissedErrors) || other.rxMissedErrors == rxMissedErrors)&&(identical(other.txAbortedErrors, txAbortedErrors) || other.txAbortedErrors == txAbortedErrors)&&(identical(other.txCarrierErrors, txCarrierErrors) || other.txCarrierErrors == txCarrierErrors)&&(identical(other.txFifoErrors, txFifoErrors) || other.txFifoErrors == txFifoErrors)&&(identical(other.txHeartbeatErrors, txHeartbeatErrors) || other.txHeartbeatErrors == txHeartbeatErrors)&&(identical(other.txWindowErrors, txWindowErrors) || other.txWindowErrors == txWindowErrors)&&(identical(other.rxCompressed, rxCompressed) || other.rxCompressed == rxCompressed)&&(identical(other.txCompressed, txCompressed) || other.txCompressed == txCompressed)&&(identical(other.rxNohandler, rxNohandler) || other.rxNohandler == rxNohandler));
+  final _this = this as InterfaceStats;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InterfaceStats&&(identical(other.rxBytes, _this.rxBytes) || other.rxBytes == _this.rxBytes)&&(identical(other.txBytes, _this.txBytes) || other.txBytes == _this.txBytes)&&(identical(other.bits, _this.bits) || other.bits == _this.bits)&&(identical(other.rxPackets, _this.rxPackets) || other.rxPackets == _this.rxPackets)&&(identical(other.txPackets, _this.txPackets) || other.txPackets == _this.txPackets)&&(identical(other.rxErrors, _this.rxErrors) || other.rxErrors == _this.rxErrors)&&(identical(other.txErrors, _this.txErrors) || other.txErrors == _this.txErrors)&&(identical(other.rxDropped, _this.rxDropped) || other.rxDropped == _this.rxDropped)&&(identical(other.txDropped, _this.txDropped) || other.txDropped == _this.txDropped)&&(identical(other.multicast, _this.multicast) || other.multicast == _this.multicast)&&(identical(other.collisions, _this.collisions) || other.collisions == _this.collisions)&&(identical(other.rxLengthErrors, _this.rxLengthErrors) || other.rxLengthErrors == _this.rxLengthErrors)&&(identical(other.rxOverErrors, _this.rxOverErrors) || other.rxOverErrors == _this.rxOverErrors)&&(identical(other.rxCrcErrors, _this.rxCrcErrors) || other.rxCrcErrors == _this.rxCrcErrors)&&(identical(other.rxFrameErrors, _this.rxFrameErrors) || other.rxFrameErrors == _this.rxFrameErrors)&&(identical(other.rxFifoErrors, _this.rxFifoErrors) || other.rxFifoErrors == _this.rxFifoErrors)&&(identical(other.rxMissedErrors, _this.rxMissedErrors) || other.rxMissedErrors == _this.rxMissedErrors)&&(identical(other.txAbortedErrors, _this.txAbortedErrors) || other.txAbortedErrors == _this.txAbortedErrors)&&(identical(other.txCarrierErrors, _this.txCarrierErrors) || other.txCarrierErrors == _this.txCarrierErrors)&&(identical(other.txFifoErrors, _this.txFifoErrors) || other.txFifoErrors == _this.txFifoErrors)&&(identical(other.txHeartbeatErrors, _this.txHeartbeatErrors) || other.txHeartbeatErrors == _this.txHeartbeatErrors)&&(identical(other.txWindowErrors, _this.txWindowErrors) || other.txWindowErrors == _this.txWindowErrors)&&(identical(other.rxCompressed, _this.rxCompressed) || other.rxCompressed == _this.rxCompressed)&&(identical(other.txCompressed, _this.txCompressed) || other.txCompressed == _this.txCompressed)&&(identical(other.rxNohandler, _this.rxNohandler) || other.rxNohandler == _this.rxNohandler));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,rxBytes,txBytes,bits,rxPackets,txPackets,rxErrors,txErrors,rxDropped,txDropped,multicast,collisions,rxLengthErrors,rxOverErrors,rxCrcErrors,rxFrameErrors,rxFifoErrors,rxMissedErrors,txAbortedErrors,txCarrierErrors,txFifoErrors,txHeartbeatErrors,txWindowErrors,rxCompressed,txCompressed,rxNohandler]);
+int get hashCode {
+  final _this = this as InterfaceStats;
+  return Object.hashAll([runtimeType,_this.rxBytes,_this.txBytes,_this.bits,_this.rxPackets,_this.txPackets,_this.rxErrors,_this.txErrors,_this.rxDropped,_this.txDropped,_this.multicast,_this.collisions,_this.rxLengthErrors,_this.rxOverErrors,_this.rxCrcErrors,_this.rxFrameErrors,_this.rxFifoErrors,_this.rxMissedErrors,_this.txAbortedErrors,_this.txCarrierErrors,_this.txFifoErrors,_this.txHeartbeatErrors,_this.txWindowErrors,_this.rxCompressed,_this.txCompressed,_this.rxNohandler]);
+}
 
 @override
 String toString() {
-  return 'InterfaceStats(rxBytes: $rxBytes, txBytes: $txBytes, bits: $bits, rxPackets: $rxPackets, txPackets: $txPackets, rxErrors: $rxErrors, txErrors: $txErrors, rxDropped: $rxDropped, txDropped: $txDropped, multicast: $multicast, collisions: $collisions, rxLengthErrors: $rxLengthErrors, rxOverErrors: $rxOverErrors, rxCrcErrors: $rxCrcErrors, rxFrameErrors: $rxFrameErrors, rxFifoErrors: $rxFifoErrors, rxMissedErrors: $rxMissedErrors, txAbortedErrors: $txAbortedErrors, txCarrierErrors: $txCarrierErrors, txFifoErrors: $txFifoErrors, txHeartbeatErrors: $txHeartbeatErrors, txWindowErrors: $txWindowErrors, rxCompressed: $rxCompressed, txCompressed: $txCompressed, rxNohandler: $rxNohandler)';
+  final _this = this as InterfaceStats;
+  return 'InterfaceStats(rxBytes: ${_this.rxBytes}, txBytes: ${_this.txBytes}, bits: ${_this.bits}, rxPackets: ${_this.rxPackets}, txPackets: ${_this.txPackets}, rxErrors: ${_this.rxErrors}, txErrors: ${_this.txErrors}, rxDropped: ${_this.rxDropped}, txDropped: ${_this.txDropped}, multicast: ${_this.multicast}, collisions: ${_this.collisions}, rxLengthErrors: ${_this.rxLengthErrors}, rxOverErrors: ${_this.rxOverErrors}, rxCrcErrors: ${_this.rxCrcErrors}, rxFrameErrors: ${_this.rxFrameErrors}, rxFifoErrors: ${_this.rxFifoErrors}, rxMissedErrors: ${_this.rxMissedErrors}, txAbortedErrors: ${_this.txAbortedErrors}, txCarrierErrors: ${_this.txCarrierErrors}, txFifoErrors: ${_this.txFifoErrors}, txHeartbeatErrors: ${_this.txHeartbeatErrors}, txWindowErrors: ${_this.txWindowErrors}, rxCompressed: ${_this.rxCompressed}, txCompressed: ${_this.txCompressed}, rxNohandler: ${_this.rxNohandler})';
 }
 
 
@@ -729,7 +749,7 @@ class _$InterfaceStatsCopyWithImpl<$Res>
 /// Create a copy of InterfaceStats
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? rxBytes = null,Object? txBytes = null,Object? bits = null,Object? rxPackets = null,Object? txPackets = null,Object? rxErrors = null,Object? txErrors = null,Object? rxDropped = null,Object? txDropped = null,Object? multicast = null,Object? collisions = null,Object? rxLengthErrors = null,Object? rxOverErrors = null,Object? rxCrcErrors = null,Object? rxFrameErrors = null,Object? rxFifoErrors = null,Object? rxMissedErrors = null,Object? txAbortedErrors = null,Object? txCarrierErrors = null,Object? txFifoErrors = null,Object? txHeartbeatErrors = null,Object? txWindowErrors = null,Object? rxCompressed = null,Object? txCompressed = null,Object? rxNohandler = null,}) {
-  return _then(_self.copyWith(
+  return _then(InterfaceStats(
 rxBytes: null == rxBytes ? _self.rxBytes : rxBytes // ignore: cast_nullable_to_non_nullable
 as ByteValue,txBytes: null == txBytes ? _self.txBytes : txBytes // ignore: cast_nullable_to_non_nullable
 as ByteValue,bits: null == bits ? _self.bits : bits // ignore: cast_nullable_to_non_nullable
@@ -950,16 +970,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InterfaceStats&&(identical(other.rxBytes, rxBytes) || other.rxBytes == rxBytes)&&(identical(other.txBytes, txBytes) || other.txBytes == txBytes)&&(identical(other.bits, bits) || other.bits == bits)&&(identical(other.rxPackets, rxPackets) || other.rxPackets == rxPackets)&&(identical(other.txPackets, txPackets) || other.txPackets == txPackets)&&(identical(other.rxErrors, rxErrors) || other.rxErrors == rxErrors)&&(identical(other.txErrors, txErrors) || other.txErrors == txErrors)&&(identical(other.rxDropped, rxDropped) || other.rxDropped == rxDropped)&&(identical(other.txDropped, txDropped) || other.txDropped == txDropped)&&(identical(other.multicast, multicast) || other.multicast == multicast)&&(identical(other.collisions, collisions) || other.collisions == collisions)&&(identical(other.rxLengthErrors, rxLengthErrors) || other.rxLengthErrors == rxLengthErrors)&&(identical(other.rxOverErrors, rxOverErrors) || other.rxOverErrors == rxOverErrors)&&(identical(other.rxCrcErrors, rxCrcErrors) || other.rxCrcErrors == rxCrcErrors)&&(identical(other.rxFrameErrors, rxFrameErrors) || other.rxFrameErrors == rxFrameErrors)&&(identical(other.rxFifoErrors, rxFifoErrors) || other.rxFifoErrors == rxFifoErrors)&&(identical(other.rxMissedErrors, rxMissedErrors) || other.rxMissedErrors == rxMissedErrors)&&(identical(other.txAbortedErrors, txAbortedErrors) || other.txAbortedErrors == txAbortedErrors)&&(identical(other.txCarrierErrors, txCarrierErrors) || other.txCarrierErrors == txCarrierErrors)&&(identical(other.txFifoErrors, txFifoErrors) || other.txFifoErrors == txFifoErrors)&&(identical(other.txHeartbeatErrors, txHeartbeatErrors) || other.txHeartbeatErrors == txHeartbeatErrors)&&(identical(other.txWindowErrors, txWindowErrors) || other.txWindowErrors == txWindowErrors)&&(identical(other.rxCompressed, rxCompressed) || other.rxCompressed == rxCompressed)&&(identical(other.txCompressed, txCompressed) || other.txCompressed == txCompressed)&&(identical(other.rxNohandler, rxNohandler) || other.rxNohandler == rxNohandler));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _InterfaceStats&&(identical(other.rxBytes, rxBytes) || other.rxBytes == rxBytes)&&(identical(other.txBytes, txBytes) || other.txBytes == txBytes)&&(identical(other.bits, bits) || other.bits == bits)&&(identical(other.rxPackets, rxPackets) || other.rxPackets == rxPackets)&&(identical(other.txPackets, txPackets) || other.txPackets == txPackets)&&(identical(other.rxErrors, rxErrors) || other.rxErrors == rxErrors)&&(identical(other.txErrors, txErrors) || other.txErrors == txErrors)&&(identical(other.rxDropped, rxDropped) || other.rxDropped == rxDropped)&&(identical(other.txDropped, txDropped) || other.txDropped == txDropped)&&(identical(other.multicast, multicast) || other.multicast == multicast)&&(identical(other.collisions, collisions) || other.collisions == collisions)&&(identical(other.rxLengthErrors, rxLengthErrors) || other.rxLengthErrors == rxLengthErrors)&&(identical(other.rxOverErrors, rxOverErrors) || other.rxOverErrors == rxOverErrors)&&(identical(other.rxCrcErrors, rxCrcErrors) || other.rxCrcErrors == rxCrcErrors)&&(identical(other.rxFrameErrors, rxFrameErrors) || other.rxFrameErrors == rxFrameErrors)&&(identical(other.rxFifoErrors, rxFifoErrors) || other.rxFifoErrors == rxFifoErrors)&&(identical(other.rxMissedErrors, rxMissedErrors) || other.rxMissedErrors == rxMissedErrors)&&(identical(other.txAbortedErrors, txAbortedErrors) || other.txAbortedErrors == txAbortedErrors)&&(identical(other.txCarrierErrors, txCarrierErrors) || other.txCarrierErrors == txCarrierErrors)&&(identical(other.txFifoErrors, txFifoErrors) || other.txFifoErrors == txFifoErrors)&&(identical(other.txHeartbeatErrors, txHeartbeatErrors) || other.txHeartbeatErrors == txHeartbeatErrors)&&(identical(other.txWindowErrors, txWindowErrors) || other.txWindowErrors == txWindowErrors)&&(identical(other.rxCompressed, rxCompressed) || other.rxCompressed == rxCompressed)&&(identical(other.txCompressed, txCompressed) || other.txCompressed == txCompressed)&&(identical(other.rxNohandler, rxNohandler) || other.rxNohandler == rxNohandler));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,rxBytes,txBytes,bits,rxPackets,txPackets,rxErrors,txErrors,rxDropped,txDropped,multicast,collisions,rxLengthErrors,rxOverErrors,rxCrcErrors,rxFrameErrors,rxFifoErrors,rxMissedErrors,txAbortedErrors,txCarrierErrors,txFifoErrors,txHeartbeatErrors,txWindowErrors,rxCompressed,txCompressed,rxNohandler]);
+int get hashCode {
+    return Object.hashAll([runtimeType,rxBytes,txBytes,bits,rxPackets,txPackets,rxErrors,txErrors,rxDropped,txDropped,multicast,collisions,rxLengthErrors,rxOverErrors,rxCrcErrors,rxFrameErrors,rxFifoErrors,rxMissedErrors,txAbortedErrors,txCarrierErrors,txFifoErrors,txHeartbeatErrors,txWindowErrors,rxCompressed,txCompressed,rxNohandler]);
+}
 
 @override
 String toString() {
-  return 'InterfaceStats(rxBytes: $rxBytes, txBytes: $txBytes, bits: $bits, rxPackets: $rxPackets, txPackets: $txPackets, rxErrors: $rxErrors, txErrors: $txErrors, rxDropped: $rxDropped, txDropped: $txDropped, multicast: $multicast, collisions: $collisions, rxLengthErrors: $rxLengthErrors, rxOverErrors: $rxOverErrors, rxCrcErrors: $rxCrcErrors, rxFrameErrors: $rxFrameErrors, rxFifoErrors: $rxFifoErrors, rxMissedErrors: $rxMissedErrors, txAbortedErrors: $txAbortedErrors, txCarrierErrors: $txCarrierErrors, txFifoErrors: $txFifoErrors, txHeartbeatErrors: $txHeartbeatErrors, txWindowErrors: $txWindowErrors, rxCompressed: $rxCompressed, txCompressed: $txCompressed, rxNohandler: $rxNohandler)';
+    return 'InterfaceStats(rxBytes: $rxBytes, txBytes: $txBytes, bits: $bits, rxPackets: $rxPackets, txPackets: $txPackets, rxErrors: $rxErrors, txErrors: $txErrors, rxDropped: $rxDropped, txDropped: $txDropped, multicast: $multicast, collisions: $collisions, rxLengthErrors: $rxLengthErrors, rxOverErrors: $rxOverErrors, rxCrcErrors: $rxCrcErrors, rxFrameErrors: $rxFrameErrors, rxFifoErrors: $rxFifoErrors, rxMissedErrors: $rxMissedErrors, txAbortedErrors: $txAbortedErrors, txCarrierErrors: $txCarrierErrors, txFifoErrors: $txFifoErrors, txHeartbeatErrors: $txHeartbeatErrors, txWindowErrors: $txWindowErrors, rxCompressed: $rxCompressed, txCompressed: $txCompressed, rxNohandler: $rxNohandler)';
 }
 
 
@@ -1056,16 +1078,21 @@ $ByteValueCopyWith<ByteValue> get copyWith => _$ByteValueCopyWithImpl<ByteValue>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ByteValue&&(identical(other.value, value) || other.value == value)&&(identical(other.unit, unit) || other.unit == unit));
+  final _this = this as ByteValue;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ByteValue&&(identical(other.value, _this.value) || other.value == _this.value)&&(identical(other.unit, _this.unit) || other.unit == _this.unit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,value,unit);
+int get hashCode {
+  final _this = this as ByteValue;
+  return Object.hash(runtimeType,_this.value,_this.unit);
+}
 
 @override
 String toString() {
-  return 'ByteValue(value: $value, unit: $unit)';
+  final _this = this as ByteValue;
+  return 'ByteValue(value: ${_this.value}, unit: ${_this.unit})';
 }
 
 
@@ -1094,7 +1121,7 @@ class _$ByteValueCopyWithImpl<$Res>
 /// Create a copy of ByteValue
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? value = null,Object? unit = null,}) {
-  return _then(_self.copyWith(
+  return _then(ByteValue(
 value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as double,unit: null == unit ? _self.unit : unit // ignore: cast_nullable_to_non_nullable
 as String,
@@ -1251,16 +1278,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ByteValue&&(identical(other.value, value) || other.value == value)&&(identical(other.unit, unit) || other.unit == unit));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ByteValue&&(identical(other.value, value) || other.value == value)&&(identical(other.unit, unit) || other.unit == unit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,value,unit);
+int get hashCode {
+    return Object.hash(runtimeType,value,unit);
+}
 
 @override
 String toString() {
-  return 'ByteValue(value: $value, unit: $unit)';
+    return 'ByteValue(value: $value, unit: $unit)';
 }
 
 
@@ -1316,16 +1345,21 @@ $InterfaceAddressCopyWith<InterfaceAddress> get copyWith => _$InterfaceAddressCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InterfaceAddress&&(identical(other.address, address) || other.address == address)&&(identical(other.addressType, addressType) || other.addressType == addressType)&&(identical(other.index, index) || other.index == index)&&(identical(other.family, family) || other.family == family)&&(identical(other.scope, scope) || other.scope == scope)&&const DeepCollectionEquality().equals(other.flags, flags)&&(identical(other.prefixlen, prefixlen) || other.prefixlen == prefixlen)&&(identical(other.prefered, prefered) || other.prefered == prefered)&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.cstamp, cstamp) || other.cstamp == cstamp)&&(identical(other.tstamp, tstamp) || other.tstamp == tstamp)&&(identical(other.label, label) || other.label == label)&&(identical(other.local, local) || other.local == local)&&(identical(other.localType, localType) || other.localType == localType)&&(identical(other.broadcast, broadcast) || other.broadcast == broadcast)&&(identical(other.broadcastType, broadcastType) || other.broadcastType == broadcastType)&&const DeepCollectionEquality().equals(other.unknown, unknown));
+  final _this = this as InterfaceAddress;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InterfaceAddress&&(identical(other.address, _this.address) || other.address == _this.address)&&(identical(other.addressType, _this.addressType) || other.addressType == _this.addressType)&&(identical(other.index, _this.index) || other.index == _this.index)&&(identical(other.family, _this.family) || other.family == _this.family)&&(identical(other.scope, _this.scope) || other.scope == _this.scope)&&const DeepCollectionEquality().equals(other.flags, _this.flags)&&(identical(other.prefixlen, _this.prefixlen) || other.prefixlen == _this.prefixlen)&&(identical(other.prefered, _this.prefered) || other.prefered == _this.prefered)&&(identical(other.valid, _this.valid) || other.valid == _this.valid)&&(identical(other.cstamp, _this.cstamp) || other.cstamp == _this.cstamp)&&(identical(other.tstamp, _this.tstamp) || other.tstamp == _this.tstamp)&&(identical(other.label, _this.label) || other.label == _this.label)&&(identical(other.local, _this.local) || other.local == _this.local)&&(identical(other.localType, _this.localType) || other.localType == _this.localType)&&(identical(other.broadcast, _this.broadcast) || other.broadcast == _this.broadcast)&&(identical(other.broadcastType, _this.broadcastType) || other.broadcastType == _this.broadcastType)&&const DeepCollectionEquality().equals(other.unknown, _this.unknown));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,address,addressType,index,family,scope,const DeepCollectionEquality().hash(flags),prefixlen,prefered,valid,cstamp,tstamp,label,local,localType,broadcast,broadcastType,const DeepCollectionEquality().hash(unknown));
+int get hashCode {
+  final _this = this as InterfaceAddress;
+  return Object.hash(runtimeType,_this.address,_this.addressType,_this.index,_this.family,_this.scope,const DeepCollectionEquality().hash(_this.flags),_this.prefixlen,_this.prefered,_this.valid,_this.cstamp,_this.tstamp,_this.label,_this.local,_this.localType,_this.broadcast,_this.broadcastType,const DeepCollectionEquality().hash(_this.unknown));
+}
 
 @override
 String toString() {
-  return 'InterfaceAddress(address: $address, addressType: $addressType, index: $index, family: $family, scope: $scope, flags: $flags, prefixlen: $prefixlen, prefered: $prefered, valid: $valid, cstamp: $cstamp, tstamp: $tstamp, label: $label, local: $local, localType: $localType, broadcast: $broadcast, broadcastType: $broadcastType, unknown: $unknown)';
+  final _this = this as InterfaceAddress;
+  return 'InterfaceAddress(address: ${_this.address}, addressType: ${_this.addressType}, index: ${_this.index}, family: ${_this.family}, scope: ${_this.scope}, flags: ${_this.flags}, prefixlen: ${_this.prefixlen}, prefered: ${_this.prefered}, valid: ${_this.valid}, cstamp: ${_this.cstamp}, tstamp: ${_this.tstamp}, label: ${_this.label}, local: ${_this.local}, localType: ${_this.localType}, broadcast: ${_this.broadcast}, broadcastType: ${_this.broadcastType}, unknown: ${_this.unknown})';
 }
 
 
@@ -1354,7 +1388,7 @@ class _$InterfaceAddressCopyWithImpl<$Res>
 /// Create a copy of InterfaceAddress
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? address = null,Object? addressType = null,Object? index = null,Object? family = null,Object? scope = null,Object? flags = null,Object? prefixlen = null,Object? prefered = null,Object? valid = null,Object? cstamp = null,Object? tstamp = null,Object? label = freezed,Object? local = freezed,Object? localType = freezed,Object? broadcast = freezed,Object? broadcastType = freezed,Object? unknown = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(InterfaceAddress(
 address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String,addressType: null == addressType ? _self.addressType : addressType // ignore: cast_nullable_to_non_nullable
 as String,index: null == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
@@ -1507,7 +1541,7 @@ return $default(_that.address,_that.addressType,_that.index,_that.family,_that.s
 @JsonSerializable()
 
 class _InterfaceAddress implements InterfaceAddress {
-  const _InterfaceAddress({required this.address, @JsonKey(name: 'address_type') required this.addressType, required this.index, required this.family, required this.scope, required final  List<String> flags, required this.prefixlen, required this.prefered, required this.valid, required this.cstamp, required this.tstamp, this.label, this.local, @JsonKey(name: 'local_type') this.localType, this.broadcast, @JsonKey(name: 'broadcast_type') this.broadcastType, final  List<int>? unknown}): _flags = flags,_unknown = unknown;
+  const _InterfaceAddress({required this.address, @JsonKey(name: 'address_type') required this.addressType, required this.index, required this.family, required this.scope, required  List<String> flags, required this.prefixlen, required this.prefered, required this.valid, required this.cstamp, required this.tstamp, this.label, this.local, @JsonKey(name: 'local_type') this.localType, this.broadcast, @JsonKey(name: 'broadcast_type') this.broadcastType,  List<int>? unknown}): _flags = flags,_unknown = unknown;
   factory _InterfaceAddress.fromJson(Map<String, dynamic> json) => _$InterfaceAddressFromJson(json);
 
 @override final  String address;
@@ -1555,16 +1589,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InterfaceAddress&&(identical(other.address, address) || other.address == address)&&(identical(other.addressType, addressType) || other.addressType == addressType)&&(identical(other.index, index) || other.index == index)&&(identical(other.family, family) || other.family == family)&&(identical(other.scope, scope) || other.scope == scope)&&const DeepCollectionEquality().equals(other._flags, _flags)&&(identical(other.prefixlen, prefixlen) || other.prefixlen == prefixlen)&&(identical(other.prefered, prefered) || other.prefered == prefered)&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.cstamp, cstamp) || other.cstamp == cstamp)&&(identical(other.tstamp, tstamp) || other.tstamp == tstamp)&&(identical(other.label, label) || other.label == label)&&(identical(other.local, local) || other.local == local)&&(identical(other.localType, localType) || other.localType == localType)&&(identical(other.broadcast, broadcast) || other.broadcast == broadcast)&&(identical(other.broadcastType, broadcastType) || other.broadcastType == broadcastType)&&const DeepCollectionEquality().equals(other._unknown, _unknown));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _InterfaceAddress&&(identical(other.address, address) || other.address == address)&&(identical(other.addressType, addressType) || other.addressType == addressType)&&(identical(other.index, index) || other.index == index)&&(identical(other.family, family) || other.family == family)&&(identical(other.scope, scope) || other.scope == scope)&&const DeepCollectionEquality().equals(other.flags, _flags)&&(identical(other.prefixlen, prefixlen) || other.prefixlen == prefixlen)&&(identical(other.prefered, prefered) || other.prefered == prefered)&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.cstamp, cstamp) || other.cstamp == cstamp)&&(identical(other.tstamp, tstamp) || other.tstamp == tstamp)&&(identical(other.label, label) || other.label == label)&&(identical(other.local, local) || other.local == local)&&(identical(other.localType, localType) || other.localType == localType)&&(identical(other.broadcast, broadcast) || other.broadcast == broadcast)&&(identical(other.broadcastType, broadcastType) || other.broadcastType == broadcastType)&&const DeepCollectionEquality().equals(other.unknown, _unknown));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,address,addressType,index,family,scope,const DeepCollectionEquality().hash(_flags),prefixlen,prefered,valid,cstamp,tstamp,label,local,localType,broadcast,broadcastType,const DeepCollectionEquality().hash(_unknown));
+int get hashCode {
+    return Object.hash(runtimeType,address,addressType,index,family,scope,const DeepCollectionEquality().hash(_flags),prefixlen,prefered,valid,cstamp,tstamp,label,local,localType,broadcast,broadcastType,const DeepCollectionEquality().hash(_unknown));
+}
 
 @override
 String toString() {
-  return 'InterfaceAddress(address: $address, addressType: $addressType, index: $index, family: $family, scope: $scope, flags: $flags, prefixlen: $prefixlen, prefered: $prefered, valid: $valid, cstamp: $cstamp, tstamp: $tstamp, label: $label, local: $local, localType: $localType, broadcast: $broadcast, broadcastType: $broadcastType, unknown: $unknown)';
+    return 'InterfaceAddress(address: $address, addressType: $addressType, index: $index, family: $family, scope: $scope, flags: $flags, prefixlen: $prefixlen, prefered: $prefered, valid: $valid, cstamp: $cstamp, tstamp: $tstamp, label: $label, local: $local, localType: $localType, broadcast: $broadcast, broadcastType: $broadcastType, unknown: $unknown)';
 }
 
 

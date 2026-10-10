@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'gateway.dart';
@@ -9,14 +9,13 @@ part of 'gateway.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$Gateway {
 
-// NOTE: According to Pi-hole v6 API specification, the key is "gateway".
-// Even though it represents a list, it must not be renamed to "gateways".
  List<GatewayData> get gateway; double get took; List<InterfaceData>? get interfaces; List<RouteData>? get routes;
 /// Create a copy of Gateway
 /// with the given fields replaced by the non-null parameter values.
@@ -30,16 +29,21 @@ $GatewayCopyWith<Gateway> get copyWith => _$GatewayCopyWithImpl<Gateway>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Gateway&&const DeepCollectionEquality().equals(other.gateway, gateway)&&(identical(other.took, took) || other.took == took)&&const DeepCollectionEquality().equals(other.interfaces, interfaces)&&const DeepCollectionEquality().equals(other.routes, routes));
+  final _this = this as Gateway;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Gateway&&const DeepCollectionEquality().equals(other.gateway, _this.gateway)&&(identical(other.took, _this.took) || other.took == _this.took)&&const DeepCollectionEquality().equals(other.interfaces, _this.interfaces)&&const DeepCollectionEquality().equals(other.routes, _this.routes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(gateway),took,const DeepCollectionEquality().hash(interfaces),const DeepCollectionEquality().hash(routes));
+int get hashCode {
+  final _this = this as Gateway;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.gateway),_this.took,const DeepCollectionEquality().hash(_this.interfaces),const DeepCollectionEquality().hash(_this.routes));
+}
 
 @override
 String toString() {
-  return 'Gateway(gateway: $gateway, took: $took, interfaces: $interfaces, routes: $routes)';
+  final _this = this as Gateway;
+  return 'Gateway(gateway: ${_this.gateway}, took: ${_this.took}, interfaces: ${_this.interfaces}, routes: ${_this.routes})';
 }
 
 
@@ -68,7 +72,7 @@ class _$GatewayCopyWithImpl<$Res>
 /// Create a copy of Gateway
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? gateway = null,Object? took = null,Object? interfaces = freezed,Object? routes = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Gateway(
 gateway: null == gateway ? _self.gateway : gateway // ignore: cast_nullable_to_non_nullable
 as List<GatewayData>,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,interfaces: freezed == interfaces ? _self.interfaces : interfaces // ignore: cast_nullable_to_non_nullable
@@ -208,14 +212,10 @@ return $default(_that.gateway,_that.took,_that.interfaces,_that.routes);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _Gateway implements Gateway {
-  const _Gateway({required final  List<GatewayData> gateway, required this.took, final  List<InterfaceData>? interfaces, final  List<RouteData>? routes}): _gateway = gateway,_interfaces = interfaces,_routes = routes;
+  const _Gateway({required  List<GatewayData> gateway, required this.took,  List<InterfaceData>? interfaces,  List<RouteData>? routes}): _gateway = gateway,_interfaces = interfaces,_routes = routes;
   factory _Gateway.fromJson(Map<String, dynamic> json) => _$GatewayFromJson(json);
 
-// NOTE: According to Pi-hole v6 API specification, the key is "gateway".
-// Even though it represents a list, it must not be renamed to "gateways".
  final  List<GatewayData> _gateway;
-// NOTE: According to Pi-hole v6 API specification, the key is "gateway".
-// Even though it represents a list, it must not be renamed to "gateways".
 @override List<GatewayData> get gateway {
   if (_gateway is EqualUnmodifiableListView) return _gateway;
   // ignore: implicit_dynamic_type
@@ -255,16 +255,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Gateway&&const DeepCollectionEquality().equals(other._gateway, _gateway)&&(identical(other.took, took) || other.took == took)&&const DeepCollectionEquality().equals(other._interfaces, _interfaces)&&const DeepCollectionEquality().equals(other._routes, _routes));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Gateway&&const DeepCollectionEquality().equals(other.gateway, _gateway)&&(identical(other.took, took) || other.took == took)&&const DeepCollectionEquality().equals(other.interfaces, _interfaces)&&const DeepCollectionEquality().equals(other.routes, _routes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_gateway),took,const DeepCollectionEquality().hash(_interfaces),const DeepCollectionEquality().hash(_routes));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_gateway),took,const DeepCollectionEquality().hash(_interfaces),const DeepCollectionEquality().hash(_routes));
+}
 
 @override
 String toString() {
-  return 'Gateway(gateway: $gateway, took: $took, interfaces: $interfaces, routes: $routes)';
+    return 'Gateway(gateway: $gateway, took: $took, interfaces: $interfaces, routes: $routes)';
 }
 
 
@@ -322,16 +324,21 @@ $GatewayDataCopyWith<GatewayData> get copyWith => _$GatewayDataCopyWithImpl<Gate
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GatewayData&&(identical(other.family, family) || other.family == family)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.address, address) || other.address == address)&&const DeepCollectionEquality().equals(other.local, local));
+  final _this = this as GatewayData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GatewayData&&(identical(other.family, _this.family) || other.family == _this.family)&&(identical(other.interface, _this.interface) || other.interface == _this.interface)&&(identical(other.address, _this.address) || other.address == _this.address)&&const DeepCollectionEquality().equals(other.local, _this.local));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,family,interface,address,const DeepCollectionEquality().hash(local));
+int get hashCode {
+  final _this = this as GatewayData;
+  return Object.hash(runtimeType,_this.family,_this.interface,_this.address,const DeepCollectionEquality().hash(_this.local));
+}
 
 @override
 String toString() {
-  return 'GatewayData(family: $family, interface: $interface, address: $address, local: $local)';
+  final _this = this as GatewayData;
+  return 'GatewayData(family: ${_this.family}, interface: ${_this.interface}, address: ${_this.address}, local: ${_this.local})';
 }
 
 
@@ -360,7 +367,7 @@ class _$GatewayDataCopyWithImpl<$Res>
 /// Create a copy of GatewayData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? family = null,Object? interface = null,Object? address = null,Object? local = null,}) {
-  return _then(_self.copyWith(
+  return _then(GatewayData(
 family: null == family ? _self.family : family // ignore: cast_nullable_to_non_nullable
 as String,interface: null == interface ? _self.interface : interface // ignore: cast_nullable_to_non_nullable
 as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
@@ -500,7 +507,7 @@ return $default(_that.family,_that.interface,_that.address,_that.local);case _:
 @JsonSerializable()
 
 class _GatewayData implements GatewayData {
-  const _GatewayData({required this.family, required this.interface, required this.address, required final  List<String> local}): _local = local;
+  const _GatewayData({required this.family, required this.interface, required this.address, required  List<String> local}): _local = local;
   factory _GatewayData.fromJson(Map<String, dynamic> json) => _$GatewayDataFromJson(json);
 
 @override final  String family;
@@ -527,16 +534,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GatewayData&&(identical(other.family, family) || other.family == family)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.address, address) || other.address == address)&&const DeepCollectionEquality().equals(other._local, _local));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _GatewayData&&(identical(other.family, family) || other.family == family)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.address, address) || other.address == address)&&const DeepCollectionEquality().equals(other.local, _local));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,family,interface,address,const DeepCollectionEquality().hash(_local));
+int get hashCode {
+    return Object.hash(runtimeType,family,interface,address,const DeepCollectionEquality().hash(_local));
+}
 
 @override
 String toString() {
-  return 'GatewayData(family: $family, interface: $interface, address: $address, local: $local)';
+    return 'GatewayData(family: $family, interface: $interface, address: $address, local: $local)';
 }
 
 

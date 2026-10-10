@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'query.dart';
@@ -9,6 +9,7 @@ part of 'query.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $QueriesCopyWith<Queries> get copyWith => _$QueriesCopyWithImpl<Queries>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Queries&&const DeepCollectionEquality().equals(other.queries, queries)&&(identical(other.cursor, cursor) || other.cursor == cursor)&&(identical(other.recordsTotal, recordsTotal) || other.recordsTotal == recordsTotal)&&(identical(other.recordsFiltered, recordsFiltered) || other.recordsFiltered == recordsFiltered)&&(identical(other.draw, draw) || other.draw == draw)&&(identical(other.took, took) || other.took == took));
+  final _this = this as Queries;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Queries&&const DeepCollectionEquality().equals(other.queries, _this.queries)&&(identical(other.cursor, _this.cursor) || other.cursor == _this.cursor)&&(identical(other.recordsTotal, _this.recordsTotal) || other.recordsTotal == _this.recordsTotal)&&(identical(other.recordsFiltered, _this.recordsFiltered) || other.recordsFiltered == _this.recordsFiltered)&&(identical(other.draw, _this.draw) || other.draw == _this.draw)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(queries),cursor,recordsTotal,recordsFiltered,draw,took);
+int get hashCode {
+  final _this = this as Queries;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.queries),_this.cursor,_this.recordsTotal,_this.recordsFiltered,_this.draw,_this.took);
+}
 
 @override
 String toString() {
-  return 'Queries(queries: $queries, cursor: $cursor, recordsTotal: $recordsTotal, recordsFiltered: $recordsFiltered, draw: $draw, took: $took)';
+  final _this = this as Queries;
+  return 'Queries(queries: ${_this.queries}, cursor: ${_this.cursor}, recordsTotal: ${_this.recordsTotal}, recordsFiltered: ${_this.recordsFiltered}, draw: ${_this.draw}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$QueriesCopyWithImpl<$Res>
 /// Create a copy of Queries
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? queries = null,Object? cursor = null,Object? recordsTotal = null,Object? recordsFiltered = null,Object? draw = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(Queries(
 queries: null == queries ? _self.queries : queries // ignore: cast_nullable_to_non_nullable
 as List<Query>,cursor: null == cursor ? _self.cursor : cursor // ignore: cast_nullable_to_non_nullable
 as int,recordsTotal: null == recordsTotal ? _self.recordsTotal : recordsTotal // ignore: cast_nullable_to_non_nullable
@@ -208,7 +214,7 @@ return $default(_that.queries,_that.cursor,_that.recordsTotal,_that.recordsFilte
 
 @JsonSerializable(explicitToJson: true)
 class _Queries implements Queries {
-  const _Queries({required final  List<Query> queries, required this.cursor, required this.recordsTotal, required this.recordsFiltered, required this.draw, required this.took}): _queries = queries;
+  const _Queries({required  List<Query> queries, required this.cursor, required this.recordsTotal, required this.recordsFiltered, required this.draw, required this.took}): _queries = queries;
   factory _Queries.fromJson(Map<String, dynamic> json) => _$QueriesFromJson(json);
 
  final  List<Query> _queries;
@@ -237,16 +243,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Queries&&const DeepCollectionEquality().equals(other._queries, _queries)&&(identical(other.cursor, cursor) || other.cursor == cursor)&&(identical(other.recordsTotal, recordsTotal) || other.recordsTotal == recordsTotal)&&(identical(other.recordsFiltered, recordsFiltered) || other.recordsFiltered == recordsFiltered)&&(identical(other.draw, draw) || other.draw == draw)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Queries&&const DeepCollectionEquality().equals(other.queries, _queries)&&(identical(other.cursor, cursor) || other.cursor == cursor)&&(identical(other.recordsTotal, recordsTotal) || other.recordsTotal == recordsTotal)&&(identical(other.recordsFiltered, recordsFiltered) || other.recordsFiltered == recordsFiltered)&&(identical(other.draw, draw) || other.draw == draw)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_queries),cursor,recordsTotal,recordsFiltered,draw,took);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_queries),cursor,recordsTotal,recordsFiltered,draw,took);
+}
 
 @override
 String toString() {
-  return 'Queries(queries: $queries, cursor: $cursor, recordsTotal: $recordsTotal, recordsFiltered: $recordsFiltered, draw: $draw, took: $took)';
+    return 'Queries(queries: $queries, cursor: $cursor, recordsTotal: $recordsTotal, recordsFiltered: $recordsFiltered, draw: $draw, took: $took)';
 }
 
 
@@ -306,16 +314,21 @@ $QueryCopyWith<Query> get copyWith => _$QueryCopyWithImpl<Query>(this as Query, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Query&&(identical(other.id, id) || other.id == id)&&(identical(other.time, time) || other.time == time)&&(identical(other.type, type) || other.type == type)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.client, client) || other.client == client)&&(identical(other.reply, reply) || other.reply == reply)&&(identical(other.ede, ede) || other.ede == ede)&&(identical(other.cname, cname) || other.cname == cname)&&(identical(other.status, status) || other.status == status)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.listId, listId) || other.listId == listId)&&(identical(other.upstream, upstream) || other.upstream == upstream));
+  final _this = this as Query;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Query&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.time, _this.time) || other.time == _this.time)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.domain, _this.domain) || other.domain == _this.domain)&&(identical(other.client, _this.client) || other.client == _this.client)&&(identical(other.reply, _this.reply) || other.reply == _this.reply)&&(identical(other.ede, _this.ede) || other.ede == _this.ede)&&(identical(other.cname, _this.cname) || other.cname == _this.cname)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.dnssec, _this.dnssec) || other.dnssec == _this.dnssec)&&(identical(other.listId, _this.listId) || other.listId == _this.listId)&&(identical(other.upstream, _this.upstream) || other.upstream == _this.upstream));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,time,type,domain,client,reply,ede,cname,status,dnssec,listId,upstream);
+int get hashCode {
+  final _this = this as Query;
+  return Object.hash(runtimeType,_this.id,_this.time,_this.type,_this.domain,_this.client,_this.reply,_this.ede,_this.cname,_this.status,_this.dnssec,_this.listId,_this.upstream);
+}
 
 @override
 String toString() {
-  return 'Query(id: $id, time: $time, type: $type, domain: $domain, client: $client, reply: $reply, ede: $ede, cname: $cname, status: $status, dnssec: $dnssec, listId: $listId, upstream: $upstream)';
+  final _this = this as Query;
+  return 'Query(id: ${_this.id}, time: ${_this.time}, type: ${_this.type}, domain: ${_this.domain}, client: ${_this.client}, reply: ${_this.reply}, ede: ${_this.ede}, cname: ${_this.cname}, status: ${_this.status}, dnssec: ${_this.dnssec}, listId: ${_this.listId}, upstream: ${_this.upstream})';
 }
 
 
@@ -344,7 +357,7 @@ class _$QueryCopyWithImpl<$Res>
 /// Create a copy of Query
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? time = null,Object? type = null,Object? domain = null,Object? client = null,Object? reply = null,Object? ede = null,Object? cname = freezed,Object? status = freezed,Object? dnssec = freezed,Object? listId = freezed,Object? upstream = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Query(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,time: null == time ? _self.time : time // ignore: cast_nullable_to_non_nullable
 as double,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
@@ -548,16 +561,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Query&&(identical(other.id, id) || other.id == id)&&(identical(other.time, time) || other.time == time)&&(identical(other.type, type) || other.type == type)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.client, client) || other.client == client)&&(identical(other.reply, reply) || other.reply == reply)&&(identical(other.ede, ede) || other.ede == ede)&&(identical(other.cname, cname) || other.cname == cname)&&(identical(other.status, status) || other.status == status)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.listId, listId) || other.listId == listId)&&(identical(other.upstream, upstream) || other.upstream == upstream));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Query&&(identical(other.id, id) || other.id == id)&&(identical(other.time, time) || other.time == time)&&(identical(other.type, type) || other.type == type)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.client, client) || other.client == client)&&(identical(other.reply, reply) || other.reply == reply)&&(identical(other.ede, ede) || other.ede == ede)&&(identical(other.cname, cname) || other.cname == cname)&&(identical(other.status, status) || other.status == status)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.listId, listId) || other.listId == listId)&&(identical(other.upstream, upstream) || other.upstream == upstream));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,time,type,domain,client,reply,ede,cname,status,dnssec,listId,upstream);
+int get hashCode {
+    return Object.hash(runtimeType,id,time,type,domain,client,reply,ede,cname,status,dnssec,listId,upstream);
+}
 
 @override
 String toString() {
-  return 'Query(id: $id, time: $time, type: $type, domain: $domain, client: $client, reply: $reply, ede: $ede, cname: $cname, status: $status, dnssec: $dnssec, listId: $listId, upstream: $upstream)';
+    return 'Query(id: $id, time: $time, type: $type, domain: $domain, client: $client, reply: $reply, ede: $ede, cname: $cname, status: $status, dnssec: $dnssec, listId: $listId, upstream: $upstream)';
 }
 
 
@@ -650,16 +665,21 @@ $QueryClientCopyWith<QueryClient> get copyWith => _$QueryClientCopyWithImpl<Quer
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryClient&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name));
+  final _this = this as QueryClient;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryClient&&(identical(other.ip, _this.ip) || other.ip == _this.ip)&&(identical(other.name, _this.name) || other.name == _this.name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ip,name);
+int get hashCode {
+  final _this = this as QueryClient;
+  return Object.hash(runtimeType,_this.ip,_this.name);
+}
 
 @override
 String toString() {
-  return 'QueryClient(ip: $ip, name: $name)';
+  final _this = this as QueryClient;
+  return 'QueryClient(ip: ${_this.ip}, name: ${_this.name})';
 }
 
 
@@ -688,7 +708,7 @@ class _$QueryClientCopyWithImpl<$Res>
 /// Create a copy of QueryClient
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ip = null,Object? name = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(QueryClient(
 ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
 as String,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -845,16 +865,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _QueryClient&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _QueryClient&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ip,name);
+int get hashCode {
+    return Object.hash(runtimeType,ip,name);
+}
 
 @override
 String toString() {
-  return 'QueryClient(ip: $ip, name: $name)';
+    return 'QueryClient(ip: $ip, name: $name)';
 }
 
 
@@ -910,16 +932,21 @@ $ReplyCopyWith<Reply> get copyWith => _$ReplyCopyWithImpl<Reply>(this as Reply, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Reply&&(identical(other.time, time) || other.time == time)&&(identical(other.type, type) || other.type == type));
+  final _this = this as Reply;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Reply&&(identical(other.time, _this.time) || other.time == _this.time)&&(identical(other.type, _this.type) || other.type == _this.type));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,time,type);
+int get hashCode {
+  final _this = this as Reply;
+  return Object.hash(runtimeType,_this.time,_this.type);
+}
 
 @override
 String toString() {
-  return 'Reply(time: $time, type: $type)';
+  final _this = this as Reply;
+  return 'Reply(time: ${_this.time}, type: ${_this.type})';
 }
 
 
@@ -948,7 +975,7 @@ class _$ReplyCopyWithImpl<$Res>
 /// Create a copy of Reply
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? time = null,Object? type = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Reply(
 time: null == time ? _self.time : time // ignore: cast_nullable_to_non_nullable
 as double,type: freezed == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -1105,16 +1132,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Reply&&(identical(other.time, time) || other.time == time)&&(identical(other.type, type) || other.type == type));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Reply&&(identical(other.time, time) || other.time == time)&&(identical(other.type, type) || other.type == type));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,time,type);
+int get hashCode {
+    return Object.hash(runtimeType,time,type);
+}
 
 @override
 String toString() {
-  return 'Reply(time: $time, type: $type)';
+    return 'Reply(time: $time, type: $type)';
 }
 
 
@@ -1170,16 +1199,21 @@ $EdeCopyWith<Ede> get copyWith => _$EdeCopyWithImpl<Ede>(this as Ede, _$identity
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Ede&&(identical(other.code, code) || other.code == code)&&(identical(other.text, text) || other.text == text));
+  final _this = this as Ede;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Ede&&(identical(other.code, _this.code) || other.code == _this.code)&&(identical(other.text, _this.text) || other.text == _this.text));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,code,text);
+int get hashCode {
+  final _this = this as Ede;
+  return Object.hash(runtimeType,_this.code,_this.text);
+}
 
 @override
 String toString() {
-  return 'Ede(code: $code, text: $text)';
+  final _this = this as Ede;
+  return 'Ede(code: ${_this.code}, text: ${_this.text})';
 }
 
 
@@ -1208,7 +1242,7 @@ class _$EdeCopyWithImpl<$Res>
 /// Create a copy of Ede
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? code = null,Object? text = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Ede(
 code: null == code ? _self.code : code // ignore: cast_nullable_to_non_nullable
 as int,text: freezed == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String?,
@@ -1365,16 +1399,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Ede&&(identical(other.code, code) || other.code == code)&&(identical(other.text, text) || other.text == text));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Ede&&(identical(other.code, code) || other.code == code)&&(identical(other.text, text) || other.text == text));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,code,text);
+int get hashCode {
+    return Object.hash(runtimeType,code,text);
+}
 
 @override
 String toString() {
-  return 'Ede(code: $code, text: $text)';
+    return 'Ede(code: $code, text: $text)';
 }
 
 

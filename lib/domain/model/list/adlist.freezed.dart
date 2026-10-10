@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'adlist.dart';
@@ -9,6 +9,7 @@ part of 'adlist.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $AdlistCopyWith<Adlist> get copyWith => _$AdlistCopyWithImpl<Adlist>(this as Adl
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Adlist&&(identical(other.address, address) || other.address == address)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.groups, groups)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.id, id) || other.id == id)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.dateUpdated, dateUpdated) || other.dateUpdated == dateUpdated)&&(identical(other.number, number) || other.number == number)&&(identical(other.invalidDomains, invalidDomains) || other.invalidDomains == invalidDomains)&&(identical(other.abpEntries, abpEntries) || other.abpEntries == abpEntries)&&(identical(other.status, status) || other.status == status)&&(identical(other.comment, comment) || other.comment == comment));
+  final _this = this as Adlist;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Adlist&&(identical(other.address, _this.address) || other.address == _this.address)&&(identical(other.type, _this.type) || other.type == _this.type)&&const DeepCollectionEquality().equals(other.groups, _this.groups)&&(identical(other.enabled, _this.enabled) || other.enabled == _this.enabled)&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.dateAdded, _this.dateAdded) || other.dateAdded == _this.dateAdded)&&(identical(other.dateModified, _this.dateModified) || other.dateModified == _this.dateModified)&&(identical(other.dateUpdated, _this.dateUpdated) || other.dateUpdated == _this.dateUpdated)&&(identical(other.number, _this.number) || other.number == _this.number)&&(identical(other.invalidDomains, _this.invalidDomains) || other.invalidDomains == _this.invalidDomains)&&(identical(other.abpEntries, _this.abpEntries) || other.abpEntries == _this.abpEntries)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.comment, _this.comment) || other.comment == _this.comment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,address,type,const DeepCollectionEquality().hash(groups),enabled,id,dateAdded,dateModified,dateUpdated,number,invalidDomains,abpEntries,status,comment);
+int get hashCode {
+  final _this = this as Adlist;
+  return Object.hash(runtimeType,_this.address,_this.type,const DeepCollectionEquality().hash(_this.groups),_this.enabled,_this.id,_this.dateAdded,_this.dateModified,_this.dateUpdated,_this.number,_this.invalidDomains,_this.abpEntries,_this.status,_this.comment);
+}
 
 @override
 String toString() {
-  return 'Adlist(address: $address, type: $type, groups: $groups, enabled: $enabled, id: $id, dateAdded: $dateAdded, dateModified: $dateModified, dateUpdated: $dateUpdated, number: $number, invalidDomains: $invalidDomains, abpEntries: $abpEntries, status: $status, comment: $comment)';
+  final _this = this as Adlist;
+  return 'Adlist(address: ${_this.address}, type: ${_this.type}, groups: ${_this.groups}, enabled: ${_this.enabled}, id: ${_this.id}, dateAdded: ${_this.dateAdded}, dateModified: ${_this.dateModified}, dateUpdated: ${_this.dateUpdated}, number: ${_this.number}, invalidDomains: ${_this.invalidDomains}, abpEntries: ${_this.abpEntries}, status: ${_this.status}, comment: ${_this.comment})';
 }
 
 
@@ -66,7 +72,7 @@ class _$AdlistCopyWithImpl<$Res>
 /// Create a copy of Adlist
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? address = null,Object? type = null,Object? groups = null,Object? enabled = null,Object? id = null,Object? dateAdded = null,Object? dateModified = null,Object? dateUpdated = null,Object? number = null,Object? invalidDomains = null,Object? abpEntries = null,Object? status = null,Object? comment = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Adlist(
 address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as ListType,groups: null == groups ? _self.groups : groups // ignore: cast_nullable_to_non_nullable
@@ -215,7 +221,7 @@ return $default(_that.address,_that.type,_that.groups,_that.enabled,_that.id,_th
 @JsonSerializable()
 
 class _Adlist implements Adlist {
-  const _Adlist({required this.address, required this.type, required final  List<int> groups, required this.enabled, required this.id, required this.dateAdded, required this.dateModified, required this.dateUpdated, required this.number, required this.invalidDomains, required this.abpEntries, required this.status, this.comment}): _groups = groups;
+  const _Adlist({required this.address, required this.type, required  List<int> groups, required this.enabled, required this.id, required this.dateAdded, required this.dateModified, required this.dateUpdated, required this.number, required this.invalidDomains, required this.abpEntries, required this.status, this.comment}): _groups = groups;
   factory _Adlist.fromJson(Map<String, dynamic> json) => _$AdlistFromJson(json);
 
 @override final  String address;
@@ -251,16 +257,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Adlist&&(identical(other.address, address) || other.address == address)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other._groups, _groups)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.id, id) || other.id == id)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.dateUpdated, dateUpdated) || other.dateUpdated == dateUpdated)&&(identical(other.number, number) || other.number == number)&&(identical(other.invalidDomains, invalidDomains) || other.invalidDomains == invalidDomains)&&(identical(other.abpEntries, abpEntries) || other.abpEntries == abpEntries)&&(identical(other.status, status) || other.status == status)&&(identical(other.comment, comment) || other.comment == comment));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Adlist&&(identical(other.address, address) || other.address == address)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.groups, _groups)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.id, id) || other.id == id)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.dateUpdated, dateUpdated) || other.dateUpdated == dateUpdated)&&(identical(other.number, number) || other.number == number)&&(identical(other.invalidDomains, invalidDomains) || other.invalidDomains == invalidDomains)&&(identical(other.abpEntries, abpEntries) || other.abpEntries == abpEntries)&&(identical(other.status, status) || other.status == status)&&(identical(other.comment, comment) || other.comment == comment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,address,type,const DeepCollectionEquality().hash(_groups),enabled,id,dateAdded,dateModified,dateUpdated,number,invalidDomains,abpEntries,status,comment);
+int get hashCode {
+    return Object.hash(runtimeType,address,type,const DeepCollectionEquality().hash(_groups),enabled,id,dateAdded,dateModified,dateUpdated,number,invalidDomains,abpEntries,status,comment);
+}
 
 @override
 String toString() {
-  return 'Adlist(address: $address, type: $type, groups: $groups, enabled: $enabled, id: $id, dateAdded: $dateAdded, dateModified: $dateModified, dateUpdated: $dateUpdated, number: $number, invalidDomains: $invalidDomains, abpEntries: $abpEntries, status: $status, comment: $comment)';
+    return 'Adlist(address: $address, type: $type, groups: $groups, enabled: $enabled, id: $id, dateAdded: $dateAdded, dateModified: $dateModified, dateUpdated: $dateUpdated, number: $number, invalidDomains: $invalidDomains, abpEntries: $abpEntries, status: $status, comment: $comment)';
 }
 
 

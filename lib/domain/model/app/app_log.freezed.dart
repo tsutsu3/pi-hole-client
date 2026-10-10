@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'app_log.dart';
@@ -9,6 +9,7 @@ part of 'app_log.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $AppLogCopyWith<AppLog> get copyWith => _$AppLogCopyWithImpl<AppLog>(this as App
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppLog&&(identical(other.type, type) || other.type == type)&&(identical(other.dateTime, dateTime) || other.dateTime == dateTime)&&(identical(other.message, message) || other.message == message)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.resBody, resBody) || other.resBody == resBody));
+  final _this = this as AppLog;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppLog&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.dateTime, _this.dateTime) || other.dateTime == _this.dateTime)&&(identical(other.message, _this.message) || other.message == _this.message)&&(identical(other.statusCode, _this.statusCode) || other.statusCode == _this.statusCode)&&(identical(other.resBody, _this.resBody) || other.resBody == _this.resBody));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,type,dateTime,message,statusCode,resBody);
+int get hashCode {
+  final _this = this as AppLog;
+  return Object.hash(runtimeType,_this.type,_this.dateTime,_this.message,_this.statusCode,_this.resBody);
+}
 
 @override
 String toString() {
-  return 'AppLog(type: $type, dateTime: $dateTime, message: $message, statusCode: $statusCode, resBody: $resBody)';
+  final _this = this as AppLog;
+  return 'AppLog(type: ${_this.type}, dateTime: ${_this.dateTime}, message: ${_this.message}, statusCode: ${_this.statusCode}, resBody: ${_this.resBody})';
 }
 
 
@@ -63,7 +69,7 @@ class _$AppLogCopyWithImpl<$Res>
 /// Create a copy of AppLog
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? dateTime = null,Object? message = null,Object? statusCode = freezed,Object? resBody = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(AppLog(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String,dateTime: null == dateTime ? _self.dateTime : dateTime // ignore: cast_nullable_to_non_nullable
 as DateTime,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
@@ -223,16 +229,18 @@ _$AppLogCopyWith<_AppLog> get copyWith => __$AppLogCopyWithImpl<_AppLog>(this, _
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppLog&&(identical(other.type, type) || other.type == type)&&(identical(other.dateTime, dateTime) || other.dateTime == dateTime)&&(identical(other.message, message) || other.message == message)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.resBody, resBody) || other.resBody == resBody));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppLog&&(identical(other.type, type) || other.type == type)&&(identical(other.dateTime, dateTime) || other.dateTime == dateTime)&&(identical(other.message, message) || other.message == message)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.resBody, resBody) || other.resBody == resBody));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,type,dateTime,message,statusCode,resBody);
+int get hashCode {
+    return Object.hash(runtimeType,type,dateTime,message,statusCode,resBody);
+}
 
 @override
 String toString() {
-  return 'AppLog(type: $type, dateTime: $dateTime, message: $message, statusCode: $statusCode, resBody: $resBody)';
+    return 'AppLog(type: $type, dateTime: $dateTime, message: $message, statusCode: $statusCode, resBody: $resBody)';
 }
 
 

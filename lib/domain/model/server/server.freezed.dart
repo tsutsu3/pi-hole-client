@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'server.dart';
@@ -9,6 +9,7 @@ part of 'server.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $ServerCopyWith<Server> get copyWith => _$ServerCopyWithImpl<Server>(this as Ser
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Server&&(identical(other.address, address) || other.address == address)&&(identical(other.alias, alias) || other.alias == alias)&&(identical(other.apiVersion, apiVersion) || other.apiVersion == apiVersion)&&(identical(other.defaultServer, defaultServer) || other.defaultServer == defaultServer)&&(identical(other.allowUntrustedCert, allowUntrustedCert) || other.allowUntrustedCert == allowUntrustedCert)&&(identical(other.ignoreCertificateErrors, ignoreCertificateErrors) || other.ignoreCertificateErrors == ignoreCertificateErrors)&&(identical(other.pinnedCertificateSha256, pinnedCertificateSha256) || other.pinnedCertificateSha256 == pinnedCertificateSha256));
+  final _this = this as Server;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Server&&(identical(other.address, _this.address) || other.address == _this.address)&&(identical(other.alias, _this.alias) || other.alias == _this.alias)&&(identical(other.apiVersion, _this.apiVersion) || other.apiVersion == _this.apiVersion)&&(identical(other.defaultServer, _this.defaultServer) || other.defaultServer == _this.defaultServer)&&(identical(other.allowUntrustedCert, _this.allowUntrustedCert) || other.allowUntrustedCert == _this.allowUntrustedCert)&&(identical(other.ignoreCertificateErrors, _this.ignoreCertificateErrors) || other.ignoreCertificateErrors == _this.ignoreCertificateErrors)&&(identical(other.pinnedCertificateSha256, _this.pinnedCertificateSha256) || other.pinnedCertificateSha256 == _this.pinnedCertificateSha256));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,address,alias,apiVersion,defaultServer,allowUntrustedCert,ignoreCertificateErrors,pinnedCertificateSha256);
+int get hashCode {
+  final _this = this as Server;
+  return Object.hash(runtimeType,_this.address,_this.alias,_this.apiVersion,_this.defaultServer,_this.allowUntrustedCert,_this.ignoreCertificateErrors,_this.pinnedCertificateSha256);
+}
 
 @override
 String toString() {
-  return 'Server(address: $address, alias: $alias, apiVersion: $apiVersion, defaultServer: $defaultServer, allowUntrustedCert: $allowUntrustedCert, ignoreCertificateErrors: $ignoreCertificateErrors, pinnedCertificateSha256: $pinnedCertificateSha256)';
+  final _this = this as Server;
+  return 'Server(address: ${_this.address}, alias: ${_this.alias}, apiVersion: ${_this.apiVersion}, defaultServer: ${_this.defaultServer}, allowUntrustedCert: ${_this.allowUntrustedCert}, ignoreCertificateErrors: ${_this.ignoreCertificateErrors}, pinnedCertificateSha256: ${_this.pinnedCertificateSha256})';
 }
 
 
@@ -63,7 +69,7 @@ class _$ServerCopyWithImpl<$Res>
 /// Create a copy of Server
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? address = null,Object? alias = null,Object? apiVersion = null,Object? defaultServer = null,Object? allowUntrustedCert = null,Object? ignoreCertificateErrors = null,Object? pinnedCertificateSha256 = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(Server(
 address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String,alias: null == alias ? _self.alias : alias // ignore: cast_nullable_to_non_nullable
 as String,apiVersion: null == apiVersion ? _self.apiVersion : apiVersion // ignore: cast_nullable_to_non_nullable
@@ -227,16 +233,18 @@ _$ServerCopyWith<_Server> get copyWith => __$ServerCopyWithImpl<_Server>(this, _
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Server&&(identical(other.address, address) || other.address == address)&&(identical(other.alias, alias) || other.alias == alias)&&(identical(other.apiVersion, apiVersion) || other.apiVersion == apiVersion)&&(identical(other.defaultServer, defaultServer) || other.defaultServer == defaultServer)&&(identical(other.allowUntrustedCert, allowUntrustedCert) || other.allowUntrustedCert == allowUntrustedCert)&&(identical(other.ignoreCertificateErrors, ignoreCertificateErrors) || other.ignoreCertificateErrors == ignoreCertificateErrors)&&(identical(other.pinnedCertificateSha256, pinnedCertificateSha256) || other.pinnedCertificateSha256 == pinnedCertificateSha256));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Server&&(identical(other.address, address) || other.address == address)&&(identical(other.alias, alias) || other.alias == alias)&&(identical(other.apiVersion, apiVersion) || other.apiVersion == apiVersion)&&(identical(other.defaultServer, defaultServer) || other.defaultServer == defaultServer)&&(identical(other.allowUntrustedCert, allowUntrustedCert) || other.allowUntrustedCert == allowUntrustedCert)&&(identical(other.ignoreCertificateErrors, ignoreCertificateErrors) || other.ignoreCertificateErrors == ignoreCertificateErrors)&&(identical(other.pinnedCertificateSha256, pinnedCertificateSha256) || other.pinnedCertificateSha256 == pinnedCertificateSha256));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,address,alias,apiVersion,defaultServer,allowUntrustedCert,ignoreCertificateErrors,pinnedCertificateSha256);
+int get hashCode {
+    return Object.hash(runtimeType,address,alias,apiVersion,defaultServer,allowUntrustedCert,ignoreCertificateErrors,pinnedCertificateSha256);
+}
 
 @override
 String toString() {
-  return 'Server(address: $address, alias: $alias, apiVersion: $apiVersion, defaultServer: $defaultServer, allowUntrustedCert: $allowUntrustedCert, ignoreCertificateErrors: $ignoreCertificateErrors, pinnedCertificateSha256: $pinnedCertificateSha256)';
+    return 'Server(address: $address, alias: $alias, apiVersion: $apiVersion, defaultServer: $defaultServer, allowUntrustedCert: $allowUntrustedCert, ignoreCertificateErrors: $ignoreCertificateErrors, pinnedCertificateSha256: $pinnedCertificateSha256)';
 }
 
 

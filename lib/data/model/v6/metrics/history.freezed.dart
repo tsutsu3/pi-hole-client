@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'history.dart';
@@ -9,6 +9,7 @@ part of 'history.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $HistoryCopyWith<History> get copyWith => _$HistoryCopyWithImpl<History>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is History&&const DeepCollectionEquality().equals(other.history, history)&&(identical(other.took, took) || other.took == took));
+  final _this = this as History;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is History&&const DeepCollectionEquality().equals(other.history, _this.history)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(history),took);
+int get hashCode {
+  final _this = this as History;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.history),_this.took);
+}
 
 @override
 String toString() {
-  return 'History(history: $history, took: $took)';
+  final _this = this as History;
+  return 'History(history: ${_this.history}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$HistoryCopyWithImpl<$Res>
 /// Create a copy of History
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? history = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(History(
 history: null == history ? _self.history : history // ignore: cast_nullable_to_non_nullable
 as List<HistoryData>,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -204,7 +210,7 @@ return $default(_that.history,_that.took);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _History implements History {
-  const _History({required final  List<HistoryData> history, required this.took}): _history = history;
+  const _History({required  List<HistoryData> history, required this.took}): _history = history;
   factory _History.fromJson(Map<String, dynamic> json) => _$HistoryFromJson(json);
 
  final  List<HistoryData> _history;
@@ -229,16 +235,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _History&&const DeepCollectionEquality().equals(other._history, _history)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _History&&const DeepCollectionEquality().equals(other.history, _history)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_history),took);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_history),took);
+}
 
 @override
 String toString() {
-  return 'History(history: $history, took: $took)';
+    return 'History(history: $history, took: $took)';
 }
 
 
@@ -294,16 +302,21 @@ $HistoryDataCopyWith<HistoryData> get copyWith => _$HistoryDataCopyWithImpl<Hist
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoryData&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.total, total) || other.total == total)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded));
+  final _this = this as HistoryData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoryData&&(identical(other.timestamp, _this.timestamp) || other.timestamp == _this.timestamp)&&(identical(other.total, _this.total) || other.total == _this.total)&&(identical(other.cached, _this.cached) || other.cached == _this.cached)&&(identical(other.blocked, _this.blocked) || other.blocked == _this.blocked)&&(identical(other.forwarded, _this.forwarded) || other.forwarded == _this.forwarded));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,timestamp,total,cached,blocked,forwarded);
+int get hashCode {
+  final _this = this as HistoryData;
+  return Object.hash(runtimeType,_this.timestamp,_this.total,_this.cached,_this.blocked,_this.forwarded);
+}
 
 @override
 String toString() {
-  return 'HistoryData(timestamp: $timestamp, total: $total, cached: $cached, blocked: $blocked, forwarded: $forwarded)';
+  final _this = this as HistoryData;
+  return 'HistoryData(timestamp: ${_this.timestamp}, total: ${_this.total}, cached: ${_this.cached}, blocked: ${_this.blocked}, forwarded: ${_this.forwarded})';
 }
 
 
@@ -332,7 +345,7 @@ class _$HistoryDataCopyWithImpl<$Res>
 /// Create a copy of HistoryData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? timestamp = null,Object? total = null,Object? cached = null,Object? blocked = null,Object? forwarded = null,}) {
-  return _then(_self.copyWith(
+  return _then(HistoryData(
 timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as double,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,cached: null == cached ? _self.cached : cached // ignore: cast_nullable_to_non_nullable
@@ -495,16 +508,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HistoryData&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.total, total) || other.total == total)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HistoryData&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.total, total) || other.total == total)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,timestamp,total,cached,blocked,forwarded);
+int get hashCode {
+    return Object.hash(runtimeType,timestamp,total,cached,blocked,forwarded);
+}
 
 @override
 String toString() {
-  return 'HistoryData(timestamp: $timestamp, total: $total, cached: $cached, blocked: $blocked, forwarded: $forwarded)';
+    return 'HistoryData(timestamp: $timestamp, total: $total, cached: $cached, blocked: $blocked, forwarded: $forwarded)';
 }
 
 
@@ -563,16 +578,21 @@ $HistoryClientsCopyWith<HistoryClients> get copyWith => _$HistoryClientsCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoryClients&&const DeepCollectionEquality().equals(other.clients, clients)&&const DeepCollectionEquality().equals(other.history, history)&&(identical(other.took, took) || other.took == took));
+  final _this = this as HistoryClients;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoryClients&&const DeepCollectionEquality().equals(other.clients, _this.clients)&&const DeepCollectionEquality().equals(other.history, _this.history)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(clients),const DeepCollectionEquality().hash(history),took);
+int get hashCode {
+  final _this = this as HistoryClients;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.clients),const DeepCollectionEquality().hash(_this.history),_this.took);
+}
 
 @override
 String toString() {
-  return 'HistoryClients(clients: $clients, history: $history, took: $took)';
+  final _this = this as HistoryClients;
+  return 'HistoryClients(clients: ${_this.clients}, history: ${_this.history}, took: ${_this.took})';
 }
 
 
@@ -601,7 +621,7 @@ class _$HistoryClientsCopyWithImpl<$Res>
 /// Create a copy of HistoryClients
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? clients = null,Object? history = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(HistoryClients(
 clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
 as Map<String, Client>,history: null == history ? _self.history : history // ignore: cast_nullable_to_non_nullable
 as List<HistoryEntry>,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
@@ -740,7 +760,7 @@ return $default(_that.clients,_that.history,_that.took);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _HistoryClients implements HistoryClients {
-  const _HistoryClients({required final  Map<String, Client> clients, required final  List<HistoryEntry> history, required this.took}): _clients = clients,_history = history;
+  const _HistoryClients({required  Map<String, Client> clients, required  List<HistoryEntry> history, required this.took}): _clients = clients,_history = history;
   factory _HistoryClients.fromJson(Map<String, dynamic> json) => _$HistoryClientsFromJson(json);
 
  final  Map<String, Client> _clients;
@@ -772,16 +792,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HistoryClients&&const DeepCollectionEquality().equals(other._clients, _clients)&&const DeepCollectionEquality().equals(other._history, _history)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HistoryClients&&const DeepCollectionEquality().equals(other.clients, _clients)&&const DeepCollectionEquality().equals(other.history, _history)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_clients),const DeepCollectionEquality().hash(_history),took);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_clients),const DeepCollectionEquality().hash(_history),took);
+}
 
 @override
 String toString() {
-  return 'HistoryClients(clients: $clients, history: $history, took: $took)';
+    return 'HistoryClients(clients: $clients, history: $history, took: $took)';
 }
 
 
@@ -825,8 +847,7 @@ as double,
 /// @nodoc
 mixin _$Client {
 
- String? get name;// Nullable since "name" can be null
- int get total;
+ String? get name; int get total;
 /// Create a copy of Client
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -839,16 +860,21 @@ $ClientCopyWith<Client> get copyWith => _$ClientCopyWithImpl<Client>(this as Cli
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Client&&(identical(other.name, name) || other.name == name)&&(identical(other.total, total) || other.total == total));
+  final _this = this as Client;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Client&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.total, _this.total) || other.total == _this.total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,total);
+int get hashCode {
+  final _this = this as Client;
+  return Object.hash(runtimeType,_this.name,_this.total);
+}
 
 @override
 String toString() {
-  return 'Client(name: $name, total: $total)';
+  final _this = this as Client;
+  return 'Client(name: ${_this.name}, total: ${_this.total})';
 }
 
 
@@ -877,7 +903,7 @@ class _$ClientCopyWithImpl<$Res>
 /// Create a copy of Client
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,Object? total = null,}) {
-  return _then(_self.copyWith(
+  return _then(Client(
 name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,
@@ -1019,7 +1045,6 @@ class _Client implements Client {
   factory _Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
 
 @override final  String? name;
-// Nullable since "name" can be null
 @override final  int total;
 
 /// Create a copy of Client
@@ -1035,16 +1060,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Client&&(identical(other.name, name) || other.name == name)&&(identical(other.total, total) || other.total == total));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Client&&(identical(other.name, name) || other.name == name)&&(identical(other.total, total) || other.total == total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,total);
+int get hashCode {
+    return Object.hash(runtimeType,name,total);
+}
 
 @override
 String toString() {
-  return 'Client(name: $name, total: $total)';
+    return 'Client(name: $name, total: $total)';
 }
 
 
@@ -1100,16 +1127,21 @@ $HistoryEntryCopyWith<HistoryEntry> get copyWith => _$HistoryEntryCopyWithImpl<H
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoryEntry&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&const DeepCollectionEquality().equals(other.data, data));
+  final _this = this as HistoryEntry;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoryEntry&&(identical(other.timestamp, _this.timestamp) || other.timestamp == _this.timestamp)&&const DeepCollectionEquality().equals(other.data, _this.data));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,timestamp,const DeepCollectionEquality().hash(data));
+int get hashCode {
+  final _this = this as HistoryEntry;
+  return Object.hash(runtimeType,_this.timestamp,const DeepCollectionEquality().hash(_this.data));
+}
 
 @override
 String toString() {
-  return 'HistoryEntry(timestamp: $timestamp, data: $data)';
+  final _this = this as HistoryEntry;
+  return 'HistoryEntry(timestamp: ${_this.timestamp}, data: ${_this.data})';
 }
 
 
@@ -1138,7 +1170,7 @@ class _$HistoryEntryCopyWithImpl<$Res>
 /// Create a copy of HistoryEntry
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? timestamp = null,Object? data = null,}) {
-  return _then(_self.copyWith(
+  return _then(HistoryEntry(
 timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as double,data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
 as Map<String, int>,
@@ -1276,7 +1308,7 @@ return $default(_that.timestamp,_that.data);case _:
 @JsonSerializable()
 
 class _HistoryEntry implements HistoryEntry {
-  const _HistoryEntry({required this.timestamp, required final  Map<String, int> data}): _data = data;
+  const _HistoryEntry({required this.timestamp, required  Map<String, int> data}): _data = data;
   factory _HistoryEntry.fromJson(Map<String, dynamic> json) => _$HistoryEntryFromJson(json);
 
 @override final  double timestamp;
@@ -1301,16 +1333,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HistoryEntry&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&const DeepCollectionEquality().equals(other._data, _data));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HistoryEntry&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&const DeepCollectionEquality().equals(other.data, _data));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,timestamp,const DeepCollectionEquality().hash(_data));
+int get hashCode {
+    return Object.hash(runtimeType,timestamp,const DeepCollectionEquality().hash(_data));
+}
 
 @override
 String toString() {
-  return 'HistoryEntry(timestamp: $timestamp, data: $data)';
+    return 'HistoryEntry(timestamp: $timestamp, data: $data)';
 }
 
 

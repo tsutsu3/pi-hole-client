@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'sensors.dart';
@@ -9,6 +9,7 @@ part of 'sensors.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $InfoSensorsCopyWith<InfoSensors> get copyWith => _$InfoSensorsCopyWithImpl<Info
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoSensors&&(identical(other.sensors, sensors) || other.sensors == sensors)&&(identical(other.took, took) || other.took == took));
+  final _this = this as InfoSensors;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoSensors&&(identical(other.sensors, _this.sensors) || other.sensors == _this.sensors)&&(identical(other.took, _this.took) || other.took == _this.took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,sensors,took);
+int get hashCode {
+  final _this = this as InfoSensors;
+  return Object.hash(runtimeType,_this.sensors,_this.took);
+}
 
 @override
 String toString() {
-  return 'InfoSensors(sensors: $sensors, took: $took)';
+  final _this = this as InfoSensors;
+  return 'InfoSensors(sensors: ${_this.sensors}, took: ${_this.took})';
 }
 
 
@@ -66,7 +72,7 @@ class _$InfoSensorsCopyWithImpl<$Res>
 /// Create a copy of InfoSensors
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? sensors = null,Object? took = null,}) {
-  return _then(_self.copyWith(
+  return _then(InfoSensors(
 sensors: null == sensors ? _self.sensors : sensors // ignore: cast_nullable_to_non_nullable
 as SensorsData,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -232,16 +238,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoSensors&&(identical(other.sensors, sensors) || other.sensors == sensors)&&(identical(other.took, took) || other.took == took));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoSensors&&(identical(other.sensors, sensors) || other.sensors == sensors)&&(identical(other.took, took) || other.took == took));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,sensors,took);
+int get hashCode {
+    return Object.hash(runtimeType,sensors,took);
+}
 
 @override
 String toString() {
-  return 'InfoSensors(sensors: $sensors, took: $took)';
+    return 'InfoSensors(sensors: $sensors, took: $took)';
 }
 
 
@@ -306,16 +314,21 @@ $SensorsDataCopyWith<SensorsData> get copyWith => _$SensorsDataCopyWithImpl<Sens
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SensorsData&&const DeepCollectionEquality().equals(other.list, list)&&(identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp)&&(identical(other.hotLimit, hotLimit) || other.hotLimit == hotLimit)&&(identical(other.unit, unit) || other.unit == unit));
+  final _this = this as SensorsData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SensorsData&&const DeepCollectionEquality().equals(other.list, _this.list)&&(identical(other.cpuTemp, _this.cpuTemp) || other.cpuTemp == _this.cpuTemp)&&(identical(other.hotLimit, _this.hotLimit) || other.hotLimit == _this.hotLimit)&&(identical(other.unit, _this.unit) || other.unit == _this.unit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(list),cpuTemp,hotLimit,unit);
+int get hashCode {
+  final _this = this as SensorsData;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.list),_this.cpuTemp,_this.hotLimit,_this.unit);
+}
 
 @override
 String toString() {
-  return 'SensorsData(list: $list, cpuTemp: $cpuTemp, hotLimit: $hotLimit, unit: $unit)';
+  final _this = this as SensorsData;
+  return 'SensorsData(list: ${_this.list}, cpuTemp: ${_this.cpuTemp}, hotLimit: ${_this.hotLimit}, unit: ${_this.unit})';
 }
 
 
@@ -344,7 +357,7 @@ class _$SensorsDataCopyWithImpl<$Res>
 /// Create a copy of SensorsData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? list = null,Object? cpuTemp = freezed,Object? hotLimit = null,Object? unit = null,}) {
-  return _then(_self.copyWith(
+  return _then(SensorsData(
 list: null == list ? _self.list : list // ignore: cast_nullable_to_non_nullable
 as List<SensorData>,cpuTemp: freezed == cpuTemp ? _self.cpuTemp : cpuTemp // ignore: cast_nullable_to_non_nullable
 as double?,hotLimit: null == hotLimit ? _self.hotLimit : hotLimit // ignore: cast_nullable_to_non_nullable
@@ -484,7 +497,7 @@ return $default(_that.list,_that.cpuTemp,_that.hotLimit,_that.unit);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _SensorsData implements SensorsData {
-  const _SensorsData({required final  List<SensorData> list, @JsonKey(name: 'cpu_temp') required this.cpuTemp, @JsonKey(name: 'hot_limit') required this.hotLimit, required this.unit}): _list = list;
+  const _SensorsData({required  List<SensorData> list, @JsonKey(name: 'cpu_temp') required this.cpuTemp, @JsonKey(name: 'hot_limit') required this.hotLimit, required this.unit}): _list = list;
   factory _SensorsData.fromJson(Map<String, dynamic> json) => _$SensorsDataFromJson(json);
 
  final  List<SensorData> _list;
@@ -511,16 +524,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SensorsData&&const DeepCollectionEquality().equals(other._list, _list)&&(identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp)&&(identical(other.hotLimit, hotLimit) || other.hotLimit == hotLimit)&&(identical(other.unit, unit) || other.unit == unit));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SensorsData&&const DeepCollectionEquality().equals(other.list, _list)&&(identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp)&&(identical(other.hotLimit, hotLimit) || other.hotLimit == hotLimit)&&(identical(other.unit, unit) || other.unit == unit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_list),cpuTemp,hotLimit,unit);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_list),cpuTemp,hotLimit,unit);
+}
 
 @override
 String toString() {
-  return 'SensorsData(list: $list, cpuTemp: $cpuTemp, hotLimit: $hotLimit, unit: $unit)';
+    return 'SensorsData(list: $list, cpuTemp: $cpuTemp, hotLimit: $hotLimit, unit: $unit)';
 }
 
 
@@ -578,16 +593,21 @@ $SensorDataCopyWith<SensorData> get copyWith => _$SensorDataCopyWithImpl<SensorD
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SensorData&&(identical(other.name, name) || other.name == name)&&(identical(other.path, path) || other.path == path)&&(identical(other.source, source) || other.source == source)&&const DeepCollectionEquality().equals(other.temps, temps));
+  final _this = this as SensorData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SensorData&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.path, _this.path) || other.path == _this.path)&&(identical(other.source, _this.source) || other.source == _this.source)&&const DeepCollectionEquality().equals(other.temps, _this.temps));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,path,source,const DeepCollectionEquality().hash(temps));
+int get hashCode {
+  final _this = this as SensorData;
+  return Object.hash(runtimeType,_this.name,_this.path,_this.source,const DeepCollectionEquality().hash(_this.temps));
+}
 
 @override
 String toString() {
-  return 'SensorData(name: $name, path: $path, source: $source, temps: $temps)';
+  final _this = this as SensorData;
+  return 'SensorData(name: ${_this.name}, path: ${_this.path}, source: ${_this.source}, temps: ${_this.temps})';
 }
 
 
@@ -616,7 +636,7 @@ class _$SensorDataCopyWithImpl<$Res>
 /// Create a copy of SensorData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,Object? path = null,Object? source = null,Object? temps = null,}) {
-  return _then(_self.copyWith(
+  return _then(SensorData(
 name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,path: null == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
 as String,source: null == source ? _self.source : source // ignore: cast_nullable_to_non_nullable
@@ -756,7 +776,7 @@ return $default(_that.name,_that.path,_that.source,_that.temps);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _SensorData implements SensorData {
-  const _SensorData({required this.name, required this.path, required this.source, required final  List<TempData> temps}): _temps = temps;
+  const _SensorData({required this.name, required this.path, required this.source, required  List<TempData> temps}): _temps = temps;
   factory _SensorData.fromJson(Map<String, dynamic> json) => _$SensorDataFromJson(json);
 
 @override final  String? name;
@@ -783,16 +803,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SensorData&&(identical(other.name, name) || other.name == name)&&(identical(other.path, path) || other.path == path)&&(identical(other.source, source) || other.source == source)&&const DeepCollectionEquality().equals(other._temps, _temps));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SensorData&&(identical(other.name, name) || other.name == name)&&(identical(other.path, path) || other.path == path)&&(identical(other.source, source) || other.source == source)&&const DeepCollectionEquality().equals(other.temps, _temps));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,path,source,const DeepCollectionEquality().hash(_temps));
+int get hashCode {
+    return Object.hash(runtimeType,name,path,source,const DeepCollectionEquality().hash(_temps));
+}
 
 @override
 String toString() {
-  return 'SensorData(name: $name, path: $path, source: $source, temps: $temps)';
+    return 'SensorData(name: $name, path: $path, source: $source, temps: $temps)';
 }
 
 
@@ -850,16 +872,21 @@ $TempDataCopyWith<TempData> get copyWith => _$TempDataCopyWithImpl<TempData>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TempData&&(identical(other.name, name) || other.name == name)&&(identical(other.value, value) || other.value == value)&&(identical(other.max, max) || other.max == max)&&(identical(other.crit, crit) || other.crit == crit)&&(identical(other.sensor, sensor) || other.sensor == sensor));
+  final _this = this as TempData;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TempData&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.value, _this.value) || other.value == _this.value)&&(identical(other.max, _this.max) || other.max == _this.max)&&(identical(other.crit, _this.crit) || other.crit == _this.crit)&&(identical(other.sensor, _this.sensor) || other.sensor == _this.sensor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,value,max,crit,sensor);
+int get hashCode {
+  final _this = this as TempData;
+  return Object.hash(runtimeType,_this.name,_this.value,_this.max,_this.crit,_this.sensor);
+}
 
 @override
 String toString() {
-  return 'TempData(name: $name, value: $value, max: $max, crit: $crit, sensor: $sensor)';
+  final _this = this as TempData;
+  return 'TempData(name: ${_this.name}, value: ${_this.value}, max: ${_this.max}, crit: ${_this.crit}, sensor: ${_this.sensor})';
 }
 
 
@@ -888,7 +915,7 @@ class _$TempDataCopyWithImpl<$Res>
 /// Create a copy of TempData
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? name = freezed,Object? value = null,Object? max = freezed,Object? crit = freezed,Object? sensor = null,}) {
-  return _then(_self.copyWith(
+  return _then(TempData(
 name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as num,max: freezed == max ? _self.max : max // ignore: cast_nullable_to_non_nullable
@@ -1051,16 +1078,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TempData&&(identical(other.name, name) || other.name == name)&&(identical(other.value, value) || other.value == value)&&(identical(other.max, max) || other.max == max)&&(identical(other.crit, crit) || other.crit == crit)&&(identical(other.sensor, sensor) || other.sensor == sensor));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TempData&&(identical(other.name, name) || other.name == name)&&(identical(other.value, value) || other.value == value)&&(identical(other.max, max) || other.max == max)&&(identical(other.crit, crit) || other.crit == crit)&&(identical(other.sensor, sensor) || other.sensor == sensor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,value,max,crit,sensor);
+int get hashCode {
+    return Object.hash(runtimeType,name,value,max,crit,sensor);
+}
 
 @override
 String toString() {
-  return 'TempData(name: $name, value: $value, max: $max, crit: $crit, sensor: $sensor)';
+    return 'TempData(name: $name, value: $value, max: $max, crit: $crit, sensor: $sensor)';
 }
 
 

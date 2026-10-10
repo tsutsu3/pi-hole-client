@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'auth.dart';
@@ -9,6 +9,7 @@ part of 'auth.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $AuthCopyWith<Auth> get copyWith => _$AuthCopyWithImpl<Auth>(this as Auth, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Auth&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.totp, totp) || other.totp == totp)&&(identical(other.sid, sid) || other.sid == sid)&&(identical(other.csrf, csrf) || other.csrf == csrf)&&(identical(other.validity, validity) || other.validity == validity)&&(identical(other.message, message) || other.message == message));
+  final _this = this as Auth;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Auth&&(identical(other.valid, _this.valid) || other.valid == _this.valid)&&(identical(other.totp, _this.totp) || other.totp == _this.totp)&&(identical(other.sid, _this.sid) || other.sid == _this.sid)&&(identical(other.csrf, _this.csrf) || other.csrf == _this.csrf)&&(identical(other.validity, _this.validity) || other.validity == _this.validity)&&(identical(other.message, _this.message) || other.message == _this.message));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,valid,totp,sid,csrf,validity,message);
+int get hashCode {
+  final _this = this as Auth;
+  return Object.hash(runtimeType,_this.valid,_this.totp,_this.sid,_this.csrf,_this.validity,_this.message);
+}
 
 @override
 String toString() {
-  return 'Auth(valid: $valid, totp: $totp, sid: $sid, csrf: $csrf, validity: $validity, message: $message)';
+  final _this = this as Auth;
+  return 'Auth(valid: ${_this.valid}, totp: ${_this.totp}, sid: ${_this.sid}, csrf: ${_this.csrf}, validity: ${_this.validity}, message: ${_this.message})';
 }
 
 
@@ -66,7 +72,7 @@ class _$AuthCopyWithImpl<$Res>
 /// Create a copy of Auth
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? valid = null,Object? totp = null,Object? sid = null,Object? csrf = null,Object? validity = null,Object? message = null,}) {
-  return _then(_self.copyWith(
+  return _then(Auth(
 valid: null == valid ? _self.valid : valid // ignore: cast_nullable_to_non_nullable
 as bool,totp: null == totp ? _self.totp : totp // ignore: cast_nullable_to_non_nullable
 as bool,sid: null == sid ? _self.sid : sid // ignore: cast_nullable_to_non_nullable
@@ -231,16 +237,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Auth&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.totp, totp) || other.totp == totp)&&(identical(other.sid, sid) || other.sid == sid)&&(identical(other.csrf, csrf) || other.csrf == csrf)&&(identical(other.validity, validity) || other.validity == validity)&&(identical(other.message, message) || other.message == message));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Auth&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.totp, totp) || other.totp == totp)&&(identical(other.sid, sid) || other.sid == sid)&&(identical(other.csrf, csrf) || other.csrf == csrf)&&(identical(other.validity, validity) || other.validity == validity)&&(identical(other.message, message) || other.message == message));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,valid,totp,sid,csrf,validity,message);
+int get hashCode {
+    return Object.hash(runtimeType,valid,totp,sid,csrf,validity,message);
+}
 
 @override
 String toString() {
-  return 'Auth(valid: $valid, totp: $totp, sid: $sid, csrf: $csrf, validity: $validity, message: $message)';
+    return 'Auth(valid: $valid, totp: $totp, sid: $sid, csrf: $csrf, validity: $validity, message: $message)';
 }
 
 
@@ -300,16 +308,21 @@ $AuthSessionCopyWith<AuthSession> get copyWith => _$AuthSessionCopyWithImpl<Auth
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthSession&&(identical(other.id, id) || other.id == id)&&(identical(other.isValid, isValid) || other.isValid == isValid)&&(identical(other.isCurrentSession, isCurrentSession) || other.isCurrentSession == isCurrentSession)&&(identical(other.tlsStatus, tlsStatus) || other.tlsStatus == tlsStatus)&&(identical(other.isApp, isApp) || other.isApp == isApp)&&(identical(other.isCli, isCli) || other.isCli == isCli)&&(identical(other.loginAt, loginAt) || other.loginAt == loginAt)&&(identical(other.lastActive, lastActive) || other.lastActive == lastActive)&&(identical(other.validUntil, validUntil) || other.validUntil == validUntil)&&(identical(other.clientIp, clientIp) || other.clientIp == clientIp)&&(identical(other.userAgent, userAgent) || other.userAgent == userAgent));
+  final _this = this as AuthSession;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthSession&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.isValid, _this.isValid) || other.isValid == _this.isValid)&&(identical(other.isCurrentSession, _this.isCurrentSession) || other.isCurrentSession == _this.isCurrentSession)&&(identical(other.tlsStatus, _this.tlsStatus) || other.tlsStatus == _this.tlsStatus)&&(identical(other.isApp, _this.isApp) || other.isApp == _this.isApp)&&(identical(other.isCli, _this.isCli) || other.isCli == _this.isCli)&&(identical(other.loginAt, _this.loginAt) || other.loginAt == _this.loginAt)&&(identical(other.lastActive, _this.lastActive) || other.lastActive == _this.lastActive)&&(identical(other.validUntil, _this.validUntil) || other.validUntil == _this.validUntil)&&(identical(other.clientIp, _this.clientIp) || other.clientIp == _this.clientIp)&&(identical(other.userAgent, _this.userAgent) || other.userAgent == _this.userAgent));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,isValid,isCurrentSession,tlsStatus,isApp,isCli,loginAt,lastActive,validUntil,clientIp,userAgent);
+int get hashCode {
+  final _this = this as AuthSession;
+  return Object.hash(runtimeType,_this.id,_this.isValid,_this.isCurrentSession,_this.tlsStatus,_this.isApp,_this.isCli,_this.loginAt,_this.lastActive,_this.validUntil,_this.clientIp,_this.userAgent);
+}
 
 @override
 String toString() {
-  return 'AuthSession(id: $id, isValid: $isValid, isCurrentSession: $isCurrentSession, tlsStatus: $tlsStatus, isApp: $isApp, isCli: $isCli, loginAt: $loginAt, lastActive: $lastActive, validUntil: $validUntil, clientIp: $clientIp, userAgent: $userAgent)';
+  final _this = this as AuthSession;
+  return 'AuthSession(id: ${_this.id}, isValid: ${_this.isValid}, isCurrentSession: ${_this.isCurrentSession}, tlsStatus: ${_this.tlsStatus}, isApp: ${_this.isApp}, isCli: ${_this.isCli}, loginAt: ${_this.loginAt}, lastActive: ${_this.lastActive}, validUntil: ${_this.validUntil}, clientIp: ${_this.clientIp}, userAgent: ${_this.userAgent})';
 }
 
 
@@ -338,7 +351,7 @@ class _$AuthSessionCopyWithImpl<$Res>
 /// Create a copy of AuthSession
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? isValid = null,Object? isCurrentSession = null,Object? tlsStatus = null,Object? isApp = null,Object? isCli = null,Object? loginAt = null,Object? lastActive = null,Object? validUntil = null,Object? clientIp = null,Object? userAgent = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(AuthSession(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,isValid: null == isValid ? _self.isValid : isValid // ignore: cast_nullable_to_non_nullable
 as bool,isCurrentSession: null == isCurrentSession ? _self.isCurrentSession : isCurrentSession // ignore: cast_nullable_to_non_nullable
@@ -513,16 +526,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthSession&&(identical(other.id, id) || other.id == id)&&(identical(other.isValid, isValid) || other.isValid == isValid)&&(identical(other.isCurrentSession, isCurrentSession) || other.isCurrentSession == isCurrentSession)&&(identical(other.tlsStatus, tlsStatus) || other.tlsStatus == tlsStatus)&&(identical(other.isApp, isApp) || other.isApp == isApp)&&(identical(other.isCli, isCli) || other.isCli == isCli)&&(identical(other.loginAt, loginAt) || other.loginAt == loginAt)&&(identical(other.lastActive, lastActive) || other.lastActive == lastActive)&&(identical(other.validUntil, validUntil) || other.validUntil == validUntil)&&(identical(other.clientIp, clientIp) || other.clientIp == clientIp)&&(identical(other.userAgent, userAgent) || other.userAgent == userAgent));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthSession&&(identical(other.id, id) || other.id == id)&&(identical(other.isValid, isValid) || other.isValid == isValid)&&(identical(other.isCurrentSession, isCurrentSession) || other.isCurrentSession == isCurrentSession)&&(identical(other.tlsStatus, tlsStatus) || other.tlsStatus == tlsStatus)&&(identical(other.isApp, isApp) || other.isApp == isApp)&&(identical(other.isCli, isCli) || other.isCli == isCli)&&(identical(other.loginAt, loginAt) || other.loginAt == loginAt)&&(identical(other.lastActive, lastActive) || other.lastActive == lastActive)&&(identical(other.validUntil, validUntil) || other.validUntil == validUntil)&&(identical(other.clientIp, clientIp) || other.clientIp == clientIp)&&(identical(other.userAgent, userAgent) || other.userAgent == userAgent));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,isValid,isCurrentSession,tlsStatus,isApp,isCli,loginAt,lastActive,validUntil,clientIp,userAgent);
+int get hashCode {
+    return Object.hash(runtimeType,id,isValid,isCurrentSession,tlsStatus,isApp,isCli,loginAt,lastActive,validUntil,clientIp,userAgent);
+}
 
 @override
 String toString() {
-  return 'AuthSession(id: $id, isValid: $isValid, isCurrentSession: $isCurrentSession, tlsStatus: $tlsStatus, isApp: $isApp, isCli: $isCli, loginAt: $loginAt, lastActive: $lastActive, validUntil: $validUntil, clientIp: $clientIp, userAgent: $userAgent)';
+    return 'AuthSession(id: $id, isValid: $isValid, isCurrentSession: $isCurrentSession, tlsStatus: $tlsStatus, isApp: $isApp, isCli: $isCli, loginAt: $loginAt, lastActive: $lastActive, validUntil: $validUntil, clientIp: $clientIp, userAgent: $userAgent)';
 }
 
 

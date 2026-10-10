@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'realtime_status.dart';
@@ -9,6 +9,7 @@ part of 'realtime_status.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $RealTimeStatusCopyWith<RealTimeStatus> get copyWith => _$RealTimeStatusCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RealTimeStatus&&(identical(other.domainsBeingBlocked, domainsBeingBlocked) || other.domainsBeingBlocked == domainsBeingBlocked)&&(identical(other.dnsQueriesToday, dnsQueriesToday) || other.dnsQueriesToday == dnsQueriesToday)&&(identical(other.adsBlockedToday, adsBlockedToday) || other.adsBlockedToday == adsBlockedToday)&&(identical(other.adsPercentageToday, adsPercentageToday) || other.adsPercentageToday == adsPercentageToday)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.queriesForwarded, queriesForwarded) || other.queriesForwarded == queriesForwarded)&&(identical(other.queriesCached, queriesCached) || other.queriesCached == queriesCached)&&(identical(other.clientsEverSeen, clientsEverSeen) || other.clientsEverSeen == clientsEverSeen)&&(identical(other.uniqueClients, uniqueClients) || other.uniqueClients == uniqueClients)&&(identical(other.dnsQueriesAllTypes, dnsQueriesAllTypes) || other.dnsQueriesAllTypes == dnsQueriesAllTypes)&&(identical(other.replyUnknown, replyUnknown) || other.replyUnknown == replyUnknown)&&(identical(other.replyNodata, replyNodata) || other.replyNodata == replyNodata)&&(identical(other.replyNxDomain, replyNxDomain) || other.replyNxDomain == replyNxDomain)&&(identical(other.replyCname, replyCname) || other.replyCname == replyCname)&&(identical(other.replyIp, replyIp) || other.replyIp == replyIp)&&(identical(other.replyDomain, replyDomain) || other.replyDomain == replyDomain)&&(identical(other.replyRrname, replyRrname) || other.replyRrname == replyRrname)&&(identical(other.replyServfail, replyServfail) || other.replyServfail == replyServfail)&&(identical(other.replyRefused, replyRefused) || other.replyRefused == replyRefused)&&(identical(other.replyNotimp, replyNotimp) || other.replyNotimp == replyNotimp)&&(identical(other.replyOther, replyOther) || other.replyOther == replyOther)&&(identical(other.replyDnssec, replyDnssec) || other.replyDnssec == replyDnssec)&&(identical(other.replyNone, replyNone) || other.replyNone == replyNone)&&(identical(other.replyBlob, replyBlob) || other.replyBlob == replyBlob)&&(identical(other.dnsQueriesAllReplies, dnsQueriesAllReplies) || other.dnsQueriesAllReplies == dnsQueriesAllReplies)&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.status, status) || other.status == status)&&(identical(other.gravityLastUpdated, gravityLastUpdated) || other.gravityLastUpdated == gravityLastUpdated)&&const DeepCollectionEquality().equals(other.topQueries, topQueries)&&const DeepCollectionEquality().equals(other.topAds, topAds)&&const DeepCollectionEquality().equals(other.topSources, topSources)&&const DeepCollectionEquality().equals(other.topSourcesBlocked, topSourcesBlocked)&&const DeepCollectionEquality().equals(other.forwardDestinations, forwardDestinations)&&(identical(other.queryTypes, queryTypes) || other.queryTypes == queryTypes));
+  final _this = this as RealTimeStatus;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RealTimeStatus&&(identical(other.domainsBeingBlocked, _this.domainsBeingBlocked) || other.domainsBeingBlocked == _this.domainsBeingBlocked)&&(identical(other.dnsQueriesToday, _this.dnsQueriesToday) || other.dnsQueriesToday == _this.dnsQueriesToday)&&(identical(other.adsBlockedToday, _this.adsBlockedToday) || other.adsBlockedToday == _this.adsBlockedToday)&&(identical(other.adsPercentageToday, _this.adsPercentageToday) || other.adsPercentageToday == _this.adsPercentageToday)&&(identical(other.uniqueDomains, _this.uniqueDomains) || other.uniqueDomains == _this.uniqueDomains)&&(identical(other.queriesForwarded, _this.queriesForwarded) || other.queriesForwarded == _this.queriesForwarded)&&(identical(other.queriesCached, _this.queriesCached) || other.queriesCached == _this.queriesCached)&&(identical(other.clientsEverSeen, _this.clientsEverSeen) || other.clientsEverSeen == _this.clientsEverSeen)&&(identical(other.uniqueClients, _this.uniqueClients) || other.uniqueClients == _this.uniqueClients)&&(identical(other.dnsQueriesAllTypes, _this.dnsQueriesAllTypes) || other.dnsQueriesAllTypes == _this.dnsQueriesAllTypes)&&(identical(other.replyUnknown, _this.replyUnknown) || other.replyUnknown == _this.replyUnknown)&&(identical(other.replyNodata, _this.replyNodata) || other.replyNodata == _this.replyNodata)&&(identical(other.replyNxDomain, _this.replyNxDomain) || other.replyNxDomain == _this.replyNxDomain)&&(identical(other.replyCname, _this.replyCname) || other.replyCname == _this.replyCname)&&(identical(other.replyIp, _this.replyIp) || other.replyIp == _this.replyIp)&&(identical(other.replyDomain, _this.replyDomain) || other.replyDomain == _this.replyDomain)&&(identical(other.replyRrname, _this.replyRrname) || other.replyRrname == _this.replyRrname)&&(identical(other.replyServfail, _this.replyServfail) || other.replyServfail == _this.replyServfail)&&(identical(other.replyRefused, _this.replyRefused) || other.replyRefused == _this.replyRefused)&&(identical(other.replyNotimp, _this.replyNotimp) || other.replyNotimp == _this.replyNotimp)&&(identical(other.replyOther, _this.replyOther) || other.replyOther == _this.replyOther)&&(identical(other.replyDnssec, _this.replyDnssec) || other.replyDnssec == _this.replyDnssec)&&(identical(other.replyNone, _this.replyNone) || other.replyNone == _this.replyNone)&&(identical(other.replyBlob, _this.replyBlob) || other.replyBlob == _this.replyBlob)&&(identical(other.dnsQueriesAllReplies, _this.dnsQueriesAllReplies) || other.dnsQueriesAllReplies == _this.dnsQueriesAllReplies)&&(identical(other.privacyLevel, _this.privacyLevel) || other.privacyLevel == _this.privacyLevel)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.gravityLastUpdated, _this.gravityLastUpdated) || other.gravityLastUpdated == _this.gravityLastUpdated)&&const DeepCollectionEquality().equals(other.topQueries, _this.topQueries)&&const DeepCollectionEquality().equals(other.topAds, _this.topAds)&&const DeepCollectionEquality().equals(other.topSources, _this.topSources)&&const DeepCollectionEquality().equals(other.topSourcesBlocked, _this.topSourcesBlocked)&&const DeepCollectionEquality().equals(other.forwardDestinations, _this.forwardDestinations)&&(identical(other.queryTypes, _this.queryTypes) || other.queryTypes == _this.queryTypes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,domainsBeingBlocked,dnsQueriesToday,adsBlockedToday,adsPercentageToday,uniqueDomains,queriesForwarded,queriesCached,clientsEverSeen,uniqueClients,dnsQueriesAllTypes,replyUnknown,replyNodata,replyNxDomain,replyCname,replyIp,replyDomain,replyRrname,replyServfail,replyRefused,replyNotimp,replyOther,replyDnssec,replyNone,replyBlob,dnsQueriesAllReplies,privacyLevel,status,gravityLastUpdated,const DeepCollectionEquality().hash(topQueries),const DeepCollectionEquality().hash(topAds),const DeepCollectionEquality().hash(topSources),const DeepCollectionEquality().hash(topSourcesBlocked),const DeepCollectionEquality().hash(forwardDestinations),queryTypes]);
+int get hashCode {
+  final _this = this as RealTimeStatus;
+  return Object.hashAll([runtimeType,_this.domainsBeingBlocked,_this.dnsQueriesToday,_this.adsBlockedToday,_this.adsPercentageToday,_this.uniqueDomains,_this.queriesForwarded,_this.queriesCached,_this.clientsEverSeen,_this.uniqueClients,_this.dnsQueriesAllTypes,_this.replyUnknown,_this.replyNodata,_this.replyNxDomain,_this.replyCname,_this.replyIp,_this.replyDomain,_this.replyRrname,_this.replyServfail,_this.replyRefused,_this.replyNotimp,_this.replyOther,_this.replyDnssec,_this.replyNone,_this.replyBlob,_this.dnsQueriesAllReplies,_this.privacyLevel,_this.status,_this.gravityLastUpdated,const DeepCollectionEquality().hash(_this.topQueries),const DeepCollectionEquality().hash(_this.topAds),const DeepCollectionEquality().hash(_this.topSources),const DeepCollectionEquality().hash(_this.topSourcesBlocked),const DeepCollectionEquality().hash(_this.forwardDestinations),_this.queryTypes]);
+}
 
 @override
 String toString() {
-  return 'RealTimeStatus(domainsBeingBlocked: $domainsBeingBlocked, dnsQueriesToday: $dnsQueriesToday, adsBlockedToday: $adsBlockedToday, adsPercentageToday: $adsPercentageToday, uniqueDomains: $uniqueDomains, queriesForwarded: $queriesForwarded, queriesCached: $queriesCached, clientsEverSeen: $clientsEverSeen, uniqueClients: $uniqueClients, dnsQueriesAllTypes: $dnsQueriesAllTypes, replyUnknown: $replyUnknown, replyNodata: $replyNodata, replyNxDomain: $replyNxDomain, replyCname: $replyCname, replyIp: $replyIp, replyDomain: $replyDomain, replyRrname: $replyRrname, replyServfail: $replyServfail, replyRefused: $replyRefused, replyNotimp: $replyNotimp, replyOther: $replyOther, replyDnssec: $replyDnssec, replyNone: $replyNone, replyBlob: $replyBlob, dnsQueriesAllReplies: $dnsQueriesAllReplies, privacyLevel: $privacyLevel, status: $status, gravityLastUpdated: $gravityLastUpdated, topQueries: $topQueries, topAds: $topAds, topSources: $topSources, topSourcesBlocked: $topSourcesBlocked, forwardDestinations: $forwardDestinations, queryTypes: $queryTypes)';
+  final _this = this as RealTimeStatus;
+  return 'RealTimeStatus(domainsBeingBlocked: ${_this.domainsBeingBlocked}, dnsQueriesToday: ${_this.dnsQueriesToday}, adsBlockedToday: ${_this.adsBlockedToday}, adsPercentageToday: ${_this.adsPercentageToday}, uniqueDomains: ${_this.uniqueDomains}, queriesForwarded: ${_this.queriesForwarded}, queriesCached: ${_this.queriesCached}, clientsEverSeen: ${_this.clientsEverSeen}, uniqueClients: ${_this.uniqueClients}, dnsQueriesAllTypes: ${_this.dnsQueriesAllTypes}, replyUnknown: ${_this.replyUnknown}, replyNodata: ${_this.replyNodata}, replyNxDomain: ${_this.replyNxDomain}, replyCname: ${_this.replyCname}, replyIp: ${_this.replyIp}, replyDomain: ${_this.replyDomain}, replyRrname: ${_this.replyRrname}, replyServfail: ${_this.replyServfail}, replyRefused: ${_this.replyRefused}, replyNotimp: ${_this.replyNotimp}, replyOther: ${_this.replyOther}, replyDnssec: ${_this.replyDnssec}, replyNone: ${_this.replyNone}, replyBlob: ${_this.replyBlob}, dnsQueriesAllReplies: ${_this.dnsQueriesAllReplies}, privacyLevel: ${_this.privacyLevel}, status: ${_this.status}, gravityLastUpdated: ${_this.gravityLastUpdated}, topQueries: ${_this.topQueries}, topAds: ${_this.topAds}, topSources: ${_this.topSources}, topSourcesBlocked: ${_this.topSourcesBlocked}, forwardDestinations: ${_this.forwardDestinations}, queryTypes: ${_this.queryTypes})';
 }
 
 
@@ -66,7 +72,7 @@ class _$RealTimeStatusCopyWithImpl<$Res>
 /// Create a copy of RealTimeStatus
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domainsBeingBlocked = null,Object? dnsQueriesToday = null,Object? adsBlockedToday = null,Object? adsPercentageToday = null,Object? uniqueDomains = null,Object? queriesForwarded = null,Object? queriesCached = null,Object? clientsEverSeen = null,Object? uniqueClients = null,Object? dnsQueriesAllTypes = null,Object? replyUnknown = null,Object? replyNodata = null,Object? replyNxDomain = null,Object? replyCname = null,Object? replyIp = null,Object? replyDomain = null,Object? replyRrname = null,Object? replyServfail = null,Object? replyRefused = null,Object? replyNotimp = null,Object? replyOther = null,Object? replyDnssec = null,Object? replyNone = null,Object? replyBlob = null,Object? dnsQueriesAllReplies = null,Object? privacyLevel = null,Object? status = null,Object? gravityLastUpdated = null,Object? topQueries = null,Object? topAds = null,Object? topSources = null,Object? topSourcesBlocked = null,Object? forwardDestinations = null,Object? queryTypes = null,}) {
-  return _then(_self.copyWith(
+  return _then(RealTimeStatus(
 domainsBeingBlocked: null == domainsBeingBlocked ? _self.domainsBeingBlocked : domainsBeingBlocked // ignore: cast_nullable_to_non_nullable
 as int,dnsQueriesToday: null == dnsQueriesToday ? _self.dnsQueriesToday : dnsQueriesToday // ignore: cast_nullable_to_non_nullable
 as int,adsBlockedToday: null == adsBlockedToday ? _self.adsBlockedToday : adsBlockedToday // ignore: cast_nullable_to_non_nullable
@@ -254,7 +260,7 @@ return $default(_that.domainsBeingBlocked,_that.dnsQueriesToday,_that.adsBlocked
 
 @JsonSerializable(explicitToJson: true)
 class _RealTimeStatus implements RealTimeStatus {
-  const _RealTimeStatus({@JsonKey(name: 'domains_being_blocked') required this.domainsBeingBlocked, @JsonKey(name: 'dns_queries_today') required this.dnsQueriesToday, @JsonKey(name: 'ads_blocked_today') required this.adsBlockedToday, @JsonKey(name: 'ads_percentage_today') required this.adsPercentageToday, @JsonKey(name: 'unique_domains') required this.uniqueDomains, @JsonKey(name: 'queries_forwarded') required this.queriesForwarded, @JsonKey(name: 'queries_cached') required this.queriesCached, @JsonKey(name: 'clients_ever_seen') required this.clientsEverSeen, @JsonKey(name: 'unique_clients') required this.uniqueClients, @JsonKey(name: 'dns_queries_all_types') required this.dnsQueriesAllTypes, @JsonKey(name: 'reply_UNKNOWN') required this.replyUnknown, @JsonKey(name: 'reply_NODATA') required this.replyNodata, @JsonKey(name: 'reply_NXDOMAIN') required this.replyNxDomain, @JsonKey(name: 'reply_CNAME') required this.replyCname, @JsonKey(name: 'reply_IP') required this.replyIp, @JsonKey(name: 'reply_DOMAIN') required this.replyDomain, @JsonKey(name: 'reply_RRNAME') required this.replyRrname, @JsonKey(name: 'reply_SERVFAIL') required this.replyServfail, @JsonKey(name: 'reply_REFUSED') required this.replyRefused, @JsonKey(name: 'reply_NOTIMP') required this.replyNotimp, @JsonKey(name: 'reply_OTHER') required this.replyOther, @JsonKey(name: 'reply_DNSSEC') required this.replyDnssec, @JsonKey(name: 'reply_NONE') required this.replyNone, @JsonKey(name: 'reply_BLOB') required this.replyBlob, @JsonKey(name: 'dns_queries_all_replies') required this.dnsQueriesAllReplies, @JsonKey(name: 'privacy_level') required this.privacyLevel, required this.status, @JsonKey(name: 'gravity_last_updated') required this.gravityLastUpdated, @JsonKey(name: 'top_queries')@MapOrEmptyListConverter() required final  Map<String, int> topQueries, @JsonKey(name: 'top_ads')@MapOrEmptyListConverter() required final  Map<String, int> topAds, @JsonKey(name: 'top_sources')@MapOrEmptyListConverter() required final  Map<String, int> topSources, @JsonKey(name: 'top_sources_blocked')@MapOrEmptyListConverter() required final  Map<String, int> topSourcesBlocked, @JsonKey(name: 'forward_destinations')@MapDoubleOrEmptyListConverter() required final  Map<String, double> forwardDestinations, @JsonKey(name: 'querytypes') required this.queryTypes}): _topQueries = topQueries,_topAds = topAds,_topSources = topSources,_topSourcesBlocked = topSourcesBlocked,_forwardDestinations = forwardDestinations;
+  const _RealTimeStatus({@JsonKey(name: 'domains_being_blocked') required this.domainsBeingBlocked, @JsonKey(name: 'dns_queries_today') required this.dnsQueriesToday, @JsonKey(name: 'ads_blocked_today') required this.adsBlockedToday, @JsonKey(name: 'ads_percentage_today') required this.adsPercentageToday, @JsonKey(name: 'unique_domains') required this.uniqueDomains, @JsonKey(name: 'queries_forwarded') required this.queriesForwarded, @JsonKey(name: 'queries_cached') required this.queriesCached, @JsonKey(name: 'clients_ever_seen') required this.clientsEverSeen, @JsonKey(name: 'unique_clients') required this.uniqueClients, @JsonKey(name: 'dns_queries_all_types') required this.dnsQueriesAllTypes, @JsonKey(name: 'reply_UNKNOWN') required this.replyUnknown, @JsonKey(name: 'reply_NODATA') required this.replyNodata, @JsonKey(name: 'reply_NXDOMAIN') required this.replyNxDomain, @JsonKey(name: 'reply_CNAME') required this.replyCname, @JsonKey(name: 'reply_IP') required this.replyIp, @JsonKey(name: 'reply_DOMAIN') required this.replyDomain, @JsonKey(name: 'reply_RRNAME') required this.replyRrname, @JsonKey(name: 'reply_SERVFAIL') required this.replyServfail, @JsonKey(name: 'reply_REFUSED') required this.replyRefused, @JsonKey(name: 'reply_NOTIMP') required this.replyNotimp, @JsonKey(name: 'reply_OTHER') required this.replyOther, @JsonKey(name: 'reply_DNSSEC') required this.replyDnssec, @JsonKey(name: 'reply_NONE') required this.replyNone, @JsonKey(name: 'reply_BLOB') required this.replyBlob, @JsonKey(name: 'dns_queries_all_replies') required this.dnsQueriesAllReplies, @JsonKey(name: 'privacy_level') required this.privacyLevel, required this.status, @JsonKey(name: 'gravity_last_updated') required this.gravityLastUpdated, @JsonKey(name: 'top_queries')@MapOrEmptyListConverter() required  Map<String, int> topQueries, @JsonKey(name: 'top_ads')@MapOrEmptyListConverter() required  Map<String, int> topAds, @JsonKey(name: 'top_sources')@MapOrEmptyListConverter() required  Map<String, int> topSources, @JsonKey(name: 'top_sources_blocked')@MapOrEmptyListConverter() required  Map<String, int> topSourcesBlocked, @JsonKey(name: 'forward_destinations')@MapDoubleOrEmptyListConverter() required  Map<String, double> forwardDestinations, @JsonKey(name: 'querytypes') required this.queryTypes}): _topQueries = topQueries,_topAds = topAds,_topSources = topSources,_topSourcesBlocked = topSourcesBlocked,_forwardDestinations = forwardDestinations;
   factory _RealTimeStatus.fromJson(Map<String, dynamic> json) => _$RealTimeStatusFromJson(json);
 
 @override@JsonKey(name: 'domains_being_blocked') final  int domainsBeingBlocked;
@@ -335,16 +341,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RealTimeStatus&&(identical(other.domainsBeingBlocked, domainsBeingBlocked) || other.domainsBeingBlocked == domainsBeingBlocked)&&(identical(other.dnsQueriesToday, dnsQueriesToday) || other.dnsQueriesToday == dnsQueriesToday)&&(identical(other.adsBlockedToday, adsBlockedToday) || other.adsBlockedToday == adsBlockedToday)&&(identical(other.adsPercentageToday, adsPercentageToday) || other.adsPercentageToday == adsPercentageToday)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.queriesForwarded, queriesForwarded) || other.queriesForwarded == queriesForwarded)&&(identical(other.queriesCached, queriesCached) || other.queriesCached == queriesCached)&&(identical(other.clientsEverSeen, clientsEverSeen) || other.clientsEverSeen == clientsEverSeen)&&(identical(other.uniqueClients, uniqueClients) || other.uniqueClients == uniqueClients)&&(identical(other.dnsQueriesAllTypes, dnsQueriesAllTypes) || other.dnsQueriesAllTypes == dnsQueriesAllTypes)&&(identical(other.replyUnknown, replyUnknown) || other.replyUnknown == replyUnknown)&&(identical(other.replyNodata, replyNodata) || other.replyNodata == replyNodata)&&(identical(other.replyNxDomain, replyNxDomain) || other.replyNxDomain == replyNxDomain)&&(identical(other.replyCname, replyCname) || other.replyCname == replyCname)&&(identical(other.replyIp, replyIp) || other.replyIp == replyIp)&&(identical(other.replyDomain, replyDomain) || other.replyDomain == replyDomain)&&(identical(other.replyRrname, replyRrname) || other.replyRrname == replyRrname)&&(identical(other.replyServfail, replyServfail) || other.replyServfail == replyServfail)&&(identical(other.replyRefused, replyRefused) || other.replyRefused == replyRefused)&&(identical(other.replyNotimp, replyNotimp) || other.replyNotimp == replyNotimp)&&(identical(other.replyOther, replyOther) || other.replyOther == replyOther)&&(identical(other.replyDnssec, replyDnssec) || other.replyDnssec == replyDnssec)&&(identical(other.replyNone, replyNone) || other.replyNone == replyNone)&&(identical(other.replyBlob, replyBlob) || other.replyBlob == replyBlob)&&(identical(other.dnsQueriesAllReplies, dnsQueriesAllReplies) || other.dnsQueriesAllReplies == dnsQueriesAllReplies)&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.status, status) || other.status == status)&&(identical(other.gravityLastUpdated, gravityLastUpdated) || other.gravityLastUpdated == gravityLastUpdated)&&const DeepCollectionEquality().equals(other._topQueries, _topQueries)&&const DeepCollectionEquality().equals(other._topAds, _topAds)&&const DeepCollectionEquality().equals(other._topSources, _topSources)&&const DeepCollectionEquality().equals(other._topSourcesBlocked, _topSourcesBlocked)&&const DeepCollectionEquality().equals(other._forwardDestinations, _forwardDestinations)&&(identical(other.queryTypes, queryTypes) || other.queryTypes == queryTypes));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RealTimeStatus&&(identical(other.domainsBeingBlocked, domainsBeingBlocked) || other.domainsBeingBlocked == domainsBeingBlocked)&&(identical(other.dnsQueriesToday, dnsQueriesToday) || other.dnsQueriesToday == dnsQueriesToday)&&(identical(other.adsBlockedToday, adsBlockedToday) || other.adsBlockedToday == adsBlockedToday)&&(identical(other.adsPercentageToday, adsPercentageToday) || other.adsPercentageToday == adsPercentageToday)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.queriesForwarded, queriesForwarded) || other.queriesForwarded == queriesForwarded)&&(identical(other.queriesCached, queriesCached) || other.queriesCached == queriesCached)&&(identical(other.clientsEverSeen, clientsEverSeen) || other.clientsEverSeen == clientsEverSeen)&&(identical(other.uniqueClients, uniqueClients) || other.uniqueClients == uniqueClients)&&(identical(other.dnsQueriesAllTypes, dnsQueriesAllTypes) || other.dnsQueriesAllTypes == dnsQueriesAllTypes)&&(identical(other.replyUnknown, replyUnknown) || other.replyUnknown == replyUnknown)&&(identical(other.replyNodata, replyNodata) || other.replyNodata == replyNodata)&&(identical(other.replyNxDomain, replyNxDomain) || other.replyNxDomain == replyNxDomain)&&(identical(other.replyCname, replyCname) || other.replyCname == replyCname)&&(identical(other.replyIp, replyIp) || other.replyIp == replyIp)&&(identical(other.replyDomain, replyDomain) || other.replyDomain == replyDomain)&&(identical(other.replyRrname, replyRrname) || other.replyRrname == replyRrname)&&(identical(other.replyServfail, replyServfail) || other.replyServfail == replyServfail)&&(identical(other.replyRefused, replyRefused) || other.replyRefused == replyRefused)&&(identical(other.replyNotimp, replyNotimp) || other.replyNotimp == replyNotimp)&&(identical(other.replyOther, replyOther) || other.replyOther == replyOther)&&(identical(other.replyDnssec, replyDnssec) || other.replyDnssec == replyDnssec)&&(identical(other.replyNone, replyNone) || other.replyNone == replyNone)&&(identical(other.replyBlob, replyBlob) || other.replyBlob == replyBlob)&&(identical(other.dnsQueriesAllReplies, dnsQueriesAllReplies) || other.dnsQueriesAllReplies == dnsQueriesAllReplies)&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.status, status) || other.status == status)&&(identical(other.gravityLastUpdated, gravityLastUpdated) || other.gravityLastUpdated == gravityLastUpdated)&&const DeepCollectionEquality().equals(other.topQueries, _topQueries)&&const DeepCollectionEquality().equals(other.topAds, _topAds)&&const DeepCollectionEquality().equals(other.topSources, _topSources)&&const DeepCollectionEquality().equals(other.topSourcesBlocked, _topSourcesBlocked)&&const DeepCollectionEquality().equals(other.forwardDestinations, _forwardDestinations)&&(identical(other.queryTypes, queryTypes) || other.queryTypes == queryTypes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,domainsBeingBlocked,dnsQueriesToday,adsBlockedToday,adsPercentageToday,uniqueDomains,queriesForwarded,queriesCached,clientsEverSeen,uniqueClients,dnsQueriesAllTypes,replyUnknown,replyNodata,replyNxDomain,replyCname,replyIp,replyDomain,replyRrname,replyServfail,replyRefused,replyNotimp,replyOther,replyDnssec,replyNone,replyBlob,dnsQueriesAllReplies,privacyLevel,status,gravityLastUpdated,const DeepCollectionEquality().hash(_topQueries),const DeepCollectionEquality().hash(_topAds),const DeepCollectionEquality().hash(_topSources),const DeepCollectionEquality().hash(_topSourcesBlocked),const DeepCollectionEquality().hash(_forwardDestinations),queryTypes]);
+int get hashCode {
+    return Object.hashAll([runtimeType,domainsBeingBlocked,dnsQueriesToday,adsBlockedToday,adsPercentageToday,uniqueDomains,queriesForwarded,queriesCached,clientsEverSeen,uniqueClients,dnsQueriesAllTypes,replyUnknown,replyNodata,replyNxDomain,replyCname,replyIp,replyDomain,replyRrname,replyServfail,replyRefused,replyNotimp,replyOther,replyDnssec,replyNone,replyBlob,dnsQueriesAllReplies,privacyLevel,status,gravityLastUpdated,const DeepCollectionEquality().hash(_topQueries),const DeepCollectionEquality().hash(_topAds),const DeepCollectionEquality().hash(_topSources),const DeepCollectionEquality().hash(_topSourcesBlocked),const DeepCollectionEquality().hash(_forwardDestinations),queryTypes]);
+}
 
 @override
 String toString() {
-  return 'RealTimeStatus(domainsBeingBlocked: $domainsBeingBlocked, dnsQueriesToday: $dnsQueriesToday, adsBlockedToday: $adsBlockedToday, adsPercentageToday: $adsPercentageToday, uniqueDomains: $uniqueDomains, queriesForwarded: $queriesForwarded, queriesCached: $queriesCached, clientsEverSeen: $clientsEverSeen, uniqueClients: $uniqueClients, dnsQueriesAllTypes: $dnsQueriesAllTypes, replyUnknown: $replyUnknown, replyNodata: $replyNodata, replyNxDomain: $replyNxDomain, replyCname: $replyCname, replyIp: $replyIp, replyDomain: $replyDomain, replyRrname: $replyRrname, replyServfail: $replyServfail, replyRefused: $replyRefused, replyNotimp: $replyNotimp, replyOther: $replyOther, replyDnssec: $replyDnssec, replyNone: $replyNone, replyBlob: $replyBlob, dnsQueriesAllReplies: $dnsQueriesAllReplies, privacyLevel: $privacyLevel, status: $status, gravityLastUpdated: $gravityLastUpdated, topQueries: $topQueries, topAds: $topAds, topSources: $topSources, topSourcesBlocked: $topSourcesBlocked, forwardDestinations: $forwardDestinations, queryTypes: $queryTypes)';
+    return 'RealTimeStatus(domainsBeingBlocked: $domainsBeingBlocked, dnsQueriesToday: $dnsQueriesToday, adsBlockedToday: $adsBlockedToday, adsPercentageToday: $adsPercentageToday, uniqueDomains: $uniqueDomains, queriesForwarded: $queriesForwarded, queriesCached: $queriesCached, clientsEverSeen: $clientsEverSeen, uniqueClients: $uniqueClients, dnsQueriesAllTypes: $dnsQueriesAllTypes, replyUnknown: $replyUnknown, replyNodata: $replyNodata, replyNxDomain: $replyNxDomain, replyCname: $replyCname, replyIp: $replyIp, replyDomain: $replyDomain, replyRrname: $replyRrname, replyServfail: $replyServfail, replyRefused: $replyRefused, replyNotimp: $replyNotimp, replyOther: $replyOther, replyDnssec: $replyDnssec, replyNone: $replyNone, replyBlob: $replyBlob, dnsQueriesAllReplies: $dnsQueriesAllReplies, privacyLevel: $privacyLevel, status: $status, gravityLastUpdated: $gravityLastUpdated, topQueries: $topQueries, topAds: $topAds, topSources: $topSources, topSourcesBlocked: $topSourcesBlocked, forwardDestinations: $forwardDestinations, queryTypes: $queryTypes)';
 }
 
 
@@ -450,16 +458,21 @@ $GravityLastUpdatedCopyWith<GravityLastUpdated> get copyWith => _$GravityLastUpd
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GravityLastUpdated&&(identical(other.fileExists, fileExists) || other.fileExists == fileExists)&&(identical(other.absolute, absolute) || other.absolute == absolute)&&(identical(other.relative, relative) || other.relative == relative));
+  final _this = this as GravityLastUpdated;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GravityLastUpdated&&(identical(other.fileExists, _this.fileExists) || other.fileExists == _this.fileExists)&&(identical(other.absolute, _this.absolute) || other.absolute == _this.absolute)&&(identical(other.relative, _this.relative) || other.relative == _this.relative));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,fileExists,absolute,relative);
+int get hashCode {
+  final _this = this as GravityLastUpdated;
+  return Object.hash(runtimeType,_this.fileExists,_this.absolute,_this.relative);
+}
 
 @override
 String toString() {
-  return 'GravityLastUpdated(fileExists: $fileExists, absolute: $absolute, relative: $relative)';
+  final _this = this as GravityLastUpdated;
+  return 'GravityLastUpdated(fileExists: ${_this.fileExists}, absolute: ${_this.absolute}, relative: ${_this.relative})';
 }
 
 
@@ -488,7 +501,7 @@ class _$GravityLastUpdatedCopyWithImpl<$Res>
 /// Create a copy of GravityLastUpdated
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? fileExists = null,Object? absolute = null,Object? relative = null,}) {
-  return _then(_self.copyWith(
+  return _then(GravityLastUpdated(
 fileExists: null == fileExists ? _self.fileExists : fileExists // ignore: cast_nullable_to_non_nullable
 as bool,absolute: null == absolute ? _self.absolute : absolute // ignore: cast_nullable_to_non_nullable
 as int,relative: null == relative ? _self.relative : relative // ignore: cast_nullable_to_non_nullable
@@ -656,16 +669,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GravityLastUpdated&&(identical(other.fileExists, fileExists) || other.fileExists == fileExists)&&(identical(other.absolute, absolute) || other.absolute == absolute)&&(identical(other.relative, relative) || other.relative == relative));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _GravityLastUpdated&&(identical(other.fileExists, fileExists) || other.fileExists == fileExists)&&(identical(other.absolute, absolute) || other.absolute == absolute)&&(identical(other.relative, relative) || other.relative == relative));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,fileExists,absolute,relative);
+int get hashCode {
+    return Object.hash(runtimeType,fileExists,absolute,relative);
+}
 
 @override
 String toString() {
-  return 'GravityLastUpdated(fileExists: $fileExists, absolute: $absolute, relative: $relative)';
+    return 'GravityLastUpdated(fileExists: $fileExists, absolute: $absolute, relative: $relative)';
 }
 
 
@@ -731,16 +746,21 @@ $GravityRelativeTimeCopyWith<GravityRelativeTime> get copyWith => _$GravityRelat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GravityRelativeTime&&(identical(other.days, days) || other.days == days)&&(identical(other.hours, hours) || other.hours == hours)&&(identical(other.minutes, minutes) || other.minutes == minutes));
+  final _this = this as GravityRelativeTime;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GravityRelativeTime&&(identical(other.days, _this.days) || other.days == _this.days)&&(identical(other.hours, _this.hours) || other.hours == _this.hours)&&(identical(other.minutes, _this.minutes) || other.minutes == _this.minutes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,days,hours,minutes);
+int get hashCode {
+  final _this = this as GravityRelativeTime;
+  return Object.hash(runtimeType,_this.days,_this.hours,_this.minutes);
+}
 
 @override
 String toString() {
-  return 'GravityRelativeTime(days: $days, hours: $hours, minutes: $minutes)';
+  final _this = this as GravityRelativeTime;
+  return 'GravityRelativeTime(days: ${_this.days}, hours: ${_this.hours}, minutes: ${_this.minutes})';
 }
 
 
@@ -769,7 +789,7 @@ class _$GravityRelativeTimeCopyWithImpl<$Res>
 /// Create a copy of GravityRelativeTime
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? days = null,Object? hours = null,Object? minutes = null,}) {
-  return _then(_self.copyWith(
+  return _then(GravityRelativeTime(
 days: null == days ? _self.days : days // ignore: cast_nullable_to_non_nullable
 as int,hours: null == hours ? _self.hours : hours // ignore: cast_nullable_to_non_nullable
 as int,minutes: null == minutes ? _self.minutes : minutes // ignore: cast_nullable_to_non_nullable
@@ -928,16 +948,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GravityRelativeTime&&(identical(other.days, days) || other.days == days)&&(identical(other.hours, hours) || other.hours == hours)&&(identical(other.minutes, minutes) || other.minutes == minutes));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _GravityRelativeTime&&(identical(other.days, days) || other.days == days)&&(identical(other.hours, hours) || other.hours == hours)&&(identical(other.minutes, minutes) || other.minutes == minutes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,days,hours,minutes);
+int get hashCode {
+    return Object.hash(runtimeType,days,hours,minutes);
+}
 
 @override
 String toString() {
-  return 'GravityRelativeTime(days: $days, hours: $hours, minutes: $minutes)';
+    return 'GravityRelativeTime(days: $days, hours: $hours, minutes: $minutes)';
 }
 
 
@@ -994,16 +1016,21 @@ $QueryTypesCopyWith<QueryTypes> get copyWith => _$QueryTypesCopyWithImpl<QueryTy
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryTypes&&(identical(other.a, a) || other.a == a)&&(identical(other.aaaa, aaaa) || other.aaaa == aaaa)&&(identical(other.any, any) || other.any == any)&&(identical(other.srv, srv) || other.srv == srv)&&(identical(other.soa, soa) || other.soa == soa)&&(identical(other.ptr, ptr) || other.ptr == ptr)&&(identical(other.txt, txt) || other.txt == txt)&&(identical(other.naptr, naptr) || other.naptr == naptr)&&(identical(other.mx, mx) || other.mx == mx)&&(identical(other.ds, ds) || other.ds == ds)&&(identical(other.rrsig, rrsig) || other.rrsig == rrsig)&&(identical(other.dnskey, dnskey) || other.dnskey == dnskey)&&(identical(other.ns, ns) || other.ns == ns)&&(identical(other.other, this.other) || other.other == this.other)&&(identical(other.svcb, svcb) || other.svcb == svcb)&&(identical(other.https, https) || other.https == https));
+  final _this = this as QueryTypes;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryTypes&&(identical(other.a, _this.a) || other.a == _this.a)&&(identical(other.aaaa, _this.aaaa) || other.aaaa == _this.aaaa)&&(identical(other.any, _this.any) || other.any == _this.any)&&(identical(other.srv, _this.srv) || other.srv == _this.srv)&&(identical(other.soa, _this.soa) || other.soa == _this.soa)&&(identical(other.ptr, _this.ptr) || other.ptr == _this.ptr)&&(identical(other.txt, _this.txt) || other.txt == _this.txt)&&(identical(other.naptr, _this.naptr) || other.naptr == _this.naptr)&&(identical(other.mx, _this.mx) || other.mx == _this.mx)&&(identical(other.ds, _this.ds) || other.ds == _this.ds)&&(identical(other.rrsig, _this.rrsig) || other.rrsig == _this.rrsig)&&(identical(other.dnskey, _this.dnskey) || other.dnskey == _this.dnskey)&&(identical(other.ns, _this.ns) || other.ns == _this.ns)&&(identical(other.other, _this.other) || other.other == _this.other)&&(identical(other.svcb, _this.svcb) || other.svcb == _this.svcb)&&(identical(other.https, _this.https) || other.https == _this.https));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,a,aaaa,any,srv,soa,ptr,txt,naptr,mx,ds,rrsig,dnskey,ns,other,svcb,https);
+int get hashCode {
+  final _this = this as QueryTypes;
+  return Object.hash(runtimeType,_this.a,_this.aaaa,_this.any,_this.srv,_this.soa,_this.ptr,_this.txt,_this.naptr,_this.mx,_this.ds,_this.rrsig,_this.dnskey,_this.ns,_this.other,_this.svcb,_this.https);
+}
 
 @override
 String toString() {
-  return 'QueryTypes(a: $a, aaaa: $aaaa, any: $any, srv: $srv, soa: $soa, ptr: $ptr, txt: $txt, naptr: $naptr, mx: $mx, ds: $ds, rrsig: $rrsig, dnskey: $dnskey, ns: $ns, other: $other, svcb: $svcb, https: $https)';
+  final _this = this as QueryTypes;
+  return 'QueryTypes(a: ${_this.a}, aaaa: ${_this.aaaa}, any: ${_this.any}, srv: ${_this.srv}, soa: ${_this.soa}, ptr: ${_this.ptr}, txt: ${_this.txt}, naptr: ${_this.naptr}, mx: ${_this.mx}, ds: ${_this.ds}, rrsig: ${_this.rrsig}, dnskey: ${_this.dnskey}, ns: ${_this.ns}, other: ${_this.other}, svcb: ${_this.svcb}, https: ${_this.https})';
 }
 
 
@@ -1032,7 +1059,7 @@ class _$QueryTypesCopyWithImpl<$Res>
 /// Create a copy of QueryTypes
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? a = null,Object? aaaa = null,Object? any = null,Object? srv = null,Object? soa = null,Object? ptr = null,Object? txt = null,Object? naptr = null,Object? mx = null,Object? ds = null,Object? rrsig = null,Object? dnskey = null,Object? ns = null,Object? other = null,Object? svcb = null,Object? https = null,}) {
-  return _then(_self.copyWith(
+  return _then(QueryTypes(
 a: null == a ? _self.a : a // ignore: cast_nullable_to_non_nullable
 as double,aaaa: null == aaaa ? _self.aaaa : aaaa // ignore: cast_nullable_to_non_nullable
 as double,any: null == any ? _self.any : any // ignore: cast_nullable_to_non_nullable
@@ -1217,16 +1244,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _QueryTypes&&(identical(other.a, a) || other.a == a)&&(identical(other.aaaa, aaaa) || other.aaaa == aaaa)&&(identical(other.any, any) || other.any == any)&&(identical(other.srv, srv) || other.srv == srv)&&(identical(other.soa, soa) || other.soa == soa)&&(identical(other.ptr, ptr) || other.ptr == ptr)&&(identical(other.txt, txt) || other.txt == txt)&&(identical(other.naptr, naptr) || other.naptr == naptr)&&(identical(other.mx, mx) || other.mx == mx)&&(identical(other.ds, ds) || other.ds == ds)&&(identical(other.rrsig, rrsig) || other.rrsig == rrsig)&&(identical(other.dnskey, dnskey) || other.dnskey == dnskey)&&(identical(other.ns, ns) || other.ns == ns)&&(identical(other.other, this.other) || other.other == this.other)&&(identical(other.svcb, svcb) || other.svcb == svcb)&&(identical(other.https, https) || other.https == https));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _QueryTypes&&(identical(other.a, a) || other.a == a)&&(identical(other.aaaa, aaaa) || other.aaaa == aaaa)&&(identical(other.any, any) || other.any == any)&&(identical(other.srv, srv) || other.srv == srv)&&(identical(other.soa, soa) || other.soa == soa)&&(identical(other.ptr, ptr) || other.ptr == ptr)&&(identical(other.txt, txt) || other.txt == txt)&&(identical(other.naptr, naptr) || other.naptr == naptr)&&(identical(other.mx, mx) || other.mx == mx)&&(identical(other.ds, ds) || other.ds == ds)&&(identical(other.rrsig, rrsig) || other.rrsig == rrsig)&&(identical(other.dnskey, dnskey) || other.dnskey == dnskey)&&(identical(other.ns, ns) || other.ns == ns)&&(identical(other.other, this.other) || other.other == this.other)&&(identical(other.svcb, svcb) || other.svcb == svcb)&&(identical(other.https, https) || other.https == https));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,a,aaaa,any,srv,soa,ptr,txt,naptr,mx,ds,rrsig,dnskey,ns,other,svcb,https);
+int get hashCode {
+    return Object.hash(runtimeType,a,aaaa,any,srv,soa,ptr,txt,naptr,mx,ds,rrsig,dnskey,ns,other,svcb,https);
+}
 
 @override
 String toString() {
-  return 'QueryTypes(a: $a, aaaa: $aaaa, any: $any, srv: $srv, soa: $soa, ptr: $ptr, txt: $txt, naptr: $naptr, mx: $mx, ds: $ds, rrsig: $rrsig, dnskey: $dnskey, ns: $ns, other: $other, svcb: $svcb, https: $https)';
+    return 'QueryTypes(a: $a, aaaa: $aaaa, any: $any, srv: $srv, soa: $soa, ptr: $ptr, txt: $txt, naptr: $naptr, mx: $mx, ds: $ds, rrsig: $rrsig, dnskey: $dnskey, ns: $ns, other: $other, svcb: $svcb, https: $https)';
 }
 
 
