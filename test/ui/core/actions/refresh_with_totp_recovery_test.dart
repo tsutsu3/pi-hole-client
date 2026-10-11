@@ -53,7 +53,7 @@ void main() async {
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
-          createRepositoryBundle: ({required server}) =>
+          createRepositoryBundle: ({required server, token}) =>
               createFakeRepositoryBundle(
                 auth: authRepository,
                 dns: dnsRepository,

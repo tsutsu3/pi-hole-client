@@ -155,7 +155,7 @@ void main() async {
         serversViewModel: serversViewModel,
         statusViewModel: statusViewModel,
         repositoryBundle: bundle,
-        createRepositoryBundle: ({required server}) =>
+        createRepositoryBundle: ({required server, token}) =>
             createFakeRepositoryBundle(
               dns: fakeDnsRepository,
               auth: authByAddress?[server.address],

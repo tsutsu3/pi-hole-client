@@ -42,6 +42,7 @@ class RepositoryBundleFactory {
     required Server server,
     required SecureStorageService storage,
     V6SessionCacheStore? sessionCacheStore,
+    String? token,
   }) {
     final creds = SessionCredentialService(storage, server.address);
 
@@ -117,22 +118,55 @@ class RepositoryBundleFactory {
           pinnedCertificateSha256: server.pinnedCertificateSha256,
         );
         return RepositoryBundle(
-          actions: ActionsRepositoryV5(client: client, creds: creds),
-          adlist: AdlistRepositoryV5(client: client, creds: creds),
-          auth: AuthRepositoryV5(client: client, creds: creds),
-          client: ClientRepositoryV5(client: client, creds: creds),
-          config: ConfigRepositoryV5(client: client, creds: creds),
-          dhcp: DhcpRepositoryV5(client: client, creds: creds),
-          dns: DnsRepositoryV5(client: client, creds: creds),
-          domain: DomainRepositoryV5(client: client, creds: creds),
-          ftl: FtlRepositoryV5(client: client, creds: creds),
-          group: GroupRepositoryV5(client: client, creds: creds),
-          localDns: LocalDnsRepositoryV5(client: client, creds: creds),
-          metrics: MetricsRepositoryV5(client: client, creds: creds),
-          network: NetworkRepositoryV5(client: client, creds: creds),
+          actions: ActionsRepositoryV5(
+            client: client,
+            creds: creds,
+            token: token,
+          ),
+          adlist: AdlistRepositoryV5(
+            client: client,
+            creds: creds,
+            token: token,
+          ),
+          auth: AuthRepositoryV5(client: client, creds: creds, token: token),
+          client: ClientRepositoryV5(
+            client: client,
+            creds: creds,
+            token: token,
+          ),
+          config: ConfigRepositoryV5(
+            client: client,
+            creds: creds,
+            token: token,
+          ),
+          dhcp: DhcpRepositoryV5(client: client, creds: creds, token: token),
+          dns: DnsRepositoryV5(client: client, creds: creds, token: token),
+          domain: DomainRepositoryV5(
+            client: client,
+            creds: creds,
+            token: token,
+          ),
+          ftl: FtlRepositoryV5(client: client, creds: creds, token: token),
+          group: GroupRepositoryV5(client: client, creds: creds, token: token),
+          localDns: LocalDnsRepositoryV5(
+            client: client,
+            creds: creds,
+            token: token,
+          ),
+          metrics: MetricsRepositoryV5(
+            client: client,
+            creds: creds,
+            token: token,
+          ),
+          network: NetworkRepositoryV5(
+            client: client,
+            creds: creds,
+            token: token,
+          ),
           realtimeStatus: RealTimeStatusRepositoryV5(
             client: client,
             creds: creds,
+            token: token,
           ),
           serverAddress: server.address,
           apiVersion: server.apiVersion,

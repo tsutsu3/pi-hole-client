@@ -74,7 +74,7 @@ void main() {
       final vm = AddServerViewModel(
         serversViewModel: serversViewModel,
         statusViewModel: statusViewModel,
-        createBundle: ({required server}) => createFakeRepositoryBundle(
+        createBundle: ({required server, token}) => createFakeRepositoryBundle(
           auth: authRepository,
           dns: dnsRepository,
           serverAddress: server.address,

@@ -210,7 +210,7 @@ void main() async {
             serversViewModel: serversViewModel,
             statusViewModel: statusViewModel,
             repositoryBundle: createFakeRepositoryBundle(),
-            createRepositoryBundle: ({required server}) =>
+            createRepositoryBundle: ({required server, token}) =>
                 createFakeRepositoryBundle(),
           ),
         );
@@ -251,7 +251,7 @@ void main() async {
             serversViewModel: serversViewModel,
             statusViewModel: statusViewModel,
             repositoryBundle: createFakeRepositoryBundle(),
-            createRepositoryBundle: ({required server}) =>
+            createRepositoryBundle: ({required server, token}) =>
                 createFakeRepositoryBundle(),
           ),
         );
@@ -290,7 +290,7 @@ void main() async {
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
           repositoryBundle: createFakeRepositoryBundle(),
-          createRepositoryBundle: ({required server}) =>
+          createRepositoryBundle: ({required server, token}) =>
               createFakeRepositoryBundle(),
         ),
       );
@@ -320,7 +320,7 @@ void main() async {
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
           repositoryBundle: createFakeRepositoryBundle(),
-          createRepositoryBundle: ({required server}) =>
+          createRepositoryBundle: ({required server, token}) =>
               createFakeRepositoryBundle(),
         ),
       );
@@ -354,7 +354,7 @@ void main() async {
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
           repositoryBundle: createFakeRepositoryBundle(),
-          createRepositoryBundle: ({required server}) =>
+          createRepositoryBundle: ({required server, token}) =>
               createFakeRepositoryBundle(),
         ),
       );
@@ -408,7 +408,7 @@ void main() async {
             serversViewModel: serversViewModel,
             statusViewModel: statusViewModel,
             repositoryBundle: createFakeRepositoryBundle(dns: delayedDns),
-            createRepositoryBundle: ({required server}) =>
+            createRepositoryBundle: ({required server, token}) =>
                 createFakeRepositoryBundle(dns: delayedDns),
           ),
         );
