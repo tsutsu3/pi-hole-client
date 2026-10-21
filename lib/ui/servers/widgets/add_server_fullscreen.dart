@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
+import 'package:pi_hole_client/domain/model/server/secret_input.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -70,8 +71,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   /// factory and status view model to be in scope.
   AddServerViewModel? _viewModel;
 
-  String? initToken;
-  String? initPassword;
+  /// The stored password (v6) or token (v5) of the edited server.
+  String? _loadedSecret;
   bool _advancedOptionsExpanded = false;
 
   /// State of the stored secrets on the edit screen.
@@ -184,6 +185,11 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     subroute: subrouteFieldController.text,
   );
 
+  /// The password (v6) or token (v5) field of the selected version.
+  String _secretFromForm() => piHoleVersion == SupportedApiVersions.v6
+      ? passwordFieldController.text
+      : tokenFieldController.text;
+
   /// Loads the stored secrets of the edited server into the form.
   Future<void> _loadSecrets() async {
     ({String token, String password})? creds;
@@ -208,8 +214,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       passwordFieldController.text = creds.password;
       tokenFieldController.text = creds.token;
-      initToken = creds.token;
-      initPassword = creds.password;
+      _loadedSecret = widget.server!.apiVersion == SupportedApiVersions.v6
+          ? creds.password
+          : creds.token;
       _secretsLoadStatus = _SecretsLoadStatus.loaded;
     });
   }
@@ -592,8 +599,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           allowUntrustedCert: allowUntrustedCert,
           ignoreCertificateErrors: ignoreCertificateErrors,
           pinnedCertificateSha256: pinnedCertificateSha256,
-          password: passwordFieldController.text,
-          token: tokenFieldController.text,
+          secret: NewSecret(_secretFromForm()),
           defaultServer: defaultCheckbox,
           resolveCertificate: (serverObj) =>
               validateAndUpdateServerCertificate(serverObj: serverObj),
@@ -663,6 +669,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
     final newUrl = _serverUrlFromForm();
 
+    // A version switch uses the other field, so its value is always new.
+    final value = _secretFromForm();
+    final isUnchanged =
+        piHoleVersion == widget.server!.apiVersion && value == _loadedSecret;
+    final secret = isUnchanged ? UnchangedSecret(value) : NewSecret(value);
+
     final UpdateOutcome outcome;
     try {
       outcome = await viewModel.updateServer.runAsync(
@@ -673,12 +685,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           allowUntrustedCert: allowUntrustedCert,
           ignoreCertificateErrors: ignoreCertificateErrors,
           pinnedCertificateSha256: pinnedCertificateSha256,
-          password: passwordFieldController.text,
-          token: tokenFieldController.text,
+          secret: secret,
           defaultServer: defaultCheckbox,
           oldServer: widget.server!,
-          initPassword: initPassword ?? '',
-          initToken: initToken ?? '',
           resolveCertificate: (serverObj) =>
               validateAndUpdateServerCertificate(serverObj: serverObj),
           resolveTotp: ({error}) => showTotpInputModal(context, error: error),

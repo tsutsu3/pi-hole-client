@@ -45,6 +45,9 @@ class FakeServersViewModel extends ServersViewModel {
   set shouldFailSetDefaultServer(bool value) =>
       _fakeRepo.shouldFailUpdateDefault = value;
 
+  set shouldFailSaveSecret(bool value) =>
+      _fakeRepo.shouldFailSaveSecret = value;
+
   set failFetchCredentials(bool value) =>
       _fakeRepo.shouldFailFetchCredentials = value;
 
@@ -68,10 +71,15 @@ class FakeServersViewModel extends ServersViewModel {
   int get saveTokenCallCount => _fakeRepo.saveTokenCallCount;
   String? get lastSavedTokenAddress => _fakeRepo.lastSavedTokenAddress;
   String? get lastSavedToken => _fakeRepo.lastSavedToken;
-  List<({String address, String password})> get savedPasswords =>
-      _fakeRepo.savedPasswords;
-  List<String> get deletedPasswordAddresses =>
-      _fakeRepo.deletedPasswordAddresses;
+
+  // --- State after the calls (delegate to repo) ---
+
+  /// Server rows written by add / edit / replace, keyed by address.
+  Map<String, Server> get storedRows => _fakeRepo.rows;
+
+  /// Stored secrets, keyed like the secure storage: `<address>_password`,
+  /// `<address>_token` and `<address>_sid`.
+  Map<String, String> get storedSecrets => _fakeRepo.secrets;
 
   /// Counts calls to `deleteSid`. The production wrapper is added later; until
   /// then this stays 0, which is what the state-integrity tests assert against.
@@ -199,7 +207,7 @@ class FakeServersViewModel extends ServersViewModel {
   Future<Result<void>> deleteSid(String address) async {
     deleteSidCallCount++;
     deletedSidAddresses.add(address);
-    return Success.unit();
+    return _fakeRepo.deleteSid(address);
   }
 
   @override
