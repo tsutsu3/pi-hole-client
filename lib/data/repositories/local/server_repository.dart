@@ -430,9 +430,7 @@ class LocalServerRepository implements ServerRepository {
   @override
   Future<Result<void>> savePassword(String address, String password) async {
     try {
-      await _secureStorage.saveValue('${address}_password', password);
-
-      return Success.unit();
+      return await _secureStorage.saveValue('${address}_password', password);
     } catch (e, st) {
       logger.e('Failed to save password: $e\n$st');
 
@@ -443,9 +441,7 @@ class LocalServerRepository implements ServerRepository {
   @override
   Future<Result<void>> saveToken(String address, String token) async {
     try {
-      await _secureStorage.saveValue('${address}_token', token);
-
-      return Success.unit();
+      return await _secureStorage.saveValue('${address}_token', token);
     } catch (e, st) {
       logger.e('Failed to save token: $e\n$st');
 
