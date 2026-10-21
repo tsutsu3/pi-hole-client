@@ -1,3 +1,6 @@
+/// @docImport 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
+library;
+
 import 'package:pi_hole_client/data/repositories/api/interfaces/actions_respository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/adlist_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/auth_repository.dart';
@@ -17,6 +20,8 @@ import 'package:pi_hole_client/domain/model/server/server.dart';
 /// Function signature for creating a [RepositoryBundle].
 ///
 /// Used to make the factory injectable for testing.
+/// In the app, it calls [RepositoryBundleFactory.create]
+/// (see `createProviders` in `lib/config/dependencies.dart`).
 ///
 /// When [token] is given, v5 repositories use it instead of the stored token.
 typedef CreateRepositoryBundle =

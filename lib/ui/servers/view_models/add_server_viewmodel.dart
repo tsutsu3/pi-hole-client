@@ -4,6 +4,10 @@
 // effects must be preserved, so the orchestration reuses them rather than the
 // lower-level repositories. The certificate UI (pin dialog, ssl error snackbar)
 // stays in the widget and is injected per request via [resolveCertificate].
+
+/// @docImport 'package:pi_hole_client/ui/servers/widgets/add_server_fullscreen.dart';
+library;
+
 import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
@@ -22,6 +26,9 @@ import 'package:pi_hole_client/utils/url.dart';
 /// server (possibly with a pinned fingerprint) or `null` when the user cancels
 /// or the certificate is rejected. The dialog and ssl-error snackbar live in the
 /// widget; the view model only decides what to do with the result.
+///
+/// In the app, it calls `validateAndUpdateServerCertificate` in
+/// [AddServerFullscreen].
 typedef ResolveCertificate = Future<Server?> Function(Server server);
 
 /// Request for [AddServerViewModel.createServer] (adding a new server).
@@ -46,7 +53,7 @@ class CreateServerRequest {
   final bool ignoreCertificateErrors;
   final String? pinnedCertificateSha256;
 
-  /// The password (v6) or token (v5). Always a [NewSecret]。
+  /// The password (v6) or token (v5). Always a [NewSecret]
   final SecretInput secret;
   final bool defaultServer;
   final ResolveCertificate resolveCertificate;
