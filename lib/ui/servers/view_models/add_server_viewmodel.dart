@@ -312,8 +312,8 @@ class AddServerViewModel extends ChangeNotifier {
   ///   5. Save the server to the DB.
   ///   6. Clean up the old server.
   ///
-  /// A new address or a [NewSecret] is checked with a new session. Otherwise
-  /// the current session is used while it still works.
+  /// A new address, a version switch or a [NewSecret] is checked with a new
+  /// session. Otherwise the current session is used while it still works.
   ///
   /// Auto refresh is stopped while it runs and started again on every exit.
   ///
@@ -382,7 +382,11 @@ class AddServerViewModel extends ChangeNotifier {
 
     final server = resolved.copyWith(defaultServer: req.defaultServer);
     final secret = req.secret.value;
-    final isNew = isAddressChanged || req.secret is NewSecret;
+    // A version switch uses the other key, which is not stored yet.
+    final isNew =
+        isAddressChanged ||
+        req.apiVersion != req.oldServer.apiVersion ||
+        req.secret is NewSecret;
     final bundle = _createBundleWithSecret(server, secret);
     final outcome = await _connect(
       bundle,

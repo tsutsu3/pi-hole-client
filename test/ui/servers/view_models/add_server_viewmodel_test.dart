@@ -621,6 +621,31 @@ void main() {
         expect(authRepository.createSessionCallCount, 2);
       });
 
+      test('same-address v5->v6 treats an unchanged secret as new', () async {
+        serversViewModel.storedRows[_oldAddress] = _oldServerV5;
+        serversViewModel.storedSecrets
+          ..clear()
+          ..['${_oldAddress}_token'] = 'token';
+        final vm = buildViewModel();
+
+        final outcome = await vm.updateServer.runAsync(
+          updateReq(
+            oldServer: _oldServerV5,
+            apiVersion: SupportedApiVersions.v6,
+            secret: const UnchangedSecret('v6-pass'),
+          ),
+        );
+
+        expect(outcome, isA<UpdateSuccess>());
+        // v5 stored no password, so the value is checked with a new login
+        // and stored.
+        expect(authRepository.createSessionCallCount, 1);
+        expect(authRepository.lastPassword, 'v6-pass');
+        expect(serversViewModel.storedSecrets, {
+          '${_oldAddress}_password': 'v6-pass',
+        });
+      });
+
       test('auto refresh starts again when the save throws', () async {
         final vm = buildViewModel();
 

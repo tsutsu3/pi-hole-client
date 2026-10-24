@@ -55,8 +55,9 @@ The widget sends the secret as a `SecretInput`
 - `UnchangedSecret` - on edit, when the version and the value are the same as
   the loaded ones.
 
-On edit, the secret is treated as new when it is a `NewSecret` **or** the
-address changed (nothing is stored under the new address yet). A new secret is
+On edit, the secret is treated as new when it is a `NewSecret`, the address
+changed (nothing is stored under the new address yet), **or** the version
+changed (the key of the new version is not stored yet). A new secret is
 checked with a new session (`SessionPolicy.forceNew`) and stored after the
 check. An unchanged secret keeps the current session while it works
 (`SessionPolicy.reuseIfValid`) and is not written again.

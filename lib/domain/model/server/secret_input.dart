@@ -5,7 +5,8 @@ sealed class SecretInput {
   final String value;
 }
 
-/// The value already stored for the server.
+/// The value already stored for the server. On an address change or a version
+/// switch, it is treated as a [NewSecret].
 final class UnchangedSecret extends SecretInput {
   const UnchangedSecret(super.value);
 }
