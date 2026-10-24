@@ -1,3 +1,6 @@
+/// @docImport 'package:pi_hole_client/ui/core/ui/components/totp_input_modal.dart';
+library;
+
 /// Why the TOTP prompt is being shown again after a rejected code.
 enum TotpPromptError {
   /// The code was wrong (server: `Invalid 2FA token`).
@@ -14,4 +17,6 @@ enum TotpPromptError {
 /// [error] is set on a re-prompt after the server rejected a code, so the
 /// dialog can show the right localized message. The dialog lives in the widget;
 /// callers only decide what to do with the result.
+///
+/// In the app, it calls [showTotpInputModal].
 typedef ResolveTotp = Future<String?> Function({TotpPromptError? error});

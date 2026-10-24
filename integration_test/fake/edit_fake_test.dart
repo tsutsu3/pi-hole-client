@@ -154,7 +154,12 @@ void main() {
         isNull,
         reason:
             'a failed password change must not leave the stale new sid; the '
-            'app re-logs in with the restored old password on next use',
+            'app re-logs in with the old password on next use',
+      );
+      expect(
+        await app.passwordOf(address),
+        'pw1',
+        reason: 'the new password is not stored before the check passes',
       );
     });
   });

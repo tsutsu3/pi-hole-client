@@ -46,11 +46,13 @@ List<SingleChildWidget> createProviders({
         final storage = context.read<SecureStorageService>();
         final store = context.read<V6SessionCacheStore>();
 
-        return ({required Server server}) => RepositoryBundleFactory.create(
-          server: server,
-          storage: storage,
-          sessionCacheStore: store,
-        );
+        return ({required Server server, String? token}) =>
+            RepositoryBundleFactory.create(
+              server: server,
+              storage: storage,
+              sessionCacheStore: store,
+              token: token,
+            );
       },
     ),
 
