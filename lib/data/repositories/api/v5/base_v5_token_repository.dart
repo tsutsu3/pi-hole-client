@@ -16,9 +16,12 @@ abstract class BaseV5TokenRepository {
     required SessionCredentialService creds,
     String? token,
   }) : _creds = creds,
-       _token = token;
+       _givenToken = token;
 
   final SessionCredentialService _creds;
+
+  /// The token passed to the constructor. Used instead of the stored token.
+  final String? _givenToken;
 
   String? _token;
   Future<String>? _loadingToken;
@@ -26,11 +29,13 @@ abstract class BaseV5TokenRepository {
   /// Retrieves the current V5 token, fetching it from the credential service if necessary.
   ///
   /// This method implements caching and request deduplication:
+  /// - If a token was passed to the constructor, it is always returned.
   /// - If a token is already cached in [_token], it is returned immediately.
   /// - If a token retrieval is already in progress, the same pending [Future] stored in
   ///   [_loadingToken] is returned to avoid duplicate requests.
   /// - Otherwise, a new request is made to [_creds] to obtain the token.
   Future<String> getToken() async {
+    if (_givenToken != null) return _givenToken;
     if (_token != null) return _token!;
     if (_loadingToken != null) return _loadingToken!;
 
@@ -51,7 +56,7 @@ abstract class BaseV5TokenRepository {
     }
   }
 
-  /// Clears the cached V5 token.
+  /// Clears the cached V5 token. A token passed to the constructor is kept.
   Future<void> clearToken() async {
     _token = null;
   }
