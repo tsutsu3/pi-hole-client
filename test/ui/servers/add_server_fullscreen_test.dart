@@ -155,7 +155,7 @@ void main() async {
         serversViewModel: serversViewModel,
         statusViewModel: statusViewModel,
         repositoryBundle: bundle,
-        createRepositoryBundle: ({required server}) =>
+        createRepositoryBundle: ({required server, token}) =>
             createFakeRepositoryBundle(
               dns: fakeDnsRepository,
               auth: authByAddress?[server.address],
@@ -2208,8 +2208,37 @@ void main() async {
       await tester.tap(find.byIcon(Icons.save_rounded));
       await tester.pump(const Duration(milliseconds: 1000));
 
-      expect(serversViewModel.editServerCallCount, 1);
-      expect(serversViewModel.savePasswordCallCount, 1);
+      expect(serversViewModel.storedRows.keys, [_serverV6.address]);
+      // The password was not changed, so it is not stored again.
+      expect(serversViewModel.storedSecrets, isEmpty);
+    });
+
+    testWidgets('a changed password is stored after the connection check', (
+      WidgetTester tester,
+    ) async {
+      useLargeView(tester);
+
+      await tester.pumpWidget(
+        buildWidget(
+          const AddServerFullscreen(
+            window: false,
+            title: 'test',
+            server: _serverV6,
+          ),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+
+      await tester.enterText(find.byType(TextField).at(3), 'new-pass');
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+
+      expect(serversViewModel.storedRows.keys, [_serverV6.address]);
+      // Only the password of the v6 server is stored.
+      expect(serversViewModel.storedSecrets, {
+        '${_serverV6.address}_password': 'new-pass',
+      });
     });
   });
 }

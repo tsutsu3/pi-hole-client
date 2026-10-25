@@ -826,4 +826,38 @@ void main() {
       expect(result.isError(), true);
     });
   });
+
+  group('ServerRepository.savePassword / saveToken', () {
+    const address = 'http://localhost';
+    late LocalServerRepository repository;
+    late FakeSecureStorageService ssSerivce;
+
+    setUp(() {
+      ssSerivce = FakeSecureStorageService();
+      repository = LocalServerRepository(
+        FakeDatabaseService(path: dbName),
+        ssSerivce,
+      );
+    });
+
+    test('success store the values', () async {
+      final password = await repository.savePassword(address, 'pass123');
+      final token = await repository.saveToken(address, 'token123');
+
+      expect(password.isSuccess(), true);
+      expect(token.isSuccess(), true);
+      expect(ssSerivce.store['${address}_password'], 'pass123');
+      expect(ssSerivce.store['${address}_token'], 'token123');
+    });
+
+    test('return Failure when the storage write fails', () async {
+      ssSerivce.shouldFailSave = true;
+
+      final password = await repository.savePassword(address, 'pass123');
+      final token = await repository.saveToken(address, 'token123');
+
+      expect(password.isError(), true);
+      expect(token.isError(), true);
+    });
+  });
 }

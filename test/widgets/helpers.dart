@@ -1447,7 +1447,7 @@ class TestSetupHelper {
             ),
             Provider<CreateRepositoryBundle>(
               create: (_) =>
-                  ({required server}) => RepositoryBundle(
+                  ({required server, token}) => RepositoryBundle(
                     actions: fakeActionsRepository,
                     adlist: fakeAdlistRepository,
                     auth: FakeAuthRepository(),
@@ -1580,7 +1580,7 @@ class TestSetupHelper {
         ),
         Provider<CreateRepositoryBundle>(
           create: (_) =>
-              ({required server}) => RepositoryBundle(
+              ({required server, token}) => RepositoryBundle(
                 actions: fakeActionsRepository,
                 adlist: fakeAdlistRepository,
                 auth: FakeAuthRepository(),

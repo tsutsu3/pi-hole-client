@@ -64,6 +64,30 @@ void main() {
     expect(bundle.ftl, isA<FtlRepositoryV5>());
   });
 
+  test('v5 repositories use the given token without reading storage', () async {
+    fakeStorage.store['http://localhost_token'] = 'stored_token';
+
+    final bundle = RepositoryBundleFactory.create(
+      server: createServer(apiVersion: 'v5'),
+      storage: fakeStorage,
+      token: 'given_token',
+    );
+
+    expect(await (bundle.auth as AuthRepositoryV5).getToken(), 'given_token');
+    expect(await (bundle.ftl as FtlRepositoryV5).getToken(), 'given_token');
+  });
+
+  test('v5 repositories read the stored token when none is given', () async {
+    fakeStorage.store['http://localhost_token'] = 'stored_token';
+
+    final bundle = RepositoryBundleFactory.create(
+      server: createServer(apiVersion: 'v5'),
+      storage: fakeStorage,
+    );
+
+    expect(await (bundle.auth as AuthRepositoryV5).getToken(), 'stored_token');
+  });
+
   test('preserves server address in bundle', () {
     final bundle = RepositoryBundleFactory.create(
       server: createServer(

@@ -9,6 +9,7 @@ class FakeServerRepository implements ServerRepository {
   bool shouldFailReplace = false;
   bool shouldFailDelete = false;
   bool shouldFailUpdateDefault = false;
+  bool shouldFailSaveSecret = false;
 
   // Call tracking
   int insertCallCount = 0;
@@ -26,8 +27,15 @@ class FakeServerRepository implements ServerRepository {
   int saveTokenCallCount = 0;
   String? lastSavedTokenAddress;
   String? lastSavedToken;
-  final List<({String address, String password})> savedPasswords = [];
-  final List<String> deletedPasswordAddresses = [];
+
+  // State after the calls
+
+  /// Server rows written by insert / update / replace, keyed by address.
+  final Map<String, Server> rows = {};
+
+  /// Stored secrets, keyed like the secure storage: `<address>_password`,
+  /// `<address>_token` and `<address>_sid`.
+  final Map<String, String> secrets = {};
 
   @override
   Future<Result<List<Server>>> fetchServers() async {
@@ -64,6 +72,7 @@ class FakeServerRepository implements ServerRepository {
     if (shouldFailInsert) {
       return Failure(Exception('FakeServerRepository: insertServer failed'));
     }
+    rows[server.address] = server;
     return const Success(1);
   }
 
@@ -78,6 +87,7 @@ class FakeServerRepository implements ServerRepository {
     if (shouldFailUpdate) {
       return Failure(Exception('FakeServerRepository: updateServer failed'));
     }
+    rows[server.address] = server;
     return const Success(1);
   }
 
@@ -89,6 +99,9 @@ class FakeServerRepository implements ServerRepository {
     if (shouldFailReplace) {
       return Failure(Exception('FakeServerRepository: replaceServer failed'));
     }
+    rows
+      ..remove(oldAddress)
+      ..[newServer.address] = newServer;
     return const Success(1);
   }
 
@@ -161,33 +174,42 @@ class FakeServerRepository implements ServerRepository {
   @override
   Future<Result<void>> savePassword(String address, String password) async {
     savePasswordCallCount++;
+    if (shouldFailSaveSecret) {
+      return Failure(Exception('FakeServerRepository: savePassword failed'));
+    }
     lastSavedPasswordAddress = address;
     lastSavedPassword = password;
-    savedPasswords.add((address: address, password: password));
+    secrets['${address}_password'] = password;
     return Success.unit();
   }
 
   @override
   Future<Result<void>> saveToken(String address, String token) async {
     saveTokenCallCount++;
+    if (shouldFailSaveSecret) {
+      return Failure(Exception('FakeServerRepository: saveToken failed'));
+    }
     lastSavedTokenAddress = address;
     lastSavedToken = token;
+    secrets['${address}_token'] = token;
     return Success.unit();
   }
 
   @override
   Future<Result<void>> deletePassword(String address) async {
-    deletedPasswordAddresses.add(address);
+    secrets.remove('${address}_password');
     return Success.unit();
   }
 
   @override
   Future<Result<void>> deleteToken(String address) async {
+    secrets.remove('${address}_token');
     return Success.unit();
   }
 
   @override
   Future<Result<void>> deleteSid(String address) async {
+    secrets.remove('${address}_sid');
     return Success.unit();
   }
 }

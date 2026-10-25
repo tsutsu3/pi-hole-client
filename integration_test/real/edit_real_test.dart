@@ -3,13 +3,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
+import 'package:pi_hole_client/ui/servers/widgets/add_server_fullscreen.dart';
 
 import '../support/app_harness.dart';
 import '../support/real_pihole_env.dart';
 
 /// Real-Pi-hole tests for editing a server: alias-only edits, version
 /// switches, address replacement, duplicate-address rejection, default
-/// promotion, and session cleanup on a failed delete.
+/// promotion, session cleanup on a failed delete, and a rejected v5 token.
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
@@ -276,6 +277,44 @@ void main() {
             'a v5 address-change replace must not leave old-address secrets',
       );
     });
+  });
+
+  group('v5 same-address token change', () {
+    testWidgets(
+      '(E20) a wrong token on a same-address edit is rejected and keeps the '
+      'old token',
+      (tester) async {
+        final app = AppHarness(tester);
+        await app.boot();
+        final uri = Uri.parse(RealPiholeEnv.v5Base);
+
+        await app.openAddServer();
+        await app.addV5ServerViaUi(
+          host: uri.host,
+          port: uri.hasPort ? '${uri.port}' : '',
+          token: RealPiholeEnv.v5Token,
+          alias: 'e20-v5',
+        );
+        expect(find.text(app.l10n.connectedSuccessfully), findsOneWidget);
+        final address = app.servers.getServersList.single.address;
+
+        await app.editServer(token: 'definitely-wrong-token');
+
+        expect(
+          find.text(app.l10n.loginTokenInvalid),
+          findsOneWidget,
+          reason: 'the typed token is checked, not the stored one',
+        );
+        expect(find.byType(AddServerFullscreen), findsOneWidget);
+        expect(app.servers.getServersList.single.address, address);
+        expect(app.servers.getServersList.single.alias, 'e20-v5');
+        expect(
+          await app.tokenOf(address),
+          RealPiholeEnv.v5Token,
+          reason: 'a rejected token is never stored',
+        );
+      },
+    );
   });
 
   group('edit v6 to v5 through fault-delete proxy', () {
