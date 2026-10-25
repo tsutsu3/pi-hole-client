@@ -232,6 +232,9 @@ class _BaseState extends State<Base>
     if (bundle == null || server == null) return;
 
     final result = await bundle.dns.fetchBlockingStatus();
+    // On failure the status is unknown, so keep the current one.
+    final blocking = result.getOrNull();
+    if (blocking == null) return;
 
     if (serversViewModel.selectedServer?.address != server.address) {
       logger.d(
@@ -244,7 +247,7 @@ class _BaseState extends State<Base>
     }
 
     serversViewModel.updateselectedServerStatus(
-      result.getOrNull()?.status == DnsBlockingStatus.enabled,
+      blocking.status == DnsBlockingStatus.enabled,
     );
     await WidgetChannel.sendBlockingUpdated(serverAddress: server.address);
   }

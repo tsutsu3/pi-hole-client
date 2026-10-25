@@ -1,9 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/dns_repository.dart';
+import 'package:pi_hole_client/domain/model/dns/dns.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
+import 'package:result_dart/result_dart.dart';
 
 import '../../../../../testing/fakes/services/fake_pihole_v5_api_client.dart';
 import '../../../../../testing/fakes/services/fake_session_credential_service.dart';
+
+/// Checks that [result] is a Failure with a TokenNotFoundException.
+void expectTokenNotFound(Result<Blocking> result) {
+  expect(result.exceptionOrNull(), isA<TokenNotFoundException>());
+}
 
 void main() {
   late DnsRepositoryV5 repository;
@@ -28,6 +36,15 @@ void main() {
       final result = await repository.fetchBlockingStatus();
       expect(result.isError(), true);
     });
+
+    test(
+      'should return TokenNotFoundException when the token cannot be read',
+      () async {
+        creds.shouldFailRead = true;
+        final result = await repository.fetchBlockingStatus();
+        expectTokenNotFound(result);
+      },
+    );
   });
 
   group('enableBlocking', () {
@@ -42,6 +59,15 @@ void main() {
       final result = await repository.enableBlocking();
       expect(result.isError(), true);
     });
+
+    test(
+      'should return TokenNotFoundException when the token cannot be read',
+      () async {
+        creds.shouldFailRead = true;
+        final result = await repository.enableBlocking();
+        expectTokenNotFound(result);
+      },
+    );
   });
 
   group('disableBlocking', () {
@@ -56,5 +82,14 @@ void main() {
       final result = await repository.disableBlocking(30);
       expect(result.isError(), true);
     });
+
+    test(
+      'should return TokenNotFoundException when the token cannot be read',
+      () async {
+        creds.shouldFailRead = true;
+        final result = await repository.disableBlocking(30);
+        expectTokenNotFound(result);
+      },
+    );
   });
 }

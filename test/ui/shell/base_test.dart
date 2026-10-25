@@ -383,6 +383,62 @@ void main() async {
       );
     });
 
+    testWidgets('resuming keeps the blocking status when the fetch fails', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      final repo = FakeAppConfigRepository()..importantInfoReadenValue = true;
+      final appConfigViewModel = AppConfigViewModel(repo);
+      appConfigViewModel.saveFromDb(repo.appConfig.getOrThrow());
+      serversViewModel.selectedServer = _serverV6;
+
+      final dns = FakeDnsRepository();
+
+      await tester.pumpWidget(
+        buildTestApp(
+          const Base(child: SizedBox()),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          statusViewModel: statusViewModel,
+          repositoryBundle: createFakeRepositoryBundle(dns: dns),
+          createRepositoryBundle: ({required server, token}) =>
+              createFakeRepositoryBundle(dns: dns),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+      await tester.pump();
+
+      expect(serversViewModel.selectedServerEnabled, true);
+
+      dns.shouldFail = true;
+      final updateBefore = serversViewModel.updateselectedServerStatusCallCount;
+      final refreshBefore = statusViewModel.startAutoRefreshCallCount;
+      (tester.state(find.byType(Base)) as WindowListener).onWindowRestore();
+      await tester.pumpAndSettle();
+
+      expect(
+        serversViewModel.selectedServerEnabled,
+        true,
+        reason: 'a failed fetch does not tell the status, so keep it',
+      );
+      expect(
+        serversViewModel.updateselectedServerStatusCallCount,
+        updateBefore,
+      );
+      expect(
+        statusViewModel.startAutoRefreshCallCount,
+        greaterThan(refreshBefore),
+      );
+    });
+
     testWidgets(
       '(AP5) discards a stale resume fetch when the selected server changes '
       'mid-flight',
