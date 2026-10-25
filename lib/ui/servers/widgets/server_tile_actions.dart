@@ -108,7 +108,12 @@ class ServerTileActions extends StatelessWidget {
                 ],
               ),
               const SizedBox(width: 8),
-              Expanded(child: TransportSecurityIndicator(server: server)),
+              Expanded(
+                child: TransportSecurityIndicator(
+                  server: server,
+                  fetchTlsCertificate: fetchTlsCertificate,
+                ),
+              ),
             ],
           ),
         ),
