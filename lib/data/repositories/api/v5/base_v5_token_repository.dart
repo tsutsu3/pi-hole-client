@@ -41,9 +41,13 @@ abstract class BaseV5TokenRepository {
 
     final c = Completer<String>();
     _loadingToken = c.future;
+    c.future.ignore();
+
     try {
       final r = await _creds.token;
-      if (r.isError()) throw TokenNotFoundException();
+      if (r.isError()) {
+        throw TokenNotFoundException('Token not found: ${r.exceptionOrNull()}');
+      }
       _token = r.getOrThrow();
       c.complete(_token!);
 

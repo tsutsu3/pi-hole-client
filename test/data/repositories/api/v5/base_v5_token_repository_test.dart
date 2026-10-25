@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/base_v5_token_repository.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 
 import '../../../../../testing/fakes/services/fake_session_credential_service.dart';
 
@@ -30,6 +31,33 @@ void main() {
       await repo.clearToken();
 
       expect(await repo.getToken(), 'updated-token');
+    });
+
+    test('throws TokenNotFoundException with the read error', () async {
+      final repo = _TestRepo(creds: creds);
+      creds.shouldFailRead = true;
+
+      await expectLater(
+        repo.getToken(),
+        throwsA(
+          isA<TokenNotFoundException>().having(
+            (e) => e.message,
+            'message',
+            contains('Forced read failure'),
+          ),
+        ),
+      );
+    });
+
+    test('throws TokenNotFoundException to every waiting caller', () async {
+      final repo = _TestRepo(creds: creds);
+      creds.shouldFailRead = true;
+
+      final first = repo.getToken();
+      final second = repo.getToken();
+
+      await expectLater(first, throwsA(isA<TokenNotFoundException>()));
+      await expectLater(second, throwsA(isA<TokenNotFoundException>()));
     });
   });
 
