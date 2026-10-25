@@ -654,7 +654,9 @@ void main() async {
         expectConnectResult(
           storedPin: null,
           selected: _otherV6,
-          message: 'Could not fetch certificate information.',
+          message:
+              "Couldn't establish a secure connection. "
+              'Check that the server uses HTTPS on this port.',
         );
       });
 

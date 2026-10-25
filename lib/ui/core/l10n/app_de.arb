@@ -600,7 +600,6 @@
   "selectedDisconnected": "Ausgewählt, ohne Verbindung",
   "sendCrashReport": "Senden des Absturzberichts",
   "serverAddress": "Server Adresse",
-  "serverCertificateFetchFailed": "Zertifikatsinformationen konnten nicht abgerufen werden.",
   "serverCertificateHandshakeFailed": "Sichere Verbindung konnte nicht hergestellt werden. Prüfen Sie, ob der Server auf diesem Port HTTPS verwendet.",
   "serverCertificateIssueDetected": "Ein Zertifikatsproblem wurde erkannt. Das Serverzertifikat wurde möglicherweise geändert.",
   "serverCertificateIssueHelp": "Das TLS-Zertifikat des Servers wurde möglicherweise geändert oder ist nicht vertrauenswürdig. Bitte Servereinstellungen prüfen und ggf. den angepinnten Fingerabdruck aktualisieren.",

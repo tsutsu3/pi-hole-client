@@ -10,6 +10,7 @@ import 'package:pi_hole_client/domain/model/server/server_auth.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection/connect_server_usecase.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_totp.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/ui/certificate/certificate_trust_flow.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/globals.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
@@ -18,7 +19,6 @@ import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/widgets/add_server_fullscreen.dart';
-import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
@@ -291,7 +291,7 @@ class ServerConnectionService {
 
     if (!context.mounted) return null;
 
-    return _openUpdatePinnedFingerprint(context, server);
+    return _certificateFlow.pinAndSave(context, server, serversViewModel);
   }
 
   bool _isSslError(Exception error) {
@@ -444,9 +444,10 @@ class ServerConnectionService {
 
     if (shouldEdit == true && targetContext.mounted) {
       if (isPinMismatch) {
-        final updated = await _openUpdatePinnedFingerprint(
+        final updated = await _certificateFlow.pinAndSave(
           targetContext,
           server,
+          serversViewModel,
         );
         if (updated != null && targetContext.mounted) {
           await ServerConnectionService(
@@ -482,91 +483,10 @@ class ServerConnectionService {
     return _promptCertificateRecovery(context);
   }
 
-  Future<Server?> _openUpdatePinnedFingerprint(
-    BuildContext context,
-    Server server,
-  ) async {
-    Uri uri;
-    try {
-      uri = Uri.parse(server.address);
-    } catch (_) {
-      return null;
-    }
-    if (uri.scheme != 'https') return null;
-
-    final loc = AppLocalizations.of(context);
-
-    TlsCertificateInfo? certificateInfo;
-    try {
-      certificateInfo = await fetchTlsCertificate(
-        uri,
-        allowBadCertificates: true,
-      );
-    } catch (_) {
-      certificateInfo = null;
-    }
-
-    if (!context.mounted) return null;
-
-    if (certificateInfo == null) {
-      showErrorSnackBar(
-        context: context,
-        appConfigViewModel: appConfigViewModel,
-        label: loc.serverCertificateFetchFailed,
-      );
-
-      return null;
-    }
-
-    final info = certificateInfo;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => CertificateDetailsDialog(
-        title: loc.serverCertificateUpdatePinTitle,
-        description: loc.serverCertificateUpdatePinHelp,
-        certificateInfo: info,
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, false),
-            child: Text(loc.cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, true),
-            child: Text(loc.confirm),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed != true || !context.mounted) return null;
-
-    final updated = server.copyWith(pinnedCertificateSha256: info.sha256);
-    try {
-      await serversViewModel.editServer.runAsync(updated);
-    } catch (e, s) {
-      logger.e('Failed to save pinned certificate', error: e, stackTrace: s);
-    }
-
-    if (!context.mounted) return null;
-
-    if (serversViewModel.editServer.errors.value == null) {
-      showSuccessSnackBar(
-        context: context,
-        appConfigViewModel: appConfigViewModel,
-        label: loc.editServerSuccessfully,
-      );
-
-      return updated;
-    } else {
-      showErrorSnackBar(
-        context: context,
-        appConfigViewModel: appConfigViewModel,
-        label: loc.cantSaveConnectionData,
-      );
-
-      return null;
-    }
-  }
+  CertificateTrustFlow get _certificateFlow => CertificateTrustFlow(
+    appConfigViewModel: appConfigViewModel,
+    fetch: fetchTlsCertificate,
+  );
 
   void _openEditServer(BuildContext context, Server server) {
     final width = MediaQuery.of(context).size.width;

@@ -119,7 +119,9 @@ void main() async {
       expect(find.text('Update pinned fingerprint'), findsNothing);
       expectPinUpdateResult(
         storedPin: 'old:fingerprint',
-        message: 'Could not fetch certificate information.',
+        message:
+            "Couldn't establish a secure connection. "
+            'Check that the server uses HTTPS on this port.',
       );
     });
   });

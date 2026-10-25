@@ -8,6 +8,7 @@ import 'package:pi_hole_client/domain/model/server/secret_input.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
+import 'package:pi_hole_client/ui/core/ui/certificate/certificate_trust_flow.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/components/totp_input_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
@@ -17,7 +18,6 @@ import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/view_models/add_server_viewmodel.dart';
-import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
@@ -431,56 +431,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       return '';
     }
 
-    TlsCertificateInfo? certificateInfo;
-    try {
-      certificateInfo = await widget.fetchTlsCertificate(
-        uri,
-        allowBadCertificates: true,
-      );
-    } catch (_) {
-      certificateInfo = null;
-    }
-    if (!context.mounted) {
-      return null;
-    }
-    if (certificateInfo == null) {
-      // Bad certificates are accepted here, so a failure means the port is not
-      // speaking TLS at all (e.g. HTTPS picked for a plain HTTP port), or a
-      // reverse proxy blocks the socket and pinning cannot work reliably.
-      // Either way the connection is blocked, so say why instead of returning
-      // to an idle form with no message.
-      showErrorSnackBar(
-        context: context,
-        appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context).serverCertificateHandshakeFailed,
-      );
+    if (!context.mounted) return null;
 
-      return null;
-    }
-
-    final info = certificateInfo;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => CertificateDetailsDialog(
-        title: AppLocalizations.of(dialogContext).allowUntrustedCert,
-        description: AppLocalizations.of(
-          dialogContext,
-        ).serverCertificateUpdatePinHelp,
-        certificateInfo: info,
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, false),
-            child: Text(AppLocalizations.of(dialogContext).cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, true),
-            child: Text(AppLocalizations.of(dialogContext).confirm),
-          ),
-        ],
-      ),
-    );
-
-    return confirmed == true ? info.sha256 : null;
+    return CertificateTrustFlow(
+      appConfigViewModel: appConfigViewModel,
+      fetch: widget.fetchTlsCertificate,
+    ).confirmPin(context, uri);
   }
 
   /// Validates and updates the server's certificate configuration.

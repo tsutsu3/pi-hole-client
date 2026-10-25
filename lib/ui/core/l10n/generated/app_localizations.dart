@@ -3704,12 +3704,6 @@ abstract class AppLocalizations {
   /// **'Server address'**
   String get serverAddress;
 
-  /// No description provided for @serverCertificateFetchFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not fetch certificate information.'**
-  String get serverCertificateFetchFailed;
-
   /// No description provided for @serverCertificateHandshakeFailed.
   ///
   /// In en, this message translates to:

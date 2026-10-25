@@ -1111,6 +1111,7 @@ void main() async {
       await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(CertificateDetailsDialog), findsOneWidget);
+      expect(find.text('Update pinned fingerprint'), findsOneWidget);
 
       await tester.tap(find.widgetWithText(TextButton, 'Confirm'));
       await tester.pump();
