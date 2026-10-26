@@ -23,7 +23,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
       - name: Prepare artifact
         run: |
           mkdir -p _site
