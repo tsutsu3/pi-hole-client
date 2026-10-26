@@ -20,46 +20,58 @@ class DnsRepositoryV5 extends BaseV5TokenRepository implements DnsRepository {
   Future<Result<Blocking>> fetchBlockingStatus({
     bool skipRenewal = false,
   }) async {
-    try {
-      final token = await getToken();
-      final result = await _client.getSummaryRaw(token);
+    final result = await _sendWithToken(_client.getSummaryRaw);
 
-      return result.map(
-        (summary) => Blocking(
-          status: convertBlockingStatus(summary.status),
-          timer: null,
-        ),
-      );
-    } on TokenNotFoundException catch (e) {
-      return Failure(e);
-    }
+    return result.map(
+      (summary) =>
+          Blocking(status: convertBlockingStatus(summary.status), timer: null),
+    );
   }
 
   @override
   Future<Result<Blocking>> enableBlocking() async {
+    final result = await _sendWithToken(
+      (token) => _client.postDnsBlocking(token, enabled: true),
+    );
+
+    return result.map((e) => e.toDomain());
+  }
+
+  @override
+  Future<Result<Blocking>> disableBlocking(int timer) async {
+    final result = await _sendWithToken(
+      (token) => _client.postDnsBlocking(token, enabled: false, timer: timer),
+    );
+
+    return result.map((e) => e.toDomain());
+  }
+
+  /// Sends [request] with the token. When the token is rejected (401), reads
+  /// the stored token again. When it changed, sends [request] once more.
+  ///
+  /// The stored token can change while the cached one is still in use, for
+  /// example when the user edits the server.
+  Future<Result<T>> _sendWithToken<T extends Object>(
+    Future<Result<T>> Function(String token) request,
+  ) async {
     try {
       final token = await getToken();
-      final result = await _client.postDnsBlocking(token, enabled: true);
+      final result = await request(token);
+      if (!_isTokenRejected(result)) return result;
 
-      return result.map((e) => e.toDomain());
+      await clearToken();
+      final newToken = await getToken();
+      if (newToken == token) return result;
+
+      return await request(newToken);
     } on TokenNotFoundException catch (e) {
       return Failure(e);
     }
   }
 
-  @override
-  Future<Result<Blocking>> disableBlocking(int timer) async {
-    try {
-      final token = await getToken();
-      final result = await _client.postDnsBlocking(
-        token,
-        enabled: false,
-        timer: timer,
-      );
+  bool _isTokenRejected(Result<Object> result) {
+    final error = result.exceptionOrNull();
 
-      return result.map((e) => e.toDomain());
-    } on TokenNotFoundException catch (e) {
-      return Failure(e);
-    }
+    return error is HttpStatusCodeException && error.statusCode == 401;
   }
 }
