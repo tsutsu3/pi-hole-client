@@ -174,10 +174,7 @@ class CertificateTrustFlow {
       );
       if (info == null) return false;
 
-      String normalize(String value) =>
-          value.replaceAll(':', '').toLowerCase().trim();
-
-      return normalize(info.sha256) != normalize(pin);
+      return !fingerprintsMatch(info.sha256, pin);
     } catch (_) {
       return false;
     }
