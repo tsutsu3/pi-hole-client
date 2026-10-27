@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
+import 'package:pi_hole_client/ui/core/ui/modals/confirm_pin_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
-import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
 
@@ -251,27 +251,7 @@ class CertificateTrustFlow {
       return null;
     }
 
-    final certificateInfo = info;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => CertificateDetailsDialog(
-        title: loc.serverCertificateUpdatePinTitle,
-        description: loc.serverCertificateUpdatePinHelp,
-        certificateInfo: certificateInfo,
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, false),
-            child: Text(loc.cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, true),
-            child: Text(loc.confirm),
-          ),
-        ],
-      ),
-    );
-
-    return confirmed == true ? certificateInfo.sha256 : null;
+    return await showConfirmPinModal(context, info) ? info.sha256 : null;
   }
 
   /// Decides the pin to save for [uri] when untrusted certificates are allowed.
