@@ -21,21 +21,18 @@ class CertificateTrustFlow {
   final AppConfigViewModel appConfigViewModel;
   final TlsCertificateFetcher fetch;
 
-  /// Validates and updates the server's certificate configuration before the
-  /// add/edit screen saves it. Nothing is written to the DB.
+  /// Checks the certificate of [server] before the add/edit screen saves it.
+  /// Nothing is written to the DB.
   ///
-  /// Returns the updated server (possibly with a pinned fingerprint), or null
+  /// Returns the server to save (possibly with a pinned fingerprint), or null
   /// when the user cancels or the certificate is blocked. A snackbar tells the
   /// user why it was blocked.
   ///
-  /// Unlike [ensurePinnedFingerprintIfNeeded]:
+  /// Unlike [checkBeforeConnect]:
   /// - A certificate trusted by the platform is pinned automatically.
   /// - In strict mode (untrusted certificates not allowed), an untrusted
   ///   certificate is blocked here, before the connection check.
-  Future<Server?> validateAndUpdateServerCertificate(
-    BuildContext context,
-    Server server,
-  ) async {
+  Future<Server?> checkBeforeSave(BuildContext context, Server server) async {
     if (!context.mounted) return null;
     if (!server.address.startsWith('https://') ||
         server.ignoreCertificateErrors) {
@@ -57,7 +54,7 @@ class CertificateTrustFlow {
     if (server.allowUntrustedCert) {
       // Allow self-signed: prompt user to pin the certificate
       if (!context.mounted) return null;
-      final pin = await ensurePinnedFingerprint(
+      final pin = await _decidePinBeforeSave(
         context,
         uri: uri,
         existingPin: server.pinnedCertificateSha256,
@@ -92,11 +89,18 @@ class CertificateTrustFlow {
     }
   }
 
-  /// Returns the pin to save for [uri]: [existingPin] when set, the
-  /// fingerprint of a certificate trusted by the platform, or the fingerprint
-  /// the user confirmed. Returns `''` for no pin, and null when the user
-  /// cancels or the certificate cannot be fetched.
-  Future<String?> ensurePinnedFingerprint(
+  /// Decides the pin to save for [uri] when untrusted certificates are allowed.
+  ///
+  /// Returns, in this order:
+  /// - [existingPin] when it is set.
+  /// - The fingerprint of a certificate the platform trusts (pinned
+  ///   automatically).
+  /// - `''` (save without a pin) when the check fails for a reason other
+  ///   than an untrusted certificate.
+  /// - The fingerprint the user confirmed in the pin dialog.
+  ///
+  /// Returns null when the user cancels or the certificate cannot be fetched.
+  Future<String?> _decidePinBeforeSave(
     BuildContext context, {
     required Uri uri,
     required String? existingPin,
@@ -135,7 +139,7 @@ class CertificateTrustFlow {
   ///
   /// Returns the server to connect to, or null when the user cancels or the
   /// pin is not saved.
-  Future<Server?> ensurePinnedFingerprintIfNeeded(
+  Future<Server?> checkBeforeConnect(
     BuildContext context,
     Server server,
     ServersViewModel serversViewModel,
@@ -185,7 +189,7 @@ class CertificateTrustFlow {
   ///
   /// Only checked for an https server that allows untrusted certificates and
   /// has a pin. Returns false when the certificate cannot be fetched.
-  Future<bool> isPinnedCertificateMismatch(Server server) async {
+  Future<bool> isPinMismatch(Server server) async {
     final pin = server.pinnedCertificateSha256;
     if (pin == null || pin.trim().isEmpty) return false;
 

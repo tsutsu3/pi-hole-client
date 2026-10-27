@@ -11,5 +11,5 @@ import 'package:pi_hole_client/domain/model/server/server.dart';
 /// to do with the result.
 ///
 /// In the app, the add/edit screen passes a function that calls
-/// [CertificateTrustFlow.validateAndUpdateServerCertificate].
+/// [CertificateTrustFlow.checkBeforeSave].
 typedef ResolveCertificate = Future<Server?> Function(Server server);

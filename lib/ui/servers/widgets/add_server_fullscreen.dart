@@ -445,7 +445,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           resolveCertificate: (serverObj) => CertificateTrustFlow(
             appConfigViewModel: appConfigViewModel,
             fetch: widget.fetchTlsCertificate,
-          ).validateAndUpdateServerCertificate(context, serverObj),
+          ).checkBeforeSave(context, serverObj),
           resolveTotp: ({error}) => showTotpInputModal(context, error: error),
         ),
       );
@@ -534,7 +534,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           resolveCertificate: (serverObj) => CertificateTrustFlow(
             appConfigViewModel: appConfigViewModel,
             fetch: widget.fetchTlsCertificate,
-          ).validateAndUpdateServerCertificate(context, serverObj),
+          ).checkBeforeSave(context, serverObj),
           resolveTotp: ({error}) => showTotpInputModal(context, error: error),
         ),
       );

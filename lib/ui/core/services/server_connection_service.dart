@@ -98,8 +98,11 @@ class ServerConnectionService {
     _startConnection();
 
     try {
-      final serverForLogin = await _certificateFlow
-          .ensurePinnedFingerprintIfNeeded(context, server, serversViewModel);
+      final serverForLogin = await _certificateFlow.checkBeforeConnect(
+        context,
+        server,
+        serversViewModel,
+      );
       if (serverForLogin == null) {
         _abortConnection(previouslySelectedServer);
 
@@ -362,9 +365,7 @@ class ServerConnectionService {
   // updated and a reconnect was attempted. Callers ensure the error is an SSL
   // error and [targetContext] is mounted.
   Future<bool> _promptCertificateRecovery(BuildContext targetContext) async {
-    final isPinMismatch = await _certificateFlow.isPinnedCertificateMismatch(
-      server,
-    );
+    final isPinMismatch = await _certificateFlow.isPinMismatch(server);
 
     if (!targetContext.mounted) return false;
     final loc = AppLocalizations.of(targetContext);
