@@ -89,46 +89,6 @@ class CertificateTrustFlow {
     }
   }
 
-  /// Decides the pin to save for [uri] when untrusted certificates are allowed.
-  ///
-  /// Returns, in this order:
-  /// - [existingPin] when it is set.
-  /// - The fingerprint of a certificate the platform trusts (pinned
-  ///   automatically).
-  /// - `''` (save without a pin) when the check fails for a reason other
-  ///   than an untrusted certificate.
-  /// - The fingerprint the user confirmed in the pin dialog.
-  ///
-  /// Returns null when the user cancels or the certificate cannot be fetched.
-  Future<String?> _decidePinBeforeSave(
-    BuildContext context, {
-    required Uri uri,
-    required String? existingPin,
-  }) async {
-    if (existingPin != null && existingPin.isNotEmpty) {
-      return existingPin;
-    }
-
-    try {
-      // If the certificate is trusted by the platform, pin it automatically.
-      final info = await fetch(uri, allowBadCertificates: false);
-      if (info != null) {
-        return info.sha256;
-      }
-
-      return '';
-    } on HandshakeException {
-      // Untrusted certificate (likely self-signed). Retrieve fingerprint for user verification.
-    } catch (_) {
-      // Fall back to existing behavior without pin prompt on non-TLS failures.
-      return '';
-    }
-
-    if (!context.mounted) return null;
-
-    return confirmPin(context, uri);
-  }
-
   /// Checks the certificate of [server] before connecting to it.
   ///
   /// Only an https server that allows untrusted certificates and has no pin
@@ -223,12 +183,56 @@ class CertificateTrustFlow {
     }
   }
 
+  /// Asks the user to pin the current certificate of [server], then saves the
+  /// new pin with [ServersViewModel.editServer].
+  ///
+  /// Returns the saved server, or null when the user cancels or the save
+  /// fails. A snackbar tells the user the result of the save.
+  Future<Server?> pinAndSave(
+    BuildContext context,
+    Server server,
+    ServersViewModel serversViewModel,
+  ) async {
+    final uri = Uri.tryParse(server.address);
+    if (uri == null || uri.scheme != 'https') return null;
+
+    final pin = await _confirmPin(context, uri);
+    if (pin == null || !context.mounted) return null;
+
+    final updated = server.copyWith(pinnedCertificateSha256: pin);
+    try {
+      await serversViewModel.editServer.runAsync(updated);
+    } catch (e, s) {
+      logger.e('Failed to save pinned certificate', error: e, stackTrace: s);
+    }
+    if (!context.mounted) return null;
+
+    final loc = AppLocalizations.of(context);
+    if (serversViewModel.editServer.errors.value != null) {
+      showErrorSnackBar(
+        context: context,
+        appConfigViewModel: appConfigViewModel,
+        label: loc.cantSaveConnectionData,
+      );
+
+      return null;
+    }
+
+    showSuccessSnackBar(
+      context: context,
+      appConfigViewModel: appConfigViewModel,
+      label: loc.editServerSuccessfully,
+    );
+
+    return updated;
+  }
+
   /// Shows the certificate of [uri] and asks the user to pin it.
   ///
   /// Returns the SHA-256 fingerprint the user confirmed, or null when the user
   /// cancels. When the certificate cannot be fetched, shows an error snackbar
   /// and returns null.
-  Future<String?> confirmPin(BuildContext context, Uri uri) async {
+  Future<String?> _confirmPin(BuildContext context, Uri uri) async {
     TlsCertificateInfo? info;
     try {
       // Bad certificates are accepted here, so a failure means the port does
@@ -273,47 +277,43 @@ class CertificateTrustFlow {
     return confirmed == true ? certificateInfo.sha256 : null;
   }
 
-  /// Asks the user to pin the current certificate of [server], then saves the
-  /// new pin with [ServersViewModel.editServer].
+  /// Decides the pin to save for [uri] when untrusted certificates are allowed.
   ///
-  /// Returns the saved server, or null when the user cancels or the save
-  /// fails. A snackbar tells the user the result of the save.
-  Future<Server?> pinAndSave(
-    BuildContext context,
-    Server server,
-    ServersViewModel serversViewModel,
-  ) async {
-    final uri = Uri.tryParse(server.address);
-    if (uri == null || uri.scheme != 'https') return null;
-
-    final pin = await confirmPin(context, uri);
-    if (pin == null || !context.mounted) return null;
-
-    final updated = server.copyWith(pinnedCertificateSha256: pin);
-    try {
-      await serversViewModel.editServer.runAsync(updated);
-    } catch (e, s) {
-      logger.e('Failed to save pinned certificate', error: e, stackTrace: s);
+  /// Returns, in this order:
+  /// - [existingPin] when it is set.
+  /// - The fingerprint of a certificate the platform trusts (pinned
+  ///   automatically).
+  /// - `''` (save without a pin) when the check fails for a reason other
+  ///   than an untrusted certificate.
+  /// - The fingerprint the user confirmed in the pin dialog.
+  ///
+  /// Returns null when the user cancels or the certificate cannot be fetched.
+  Future<String?> _decidePinBeforeSave(
+    BuildContext context, {
+    required Uri uri,
+    required String? existingPin,
+  }) async {
+    if (existingPin != null && existingPin.isNotEmpty) {
+      return existingPin;
     }
+
+    try {
+      // If the certificate is trusted by the platform, pin it automatically.
+      final info = await fetch(uri, allowBadCertificates: false);
+      if (info != null) {
+        return info.sha256;
+      }
+
+      return '';
+    } on HandshakeException {
+      // Untrusted certificate (likely self-signed). Retrieve fingerprint for user verification.
+    } catch (_) {
+      // Fall back to existing behavior without pin prompt on non-TLS failures.
+      return '';
+    }
+
     if (!context.mounted) return null;
 
-    final loc = AppLocalizations.of(context);
-    if (serversViewModel.editServer.errors.value != null) {
-      showErrorSnackBar(
-        context: context,
-        appConfigViewModel: appConfigViewModel,
-        label: loc.cantSaveConnectionData,
-      );
-
-      return null;
-    }
-
-    showSuccessSnackBar(
-      context: context,
-      appConfigViewModel: appConfigViewModel,
-      label: loc.editServerSuccessfully,
-    );
-
-    return updated;
+    return _confirmPin(context, uri);
   }
 }
