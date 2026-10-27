@@ -403,121 +403,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     );
   }
 
-  Future<String?> ensurePinnedFingerprint({
-    required BuildContext context,
-    required AppConfigViewModel appConfigViewModel,
-    required Uri uri,
-    required String? existingPin,
-  }) async {
-    if (existingPin != null && existingPin.isNotEmpty) {
-      return existingPin;
-    }
-
-    try {
-      // If the certificate is trusted by the platform, pin it automatically.
-      final info = await widget.fetchTlsCertificate(
-        uri,
-        allowBadCertificates: false,
-      );
-      if (info != null) {
-        return info.sha256;
-      }
-
-      return '';
-    } on HandshakeException {
-      // Untrusted certificate (likely self-signed). Retrieve fingerprint for user verification.
-    } catch (_) {
-      // Fall back to existing behavior without pin prompt on non-TLS failures.
-      return '';
-    }
-
-    if (!context.mounted) return null;
-
-    return CertificateTrustFlow(
-      appConfigViewModel: appConfigViewModel,
-      fetch: widget.fetchTlsCertificate,
-    ).confirmPin(context, uri);
-  }
-
-  /// Validates and updates the server's certificate configuration.
-  ///
-  /// This method handles certificate validation and pinning for HTTPS connections.
-  /// It returns the updated Server object if validation succeeds, or null if the
-  /// user cancels or validation fails.
-  ///
-  /// Parameters:
-  /// - [serverObj]: The server object to validate
-  /// - [onValidationFailed]: Optional callback for handling additional cleanup on failure
-  Future<Server?> validateAndUpdateServerCertificate({
-    required Server serverObj,
-    VoidCallback? onValidationFailed,
-  }) async {
-    if (!mounted) return null;
-    final appConfigViewModel = context.read<AppConfigViewModel>();
-    if (connectionType != ConnectionType.https || ignoreCertificateErrors) {
-      // ignore: avoid_redundant_argument_values
-      return serverObj.copyWith(pinnedCertificateSha256: null);
-    }
-
-    final uri = Uri.tryParse(serverObj.address);
-    if (uri == null) {
-      onValidationFailed?.call();
-      showErrorSnackBar(
-        context: context,
-        appConfigViewModel: appConfigViewModel,
-        label: AppLocalizations.of(context).invalidAddress,
-      );
-
-      return null;
-    }
-
-    if (allowUntrustedCert) {
-      // Allow self-signed: prompt user to pin the certificate
-      if (!mounted) return null;
-      final pin = await ensurePinnedFingerprint(
-        context: context,
-        appConfigViewModel: appConfigViewModel,
-        uri: uri,
-        existingPin: serverObj.pinnedCertificateSha256,
-      );
-      if (!mounted) return null;
-      if (pin == null) {
-        onValidationFailed?.call();
-
-        return null;
-      }
-
-      return serverObj.copyWith(
-        pinnedCertificateSha256: pin.isEmpty ? null : pin,
-      );
-    } else {
-      // Strict mode: verify certificate is trusted by the platform
-      try {
-        await widget.fetchTlsCertificate(uri, allowBadCertificates: false);
-
-        // Certificate is trusted, proceed without pin
-        // ignore: avoid_redundant_argument_values
-        return serverObj.copyWith(pinnedCertificateSha256: null);
-      } on HandshakeException {
-        // Certificate not trusted - block connection
-        if (!mounted) return null;
-        onValidationFailed?.call();
-        if (!mounted) return null;
-        showErrorSnackBar(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context).sslErrorLong,
-        );
-
-        return null;
-      } catch (e) {
-        // Other network errors - let connection test handle them
-        // ignore: avoid_redundant_argument_values
-        return serverObj.copyWith(pinnedCertificateSha256: null);
-      }
-    }
-  }
-
   /// Hides the connecting overlay after an unexpected error in the save
   /// command. Command.globalExceptionHandler has already reported the error.
   void _onSaveError(AppConfigViewModel appConfigViewModel) {
@@ -557,8 +442,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           pinnedCertificateSha256: pinnedCertificateSha256,
           secret: NewSecret(_secretFromForm()),
           defaultServer: defaultCheckbox,
-          resolveCertificate: (serverObj) =>
-              validateAndUpdateServerCertificate(serverObj: serverObj),
+          resolveCertificate: (serverObj) => CertificateTrustFlow(
+            appConfigViewModel: appConfigViewModel,
+            fetch: widget.fetchTlsCertificate,
+          ).validateAndUpdateServerCertificate(context, serverObj),
           resolveTotp: ({error}) => showTotpInputModal(context, error: error),
         ),
       );
@@ -644,8 +531,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           secret: secret,
           defaultServer: defaultCheckbox,
           oldServer: widget.server!,
-          resolveCertificate: (serverObj) =>
-              validateAndUpdateServerCertificate(serverObj: serverObj),
+          resolveCertificate: (serverObj) => CertificateTrustFlow(
+            appConfigViewModel: appConfigViewModel,
+            fetch: widget.fetchTlsCertificate,
+          ).validateAndUpdateServerCertificate(context, serverObj),
           resolveTotp: ({error}) => showTotpInputModal(context, error: error),
         ),
       );

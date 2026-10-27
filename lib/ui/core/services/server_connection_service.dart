@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
@@ -99,7 +98,8 @@ class ServerConnectionService {
     _startConnection();
 
     try {
-      final serverForLogin = await _ensurePinnedFingerprintIfNeeded(server);
+      final serverForLogin = await _certificateFlow
+          .ensurePinnedFingerprintIfNeeded(context, server, serversViewModel);
       if (serverForLogin == null) {
         _abortConnection(previouslySelectedServer);
 
@@ -252,48 +252,6 @@ class ServerConnectionService {
     statusViewModel.startAutoRefresh();
   }
 
-  Future<Server?> _ensurePinnedFingerprintIfNeeded(Server server) async {
-    if (!context.mounted) return server;
-
-    Uri uri;
-    try {
-      uri = Uri.parse(server.address);
-    } catch (_) {
-      return server;
-    }
-
-    final pin = server.pinnedCertificateSha256;
-    final hasPin = pin != null && pin.trim().isNotEmpty;
-    if (uri.scheme != 'https' ||
-        server.ignoreCertificateErrors ||
-        !server.allowUntrustedCert ||
-        hasPin) {
-      return server;
-    }
-
-    // If the platform TLS validation succeeds, treat the connection as verified
-    // and do not require pin setup (user may still choose to pin manually).
-    try {
-      await fetchTlsCertificate(
-        uri,
-        allowBadCertificates: false,
-        timeout: const Duration(seconds: 3),
-      );
-
-      return server;
-    } on HandshakeException {
-      // Untrusted certificate + allowUntrustedCert enabled + no pin:
-      // prompt the user to pin before connecting.
-    } catch (_) {
-      // Network issues etc. are handled by the normal connection flow.
-      return server;
-    }
-
-    if (!context.mounted) return null;
-
-    return _certificateFlow.pinAndSave(context, server, serversViewModel);
-  }
-
   bool _isSslError(Exception error) {
     return error is HttpStatusCodeException && error.statusCode == 495;
   }
@@ -404,7 +362,9 @@ class ServerConnectionService {
   // updated and a reconnect was attempted. Callers ensure the error is an SSL
   // error and [targetContext] is mounted.
   Future<bool> _promptCertificateRecovery(BuildContext targetContext) async {
-    final isPinMismatch = await _isPinnedCertificateMismatch(server);
+    final isPinMismatch = await _certificateFlow.isPinnedCertificateMismatch(
+      server,
+    );
 
     if (!targetContext.mounted) return false;
     final loc = AppLocalizations.of(targetContext);
@@ -514,40 +474,6 @@ class ServerConnectionService {
           ),
         ),
       );
-    }
-  }
-
-  Future<bool> _isPinnedCertificateMismatch(Server server) async {
-    final pin = server.pinnedCertificateSha256;
-    if (pin == null || pin.trim().isEmpty) return false;
-
-    Uri uri;
-    try {
-      uri = Uri.parse(server.address);
-    } catch (_) {
-      return false;
-    }
-    if (uri.scheme != 'https') return false;
-
-    // Only attempt mismatch detection when the app is configured to allow
-    // untrusted certificates (pin fallback path).
-    if (server.ignoreCertificateErrors) return false;
-    if (!server.allowUntrustedCert) return false;
-
-    try {
-      final info = await fetchTlsCertificate(
-        uri,
-        allowBadCertificates: true,
-        timeout: const Duration(seconds: 3),
-      );
-      if (info == null) return false;
-
-      String normalize(String value) =>
-          value.replaceAll(':', '').toLowerCase().trim();
-
-      return normalize(info.sha256) != normalize(pin);
-    } catch (_) {
-      return false;
     }
   }
 }
