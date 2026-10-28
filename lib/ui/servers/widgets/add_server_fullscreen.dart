@@ -6,13 +6,15 @@ import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/secret_input.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/domain/use_cases/server_connection/certificate_check_usecase.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/ui/certificate/certificate_trust_flow.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/components/totp_input_modal.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/certificate_block_reason_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/urls.dart';
+import 'package:pi_hole_client/ui/core/ui/modals/confirm_pin_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/scan_token_modal.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
@@ -403,6 +405,36 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     );
   }
 
+  /// Checks the certificate of [server] before the save.
+  ///
+  /// Returns the server to save, or null when the user cancels or the
+  /// certificate is blocked.
+  Future<Server?> _checkCertificateBeforeSave(Server server) async {
+    final outcome =
+        await CertificateCheckUseCase(
+          tlsCertFetcher: widget.fetchTlsCertificate,
+        ).checkBeforeSave(
+          server,
+          confirmPin: (info) => showConfirmPinModal(context, info),
+        );
+    if (!mounted) return null;
+
+    switch (outcome) {
+      case CertificateResolved(server: final checked):
+        return checked;
+      case CertificateCancelled():
+        return null;
+      case CertificateBlocked(:final reason):
+        showErrorSnackBar(
+          context: context,
+          appConfigViewModel: context.read<AppConfigViewModel>(),
+          label: reason.label(AppLocalizations.of(context)),
+        );
+
+        return null;
+    }
+  }
+
   /// Hides the connecting overlay after an unexpected error in the save
   /// command. Command.globalExceptionHandler has already reported the error.
   void _onSaveError(AppConfigViewModel appConfigViewModel) {
@@ -442,10 +474,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           pinnedCertificateSha256: pinnedCertificateSha256,
           secret: NewSecret(_secretFromForm()),
           defaultServer: defaultCheckbox,
-          resolveCertificate: (serverObj) => CertificateTrustFlow(
-            appConfigViewModel: appConfigViewModel,
-            tlsCertFetcher: widget.fetchTlsCertificate,
-          ).checkBeforeSave(context, serverObj),
+          resolveCertificate: _checkCertificateBeforeSave,
           resolveTotp: ({error}) => showTotpInputModal(context, error: error),
         ),
       );
@@ -531,10 +560,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           secret: secret,
           defaultServer: defaultCheckbox,
           oldServer: widget.server!,
-          resolveCertificate: (serverObj) => CertificateTrustFlow(
-            appConfigViewModel: appConfigViewModel,
-            tlsCertFetcher: widget.fetchTlsCertificate,
-          ).checkBeforeSave(context, serverObj),
+          resolveCertificate: _checkCertificateBeforeSave,
           resolveTotp: ({error}) => showTotpInputModal(context, error: error),
         ),
       );

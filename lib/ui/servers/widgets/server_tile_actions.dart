@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/ui/core/actions/pin_and_save.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/ui/certificate/certificate_trust_flow.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
@@ -225,10 +225,7 @@ class ServerTileActions extends StatelessWidget {
     BuildContext context,
     Server server,
   ) async {
-    await CertificateTrustFlow(
-      appConfigViewModel: context.read<AppConfigViewModel>(),
-      tlsCertFetcher: fetchTlsCertificate,
-    ).pinAndSave(context, server, context.read<ServersViewModel>());
+    await pinAndSave(context, server, tlsCertFetcher: fetchTlsCertificate);
   }
 }
 

@@ -6,10 +6,11 @@ import 'package:pi_hole_client/domain/model/dns/dns.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/domain/model/server/server_auth.dart';
+import 'package:pi_hole_client/domain/use_cases/server_connection/certificate_check_usecase.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection/connect_server_usecase.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_totp.dart';
+import 'package:pi_hole_client/ui/core/actions/pin_and_save.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/ui/certificate/certificate_trust_flow.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/globals.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
@@ -98,11 +99,7 @@ class ServerConnectionService {
     _startConnection();
 
     try {
-      final serverForLogin = await _certificateFlow.checkBeforeConnect(
-        context,
-        server,
-        serversViewModel,
-      );
+      final serverForLogin = await _checkCertificateBeforeConnect();
       if (serverForLogin == null) {
         _abortConnection(previouslySelectedServer);
 
@@ -365,7 +362,9 @@ class ServerConnectionService {
   // updated and a reconnect was attempted. Callers ensure the error is an SSL
   // error and [targetContext] is mounted.
   Future<bool> _promptCertificateRecovery(BuildContext targetContext) async {
-    final isPinMismatch = await _certificateFlow.isPinMismatch(server);
+    final isPinMismatch = await _certificateCheck.hasConfirmedPinMismatch(
+      server,
+    );
 
     if (!targetContext.mounted) return false;
     final loc = AppLocalizations.of(targetContext);
@@ -405,10 +404,10 @@ class ServerConnectionService {
 
     if (shouldEdit == true && targetContext.mounted) {
       if (isPinMismatch) {
-        final updated = await _certificateFlow.pinAndSave(
+        final updated = await pinAndSave(
           targetContext,
           server,
-          serversViewModel,
+          tlsCertFetcher: fetchTlsCertificate,
         );
         if (updated != null && targetContext.mounted) {
           await ServerConnectionService(
@@ -444,10 +443,20 @@ class ServerConnectionService {
     return _promptCertificateRecovery(context);
   }
 
-  CertificateTrustFlow get _certificateFlow => CertificateTrustFlow(
-    appConfigViewModel: appConfigViewModel,
-    tlsCertFetcher: fetchTlsCertificate,
-  );
+  CertificateCheckUseCase get _certificateCheck =>
+      CertificateCheckUseCase(tlsCertFetcher: fetchTlsCertificate);
+
+  /// Asks the user to pin an untrusted certificate before connecting.
+  ///
+  /// Returns the server to connect to, or null when the user cancels or the
+  /// pin is not saved.
+  Future<Server?> _checkCertificateBeforeConnect() async {
+    if (!context.mounted) return server;
+    if (!await _certificateCheck.needsPinBeforeConnect(server)) return server;
+    if (!context.mounted) return null;
+
+    return pinAndSave(context, server, tlsCertFetcher: fetchTlsCertificate);
+  }
 
   void _openEditServer(BuildContext context, Server server) {
     final width = MediaQuery.of(context).size.width;

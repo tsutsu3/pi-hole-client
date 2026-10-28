@@ -1,4 +1,4 @@
-/// @docImport 'package:pi_hole_client/ui/core/ui/certificate/certificate_trust_flow.dart';
+/// @docImport 'package:pi_hole_client/domain/use_cases/server_connection/certificate_check_usecase.dart';
 library;
 
 import 'package:pi_hole_client/domain/model/server/server.dart';
@@ -11,5 +11,5 @@ import 'package:pi_hole_client/domain/model/server/server.dart';
 /// to do with the result.
 ///
 /// In the app, the add/edit screen passes a function that calls
-/// [CertificateTrustFlow.checkBeforeSave].
+/// [CertificateCheckUseCase.checkBeforeSave].
 typedef ResolveCertificate = Future<Server?> Function(Server server);
