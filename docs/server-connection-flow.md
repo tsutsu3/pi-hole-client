@@ -15,7 +15,7 @@ command and maps the outcome to UI (snackbar / navigation). UI that the
 orchestration needs mid-flow is injected per request as callbacks, so the view
 model never touches `BuildContext`:
 
-- `resolveCertificate` - the certificate pin dialog + SSL-error snackbar.
+- `resolveCertificate` - the certificate check (see "Certificate check").
 - `resolveTotp` - the 6-digit TOTP (2FA) input modal, used on v6 login when the
   server requires two-factor auth. Returns the entered code or `null` on cancel.
 
@@ -190,6 +190,27 @@ sequenceDiagram
 See `lib/ui/shell/base.dart` (`_onFatalConnectionError`) and
 `lib/ui/core/actions/handle_totp_reauth.dart`.
 
+## Certificate check - `CertificateCheckUseCase`
+
+The certificate rules live in the use case. It never shows UI: the pin dialog
+is passed in as `ConfirmPin`, and the caller shows a snackbar for
+`CertificateBlocked`. Only an https server that allows untrusted certificates
+(and does not ignore errors) is pinned.
+
+| Entry point | Called from | Then |
+| ----------- | ----------- | ---- |
+| `checkBeforeSave` | add / edit screen | resolved / cancelled / blocked |
+| `needsPinBeforeConnect` | `ServerConnectionService.connect` | true → `pinAndSave` |
+| `repin` | `pinAndSave` (server list menu, 495 recovery) | resolved / cancelled / blocked |
+| `hasConfirmedPinMismatch` | 495 recovery | true → "Update" (`pinAndSave`), false → "Edit" |
+
+The save is stricter than the connection: it pins a trusted certificate
+automatically and blocks an untrusted one in strict mode. The connection does
+neither; a bad certificate fails with a 495 and starts the recovery.
+
+All cases are listed in
+`test/domain/use_cases/server_connection/certificate_check_usecase_test.dart`.
+
 ## Session setup - `ConnectServerUseCase.connect`
 
 Shared by the add / edit flow and the connect flow. It sets up the v6 session
@@ -343,12 +364,9 @@ sequenceDiagram
   `createServer` and `updateServer` abort (`CreateCancelled` / `UpdateCancelled`)
   when the pin dialog is cancelled or the certificate is blocked; no connection
   is attempted.
-- The view model never shows UI itself. The certificate pin dialog and SSL-error
-  snackbar live in the widget and are reached via the `resolveCertificate`
-  callback passed in the request. Every path that blocks on a certificate must
-  show its own message there, including the one where the fingerprint cannot be
-  fetched at all (e.g. HTTPS picked for a plain HTTP port) - otherwise the
-  `Cancelled` outcome maps to a silent no-op and the user sees nothing.
+- The view model never shows UI itself. Every `CertificateBlocked` reason has a
+  snackbar message (`CertificateBlockReason.label`), so a blocked save is never
+  silent.
 - **TOTP (2FA) is v6-only and handled inside login** (`ConnectServerUseCase`).
   The view model never shows the prompt; it passes the injected `resolveTotp`
   callback, which the widget backs with the TOTP input modal. Wrong / reused
