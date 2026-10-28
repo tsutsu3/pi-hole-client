@@ -446,7 +446,7 @@ class ServerConnectionService {
 
   CertificateTrustFlow get _certificateFlow => CertificateTrustFlow(
     appConfigViewModel: appConfigViewModel,
-    fetch: fetchTlsCertificate,
+    tlsCertFetcher: fetchTlsCertificate,
   );
 
   void _openEditServer(BuildContext context, Server server) {

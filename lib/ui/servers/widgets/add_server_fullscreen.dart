@@ -444,7 +444,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           defaultServer: defaultCheckbox,
           resolveCertificate: (serverObj) => CertificateTrustFlow(
             appConfigViewModel: appConfigViewModel,
-            fetch: widget.fetchTlsCertificate,
+            tlsCertFetcher: widget.fetchTlsCertificate,
           ).checkBeforeSave(context, serverObj),
           resolveTotp: ({error}) => showTotpInputModal(context, error: error),
         ),
@@ -533,7 +533,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           oldServer: widget.server!,
           resolveCertificate: (serverObj) => CertificateTrustFlow(
             appConfigViewModel: appConfigViewModel,
-            fetch: widget.fetchTlsCertificate,
+            tlsCertFetcher: widget.fetchTlsCertificate,
           ).checkBeforeSave(context, serverObj),
           resolveTotp: ({error}) => showTotpInputModal(context, error: error),
         ),

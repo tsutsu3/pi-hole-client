@@ -227,7 +227,7 @@ class ServerTileActions extends StatelessWidget {
   ) async {
     await CertificateTrustFlow(
       appConfigViewModel: context.read<AppConfigViewModel>(),
-      fetch: fetchTlsCertificate,
+      tlsCertFetcher: fetchTlsCertificate,
     ).pinAndSave(context, server, context.read<ServersViewModel>());
   }
 }
