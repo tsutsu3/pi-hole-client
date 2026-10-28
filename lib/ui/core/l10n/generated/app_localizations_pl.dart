@@ -1896,10 +1896,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get serverAddress => 'Adres serwera';
 
   @override
-  String get serverCertificateFetchFailed =>
-      'Nie udało się pobrać informacji o certyfikacie.';
-
-  @override
   String get serverCertificateHandshakeFailed =>
       'Nie udało się nawiązać bezpiecznego połączenia. Sprawdź, czy serwer używa HTTPS na tym porcie.';
 

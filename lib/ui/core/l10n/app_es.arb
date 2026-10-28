@@ -601,7 +601,6 @@
   "selectedDisconnected": "Seleccionado pero desconectado",
   "sendCrashReport": "Enviar informe de fallos",
   "serverAddress": "Dirección del servidor",
-  "serverCertificateFetchFailed": "No se pudo obtener la información del certificado.",
   "serverCertificateHandshakeFailed": "No se pudo establecer una conexión segura. Comprueba que el servidor use HTTPS en este puerto.",
   "serverCertificateIssueDetected": "Se detectó un problema de certificado. Es posible que el certificado del servidor haya cambiado.",
   "serverCertificateIssueHelp": "El certificado TLS del servidor puede haber cambiado o volverse no confiable. Revisa la configuración del servidor y actualiza la huella fijada si es necesario.",

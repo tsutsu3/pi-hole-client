@@ -29,6 +29,15 @@ typedef TlsCertificateFetcher =
       Duration timeout,
     });
 
+/// Whether two SHA-256 fingerprints are the same. Colons, case and spaces
+/// around the value are ignored.
+bool fingerprintsMatch(String a, String b) {
+  String normalize(String value) =>
+      value.replaceAll(':', '').toLowerCase().trim();
+
+  return normalize(a) == normalize(b);
+}
+
 /// Fetches the server TLS certificate SHA-256 fingerprint (if available).
 ///
 /// This function performs a TLS handshake using [SecureSocket.connect] and returns

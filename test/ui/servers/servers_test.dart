@@ -715,7 +715,10 @@ void main() async {
 
         // fetchTlsCertificateInfo throws → error snackbar shown
         expect(
-          find.text('Could not fetch certificate information.'),
+          find.text(
+            "Couldn't establish a secure connection. "
+            'Check that the server uses HTTPS on this port.',
+          ),
           findsOneWidget,
         );
       },

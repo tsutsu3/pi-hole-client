@@ -1882,10 +1882,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get serverAddress => 'Server address';
 
   @override
-  String get serverCertificateFetchFailed =>
-      'Could not fetch certificate information.';
-
-  @override
   String get serverCertificateHandshakeFailed =>
       'Couldn\'t establish a secure connection. Check that the server uses HTTPS on this port.';
 

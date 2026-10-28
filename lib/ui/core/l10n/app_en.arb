@@ -600,7 +600,6 @@
   "selectedDisconnected": "Selected but disconnected",
   "sendCrashReport": "Send Crash Report",
   "serverAddress": "Server address",
-  "serverCertificateFetchFailed": "Could not fetch certificate information.",
   "serverCertificateHandshakeFailed": "Couldn't establish a secure connection. Check that the server uses HTTPS on this port.",
   "serverCertificateIssueDetected": "A certificate issue was detected. The server's certificate may have changed.",
   "serverCertificateIssueHelp": "The server's TLS certificate may have changed or become untrusted. Review the server settings and update the pinned fingerprint if needed.",

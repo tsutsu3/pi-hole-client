@@ -600,7 +600,6 @@
   "selectedDisconnected": "選択済みだが切断中",
   "sendCrashReport": "クラッシュレポート送信",
   "serverAddress": "サーバーアドレス",
-  "serverCertificateFetchFailed": "証明書情報を取得できませんでした。",
   "serverCertificateHandshakeFailed": "セキュア接続を確立できませんでした。このポートでHTTPSが有効か確認してください。",
   "serverCertificateIssueDetected": "証明書の問題が検出されました。サーバーの証明書が変わった可能性があります。",
   "serverCertificateIssueHelp": "TLS 証明書が変更された、または信頼できない状態になっている可能性があります。サーバー設定を確認し、必要に応じてピン留め（SHA-256）を更新してください。",

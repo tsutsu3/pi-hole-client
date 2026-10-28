@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/ui/core/actions/pin_and_save.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
@@ -9,7 +10,6 @@ import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dart';
 import 'package:pi_hole_client/ui/servers/widgets/transport_security_indicator.dart';
-import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
 import 'package:provider/provider.dart';
 
@@ -108,7 +108,12 @@ class ServerTileActions extends StatelessWidget {
                 ],
               ),
               const SizedBox(width: 8),
-              Expanded(child: TransportSecurityIndicator(server: server)),
+              Expanded(
+                child: TransportSecurityIndicator(
+                  server: server,
+                  fetchTlsCertificate: fetchTlsCertificate,
+                ),
+              ),
             ],
           ),
         ),
@@ -179,7 +184,7 @@ class ServerTileActions extends StatelessWidget {
       showErrorSnackBar(
         context: context,
         appConfigViewModel: appConfigViewModel,
-        label: loc.serverCertificateFetchFailed,
+        label: loc.serverCertificateHandshakeFailed,
       );
 
       return null;
@@ -220,62 +225,7 @@ class ServerTileActions extends StatelessWidget {
     BuildContext context,
     Server server,
   ) async {
-    final uri = _tryParseHttpsUri(server.address);
-    if (uri == null) return;
-
-    final loc = AppLocalizations.of(context);
-    final appConfigViewModel = context.read<AppConfigViewModel>();
-    final serversViewModel = context.read<ServersViewModel>();
-
-    final certificateInfo = await _fetchAndValidateCertificate(context, uri);
-    if (certificateInfo == null) return;
-
-    if (!context.mounted) return;
-
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => CertificateDetailsDialog(
-        title: loc.serverCertificateUpdatePinTitle,
-        description: loc.serverCertificateUpdatePinHelp,
-        certificateInfo: certificateInfo,
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, false),
-            child: Text(loc.cancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext, true),
-            child: Text(loc.confirm),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed != true || !context.mounted) return;
-
-    final updated = server.copyWith(
-      pinnedCertificateSha256: certificateInfo.sha256,
-    );
-    try {
-      await serversViewModel.editServer.runAsync(updated);
-    } catch (e, s) {
-      logger.e('Failed to update pinned certificate', error: e, stackTrace: s);
-    }
-    if (!context.mounted) return;
-
-    if (serversViewModel.editServer.errors.value == null) {
-      showSuccessSnackBar(
-        context: context,
-        appConfigViewModel: appConfigViewModel,
-        label: loc.editServerSuccessfully,
-      );
-    } else {
-      showErrorSnackBar(
-        context: context,
-        appConfigViewModel: appConfigViewModel,
-        label: loc.cantSaveConnectionData,
-      );
-    }
+    await pinAndSave(context, server, tlsCertFetcher: fetchTlsCertificate);
   }
 }
 
