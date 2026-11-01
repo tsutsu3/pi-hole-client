@@ -4,6 +4,7 @@ import 'package:pi_hole_client/domain/model/dns/dns.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/secret_input.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_certificate.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_totp.dart';
 import 'package:pi_hole_client/ui/servers/view_models/add_server_viewmodel.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';

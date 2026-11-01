@@ -9,11 +9,11 @@ import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/servers/widgets/add_server_fullscreen.dart';
 import 'package:pi_hole_client/ui/servers/widgets/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
-import 'package:pi_hole_client/utils/tls_certificate.dart';
 
 import '../../../testing/fakes/repositories/api/fake_auth_repository.dart';
 import '../../../testing/fakes/repositories/api/fake_dns_repository.dart';
 import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../testing/fakes/services/fake_tls_certificate_fetcher.dart';
 import '../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
 import '../../../testing/fakes/viewmodels/fake_status_viewmodel.dart';
 import '../../../testing/test_app.dart';
@@ -73,49 +73,22 @@ const _serverHttpsNoPin = Server(
   ignoreCertificateErrors: false,
 );
 
+const _serverHttpsStrict = Server(
+  address: 'https://pi.hole',
+  alias: 'https v6',
+  defaultServer: false,
+  apiVersion: 'v6',
+  allowUntrustedCert: false,
+  ignoreCertificateErrors: false,
+);
+
+const _sslErrorMessage =
+    "SSL error. The server's certificate may be invalid, self-signed, "
+    'or have an incomplete chain.';
+
 const _handshakeFailedMessage =
     "Couldn't establish a secure connection. "
     'Check that the server uses HTTPS on this port.';
-
-TlsCertificateInfo _certInfo({String sha256 = 'new:fingerprint'}) {
-  return TlsCertificateInfo(
-    sha256: sha256,
-    subject: 'CN=pi.hole',
-    issuer: 'CN=test',
-    startValidity: DateTime(2020),
-    endValidity: DateTime(2030),
-  );
-}
-
-/// A recording [TlsCertificateFetcher] for the certificate-flow tests.
-class _FakeFetcher {
-  _FakeFetcher({
-    this.onStrict,
-    this.strictError,
-    this.onAllowBad,
-    this.allowBadError,
-  });
-
-  final TlsCertificateInfo? onStrict;
-  final Exception? strictError;
-  final TlsCertificateInfo? onAllowBad;
-  final Exception? allowBadError;
-  int callCount = 0;
-
-  Future<TlsCertificateInfo?> call(
-    Uri uri, {
-    required bool allowBadCertificates,
-    Duration timeout = const Duration(seconds: 5),
-  }) async {
-    callCount++;
-    if (!allowBadCertificates) {
-      if (strictError != null) throw strictError!;
-      return onStrict;
-    }
-    if (allowBadError != null) throw allowBadError!;
-    return onAllowBad;
-  }
-}
 
 void main() async {
   await initTestApp();
@@ -1078,7 +1051,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      final fetcher = _FakeFetcher(onStrict: _certInfo());
+      final fetcher = FakeTlsCertificateFetcher(onStrict: fakeCertInfo());
 
       await tester.pumpWidget(
         buildWidget(
@@ -1113,9 +1086,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      final fetcher = _FakeFetcher(
+      final fetcher = FakeTlsCertificateFetcher(
         strictError: const HandshakeException(),
-        onAllowBad: _certInfo(sha256: 'new:fingerprint'),
+        onAllowBad: fakeCertInfo(sha256: 'new:fingerprint'),
       );
 
       await tester.pumpWidget(
@@ -1138,6 +1111,7 @@ void main() async {
       await tester.pump(const Duration(milliseconds: 500));
 
       expect(find.byType(CertificateDetailsDialog), findsOneWidget);
+      expect(find.text('Update pinned fingerprint'), findsOneWidget);
 
       await tester.tap(find.widgetWithText(TextButton, 'Confirm'));
       await tester.pump();
@@ -1168,9 +1142,9 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      final fetcher = _FakeFetcher(
+      final fetcher = FakeTlsCertificateFetcher(
         strictError: const HandshakeException(),
-        onAllowBad: _certInfo(),
+        onAllowBad: fakeCertInfo(),
       );
 
       await tester.pumpWidget(
@@ -1220,9 +1194,9 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        final fetcher = _FakeFetcher(
+        final fetcher = FakeTlsCertificateFetcher(
           strictError: const HandshakeException(),
-          onAllowBad: _certInfo(),
+          onAllowBad: fakeCertInfo(),
         );
 
         await tester.pumpWidget(
@@ -1271,7 +1245,7 @@ void main() async {
           tester.view.resetDevicePixelRatio();
         });
 
-        final fetcher = _FakeFetcher(onStrict: _certInfo());
+        final fetcher = FakeTlsCertificateFetcher(onStrict: fakeCertInfo());
 
         await tester.pumpWidget(
           buildWidget(
@@ -1305,7 +1279,7 @@ void main() async {
         useLargeView(tester);
 
         // Both probes fail.
-        final fetcher = _FakeFetcher(
+        final fetcher = FakeTlsCertificateFetcher(
           strictError: const HandshakeException(),
           allowBadError: const HandshakeException(),
         );
@@ -1343,7 +1317,7 @@ void main() async {
       (WidgetTester tester) async {
         useLargeView(tester);
 
-        final fetcher = _FakeFetcher(
+        final fetcher = FakeTlsCertificateFetcher(
           strictError: const HandshakeException(),
           allowBadError: const HandshakeException(),
         );
@@ -1371,6 +1345,96 @@ void main() async {
         expect(serversViewModel.savePasswordCallCount, 0);
       },
     );
+
+    group('strict mode', () {
+      Future<void> renameAndSave(
+        WidgetTester tester,
+        FakeTlsCertificateFetcher fetcher,
+      ) async {
+        useLargeView(tester);
+        serversViewModel.storedRows[_serverHttpsStrict.address] =
+            _serverHttpsStrict;
+
+        await tester.pumpWidget(
+          buildWidget(
+            AddServerFullscreen(
+              window: false,
+              title: 'test',
+              server: _serverHttpsStrict,
+              fetchTlsCertificate: fetcher.call,
+            ),
+          ),
+        );
+
+        await tester.enterText(find.byType(TextField).at(0), 'renamed');
+        await tester.tap(find.byIcon(Icons.save_rounded));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 1000));
+      }
+
+      /// Checks the state after one save of [_serverHttpsStrict].
+      void expectStrictSaveResult(
+        FakeTlsCertificateFetcher fetcher, {
+        required String storedAlias,
+        required String message,
+      }) {
+        expect(fetcher.callCount, 1, reason: 'only the strict check runs');
+        expect(
+          find.byType(CertificateDetailsDialog),
+          findsNothing,
+          reason: 'no pin dialog in strict mode',
+        );
+        expect(
+          serversViewModel.storedRows[_serverHttpsStrict.address]?.alias,
+          storedAlias,
+          reason: 'stored alias',
+        );
+        expect(
+          serversViewModel
+              .storedRows[_serverHttpsStrict.address]
+              ?.pinnedCertificateSha256,
+          isNull,
+          reason: 'stored pin',
+        );
+        expect(
+          serversViewModel.savePasswordCallCount,
+          0,
+          reason: 'the unchanged password is not written',
+        );
+        expect(find.text(message), findsOneWidget, reason: 'snackbar');
+      }
+
+      testWidgets('a trusted certificate is saved without a pin', (
+        WidgetTester tester,
+      ) async {
+        final fetcher = FakeTlsCertificateFetcher(onStrict: fakeCertInfo());
+
+        await renameAndSave(tester, fetcher);
+
+        expectStrictSaveResult(
+          fetcher,
+          storedAlias: 'renamed',
+          message: 'Server settings updated successfully.',
+        );
+      });
+
+      testWidgets('an untrusted certificate is blocked and not saved', (
+        WidgetTester tester,
+      ) async {
+        final fetcher = FakeTlsCertificateFetcher(
+          strictError: const HandshakeException(),
+          onAllowBad: fakeCertInfo(),
+        );
+
+        await renameAndSave(tester, fetcher);
+
+        expectStrictSaveResult(
+          fetcher,
+          storedAlias: _serverHttpsStrict.alias,
+          message: _sslErrorMessage,
+        );
+      });
+    });
 
     // Server-edit flow tests.
     testWidgets(
@@ -2049,7 +2113,7 @@ void main() async {
         'fingerprint', (WidgetTester tester) async {
       useLargeView(tester);
 
-      final fetcher = _FakeFetcher(onStrict: _certInfo());
+      final fetcher = FakeTlsCertificateFetcher(onStrict: fakeCertInfo());
 
       await tester.pumpWidget(
         buildWidget(

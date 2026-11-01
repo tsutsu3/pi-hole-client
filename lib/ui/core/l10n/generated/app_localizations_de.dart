@@ -1920,10 +1920,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get serverAddress => 'Server Adresse';
 
   @override
-  String get serverCertificateFetchFailed =>
-      'Zertifikatsinformationen konnten nicht abgerufen werden.';
-
-  @override
   String get serverCertificateHandshakeFailed =>
       'Sichere Verbindung konnte nicht hergestellt werden. Prüfen Sie, ob der Server auf diesem Port HTTPS verwendet.';
 

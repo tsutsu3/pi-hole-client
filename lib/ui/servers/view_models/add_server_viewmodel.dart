@@ -2,11 +2,8 @@
 // [StatusViewModel] (a cross-view-model dependency). The server-list mutations
 // (addServer/editServer/replaceServer) are Commands whose notify/refresh side
 // effects must be preserved, so the orchestration reuses them rather than the
-// lower-level repositories. The certificate UI (pin dialog, ssl error snackbar)
-// stays in the widget and is injected per request via [resolveCertificate].
-
-/// @docImport 'package:pi_hole_client/ui/servers/widgets/add_server_fullscreen.dart';
-library;
+// lower-level repositories. The certificate check (pin dialog, ssl error
+// snackbar) is UI, so it is injected per request via [resolveCertificate].
 
 import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
@@ -16,20 +13,12 @@ import 'package:pi_hole_client/domain/model/server/secret_input.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/domain/model/server/server_auth.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection/connect_server_usecase.dart';
+import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_certificate.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_totp.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/url.dart';
-
-/// Resolves and validates the certificate for [server], returning the updated
-/// server (possibly with a pinned fingerprint) or `null` when the user cancels
-/// or the certificate is rejected. The dialog and ssl-error snackbar live in the
-/// widget; the view model only decides what to do with the result.
-///
-/// In the app, it calls `validateAndUpdateServerCertificate` in
-/// [AddServerFullscreen].
-typedef ResolveCertificate = Future<Server?> Function(Server server);
 
 /// Request for [AddServerViewModel.createServer] (adding a new server).
 class CreateServerRequest {

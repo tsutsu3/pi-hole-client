@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/domain/model/dns/dns.dart';
@@ -8,11 +10,13 @@ import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_totp.d
 import 'package:pi_hole_client/ui/core/services/server_connection_service.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
+import 'package:pi_hole_client/utils/tls_certificate.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../../../../testing/fakes/repositories/api/fake_auth_repository.dart';
 import '../../../../testing/fakes/repositories/api/fake_dns_repository.dart';
 import '../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
+import '../../../../testing/fakes/services/fake_tls_certificate_fetcher.dart';
 import '../../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
 import '../../../../testing/fakes/viewmodels/fake_status_viewmodel.dart';
 import '../../../../testing/test_app.dart';
@@ -63,6 +67,25 @@ const _serverV5 = Server(
   ignoreCertificateErrors: false,
 );
 
+const _serverHttps = Server(
+  address: 'https://pi.hole',
+  alias: 'https',
+  apiVersion: SupportedApiVersions.v6,
+  defaultServer: false,
+  allowUntrustedCert: true,
+  ignoreCertificateErrors: false,
+);
+
+const _serverHttpsPinned = Server(
+  address: 'https://pi.hole',
+  alias: 'https',
+  apiVersion: SupportedApiVersions.v6,
+  defaultServer: false,
+  allowUntrustedCert: true,
+  ignoreCertificateErrors: false,
+  pinnedCertificateSha256: 'old:fingerprint',
+);
+
 void main() async {
   await initTestApp();
 
@@ -105,6 +128,7 @@ void main() async {
       required Server server,
       required FakeDnsRepository dns,
       ResolveTotp? resolveTotp,
+      TlsCertificateFetcher? fetchTlsCertificate,
     }) {
       return ServerConnectionService(
         context: context,
@@ -119,6 +143,8 @@ void main() async {
           apiVersion: server.apiVersion,
         ),
         resolveTotp: resolveTotp ?? ({error}) async => null,
+        fetchTlsCertificate:
+            fetchTlsCertificate ?? FakeTlsCertificateFetcher().call,
       );
     }
 
@@ -449,6 +475,258 @@ void main() async {
         statusViewModel.startAutoRefreshCallCount,
         greaterThanOrEqualTo(1),
       );
+    });
+
+    group('certificate checks', () {
+      /// Lets the dialogs open or close.
+      Future<void> settle(WidgetTester tester) async {
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 500));
+      }
+
+      /// Checks the state after one connect run to [_serverHttps].
+      ///
+      /// [message] is the snackbar text, or null when no snackbar is shown.
+      void expectConnectResult({
+        required String? storedPin,
+        required Server selected,
+        required String? message,
+      }) {
+        expect(
+          serversViewModel
+              .storedRows[_serverHttps.address]
+              ?.pinnedCertificateSha256,
+          storedPin,
+          reason: 'stored pin',
+        );
+        expect(
+          serversViewModel.selectedServer,
+          selected,
+          reason: 'selected server',
+        );
+        expect(
+          serversViewModel.connectingServer,
+          isNull,
+          reason: 'connecting guard is released',
+        );
+        expect(
+          message == null ? find.byType(SnackBar) : find.text(message),
+          message == null ? findsNothing : findsOneWidget,
+          reason: 'snackbar',
+        );
+      }
+
+      /// Checks the state after one recovery run on [_serverHttpsPinned].
+      void expectRecoveryResult({
+        required bool reconnected,
+        required bool actual,
+        required String storedPin,
+      }) {
+        expect(actual, reconnected, reason: 'reconnected');
+        expect(
+          serversViewModel
+              .storedRows[_serverHttpsPinned.address]
+              ?.pinnedCertificateSha256,
+          storedPin,
+          reason: 'stored pin',
+        );
+        expect(
+          serversViewModel.selectedServer?.pinnedCertificateSha256,
+          storedPin,
+          reason: 'pin of the selected server',
+        );
+      }
+
+      // connect(): a server with no pin and an untrusted certificate.
+
+      testWidgets('confirming the pin dialog stores the pin and connects', (
+        tester,
+      ) async {
+        serversViewModel
+          ..selectedServer = _otherV6
+          ..storedRows[_serverHttps.address] = _serverHttps;
+        final fetcher = FakeTlsCertificateFetcher(
+          strictError: const HandshakeException(),
+          onAllowBad: fakeCertInfo(),
+        );
+        final ctx = await pumpContext(tester);
+
+        final done = buildService(
+          ctx,
+          server: _serverHttps,
+          dns: FakeDnsRepository(),
+          fetchTlsCertificate: fetcher.call,
+        ).connect();
+        await settle(tester);
+
+        expect(find.text('Update pinned fingerprint'), findsOneWidget);
+        await tester.tap(find.text('Confirm'));
+        await settle(tester);
+        await done;
+
+        expectConnectResult(
+          storedPin: 'new:fingerprint',
+          selected: _serverHttps.copyWith(
+            pinnedCertificateSha256: 'new:fingerprint',
+          ),
+          message: 'Server settings updated successfully.',
+        );
+      });
+
+      testWidgets('cancelling the pin dialog keeps the previous server', (
+        tester,
+      ) async {
+        serversViewModel
+          ..selectedServer = _otherV6
+          ..storedRows[_serverHttps.address] = _serverHttps;
+        final fetcher = FakeTlsCertificateFetcher(
+          strictError: const HandshakeException(),
+          onAllowBad: fakeCertInfo(),
+        );
+        final ctx = await pumpContext(tester);
+
+        final done = buildService(
+          ctx,
+          server: _serverHttps,
+          dns: FakeDnsRepository(),
+          fetchTlsCertificate: fetcher.call,
+        ).connect();
+        await settle(tester);
+
+        expect(find.text('Update pinned fingerprint'), findsOneWidget);
+        await tester.tap(find.text('Cancel'));
+        await settle(tester);
+        await done;
+
+        expectConnectResult(storedPin: null, selected: _otherV6, message: null);
+      });
+
+      // connect(): no pin dialog.
+
+      testWidgets('a trusted certificate connects without a pin', (
+        tester,
+      ) async {
+        serversViewModel
+          ..selectedServer = _otherV6
+          ..storedRows[_serverHttps.address] = _serverHttps;
+        final fetcher = FakeTlsCertificateFetcher(onStrict: fakeCertInfo());
+        final ctx = await pumpContext(tester);
+
+        final done = buildService(
+          ctx,
+          server: _serverHttps,
+          dns: FakeDnsRepository(),
+          fetchTlsCertificate: fetcher.call,
+        ).connect();
+        await settle(tester);
+        await done;
+
+        expect(find.text('Update pinned fingerprint'), findsNothing);
+        expectConnectResult(
+          storedPin: null,
+          selected: _serverHttps,
+          message: null,
+        );
+      });
+
+      testWidgets('a failed certificate fetch keeps the previous server', (
+        tester,
+      ) async {
+        serversViewModel
+          ..selectedServer = _otherV6
+          ..storedRows[_serverHttps.address] = _serverHttps;
+        final fetcher = FakeTlsCertificateFetcher(
+          strictError: const HandshakeException(),
+          allowBadError: const HandshakeException(),
+        );
+        final ctx = await pumpContext(tester);
+
+        final done = buildService(
+          ctx,
+          server: _serverHttps,
+          dns: FakeDnsRepository(),
+          fetchTlsCertificate: fetcher.call,
+        ).connect();
+        await settle(tester);
+        await done;
+
+        expect(find.text('Update pinned fingerprint'), findsNothing);
+        expectConnectResult(
+          storedPin: null,
+          selected: _otherV6,
+          message:
+              "Couldn't establish a secure connection. "
+              'Check that the server uses HTTPS on this port.',
+        );
+      });
+
+      // showCertificateErrorRecovery(): a 495 on a pinned server.
+
+      testWidgets('a changed certificate offers a pin update and reconnects', (
+        tester,
+      ) async {
+        serversViewModel
+          ..selectedServer = _serverHttpsPinned
+          ..storedRows[_serverHttpsPinned.address] = _serverHttpsPinned;
+        final fetcher = FakeTlsCertificateFetcher(onAllowBad: fakeCertInfo());
+        final ctx = await pumpContext(tester);
+
+        final done = buildService(
+          ctx,
+          server: _serverHttpsPinned,
+          dns: FakeDnsRepository(),
+          fetchTlsCertificate: fetcher.call,
+        ).showCertificateErrorRecovery(HttpStatusCodeException(495, 'ssl'));
+        await settle(tester);
+
+        expect(find.text('Certificate issue'), findsOneWidget);
+        expect(find.text('Update'), findsOneWidget);
+        expect(find.text('Edit'), findsNothing);
+
+        await tester.tap(find.text('Update'));
+        await settle(tester);
+        await tester.tap(find.text('Confirm'));
+        await settle(tester);
+
+        expectRecoveryResult(
+          reconnected: true,
+          actual: await done,
+          storedPin: 'new:fingerprint',
+        );
+      });
+
+      testWidgets('the same certificate offers an edit and keeps the pin', (
+        tester,
+      ) async {
+        serversViewModel
+          ..selectedServer = _serverHttpsPinned
+          ..storedRows[_serverHttpsPinned.address] = _serverHttpsPinned;
+        final fetcher = FakeTlsCertificateFetcher(
+          onAllowBad: fakeCertInfo(sha256: 'old:fingerprint'),
+        );
+        final ctx = await pumpContext(tester);
+
+        final done = buildService(
+          ctx,
+          server: _serverHttpsPinned,
+          dns: FakeDnsRepository(),
+          fetchTlsCertificate: fetcher.call,
+        ).showCertificateErrorRecovery(HttpStatusCodeException(495, 'ssl'));
+        await settle(tester);
+
+        expect(find.text('Certificate issue'), findsOneWidget);
+        expect(find.text('Edit'), findsOneWidget);
+        expect(find.text('Update'), findsNothing);
+
+        await tester.tap(find.text('Cancel'));
+        await settle(tester);
+
+        expectRecoveryResult(
+          reconnected: false,
+          actual: await done,
+          storedPin: 'old:fingerprint',
+        );
+      });
     });
   });
 }

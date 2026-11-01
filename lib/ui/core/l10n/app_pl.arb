@@ -600,7 +600,6 @@
   "selectedDisconnected": "Wybrano, ale rozłączono",
   "sendCrashReport": "Wyślij raport o awarii",
   "serverAddress": "Adres serwera",
-  "serverCertificateFetchFailed": "Nie udało się pobrać informacji o certyfikacie.",
   "serverCertificateHandshakeFailed": "Nie udało się nawiązać bezpiecznego połączenia. Sprawdź, czy serwer używa HTTPS na tym porcie.",
   "serverCertificateIssueDetected": "Wykryto problem z certyfikatem. Certyfikat serwera mógł się zmienić.",
   "serverCertificateIssueHelp": "Certyfikat TLS serwera mógł się zmienić lub stać się niezaufany. Sprawdź ustawienia serwera i w razie potrzeby zaktualizuj przypięty odcisk.",
