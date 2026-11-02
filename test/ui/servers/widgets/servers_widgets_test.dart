@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/urls.dart';
 import 'package:pi_hole_client/ui/servers/widgets/server_tile_actions.dart';
 import 'package:pi_hole_client/ui/servers/widgets/server_tile_header.dart';
 import 'package:pi_hole_client/ui/servers/widgets/unverified_certificates_banner.dart';
@@ -130,6 +132,44 @@ void main() async {
       await tester.pump();
 
       expect(find.text('https://192.168.1.1'), findsOneWidget);
+    });
+
+    testWidgets('help button opens the certificate guide', (tester) async {
+      final log = <MethodCall>[];
+      const urlLauncherChannel = MethodChannel(
+        'plugins.flutter.io/url_launcher',
+      );
+
+      // canLaunch returns false, as on Android without a <queries> entry.
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(urlLauncherChannel, (methodCall) async {
+            log.add(methodCall);
+            return methodCall.method != 'canLaunch';
+          });
+      addTearDown(
+        () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(urlLauncherChannel, null),
+      );
+
+      await tester.pumpWidget(
+        buildTestApp(
+          UnverifiedCertificatesBanner(
+            servers: const [testServer],
+            onServerTap: (_) {},
+            onDismiss: () {},
+          ),
+        ),
+      );
+
+      await tester.tap(find.byIcon(Icons.help_outline));
+      await tester.pump();
+
+      final launchCalls = log.where((c) => c.method == 'launch');
+      expect(launchCalls, hasLength(1));
+      expect(
+        (launchCalls.single.arguments as Map)['url'],
+        equals(Urls.certConfig),
+      );
     });
   });
 
