@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg_test/flutter_svg_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -7,9 +6,11 @@ import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/widgets/settings_screen.dart';
+import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
 import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../testing/fakes/repositories/local/fake_server_repository.dart';
+import '../../../testing/fakes/services/fake_url_launcher.dart';
 import '../../../testing/fakes/viewmodels/fake_status_viewmodel.dart';
 import '../../../testing/test_app.dart';
 
@@ -20,8 +21,11 @@ void main() async {
     late AppConfigViewModel appConfigViewModel;
     late ServersViewModel serversViewModel;
     late FakeStatusViewModel statusViewModel;
+    late FakeUrlLauncher urlLauncher;
 
     setUp(() async {
+      urlLauncher = FakeUrlLauncher();
+      UrlLauncherPlatform.instance = urlLauncher;
       final serverRepo = FakeServerRepository();
       appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
       serversViewModel = ServersViewModel(serverRepo);
@@ -438,24 +442,9 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      final log = <MethodCall>[];
-      const urlLauncherChannel = MethodChannel(
-        'plugins.flutter.io/url_launcher',
-      );
-
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(urlLauncherChannel, (
-            MethodCall methodCall,
-          ) async {
-            log.add(methodCall);
-            return true;
-          });
-
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
-        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-            .setMockMethodCallHandler(urlLauncherChannel, null);
       });
 
       await tester.pumpWidget(buildAppWithRouter());
@@ -474,9 +463,7 @@ void main() async {
       await tester.tap(find.svg(googlePlaySvg.bytesLoader));
       await tester.pumpAndSettle();
 
-      final launchCall = log.last;
-      final url = (launchCall.arguments as Map)['url'];
-      expect(url, contains('play.google.com'));
+      expect(urlLauncher.launchedUrls.single, contains('play.google.com'));
     });
 
     testWidgets('should show Github page with tap', (
@@ -485,24 +472,9 @@ void main() async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
-      final log = <MethodCall>[];
-      const urlLauncherChannel = MethodChannel(
-        'plugins.flutter.io/url_launcher',
-      );
-
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(urlLauncherChannel, (
-            MethodCall methodCall,
-          ) async {
-            log.add(methodCall);
-            return true;
-          });
-
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
-        TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-            .setMockMethodCallHandler(urlLauncherChannel, null);
       });
 
       await tester.pumpWidget(buildAppWithRouter());
@@ -519,9 +491,7 @@ void main() async {
       await tester.tap(find.svg(githubSvg.bytesLoader));
       await tester.pumpAndSettle();
 
-      final launchCall = log.last;
-      final url = (launchCall.arguments as Map)['url'];
-      expect(url, contains('github.com'));
+      expect(urlLauncher.launchedUrls.single, contains('github.com'));
     });
   });
 }

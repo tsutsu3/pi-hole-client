@@ -111,6 +111,8 @@ dev_dependencies:
   full_coverage: ^1.0.0
   flutter_svg_test: ^1.0.3
   pub_version_plus: ^3.1.3
+  plugin_platform_interface: ^2.1.8
+  url_launcher_platform_interface: ^2.3.2
   dart_code_linter: ^4.4.0
 
 flutter_launcher_icons:

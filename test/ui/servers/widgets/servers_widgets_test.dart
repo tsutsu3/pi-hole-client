@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/urls.dart';
 import 'package:pi_hole_client/ui/servers/widgets/server_tile_actions.dart';
 import 'package:pi_hole_client/ui/servers/widgets/server_tile_header.dart';
 import 'package:pi_hole_client/ui/servers/widgets/unverified_certificates_banner.dart';
+import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
+import '../../../../testing/fakes/services/fake_url_launcher.dart';
 import '../../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
 import '../../../../testing/fakes/viewmodels/fake_status_viewmodel.dart';
 import '../../../../testing/test_app.dart';
@@ -26,6 +29,13 @@ void main() async {
       allowUntrustedCert: true,
       ignoreCertificateErrors: false,
     );
+
+    late FakeUrlLauncher urlLauncher;
+
+    setUp(() {
+      urlLauncher = FakeUrlLauncher();
+      UrlLauncherPlatform.instance = urlLauncher;
+    });
 
     testWidgets('renders warning card with server count', (tester) async {
       await tester.pumpWidget(
@@ -130,6 +140,23 @@ void main() async {
       await tester.pump();
 
       expect(find.text('https://192.168.1.1'), findsOneWidget);
+    });
+
+    testWidgets('help button opens the certificate guide', (tester) async {
+      await tester.pumpWidget(
+        buildTestApp(
+          UnverifiedCertificatesBanner(
+            servers: const [testServer],
+            onServerTap: (_) {},
+            onDismiss: () {},
+          ),
+        ),
+      );
+
+      await tester.tap(find.byIcon(Icons.help_outline));
+      await tester.pump();
+
+      expect(urlLauncher.launchedUrls, equals([Urls.certConfig]));
     });
   });
 

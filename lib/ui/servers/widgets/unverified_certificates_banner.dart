@@ -3,7 +3,7 @@ import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/urls.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:pi_hole_client/utils/open_url.dart';
 
 class UnverifiedCertificatesBanner extends StatefulWidget {
   const UnverifiedCertificatesBanner({
@@ -25,13 +25,6 @@ class UnverifiedCertificatesBanner extends StatefulWidget {
 class _UnverifiedCertificatesBannerState
     extends State<UnverifiedCertificatesBanner> {
   bool _isExpanded = false;
-
-  Future<void> _openDocumentation() async {
-    final url = Uri.parse(Urls.certConfig);
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +64,7 @@ class _UnverifiedCertificatesBannerState
                     color: colorScheme.cardWarningText,
                     size: 20,
                   ),
-                  onPressed: _openDocumentation,
+                  onPressed: () => openUrl(Urls.certConfig),
                   tooltip: loc.unverifiedCertificatesBannerLearnMore,
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(
