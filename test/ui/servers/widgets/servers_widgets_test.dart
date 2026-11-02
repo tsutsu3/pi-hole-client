@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
@@ -7,7 +6,9 @@ import 'package:pi_hole_client/ui/core/ui/helpers/urls.dart';
 import 'package:pi_hole_client/ui/servers/widgets/server_tile_actions.dart';
 import 'package:pi_hole_client/ui/servers/widgets/server_tile_header.dart';
 import 'package:pi_hole_client/ui/servers/widgets/unverified_certificates_banner.dart';
+import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
+import '../../../../testing/fakes/services/fake_url_launcher.dart';
 import '../../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
 import '../../../../testing/fakes/viewmodels/fake_status_viewmodel.dart';
 import '../../../../testing/test_app.dart';
@@ -28,6 +29,13 @@ void main() async {
       allowUntrustedCert: true,
       ignoreCertificateErrors: false,
     );
+
+    late FakeUrlLauncher urlLauncher;
+
+    setUp(() {
+      urlLauncher = FakeUrlLauncher();
+      UrlLauncherPlatform.instance = urlLauncher;
+    });
 
     testWidgets('renders warning card with server count', (tester) async {
       await tester.pumpWidget(
@@ -135,22 +143,6 @@ void main() async {
     });
 
     testWidgets('help button opens the certificate guide', (tester) async {
-      final log = <MethodCall>[];
-      const urlLauncherChannel = MethodChannel(
-        'plugins.flutter.io/url_launcher',
-      );
-
-      // canLaunch returns false, as on Android without a <queries> entry.
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(urlLauncherChannel, (methodCall) async {
-            log.add(methodCall);
-            return methodCall.method != 'canLaunch';
-          });
-      addTearDown(
-        () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-            .setMockMethodCallHandler(urlLauncherChannel, null),
-      );
-
       await tester.pumpWidget(
         buildTestApp(
           UnverifiedCertificatesBanner(
@@ -164,12 +156,7 @@ void main() async {
       await tester.tap(find.byIcon(Icons.help_outline));
       await tester.pump();
 
-      final launchCalls = log.where((c) => c.method == 'launch');
-      expect(launchCalls, hasLength(1));
-      expect(
-        (launchCalls.single.arguments as Map)['url'],
-        equals(Urls.certConfig),
-      );
+      expect(urlLauncher.launchedUrls, equals([Urls.certConfig]));
     });
   });
 
