@@ -3,12 +3,10 @@
   scroll-behavior: smooth;
 }
 
-.heroGradientTitle {
-  background: linear-gradient(90deg, #f43f5e 0%, #3b82f6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
+/* "Pi-hole" in the app icon color. */
+.heroAccent {
+  color: #ff5c4d;
+  white-space: nowrap;
 }
 
 .heroSection {
@@ -71,6 +69,15 @@
   font-size: 3.8rem;
   margin-bottom: 1.2rem;
   line-height: 1.1;
+  text-wrap: balance;
+  /* Break Japanese text between phrases, not inside words. */
+  word-break: auto-phrase;
+}
+
+@media (max-width: 600px) {
+  .heroText h1 {
+    font-size: 2.6rem;
+  }
 }
 
 .heroText p {

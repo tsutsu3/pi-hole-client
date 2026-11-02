@@ -436,10 +436,10 @@ const pageText = {
     featuresTitle: "Features",
     featureDetailsTitle: "Feature details",
     backToFeatures: "↑ Back to features",
-    heroTitleAccent: "Take Control",
-    heroTitleRest: " of Your Network",
+    heroTitleBefore: "Manage Your ",
+    heroTitleAfter: " from Android",
     heroDescription:
-      "The unofficial Pi-hole client for Android. Monitor and manage your Pi-hole on your home network with a clean, modern interface.",
+      "A free, unofficial Pi-hole client for Android. Monitor DNS queries, manage blocking, view statistics, and control multiple Pi-hole servers. Supports Pi-hole v6 and v5.",
     playStoreAlt: "Get it on Google Play",
     mockupAlt: "Pi-hole client",
   },
@@ -447,10 +447,10 @@ const pageText = {
     featuresTitle: "主な機能",
     featureDetailsTitle: "機能の詳細",
     backToFeatures: "↑ 機能一覧へ戻る",
-    heroTitleAccent: "ネットワークを",
-    heroTitleRest: "もっと自由に",
+    heroTitleBefore: "",
+    heroTitleAfter: "をAndroidから管理",
     heroDescription:
-      "Android向けの非公式Pi-holeクライアント。すっきりとしたモダンな画面から、自宅ネットワーク上のPi-holeをいつでも確認・管理できます。",
+      "無料で使える、Pi-hole v6・v5対応の非公式Androidクライアント。DNSクエリの確認、ブロックの管理、統計の表示、複数のPi-holeサーバーの操作ができます。",
     playStoreAlt: "Google Playで手に入れよう",
     mockupAlt: "Pi-hole clientのアプリ画面",
   },
@@ -566,8 +566,9 @@ const HeroSection = ({ locale }: { locale: Locale }) => {
       <div className={styles.heroText}>
         {/* `_top` is Starlight PAGE_TITLE_ID: the skip link and back-to-top target. */}
         <h1 id="_top">
-          <span className={styles.heroGradientTitle}>{text.heroTitleAccent}</span>
-          {text.heroTitleRest}
+          {text.heroTitleBefore}
+          <span className={styles.heroAccent}>Pi-hole</span>
+          {text.heroTitleAfter}
         </h1>
         <p>{text.heroDescription}</p>
         <a
