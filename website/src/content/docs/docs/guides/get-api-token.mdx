@@ -1,7 +1,8 @@
 ---
-title: 🔑 Getting the API token (v5 only)
+title: 🔑 Pi-hole API token (v5) and password (v6)
+description: How to get the Pi-hole API token (v5), and which password to use for Pi-hole v6, to connect the Pi-hole client app.
 sidebar:
-  label: Getting the API token (v5 only)
+  label: API token and password
   order: 3
 ---
 
@@ -13,15 +14,14 @@ import imgWeb from "./images/04.png";
 import imgYes from "./images/05.png";
 import imgApp from "./images/06.png";
 
-This guide explains how to get the API token to authenticate the application
-with your Pi-hole server.
+This guide explains how to get the credential that the app uses to log in to
+your Pi-hole server.
 
-:::note
-This process applies only to Pi-hole server version 5.x.
+- **Pi-hole v5**: use the [API token](#pi-hole-v5-api-token).
+- **Pi-hole v6**: use your [web admin password](#pi-hole-v6-password).
+  Pi-hole v6 has no API token.
 
-If you are using Pi-hole version 6.x, authentication is handled differently
-and does not require an API token.
-:::
+## Pi-hole v5: API token
 
 1. Go to the admin panel of your Pi-hole® server and log in.
 
@@ -47,3 +47,11 @@ and does not require an API token.
    or copy the API token (text under the QR code) and paste it into the Token
    field (2).
    <DocImage width="300" alt="app" src={imgApp} />
+
+## Pi-hole v6: password
+
+Pi-hole v6 has no API token. In the app, enter the password that you use to
+log in to the Pi-hole web admin in the **Password** field.
+
+If two-factor authentication (2FA) is enabled, the app also asks for a 6-digit
+code. See [Connecting to Your Pi-hole](../create-a-connection/) for details.
