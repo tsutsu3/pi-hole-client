@@ -7,7 +7,9 @@ import LandingPage from "../components/landing/LandingPage";
   frontmatter={{
     title: "Pi-hole client",
     description:
-      "The unofficial Pi-hole client for Android. Monitor and manage your Pi-hole on your home network with a clean, modern interface.",
+      "A free, unofficial Pi-hole client for Android. Monitor DNS queries, manage blocking, view statistics, and control multiple Pi-hole servers. Supports Pi-hole v6 and v5.",
+    // Starlight would render "Pi-hole client | Pi-hole client" here.
+    head: [{ tag: "title", content: "Pi-hole client | Android App for Pi-hole v6 & v5" }],
     template: "splash",
     tableOfContents: false,
     pagefind: false,

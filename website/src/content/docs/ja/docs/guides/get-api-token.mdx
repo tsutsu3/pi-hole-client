@@ -1,7 +1,8 @@
 ---
-title: 🔑 APIトークンの取得（v5のみ）
+title: 🔑 Pi-holeのAPIトークン（v5）とパスワード（v6）
+description: Pi-holeのAPIトークン（v5）の取得方法と、Pi-hole v6で使うパスワードを説明します。Pi-hole clientアプリの接続に使います。
 sidebar:
-  label: APIトークンの取得（v5のみ）
+  label: APIトークンとパスワード
   order: 3
 ---
 
@@ -13,13 +14,12 @@ import imgWeb from "../../../docs/guides/images/04.png";
 import imgYes from "../../../docs/guides/images/05.png";
 import imgApp from "../../../docs/guides/images/06.png";
 
-このガイドでは、アプリをPi-holeサーバーで認証するために必要なAPIトークンの取得方法を説明します。
+このガイドでは、アプリがPi-holeサーバーにログインするための認証情報の取得方法を説明します。
 
-:::note
-この手順は、Pi-holeサーバーのバージョン5.xにのみ適用されます。
+- **Pi-hole v5**：[APIトークン](#pi-hole-v5apiトークン)を使います。
+- **Pi-hole v6**：[Web管理画面のパスワード](#pi-hole-v6パスワード)を使います。Pi-hole v6にAPIトークンはありません。
 
-Pi-hole 6.xでは認証方法が異なるため、APIトークンは必要ありません。
-:::
+## Pi-hole v5：APIトークン
 
 1. Pi-hole®サーバーの管理画面を開き、ログインします。
 
@@ -44,3 +44,9 @@ Pi-hole 6.xでは認証方法が異なるため、APIトークンは必要あり
 6. アプリでQRコードボタン（1）をタップしてQRコードを読み取ります。または、QRコードの下に表示されるAPIトークンをコピーし、「トークン」欄（2）に貼り付けます。
 
    <DocImage width="300" alt="アプリのトークン入力画面" src={imgApp} />
+
+## Pi-hole v6：パスワード
+
+Pi-hole v6にAPIトークンはありません。アプリの「パスワード」欄に、Pi-holeのWeb管理画面にログインするときのパスワードを入力します。
+
+2要素認証（2FA）を有効にしている場合は、6桁のコードの入力も求められます。詳しくは[Pi-holeへの接続](../create-a-connection/)を参照してください。
