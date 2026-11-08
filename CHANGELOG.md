@@ -1,6 +1,53 @@
 # Changelog
 
-## [1.10.1](https://github.com/tsutsu3/pi-hole-client/compare/1.10.0_(107)..1.10.1) - 2026-09-19
+## [1.10.2](https://github.com/tsutsu3/pi-hole-client/compare/1.10.1_(109)..1.10.2) - 2026-11-08
+
+### 🐛 Bug Fixes
+
+- *(app-lock)* Keep app lock in sync with passcode changes ([#753](https://github.com/tsutsu3/pi-hole-client/issues/753)) - ([c12d062](https://github.com/tsutsu3/pi-hole-client/commit/c12d062c59350fbcb3b4d2855f0eebea6a98d0db))
+- *(auth)* Re-prompt TOTP on refresh on most screens ([#762](https://github.com/tsutsu3/pi-hole-client/issues/762)) - ([9809403](https://github.com/tsutsu3/pi-hole-client/commit/980940320a9d3961f6be256030188b63740c7e98))
+- *(dns)* Use the new v5 token after the token is changed ([#775](https://github.com/tsutsu3/pi-hole-client/issues/775)) - ([1be3a7d](https://github.com/tsutsu3/pi-hole-client/commit/1be3a7d8acd4c57e4644c12e19de087a7ffe7fd0))
+- *(dns)* Stop reporting a missing v5 token as a crash ([#773](https://github.com/tsutsu3/pi-hole-client/issues/773)) - ([439ab33](https://github.com/tsutsu3/pi-hole-client/commit/439ab33550ecbe387b7e2376c25e56bd1ff8c993))
+- *(groups)* Handle group load errors when a screen opens ([#763](https://github.com/tsutsu3/pi-hole-client/issues/763)) - ([9705022](https://github.com/tsutsu3/pi-hole-client/commit/97050220b6eb284d3075ee776306f22f8dad0d55))
+- *(routing)* Show back button on v5 screens opened from Home tiles ([#751](https://github.com/tsutsu3/pi-hole-client/issues/751)) - ([34615fb](https://github.com/tsutsu3/pi-hole-client/commit/34615fbff60fc60c1447a854630f219bfb729d9b))
+- *(servers)* Open the certificate guide from the unverified banner ([#782](https://github.com/tsutsu3/pi-hole-client/issues/782)) - ([08b9419](https://github.com/tsutsu3/pi-hole-client/commit/08b9419b007e1e68e809468c713ce16988823646))
+- *(servers)* Block saving when stored credentials fail to load ([#766](https://github.com/tsutsu3/pi-hole-client/issues/766)) - ([b3c9404](https://github.com/tsutsu3/pi-hole-client/commit/b3c940460ba7f25e7ef2fd0328fc91b2ed0a2abe))
+- *(servers)* Preserve subroutes in Pi-hole URLs ([#758](https://github.com/tsutsu3/pi-hole-client/issues/758)) - ([4b4ab13](https://github.com/tsutsu3/pi-hole-client/commit/4b4ab136cb12ea3acd30f0a9f86a07975519ec88))
+- *(servers)* Reject invalid server addresses and stop the save screen from freezing ([#756](https://github.com/tsutsu3/pi-hole-client/issues/756)) - ([7098cf4](https://github.com/tsutsu3/pi-hole-client/commit/7098cf4d5686b41fd7f00d0bfa71f86aebb3ba68))
+- *(ui)* Keep autocomplete suggestions clickable on desktop ([#752](https://github.com/tsutsu3/pi-hole-client/issues/752)) - ([7fc9b7c](https://github.com/tsutsu3/pi-hole-client/commit/7fc9b7c2596a4b5b91067b14edd3e8e42da24f87))
+- *(widget)* Update widgets after server edit or delete ([#749](https://github.com/tsutsu3/pi-hole-client/issues/749)) - ([862a3c1](https://github.com/tsutsu3/pi-hole-client/commit/862a3c1959cfaf84e456ac9d3daa2ddc8b4865cb))
+
+### 🚜 Refactor
+
+- *(servers)* Save credentials only after the connection check ([#772](https://github.com/tsutsu3/pi-hole-client/issues/772)) - ([dca31d6](https://github.com/tsutsu3/pi-hole-client/commit/dca31d6c6444d009b272efa0c7b62e050ab71155))
+- *(servers)* Share session setup via ConnectServerUseCase ([#755](https://github.com/tsutsu3/pi-hole-client/issues/755)) - ([ac3e09d](https://github.com/tsutsu3/pi-hole-client/commit/ac3e09d18e38846f75a0d005227f52639dc31fae))
+- *(servers)* Extract save rollback into _SaveAttempt ([#747](https://github.com/tsutsu3/pi-hole-client/issues/747)) - ([803d9ac](https://github.com/tsutsu3/pi-hole-client/commit/803d9ac2f1ba449d84bb9396e8ebff953e26ebed))
+- *(tls)* Share the certificate checks in one use case ([#778](https://github.com/tsutsu3/pi-hole-client/issues/778)) - ([26e2fd2](https://github.com/tsutsu3/pi-hole-client/commit/26e2fd2bd41dcfbab54c44d12532a386ac6a3d75))
+- Clean up unnecessary spaces and null assertions ([#746](https://github.com/tsutsu3/pi-hole-client/issues/746)) - ([d2dcf9f](https://github.com/tsutsu3/pi-hole-client/commit/d2dcf9ff8bae171f67eb21cfd26f45c1483e8ac9))
+
+### 📚 Documentation
+
+- *(website)* Improve page titles and text ([#783](https://github.com/tsutsu3/pi-hole-client/issues/783)) - ([a3dc3ba](https://github.com/tsutsu3/pi-hole-client/commit/a3dc3ba19225a23fcaf254d20ecf03bfb129aee6))
+- *(website)* Update the user manual ([#742](https://github.com/tsutsu3/pi-hole-client/issues/742)) - ([e0bbbb1](https://github.com/tsutsu3/pi-hole-client/commit/e0bbbb1fc45d483f5e6ce91d1a50980f613048be))
+- Update privacy policy URL and copyright notice ([#768](https://github.com/tsutsu3/pi-hole-client/issues/768)) - ([0c9e9d8](https://github.com/tsutsu3/pi-hole-client/commit/0c9e9d85b501f946f0850b5211c7da6a1447d310))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(.gitignore)* Remove AI agent directories from ignore list ([#738](https://github.com/tsutsu3/pi-hole-client/issues/738)) - ([0aec883](https://github.com/tsutsu3/pi-hole-client/commit/0aec883a5b0d556de4a7609095748b414dce6a89))
+- *(ci)* Remove GitHub Pages deployment workflow ([#780](https://github.com/tsutsu3/pi-hole-client/issues/780)) - ([3abbb09](https://github.com/tsutsu3/pi-hole-client/commit/3abbb0953ec8438c9c0cf39c1efbeb1f23724c08))
+- *(codegen)* Regenerate freezed and mockito code ([#767](https://github.com/tsutsu3/pi-hole-client/issues/767)) - ([e918240](https://github.com/tsutsu3/pi-hole-client/commit/e9182402ca5a43c50ea59b3821f630390fcd5a6c))
+- *(dcl)* Add dart_code_linter and apply lint fixes ([#745](https://github.com/tsutsu3/pi-hole-client/issues/745)) - ([52bf190](https://github.com/tsutsu3/pi-hole-client/commit/52bf1908bcdfd8f4ead55386c20f1245fc677b5a))
+- *(localization)* Update invalid subroute error messages ([#761](https://github.com/tsutsu3/pi-hole-client/issues/761)) - ([9525119](https://github.com/tsutsu3/pi-hole-client/commit/9525119a253ad3fc22f135b874b670b048f3d4fe))
+- *(metrics)* Add missing newline ([#765](https://github.com/tsutsu3/pi-hole-client/issues/765)) - ([4454243](https://github.com/tsutsu3/pi-hole-client/commit/445424380076d09293ca1a2ce638d6f144e27233))
+- *(winget)* Winget manifest for v1.10.1 ([#739](https://github.com/tsutsu3/pi-hole-client/issues/739)) - ([363e4c3](https://github.com/tsutsu3/pi-hole-client/commit/363e4c33ca5e4314da9fcf9a86356e8b6d59f3a5))
+- Remove unused image files ([#750](https://github.com/tsutsu3/pi-hole-client/issues/750)) - ([8129324](https://github.com/tsutsu3/pi-hole-client/commit/8129324f60d75dc5015cc272058bd43e03e9984b))
+- Unify dash characters and product name ([#743](https://github.com/tsutsu3/pi-hole-client/issues/743)) - ([374cd2c](https://github.com/tsutsu3/pi-hole-client/commit/374cd2c442089e8877776525bd54a4854b126903))
+
+## 🎉 New Contributors 🎉
+
+* @shivytyahoo made their first contribution in [#762](https://github.com/tsutsu3/pi-hole-client/pull/762)
+
+## [1.10.1_(109)](https://github.com/tsutsu3/pi-hole-client/compare/1.10.0_(107)..1.10.1_(109)) - 2026-09-19
 
 ### 🚀 Features
 
