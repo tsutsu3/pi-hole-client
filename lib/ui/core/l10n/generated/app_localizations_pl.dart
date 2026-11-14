@@ -1231,7 +1231,11 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get invalidSubroute =>
-      'Nieprawidłowa podtrasa. Dozwolone są tylko znaki alfanumeryczne oraz \'_\', \'-\' i \'~\'.';
+      'Nieprawidłowa podtrasa. Musi zaczynać się od \'/\' i może zawierać tylko znaki alfanumeryczne oraz \'_\', \'-\' i \'~\'.';
+
+  @override
+  String get invalidWebPath =>
+      'Nieprawidłowa ścieżka. Musi zaczynać się od \'/\' i może zawierać tylko znaki alfanumeryczne oraz \'_\', \'-\' i \'~\'.';
 
   @override
   String get ipAddress => 'Adres IP';
@@ -2360,6 +2364,14 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get visitGooglePlay => 'Odwiedź stronę Google Play';
+
+  @override
+  String get webPathField => 'Ścieżka panelu WWW';
+
+  @override
+  String webPathHelper(Object url) {
+    return 'Otwiera $url';
+  }
 
   @override
   String get websiteDescription => 'Odwiedź oficjalną stronę Pi-hole client';

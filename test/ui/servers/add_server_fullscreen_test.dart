@@ -512,11 +512,146 @@ void main() async {
       expect(find.text('Invalid IP or domain'), findsOneWidget);
       expect(
         find.text(
-          "Invalid subroute. Only alphanumeric characters, '_', '-', and '~' are allowed.",
+          "Invalid subroute. It must start with '/' and use only alphanumeric characters, '_', '-', and '~'.",
         ),
         findsOneWidget,
       );
       expect(find.text('Invalid port'), findsOneWidget);
+    });
+
+    // --------------------- web panel path ----------------------------
+
+    group('web panel path', () {
+      final webPathField = find.widgetWithText(TextFormField, 'Web panel path');
+      TextField webPathTextField(WidgetTester tester) => tester.widget(
+        find.descendant(of: webPathField, matching: find.byType(TextField)),
+      );
+
+      Future<void> openAdvancedOptions(WidgetTester tester) async {
+        await tester.tap(find.text('Advanced Options'));
+        await tester.pump(const Duration(milliseconds: 500));
+      }
+
+      /// Fills alias and host for a new v6 server, then [webPath].
+      Future<void> fillNewServer(WidgetTester tester, String webPath) async {
+        await tester.enterText(find.byType(TextField).at(0), 'v6');
+        await tester.enterText(find.byType(TextField).at(1), 'localhost');
+        await openAdvancedOptions(tester);
+        await tester.enterText(webPathField, webPath);
+        await tester.pump();
+      }
+
+      Future<void> tapButton(WidgetTester tester, IconData icon) async {
+        await tester.tap(find.byIcon(icon));
+        await tester.pump(const Duration(milliseconds: 1000));
+      }
+
+      void expectSavedWebPath(String address, String? expected) {
+        expect(serversViewModel.storedRows.keys, contains(address));
+        expect(serversViewModel.storedRows[address]!.webPath, expected);
+      }
+
+      for (final (input, expected) in [
+        ('/admin2', '/admin2'),
+        ('/admin2/', '/admin2'),
+        ('', null),
+      ]) {
+        testWidgets('adding with "$input" saves $expected', (tester) async {
+          useLargeView(tester);
+          await tester.pumpWidget(
+            buildWidget(
+              const AddServerFullscreen(window: false, title: 'test'),
+            ),
+          );
+
+          await fillNewServer(tester, input);
+          await tapButton(tester, Icons.login_rounded);
+
+          expectSavedWebPath('http://localhost', expected);
+        });
+      }
+
+      testWidgets('v5 disables the field and saves null', (tester) async {
+        useLargeView(tester);
+        await tester.pumpWidget(
+          buildWidget(const AddServerFullscreen(window: false, title: 'test')),
+        );
+
+        await fillNewServer(tester, '/admin2');
+        await tester.tap(find.text('v5').last);
+        await tester.pump();
+        await tester.enterText(
+          find.widgetWithText(TextField, 'Token'),
+          'test123',
+        );
+
+        expect(webPathTextField(tester).enabled, isFalse);
+
+        await tapButton(tester, Icons.login_rounded);
+
+        expectSavedWebPath('http://localhost', null);
+      });
+
+      for (final input in ['/a b', 'admin2']) {
+        testWidgets('"$input" shows an error and blocks saving', (
+          tester,
+        ) async {
+          useLargeView(tester);
+          await tester.pumpWidget(
+            buildWidget(
+              const AddServerFullscreen(window: false, title: 'test'),
+            ),
+          );
+
+          await fillNewServer(tester, input);
+
+          expect(
+            find.text(
+              "Invalid path. It must start with '/' and use only alphanumeric characters, '_', '-', and '~'.",
+            ),
+            findsOneWidget,
+          );
+          final loginButton = tester.widget<IconButton>(
+            find.ancestor(
+              of: find.byIcon(Icons.login_rounded),
+              matching: find.byType(IconButton),
+            ),
+          );
+          expect(loginButton.onPressed, isNull);
+        });
+      }
+
+      testWidgets('shows the URL that the web panel opens', (tester) async {
+        useLargeView(tester);
+        await tester.pumpWidget(
+          buildWidget(const AddServerFullscreen(window: false, title: 'test')),
+        );
+
+        await fillNewServer(tester, '');
+        expect(find.text('Opens http://localhost/admin/'), findsOneWidget);
+
+        await tester.enterText(webPathField, '/admin2');
+        await tester.pump();
+        expect(find.text('Opens http://localhost/admin2/'), findsOneWidget);
+      });
+
+      testWidgets('editing shows and keeps the saved path', (tester) async {
+        useLargeView(tester);
+        final server = _serverV6.copyWith(webPath: '/admin2');
+        await tester.pumpWidget(
+          buildWidget(
+            AddServerFullscreen(window: false, title: 'test', server: server),
+          ),
+        );
+        await tester.pump(const Duration(milliseconds: 500));
+        await openAdvancedOptions(tester);
+
+        expect(webPathTextField(tester).controller!.text, '/admin2');
+
+        await tapButton(tester, Icons.save_rounded);
+
+        expectSavedWebPath(server.address, '/admin2');
+      });
     });
 
     // --------------------- edit ----------------------------
