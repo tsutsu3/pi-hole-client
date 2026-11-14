@@ -213,17 +213,25 @@ class AppHarness {
   // UI helpers for the add-server form
   // ==========================================================================
 
-  /// Opens the advanced options and enters [subroute]. Call it after the other
-  /// fields, because opening the options adds a text field to the form.
-  Future<void> _enterSubroute(String subroute) async {
+  /// Opens the advanced options. Call it after the other fields, because
+  /// opening the options adds text fields to the form.
+  Future<void> _openAdvancedOptions() async {
     final advanced = find.text(l10n.advancedOptions);
     await tester.ensureVisible(advanced);
     await tester.tap(advanced);
     await settle(frames: 4);
+  }
 
-    final field = find.widgetWithText(TextFormField, l10n.subrouteField);
+  /// Enters [value] in the advanced options field labelled [label].
+  Future<void> _enterAdvancedField(String label, String value) async {
+    final field = find.widgetWithText(TextFormField, label);
     await tester.ensureVisible(field);
-    await tester.enterText(field, subroute);
+    await tester.enterText(field, value);
+  }
+
+  Future<void> _enterSubroute(String subroute) async {
+    await _openAdvancedOptions();
+    await _enterAdvancedField(l10n.subrouteField, subroute);
   }
 
   /// Fills and submits the add-server form for a v6 server over HTTP.
@@ -234,13 +242,22 @@ class AppHarness {
     String alias = 'it-v6',
     String port = '',
     String subroute = '',
+    String webPath = '',
   }) async {
     final fields = find.byType(EditableText);
     await tester.enterText(fields.at(0), alias);
     await tester.enterText(fields.at(1), host);
     if (port.isNotEmpty) await tester.enterText(fields.at(2), port);
     await tester.enterText(fields.at(3), password);
-    if (subroute.isNotEmpty) await _enterSubroute(subroute);
+    if (subroute.isNotEmpty || webPath.isNotEmpty) {
+      await _openAdvancedOptions();
+      if (subroute.isNotEmpty) {
+        await _enterAdvancedField(l10n.subrouteField, subroute);
+      }
+      if (webPath.isNotEmpty) {
+        await _enterAdvancedField(l10n.webPathField, webPath);
+      }
+    }
     await settle(frames: 3);
 
     await tester.tap(find.byIcon(Icons.login_rounded));
@@ -288,12 +305,20 @@ class AppHarness {
     await tester.enterText(fields.at(0), alias);
     await tester.enterText(fields.at(1), host);
     if (port.isNotEmpty) await tester.enterText(fields.at(2), port);
+    // HTTPS opens the advanced options, so the checkbox and the password field
+    // can be below the screen. Scroll to them before using them.
     if (!allowUntrustedCert) {
       // The "allow untrusted certificate" checkbox is checked by default.
-      await tester.tap(find.byType(CheckboxListTile).first);
+      final checkbox = find.byType(CheckboxListTile).first;
+      await tester.ensureVisible(checkbox);
+      await settle(frames: 2);
+      await tester.tap(checkbox);
       await settle(frames: 2);
     }
-    await tester.enterText(fields.at(4), password);
+    final passwordField = find.widgetWithText(TextField, l10n.password);
+    await tester.ensureVisible(passwordField);
+    await settle(frames: 2);
+    await tester.enterText(passwordField, password);
     await settle(frames: 3);
 
     await tester.tap(find.byIcon(Icons.login_rounded));
@@ -400,6 +425,14 @@ class AppHarness {
     await tester.tap(
       refresh.evaluate().isNotEmpty ? refresh : find.text(l10n.tryReconnect),
     );
+    await settle(frames: 5);
+  }
+
+  /// Taps "Open web panel" in the home app bar's action menu.
+  Future<void> openWebPanelFromHomeMenu() async {
+    await tester.tap(find.byIcon(Icons.more_vert));
+    await settle(frames: 5);
+    await tester.tap(find.text(l10n.openWebPanel));
     await settle(frames: 5);
   }
 
