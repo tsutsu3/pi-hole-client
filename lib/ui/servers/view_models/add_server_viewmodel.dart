@@ -1,13 +1,17 @@
-// NOTE: This view model intentionally depends on [ServersViewModel] and
-// [StatusViewModel] (a cross-view-model dependency). The server-list mutations
-// (addServer/editServer/replaceServer) are Commands whose notify/refresh side
-// effects must be preserved, so the orchestration reuses them rather than the
-// lower-level repositories. The certificate check (pin dialog, ssl error
-// snackbar) is UI, so it is injected per request via [resolveCertificate].
+// NOTE: This view model still depends on [ServersViewModel] and
+// [StatusViewModel] (a cross-view-model dependency) for three things:
+// - the DB writes (addServer/editServer/replaceServer), because they also
+//   update the in-memory server list and the home screen widget,
+// - deleteSid, because it also drops the session cache,
+// - stopping and starting auto refresh.
+// The URL check and the password / token writes use [ServerRepository].
+// The certificate check (pin dialog, ssl error snackbar) is UI, so it is
+// injected per request via [resolveCertificate].
 
 import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/secret_input.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
@@ -155,9 +159,6 @@ final class UpdateDbError extends UpdateOutcome {
   const UpdateDbError();
 }
 
-/// Result of a server-URL uniqueness check.
-enum _UrlCheck { available, duplicate, failed }
-
 /// Orchestrates adding ([createServer]) and editing ([updateServer]) a Pi-hole
 /// server.
 ///
@@ -170,9 +171,11 @@ class AddServerViewModel extends ChangeNotifier {
   AddServerViewModel({
     required ServersViewModel serversViewModel,
     required StatusViewModel statusViewModel,
+    required ServerRepository serverRepository,
     required CreateRepositoryBundle createBundle,
   }) : _serversViewModel = serversViewModel,
        _statusViewModel = statusViewModel,
+       _serverRepository = serverRepository,
        _createBundle = createBundle {
     createServer = Command.createAsync<CreateServerRequest, CreateOutcome>(
       _createServer,
@@ -188,18 +191,11 @@ class AddServerViewModel extends ChangeNotifier {
 
   final ServersViewModel _serversViewModel;
   final StatusViewModel _statusViewModel;
+  final ServerRepository _serverRepository;
   final CreateRepositoryBundle _createBundle;
 
   late final Command<CreateServerRequest, CreateOutcome> createServer;
   late final Command<UpdateServerRequest, UpdateOutcome> updateServer;
-
-  /// Maps [ServersViewModel.checkUrlExists]'s map result to a typed [_UrlCheck].
-  Future<_UrlCheck> _checkUrl(String url) async {
-    final result = await _serversViewModel.checkUrlExists(url);
-    if (result['result'] == 'fail') return _UrlCheck.failed;
-
-    return result['exists'] == true ? _UrlCheck.duplicate : _UrlCheck.available;
-  }
 
   /// Adds a new server.
   ///
@@ -216,12 +212,13 @@ class AddServerViewModel extends ChangeNotifier {
   /// Returns [CreateSuccess], [CreateCancelled], [CreateDuplicateUrl],
   /// [CreateUrlCheckFailed], [CreateApiError] or [CreateDbError].
   Future<CreateOutcome> _createServer(CreateServerRequest req) async {
-    switch (await _checkUrl(req.url)) {
-      case _UrlCheck.duplicate:
-        return const CreateDuplicateUrl();
-      case _UrlCheck.failed:
+    // null when the check failed.
+    switch ((await _serverRepository.doesServerExist(req.url)).getOrNull()) {
+      case null:
         return const CreateUrlCheckFailed();
-      case _UrlCheck.available:
+      case true:
+        return const CreateDuplicateUrl();
+      case false:
         break;
     }
 
@@ -314,12 +311,13 @@ class AddServerViewModel extends ChangeNotifier {
     final isAddressChanged = !isSameEndpoint(req.oldServer.address, req.url);
 
     if (isAddressChanged) {
-      switch (await _checkUrl(req.url)) {
-        case _UrlCheck.duplicate:
-          return const UpdateDuplicateUrl();
-        case _UrlCheck.failed:
+      // null when the check failed.
+      switch ((await _serverRepository.doesServerExist(req.url)).getOrNull()) {
+        case null:
           return const UpdateUrlCheckFailed();
-        case _UrlCheck.available:
+        case true:
+          return const UpdateDuplicateUrl();
+        case false:
           break;
       }
     }
@@ -345,6 +343,7 @@ class AddServerViewModel extends ChangeNotifier {
       req: req,
       isAddressChanged: isAddressChanged,
       serversViewModel: _serversViewModel,
+      serverRepository: _serverRepository,
       createBundle: _createBundle,
     );
     final address = attempt.targetAddress;
@@ -445,8 +444,8 @@ class AddServerViewModel extends ChangeNotifier {
   /// Returns false when the write fails.
   Future<bool> _saveSecret(Server server, String secret) async {
     final result = server.apiVersion == SupportedApiVersions.v6
-        ? await _serversViewModel.savePassword(server.address, secret)
-        : await _serversViewModel.saveToken(server.address, secret);
+        ? await _serverRepository.savePassword(server.address, secret)
+        : await _serverRepository.saveToken(server.address, secret);
 
     return result.isSuccess();
   }
@@ -486,8 +485,8 @@ class AddServerViewModel extends ChangeNotifier {
     // When the address is new and the password / token was stored there,
     // remove it.
     if (isNewAddress && secretSaved) {
-      await _serversViewModel.deletePassword(address);
-      await _serversViewModel.deleteToken(address);
+      await _serverRepository.deletePassword(address);
+      await _serverRepository.deleteToken(address);
     }
   }
 
@@ -522,13 +521,16 @@ class _SaveAttempt {
     required this.req,
     required this.isAddressChanged,
     required ServersViewModel serversViewModel,
+    required ServerRepository serverRepository,
     required CreateRepositoryBundle createBundle,
   }) : _serversViewModel = serversViewModel,
+       _serverRepository = serverRepository,
        _createBundle = createBundle;
 
   final UpdateServerRequest req;
   final bool isAddressChanged;
   final ServersViewModel _serversViewModel;
+  final ServerRepository _serverRepository;
   final CreateRepositoryBundle _createBundle;
 
   String get oldAddress => req.oldServer.address;
@@ -582,17 +584,17 @@ class _SaveAttempt {
     if (isAddressChanged) {
       // New credentials already live under the new address; remove the stale
       // ones left behind under the old address, including its 2FA-declined mark.
-      await _serversViewModel.deleteToken(oldAddress);
-      await _serversViewModel.deletePassword(oldAddress);
+      await _serverRepository.deleteToken(oldAddress);
+      await _serverRepository.deletePassword(oldAddress);
       await _serversViewModel.deleteSid(oldAddress);
       _serversViewModel.clearTotpReauthDeclined(oldAddress);
     } else if (oldWasV6 && !newIsV6) {
       // Same address, v6 -> v5: the password and the SID are now unused.
-      await _serversViewModel.deletePassword(targetAddress);
+      await _serverRepository.deletePassword(targetAddress);
       await _serversViewModel.deleteSid(targetAddress);
     } else if (!oldWasV6 && newIsV6) {
       // Same address, v5 -> v6: the token is now unused.
-      await _serversViewModel.deleteToken(targetAddress);
+      await _serverRepository.deleteToken(targetAddress);
     }
   }
 }

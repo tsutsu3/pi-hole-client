@@ -24,7 +24,8 @@ model never touches `BuildContext`:
 ```mermaid
 flowchart LR
   W[AddServerFullscreen<br/>widget] --> VM[AddServerViewModel]
-  VM --> SV[ServersViewModel<br/>url check, credentials, DB commands]
+  VM --> SR[ServerRepository<br/>url check, password / token]
+  VM --> SV[ServersViewModel<br/>DB commands, deleteSid]
   VM --> ST[StatusViewModel<br/>auto-refresh]
   VM --> UC[ConnectServerUseCase<br/>session + status check]
   UC --> B[RepositoryBundle<br/>auth + dns]
@@ -70,7 +71,7 @@ was stored, so there is nothing to undo.
 
 ```mermaid
 flowchart TD
-  A([createServer req]) --> B{checkUrl}
+  A([createServer req]) --> B{doesServerExist}
   B -- duplicate --> BD([CreateDuplicateUrl])
   B -- failed --> BF([CreateUrlCheckFailed])
   B -- available --> D[resolveCertificate]
@@ -98,7 +99,7 @@ every exit path restarts it.
 ```mermaid
 flowchart TD
   A([updateServer req]) --> B{address changed?<br/>isSameEndpoint}
-  B -- yes --> C{checkUrl newUrl}
+  B -- yes --> C{doesServerExist newUrl}
   C -- duplicate --> CD([UpdateDuplicateUrl])
   C -- failed --> CF([UpdateUrlCheckFailed])
   C -- available --> E[stopAutoRefresh]
@@ -272,12 +273,13 @@ sequenceDiagram
   actor U as User
   participant W as AddServerFullscreen
   participant VM as AddServerViewModel
+  participant SR as ServerRepository
   participant SV as ServersViewModel
   participant B as RepositoryBundle
 
   U->>W: tap Connect
   W->>VM: createServer.runAsync(req with NewSecret)
-  VM->>SV: checkUrlExists(url)
+  VM->>SR: doesServerExist(url)
   VM->>W: resolveCertificate(server)
   Note over W: pin dialog / ssl-error snackbar (UI)
   opt apiVersion == v6
@@ -290,7 +292,7 @@ sequenceDiagram
   end
   VM->>B: dns.fetchBlockingStatus(skipRenewal: true)
   Note over VM,B: v5 uses the token passed to the bundle
-  VM->>SV: savePassword (v6) / saveToken (v5)
+  VM->>SR: savePassword (v6) / saveToken (v5)
   VM->>SV: addServer.runAsync(server)
   VM-->>W: CreateSuccess(server) | CreateDbError | CreateCancelled | CreateApiError | CreateDuplicateUrl | CreateUrlCheckFailed
   alt success
@@ -309,6 +311,7 @@ sequenceDiagram
   actor U as User
   participant W as AddServerFullscreen
   participant VM as AddServerViewModel
+  participant SR as ServerRepository
   participant SV as ServersViewModel
   participant ST as StatusViewModel
   participant B as RepositoryBundle
@@ -316,7 +319,7 @@ sequenceDiagram
   U->>W: tap Save
   W->>VM: updateServer.runAsync(req with NewSecret / UnchangedSecret)
   opt address changed
-    VM->>SV: checkUrlExists(newUrl)
+    VM->>SR: doesServerExist(newUrl)
   end
   VM->>ST: stopAutoRefresh
   VM->>W: resolveCertificate(server)
@@ -327,13 +330,15 @@ sequenceDiagram
   VM->>B: connect (see ConnectServerUseCase.connect)
   alt connection ok
     opt new secret
-      VM->>SV: savePassword (v6) / saveToken (v5) at target
+      VM->>SR: savePassword (v6) / saveToken (v5) at target
     end
     VM->>SV: replaceServer / editServer (commit)
     VM->>B: old bundle.auth.deleteCurrentSession (cleanupAfterCommit)
-    VM->>SV: delete old / unused credentials and SID (cleanupAfterCommit)
+    VM->>SR: delete old / unused password and token (cleanupAfterCommit)
+    VM->>SV: deleteSid (cleanupAfterCommit)
   else failure
-    VM->>SV: cleanupFailedAttempt (see the list above)
+    VM->>SR: cleanupFailedAttempt (see the list above)
+    VM->>SV: deleteSid (cleanupFailedAttempt)
   end
   VM->>ST: startAutoRefresh (finally)
   VM-->>W: UpdateSuccess | UpdateCancelled | UpdateApiError | UpdateDbError | UpdateDuplicateUrl | UpdateUrlCheckFailed

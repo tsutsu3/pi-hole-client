@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/secret_input.dart';
@@ -128,6 +129,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     return _viewModel ??= AddServerViewModel(
       serversViewModel: context.read<ServersViewModel>(),
       statusViewModel: context.read<StatusViewModel>(),
+      serverRepository: context.read<ServerRepository>(),
       createBundle: context.read<CreateRepositoryBundle>(),
     );
   }

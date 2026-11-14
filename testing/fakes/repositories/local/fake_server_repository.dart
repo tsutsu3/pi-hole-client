@@ -132,9 +132,24 @@ class FakeServerRepository implements ServerRepository {
     return const Success(1);
   }
 
+  /// Result of [doesServerExist].
+  bool serverExists = false;
+
+  /// When true, [doesServerExist] returns a [Failure].
+  bool shouldFailServerExists = false;
+
+  /// When true, [doesServerExist] throws.
+  bool shouldThrowServerExists = false;
+
   @override
   Future<Result<bool>> doesServerExist(String url) async {
-    return const Success(true);
+    if (shouldThrowServerExists) {
+      throw Exception('FakeServerRepository: doesServerExist threw');
+    }
+    if (shouldFailServerExists) {
+      return Failure(Exception('FakeServerRepository: doesServerExist failed'));
+    }
+    return Success(serverExists);
   }
 
   @override

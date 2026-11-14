@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -49,6 +50,7 @@ Widget buildTestApp(
   RepositoryBundle? repositoryBundle,
   CreateRepositoryBundle? createRepositoryBundle,
   SecureStorageService? secureStorageService,
+  ServerRepository? serverRepository,
   bool useScaffold = true,
   GoRouter? router,
 }) {
@@ -95,6 +97,8 @@ Widget buildTestApp(
         Provider<CreateRepositoryBundle>.value(value: createRepositoryBundle),
       if (secureStorageService != null)
         Provider<SecureStorageService>.value(value: secureStorageService),
+      if (serverRepository != null)
+        Provider<ServerRepository>.value(value: serverRepository),
     ],
     child: app,
   );

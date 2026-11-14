@@ -346,23 +346,6 @@ class ServersViewModel with ChangeNotifier {
     }
   }
 
-  FutureOr<Map<String, dynamic>> checkUrlExists(String url) async {
-    final result = await _repository.doesServerExist(url);
-
-    return result.fold(
-      (success) {
-        if (success) {
-          return {'result': 'success', 'exists': true};
-        } else {
-          return {'result': 'success', 'exists': false};
-        }
-      },
-      (failure) {
-        return {'result': 'fail', 'exists': false};
-      },
-    );
-  }
-
   void setselectedServer({required Server? server, bool? toHomeTab}) {
     _selectedServer = server;
     if (server == null) _selectedServerEnabled = null;
@@ -417,18 +400,6 @@ class ServersViewModel with ChangeNotifier {
   Future<Result<({String token, String password})>> fetchCredentials(
     String address,
   ) => _repository.fetchCredentials(address);
-
-  Future<Result<void>> savePassword(String address, String password) =>
-      _repository.savePassword(address, password);
-
-  Future<Result<void>> saveToken(String address, String token) =>
-      _repository.saveToken(address, token);
-
-  Future<Result<void>> deletePassword(String address) =>
-      _repository.deletePassword(address);
-
-  Future<Result<void>> deleteToken(String address) =>
-      _repository.deleteToken(address);
 
   Future<Result<void>> deleteSid(String address) async {
     final result = await _repository.deleteSid(address);

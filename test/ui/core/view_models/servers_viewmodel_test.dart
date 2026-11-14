@@ -343,15 +343,6 @@ void main() async {
       expect(listenerCalled, true);
     });
 
-    test('checkUrlExists returns the correct result', () async {
-      await serversViewModel.addServer.runAsync(server);
-
-      final result = await serversViewModel.checkUrlExists(server.address);
-
-      expect(result, {'result': 'success', 'exists': true});
-      expect(listenerCalled, true);
-    });
-
     test('updateselectedServerStatus updates the selected server', () async {
       await serversViewModel.addServer.runAsync(server);
       serversViewModel.setselectedServer(server: server);

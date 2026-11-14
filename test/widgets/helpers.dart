@@ -1735,9 +1735,6 @@ class TestSetupHelper {
       // forwarded
       useApiGatewayVersion == 'v5' ? queryStatusesV5[1] : queryStatusesV6[2],
     );
-    when(
-      mockServersViewModel.checkUrlExists(any),
-    ).thenAnswer((_) async => {'result': 'success', 'exists': false});
     when(mockServersViewModel.addServer(any)).thenAnswer((_) async => true);
     when(mockServersViewModel.editServer(any)).thenAnswer((_) async => true);
     when(

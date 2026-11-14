@@ -136,6 +136,7 @@ void main() async {
               apiVersion: server.apiVersion,
             ),
         secureStorageService: SecureStorageService(),
+        serverRepository: serversViewModel.repository,
       );
     }
 
@@ -655,7 +656,7 @@ void main() async {
         tester.view.resetDevicePixelRatio();
       });
 
-      serversViewModel.urlExistsResult = true;
+      serversViewModel.repository.serverExists = true;
 
       await tester.pumpWidget(
         buildWidget(
@@ -1628,7 +1629,7 @@ void main() async {
     ) async {
       useLargeView(tester);
 
-      serversViewModel.checkUrlExistsFails = true;
+      serversViewModel.repository.shouldFailServerExists = true;
 
       await tester.pumpWidget(
         buildWidget(
@@ -1655,7 +1656,7 @@ void main() async {
     group('unexpected error in the save command', () {
       setUp(() {
         Command.globalExceptionHandler = (_, _) {};
-        serversViewModel.checkUrlExistsThrows = true;
+        serversViewModel.repository.shouldThrowServerExists = true;
       });
 
       tearDown(() {

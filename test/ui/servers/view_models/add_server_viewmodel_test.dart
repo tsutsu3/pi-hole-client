@@ -87,6 +87,7 @@ void main() {
       final vm = AddServerViewModel(
         serversViewModel: serversViewModel,
         statusViewModel: statusViewModel,
+        serverRepository: serversViewModel.repository,
         createBundle: ({required server, token}) {
           bundleToken = token;
 
@@ -194,7 +195,7 @@ void main() {
       });
 
       test('returns CreateDuplicateUrl and stores nothing', () async {
-        serversViewModel.urlExistsResult = true;
+        serversViewModel.repository.serverExists = true;
         final vm = buildViewModel();
 
         final outcome = await vm.createServer.runAsync(createReq());
@@ -207,7 +208,7 @@ void main() {
       test(
         'returns CreateUrlCheckFailed when the check is inconclusive',
         () async {
-          serversViewModel.checkUrlExistsFails = true;
+          serversViewModel.repository.shouldFailServerExists = true;
           final vm = buildViewModel();
 
           final outcome = await vm.createServer.runAsync(createReq());
@@ -468,7 +469,7 @@ void main() {
       test(
         'returns UpdateDuplicateUrl when the new address already exists',
         () async {
-          serversViewModel.urlExistsResult = true;
+          serversViewModel.repository.serverExists = true;
           final vm = buildViewModel();
 
           final outcome = await vm.updateServer.runAsync(
@@ -483,7 +484,7 @@ void main() {
       test(
         'returns UpdateUrlCheckFailed when the new-address check fails',
         () async {
-          serversViewModel.checkUrlExistsFails = true;
+          serversViewModel.repository.shouldFailServerExists = true;
           final vm = buildViewModel();
 
           final outcome = await vm.updateServer.runAsync(
