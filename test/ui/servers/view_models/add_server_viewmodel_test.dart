@@ -156,8 +156,8 @@ void main() {
           createReq(defaultServer: true),
         );
 
-        expect(outcome, isA<CreateSuccess>());
-        final server = (outcome as CreateSuccess).server;
+        expect(outcome, isA<SaveSuccess>());
+        final server = (outcome as SaveSuccess).server;
         expect(server.address, _oldAddress);
         expect(server.defaultServer, isTrue);
         expect(serversViewModel.storedRows, {_oldAddress: server});
@@ -175,7 +175,7 @@ void main() {
           createReq(apiVersion: SupportedApiVersions.v5, secret: 'token'),
         );
 
-        expect(outcome, isA<CreateSuccess>());
+        expect(outcome, isA<SaveSuccess>());
         expect(serversViewModel.storedSecrets, {
           '${_oldAddress}_token': 'token',
         });
@@ -189,52 +189,49 @@ void main() {
 
         final outcome = await vm.createServer.runAsync(createReq(secret: ''));
 
-        expect(outcome, isA<CreateSuccess>());
+        expect(outcome, isA<SaveSuccess>());
         expect(serversViewModel.storedSecrets, {'${_oldAddress}_password': ''});
         expect(authRepository.lastPassword, '');
       });
 
-      test('returns CreateDuplicateUrl and stores nothing', () async {
+      test('returns SaveDuplicateUrl and stores nothing', () async {
         serversViewModel.repository.serverExists = true;
         final vm = buildViewModel();
 
         final outcome = await vm.createServer.runAsync(createReq());
 
-        expect(outcome, isA<CreateDuplicateUrl>());
+        expect(outcome, isA<SaveDuplicateUrl>());
         expect(serversViewModel.storedRows, isEmpty);
         expect(serversViewModel.storedSecrets, isEmpty);
       });
 
       test(
-        'returns CreateUrlCheckFailed when the check is inconclusive',
+        'returns SaveUrlCheckFailed when the check is inconclusive',
         () async {
           serversViewModel.repository.shouldFailServerExists = true;
           final vm = buildViewModel();
 
           final outcome = await vm.createServer.runAsync(createReq());
 
-          expect(outcome, isA<CreateUrlCheckFailed>());
+          expect(outcome, isA<SaveUrlCheckFailed>());
           expect(serversViewModel.storedRows, isEmpty);
           expect(serversViewModel.storedSecrets, isEmpty);
         },
       );
 
-      test(
-        'a failed login returns CreateApiError and stores nothing',
-        () async {
-          authRepository.shouldFail = true;
-          final vm = buildViewModel();
+      test('a failed login returns SaveApiError and stores nothing', () async {
+        authRepository.shouldFail = true;
+        final vm = buildViewModel();
 
-          final outcome = await vm.createServer.runAsync(createReq());
+        final outcome = await vm.createServer.runAsync(createReq());
 
-          expect(outcome, isA<CreateApiError>());
-          expect((outcome as CreateApiError).version, SupportedApiVersions.v6);
-          expect(serversViewModel.storedRows, isEmpty);
-          expect(serversViewModel.storedSecrets, isEmpty);
-        },
-      );
+        expect(outcome, isA<SaveApiError>());
+        expect((outcome as SaveApiError).version, SupportedApiVersions.v6);
+        expect(serversViewModel.storedRows, isEmpty);
+        expect(serversViewModel.storedSecrets, isEmpty);
+      });
 
-      test('a failed status check after the login returns CreateApiError, '
+      test('a failed status check after the login returns SaveApiError, '
           'stores nothing and logs out', () async {
         dnsRepository
           ..shouldFail = true
@@ -243,21 +240,21 @@ void main() {
 
         final outcome = await vm.createServer.runAsync(createReq());
 
-        expect(outcome, isA<CreateApiError>());
+        expect(outcome, isA<SaveApiError>());
         expect(serversViewModel.storedRows, isEmpty);
         expect(serversViewModel.storedSecrets, isEmpty);
         expect(serversViewModel.deletedSidAddresses, [_oldAddress]);
         expect(authRepository.deleteCurrentSessionCallCount, 1);
       });
 
-      test('a failed password save returns CreateDbError before the DB '
+      test('a failed password save returns SaveDbError before the DB '
           'write', () async {
         serversViewModel.shouldFailSaveSecret = true;
         final vm = buildViewModel();
 
         final outcome = await vm.createServer.runAsync(createReq());
 
-        expect(outcome, isA<CreateDbError>());
+        expect(outcome, isA<SaveDbError>());
         expect(serversViewModel.storedRows, isEmpty);
         expect(serversViewModel.storedSecrets, isEmpty);
         expect(serversViewModel.deletedSidAddresses, [_oldAddress]);
@@ -265,53 +262,50 @@ void main() {
         expect(authRepository.deleteCurrentSessionCallCount, 1);
       });
 
-      test('a failed DB write returns CreateDbError and removes the stored '
+      test('a failed DB write returns SaveDbError and removes the stored '
           'password', () async {
         serversViewModel.shouldFailAddServer = true;
         final vm = buildViewModel();
 
         final outcome = await vm.createServer.runAsync(createReq());
 
-        expect(outcome, isA<CreateDbError>());
+        expect(outcome, isA<SaveDbError>());
         expect(serversViewModel.storedRows, isEmpty);
         expect(serversViewModel.storedSecrets, isEmpty);
         expect(serversViewModel.deletedSidAddresses, [_oldAddress]);
         expect(authRepository.deleteCurrentSessionCallCount, 1);
       });
 
-      test('a cancelled certificate returns CreateCancelled', () async {
+      test('a cancelled certificate returns SaveCancelled', () async {
         final vm = buildViewModel();
 
         final outcome = await vm.createServer.runAsync(
           createReq(resolveCertificate: (_) async => null),
         );
 
-        expect(outcome, isA<CreateCancelled>());
+        expect(outcome, isA<SaveCancelled>());
         expect(serversViewModel.storedSecrets, isEmpty);
         expect(authRepository.createSessionCallCount, 0);
       });
 
-      test(
-        '2FA server: prompts for a code then returns CreateSuccess',
-        () async {
-          authRepository
-            ..shouldRequireTotp = true
-            ..validTotp = '123456'
-            ..serverUsesTotp = true;
-          final vm = buildViewModel();
+      test('2FA server: prompts for a code then returns SaveSuccess', () async {
+        authRepository
+          ..shouldRequireTotp = true
+          ..validTotp = '123456'
+          ..serverUsesTotp = true;
+        final vm = buildViewModel();
 
-          final outcome = await vm.createServer.runAsync(
-            createReq(resolveTotp: ({error}) async => '123456'),
-          );
+        final outcome = await vm.createServer.runAsync(
+          createReq(resolveTotp: ({error}) async => '123456'),
+        );
 
-          expect(outcome, isA<CreateSuccess>());
-          expect(authRepository.lastTotp, '123456');
-          // First password-only attempt + the password+totp retry.
-          expect(authRepository.createSessionCallCount, 2);
-        },
-      );
+        expect(outcome, isA<SaveSuccess>());
+        expect(authRepository.lastTotp, '123456');
+        // First password-only attempt + the password+totp retry.
+        expect(authRepository.createSessionCallCount, 2);
+      });
 
-      test('2FA cancel returns CreateCancelled and stores nothing', () async {
+      test('2FA cancel returns SaveCancelled and stores nothing', () async {
         authRepository.shouldRequireTotp = true;
         final vm = buildViewModel();
 
@@ -319,7 +313,7 @@ void main() {
           createReq(resolveTotp: ({error}) async => null),
         );
 
-        expect(outcome, isA<CreateCancelled>());
+        expect(outcome, isA<SaveCancelled>());
         expect(serversViewModel.storedRows, isEmpty);
         expect(serversViewModel.storedSecrets, isEmpty);
         // Only the password-only attempt ran; no retry after the user cancelled.
@@ -345,7 +339,7 @@ void main() {
           ),
         );
 
-        expect(outcome, isA<CreateSuccess>());
+        expect(outcome, isA<SaveSuccess>());
         // First prompt has no error; the re-prompt flags the invalid code.
         expect(errors, [null, TotpPromptError.invalid]);
         // password-only + invalid code + valid code.
@@ -369,41 +363,35 @@ void main() {
           ),
         );
 
-        expect(outcome, isA<CreateSuccess>());
+        expect(outcome, isA<SaveSuccess>());
         expect(errors, [null, TotpPromptError.reused]);
         // password-only + reused code + accepted code.
         expect(authRepository.createSessionCallCount, 3);
       });
 
-      test(
-        '2FA rate limit is terminal (CreateApiError, no re-prompt)',
-        () async {
-          authRepository
-            ..shouldRequireTotp = true
-            ..totpFailures.add(TotpRateLimitException());
-          final vm = buildViewModel();
+      test('2FA rate limit is terminal (SaveApiError, no re-prompt)', () async {
+        authRepository
+          ..shouldRequireTotp = true
+          ..totpFailures.add(TotpRateLimitException());
+        final vm = buildViewModel();
 
-          var promptCount = 0;
+        var promptCount = 0;
 
-          final outcome = await vm.createServer.runAsync(
-            createReq(
-              resolveTotp: ({error}) async {
-                promptCount++;
-                return '123456';
-              },
-            ),
-          );
+        final outcome = await vm.createServer.runAsync(
+          createReq(
+            resolveTotp: ({error}) async {
+              promptCount++;
+              return '123456';
+            },
+          ),
+        );
 
-          expect(outcome, isA<CreateApiError>());
-          expect(
-            (outcome as CreateApiError).error,
-            isA<TotpRateLimitException>(),
-          );
-          expect(serversViewModel.storedSecrets, isEmpty);
-          // Prompted once; the rate-limit response stops the loop.
-          expect(promptCount, 1);
-        },
-      );
+        expect(outcome, isA<SaveApiError>());
+        expect((outcome as SaveApiError).error, isA<TotpRateLimitException>());
+        expect(serversViewModel.storedSecrets, isEmpty);
+        // Prompted once; the rate-limit response stops the loop.
+        expect(promptCount, 1);
+      });
     });
 
     group('updateServer', () {
@@ -423,7 +411,7 @@ void main() {
 
         final outcome = await vm.updateServer.runAsync(updateReq());
 
-        expect(outcome, isA<UpdateSuccess>());
+        expect(outcome, isA<SaveSuccess>());
         expect(serversViewModel.storedRows.keys, [_oldAddress]);
         expect(serversViewModel.storedRows[_oldAddress]!.alias, 'alias');
         // The password was not changed, so nothing is written.
@@ -442,7 +430,7 @@ void main() {
           updateReq(url: _newAddress),
         );
 
-        expect(outcome, isA<UpdateSuccess>());
+        expect(outcome, isA<SaveSuccess>());
         expect(serversViewModel.storedRows.keys, [_newAddress]);
         // The old address's password and SID are removed.
         expect(serversViewModel.storedSecrets, {
@@ -453,21 +441,21 @@ void main() {
         expect(authRepository.deleteCurrentSessionCallCount, 1);
       });
 
-      test('a cancelled certificate returns UpdateCancelled', () async {
+      test('a cancelled certificate returns SaveCancelled', () async {
         final vm = buildViewModel();
 
         final outcome = await vm.updateServer.runAsync(
           updateReq(resolveCertificate: (_) async => null),
         );
 
-        expect(outcome, isA<UpdateCancelled>());
+        expect(outcome, isA<SaveCancelled>());
         expectOldServerKept();
         expect(statusViewModel.stopAutoRefreshCallCount, 1);
         expect(statusViewModel.startAutoRefreshCallCount, 1);
       });
 
       test(
-        'returns UpdateDuplicateUrl when the new address already exists',
+        'returns SaveDuplicateUrl when the new address already exists',
         () async {
           serversViewModel.repository.serverExists = true;
           final vm = buildViewModel();
@@ -476,13 +464,13 @@ void main() {
             updateReq(url: _newAddress),
           );
 
-          expect(outcome, isA<UpdateDuplicateUrl>());
+          expect(outcome, isA<SaveDuplicateUrl>());
           expectOldServerKept();
         },
       );
 
       test(
-        'returns UpdateUrlCheckFailed when the new-address check fails',
+        'returns SaveUrlCheckFailed when the new-address check fails',
         () async {
           serversViewModel.repository.shouldFailServerExists = true;
           final vm = buildViewModel();
@@ -491,7 +479,7 @@ void main() {
             updateReq(url: _newAddress),
           );
 
-          expect(outcome, isA<UpdateUrlCheckFailed>());
+          expect(outcome, isA<SaveUrlCheckFailed>());
           expectOldServerKept();
         },
       );
@@ -504,7 +492,7 @@ void main() {
           updateReq(url: _newAddress),
         );
 
-        expect(outcome, isA<UpdateApiError>());
+        expect(outcome, isA<SaveApiError>());
         expectOldServerKept();
         expect(serversViewModel.deletedSidAddresses, [_newAddress]);
         expect(statusViewModel.startAutoRefreshCallCount, 1);
@@ -518,7 +506,7 @@ void main() {
           updateReq(secret: const NewSecret('new-pass')),
         );
 
-        expect(outcome, isA<UpdateApiError>());
+        expect(outcome, isA<SaveApiError>());
         expectOldServerKept();
         expect(authRepository.lastPassword, 'new-pass');
       });
@@ -530,7 +518,7 @@ void main() {
 
         final outcome = await vm.updateServer.runAsync(updateReq());
 
-        expect(outcome, isA<UpdateSuccess>());
+        expect(outcome, isA<SaveSuccess>());
         expect(serversViewModel.storedRows[_oldAddress]!.alias, 'alias');
         expect(authRepository.lastPassword, 'pass');
         expect(authRepository.createSessionCallCount, 1);
@@ -546,7 +534,7 @@ void main() {
 
           final outcome = await vm.updateServer.runAsync(updateReq());
 
-          expect(outcome, isA<UpdateApiError>());
+          expect(outcome, isA<SaveApiError>());
           expectOldServerKept();
           // 503 is transient -> no new login, to avoid duplicate sessions.
           expect(authRepository.createSessionCallCount, 0);
@@ -560,7 +548,7 @@ void main() {
 
         final outcome = await vm.updateServer.runAsync(updateReq());
 
-        expect(outcome, isA<UpdateDbError>());
+        expect(outcome, isA<SaveDbError>());
         expectOldServerKept();
         expect(statusViewModel.startAutoRefreshCallCount, 1);
       });
@@ -576,7 +564,7 @@ void main() {
           ),
         );
 
-        expect(outcome, isA<UpdateSuccess>());
+        expect(outcome, isA<SaveSuccess>());
         expect(
           serversViewModel.storedRows[_oldAddress]!.apiVersion,
           SupportedApiVersions.v5,
@@ -610,7 +598,7 @@ void main() {
           ),
         );
 
-        expect(outcome, isA<UpdateSuccess>());
+        expect(outcome, isA<SaveSuccess>());
         expect(
           serversViewModel.storedRows[_oldAddress]!.apiVersion,
           SupportedApiVersions.v6,
@@ -638,7 +626,7 @@ void main() {
           ),
         );
 
-        expect(outcome, isA<UpdateSuccess>());
+        expect(outcome, isA<SaveSuccess>());
         // v5 stored no password, so the value is checked with a new login
         // and stored.
         expect(authRepository.createSessionCallCount, 1);
@@ -734,7 +722,7 @@ void main() {
             updateReq(secret: const NewSecret('new-pass')),
           );
 
-          expect(outcome, isA<UpdateCancelled>());
+          expect(outcome, isA<SaveCancelled>());
           expectFailureResult(
             secrets: _oldSecrets,
             deletedSids: [],
@@ -751,7 +739,7 @@ void main() {
             updateReq(url: _newAddress),
           );
 
-          expect(outcome, isA<UpdateCancelled>());
+          expect(outcome, isA<SaveCancelled>());
           expectFailureResult(
             secrets: _oldSecrets,
             deletedSids: [_newAddress],
@@ -769,7 +757,7 @@ void main() {
             updateReq(secret: const NewSecret('new-pass')),
           );
 
-          expect(outcome, isA<UpdateApiError>());
+          expect(outcome, isA<SaveApiError>());
           expectFailureResult(
             secrets: _oldSecrets,
             deletedSids: [],
@@ -787,7 +775,7 @@ void main() {
             updateReq(secret: const NewSecret('new-pass')),
           );
 
-          expect(outcome, isA<UpdateApiError>());
+          expect(outcome, isA<SaveApiError>());
           expectFailureResult(
             secrets: {'${_oldAddress}_password': 'pass'},
             deletedSids: [_oldAddress],
@@ -805,7 +793,7 @@ void main() {
             updateReq(secret: const NewSecret('new-pass')),
           );
 
-          expect(outcome, isA<UpdateDbError>());
+          expect(outcome, isA<SaveDbError>());
           expectFailureResult(
             secrets: {'${_oldAddress}_password': 'pass'},
             deletedSids: [_oldAddress],
@@ -823,7 +811,7 @@ void main() {
             updateReq(secret: const NewSecret('new-pass')),
           );
 
-          expect(outcome, isA<UpdateDbError>());
+          expect(outcome, isA<SaveDbError>());
           expectFailureResult(
             // The new password passed the check, so it is not removed.
             secrets: {'${_oldAddress}_password': 'new-pass'},
@@ -842,7 +830,7 @@ void main() {
             updateReq(url: _newAddress),
           );
 
-          expect(outcome, isA<UpdateDbError>());
+          expect(outcome, isA<SaveDbError>());
           expectFailureResult(
             secrets: _oldSecrets,
             deletedSids: [_newAddress],

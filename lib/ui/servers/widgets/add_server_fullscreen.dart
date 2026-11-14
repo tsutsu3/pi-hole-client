@@ -464,7 +464,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
     final url = _serverUrlFromForm();
 
-    final CreateOutcome outcome;
+    final SaveServerOutcome outcome;
     try {
       outcome = await viewModel.createServer.runAsync(
         CreateServerRequest(
@@ -490,35 +490,35 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       isConnecting = false;
     });
     switch (outcome) {
-      case CreateInitial():
-      case CreateCancelled():
+      case SaveInitial():
+      case SaveCancelled():
         break;
-      case CreateDuplicateUrl():
+      case SaveDuplicateUrl():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context).connectionAlreadyExists,
         );
-      case CreateUrlCheckFailed():
+      case SaveUrlCheckFailed():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context).cannotCheckUrlSaved,
         );
-      case CreateApiError(:final error, :final version):
+      case SaveApiError(:final error, :final version):
         handleApiErrorResult(
           context: context,
           appConfigViewModel: appConfigViewModel,
           error: error,
           version: version,
         );
-      case CreateDbError():
+      case SaveDbError():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context).cantSaveConnectionData,
         );
-      case CreateSuccess():
+      case SaveSuccess():
         await Navigator.maybePop(context);
         if (!mounted) return;
         showSuccessSnackBar(
@@ -549,7 +549,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         piHoleVersion == widget.server!.apiVersion && value == _loadedSecret;
     final secret = isUnchanged ? UnchangedSecret(value) : NewSecret(value);
 
-    final UpdateOutcome outcome;
+    final SaveServerOutcome outcome;
     try {
       outcome = await viewModel.updateServer.runAsync(
         UpdateServerRequest(
@@ -576,35 +576,35 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       isConnecting = false;
     });
     switch (outcome) {
-      case UpdateInitial():
-      case UpdateCancelled():
+      case SaveInitial():
+      case SaveCancelled():
         break;
-      case UpdateDuplicateUrl():
+      case SaveDuplicateUrl():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context).connectionAlreadyExists,
         );
-      case UpdateUrlCheckFailed():
+      case SaveUrlCheckFailed():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context).cannotCheckUrlSaved,
         );
-      case UpdateApiError(:final error, :final version):
+      case SaveApiError(:final error, :final version):
         handleApiErrorResult(
           context: context,
           appConfigViewModel: appConfigViewModel,
           error: error,
           version: version,
         );
-      case UpdateDbError():
+      case SaveDbError():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context).cantSaveConnectionData,
         );
-      case UpdateSuccess():
+      case SaveSuccess():
         await Navigator.maybePop(context);
         if (!mounted) return;
         showSuccessSnackBar(

@@ -10,7 +10,7 @@ How the **Add / Edit server** screen connects to a Pi-hole and persists it.
   (`ConnectServerUseCase`)
 
 The view model owns the orchestration and returns a sealed outcome
-(`CreateOutcome` / `UpdateOutcome`). The widget builds the request, awaits the
+(`SaveServerOutcome`). The widget builds the request, awaits the
 command and maps the outcome to UI (snackbar / navigation). UI that the
 orchestration needs mid-flow is injected per request as callbacks, so the view
 model never touches `BuildContext`:
@@ -47,7 +47,7 @@ a failed or cancelled check has no stored secret to undo.
 
 After the check passes, only the key for the selected version is stored
 (`savePassword` for v6, `saveToken` for v5). A failed write stops the flow with
-`CreateDbError` / `UpdateDbError`.
+`SaveDbError`.
 
 The widget sends the secret as a `SecretInput`
 (`lib/domain/model/server/secret_input.dart`):
@@ -65,33 +65,33 @@ check. An unchanged secret keeps the current session while it works
 
 ## Add a new server - `createServer`
 
-A cancelled/blocked certificate **aborts** the add (`CreateCancelled`) before
-any connection. A cancelled TOTP prompt also returns `CreateCancelled`; nothing
+A cancelled/blocked certificate **aborts** the add (`SaveCancelled`) before
+any connection. A cancelled TOTP prompt also returns `SaveCancelled`; nothing
 was stored, so there is nothing to undo.
 
 ```mermaid
 flowchart TD
   A([createServer req]) --> B{doesServerExist}
-  B -- duplicate --> BD([CreateDuplicateUrl])
-  B -- failed --> BF([CreateUrlCheckFailed])
+  B -- duplicate --> BD([SaveDuplicateUrl])
+  B -- failed --> BF([SaveUrlCheckFailed])
   B -- available --> D[resolveCertificate]
-  D -- cancelled/blocked --> DX([CreateCancelled])
+  D -- cancelled/blocked --> DX([SaveCancelled])
   D -- ok --> C[connect<br/>SessionPolicy.forceNew<br/>secret passed in]
-  C -- cancelled --> CX([CreateCancelled])
-  C -- error --> CE[cleanupFailedAttempt] --> CA([CreateApiError])
+  C -- cancelled --> CX([SaveCancelled])
+  C -- error --> CE[cleanupFailedAttempt] --> CA([SaveApiError])
   C -- ok --> S[saveSecret<br/>password or token]
-  S -- error --> F[cleanupFailedAttempt] --> DB([CreateDbError])
+  S -- error --> F[cleanupFailedAttempt] --> DB([SaveDbError])
   S -- ok --> M[addServer.runAsync<br/>persist row]
   M -- error --> F
-  M -- ok --> J([CreateSuccess server])
+  M -- ok --> J([SaveSuccess server])
 ```
 
-`createServer` persists the server row before returning `CreateSuccess`, so the
+`createServer` persists the server row before returning `SaveSuccess`, so the
 widget only pops and shows the success snackbar.
 
 ## Edit an existing server - `updateServer`
 
-A cancelled/blocked certificate **aborts** the save (`UpdateCancelled`); the
+A cancelled/blocked certificate **aborts** the save (`SaveCancelled`); the
 message was already shown by `resolveCertificate`. When a server is selected,
 auto-refresh is stopped for the duration and started again in a `finally`, so
 every exit path restarts it.
@@ -100,27 +100,27 @@ every exit path restarts it.
 flowchart TD
   A([updateServer req]) --> B{address changed?<br/>isSameEndpoint}
   B -- yes --> C{doesServerExist newUrl}
-  C -- duplicate --> CD([UpdateDuplicateUrl])
-  C -- failed --> CF([UpdateUrlCheckFailed])
+  C -- duplicate --> CD([SaveDuplicateUrl])
+  C -- failed --> CF([SaveUrlCheckFailed])
   C -- available --> E[stopAutoRefresh]
   B -- no --> E
   E --> F[resolveCertificate<br/>pin reset if address changed]
-  F -- cancelled/blocked --> H([UpdateCancelled])
+  F -- cancelled/blocked --> H([SaveCancelled])
   F -- ok --> J[connect<br/>forceNew if new secret, else reuseIfValid]
   J -- cancelled --> JC[markTotpReauthDeclined<br/>cleanupFailedAttempt] --> H
-  J -- error --> JE[cleanupFailedAttempt] --> JA([UpdateApiError])
+  J -- error --> JE[cleanupFailedAttempt] --> JA([SaveApiError])
   J -- ok --> K{new secret?}
   K -- yes --> S[saveSecret]
   K -- no --> R
-  S -- error --> X[cleanupFailedAttempt] --> T([UpdateDbError])
+  S -- error --> X[cleanupFailedAttempt] --> T([SaveDbError])
   S -- ok --> R[commit<br/>replaceServer if address changed<br/>else editServer]
   R -- error --> X
   R -- ok --> U[cleanupAfterCommit<br/>clearTotpReauthDeclined]
-  U --> W([UpdateSuccess])
+  U --> W([SaveSuccess server])
 ```
 
 `startAutoRefresh` runs after every outcome above (from the `finally`). On
-`UpdateSuccess` the widget pops and shows the success snackbar.
+`SaveSuccess` the widget pops and shows the success snackbar.
 
 ### Cleanup after a failure - `_cleanupFailedAttempt`
 
@@ -140,7 +140,7 @@ With the **same address**, a stored secret is never restored or removed:
 - it passed the connection check, so it works.
 
 This also holds when the DB write fails after the secret was stored: the
-outcome is `UpdateDbError`, the DB row keeps the old settings, and the stored
+outcome is `SaveDbError`, the DB row keeps the old settings, and the stored
 secret is the new, checked one. Saving again on the same screen stores
 everything.
 
@@ -294,7 +294,7 @@ sequenceDiagram
   Note over VM,B: v5 uses the token passed to the bundle
   VM->>SR: savePassword (v6) / saveToken (v5)
   VM->>SV: addServer.runAsync(server)
-  VM-->>W: CreateSuccess(server) | CreateDbError | CreateCancelled | CreateApiError | CreateDuplicateUrl | CreateUrlCheckFailed
+  VM-->>W: SaveSuccess(server) | SaveDbError | SaveCancelled | SaveApiError | SaveDuplicateUrl | SaveUrlCheckFailed
   alt success
     W->>W: Navigator.maybePop + success snackbar
   else failure
@@ -341,32 +341,31 @@ sequenceDiagram
     VM->>SV: deleteSid (cleanupFailedAttempt)
   end
   VM->>ST: startAutoRefresh (finally)
-  VM-->>W: UpdateSuccess | UpdateCancelled | UpdateApiError | UpdateDbError | UpdateDuplicateUrl | UpdateUrlCheckFailed
-  alt UpdateSuccess
+  VM-->>W: SaveSuccess(server) | SaveCancelled | SaveApiError | SaveDbError | SaveDuplicateUrl | SaveUrlCheckFailed
+  alt SaveSuccess
     W->>W: Navigator.maybePop + success snackbar
-  else UpdateApiError / UpdateDbError / duplicate / urlCheckFailed
+  else SaveApiError / SaveDbError / duplicate / urlCheckFailed
     W->>W: error snackbar
-  else UpdateCancelled
+  else SaveCancelled
     W->>W: nothing (message already shown by resolveCertificate / TOTP prompt)
   end
 ```
 
 ## Outcome → UI mapping
 
-| Outcome                                         | Widget reaction                                                      |
-| ----------------------------------------------- | -------------------------------------------------------------------- |
-| `CreateSuccess(server)`                         | pop → "connected successfully" (the row is already saved)            |
-| `UpdateSuccess`                                 | pop → "edited successfully"                                          |
-| `CreateDuplicateUrl` / `UpdateDuplicateUrl`     | "connection already exists" snackbar                                 |
-| `CreateUrlCheckFailed` / `UpdateUrlCheckFailed` | "cannot check URL" snackbar                                          |
-| `CreateApiError` / `UpdateApiError`             | status-code-specific error snackbar + log (`handleApiErrorResult`)   |
-| `CreateDbError` / `UpdateDbError`               | "cannot save connection data" snackbar                               |
-| `CreateCancelled` / `UpdateCancelled`           | nothing - certificate dialog / SSL error / TOTP prompt already shown |
+| Outcome              | Widget reaction                                                                  |
+| -------------------- | -------------------------------------------------------------------------------- |
+| `SaveSuccess`        | pop → "connected successfully" (add) / "edited successfully" (edit); row saved   |
+| `SaveDuplicateUrl`   | "connection already exists" snackbar                                             |
+| `SaveUrlCheckFailed` | "cannot check URL" snackbar                                                      |
+| `SaveApiError`       | status-code-specific error snackbar + log (`handleApiErrorResult`)               |
+| `SaveDbError`        | "cannot save connection data" snackbar                                           |
+| `SaveCancelled`      | nothing - certificate dialog / SSL error / TOTP prompt already shown             |
 
 ## Notes
 
 - **Create and edit behave symmetrically on certificate cancel**: both
-  `createServer` and `updateServer` abort (`CreateCancelled` / `UpdateCancelled`)
+  `createServer` and `updateServer` abort (`SaveCancelled`)
   when the pin dialog is cancelled or the certificate is blocked; no connection
   is attempted.
 - The view model never shows UI itself. Every `CertificateBlocked` reason has a
@@ -376,7 +375,7 @@ sequenceDiagram
   The view model never shows the prompt; it passes the injected `resolveTotp`
   callback, which the widget backs with the TOTP input modal. Wrong / reused
   codes re-prompt with a localized reason; a dismissed prompt cancels the whole
-  flow (`CreateCancelled` / `UpdateCancelled`).
+  flow (`SaveCancelled`).
 - **Known limitation**: logging out the new session during cleanup
   (`auth.deleteCurrentSession`) renews the session on a 401. The renewal reads
   the **stored** password, not the one being checked. This only happens when

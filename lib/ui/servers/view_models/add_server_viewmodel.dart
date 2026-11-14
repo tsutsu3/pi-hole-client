@@ -85,78 +85,42 @@ class UpdateServerRequest {
 }
 
 // ==================================================================
-// Outcome of [AddServerViewModel.createServer], mapped to UI by the widget.
+// Outcome of [AddServerViewModel.createServer] and
+// [AddServerViewModel.updateServer], mapped to UI by the widget.
 // ==================================================================
-sealed class CreateOutcome {
-  const CreateOutcome();
+sealed class SaveServerOutcome {
+  const SaveServerOutcome();
 }
 
-final class CreateInitial extends CreateOutcome {
-  const CreateInitial();
+final class SaveInitial extends SaveServerOutcome {
+  const SaveInitial();
 }
 
-final class CreateSuccess extends CreateOutcome {
-  const CreateSuccess(this.server);
+final class SaveSuccess extends SaveServerOutcome {
+  const SaveSuccess(this.server);
   final Server server;
 }
 
-final class CreateCancelled extends CreateOutcome {
-  const CreateCancelled();
+final class SaveCancelled extends SaveServerOutcome {
+  const SaveCancelled();
 }
 
-final class CreateDuplicateUrl extends CreateOutcome {
-  const CreateDuplicateUrl();
+final class SaveDuplicateUrl extends SaveServerOutcome {
+  const SaveDuplicateUrl();
 }
 
-final class CreateUrlCheckFailed extends CreateOutcome {
-  const CreateUrlCheckFailed();
+final class SaveUrlCheckFailed extends SaveServerOutcome {
+  const SaveUrlCheckFailed();
 }
 
-final class CreateApiError extends CreateOutcome {
-  const CreateApiError(this.error, this.version);
+final class SaveApiError extends SaveServerOutcome {
+  const SaveApiError(this.error, this.version);
   final Exception error;
   final String version;
 }
 
-final class CreateDbError extends CreateOutcome {
-  const CreateDbError();
-}
-
-// ==================================================================
-// Outcome of [AddServerViewModel.updateServer], mapped to UI by the widget.
-// ==================================================================
-sealed class UpdateOutcome {
-  const UpdateOutcome();
-}
-
-final class UpdateInitial extends UpdateOutcome {
-  const UpdateInitial();
-}
-
-final class UpdateSuccess extends UpdateOutcome {
-  const UpdateSuccess();
-}
-
-final class UpdateCancelled extends UpdateOutcome {
-  const UpdateCancelled();
-}
-
-final class UpdateDuplicateUrl extends UpdateOutcome {
-  const UpdateDuplicateUrl();
-}
-
-final class UpdateUrlCheckFailed extends UpdateOutcome {
-  const UpdateUrlCheckFailed();
-}
-
-final class UpdateApiError extends UpdateOutcome {
-  const UpdateApiError(this.error, this.version);
-  final Exception error;
-  final String version;
-}
-
-final class UpdateDbError extends UpdateOutcome {
-  const UpdateDbError();
+final class SaveDbError extends SaveServerOutcome {
+  const SaveDbError();
 }
 
 /// Orchestrates adding ([createServer]) and editing ([updateServer]) a Pi-hole
@@ -177,13 +141,13 @@ class AddServerViewModel extends ChangeNotifier {
        _statusViewModel = statusViewModel,
        _serverRepository = serverRepository,
        _createBundle = createBundle {
-    createServer = Command.createAsync<CreateServerRequest, CreateOutcome>(
+    createServer = Command.createAsync<CreateServerRequest, SaveServerOutcome>(
       _createServer,
-      initialValue: const CreateInitial(),
+      initialValue: const SaveInitial(),
     );
-    updateServer = Command.createAsync<UpdateServerRequest, UpdateOutcome>(
+    updateServer = Command.createAsync<UpdateServerRequest, SaveServerOutcome>(
       _updateServer,
-      initialValue: const UpdateInitial(),
+      initialValue: const SaveInitial(),
     );
     createServer.addListener(notifyListeners);
     updateServer.addListener(notifyListeners);
@@ -194,8 +158,8 @@ class AddServerViewModel extends ChangeNotifier {
   final ServerRepository _serverRepository;
   final CreateRepositoryBundle _createBundle;
 
-  late final Command<CreateServerRequest, CreateOutcome> createServer;
-  late final Command<UpdateServerRequest, UpdateOutcome> updateServer;
+  late final Command<CreateServerRequest, SaveServerOutcome> createServer;
+  late final Command<UpdateServerRequest, SaveServerOutcome> updateServer;
 
   /// Adds a new server.
   ///
@@ -209,15 +173,15 @@ class AddServerViewModel extends ChangeNotifier {
   /// Nothing is stored before step 4. When step 4 or 5 fails, what this
   /// attempt stored is removed.
   ///
-  /// Returns [CreateSuccess], [CreateCancelled], [CreateDuplicateUrl],
-  /// [CreateUrlCheckFailed], [CreateApiError] or [CreateDbError].
-  Future<CreateOutcome> _createServer(CreateServerRequest req) async {
+  /// Returns [SaveSuccess], [SaveCancelled], [SaveDuplicateUrl],
+  /// [SaveUrlCheckFailed], [SaveApiError] or [SaveDbError].
+  Future<SaveServerOutcome> _createServer(CreateServerRequest req) async {
     // null when the check failed.
     switch ((await _serverRepository.doesServerExist(req.url)).getOrNull()) {
       case null:
-        return const CreateUrlCheckFailed();
+        return const SaveUrlCheckFailed();
       case true:
-        return const CreateDuplicateUrl();
+        return const SaveDuplicateUrl();
       case false:
         break;
     }
@@ -233,7 +197,7 @@ class AddServerViewModel extends ChangeNotifier {
       ),
     );
     if (resolved == null) {
-      return const CreateCancelled();
+      return const SaveCancelled();
     }
 
     final server = resolved.copyWith(defaultServer: req.defaultServer);
@@ -250,7 +214,7 @@ class AddServerViewModel extends ChangeNotifier {
     final ConnectSuccess connected;
     switch (outcome) {
       case ConnectCancelled():
-        return const CreateCancelled();
+        return const SaveCancelled();
       case ConnectFailed(:final error, :final sessionCreated):
         await _cleanupFailedAttempt(
           bundle: bundle,
@@ -259,7 +223,7 @@ class AddServerViewModel extends ChangeNotifier {
           sessionCreated: sessionCreated,
         );
 
-        return CreateApiError(error, req.apiVersion);
+        return SaveApiError(error, req.apiVersion);
       case ConnectSuccess():
         connected = outcome;
     }
@@ -282,10 +246,10 @@ class AddServerViewModel extends ChangeNotifier {
         secretSaved: true,
       );
 
-      return const CreateDbError();
+      return const SaveDbError();
     }
 
-    return CreateSuccess(server);
+    return SaveSuccess(server);
   }
 
   /// Edits an existing server.
@@ -303,9 +267,9 @@ class AddServerViewModel extends ChangeNotifier {
   ///
   /// Auto refresh is stopped while it runs and started again on every exit.
   ///
-  /// Returns [UpdateSuccess], [UpdateCancelled], [UpdateDuplicateUrl],
-  /// [UpdateUrlCheckFailed], [UpdateApiError] or [UpdateDbError].
-  Future<UpdateOutcome> _updateServer(UpdateServerRequest req) async {
+  /// Returns [SaveSuccess], [SaveCancelled], [SaveDuplicateUrl],
+  /// [SaveUrlCheckFailed], [SaveApiError] or [SaveDbError].
+  Future<SaveServerOutcome> _updateServer(UpdateServerRequest req) async {
     // Normalised comparison: a host-case-only or trailing-slash difference is
     // NOT an address change and must stay on the in-place editServer path.
     final isAddressChanged = !isSameEndpoint(req.oldServer.address, req.url);
@@ -314,9 +278,9 @@ class AddServerViewModel extends ChangeNotifier {
       // null when the check failed.
       switch ((await _serverRepository.doesServerExist(req.url)).getOrNull()) {
         case null:
-          return const UpdateUrlCheckFailed();
+          return const SaveUrlCheckFailed();
         case true:
-          return const UpdateDuplicateUrl();
+          return const SaveDuplicateUrl();
         case false:
           break;
       }
@@ -335,7 +299,7 @@ class AddServerViewModel extends ChangeNotifier {
     }
   }
 
-  Future<UpdateOutcome> _saveEdit(
+  Future<SaveServerOutcome> _saveEdit(
     UpdateServerRequest req,
     bool isAddressChanged,
   ) async {
@@ -365,7 +329,7 @@ class AddServerViewModel extends ChangeNotifier {
       ),
     );
     if (resolved == null) {
-      return const UpdateCancelled();
+      return const SaveCancelled();
     }
 
     final server = resolved.copyWith(defaultServer: req.defaultServer);
@@ -396,7 +360,7 @@ class AddServerViewModel extends ChangeNotifier {
           sessionCreated: false,
         );
 
-        return const UpdateCancelled();
+        return const SaveCancelled();
       case ConnectFailed(:final error, :final sessionCreated):
         await _cleanupFailedAttempt(
           bundle: bundle,
@@ -405,7 +369,7 @@ class AddServerViewModel extends ChangeNotifier {
           sessionCreated: sessionCreated,
         );
 
-        return UpdateApiError(error, req.apiVersion);
+        return SaveApiError(error, req.apiVersion);
       case ConnectSuccess():
         connected = outcome;
     }
@@ -422,13 +386,13 @@ class AddServerViewModel extends ChangeNotifier {
         secretSaved: isNew,
       );
 
-      return const UpdateDbError();
+      return const SaveDbError();
     }
 
     await attempt.cleanupAfterCommit();
     _serversViewModel.clearTotpReauthDeclined(address);
 
-    return const UpdateSuccess();
+    return SaveSuccess(server);
   }
 
   /// Creates the bundle for [server]. The v5 repositories use [secret] as the
