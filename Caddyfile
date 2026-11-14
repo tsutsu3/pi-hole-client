@@ -33,6 +33,16 @@
 	import subroute
 }
 
+# Pi-hole behind the subroute /pihole, with the web interface at /admin2/.
+:8091 {
+	handle_path /pihole/* {
+		reverse_proxy piholeV6-subroute-webhome:80
+	}
+	handle {
+		respond 404
+	}
+}
+
 :8445 {
 	tls /certs/server.crt /certs/server.key
 
