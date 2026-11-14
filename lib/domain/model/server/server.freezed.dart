@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Server {
 
- String get address; String get alias; String get apiVersion; bool get defaultServer; bool get allowUntrustedCert; bool get ignoreCertificateErrors; String? get pinnedCertificateSha256;
+ String get address; String get alias; String get apiVersion; bool get defaultServer; bool get allowUntrustedCert; bool get ignoreCertificateErrors; String? get pinnedCertificateSha256;/// Path of the web interface, such as `/admin2`. null means `/admin`.
+ String? get webPath;
 /// Create a copy of Server
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +28,20 @@ $ServerCopyWith<Server> get copyWith => _$ServerCopyWithImpl<Server>(this as Ser
 @override
 bool operator ==(Object other) {
   final _this = this as Server;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Server&&(identical(other.address, _this.address) || other.address == _this.address)&&(identical(other.alias, _this.alias) || other.alias == _this.alias)&&(identical(other.apiVersion, _this.apiVersion) || other.apiVersion == _this.apiVersion)&&(identical(other.defaultServer, _this.defaultServer) || other.defaultServer == _this.defaultServer)&&(identical(other.allowUntrustedCert, _this.allowUntrustedCert) || other.allowUntrustedCert == _this.allowUntrustedCert)&&(identical(other.ignoreCertificateErrors, _this.ignoreCertificateErrors) || other.ignoreCertificateErrors == _this.ignoreCertificateErrors)&&(identical(other.pinnedCertificateSha256, _this.pinnedCertificateSha256) || other.pinnedCertificateSha256 == _this.pinnedCertificateSha256));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Server&&(identical(other.address, _this.address) || other.address == _this.address)&&(identical(other.alias, _this.alias) || other.alias == _this.alias)&&(identical(other.apiVersion, _this.apiVersion) || other.apiVersion == _this.apiVersion)&&(identical(other.defaultServer, _this.defaultServer) || other.defaultServer == _this.defaultServer)&&(identical(other.allowUntrustedCert, _this.allowUntrustedCert) || other.allowUntrustedCert == _this.allowUntrustedCert)&&(identical(other.ignoreCertificateErrors, _this.ignoreCertificateErrors) || other.ignoreCertificateErrors == _this.ignoreCertificateErrors)&&(identical(other.pinnedCertificateSha256, _this.pinnedCertificateSha256) || other.pinnedCertificateSha256 == _this.pinnedCertificateSha256)&&(identical(other.webPath, _this.webPath) || other.webPath == _this.webPath));
 }
 
 
 @override
 int get hashCode {
   final _this = this as Server;
-  return Object.hash(runtimeType,_this.address,_this.alias,_this.apiVersion,_this.defaultServer,_this.allowUntrustedCert,_this.ignoreCertificateErrors,_this.pinnedCertificateSha256);
+  return Object.hash(runtimeType,_this.address,_this.alias,_this.apiVersion,_this.defaultServer,_this.allowUntrustedCert,_this.ignoreCertificateErrors,_this.pinnedCertificateSha256,_this.webPath);
 }
 
 @override
 String toString() {
   final _this = this as Server;
-  return 'Server(address: ${_this.address}, alias: ${_this.alias}, apiVersion: ${_this.apiVersion}, defaultServer: ${_this.defaultServer}, allowUntrustedCert: ${_this.allowUntrustedCert}, ignoreCertificateErrors: ${_this.ignoreCertificateErrors}, pinnedCertificateSha256: ${_this.pinnedCertificateSha256})';
+  return 'Server(address: ${_this.address}, alias: ${_this.alias}, apiVersion: ${_this.apiVersion}, defaultServer: ${_this.defaultServer}, allowUntrustedCert: ${_this.allowUntrustedCert}, ignoreCertificateErrors: ${_this.ignoreCertificateErrors}, pinnedCertificateSha256: ${_this.pinnedCertificateSha256}, webPath: ${_this.webPath})';
 }
 
 
@@ -51,7 +52,7 @@ abstract mixin class $ServerCopyWith<$Res>  {
   factory $ServerCopyWith(Server value, $Res Function(Server) _then) = _$ServerCopyWithImpl;
 @useResult
 $Res call({
- String address, String alias, String apiVersion, bool defaultServer, bool allowUntrustedCert, bool ignoreCertificateErrors, String? pinnedCertificateSha256
+ String address, String alias, String apiVersion, bool defaultServer, bool allowUntrustedCert, bool ignoreCertificateErrors, String? pinnedCertificateSha256, String? webPath
 });
 
 
@@ -68,7 +69,7 @@ class _$ServerCopyWithImpl<$Res>
 
 /// Create a copy of Server
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? address = null,Object? alias = null,Object? apiVersion = null,Object? defaultServer = null,Object? allowUntrustedCert = null,Object? ignoreCertificateErrors = null,Object? pinnedCertificateSha256 = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? address = null,Object? alias = null,Object? apiVersion = null,Object? defaultServer = null,Object? allowUntrustedCert = null,Object? ignoreCertificateErrors = null,Object? pinnedCertificateSha256 = freezed,Object? webPath = freezed,}) {
   return _then(Server(
 address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String,alias: null == alias ? _self.alias : alias // ignore: cast_nullable_to_non_nullable
@@ -77,6 +78,7 @@ as String,defaultServer: null == defaultServer ? _self.defaultServer : defaultSe
 as bool,allowUntrustedCert: null == allowUntrustedCert ? _self.allowUntrustedCert : allowUntrustedCert // ignore: cast_nullable_to_non_nullable
 as bool,ignoreCertificateErrors: null == ignoreCertificateErrors ? _self.ignoreCertificateErrors : ignoreCertificateErrors // ignore: cast_nullable_to_non_nullable
 as bool,pinnedCertificateSha256: freezed == pinnedCertificateSha256 ? _self.pinnedCertificateSha256 : pinnedCertificateSha256 // ignore: cast_nullable_to_non_nullable
+as String?,webPath: freezed == webPath ? _self.webPath : webPath // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -159,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String address,  String alias,  String apiVersion,  bool defaultServer,  bool allowUntrustedCert,  bool ignoreCertificateErrors,  String? pinnedCertificateSha256)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String address,  String alias,  String apiVersion,  bool defaultServer,  bool allowUntrustedCert,  bool ignoreCertificateErrors,  String? pinnedCertificateSha256,  String? webPath)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Server() when $default != null:
-return $default(_that.address,_that.alias,_that.apiVersion,_that.defaultServer,_that.allowUntrustedCert,_that.ignoreCertificateErrors,_that.pinnedCertificateSha256);case _:
+return $default(_that.address,_that.alias,_that.apiVersion,_that.defaultServer,_that.allowUntrustedCert,_that.ignoreCertificateErrors,_that.pinnedCertificateSha256,_that.webPath);case _:
   return orElse();
 
 }
@@ -180,10 +182,10 @@ return $default(_that.address,_that.alias,_that.apiVersion,_that.defaultServer,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String address,  String alias,  String apiVersion,  bool defaultServer,  bool allowUntrustedCert,  bool ignoreCertificateErrors,  String? pinnedCertificateSha256)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String address,  String alias,  String apiVersion,  bool defaultServer,  bool allowUntrustedCert,  bool ignoreCertificateErrors,  String? pinnedCertificateSha256,  String? webPath)  $default,) {final _that = this;
 switch (_that) {
 case _Server():
-return $default(_that.address,_that.alias,_that.apiVersion,_that.defaultServer,_that.allowUntrustedCert,_that.ignoreCertificateErrors,_that.pinnedCertificateSha256);}
+return $default(_that.address,_that.alias,_that.apiVersion,_that.defaultServer,_that.allowUntrustedCert,_that.ignoreCertificateErrors,_that.pinnedCertificateSha256,_that.webPath);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -197,10 +199,10 @@ return $default(_that.address,_that.alias,_that.apiVersion,_that.defaultServer,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String address,  String alias,  String apiVersion,  bool defaultServer,  bool allowUntrustedCert,  bool ignoreCertificateErrors,  String? pinnedCertificateSha256)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String address,  String alias,  String apiVersion,  bool defaultServer,  bool allowUntrustedCert,  bool ignoreCertificateErrors,  String? pinnedCertificateSha256,  String? webPath)?  $default,) {final _that = this;
 switch (_that) {
 case _Server() when $default != null:
-return $default(_that.address,_that.alias,_that.apiVersion,_that.defaultServer,_that.allowUntrustedCert,_that.ignoreCertificateErrors,_that.pinnedCertificateSha256);case _:
+return $default(_that.address,_that.alias,_that.apiVersion,_that.defaultServer,_that.allowUntrustedCert,_that.ignoreCertificateErrors,_that.pinnedCertificateSha256,_that.webPath);case _:
   return null;
 
 }
@@ -212,7 +214,7 @@ return $default(_that.address,_that.alias,_that.apiVersion,_that.defaultServer,_
 
 
 class _Server implements Server {
-  const _Server({required this.address, required this.alias, required this.apiVersion, this.defaultServer = false, this.allowUntrustedCert = false, this.ignoreCertificateErrors = false, this.pinnedCertificateSha256});
+  const _Server({required this.address, required this.alias, required this.apiVersion, this.defaultServer = false, this.allowUntrustedCert = false, this.ignoreCertificateErrors = false, this.pinnedCertificateSha256, this.webPath});
   
 
 @override final  String address;
@@ -222,6 +224,8 @@ class _Server implements Server {
 @override@JsonKey() final  bool allowUntrustedCert;
 @override@JsonKey() final  bool ignoreCertificateErrors;
 @override final  String? pinnedCertificateSha256;
+/// Path of the web interface, such as `/admin2`. null means `/admin`.
+@override final  String? webPath;
 
 /// Create a copy of Server
 /// with the given fields replaced by the non-null parameter values.
@@ -233,18 +237,18 @@ _$ServerCopyWith<_Server> get copyWith => __$ServerCopyWithImpl<_Server>(this, _
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Server&&(identical(other.address, address) || other.address == address)&&(identical(other.alias, alias) || other.alias == alias)&&(identical(other.apiVersion, apiVersion) || other.apiVersion == apiVersion)&&(identical(other.defaultServer, defaultServer) || other.defaultServer == defaultServer)&&(identical(other.allowUntrustedCert, allowUntrustedCert) || other.allowUntrustedCert == allowUntrustedCert)&&(identical(other.ignoreCertificateErrors, ignoreCertificateErrors) || other.ignoreCertificateErrors == ignoreCertificateErrors)&&(identical(other.pinnedCertificateSha256, pinnedCertificateSha256) || other.pinnedCertificateSha256 == pinnedCertificateSha256));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Server&&(identical(other.address, address) || other.address == address)&&(identical(other.alias, alias) || other.alias == alias)&&(identical(other.apiVersion, apiVersion) || other.apiVersion == apiVersion)&&(identical(other.defaultServer, defaultServer) || other.defaultServer == defaultServer)&&(identical(other.allowUntrustedCert, allowUntrustedCert) || other.allowUntrustedCert == allowUntrustedCert)&&(identical(other.ignoreCertificateErrors, ignoreCertificateErrors) || other.ignoreCertificateErrors == ignoreCertificateErrors)&&(identical(other.pinnedCertificateSha256, pinnedCertificateSha256) || other.pinnedCertificateSha256 == pinnedCertificateSha256)&&(identical(other.webPath, webPath) || other.webPath == webPath));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,address,alias,apiVersion,defaultServer,allowUntrustedCert,ignoreCertificateErrors,pinnedCertificateSha256);
+    return Object.hash(runtimeType,address,alias,apiVersion,defaultServer,allowUntrustedCert,ignoreCertificateErrors,pinnedCertificateSha256,webPath);
 }
 
 @override
 String toString() {
-    return 'Server(address: $address, alias: $alias, apiVersion: $apiVersion, defaultServer: $defaultServer, allowUntrustedCert: $allowUntrustedCert, ignoreCertificateErrors: $ignoreCertificateErrors, pinnedCertificateSha256: $pinnedCertificateSha256)';
+    return 'Server(address: $address, alias: $alias, apiVersion: $apiVersion, defaultServer: $defaultServer, allowUntrustedCert: $allowUntrustedCert, ignoreCertificateErrors: $ignoreCertificateErrors, pinnedCertificateSha256: $pinnedCertificateSha256, webPath: $webPath)';
 }
 
 
@@ -255,7 +259,7 @@ abstract mixin class _$ServerCopyWith<$Res> implements $ServerCopyWith<$Res> {
   factory _$ServerCopyWith(_Server value, $Res Function(_Server) _then) = __$ServerCopyWithImpl;
 @override @useResult
 $Res call({
- String address, String alias, String apiVersion, bool defaultServer, bool allowUntrustedCert, bool ignoreCertificateErrors, String? pinnedCertificateSha256
+ String address, String alias, String apiVersion, bool defaultServer, bool allowUntrustedCert, bool ignoreCertificateErrors, String? pinnedCertificateSha256, String? webPath
 });
 
 
@@ -272,7 +276,7 @@ class __$ServerCopyWithImpl<$Res>
 
 /// Create a copy of Server
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? address = null,Object? alias = null,Object? apiVersion = null,Object? defaultServer = null,Object? allowUntrustedCert = null,Object? ignoreCertificateErrors = null,Object? pinnedCertificateSha256 = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? address = null,Object? alias = null,Object? apiVersion = null,Object? defaultServer = null,Object? allowUntrustedCert = null,Object? ignoreCertificateErrors = null,Object? pinnedCertificateSha256 = freezed,Object? webPath = freezed,}) {
   return _then(_Server(
 address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String,alias: null == alias ? _self.alias : alias // ignore: cast_nullable_to_non_nullable
@@ -281,6 +285,7 @@ as String,defaultServer: null == defaultServer ? _self.defaultServer : defaultSe
 as bool,allowUntrustedCert: null == allowUntrustedCert ? _self.allowUntrustedCert : allowUntrustedCert // ignore: cast_nullable_to_non_nullable
 as bool,ignoreCertificateErrors: null == ignoreCertificateErrors ? _self.ignoreCertificateErrors : ignoreCertificateErrors // ignore: cast_nullable_to_non_nullable
 as bool,pinnedCertificateSha256: freezed == pinnedCertificateSha256 ? _self.pinnedCertificateSha256 : pinnedCertificateSha256 // ignore: cast_nullable_to_non_nullable
+as String?,webPath: freezed == webPath ? _self.webPath : webPath // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

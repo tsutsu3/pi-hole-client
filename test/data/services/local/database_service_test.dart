@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -225,6 +227,62 @@ void main() {
       );
       expect(result.isSuccess(), isTrue);
       expect(result.getOrNull(), 0);
+    });
+  });
+
+  group('DatabaseService upgrade', () {
+    late Directory tempDir;
+    late String path;
+
+    setUp(() async {
+      tempDir = await Directory.systemTemp.createTemp('db_upgrade_test');
+      path = '${tempDir.path}/upgrade.db';
+    });
+
+    tearDown(() async {
+      await tempDir.delete(recursive: true);
+    });
+
+    test('v10 -> v11 adds webPath and keeps the servers', () async {
+      // The servers table as it is in version 10.
+      final v10 = await databaseFactory.openDatabase(
+        path,
+        options: OpenDatabaseOptions(
+          version: 10,
+          onCreate: (db, _) async {
+            await db.execute('''
+              CREATE TABLE servers (
+                address TEXT PRIMARY KEY NOT NULL,
+                alias TEXT NOT NULL,
+                isDefaultServer NUMERIC NOT NULL,
+                apiVersion TEXT NOT NULL,
+                allowUntrustedCert NUMERIC NOT NULL,
+                ignoreCertificateErrors NUMERIC NOT NULL,
+                pinnedCertificateSha256 TEXT
+              )
+            ''');
+            await db.insert('servers', {
+              'address': 'http://localhost',
+              'alias': 'Local',
+              'isDefaultServer': 1,
+              'apiVersion': 'v6',
+              'allowUntrustedCert': 0,
+              'ignoreCertificateErrors': 0,
+            });
+          },
+        ),
+      );
+      await v10.close();
+
+      final dbService = DatabaseService(path: path);
+      await dbService.open();
+      final rows = (await dbService.query('servers')).getOrNull();
+      await dbService.close();
+
+      expect(rows, hasLength(1));
+      expect(rows!.first['alias'], 'Local');
+      expect(rows.first.containsKey('webPath'), isTrue);
+      expect(rows.first['webPath'], isNull);
     });
   });
 }
