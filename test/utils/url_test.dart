@@ -114,6 +114,8 @@ void main() {
       ('http://pi.hole/pihole', '/admin2', 'http://pi.hole/pihole/admin2/'),
       // Old servers saved the web panel path as the subroute.
       ('http://pi.hole/admin', null, 'http://pi.hole/admin/'),
+      // Pi-hole is at the host root here, so a custom path replaces /admin.
+      ('http://pi.hole/admin', '/admin2', 'http://pi.hole/admin2/'),
     ];
 
     for (final (address, webPath, expected) in cases) {
