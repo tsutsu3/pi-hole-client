@@ -2441,8 +2441,14 @@ abstract class AppLocalizations {
   /// No description provided for @invalidSubroute.
   ///
   /// In en, this message translates to:
-  /// **'Invalid subroute. Only alphanumeric characters, \'_\', \'-\', and \'~\' are allowed.'**
+  /// **'Invalid subroute. It must start with \'/\' and use only alphanumeric characters, \'_\', \'-\', and \'~\'.'**
   String get invalidSubroute;
+
+  /// No description provided for @invalidWebPath.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid path. It must start with \'/\' and use only alphanumeric characters, \'_\', \'-\', and \'~\'.'**
+  String get invalidWebPath;
 
   /// No description provided for @ipAddress.
   ///
@@ -4531,6 +4537,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Visit Google Play page'**
   String get visitGooglePlay;
+
+  /// No description provided for @webPathField.
+  ///
+  /// In en, this message translates to:
+  /// **'Web panel path'**
+  String get webPathField;
+
+  /// No description provided for @webPathHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens {url}'**
+  String webPathHelper(Object url);
 
   /// No description provided for @websiteDescription.
   ///

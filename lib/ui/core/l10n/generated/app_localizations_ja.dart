@@ -1190,7 +1190,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get invalidPort => '無効なポート';
 
   @override
-  String get invalidSubroute => '無効なサブルートです。英数字、「_」、「-」、「~」のみ使用できます。';
+  String get invalidSubroute => '無効なサブルートです。「/」で始め、英数字、「_」、「-」、「~」のみ使用してください。';
+
+  @override
+  String get invalidWebPath => '無効なパスです。「/」で始め、英数字、「_」、「-」、「~」のみ使用してください。';
 
   @override
   String get ipAddress => 'IPアドレス';
@@ -2276,6 +2279,14 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get visitGooglePlay => 'Google Playページを訪問';
+
+  @override
+  String get webPathField => 'ウェブパネルのパス';
+
+  @override
+  String webPathHelper(Object url) {
+    return '$url を開きます';
+  }
 
   @override
   String get websiteDescription => 'Pi-hole client の公式サイトを開きます';

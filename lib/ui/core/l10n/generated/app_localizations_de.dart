@@ -1249,7 +1249,11 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get invalidSubroute =>
-      'Ungültige Subroute. Nur alphanumerische Zeichen, \'_\', \'-\' und \'~\' sind erlaubt.';
+      'Ungültige Subroute. Sie muss mit \'/\' beginnen und darf nur alphanumerische Zeichen, \'_\', \'-\' und \'~\' enthalten.';
+
+  @override
+  String get invalidWebPath =>
+      'Ungültiger Pfad. Er muss mit \'/\' beginnen und darf nur alphanumerische Zeichen, \'_\', \'-\' und \'~\' enthalten.';
 
   @override
   String get ipAddress => 'IP-Adresse';
@@ -2381,6 +2385,14 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get visitGooglePlay => 'Google Play-Seite besuchen';
+
+  @override
+  String get webPathField => 'Pfad des Web-Panels';
+
+  @override
+  String webPathHelper(Object url) {
+    return 'Öffnet $url';
+  }
 
   @override
   String get websiteDescription => 'Zur offiziellen Pi-hole client Website';

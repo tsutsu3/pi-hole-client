@@ -35,6 +35,7 @@ class ServerDraft {
     required this.pinnedCertificateSha256,
     required this.secret,
     required this.defaultServer,
+    this.webPath,
   });
 
   final String url;
@@ -48,6 +49,7 @@ class ServerDraft {
   /// when adding.
   final SecretInput secret;
   final bool defaultServer;
+  final String? webPath;
 }
 
 /// Whether [AddServerViewModel.saveServer] adds or edits a server.
@@ -191,6 +193,7 @@ class AddServerViewModel extends ChangeNotifier {
         allowUntrustedCert: draft.allowUntrustedCert,
         ignoreCertificateErrors: draft.ignoreCertificateErrors,
         pinnedCertificateSha256: draft.pinnedCertificateSha256,
+        webPath: draft.webPath,
       ),
     );
     if (resolved == null) {
@@ -332,6 +335,7 @@ class AddServerViewModel extends ChangeNotifier {
         pinnedCertificateSha256: isAddressChanged
             ? null
             : draft.pinnedCertificateSha256,
+        webPath: draft.webPath,
       ),
     );
     if (resolved == null) {

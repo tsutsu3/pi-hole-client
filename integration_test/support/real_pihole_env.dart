@@ -8,6 +8,8 @@
 /// | caddy fault-delete | 19086 | http://10.0.2.2:19086  | pass `test001` (DELETE /api/auth* → 401) |
 /// | caddy TLS      | 19443     | https://10.0.2.2:19443  | pass `test001` (self-signed) |
 /// | caddy subroute | 19087     | http://10.0.2.2:19087/pihole (v6), /pihole5 (v5) | same as the direct servers |
+/// | pihole-v6-webhome-test | 19088 | http://10.0.2.2:19088 | pass `test001` (web interface at /admin2/) |
+/// | caddy subroute webhome | 19089 | http://10.0.2.2:19089/pihole | pass `test001` (web interface at /admin2/) |
 ///
 /// Run example:
 /// ```sh
@@ -65,6 +67,16 @@ class RealPiholeEnv {
   static const String v5SubrouteBase = String.fromEnvironment(
     'PIHOLE_V5_SUBROUTE_BASE',
     defaultValue: 'http://10.0.2.2:19087/pihole5',
+  );
+
+  //  v6 with the web interface at /admin2/ (direct, and behind /pihole)
+  static const String v6WebhomeBase = String.fromEnvironment(
+    'PIHOLE_V6_WEBHOME_BASE',
+    defaultValue: 'http://10.0.2.2:19088',
+  );
+  static const String v6SubrouteWebhomeBase = String.fromEnvironment(
+    'PIHOLE_V6_SUBROUTE_WEBHOME_BASE',
+    defaultValue: 'http://10.0.2.2:19089/pihole',
   );
 
   //  fault proxy (auth ok, /api/dns/blocking -> 503)

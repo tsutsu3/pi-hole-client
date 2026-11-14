@@ -45,7 +45,7 @@ class DatabaseService {
   /// Returns:
   /// - [Success] containing the opened [Database] instance if successful.
   /// - [Failure] containing an [Exception] if an error occurs during opening.
-  Future<Result<Database>> open({int? latestVersion = 10}) async {
+  Future<Result<Database>> open({int? latestVersion = 11}) async {
     try {
       _db = await openDatabase(
         _path,
@@ -284,7 +284,8 @@ class DatabaseService {
         apiVersion TEXT NOT NULL,
         allowUntrustedCert NUMERIC NOT NULL,
         ignoreCertificateErrors NUMERIC NOT NULL,
-        pinnedCertificateSha256 TEXT
+        pinnedCertificateSha256 TEXT,
+        webPath TEXT
       )
     ''');
 
@@ -390,6 +391,8 @@ class DatabaseService {
         await _upgradeToV9(db);
       case 10:
         await _upgradeToV10(db);
+      case 11:
+        await _upgradeToV11(db);
       default:
         logger.w('Database upgrade to version $version is not handled.');
     }
@@ -837,5 +840,14 @@ class DatabaseService {
     await db.execute('DROP TABLE servers');
     await db.execute('ALTER TABLE servers_new RENAME TO servers');
     logger.d('Database upgraded to version 10');
+  }
+
+  /// Migrates the database to version 11.
+  ///
+  /// Adds the `webPath` column to the `servers` table. Existing rows get
+  /// NULL, which means the default `/admin` path.
+  Future<void> _upgradeToV11(Database db) async {
+    await db.execute('ALTER TABLE servers ADD COLUMN webPath TEXT');
+    logger.d('Database upgraded to version 11');
   }
 }

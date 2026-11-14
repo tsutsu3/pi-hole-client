@@ -12,5 +12,8 @@ sealed class Server with _$Server {
     @Default(false) bool allowUntrustedCert,
     @Default(false) bool ignoreCertificateErrors,
     String? pinnedCertificateSha256,
+
+    /// Path of the web interface, such as `/admin2`. null means `/admin`.
+    String? webPath,
   }) = _Server;
 }

@@ -1247,7 +1247,11 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get invalidSubroute =>
-      'Subruta no válida. Solo se permiten caracteres alfanuméricos, \'_\', \'-\' y \'~\'.';
+      'Subruta no válida. Debe empezar por \'/\' y solo puede contener caracteres alfanuméricos, \'_\', \'-\' y \'~\'.';
+
+  @override
+  String get invalidWebPath =>
+      'Ruta no válida. Debe empezar por \'/\' y solo puede contener caracteres alfanuméricos, \'_\', \'-\' y \'~\'.';
 
   @override
   String get ipAddress => 'Dirección IP';
@@ -2377,6 +2381,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get visitGooglePlay => 'Visita la página de Google Play';
+
+  @override
+  String get webPathField => 'Ruta del panel web';
+
+  @override
+  String webPathHelper(Object url) {
+    return 'Abre $url';
+  }
 
   @override
   String get websiteDescription => 'Visita el sitio oficial de Pi-hole client';

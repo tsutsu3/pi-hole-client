@@ -38,6 +38,13 @@ Uri buildPiholeUri(String address, String path) {
   );
 }
 
+/// Builds the URL of the Pi-hole web interface.
+///
+/// [webPath] is the path of the web interface, such as `/admin2`. When it is
+/// null, `/admin` is used.
+Uri buildWebInterfaceUri(String address, String? webPath) =>
+    buildPiholeUri(address, '${webPath ?? _adminSegment}/');
+
 /// Compares two server URLs ignoring scheme/host case and a trailing slash.
 ///
 /// Re-deriving the URL from the form fields lower-cases the host (via

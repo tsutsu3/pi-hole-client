@@ -108,6 +108,7 @@ void main() {
       String apiVersion = SupportedApiVersions.v6,
       String secret = 'pass',
       bool defaultServer = false,
+      String? webPath,
       ResolveCertificate? resolveCertificate,
       ResolveTotp? resolveTotp,
     }) {
@@ -121,6 +122,7 @@ void main() {
           pinnedCertificateSha256: null,
           secret: NewSecret(secret),
           defaultServer: defaultServer,
+          webPath: webPath,
         ),
         mode: const AddMode(),
         resolveCertificate: resolveCertificate ?? (server) async => server,
@@ -133,6 +135,7 @@ void main() {
       String apiVersion = SupportedApiVersions.v6,
       SecretInput secret = const UnchangedSecret('pass'),
       Server oldServer = _oldServer,
+      String? webPath,
       ResolveCertificate? resolveCertificate,
       ResolveTotp? resolveTotp,
     }) {
@@ -146,6 +149,7 @@ void main() {
           pinnedCertificateSha256: null,
           secret: secret,
           defaultServer: false,
+          webPath: webPath,
         ),
         mode: EditMode(oldServer),
         resolveCertificate: resolveCertificate ?? (server) async => server,
@@ -397,6 +401,35 @@ void main() {
         // Prompted once; the rate-limit response stops the loop.
         expect(promptCount, 1);
       });
+    });
+
+    group('saveServer (webPath)', () {
+      setUp(() {
+        serversViewModel.storedRows[_oldAddress] = _oldServer;
+        serversViewModel.storedSecrets.addAll(_oldSecrets);
+      });
+
+      final cases = <(String, SaveServerRequest Function(), String)>[
+        ('add', () => createReq(webPath: '/admin2'), _oldAddress),
+        ('same-address edit', () => updateReq(webPath: '/admin2'), _oldAddress),
+        (
+          'address change',
+          () => updateReq(url: _newAddress, webPath: '/admin2'),
+          _newAddress,
+        ),
+      ];
+
+      for (final (name, request, address) in cases) {
+        test('$name stores the webPath of the draft', () async {
+          final vm = buildViewModel();
+
+          final outcome = await vm.saveServer.runAsync(request());
+
+          expect(outcome, isA<SaveSuccess>());
+          expect((outcome as SaveSuccess).server.webPath, '/admin2');
+          expect(serversViewModel.storedRows[address]?.webPath, '/admin2');
+        });
+      }
     });
 
     group('saveServer (edit)', () {

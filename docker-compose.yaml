@@ -7,6 +7,7 @@ services:
       - "1448:8444"
       - "1450:8445"
       - "8090:8090"
+      - "8091:8091"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - ./certs-dev:/certs:ro
@@ -16,6 +17,7 @@ services:
       - piholeV6
       - piholeV5
       - piholeV6-subroute
+      - piholeV6-subroute-webhome
 
   piholeV5:
     container_name: piholeV5
@@ -53,6 +55,38 @@ services:
       TZ: 'Asia/Tokyo'
       FTLCONF_webserver_api_password: 'test001'
       FTLCONF_webserver_paths_prefix: '/pihole'
+
+  # The web interface is at /admin2/ instead of /admin/.
+  # Pi-hole only reads webhome; the files must also be at that path, so the
+  # entrypoint links them before the normal start script.
+  piholeV6-webhome:
+    container_name: piholeV6-webhome
+    image: pihole/pihole:latest
+    entrypoint: ["sh", "-c", "ln -sfn /var/www/html/admin /var/www/html/admin2 && exec start.sh"]
+    ports:
+      - "60:53/tcp"
+      - "60:53/udp"
+      - "8084:80/tcp"
+    environment:
+      TZ: 'Asia/Tokyo'
+      FTLCONF_webserver_api_password: 'test001'
+      FTLCONF_webserver_paths_webhome: '/admin2/'
+
+  # Behind the subroute /pihole and with the web interface at /admin2/.
+  piholeV6-subroute-webhome:
+    container_name: piholeV6-subroute-webhome
+    image: pihole/pihole:latest
+    entrypoint: ["sh", "-c", "ln -sfn /var/www/html/admin /var/www/html/admin2 && exec start.sh"]
+    ports:
+      - "61:53/tcp"
+      - "61:53/udp"
+    expose:
+      - "80"
+    environment:
+      TZ: 'Asia/Tokyo'
+      FTLCONF_webserver_api_password: 'test001'
+      FTLCONF_webserver_paths_prefix: '/pihole'
+      FTLCONF_webserver_paths_webhome: '/admin2/'
 
   piholeV62:
     container_name: piholeV62

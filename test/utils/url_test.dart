@@ -106,6 +106,25 @@ void main() {
     });
   });
 
+  group('buildWebInterfaceUri', () {
+    final cases = [
+      ('http://pi.hole', null, 'http://pi.hole/admin/'),
+      ('http://pi.hole', '/admin2', 'http://pi.hole/admin2/'),
+      ('http://pi.hole/pihole', null, 'http://pi.hole/pihole/admin/'),
+      ('http://pi.hole/pihole', '/admin2', 'http://pi.hole/pihole/admin2/'),
+      // Old servers saved the web panel path as the subroute.
+      ('http://pi.hole/admin', null, 'http://pi.hole/admin/'),
+      // Pi-hole is at the host root here, so a custom path replaces /admin.
+      ('http://pi.hole/admin', '/admin2', 'http://pi.hole/admin2/'),
+    ];
+
+    for (final (address, webPath, expected) in cases) {
+      test('$address + $webPath -> $expected', () {
+        expect(buildWebInterfaceUri(address, webPath).toString(), expected);
+      });
+    }
+  });
+
   group('isSameEndpoint', () {
     test('returns true for identical URLs', () {
       expect(isSameEndpoint('https://pi.hole', 'https://pi.hole'), isTrue);

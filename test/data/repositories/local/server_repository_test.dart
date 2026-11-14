@@ -160,6 +160,15 @@ void main() {
       expect((await secureDataRepository.token).getOrNull(), 'token123');
     });
 
+    test('saves webPath', () async {
+      final server = serverV6.copyWith(webPath: '/admin2');
+
+      await repository.insertServer(server);
+
+      final servers = (await repository.fetchServers()).getOrNull();
+      expect(servers, [server]);
+    });
+
     test('returns Failure when unexpexted error', () async {
       // insertServer now wraps the write in a transaction (atomic default
       // clearing), so the transaction is what throws.
@@ -245,6 +254,18 @@ void main() {
       expect(servers.getOrNull()?.length, 1);
       expect(servers.getOrNull()?.first.alias, 'updated5');
     });
+
+    for (final (from, to) in [(null, '/admin2'), ('/admin2', null)]) {
+      test('updates webPath from $from to $to', () async {
+        await repository.insertServer(serverV6.copyWith(webPath: from));
+        final updated = serverV6.copyWith(webPath: to);
+
+        await repository.updateServer(updated);
+
+        final servers = (await repository.fetchServers()).getOrNull();
+        expect(servers, [updated]);
+      });
+    }
 
     test('returns Failure when unexpected error', () async {
       await repository.insertServer(serverV6);
@@ -490,6 +511,16 @@ void main() {
         (await ssSerivce.getValue('${newServerV6.address}_sid')).isError(),
         true,
       );
+    });
+
+    test('saves webPath of the new server', () async {
+      await repository.insertServer(serverV6);
+      final newServer = newServerV6.copyWith(webPath: '/admin2');
+
+      await repository.replaceServer(serverV6.address, newServer);
+
+      final servers = (await repository.fetchServers()).getOrNull();
+      expect(servers, [newServer]);
     });
 
     test('removes cascade data for the old address', () async {

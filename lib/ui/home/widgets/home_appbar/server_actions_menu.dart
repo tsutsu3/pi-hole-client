@@ -98,9 +98,9 @@ class ServerActionsMenu extends StatelessWidget {
         ),
         PopupMenuItem(
           onTap: () => openUrl(
-            buildPiholeUri(
+            buildWebInterfaceUri(
               serversViewModel.selectedServer!.address,
-              '/admin/',
+              serversViewModel.selectedServer!.webPath,
             ).toString(),
           ),
           child: _menuItem(

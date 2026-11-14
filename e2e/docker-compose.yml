@@ -14,7 +14,15 @@
 #   http://10.0.2.2:19082    caddy fault        -> v6  (/api/dns/blocking = 503)
 #   http://10.0.2.2:19086    caddy fault-delete -> v6  (DELETE /api/auth* = 401)
 #   http://10.0.2.2:19087    caddy subroute     -> /pihole = v6, /pihole5 = v5
+#   http://10.0.2.2:19088    v6 (direct), web interface at /admin2/
+#   http://10.0.2.2:19089    caddy subroute     -> /pihole = v6, web interface at /admin2/
 #   https://10.0.2.2:19443   caddy TLS (self-signed, untrusted) -> v6
+
+# Pi-hole only reads webhome; the files must also be at that path, so the
+# entrypoint links them before the normal start script.
+x-webhome-entrypoint: &webhome-entrypoint
+  ["sh", "-c", "ln -sfn /var/www/html/admin /var/www/html/admin2 && exec start.sh"]
+
 services:
   pihole-v6-test:
     container_name: pihole-v6-test
@@ -56,12 +64,50 @@ services:
       - "19085:80"
     restart: unless-stopped
 
+  # Behind the subroute /pihole. The prefix keeps /pihole in the links and
+  # redirects of the web interface.
+  pihole-v6-subroute-test:
+    container_name: pihole-v6-subroute-test
+    image: pihole/pihole:latest
+    environment:
+      TZ: "Asia/Tokyo"
+      FTLCONF_webserver_api_password: "test001"
+      FTLCONF_webserver_paths_prefix: "/pihole"
+    restart: unless-stopped
+
+  # The web interface is at /admin2/ instead of /admin/.
+  pihole-v6-webhome-test:
+    container_name: pihole-v6-webhome-test
+    image: pihole/pihole:latest
+    entrypoint: *webhome-entrypoint
+    environment:
+      TZ: "Asia/Tokyo"
+      FTLCONF_webserver_api_password: "test001"
+      FTLCONF_webserver_paths_webhome: "/admin2/"
+    ports:
+      - "19088:80"
+    restart: unless-stopped
+
+  # Behind the subroute /pihole and with the web interface at /admin2/.
+  pihole-v6-subroute-webhome-test:
+    container_name: pihole-v6-subroute-webhome-test
+    image: pihole/pihole:latest
+    entrypoint: *webhome-entrypoint
+    environment:
+      TZ: "Asia/Tokyo"
+      FTLCONF_webserver_api_password: "test001"
+      FTLCONF_webserver_paths_prefix: "/pihole"
+      FTLCONF_webserver_paths_webhome: "/admin2/"
+    restart: unless-stopped
+
   caddy-test:
     container_name: caddy-test
     image: caddy:2
     depends_on:
       - pihole-v6-test
       - pihole-v5-test
+      - pihole-v6-subroute-test
+      - pihole-v6-subroute-webhome-test
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
     ports:
@@ -69,5 +115,6 @@ services:
       - "19082:82"
       - "19086:83"
       - "19087:84"
+      - "19089:85"
       - "19443:443"
     restart: unless-stopped

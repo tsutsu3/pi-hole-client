@@ -57,6 +57,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   String? portFieldError;
   TextEditingController subrouteFieldController = TextEditingController();
   String? subrouteFieldError;
+  TextEditingController webPathFieldController = TextEditingController();
+  String? webPathFieldError;
   TextEditingController aliasFieldController = TextEditingController();
   TextEditingController tokenFieldController = TextEditingController();
   TextEditingController passwordFieldController = TextEditingController();
@@ -101,6 +103,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
       // A bare '/' carries no routing information, so normalize it to empty.
       subrouteFieldController.text = uri.path == '/' ? '' : uri.path;
+      webPathFieldController.text = widget.server!.webPath ?? '';
       aliasFieldController.text = widget.server!.alias;
       connectionType = uri.scheme == 'https'
           ? ConnectionType.https
@@ -173,6 +176,41 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     emptyMessage: null,
     setError: (e) => subrouteFieldError = e,
   );
+
+  void validateWebPath(String? value) => _validateField(
+    value,
+    isValid: (v) => isValidSubroute(_trimTrailingSlash(v)),
+    invalidMessage: AppLocalizations.of(context).invalidWebPath,
+    emptyMessage: null,
+    setError: (e) => webPathFieldError = e,
+  );
+
+  String _trimTrailingSlash(String value) =>
+      value.endsWith('/') ? value.substring(0, value.length - 1) : value;
+
+  /// The web panel path to save. null means the default path.
+  /// v5 always uses the default path.
+  String? _webPathFromForm() {
+    final value = _trimTrailingSlash(webPathFieldController.text);
+    if (piHoleVersion != SupportedApiVersions.v6 || value.isEmpty) return null;
+
+    return value;
+  }
+
+  /// The web panel URL shown under the field. null while the form has an
+  /// address that is not a valid URL yet.
+  String? _webPanelUrlPreview(BuildContext context) {
+    try {
+      final url = buildWebInterfaceUri(
+        _serverUrlFromForm(),
+        _webPathFromForm(),
+      );
+
+      return AppLocalizations.of(context).webPathHelper(url.toString());
+    } on FormatException {
+      return null;
+    }
+  }
 
   void validatePort(String? value) => _validateField(
     value,
@@ -478,6 +516,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             pinnedCertificateSha256: pinnedCertificateSha256,
             secret: secret,
             defaultServer: defaultCheckbox,
+            webPath: _webPathFromForm(),
           ),
           mode: original == null ? const AddMode() : EditMode(original),
           resolveCertificate: _checkCertificateBeforeSave,
@@ -539,6 +578,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     final fieldsFilled =
         addressFieldController.text != '' &&
         subrouteFieldError == null &&
+        (webPathFieldError == null ||
+            piHoleVersion != SupportedApiVersions.v6) &&
         addressFieldError == null &&
         portFieldError == null &&
         aliasFieldController.text != '';
@@ -813,6 +854,24 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                         labelText: AppLocalizations.of(context).subrouteField,
                         hintText: AppLocalizations.of(context).subrouteExample,
                         helperText: AppLocalizations.of(context).subrouteHelper,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      enabled: piHoleVersion == SupportedApiVersions.v6,
+                      onChanged: validateWebPath,
+                      controller: webPathFieldController,
+                      decoration: InputDecoration(
+                        errorText: webPathFieldError,
+                        errorMaxLines: 2,
+                        prefixIcon: const Icon(Icons.web),
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        labelText: AppLocalizations.of(context).webPathField,
+                        hintText: '/admin/',
+                        helperText: _webPanelUrlPreview(context),
+                        helperMaxLines: 2,
                       ),
                     ),
                     const SizedBox(height: 12),
