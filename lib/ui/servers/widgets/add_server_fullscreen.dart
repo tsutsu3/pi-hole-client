@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/secret_input.dart';
@@ -128,6 +129,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     return _viewModel ??= AddServerViewModel(
       serversViewModel: context.read<ServersViewModel>(),
       statusViewModel: context.read<StatusViewModel>(),
+      serverRepository: context.read<ServerRepository>(),
       createBundle: context.read<CreateRepositoryBundle>(),
     );
   }
@@ -269,11 +271,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                           tooltip: widget.server != null
                               ? AppLocalizations.of(context).save
                               : AppLocalizations.of(context).connect,
-                          onPressed: validData()
-                              ? widget.server != null
-                                    ? updateServer
-                                    : createServer
-                              : null,
+                          onPressed: validData() ? _save : null,
                           icon: widget.server != null
                               ? const Icon(Icons.save_rounded)
                               : const Icon(Icons.login_rounded),
@@ -306,11 +304,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     tooltip: widget.server != null
                         ? AppLocalizations.of(context).save
                         : AppLocalizations.of(context).connect,
-                    onPressed: validData()
-                        ? widget.server != null
-                              ? updateServer
-                              : createServer
-                        : null,
+                    onPressed: validData() ? _save : null,
                     icon: widget.server != null
                         ? const Icon(Icons.save_rounded)
                         : const Icon(Icons.login_rounded),
@@ -449,87 +443,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     );
   }
 
-  Future<void> createServer() async {
+  Future<void> _save() async {
     final appConfigViewModel = context.read<AppConfigViewModel>();
     final viewModel = _ensureViewModel();
-    FocusManager.instance.primaryFocus?.unfocus();
-    setState(() {
-      isConnecting = true;
-    });
-    if (!allowUntrustedCert) {
-      pinnedCertificateSha256 = null;
-    }
-
-    final url = _serverUrlFromForm();
-
-    final CreateOutcome outcome;
-    try {
-      outcome = await viewModel.createServer.runAsync(
-        CreateServerRequest(
-          url: url,
-          alias: aliasFieldController.text,
-          apiVersion: piHoleVersion,
-          allowUntrustedCert: allowUntrustedCert,
-          ignoreCertificateErrors: ignoreCertificateErrors,
-          pinnedCertificateSha256: pinnedCertificateSha256,
-          secret: NewSecret(_secretFromForm()),
-          defaultServer: defaultCheckbox,
-          resolveCertificate: _checkCertificateBeforeSave,
-          resolveTotp: ({error}) => showTotpInputModal(context, error: error),
-        ),
-      );
-    } catch (_) {
-      _onSaveError(appConfigViewModel);
-      return;
-    }
-
-    if (!mounted) return;
-    setState(() {
-      isConnecting = false;
-    });
-    switch (outcome) {
-      case CreateInitial():
-      case CreateCancelled():
-        break;
-      case CreateDuplicateUrl():
-        showErrorSnackBar(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context).connectionAlreadyExists,
-        );
-      case CreateUrlCheckFailed():
-        showErrorSnackBar(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context).cannotCheckUrlSaved,
-        );
-      case CreateApiError(:final error, :final version):
-        handleApiErrorResult(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          error: error,
-          version: version,
-        );
-      case CreateDbError():
-        showErrorSnackBar(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context).cantSaveConnectionData,
-        );
-      case CreateSuccess():
-        await Navigator.maybePop(context);
-        if (!mounted) return;
-        showSuccessSnackBar(
-          context: context,
-          appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context).connectedSuccessfully,
-        );
-    }
-  }
-
-  Future<void> updateServer() async {
-    final appConfigViewModel = context.read<AppConfigViewModel>();
-    final viewModel = _ensureViewModel();
+    final original = widget.server;
     FocusManager.instance.primaryFocus?.unfocus();
     setState(() {
       isConnecting = true;
@@ -538,28 +455,31 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     if (!allowUntrustedCert) {
       pinnedCertificateSha256 = null;
     }
-
-    final newUrl = _serverUrlFromForm();
 
     // A version switch uses the other field, so its value is always new.
+    // An add always sends a NewSecret.
     final value = _secretFromForm();
     final isUnchanged =
-        piHoleVersion == widget.server!.apiVersion && value == _loadedSecret;
+        original != null &&
+        piHoleVersion == original.apiVersion &&
+        value == _loadedSecret;
     final secret = isUnchanged ? UnchangedSecret(value) : NewSecret(value);
 
-    final UpdateOutcome outcome;
+    final SaveServerOutcome outcome;
     try {
-      outcome = await viewModel.updateServer.runAsync(
-        UpdateServerRequest(
-          url: newUrl,
-          alias: aliasFieldController.text,
-          apiVersion: piHoleVersion,
-          allowUntrustedCert: allowUntrustedCert,
-          ignoreCertificateErrors: ignoreCertificateErrors,
-          pinnedCertificateSha256: pinnedCertificateSha256,
-          secret: secret,
-          defaultServer: defaultCheckbox,
-          oldServer: widget.server!,
+      outcome = await viewModel.saveServer.runAsync(
+        SaveServerRequest(
+          draft: ServerDraft(
+            url: _serverUrlFromForm(),
+            alias: aliasFieldController.text,
+            apiVersion: piHoleVersion,
+            allowUntrustedCert: allowUntrustedCert,
+            ignoreCertificateErrors: ignoreCertificateErrors,
+            pinnedCertificateSha256: pinnedCertificateSha256,
+            secret: secret,
+            defaultServer: defaultCheckbox,
+          ),
+          mode: original == null ? const AddMode() : EditMode(original),
           resolveCertificate: _checkCertificateBeforeSave,
           resolveTotp: ({error}) => showTotpInputModal(context, error: error),
         ),
@@ -574,41 +494,43 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       isConnecting = false;
     });
     switch (outcome) {
-      case UpdateInitial():
-      case UpdateCancelled():
+      case SaveInitial():
+      case SaveCancelled():
         break;
-      case UpdateDuplicateUrl():
+      case SaveDuplicateUrl():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context).connectionAlreadyExists,
         );
-      case UpdateUrlCheckFailed():
+      case SaveUrlCheckFailed():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context).cannotCheckUrlSaved,
         );
-      case UpdateApiError(:final error, :final version):
+      case SaveApiError(:final error, :final version):
         handleApiErrorResult(
           context: context,
           appConfigViewModel: appConfigViewModel,
           error: error,
           version: version,
         );
-      case UpdateDbError():
+      case SaveDbError():
         showErrorSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
           label: AppLocalizations.of(context).cantSaveConnectionData,
         );
-      case UpdateSuccess():
+      case SaveSuccess():
         await Navigator.maybePop(context);
         if (!mounted) return;
         showSuccessSnackBar(
           context: context,
           appConfigViewModel: appConfigViewModel,
-          label: AppLocalizations.of(context).editServerSuccessfully,
+          label: original == null
+              ? AppLocalizations.of(context).connectedSuccessfully
+              : AppLocalizations.of(context).editServerSuccessfully,
         );
     }
   }

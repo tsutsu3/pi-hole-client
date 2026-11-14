@@ -1,13 +1,17 @@
-// NOTE: This view model intentionally depends on [ServersViewModel] and
-// [StatusViewModel] (a cross-view-model dependency). The server-list mutations
-// (addServer/editServer/replaceServer) are Commands whose notify/refresh side
-// effects must be preserved, so the orchestration reuses them rather than the
-// lower-level repositories. The certificate check (pin dialog, ssl error
-// snackbar) is UI, so it is injected per request via [resolveCertificate].
+// NOTE: This view model still depends on [ServersViewModel] and
+// [StatusViewModel] (a cross-view-model dependency) for three things:
+// - the DB writes (addServer/editServer/replaceServer), because they also
+//   update the in-memory server list and the home screen widget,
+// - deleteSid, because it also drops the session cache,
+// - stopping and starting auto refresh.
+// The URL check and the password / token writes use [ServerRepository].
+// The certificate check (pin dialog, ssl error snackbar) is UI, so it is
+// injected per request via [resolveCertificate].
 
 import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/secret_input.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
@@ -20,9 +24,9 @@ import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/url.dart';
 
-/// Request for [AddServerViewModel.createServer] (adding a new server).
-class CreateServerRequest {
-  const CreateServerRequest({
+/// The form values of the server to save.
+class ServerDraft {
+  const ServerDraft({
     required this.url,
     required this.alias,
     required this.apiVersion,
@@ -31,8 +35,6 @@ class CreateServerRequest {
     required this.pinnedCertificateSha256,
     required this.secret,
     required this.defaultServer,
-    required this.resolveCertificate,
-    required this.resolveTotp,
   });
 
   final String url;
@@ -42,124 +44,82 @@ class CreateServerRequest {
   final bool ignoreCertificateErrors;
   final String? pinnedCertificateSha256;
 
-  /// The password (v6) or token (v5). Always a [NewSecret]
+  /// The password (v6) or token (v5) for [apiVersion]. Always a [NewSecret]
+  /// when adding.
   final SecretInput secret;
   final bool defaultServer;
-  final ResolveCertificate resolveCertificate;
-  final ResolveTotp resolveTotp;
 }
 
-/// Request for [AddServerViewModel.updateServer] (editing an existing server).
-class UpdateServerRequest {
-  const UpdateServerRequest({
-    required this.url,
-    required this.alias,
-    required this.apiVersion,
-    required this.allowUntrustedCert,
-    required this.ignoreCertificateErrors,
-    required this.pinnedCertificateSha256,
-    required this.secret,
-    required this.defaultServer,
-    required this.oldServer,
+/// Whether [AddServerViewModel.saveServer] adds or edits a server.
+sealed class SaveMode {
+  const SaveMode();
+}
+
+/// Adds a new server.
+final class AddMode extends SaveMode {
+  const AddMode();
+}
+
+/// Edits [original].
+final class EditMode extends SaveMode {
+  const EditMode(this.original);
+  final Server original;
+}
+
+/// Request for [AddServerViewModel.saveServer].
+class SaveServerRequest {
+  const SaveServerRequest({
+    required this.draft,
+    required this.mode,
     required this.resolveCertificate,
     required this.resolveTotp,
   });
 
-  final String url;
-  final String alias;
-  final String apiVersion;
-  final bool allowUntrustedCert;
-  final bool ignoreCertificateErrors;
-  final String? pinnedCertificateSha256;
-
-  /// The password (v6) or token (v5) for [apiVersion].
-  final SecretInput secret;
-  final bool defaultServer;
-  final Server oldServer;
+  final ServerDraft draft;
+  final SaveMode mode;
   final ResolveCertificate resolveCertificate;
   final ResolveTotp resolveTotp;
 }
 
 // ==================================================================
-// Outcome of [AddServerViewModel.createServer], mapped to UI by the widget.
+// Outcome of [AddServerViewModel.saveServer], mapped to UI by the widget.
 // ==================================================================
-sealed class CreateOutcome {
-  const CreateOutcome();
+sealed class SaveServerOutcome {
+  const SaveServerOutcome();
 }
 
-final class CreateInitial extends CreateOutcome {
-  const CreateInitial();
+final class SaveInitial extends SaveServerOutcome {
+  const SaveInitial();
 }
 
-final class CreateSuccess extends CreateOutcome {
-  const CreateSuccess(this.server);
+final class SaveSuccess extends SaveServerOutcome {
+  const SaveSuccess(this.server);
   final Server server;
 }
 
-final class CreateCancelled extends CreateOutcome {
-  const CreateCancelled();
+final class SaveCancelled extends SaveServerOutcome {
+  const SaveCancelled();
 }
 
-final class CreateDuplicateUrl extends CreateOutcome {
-  const CreateDuplicateUrl();
+final class SaveDuplicateUrl extends SaveServerOutcome {
+  const SaveDuplicateUrl();
 }
 
-final class CreateUrlCheckFailed extends CreateOutcome {
-  const CreateUrlCheckFailed();
+final class SaveUrlCheckFailed extends SaveServerOutcome {
+  const SaveUrlCheckFailed();
 }
 
-final class CreateApiError extends CreateOutcome {
-  const CreateApiError(this.error, this.version);
+final class SaveApiError extends SaveServerOutcome {
+  const SaveApiError(this.error, this.version);
   final Exception error;
   final String version;
 }
 
-final class CreateDbError extends CreateOutcome {
-  const CreateDbError();
+final class SaveDbError extends SaveServerOutcome {
+  const SaveDbError();
 }
 
-// ==================================================================
-// Outcome of [AddServerViewModel.updateServer], mapped to UI by the widget.
-// ==================================================================
-sealed class UpdateOutcome {
-  const UpdateOutcome();
-}
-
-final class UpdateInitial extends UpdateOutcome {
-  const UpdateInitial();
-}
-
-final class UpdateSuccess extends UpdateOutcome {
-  const UpdateSuccess();
-}
-
-final class UpdateCancelled extends UpdateOutcome {
-  const UpdateCancelled();
-}
-
-final class UpdateDuplicateUrl extends UpdateOutcome {
-  const UpdateDuplicateUrl();
-}
-
-final class UpdateUrlCheckFailed extends UpdateOutcome {
-  const UpdateUrlCheckFailed();
-}
-
-final class UpdateApiError extends UpdateOutcome {
-  const UpdateApiError(this.error, this.version);
-  final Exception error;
-  final String version;
-}
-
-final class UpdateDbError extends UpdateOutcome {
-  const UpdateDbError();
-}
-
-/// Result of a server-URL uniqueness check.
-enum _UrlCheck { available, duplicate, failed }
-
-/// Orchestrates adding ([createServer]) and editing ([updateServer]) a Pi-hole
-/// server.
+/// Orchestrates adding and editing a Pi-hole server ([saveServer]).
 ///
 /// The view model owns the pure orchestration (URL uniqueness check, credential
 /// storage, session creation/teardown, blocking-status probe, DB commit and
@@ -170,35 +130,31 @@ class AddServerViewModel extends ChangeNotifier {
   AddServerViewModel({
     required ServersViewModel serversViewModel,
     required StatusViewModel statusViewModel,
+    required ServerRepository serverRepository,
     required CreateRepositoryBundle createBundle,
   }) : _serversViewModel = serversViewModel,
        _statusViewModel = statusViewModel,
+       _serverRepository = serverRepository,
        _createBundle = createBundle {
-    createServer = Command.createAsync<CreateServerRequest, CreateOutcome>(
-      _createServer,
-      initialValue: const CreateInitial(),
+    saveServer = Command.createAsync<SaveServerRequest, SaveServerOutcome>(
+      _saveServer,
+      initialValue: const SaveInitial(),
     );
-    updateServer = Command.createAsync<UpdateServerRequest, UpdateOutcome>(
-      _updateServer,
-      initialValue: const UpdateInitial(),
-    );
-    createServer.addListener(notifyListeners);
-    updateServer.addListener(notifyListeners);
+    saveServer.addListener(notifyListeners);
   }
 
   final ServersViewModel _serversViewModel;
   final StatusViewModel _statusViewModel;
+  final ServerRepository _serverRepository;
   final CreateRepositoryBundle _createBundle;
 
-  late final Command<CreateServerRequest, CreateOutcome> createServer;
-  late final Command<UpdateServerRequest, UpdateOutcome> updateServer;
+  late final Command<SaveServerRequest, SaveServerOutcome> saveServer;
 
-  /// Maps [ServersViewModel.checkUrlExists]'s map result to a typed [_UrlCheck].
-  Future<_UrlCheck> _checkUrl(String url) async {
-    final result = await _serversViewModel.checkUrlExists(url);
-    if (result['result'] == 'fail') return _UrlCheck.failed;
-
-    return result['exists'] == true ? _UrlCheck.duplicate : _UrlCheck.available;
+  Future<SaveServerOutcome> _saveServer(SaveServerRequest req) {
+    return switch (req.mode) {
+      AddMode() => _createServer(req),
+      EditMode(:final original) => _updateServer(req, original),
+    };
   }
 
   /// Adds a new server.
@@ -213,34 +169,36 @@ class AddServerViewModel extends ChangeNotifier {
   /// Nothing is stored before step 4. When step 4 or 5 fails, what this
   /// attempt stored is removed.
   ///
-  /// Returns [CreateSuccess], [CreateCancelled], [CreateDuplicateUrl],
-  /// [CreateUrlCheckFailed], [CreateApiError] or [CreateDbError].
-  Future<CreateOutcome> _createServer(CreateServerRequest req) async {
-    switch (await _checkUrl(req.url)) {
-      case _UrlCheck.duplicate:
-        return const CreateDuplicateUrl();
-      case _UrlCheck.failed:
-        return const CreateUrlCheckFailed();
-      case _UrlCheck.available:
+  /// Returns [SaveSuccess], [SaveCancelled], [SaveDuplicateUrl],
+  /// [SaveUrlCheckFailed], [SaveApiError] or [SaveDbError].
+  Future<SaveServerOutcome> _createServer(SaveServerRequest req) async {
+    final draft = req.draft;
+    // null when the check failed.
+    switch ((await _serverRepository.doesServerExist(draft.url)).getOrNull()) {
+      case null:
+        return const SaveUrlCheckFailed();
+      case true:
+        return const SaveDuplicateUrl();
+      case false:
         break;
     }
 
     final resolved = await req.resolveCertificate(
       Server(
-        address: req.url,
-        alias: req.alias,
-        apiVersion: req.apiVersion,
-        allowUntrustedCert: req.allowUntrustedCert,
-        ignoreCertificateErrors: req.ignoreCertificateErrors,
-        pinnedCertificateSha256: req.pinnedCertificateSha256,
+        address: draft.url,
+        alias: draft.alias,
+        apiVersion: draft.apiVersion,
+        allowUntrustedCert: draft.allowUntrustedCert,
+        ignoreCertificateErrors: draft.ignoreCertificateErrors,
+        pinnedCertificateSha256: draft.pinnedCertificateSha256,
       ),
     );
     if (resolved == null) {
-      return const CreateCancelled();
+      return const SaveCancelled();
     }
 
-    final server = resolved.copyWith(defaultServer: req.defaultServer);
-    final secret = req.secret.value;
+    final server = resolved.copyWith(defaultServer: draft.defaultServer);
+    final secret = draft.secret.value;
     final bundle = _createBundleWithSecret(server, secret);
     final outcome = await _connect(
       bundle,
@@ -253,16 +211,16 @@ class AddServerViewModel extends ChangeNotifier {
     final ConnectSuccess connected;
     switch (outcome) {
       case ConnectCancelled():
-        return const CreateCancelled();
+        return const SaveCancelled();
       case ConnectFailed(:final error, :final sessionCreated):
         await _cleanupFailedAttempt(
           bundle: bundle,
-          address: req.url,
+          address: draft.url,
           isNewAddress: true,
           sessionCreated: sessionCreated,
         );
 
-        return CreateApiError(error, req.apiVersion);
+        return SaveApiError(error, draft.apiVersion);
       case ConnectSuccess():
         connected = outcome;
     }
@@ -279,16 +237,16 @@ class AddServerViewModel extends ChangeNotifier {
     if (!saved) {
       await _cleanupFailedAttempt(
         bundle: bundle,
-        address: req.url,
+        address: draft.url,
         isNewAddress: true,
         sessionCreated: connected.sessionCreated,
         secretSaved: true,
       );
 
-      return const CreateDbError();
+      return const SaveDbError();
     }
 
-    return CreateSuccess(server);
+    return SaveSuccess(server);
   }
 
   /// Edits an existing server.
@@ -306,20 +264,27 @@ class AddServerViewModel extends ChangeNotifier {
   ///
   /// Auto refresh is stopped while it runs and started again on every exit.
   ///
-  /// Returns [UpdateSuccess], [UpdateCancelled], [UpdateDuplicateUrl],
-  /// [UpdateUrlCheckFailed], [UpdateApiError] or [UpdateDbError].
-  Future<UpdateOutcome> _updateServer(UpdateServerRequest req) async {
+  /// Returns [SaveSuccess], [SaveCancelled], [SaveDuplicateUrl],
+  /// [SaveUrlCheckFailed], [SaveApiError] or [SaveDbError].
+  Future<SaveServerOutcome> _updateServer(
+    SaveServerRequest req,
+    Server original,
+  ) async {
+    final draft = req.draft;
     // Normalised comparison: a host-case-only or trailing-slash difference is
     // NOT an address change and must stay on the in-place editServer path.
-    final isAddressChanged = !isSameEndpoint(req.oldServer.address, req.url);
+    final isAddressChanged = !isSameEndpoint(original.address, draft.url);
 
     if (isAddressChanged) {
-      switch (await _checkUrl(req.url)) {
-        case _UrlCheck.duplicate:
-          return const UpdateDuplicateUrl();
-        case _UrlCheck.failed:
-          return const UpdateUrlCheckFailed();
-        case _UrlCheck.available:
+      // null when the check failed.
+      switch ((await _serverRepository.doesServerExist(
+        draft.url,
+      )).getOrNull()) {
+        case null:
+          return const SaveUrlCheckFailed();
+        case true:
+          return const SaveDuplicateUrl();
+        case false:
           break;
       }
     }
@@ -329,7 +294,7 @@ class AddServerViewModel extends ChangeNotifier {
     }
 
     try {
-      return await _saveEdit(req, isAddressChanged);
+      return await _saveEdit(req, original, isAddressChanged);
     } finally {
       if (_serversViewModel.selectedServer != null) {
         _statusViewModel.startAutoRefresh();
@@ -337,14 +302,18 @@ class AddServerViewModel extends ChangeNotifier {
     }
   }
 
-  Future<UpdateOutcome> _saveEdit(
-    UpdateServerRequest req,
+  Future<SaveServerOutcome> _saveEdit(
+    SaveServerRequest req,
+    Server original,
     bool isAddressChanged,
   ) async {
+    final draft = req.draft;
     final attempt = _SaveAttempt(
-      req: req,
+      draft: draft,
+      original: original,
       isAddressChanged: isAddressChanged,
       serversViewModel: _serversViewModel,
+      serverRepository: _serverRepository,
       createBundle: _createBundle,
     );
     final address = attempt.targetAddress;
@@ -352,30 +321,30 @@ class AddServerViewModel extends ChangeNotifier {
     final resolved = await req.resolveCertificate(
       Server(
         address: address,
-        alias: req.alias,
-        apiVersion: req.apiVersion,
-        allowUntrustedCert: req.allowUntrustedCert,
-        ignoreCertificateErrors: req.ignoreCertificateErrors,
+        alias: draft.alias,
+        apiVersion: draft.apiVersion,
+        allowUntrustedCert: draft.allowUntrustedCert,
+        ignoreCertificateErrors: draft.ignoreCertificateErrors,
         // When the address changes the target is effectively a different host,
         // so any pinned certificate carried over from the old server is stale.
         // Reset it to null so the certificate check re-runs against the new
         // host.
         pinnedCertificateSha256: isAddressChanged
             ? null
-            : req.pinnedCertificateSha256,
+            : draft.pinnedCertificateSha256,
       ),
     );
     if (resolved == null) {
-      return const UpdateCancelled();
+      return const SaveCancelled();
     }
 
-    final server = resolved.copyWith(defaultServer: req.defaultServer);
-    final secret = req.secret.value;
+    final server = resolved.copyWith(defaultServer: draft.defaultServer);
+    final secret = draft.secret.value;
     // A version switch uses the other key, which is not stored yet.
     final isNew =
         isAddressChanged ||
-        req.apiVersion != req.oldServer.apiVersion ||
-        req.secret is NewSecret;
+        draft.apiVersion != original.apiVersion ||
+        draft.secret is NewSecret;
     final bundle = _createBundleWithSecret(server, secret);
     final outcome = await _connect(
       bundle,
@@ -397,7 +366,7 @@ class AddServerViewModel extends ChangeNotifier {
           sessionCreated: false,
         );
 
-        return const UpdateCancelled();
+        return const SaveCancelled();
       case ConnectFailed(:final error, :final sessionCreated):
         await _cleanupFailedAttempt(
           bundle: bundle,
@@ -406,7 +375,7 @@ class AddServerViewModel extends ChangeNotifier {
           sessionCreated: sessionCreated,
         );
 
-        return UpdateApiError(error, req.apiVersion);
+        return SaveApiError(error, draft.apiVersion);
       case ConnectSuccess():
         connected = outcome;
     }
@@ -423,13 +392,13 @@ class AddServerViewModel extends ChangeNotifier {
         secretSaved: isNew,
       );
 
-      return const UpdateDbError();
+      return const SaveDbError();
     }
 
     await attempt.cleanupAfterCommit();
     _serversViewModel.clearTotpReauthDeclined(address);
 
-    return const UpdateSuccess();
+    return SaveSuccess(server);
   }
 
   /// Creates the bundle for [server]. The v5 repositories use [secret] as the
@@ -445,8 +414,8 @@ class AddServerViewModel extends ChangeNotifier {
   /// Returns false when the write fails.
   Future<bool> _saveSecret(Server server, String secret) async {
     final result = server.apiVersion == SupportedApiVersions.v6
-        ? await _serversViewModel.savePassword(server.address, secret)
-        : await _serversViewModel.saveToken(server.address, secret);
+        ? await _serverRepository.savePassword(server.address, secret)
+        : await _serverRepository.saveToken(server.address, secret);
 
     return result.isSuccess();
   }
@@ -486,8 +455,8 @@ class AddServerViewModel extends ChangeNotifier {
     // When the address is new and the password / token was stored there,
     // remove it.
     if (isNewAddress && secretSaved) {
-      await _serversViewModel.deletePassword(address);
-      await _serversViewModel.deleteToken(address);
+      await _serverRepository.deletePassword(address);
+      await _serverRepository.deleteToken(address);
     }
   }
 
@@ -509,30 +478,35 @@ class AddServerViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
-    createServer.removeListener(notifyListeners);
-    updateServer.removeListener(notifyListeners);
+    saveServer.removeListener(notifyListeners);
     super.dispose();
   }
 }
 
-/// One run of [AddServerViewModel.updateServer]: the DB commit and the cleanup
-/// of the old server, which both depend on the old and the target address.
+/// One edit run of [AddServerViewModel.saveServer]: the DB commit and the
+/// cleanup of the old server, which both depend on the old and the target
+/// address.
 class _SaveAttempt {
   _SaveAttempt({
-    required this.req,
+    required this.draft,
+    required this.original,
     required this.isAddressChanged,
     required ServersViewModel serversViewModel,
+    required ServerRepository serverRepository,
     required CreateRepositoryBundle createBundle,
   }) : _serversViewModel = serversViewModel,
+       _serverRepository = serverRepository,
        _createBundle = createBundle;
 
-  final UpdateServerRequest req;
+  final ServerDraft draft;
+  final Server original;
   final bool isAddressChanged;
   final ServersViewModel _serversViewModel;
+  final ServerRepository _serverRepository;
   final CreateRepositoryBundle _createBundle;
 
-  String get oldAddress => req.oldServer.address;
-  String get targetAddress => isAddressChanged ? req.url : oldAddress;
+  String get oldAddress => original.address;
+  String get targetAddress => isAddressChanged ? draft.url : oldAddress;
 
   /// Writes [server] to the DB: replace when the address changed, otherwise edit
   /// in place. Returns the command error, or null on success.
@@ -560,14 +534,13 @@ class _SaveAttempt {
   /// drops the old server's stale credentials/SID. Runs only after the commit so
   /// a failed save can't kill a live session.
   Future<void> cleanupAfterCommit() async {
-    final oldServer = req.oldServer;
-    final oldWasV6 = oldServer.apiVersion == SupportedApiVersions.v6;
-    final newIsV6 = req.apiVersion == SupportedApiVersions.v6;
+    final oldWasV6 = original.apiVersion == SupportedApiVersions.v6;
+    final newIsV6 = draft.apiVersion == SupportedApiVersions.v6;
 
     // 1. Log out the old v6 session (orphaned on address change or v6 -> v5).
     if (oldWasV6 && (isAddressChanged || !newIsV6)) {
       try {
-        final oldBundle = _createBundle(server: oldServer);
+        final oldBundle = _createBundle(server: original);
         await oldBundle.auth.deleteCurrentSession();
       } catch (e, s) {
         logger.w(
@@ -582,17 +555,17 @@ class _SaveAttempt {
     if (isAddressChanged) {
       // New credentials already live under the new address; remove the stale
       // ones left behind under the old address, including its 2FA-declined mark.
-      await _serversViewModel.deleteToken(oldAddress);
-      await _serversViewModel.deletePassword(oldAddress);
+      await _serverRepository.deleteToken(oldAddress);
+      await _serverRepository.deletePassword(oldAddress);
       await _serversViewModel.deleteSid(oldAddress);
       _serversViewModel.clearTotpReauthDeclined(oldAddress);
     } else if (oldWasV6 && !newIsV6) {
       // Same address, v6 -> v5: the password and the SID are now unused.
-      await _serversViewModel.deletePassword(targetAddress);
+      await _serverRepository.deletePassword(targetAddress);
       await _serversViewModel.deleteSid(targetAddress);
     } else if (!oldWasV6 && newIsV6) {
       // Same address, v5 -> v6: the token is now unused.
-      await _serversViewModel.deleteToken(targetAddress);
+      await _serverRepository.deleteToken(targetAddress);
     }
   }
 }

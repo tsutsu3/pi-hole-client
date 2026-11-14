@@ -23,6 +23,8 @@ class FakeServersViewModel extends ServersViewModel {
 
   final FakeServerRepository _fakeRepo;
 
+  FakeServerRepository get repository => _fakeRepo;
+
   Server? _selectedServer;
   bool? _selectedServerEnabled;
   List<Server> _serversList = [];
@@ -85,16 +87,6 @@ class FakeServersViewModel extends ServersViewModel {
   /// then this stays 0, which is what the state-integrity tests assert against.
   int deleteSidCallCount = 0;
   final List<String> deletedSidAddresses = [];
-
-  /// Controls the result returned by [checkUrlExists] in tests.
-  bool urlExistsResult = false;
-
-  /// When true, [checkUrlExists] returns `result: 'fail'` to simulate an
-  /// inconclusive uniqueness check.
-  bool checkUrlExistsFails = false;
-
-  /// When true, [checkUrlExists] throws to simulate an unexpected error.
-  bool checkUrlExistsThrows = false;
 
   // Additional call-tracking fields for non-Command methods
   int setselectedServerCallCount = 0;
@@ -208,16 +200,5 @@ class FakeServersViewModel extends ServersViewModel {
     deleteSidCallCount++;
     deletedSidAddresses.add(address);
     return _fakeRepo.deleteSid(address);
-  }
-
-  @override
-  FutureOr<Map<String, dynamic>> checkUrlExists(String url) async {
-    if (checkUrlExistsThrows) {
-      throw Exception('checkUrlExists failed');
-    }
-    if (checkUrlExistsFails) {
-      return {'result': 'fail', 'exists': false};
-    }
-    return {'result': 'success', 'exists': urlExistsResult};
   }
 }
