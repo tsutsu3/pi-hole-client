@@ -56,7 +56,7 @@ const _oldServerV5 = Server(
 const _oldAddress = 'http://localhost:8081';
 const _newAddress = 'http://other.host:9999';
 
-/// What is stored for [_oldServer] before each updateServer test.
+/// What is stored for [_oldServer] before each edit test.
 const _oldSecrets = {
   '${_oldAddress}_password': 'pass',
   '${_oldAddress}_sid': 'old-sid',
@@ -103,7 +103,7 @@ void main() {
       return vm;
     }
 
-    CreateServerRequest createReq({
+    SaveServerRequest createReq({
       String url = _oldAddress,
       String apiVersion = SupportedApiVersions.v6,
       String secret = 'pass',
@@ -111,21 +111,24 @@ void main() {
       ResolveCertificate? resolveCertificate,
       ResolveTotp? resolveTotp,
     }) {
-      return CreateServerRequest(
-        url: url,
-        alias: 'alias',
-        apiVersion: apiVersion,
-        allowUntrustedCert: true,
-        ignoreCertificateErrors: false,
-        pinnedCertificateSha256: null,
-        secret: NewSecret(secret),
-        defaultServer: defaultServer,
+      return SaveServerRequest(
+        draft: ServerDraft(
+          url: url,
+          alias: 'alias',
+          apiVersion: apiVersion,
+          allowUntrustedCert: true,
+          ignoreCertificateErrors: false,
+          pinnedCertificateSha256: null,
+          secret: NewSecret(secret),
+          defaultServer: defaultServer,
+        ),
+        mode: const AddMode(),
         resolveCertificate: resolveCertificate ?? (server) async => server,
         resolveTotp: resolveTotp ?? ({error}) async => null,
       );
     }
 
-    UpdateServerRequest updateReq({
+    SaveServerRequest updateReq({
       String? url,
       String apiVersion = SupportedApiVersions.v6,
       SecretInput secret = const UnchangedSecret('pass'),
@@ -133,26 +136,28 @@ void main() {
       ResolveCertificate? resolveCertificate,
       ResolveTotp? resolveTotp,
     }) {
-      return UpdateServerRequest(
-        url: url ?? oldServer.address,
-        alias: 'alias',
-        apiVersion: apiVersion,
-        allowUntrustedCert: true,
-        ignoreCertificateErrors: false,
-        pinnedCertificateSha256: null,
-        secret: secret,
-        defaultServer: false,
-        oldServer: oldServer,
+      return SaveServerRequest(
+        draft: ServerDraft(
+          url: url ?? oldServer.address,
+          alias: 'alias',
+          apiVersion: apiVersion,
+          allowUntrustedCert: true,
+          ignoreCertificateErrors: false,
+          pinnedCertificateSha256: null,
+          secret: secret,
+          defaultServer: false,
+        ),
+        mode: EditMode(oldServer),
         resolveCertificate: resolveCertificate ?? (server) async => server,
         resolveTotp: resolveTotp ?? ({error}) async => null,
       );
     }
 
-    group('createServer', () {
+    group('saveServer (add)', () {
       test('v6 success stores the server and only the password', () async {
         final vm = buildViewModel();
 
-        final outcome = await vm.createServer.runAsync(
+        final outcome = await vm.saveServer.runAsync(
           createReq(defaultServer: true),
         );
 
@@ -171,7 +176,7 @@ void main() {
       test('v5 success checks with the given token, then stores it', () async {
         final vm = buildViewModel();
 
-        final outcome = await vm.createServer.runAsync(
+        final outcome = await vm.saveServer.runAsync(
           createReq(apiVersion: SupportedApiVersions.v5, secret: 'token'),
         );
 
@@ -187,7 +192,7 @@ void main() {
       test('v6 passwordless success stores an empty password', () async {
         final vm = buildViewModel();
 
-        final outcome = await vm.createServer.runAsync(createReq(secret: ''));
+        final outcome = await vm.saveServer.runAsync(createReq(secret: ''));
 
         expect(outcome, isA<SaveSuccess>());
         expect(serversViewModel.storedSecrets, {'${_oldAddress}_password': ''});
@@ -198,7 +203,7 @@ void main() {
         serversViewModel.repository.serverExists = true;
         final vm = buildViewModel();
 
-        final outcome = await vm.createServer.runAsync(createReq());
+        final outcome = await vm.saveServer.runAsync(createReq());
 
         expect(outcome, isA<SaveDuplicateUrl>());
         expect(serversViewModel.storedRows, isEmpty);
@@ -211,7 +216,7 @@ void main() {
           serversViewModel.repository.shouldFailServerExists = true;
           final vm = buildViewModel();
 
-          final outcome = await vm.createServer.runAsync(createReq());
+          final outcome = await vm.saveServer.runAsync(createReq());
 
           expect(outcome, isA<SaveUrlCheckFailed>());
           expect(serversViewModel.storedRows, isEmpty);
@@ -223,7 +228,7 @@ void main() {
         authRepository.shouldFail = true;
         final vm = buildViewModel();
 
-        final outcome = await vm.createServer.runAsync(createReq());
+        final outcome = await vm.saveServer.runAsync(createReq());
 
         expect(outcome, isA<SaveApiError>());
         expect((outcome as SaveApiError).version, SupportedApiVersions.v6);
@@ -238,7 +243,7 @@ void main() {
           ..failureException = HttpStatusCodeException(503);
         final vm = buildViewModel();
 
-        final outcome = await vm.createServer.runAsync(createReq());
+        final outcome = await vm.saveServer.runAsync(createReq());
 
         expect(outcome, isA<SaveApiError>());
         expect(serversViewModel.storedRows, isEmpty);
@@ -252,7 +257,7 @@ void main() {
         serversViewModel.shouldFailSaveSecret = true;
         final vm = buildViewModel();
 
-        final outcome = await vm.createServer.runAsync(createReq());
+        final outcome = await vm.saveServer.runAsync(createReq());
 
         expect(outcome, isA<SaveDbError>());
         expect(serversViewModel.storedRows, isEmpty);
@@ -267,7 +272,7 @@ void main() {
         serversViewModel.shouldFailAddServer = true;
         final vm = buildViewModel();
 
-        final outcome = await vm.createServer.runAsync(createReq());
+        final outcome = await vm.saveServer.runAsync(createReq());
 
         expect(outcome, isA<SaveDbError>());
         expect(serversViewModel.storedRows, isEmpty);
@@ -279,7 +284,7 @@ void main() {
       test('a cancelled certificate returns SaveCancelled', () async {
         final vm = buildViewModel();
 
-        final outcome = await vm.createServer.runAsync(
+        final outcome = await vm.saveServer.runAsync(
           createReq(resolveCertificate: (_) async => null),
         );
 
@@ -295,7 +300,7 @@ void main() {
           ..serverUsesTotp = true;
         final vm = buildViewModel();
 
-        final outcome = await vm.createServer.runAsync(
+        final outcome = await vm.saveServer.runAsync(
           createReq(resolveTotp: ({error}) async => '123456'),
         );
 
@@ -309,7 +314,7 @@ void main() {
         authRepository.shouldRequireTotp = true;
         final vm = buildViewModel();
 
-        final outcome = await vm.createServer.runAsync(
+        final outcome = await vm.saveServer.runAsync(
           createReq(resolveTotp: ({error}) async => null),
         );
 
@@ -330,7 +335,7 @@ void main() {
         final errors = <TotpPromptError?>[];
         var attempt = 0;
 
-        final outcome = await vm.createServer.runAsync(
+        final outcome = await vm.saveServer.runAsync(
           createReq(
             resolveTotp: ({error}) async {
               errors.add(error);
@@ -354,7 +359,7 @@ void main() {
 
         final errors = <TotpPromptError?>[];
 
-        final outcome = await vm.createServer.runAsync(
+        final outcome = await vm.saveServer.runAsync(
           createReq(
             resolveTotp: ({error}) async {
               errors.add(error);
@@ -377,7 +382,7 @@ void main() {
 
         var promptCount = 0;
 
-        final outcome = await vm.createServer.runAsync(
+        final outcome = await vm.saveServer.runAsync(
           createReq(
             resolveTotp: ({error}) async {
               promptCount++;
@@ -394,7 +399,7 @@ void main() {
       });
     });
 
-    group('updateServer', () {
+    group('saveServer (edit)', () {
       setUp(() {
         serversViewModel.storedRows[_oldAddress] = _oldServer;
         serversViewModel.storedSecrets.addAll(_oldSecrets);
@@ -409,7 +414,7 @@ void main() {
       test('same-address edit updates the row and keeps the secrets', () async {
         final vm = buildViewModel();
 
-        final outcome = await vm.updateServer.runAsync(updateReq());
+        final outcome = await vm.saveServer.runAsync(updateReq());
 
         expect(outcome, isA<SaveSuccess>());
         expect(serversViewModel.storedRows.keys, [_oldAddress]);
@@ -426,7 +431,7 @@ void main() {
           'address', () async {
         final vm = buildViewModel();
 
-        final outcome = await vm.updateServer.runAsync(
+        final outcome = await vm.saveServer.runAsync(
           updateReq(url: _newAddress),
         );
 
@@ -444,7 +449,7 @@ void main() {
       test('a cancelled certificate returns SaveCancelled', () async {
         final vm = buildViewModel();
 
-        final outcome = await vm.updateServer.runAsync(
+        final outcome = await vm.saveServer.runAsync(
           updateReq(resolveCertificate: (_) async => null),
         );
 
@@ -460,7 +465,7 @@ void main() {
           serversViewModel.repository.serverExists = true;
           final vm = buildViewModel();
 
-          final outcome = await vm.updateServer.runAsync(
+          final outcome = await vm.saveServer.runAsync(
             updateReq(url: _newAddress),
           );
 
@@ -475,7 +480,7 @@ void main() {
           serversViewModel.repository.shouldFailServerExists = true;
           final vm = buildViewModel();
 
-          final outcome = await vm.updateServer.runAsync(
+          final outcome = await vm.saveServer.runAsync(
             updateReq(url: _newAddress),
           );
 
@@ -488,7 +493,7 @@ void main() {
         authRepository.shouldFail = true;
         final vm = buildViewModel();
 
-        final outcome = await vm.updateServer.runAsync(
+        final outcome = await vm.saveServer.runAsync(
           updateReq(url: _newAddress),
         );
 
@@ -502,7 +507,7 @@ void main() {
         authRepository.shouldFail = true;
         final vm = buildViewModel();
 
-        final outcome = await vm.updateServer.runAsync(
+        final outcome = await vm.saveServer.runAsync(
           updateReq(secret: const NewSecret('new-pass')),
         );
 
@@ -516,7 +521,7 @@ void main() {
         dnsRepository = _SeqDns([HttpStatusCodeException(401), null]);
         final vm = buildViewModel();
 
-        final outcome = await vm.updateServer.runAsync(updateReq());
+        final outcome = await vm.saveServer.runAsync(updateReq());
 
         expect(outcome, isA<SaveSuccess>());
         expect(serversViewModel.storedRows[_oldAddress]!.alias, 'alias');
@@ -532,7 +537,7 @@ void main() {
             ..failureException = HttpStatusCodeException(503);
           final vm = buildViewModel();
 
-          final outcome = await vm.updateServer.runAsync(updateReq());
+          final outcome = await vm.saveServer.runAsync(updateReq());
 
           expect(outcome, isA<SaveApiError>());
           expectOldServerKept();
@@ -546,7 +551,7 @@ void main() {
         serversViewModel.shouldFailEditServer = true;
         final vm = buildViewModel();
 
-        final outcome = await vm.updateServer.runAsync(updateReq());
+        final outcome = await vm.saveServer.runAsync(updateReq());
 
         expect(outcome, isA<SaveDbError>());
         expectOldServerKept();
@@ -557,7 +562,7 @@ void main() {
           'password and the SID', () async {
         final vm = buildViewModel();
 
-        final outcome = await vm.updateServer.runAsync(
+        final outcome = await vm.saveServer.runAsync(
           updateReq(
             apiVersion: SupportedApiVersions.v5,
             secret: const NewSecret('token'),
@@ -589,7 +594,7 @@ void main() {
           ..serverUsesTotp = true;
         final vm = buildViewModel();
 
-        final outcome = await vm.updateServer.runAsync(
+        final outcome = await vm.saveServer.runAsync(
           updateReq(
             oldServer: _oldServerV5,
             apiVersion: SupportedApiVersions.v6,
@@ -618,7 +623,7 @@ void main() {
           ..['${_oldAddress}_token'] = 'token';
         final vm = buildViewModel();
 
-        final outcome = await vm.updateServer.runAsync(
+        final outcome = await vm.saveServer.runAsync(
           updateReq(
             oldServer: _oldServerV5,
             apiVersion: SupportedApiVersions.v6,
@@ -640,7 +645,7 @@ void main() {
         final vm = buildViewModel();
 
         await expectLater(
-          vm.updateServer.runAsync(
+          vm.saveServer.runAsync(
             updateReq(resolveCertificate: (_) async => throw Exception('boom')),
           ),
           throwsException,
@@ -651,9 +656,9 @@ void main() {
         expect(statusViewModel.startAutoRefreshCallCount, 1);
       });
 
-      // What updateServer leaves behind when a step fails or the user cancels.
+      // What an edit leaves behind when a step fails or the user cancels.
       //
-      // updateServer runs the following steps:
+      // An edit runs the following steps:
       //   1. Login and create a new session if needed.
       //   2. Check the blocking status.
       //   3. Save the password, if it is new.
@@ -671,7 +676,7 @@ void main() {
       //
       // The DB row of the old server is never changed.
       group('failure cleanup', () {
-        /// Checks the result of one failed updateServer run.
+        /// Checks the result of one failed edit run.
         ///
         /// [secrets] is what is stored after the run. [deletedSids] is
         /// checked too, because the fake login does not store a SID for the
@@ -718,7 +723,7 @@ void main() {
           authRepository.shouldRequireTotp = true;
           final vm = buildViewModel();
 
-          final outcome = await vm.updateServer.runAsync(
+          final outcome = await vm.saveServer.runAsync(
             updateReq(secret: const NewSecret('new-pass')),
           );
 
@@ -735,7 +740,7 @@ void main() {
           authRepository.shouldRequireTotp = true;
           final vm = buildViewModel();
 
-          final outcome = await vm.updateServer.runAsync(
+          final outcome = await vm.saveServer.runAsync(
             updateReq(url: _newAddress),
           );
 
@@ -753,7 +758,7 @@ void main() {
           authRepository.shouldFail = true;
           final vm = buildViewModel();
 
-          final outcome = await vm.updateServer.runAsync(
+          final outcome = await vm.saveServer.runAsync(
             updateReq(secret: const NewSecret('new-pass')),
           );
 
@@ -771,7 +776,7 @@ void main() {
           dnsRepository.shouldFail = true;
           final vm = buildViewModel();
 
-          final outcome = await vm.updateServer.runAsync(
+          final outcome = await vm.saveServer.runAsync(
             updateReq(secret: const NewSecret('new-pass')),
           );
 
@@ -789,7 +794,7 @@ void main() {
           serversViewModel.shouldFailSaveSecret = true;
           final vm = buildViewModel();
 
-          final outcome = await vm.updateServer.runAsync(
+          final outcome = await vm.saveServer.runAsync(
             updateReq(secret: const NewSecret('new-pass')),
           );
 
@@ -807,7 +812,7 @@ void main() {
           serversViewModel.shouldFailEditServer = true;
           final vm = buildViewModel();
 
-          final outcome = await vm.updateServer.runAsync(
+          final outcome = await vm.saveServer.runAsync(
             updateReq(secret: const NewSecret('new-pass')),
           );
 
@@ -826,7 +831,7 @@ void main() {
           serversViewModel.shouldFailReplaceServer = true;
           final vm = buildViewModel();
 
-          final outcome = await vm.updateServer.runAsync(
+          final outcome = await vm.saveServer.runAsync(
             updateReq(url: _newAddress),
           );
 

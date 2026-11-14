@@ -466,16 +466,19 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
     final SaveServerOutcome outcome;
     try {
-      outcome = await viewModel.createServer.runAsync(
-        CreateServerRequest(
-          url: url,
-          alias: aliasFieldController.text,
-          apiVersion: piHoleVersion,
-          allowUntrustedCert: allowUntrustedCert,
-          ignoreCertificateErrors: ignoreCertificateErrors,
-          pinnedCertificateSha256: pinnedCertificateSha256,
-          secret: NewSecret(_secretFromForm()),
-          defaultServer: defaultCheckbox,
+      outcome = await viewModel.saveServer.runAsync(
+        SaveServerRequest(
+          draft: ServerDraft(
+            url: url,
+            alias: aliasFieldController.text,
+            apiVersion: piHoleVersion,
+            allowUntrustedCert: allowUntrustedCert,
+            ignoreCertificateErrors: ignoreCertificateErrors,
+            pinnedCertificateSha256: pinnedCertificateSha256,
+            secret: NewSecret(_secretFromForm()),
+            defaultServer: defaultCheckbox,
+          ),
+          mode: const AddMode(),
           resolveCertificate: _checkCertificateBeforeSave,
           resolveTotp: ({error}) => showTotpInputModal(context, error: error),
         ),
@@ -551,17 +554,19 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
     final SaveServerOutcome outcome;
     try {
-      outcome = await viewModel.updateServer.runAsync(
-        UpdateServerRequest(
-          url: newUrl,
-          alias: aliasFieldController.text,
-          apiVersion: piHoleVersion,
-          allowUntrustedCert: allowUntrustedCert,
-          ignoreCertificateErrors: ignoreCertificateErrors,
-          pinnedCertificateSha256: pinnedCertificateSha256,
-          secret: secret,
-          defaultServer: defaultCheckbox,
-          oldServer: widget.server!,
+      outcome = await viewModel.saveServer.runAsync(
+        SaveServerRequest(
+          draft: ServerDraft(
+            url: newUrl,
+            alias: aliasFieldController.text,
+            apiVersion: piHoleVersion,
+            allowUntrustedCert: allowUntrustedCert,
+            ignoreCertificateErrors: ignoreCertificateErrors,
+            pinnedCertificateSha256: pinnedCertificateSha256,
+            secret: secret,
+            defaultServer: defaultCheckbox,
+          ),
+          mode: EditMode(widget.server!),
           resolveCertificate: _checkCertificateBeforeSave,
           resolveTotp: ({error}) => showTotpInputModal(context, error: error),
         ),

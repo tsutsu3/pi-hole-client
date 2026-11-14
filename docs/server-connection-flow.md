@@ -4,7 +4,7 @@ How the **Add / Edit server** screen connects to a Pi-hole and persists it.
 
 - UI: `lib/ui/servers/widgets/add_server_fullscreen.dart` (`AddServerFullscreen`)
 - Orchestration: `lib/ui/servers/view_models/add_server_viewmodel.dart`
-  (`AddServerViewModel.createServer` / `updateServer`)
+  (`AddServerViewModel.saveServer`, with `AddMode` / `EditMode`)
 - Session setup and status check:
   `lib/domain/use_cases/server_connection/connect_server_usecase.dart`
   (`ConnectServerUseCase`)
@@ -63,7 +63,7 @@ checked with a new session (`SessionPolicy.forceNew`) and stored after the
 check. An unchanged secret keeps the current session while it works
 (`SessionPolicy.reuseIfValid`) and is not written again.
 
-## Add a new server - `createServer`
+## Add a new server - `saveServer` with `AddMode`
 
 A cancelled/blocked certificate **aborts** the add (`SaveCancelled`) before
 any connection. A cancelled TOTP prompt also returns `SaveCancelled`; nothing
@@ -71,7 +71,7 @@ was stored, so there is nothing to undo.
 
 ```mermaid
 flowchart TD
-  A([createServer req]) --> B{doesServerExist}
+  A([saveServer AddMode]) --> B{doesServerExist}
   B -- duplicate --> BD([SaveDuplicateUrl])
   B -- failed --> BF([SaveUrlCheckFailed])
   B -- available --> D[resolveCertificate]
@@ -86,10 +86,10 @@ flowchart TD
   M -- ok --> J([SaveSuccess server])
 ```
 
-`createServer` persists the server row before returning `SaveSuccess`, so the
+An add persists the server row before returning `SaveSuccess`, so the
 widget only pops and shows the success snackbar.
 
-## Edit an existing server - `updateServer`
+## Edit an existing server - `saveServer` with `EditMode`
 
 A cancelled/blocked certificate **aborts** the save (`SaveCancelled`); the
 message was already shown by `resolveCertificate`. When a server is selected,
@@ -98,7 +98,7 @@ every exit path restarts it.
 
 ```mermaid
 flowchart TD
-  A([updateServer req]) --> B{address changed?<br/>isSameEndpoint}
+  A([saveServer EditMode]) --> B{address changed?<br/>isSameEndpoint}
   B -- yes --> C{doesServerExist newUrl}
   C -- duplicate --> CD([SaveDuplicateUrl])
   C -- failed --> CF([SaveUrlCheckFailed])
@@ -125,7 +125,7 @@ flowchart TD
 ### Cleanup after a failure - `_cleanupFailedAttempt`
 
 One cleanup is used for every failure after the certificate step, in both
-`createServer` and `updateServer`.
+adding and editing.
 
 - **Log out the new session** on the server - when this attempt created a
   session.
@@ -198,12 +198,12 @@ is passed in as `ConfirmPin`, and the caller shows a snackbar for
 `CertificateBlocked`. Only an https server that allows untrusted certificates
 (and does not ignore errors) is pinned.
 
-| Entry point | Called from | Then |
-| ----------- | ----------- | ---- |
-| `checkBeforeSave` | add / edit screen | resolved / cancelled / blocked |
-| `needsPinBeforeConnect` | `ServerConnectionService.connect` | true → `pinAndSave` |
-| `repin` | `pinAndSave` (server list menu, 495 recovery) | resolved / cancelled / blocked |
-| `hasConfirmedPinMismatch` | 495 recovery | true → "Update" (`pinAndSave`), false → "Edit" |
+| Entry point               | Called from                                   | Then                                           |
+| ------------------------- | --------------------------------------------- | ---------------------------------------------- |
+| `checkBeforeSave`         | add / edit screen                             | resolved / cancelled / blocked                 |
+| `needsPinBeforeConnect`   | `ServerConnectionService.connect`             | true → `pinAndSave`                            |
+| `repin`                   | `pinAndSave` (server list menu, 495 recovery) | resolved / cancelled / blocked                 |
+| `hasConfirmedPinMismatch` | 495 recovery                                  | true → "Update" (`pinAndSave`), false → "Edit" |
 
 The save is stricter than the connection: it pins a trusted certificate
 automatically and blocks an untrusted one in strict mode. The connection does
@@ -278,7 +278,7 @@ sequenceDiagram
   participant B as RepositoryBundle
 
   U->>W: tap Connect
-  W->>VM: createServer.runAsync(req with NewSecret)
+  W->>VM: saveServer.runAsync(AddMode, draft with NewSecret)
   VM->>SR: doesServerExist(url)
   VM->>W: resolveCertificate(server)
   Note over W: pin dialog / ssl-error snackbar (UI)
@@ -317,7 +317,7 @@ sequenceDiagram
   participant B as RepositoryBundle
 
   U->>W: tap Save
-  W->>VM: updateServer.runAsync(req with NewSecret / UnchangedSecret)
+  W->>VM: saveServer.runAsync(EditMode, draft with NewSecret / UnchangedSecret)
   opt address changed
     VM->>SR: doesServerExist(newUrl)
   end
@@ -353,19 +353,19 @@ sequenceDiagram
 
 ## Outcome → UI mapping
 
-| Outcome              | Widget reaction                                                                  |
-| -------------------- | -------------------------------------------------------------------------------- |
-| `SaveSuccess`        | pop → "connected successfully" (add) / "edited successfully" (edit); row saved   |
-| `SaveDuplicateUrl`   | "connection already exists" snackbar                                             |
-| `SaveUrlCheckFailed` | "cannot check URL" snackbar                                                      |
-| `SaveApiError`       | status-code-specific error snackbar + log (`handleApiErrorResult`)               |
-| `SaveDbError`        | "cannot save connection data" snackbar                                           |
-| `SaveCancelled`      | nothing - certificate dialog / SSL error / TOTP prompt already shown             |
+| Outcome              | Widget reaction                                                                |
+| -------------------- | ------------------------------------------------------------------------------ |
+| `SaveSuccess`        | pop → "connected successfully" (add) / "edited successfully" (edit); row saved |
+| `SaveDuplicateUrl`   | "connection already exists" snackbar                                           |
+| `SaveUrlCheckFailed` | "cannot check URL" snackbar                                                    |
+| `SaveApiError`       | status-code-specific error snackbar + log (`handleApiErrorResult`)             |
+| `SaveDbError`        | "cannot save connection data" snackbar                                         |
+| `SaveCancelled`      | nothing - certificate dialog / SSL error / TOTP prompt already shown           |
 
 ## Notes
 
 - **Create and edit behave symmetrically on certificate cancel**: both
-  `createServer` and `updateServer` abort (`SaveCancelled`)
+  adding and editing abort (`SaveCancelled`)
   when the pin dialog is cancelled or the certificate is blocked; no connection
   is attempted.
 - The view model never shows UI itself. Every `CertificateBlocked` reason has a
