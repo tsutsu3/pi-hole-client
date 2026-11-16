@@ -237,8 +237,6 @@ class ServerConnectionService {
   }
 
   Future<void> _onSuccess(Blocking blocking, Server connectedServer) async {
-    totpPromptGuard.clear(connectedServer.address);
-
     if (serversViewModel.selectedServer == null &&
         appConfigViewModel.selectedTab == 1) {
       appConfigViewModel.setSelectedTab(4);

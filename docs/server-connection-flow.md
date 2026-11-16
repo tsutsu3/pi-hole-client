@@ -115,7 +115,7 @@ flowchart TD
   S -- error --> X[cleanupFailedAttempt] --> T([SaveDbError])
   S -- ok --> R[commit<br/>replaceServer if address changed<br/>else editServer]
   R -- error --> X
-  R -- ok --> U[cleanupAfterCommit<br/>totpPromptGuard.clear]
+  R -- ok --> U[cleanupAfterCommit]
   U --> W([SaveSuccess server])
 ```
 
@@ -171,8 +171,14 @@ cancelled (`TotpPromptGuard.decline`). The mark is kept in the session cache
 of that address (`V6SessionCache.reauthState`). `handleTotpReauth` checks this
 mark (`TotpPromptGuard.isDeclined`) and returns early, so no second prompt
 appears. A refresh that the user starts still prompts again
-(`TotpPromptGuard.allowPrompt`, `totp_fake_test.dart`). A successful edit
-clears the mark (`TotpPromptGuard.clear`).
+(`TotpPromptGuard.allowPrompt`, `totp_fake_test.dart`).
+
+Nothing clears the mark by hand. It goes away by itself:
+
+- a successful login saves a new SID, and `saveSid` sets the state back to
+  none;
+- deleting the server or its SID drops the whole session cache
+  (`V6SessionCacheStore.remove`), and the mark with it.
 
 ```mermaid
 sequenceDiagram

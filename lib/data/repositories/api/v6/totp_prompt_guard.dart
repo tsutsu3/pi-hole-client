@@ -21,9 +21,4 @@ class TotpPromptGuard {
   /// Lets the TOTP prompt show again for [address]. Call it when the user
   /// asks for a refresh.
   void allowPrompt(String address) => _store.find(address)?.allowReauthPrompt();
-
-  /// Removes the cancelled mark for [address].
-  // A cancelled mark means the server still needs a TOTP code, so the cache
-  // goes back to totpRequired, the same as [allowPrompt].
-  void clear(String address) => _store.find(address)?.allowReauthPrompt();
 }

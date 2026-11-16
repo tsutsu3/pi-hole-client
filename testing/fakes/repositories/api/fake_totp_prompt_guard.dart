@@ -7,7 +7,6 @@ class FakeTotpPromptGuard implements TotpPromptGuard {
 
   final List<String> declinedAddresses = [];
   final List<String> allowedAddresses = [];
-  final List<String> clearedAddresses = [];
 
   @override
   bool isDeclined(String address) => declined.contains(address);
@@ -22,11 +21,5 @@ class FakeTotpPromptGuard implements TotpPromptGuard {
   void allowPrompt(String address) {
     declined.remove(address);
     allowedAddresses.add(address);
-  }
-
-  @override
-  void clear(String address) {
-    declined.remove(address);
-    clearedAddresses.add(address);
   }
 }

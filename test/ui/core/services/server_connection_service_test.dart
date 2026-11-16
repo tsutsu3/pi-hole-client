@@ -363,24 +363,6 @@ void main() async {
       },
     );
 
-    testWidgets('a successful connection clears a prior 2FA cancellation', (
-      tester,
-    ) async {
-      serversViewModel.selectedServer = _serverV6;
-      totpPromptGuard.decline(_serverV6.address);
-      final ctx = await pumpContext(tester);
-
-      await buildService(
-        ctx,
-        server: _serverV6,
-        dns: FakeDnsRepository(),
-      ).connect();
-      await tester.pump();
-
-      expect(totpPromptGuard.isDeclined(_serverV6.address), isFalse);
-      expect(totpPromptGuard.clearedAddresses, [_serverV6.address]);
-    });
-
     testWidgets(
       'a failed switch does not revive auto-refresh on a broken fallback',
       (tester) async {

@@ -322,7 +322,6 @@ class AddServerViewModel extends ChangeNotifier {
       serversViewModel: _serversViewModel,
       serverRepository: _serverRepository,
       createBundle: _createBundle,
-      totpPromptGuard: _totpPromptGuard,
     );
     final address = attempt.targetAddress;
 
@@ -405,7 +404,6 @@ class AddServerViewModel extends ChangeNotifier {
     }
 
     await attempt.cleanupAfterCommit();
-    _totpPromptGuard.clear(address);
 
     return SaveSuccess(server);
   }
@@ -503,11 +501,9 @@ class _SaveAttempt {
     required ServersViewModel serversViewModel,
     required ServerRepository serverRepository,
     required CreateRepositoryBundle createBundle,
-    required TotpPromptGuard totpPromptGuard,
   }) : _serversViewModel = serversViewModel,
        _serverRepository = serverRepository,
-       _createBundle = createBundle,
-       _totpPromptGuard = totpPromptGuard;
+       _createBundle = createBundle;
 
   final ServerDraft draft;
   final Server original;
@@ -515,7 +511,6 @@ class _SaveAttempt {
   final ServersViewModel _serversViewModel;
   final ServerRepository _serverRepository;
   final CreateRepositoryBundle _createBundle;
-  final TotpPromptGuard _totpPromptGuard;
 
   String get oldAddress => original.address;
   String get targetAddress => isAddressChanged ? draft.url : oldAddress;
@@ -566,11 +561,11 @@ class _SaveAttempt {
     // 2. Now safe to drop the old server's credentials.
     if (isAddressChanged) {
       // New credentials already live under the new address; remove the stale
-      // ones left behind under the old address, including its 2FA-declined mark.
+      // ones left behind under the old address. deleteSid also drops the
+      // session cache, so the 2FA-declined mark goes with it.
       await _serverRepository.deleteToken(oldAddress);
       await _serverRepository.deletePassword(oldAddress);
       await _serversViewModel.deleteSid(oldAddress);
-      _totpPromptGuard.clear(oldAddress);
     } else if (oldWasV6 && !newIsV6) {
       // Same address, v6 -> v5: the password and the SID are now unused.
       await _serverRepository.deletePassword(targetAddress);

@@ -41,11 +41,11 @@ void main() {
     expect(guard.isDeclined(_address), isFalse);
   });
 
-  test('clear removes the declined mark', () {
+  test('saveSid drops the declined mark', () async {
     createCache();
     guard.decline(_address);
 
-    guard.clear(_address);
+    await store.find(_address)!.saveSid('sid_after_login');
 
     expect(guard.isDeclined(_address), isFalse);
   });
