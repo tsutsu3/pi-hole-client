@@ -319,6 +319,93 @@ void main() {
   });
 
   // ---------------------------------------------------------------------------
+  // reauthState transitions
+  // ---------------------------------------------------------------------------
+  group('reauthState', () {
+    Future<void> requireTotp() async {
+      client.shouldRequireTotp = true;
+      await expectLater(
+        cache.clearAndRenewSid(),
+        throwsA(isA<TotpRequiredException>()),
+      );
+    }
+
+    Future<void> setUpState(ReauthState state) async {
+      switch (state) {
+        case ReauthState.none:
+          break;
+        case ReauthState.totpRequired:
+          await requireTotp();
+        case ReauthState.declined:
+          await requireTotp();
+          cache.declineReauth();
+      }
+      expect(cache.reauthState, state, reason: 'start state');
+    }
+
+    test('a 2FA renewal failure moves to totpRequired', () async {
+      await requireTotp();
+
+      expect(cache.reauthState, ReauthState.totpRequired);
+    });
+
+    for (final (from, to) in [
+      (ReauthState.none, ReauthState.declined),
+      (ReauthState.totpRequired, ReauthState.declined),
+      (ReauthState.declined, ReauthState.declined),
+    ]) {
+      test('declineReauth moves $from to $to', () async {
+        await setUpState(from);
+
+        cache.declineReauth();
+
+        expect(cache.reauthState, to);
+      });
+    }
+
+    for (final (from, to) in [
+      (ReauthState.none, ReauthState.none),
+      (ReauthState.totpRequired, ReauthState.totpRequired),
+      (ReauthState.declined, ReauthState.totpRequired),
+    ]) {
+      test('allowReauthPrompt moves $from to $to', () async {
+        await setUpState(from);
+
+        cache.allowReauthPrompt();
+
+        expect(cache.reauthState, to);
+      });
+    }
+
+    for (final from in ReauthState.values) {
+      test('saveSid moves $from to none', () async {
+        await setUpState(from);
+
+        await cache.saveSid('sid_after_reauth');
+
+        expect(cache.reauthState, ReauthState.none);
+      });
+    }
+
+    test('declined: getSid fails fast without postAuth', () async {
+      cache.declineReauth();
+
+      await expectLater(cache.getSid(), throwsA(isA<TotpRequiredException>()));
+      expect(client.postAuthCallCount, 0);
+    });
+
+    test('declined: clearAndRenewSid fails fast without postAuth', () async {
+      cache.declineReauth();
+
+      await expectLater(
+        cache.clearAndRenewSid(),
+        throwsA(isA<TotpRequiredException>()),
+      );
+      expect(client.postAuthCallCount, 0);
+    });
+  });
+
+  // ---------------------------------------------------------------------------
   // rebind (shared cache reused across bundles)
   // ---------------------------------------------------------------------------
   group('rebind', () {
@@ -345,6 +432,17 @@ void main() {
 
       await expectLater(cache.getSid(), throwsA(isA<TotpRequiredException>()));
       expect(newClient.postAuthCallCount, 0);
+    });
+
+    test('keeps a declined state across a rebind', () async {
+      cache.declineReauth();
+
+      cache.rebind(
+        creds: FakeSessionCredentialService(),
+        client: FakePiholeV6ApiClient(),
+      );
+
+      expect(cache.reauthState, ReauthState.declined);
     });
 
     test('renewal goes to the rebound client, not the old one', () async {

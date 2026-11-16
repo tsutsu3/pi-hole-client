@@ -78,6 +78,20 @@ void main() {
     await expectLater(fresh.getSid(), throwsA(isA<SidNotFoundException>()));
   });
 
+  test('find returns the existing cache', () {
+    final cache = store.getOrCreate(
+      address: 'http://pi.hole',
+      creds: FakeSessionCredentialService(),
+      client: FakePiholeV6ApiClient(),
+    );
+
+    expect(identical(store.find('http://pi.hole'), cache), isTrue);
+  });
+
+  test('find returns null for an unknown address', () {
+    expect(store.find('http://pi.hole'), isNull);
+  });
+
   test('clear drops every cache', () {
     final a = store.getOrCreate(
       address: 'http://a',
