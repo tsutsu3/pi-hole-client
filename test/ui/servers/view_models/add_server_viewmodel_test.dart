@@ -764,10 +764,30 @@ void main() {
           expectFailureResult(
             secrets: _oldSecrets,
             deletedSids: [],
-            totpDeclinedAddress: _oldAddress,
+            // forceNew: the old SID may still work, so no mark.
+            totpDeclinedAddress: null,
             sessionsLoggedOut: 0,
           );
         });
+
+        test(
+          'same address, unchanged password: 2FA cancel after a 401 marks the address as declined',
+          () async {
+            dnsRepository = _SeqDns([HttpStatusCodeException(401)]);
+            authRepository.shouldRequireTotp = true;
+            final vm = buildViewModel();
+
+            final outcome = await vm.saveServer.runAsync(updateReq());
+
+            expect(outcome, isA<SaveCancelled>());
+            expectFailureResult(
+              secrets: _oldSecrets,
+              deletedSids: [],
+              totpDeclinedAddress: _oldAddress,
+              sessionsLoggedOut: 0,
+            );
+          },
+        );
 
         test('address changed: 2FA cancel keeps the old server', () async {
           authRepository.shouldRequireTotp = true;
@@ -781,7 +801,7 @@ void main() {
           expectFailureResult(
             secrets: _oldSecrets,
             deletedSids: [_newAddress],
-            totpDeclinedAddress: _newAddress,
+            totpDeclinedAddress: null,
             // No session was created, so there is nothing to log out.
             sessionsLoggedOut: 0,
           );

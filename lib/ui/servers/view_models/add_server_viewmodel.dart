@@ -365,8 +365,9 @@ class AddServerViewModel extends ChangeNotifier {
     final ConnectSuccess connected;
     switch (outcome) {
       case ConnectCancelled():
-        // The user closed the TOTP dialog.
-        _totpPromptGuard.decline(address);
+        // reuseIfValid asks for TOTP only after the old SID failed, so mark it.
+        // forceNew may leave a working old SID, so do not mark it.
+        if (!isNew) _totpPromptGuard.decline(address);
         await _cleanupFailedAttempt(
           bundle: bundle,
           address: address,
