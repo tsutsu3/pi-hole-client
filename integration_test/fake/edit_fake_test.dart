@@ -187,13 +187,13 @@ void main() {
 
         // Arrange the precondition directly rather than driving a full
         // expired-session/cancel flow.
-        app.servers.markTotpReauthDeclined(address);
+        app.totpPromptGuard.decline(address);
 
         await app.editServer(alias: 'declined-edit-renamed');
         expect(find.text(app.l10n.editServerSuccessfully), findsOneWidget);
 
         expect(
-          app.servers.isTotpReauthDeclined(address),
+          app.totpPromptGuard.isDeclined(address),
           isFalse,
           reason: 'a successful edit must clear a declined TOTP reauth',
         );
@@ -238,7 +238,7 @@ void main() {
         await app.cancelTotpPrompt();
 
         expect(
-          app.servers.isTotpReauthDeclined(address),
+          app.totpPromptGuard.isDeclined(address),
           isTrue,
           reason:
               'cancelling a TOTP prompt during an edit must decline reauth '
@@ -545,7 +545,7 @@ void main() {
         expect(find.text(app.l10n.connectedSuccessfully), findsOneWidget);
         final oldAddress = app.servers.getServersList.single.address;
 
-        app.servers.markTotpReauthDeclined(oldAddress);
+        app.totpPromptGuard.decline(oldAddress);
 
         // Point the server at a different fake instance -- an address
         // change, which replaces rather than edits in place.
@@ -553,7 +553,7 @@ void main() {
         expect(find.text(app.l10n.editServerSuccessfully), findsOneWidget);
 
         expect(
-          app.servers.isTotpReauthDeclined(oldAddress),
+          app.totpPromptGuard.isDeclined(oldAddress),
           isFalse,
           reason:
               "replacing a server must clear the old address's declined "

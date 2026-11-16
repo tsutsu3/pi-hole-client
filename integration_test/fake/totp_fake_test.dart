@@ -211,7 +211,7 @@ void main() {
         fakeServer
           ..invalidateSession()
           ..totpCode = 314157;
-        app.servers.markTotpReauthDeclined(address);
+        app.totpPromptGuard.decline(address);
 
         // Tap the refresh button in the home menu, which is a user-initiated refresh.
         await app.refreshFromHomeMenu();
@@ -219,7 +219,7 @@ void main() {
         expect(await app.waitForTotpPrompt(), isTrue);
         await app.completeTotpPrompt('314157');
 
-        expect(app.servers.isTotpReauthDeclined(address), isFalse);
+        expect(app.totpPromptGuard.isDeclined(address), isFalse);
       },
     );
   });
@@ -263,7 +263,7 @@ void main() {
           app.servers.getServersList.single.alias,
           'edit-totp-success-renamed',
         );
-        expect(app.servers.isTotpReauthDeclined(address), isFalse);
+        expect(app.totpPromptGuard.isDeclined(address), isFalse);
       },
     );
 
@@ -309,7 +309,7 @@ void main() {
         app.servers.getServersList.single.alias,
         'edit-totp-retry-renamed',
       );
-      expect(app.servers.isTotpReauthDeclined(address), isFalse);
+      expect(app.totpPromptGuard.isDeclined(address), isFalse);
     });
   });
 }

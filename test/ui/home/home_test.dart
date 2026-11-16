@@ -13,6 +13,7 @@ import 'package:pi_hole_client/ui/home/widgets/server_status_chips.dart';
 import 'package:pi_hole_client/ui/servers/widgets/servers_screen.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../testing/fakes/repositories/api/fake_totp_prompt_guard.dart';
 import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../testing/fakes/viewmodels/fake_logs_viewmodel.dart';
 import '../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
@@ -471,7 +472,7 @@ void main() async {
       await tester.pump(const Duration(seconds: 1));
     });
 
-    testWidgets('"Try reconnect" clears an earlier 2FA cancellation', (
+    testWidgets('"Try reconnect" allows the TOTP prompt again', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -484,7 +485,7 @@ void main() async {
 
       // cancelled 2FA prompt
       statusViewModel.serverStatus = LoadStatus.loading;
-      serversViewModel.markTotpReauthDeclined(_serverV6.address);
+      final totpPromptGuard = FakeTotpPromptGuard()..decline(_serverV6.address);
 
       await tester.pumpWidget(
         buildTestApp(
@@ -498,6 +499,7 @@ void main() async {
           statusViewModel: statusViewModel,
           logsViewModel: logsViewModel,
           repositoryBundle: createFakeRepositoryBundle(),
+          totpPromptGuard: totpPromptGuard,
         ),
       );
 
@@ -515,7 +517,7 @@ void main() async {
       await pumpFrames();
 
       expect(statusViewModel.refreshOnceCallCount, 1);
-      expect(serversViewModel.isTotpReauthDeclined(_serverV6.address), isFalse);
+      expect(totpPromptGuard.allowedAddresses, [_serverV6.address]);
     });
 
     testWidgets('should show servers page', (WidgetTester tester) async {

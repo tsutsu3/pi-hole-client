@@ -11,6 +11,7 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/secret_input.dart';
@@ -134,10 +135,12 @@ class AddServerViewModel extends ChangeNotifier {
     required StatusViewModel statusViewModel,
     required ServerRepository serverRepository,
     required CreateRepositoryBundle createBundle,
+    required TotpPromptGuard totpPromptGuard,
   }) : _serversViewModel = serversViewModel,
        _statusViewModel = statusViewModel,
        _serverRepository = serverRepository,
-       _createBundle = createBundle {
+       _createBundle = createBundle,
+       _totpPromptGuard = totpPromptGuard {
     saveServer = Command.createAsync<SaveServerRequest, SaveServerOutcome>(
       _saveServer,
       initialValue: const SaveInitial(),
@@ -149,6 +152,7 @@ class AddServerViewModel extends ChangeNotifier {
   final StatusViewModel _statusViewModel;
   final ServerRepository _serverRepository;
   final CreateRepositoryBundle _createBundle;
+  final TotpPromptGuard _totpPromptGuard;
 
   late final Command<SaveServerRequest, SaveServerOutcome> saveServer;
 
@@ -318,6 +322,7 @@ class AddServerViewModel extends ChangeNotifier {
       serversViewModel: _serversViewModel,
       serverRepository: _serverRepository,
       createBundle: _createBundle,
+      totpPromptGuard: _totpPromptGuard,
     );
     final address = attempt.targetAddress;
 
@@ -362,7 +367,7 @@ class AddServerViewModel extends ChangeNotifier {
     switch (outcome) {
       case ConnectCancelled():
         // The user closed the TOTP dialog.
-        _serversViewModel.markTotpReauthDeclined(address);
+        _totpPromptGuard.decline(address);
         await _cleanupFailedAttempt(
           bundle: bundle,
           address: address,
@@ -400,7 +405,7 @@ class AddServerViewModel extends ChangeNotifier {
     }
 
     await attempt.cleanupAfterCommit();
-    _serversViewModel.clearTotpReauthDeclined(address);
+    _totpPromptGuard.clear(address);
 
     return SaveSuccess(server);
   }
@@ -498,9 +503,11 @@ class _SaveAttempt {
     required ServersViewModel serversViewModel,
     required ServerRepository serverRepository,
     required CreateRepositoryBundle createBundle,
+    required TotpPromptGuard totpPromptGuard,
   }) : _serversViewModel = serversViewModel,
        _serverRepository = serverRepository,
-       _createBundle = createBundle;
+       _createBundle = createBundle,
+       _totpPromptGuard = totpPromptGuard;
 
   final ServerDraft draft;
   final Server original;
@@ -508,6 +515,7 @@ class _SaveAttempt {
   final ServersViewModel _serversViewModel;
   final ServerRepository _serverRepository;
   final CreateRepositoryBundle _createBundle;
+  final TotpPromptGuard _totpPromptGuard;
 
   String get oldAddress => original.address;
   String get targetAddress => isAddressChanged ? draft.url : oldAddress;
@@ -562,7 +570,7 @@ class _SaveAttempt {
       await _serverRepository.deleteToken(oldAddress);
       await _serverRepository.deletePassword(oldAddress);
       await _serversViewModel.deleteSid(oldAddress);
-      _serversViewModel.clearTotpReauthDeclined(oldAddress);
+      _totpPromptGuard.clear(oldAddress);
     } else if (oldWasV6 && !newIsV6) {
       // Same address, v6 -> v5: the password and the SID are now unused.
       await _serverRepository.deletePassword(targetAddress);

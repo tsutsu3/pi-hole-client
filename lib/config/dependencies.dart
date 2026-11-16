@@ -1,5 +1,6 @@
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache_store.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/app_config_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
@@ -41,6 +42,9 @@ List<SingleChildWidget> createProviders({
     Provider<DatabaseService>(create: (_) => dbService),
     Provider<SecureStorageService>(create: (_) => secureStorageService),
     Provider<V6SessionCacheStore>.value(value: sessionCacheStore),
+    Provider<TotpPromptGuard>(
+      create: (context) => TotpPromptGuard(context.read<V6SessionCacheStore>()),
+    ),
     Provider<CreateRepositoryBundle>(
       create: (context) {
         final storage = context.read<SecureStorageService>();

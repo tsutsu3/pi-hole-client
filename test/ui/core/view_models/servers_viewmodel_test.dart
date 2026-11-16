@@ -393,23 +393,6 @@ void main() async {
       expect(listenerCalled, false);
     });
 
-    test('markTotpReauthDeclined records a cancelled 2FA address', () {
-      expect(serversViewModel.isTotpReauthDeclined(server.address), false);
-
-      serversViewModel.markTotpReauthDeclined(server.address);
-
-      expect(serversViewModel.isTotpReauthDeclined(server.address), true);
-      expect(listenerCalled, false);
-    });
-
-    test('clearTotpReauthDeclined removes the cancelled 2FA address', () {
-      serversViewModel.markTotpReauthDeclined(server.address);
-      serversViewModel.clearTotpReauthDeclined(server.address);
-
-      expect(serversViewModel.isTotpReauthDeclined(server.address), false);
-      expect(listenerCalled, false);
-    });
-
     test('setUnverifiedBannerDismissed updates and notifies listeners', () {
       serversViewModel.setUnverifiedBannerDismissed(true);
 
@@ -594,15 +577,13 @@ void main() async {
       expect(identical(seeded, getOrCreateAgain()), isFalse);
     });
 
-    test('deleteDbData clears session caches and declined marks', () async {
+    test('deleteDbData clears session caches', () async {
       final seeded = await seedCache();
-      vm.markTotpReauthDeclined(address);
 
       final ok = await vm.deleteDbData();
 
       expect(ok, isTrue);
       expect(identical(seeded, getOrCreateAgain()), isFalse);
-      expect(vm.isTotpReauthDeclined(address), isFalse);
     });
   });
 }

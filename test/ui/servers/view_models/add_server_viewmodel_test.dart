@@ -12,6 +12,7 @@ import 'package:result_dart/result_dart.dart';
 
 import '../../../../testing/fakes/repositories/api/fake_auth_repository.dart';
 import '../../../../testing/fakes/repositories/api/fake_dns_repository.dart';
+import '../../../../testing/fakes/repositories/api/fake_totp_prompt_guard.dart';
 import '../../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
 import '../../../../testing/fakes/viewmodels/fake_status_viewmodel.dart';
 import '../../../../testing/test_app.dart';
@@ -68,6 +69,7 @@ void main() {
     late FakeStatusViewModel statusViewModel;
     late FakeAuthRepository authRepository;
     late FakeDnsRepository dnsRepository;
+    late FakeTotpPromptGuard totpPromptGuard;
     String? bundleToken;
 
     setUp(() {
@@ -76,6 +78,7 @@ void main() {
       statusViewModel = FakeStatusViewModel();
       authRepository = FakeAuthRepository();
       dnsRepository = FakeDnsRepository();
+      totpPromptGuard = FakeTotpPromptGuard();
       bundleToken = null;
     });
 
@@ -98,6 +101,7 @@ void main() {
             apiVersion: server.apiVersion,
           );
         },
+        totpPromptGuard: totpPromptGuard,
       );
       addTearDown(vm.dispose);
       return vm;
@@ -733,13 +737,9 @@ void main() {
             deletedSids,
             reason: 'removed SIDs',
           );
-          for (final address in [_oldAddress, _newAddress]) {
-            expect(
-              serversViewModel.isTotpReauthDeclined(address),
-              address == totpDeclinedAddress,
-              reason: '2FA declined mark of $address',
-            );
-          }
+          expect(totpPromptGuard.declinedAddresses, [
+            ?totpDeclinedAddress,
+          ], reason: '2FA declined addresses');
           expect(
             statusViewModel.startAutoRefreshCallCount,
             1,

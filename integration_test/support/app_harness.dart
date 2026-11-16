@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
 import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
@@ -70,6 +71,8 @@ class AppHarness {
       Provider.of<ServersViewModel>(_ctx, listen: false);
   StatusViewModel get status =>
       Provider.of<StatusViewModel>(_ctx, listen: false);
+  TotpPromptGuard get totpPromptGuard =>
+      Provider.of<TotpPromptGuard>(_ctx, listen: false);
 
   AppLocalizations get l10n {
     final l10n = AppLocalizations.of(_localizedCtx);

@@ -58,9 +58,6 @@ class ServersViewModel with ChangeNotifier {
   Server? _connectingServer;
   bool _unverifiedBannerDismissed = false;
 
-  // Addresses whose 2FA prompt the user has cancelled.
-  final Set<String> _totpReauthDeclined = {};
-
   // --- Commands ---
   late final Command<Server, void> addServer;
   late final Command<Server, void> editServer;
@@ -132,22 +129,6 @@ class ServersViewModel with ChangeNotifier {
 
   void clearConnectingServer() {
     _connectingServer = null;
-  }
-
-  /// Marks [address] as having a user-cancelled 2FA prompt, so automatic paths
-  /// (auto-refresh ticks, app resume) won't prompt again. A refresh the user
-  /// asks for clears the mark instead - see `refreshServerStatus`.
-  void markTotpReauthDeclined(String address) {
-    _totpReauthDeclined.add(address);
-  }
-
-  /// Clears the cancelled-2FA mark for [address] (e.g. after a successful login).
-  void clearTotpReauthDeclined(String address) {
-    _totpReauthDeclined.remove(address);
-  }
-
-  bool isTotpReauthDeclined(String address) {
-    return _totpReauthDeclined.contains(address);
   }
 
   void setUnverifiedBannerDismissed(bool dismissed) {
@@ -297,7 +278,6 @@ class ServersViewModel with ChangeNotifier {
       throw result.exceptionOrNull()!;
     }
     _sessionCacheStore?.remove(serverAddress);
-    _totpReauthDeclined.remove(serverAddress);
     _serversList = _serversList
         .where((s) => s.address != serverAddress)
         .toList();
@@ -370,7 +350,6 @@ class ServersViewModel with ChangeNotifier {
         _selectedServer = null;
         _selectedServerEnabled = null;
         _sessionCacheStore?.clear();
-        _totpReauthDeclined.clear();
         notifyListeners();
 
         return true;

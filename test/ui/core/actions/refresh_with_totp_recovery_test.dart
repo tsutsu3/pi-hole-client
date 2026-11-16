@@ -8,6 +8,7 @@ import 'package:pi_hole_client/utils/exceptions.dart';
 
 import '../../../../testing/fakes/repositories/api/fake_auth_repository.dart';
 import '../../../../testing/fakes/repositories/api/fake_dns_repository.dart';
+import '../../../../testing/fakes/repositories/api/fake_totp_prompt_guard.dart';
 import '../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
 import '../../../../testing/fakes/viewmodels/fake_status_viewmodel.dart';
@@ -29,6 +30,7 @@ void main() async {
     late FakeServersViewModel serversViewModel;
     late FakeStatusViewModel statusViewModel;
     late AppConfigViewModel appConfigViewModel;
+    late FakeTotpPromptGuard totpPromptGuard;
     late FakeAuthRepository authRepository;
     late FakeDnsRepository dnsRepository;
 
@@ -36,6 +38,7 @@ void main() async {
       serversViewModel = FakeServersViewModel();
       statusViewModel = FakeStatusViewModel();
       appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
+      totpPromptGuard = FakeTotpPromptGuard();
       authRepository = FakeAuthRepository();
       dnsRepository = FakeDnsRepository();
     });
@@ -53,6 +56,7 @@ void main() async {
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
+          totpPromptGuard: totpPromptGuard,
           createRepositoryBundle: ({required server, token}) =>
               createFakeRepositoryBundle(
                 auth: authRepository,
@@ -66,11 +70,11 @@ void main() async {
       return ctx;
     }
 
-    testWidgets('runs load once and clears the declined mark on success', (
+    testWidgets('runs load once and allows the TOTP prompt again', (
       tester,
     ) async {
       serversViewModel.selectedServer = _serverV6;
-      serversViewModel.markTotpReauthDeclined(_serverV6.address);
+      totpPromptGuard.decline(_serverV6.address);
       final ctx = await pumpContext(tester);
 
       var loadCalls = 0;
@@ -80,7 +84,7 @@ void main() async {
       await tester.pumpAndSettle();
 
       expect(loadCalls, 1);
-      expect(serversViewModel.isTotpReauthDeclined(_serverV6.address), isFalse);
+      expect(totpPromptGuard.allowedAddresses, [_serverV6.address]);
       // No re-auth attempted when the load succeeds.
       expect(authRepository.createSessionCallCount, 0);
     });

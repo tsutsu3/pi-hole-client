@@ -107,7 +107,7 @@ flowchart TD
   E --> F[resolveCertificate<br/>pin reset if address changed]
   F -- cancelled/blocked --> H([SaveCancelled])
   F -- ok --> J[connect<br/>forceNew if new secret, else reuseIfValid]
-  J -- cancelled --> JC[markTotpReauthDeclined<br/>cleanupFailedAttempt] --> H
+  J -- cancelled --> JC[totpPromptGuard.decline<br/>cleanupFailedAttempt] --> H
   J -- error --> JE[cleanupFailedAttempt] --> JA([SaveApiError])
   J -- ok --> K{new secret?}
   K -- yes --> S[saveSecret]
@@ -115,7 +115,7 @@ flowchart TD
   S -- error --> X[cleanupFailedAttempt] --> T([SaveDbError])
   S -- ok --> R[commit<br/>replaceServer if address changed<br/>else editServer]
   R -- error --> X
-  R -- ok --> U[cleanupAfterCommit<br/>clearTotpReauthDeclined]
+  R -- ok --> U[cleanupAfterCommit<br/>totpPromptGuard.clear]
   U --> W([SaveSuccess server])
 ```
 
@@ -167,10 +167,12 @@ session is invalid on the server, that tick hits `TotpRequiredException`. The
 shell-level error handler then calls `handleTotpReauth`.
 
 The edit marks the target address as reauth-declined when its prompt is
-cancelled (`markTotpReauthDeclined`). `handleTotpReauth` checks this mark and
-returns early, so no second prompt appears. A refresh that the user starts
-still prompts again (`totp_fake_test.dart`). A successful edit clears the mark
-(`clearTotpReauthDeclined`).
+cancelled (`TotpPromptGuard.decline`). The mark is kept in the session cache
+of that address (`V6SessionCache.reauthState`). `handleTotpReauth` checks this
+mark (`TotpPromptGuard.isDeclined`) and returns early, so no second prompt
+appears. A refresh that the user starts still prompts again
+(`TotpPromptGuard.allowPrompt`, `totp_fake_test.dart`). A successful edit
+clears the mark (`TotpPromptGuard.clear`).
 
 ```mermaid
 sequenceDiagram
@@ -179,13 +181,13 @@ sequenceDiagram
   participant Base as _BaseState (base.dart)
   participant H as handleTotpReauth
 
-  VM->>VM: TOTP prompt cancelled: markTotpReauthDeclined(address)
+  VM->>VM: TOTP prompt cancelled: totpPromptGuard.decline(address)
   VM->>ST: finally: startAutoRefresh(runImmediately: true)
   ST->>ST: immediate tick: fetchRealtimeStatus() -> TotpRequiredException
   ST->>ST: _handleFatalConnectionError: stop, set fatalConnectionError, notify
   ST-->>Base: listener callback (_onFatalConnectionError)
   Base->>H: handleTotpReauth(context)
-  H->>H: isTotpReauthDeclined(address) -> return false (no prompt)
+  H->>H: totpPromptGuard.isDeclined(address) -> return false (no prompt)
 ```
 
 See `lib/ui/shell/base.dart` (`_onFatalConnectionError`) and
