@@ -15,6 +15,7 @@ import 'package:result_dart/result_dart.dart';
 
 import '../../../../testing/fakes/repositories/api/fake_auth_repository.dart';
 import '../../../../testing/fakes/repositories/api/fake_dns_repository.dart';
+import '../../../../testing/fakes/repositories/api/fake_totp_prompt_guard.dart';
 import '../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../../testing/fakes/services/fake_tls_certificate_fetcher.dart';
 import '../../../../testing/fakes/viewmodels/fake_servers_viewmodel.dart';
@@ -94,12 +95,14 @@ void main() async {
     late FakeStatusViewModel statusViewModel;
     late AppConfigViewModel appConfigViewModel;
     late FakeAuthRepository authRepository;
+    late FakeTotpPromptGuard totpPromptGuard;
 
     setUp(() {
       serversViewModel = FakeServersViewModel();
       statusViewModel = FakeStatusViewModel();
       appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
       authRepository = FakeAuthRepository();
+      totpPromptGuard = FakeTotpPromptGuard();
     });
 
     /// Pumps a minimal app and returns a [BuildContext] living under a
@@ -142,6 +145,7 @@ void main() async {
           serverAddress: server.address,
           apiVersion: server.apiVersion,
         ),
+        totpPromptGuard: totpPromptGuard,
         resolveTotp: resolveTotp ?? ({error}) async => null,
         fetchTlsCertificate:
             fetchTlsCertificate ?? FakeTlsCertificateFetcher().call,
@@ -355,30 +359,9 @@ void main() async {
         expect(serversViewModel.connectingServer, isNull);
         expect(statusViewModel.startAutoRefreshCallCount, 0);
         expect(statusViewModel.getServerStatus, LoadStatus.error);
-        expect(
-          serversViewModel.isTotpReauthDeclined(_serverV6.address),
-          isTrue,
-        );
+        expect(totpPromptGuard.declinedAddresses, [_serverV6.address]);
       },
     );
-
-    testWidgets('a successful connection clears a prior 2FA cancellation', (
-      tester,
-    ) async {
-      serversViewModel
-        ..selectedServer = _serverV6
-        ..markTotpReauthDeclined(_serverV6.address);
-      final ctx = await pumpContext(tester);
-
-      await buildService(
-        ctx,
-        server: _serverV6,
-        dns: FakeDnsRepository(),
-      ).connect();
-      await tester.pump();
-
-      expect(serversViewModel.isTotpReauthDeclined(_serverV6.address), isFalse);
-    });
 
     testWidgets(
       'a failed switch does not revive auto-refresh on a broken fallback',

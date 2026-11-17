@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/services/server_connection_service.dart';
@@ -144,6 +145,7 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
       serversViewModel: serversViewModel,
       server: server,
       createBundle: context.read<CreateRepositoryBundle>(),
+      totpPromptGuard: context.read<TotpPromptGuard>(),
       resolveTotp: ({error}) => showTotpInputModal(context, error: error),
       showModal: true,
       useRootContextOnFailure: true,

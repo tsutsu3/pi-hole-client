@@ -52,6 +52,9 @@ class FakePiholeServer {
   /// being recovered on the second attempt.
   bool failBlockingCheck = false;
 
+  /// The sid header of every request, in order.
+  final List<String?> requestSids = [];
+
   String? _sid;
   int _sidCounter = 0;
   final Set<int> _usedTotpCodes = {};
@@ -91,6 +94,7 @@ class FakePiholeServer {
     try {
       final path = request.uri.path;
       final sid = request.headers.value('X-FTL-SID');
+      requestSids.add(sid);
       final body = await utf8.decoder.bind(request).join();
 
       switch ((request.method, path)) {

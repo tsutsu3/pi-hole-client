@@ -1,23 +1,18 @@
-# Server Connection Flow (add / edit)
+# Server Connection Flow (Add / Edit)
 
-How the **Add / Edit server** screen connects to a Pi-hole and persists it.
+This document shows how the Add / Edit Server screen tests and saves a Pi-hole
+connection.
 
-- UI: `lib/ui/servers/widgets/add_server_fullscreen.dart` (`AddServerFullscreen`)
-- Orchestration: `lib/ui/servers/view_models/add_server_viewmodel.dart`
-  (`AddServerViewModel.saveServer`, with `AddMode` / `EditMode`)
-- Session setup and status check:
+- UI: `lib/ui/servers/widgets/add_server_fullscreen.dart`
+- Flow: `lib/ui/servers/view_models/add_server_viewmodel.dart`
+- Connection check:
   `lib/domain/use_cases/server_connection/connect_server_usecase.dart`
-  (`ConnectServerUseCase`)
 
-The view model owns the orchestration and returns a sealed outcome
-(`SaveServerOutcome`). The widget builds the request, awaits the
-command and maps the outcome to UI (snackbar / navigation). UI that the
-orchestration needs mid-flow is injected per request as callbacks, so the view
-model never touches `BuildContext`:
+`AddServerViewModel.saveServer` runs the flow and returns a
+`SaveServerOutcome`. The widget then shows a message or closes the screen.
 
-- `resolveCertificate` - the certificate check (see "Certificate check").
-- `resolveTotp` - the 6-digit TOTP (2FA) input modal, used on v6 login when the
-  server requires two-factor auth. Returns the entered code or `null` on cancel.
+The view model does not use `BuildContext`. The widget provides callbacks for
+the certificate check (`resolveCertificate`) and TOTP input (`resolveTotp`).
 
 ## Layers
 
@@ -34,40 +29,31 @@ flowchart LR
   W -. resolveTotp callback .-> VM
 ```
 
-## Credentials: checked first, stored after
+## Secret handling
 
-The password (v6) or token (v5) is called the **secret** here. The connection
-check uses the secret from the form. It is **not** stored before the check, so
-a failed or cancelled check has no stored secret to undo.
+The secret is a v6 password or a v5 token. It is tested first and saved only
+after the connection succeeds.
 
-- **v6**: the password goes to `auth.createSession` as an argument.
-- **v5**: the token goes to the bundle (`CreateRepositoryBundle(server:,
-  token:)`). The v5 repositories use it instead of the stored token, also after
-  a retry.
+The widget sends:
 
-After the check passes, only the key for the selected version is stored
-(`savePassword` for v6, `saveToken` for v5). A failed write stops the flow with
+- `NewSecret`: add mode, or a changed secret/version
+- `UnchangedSecret`: the secret and version did not change
+
+A changed address also makes the secret new because the new address has no
+stored secret.
+
+| Secret | Session policy | Save again |
+| --- | --- | --- |
+| New | `forceNew` | Yes |
+| Unchanged | `reuseIfValid` | No |
+
+Only the secret for the selected version is saved. A write failure returns
 `SaveDbError`.
 
-The widget sends the secret as a `SecretInput`
-(`lib/domain/model/server/secret_input.dart`):
+## Add server
 
-- `NewSecret` - always on add. On edit, when the value or the version changed.
-- `UnchangedSecret` - on edit, when the version and the value are the same as
-  the loaded ones.
-
-On edit, the secret is treated as new when it is a `NewSecret`, the address
-changed (nothing is stored under the new address yet), **or** the version
-changed (the key of the new version is not stored yet). A new secret is
-checked with a new session (`SessionPolicy.forceNew`) and stored after the
-check. An unchanged secret keeps the current session while it works
-(`SessionPolicy.reuseIfValid`) and is not written again.
-
-## Add a new server - `saveServer` with `AddMode`
-
-A cancelled/blocked certificate **aborts** the add (`SaveCancelled`) before
-any connection. A cancelled TOTP prompt also returns `SaveCancelled`; nothing
-was stored, so there is nothing to undo.
+A blocked or cancelled certificate check stops the flow before connection.
+Cancelling TOTP also stops it. Nothing has been saved yet.
 
 ```mermaid
 flowchart TD
@@ -81,20 +67,18 @@ flowchart TD
   C -- error --> CE[cleanupFailedAttempt] --> CA([SaveApiError])
   C -- ok --> S[saveSecret<br/>password or token]
   S -- error --> F[cleanupFailedAttempt] --> DB([SaveDbError])
-  S -- ok --> M[addServer.runAsync<br/>persist row]
+  S -- ok --> M[addServer.runAsync<br/>save row]
   M -- error --> F
   M -- ok --> J([SaveSuccess server])
 ```
 
-An add persists the server row before returning `SaveSuccess`, so the
-widget only pops and shows the success snackbar.
+The row is saved before `SaveSuccess`. The widget then closes the screen and
+shows a success message.
 
-## Edit an existing server - `saveServer` with `EditMode`
+## Edit server
 
-A cancelled/blocked certificate **aborts** the save (`SaveCancelled`); the
-message was already shown by `resolveCertificate`. When a server is selected,
-auto-refresh is stopped for the duration and started again in a `finally`, so
-every exit path restarts it.
+A blocked or cancelled certificate check returns `SaveCancelled`.
+Auto-refresh stops during the save and always restarts in a `finally` block.
 
 ```mermaid
 flowchart TD
@@ -107,7 +91,7 @@ flowchart TD
   E --> F[resolveCertificate<br/>pin reset if address changed]
   F -- cancelled/blocked --> H([SaveCancelled])
   F -- ok --> J[connect<br/>forceNew if new secret, else reuseIfValid]
-  J -- cancelled --> JC[markTotpReauthDeclined<br/>cleanupFailedAttempt] --> H
+  J -- cancelled --> JC[decline if reuseIfValid<br/>cleanupFailedAttempt] --> H
   J -- error --> JE[cleanupFailedAttempt] --> JA([SaveApiError])
   J -- ok --> K{new secret?}
   K -- yes --> S[saveSecret]
@@ -115,62 +99,49 @@ flowchart TD
   S -- error --> X[cleanupFailedAttempt] --> T([SaveDbError])
   S -- ok --> R[commit<br/>replaceServer if address changed<br/>else editServer]
   R -- error --> X
-  R -- ok --> U[cleanupAfterCommit<br/>clearTotpReauthDeclined]
+  R -- ok --> U[cleanupAfterCommit]
   U --> W([SaveSuccess server])
 ```
 
-`startAutoRefresh` runs after every outcome above (from the `finally`). On
-`SaveSuccess` the widget pops and shows the success snackbar.
+### Cleanup after failure
 
-### Cleanup after a failure - `_cleanupFailedAttempt`
+`_cleanupFailedAttempt` is used after failures following the certificate
+check.
 
-One cleanup is used for every failure after the certificate step, in both
-adding and editing.
+| Action | When |
+| --- | --- |
+| Log out the new session | A session was created |
+| Delete the SID | The address is new, or a session was created |
+| Delete password and token | The address is new and the secret was saved |
 
-- **Log out the new session** on the server - when this attempt created a
-  session.
-- **Delete the SID** under the target address - when the address is new, or
-  this attempt created a session.
-- **Delete the password and the token** under the target address - when the
-  address is new and the secret was already stored.
+All actions use the target address. Credentials for the current address are
+not deleted.
 
-With the **same address**, a stored secret is never restored or removed:
+If the database write fails after saving a tested secret, the old server row
+remains and the tested secret stays stored. The user can save again.
 
-- it was not changed (`UnchangedSecret`), or
-- it passed the connection check, so it works.
+### Cleanup after success
 
-This also holds when the DB write fails after the secret was stored: the
-outcome is `SaveDbError`, the DB row keeps the old settings, and the stored
-secret is the new, checked one. Saving again on the same screen stores
-everything.
+`cleanupAfterCommit` runs only after the database update succeeds:
 
-The SID is deleted when a session was created, because that session was just
-logged out. The old session it replaced is left to time out on the server.
+- Old v6 session: log out when the address changes or the new version is v5
+- Old address: delete its token, password, and SID
+- Same address, v6 to v5: delete the password and SID
+- Same address, v5 to v6: delete the token
 
-### Cleanup after a successful commit - `cleanupAfterCommit`
+### Cancelled TOTP and auto-refresh
 
-Runs only after the commit, so a failed save never logs out a working session.
+Auto-refresh runs immediately after an edit. It could reopen the TOTP input
+just after the user cancelled it.
 
-- **Old server was v6, and the address changed or the new version is v5**:
-  log out the old session (best effort).
-- **Address changed**: delete the token, password, SID and 2FA-declined mark
-  of the old address.
-- **Same address, v6 -> v5**: delete the password and the SID (no longer
-  used).
-- **Same address, v5 -> v6**: delete the token (no longer used).
+`TotpPromptGuard` prevents this:
 
-### Auto-refresh after a cancelled TOTP prompt
+- Cancel with `reuseIfValid`: mark the prompt as declined
+- Automatic refresh: do not show the marked prompt
+- Manual refresh: clear the mark and allow the prompt
+- Successful login or server deletion: remove the mark
 
-`startAutoRefresh()` runs its first tick **immediately**
-(`runImmediately: true`). If the edit's TOTP prompt was cancelled and the
-session is invalid on the server, that tick hits `TotpRequiredException`. The
-shell-level error handler then calls `handleTotpReauth`.
-
-The edit marks the target address as reauth-declined when its prompt is
-cancelled (`markTotpReauthDeclined`). `handleTotpReauth` checks this mark and
-returns early, so no second prompt appears. A refresh that the user starts
-still prompts again (`totp_fake_test.dart`). A successful edit clears the mark
-(`clearTotpReauthDeclined`).
+The mark is not added with `forceNew`, because the old SID may still work.
 
 ```mermaid
 sequenceDiagram
@@ -179,48 +150,48 @@ sequenceDiagram
   participant Base as _BaseState (base.dart)
   participant H as handleTotpReauth
 
-  VM->>VM: TOTP prompt cancelled: markTotpReauthDeclined(address)
+  VM->>VM: TOTP cancelled (reuseIfValid): totpPromptGuard.decline(address)
   VM->>ST: finally: startAutoRefresh(runImmediately: true)
-  ST->>ST: immediate tick: fetchRealtimeStatus() -> TotpRequiredException
+  ST->>ST: first tick: fetchRealtimeStatus() -> TotpRequiredException
   ST->>ST: _handleFatalConnectionError: stop, set fatalConnectionError, notify
-  ST-->>Base: listener callback (_onFatalConnectionError)
+  ST-->>Base: listener (_onFatalConnectionError)
   Base->>H: handleTotpReauth(context)
-  H->>H: isTotpReauthDeclined(address) -> return false (no prompt)
+  H->>H: totpPromptGuard.isDeclined(address) -> return false (no input)
 ```
 
-See `lib/ui/shell/base.dart` (`_onFatalConnectionError`) and
-`lib/ui/core/actions/handle_totp_reauth.dart`.
+See `lib/ui/shell/base.dart`,
+`lib/ui/core/actions/handle_totp_reauth.dart`, and `totp_fake_test.dart`.
 
-## Certificate check - `CertificateCheckUseCase`
+## Certificate check
 
-The certificate rules live in the use case. It never shows UI: the pin dialog
-is passed in as `ConfirmPin`, and the caller shows a snackbar for
-`CertificateBlocked`. Only an https server that allows untrusted certificates
-(and does not ignore errors) is pinned.
+`CertificateCheckUseCase` contains the rules and does not show UI. The caller
+shows the pin dialog and blocked-certificate message.
 
-| Entry point               | Called from                                   | Then                                           |
-| ------------------------- | --------------------------------------------- | ---------------------------------------------- |
-| `checkBeforeSave`         | add / edit screen                             | resolved / cancelled / blocked                 |
-| `needsPinBeforeConnect`   | `ServerConnectionService.connect`             | true → `pinAndSave`                            |
-| `repin`                   | `pinAndSave` (server list menu, 495 recovery) | resolved / cancelled / blocked                 |
-| `hasConfirmedPinMismatch` | 495 recovery                                  | true → "Update" (`pinAndSave`), false → "Edit" |
+| Method | Use |
+| --- | --- |
+| `checkBeforeSave` | Check before add/edit |
+| `needsPinBeforeConnect` | Decide whether a pin is needed |
+| `repin` | Save a new pin |
+| `hasConfirmedPinMismatch` | Choose Update or Edit after a 495 error |
 
-The save is stricter than the connection: it pins a trusted certificate
-automatically and blocks an untrusted one in strict mode. The connection does
-neither; a bad certificate fails with a 495 and starts the recovery.
+Saving is stricter than connecting. It can pin a trusted certificate and block
+an untrusted certificate in strict mode. A connection failure returns 495 and
+starts recovery.
 
-All cases are listed in
+Tests are in
 `test/domain/use_cases/server_connection/certificate_check_usecase_test.dart`.
 
-## Session setup - `ConnectServerUseCase.connect`
+## Session setup
 
-Shared by the add / edit flow and the connect flow. It sets up the v6 session
-and then checks the blocking status. The `ServerAuth` comes from the server
-version and the secret: v5 -> `TokenAuth`, v6 with an empty password ->
-`NoAuth`, otherwise `PasswordAuth`.
+`ConnectServerUseCase.connect` sets up the session and checks the blocking
+status.
 
-It logs in again only when needed, so a transient failure (503/504/timeout)
-does not create a duplicate session.
+- v5: `TokenAuth`
+- v6 with an empty password: `NoAuth`
+- v6 with a password: `PasswordAuth`
+
+With `reuseIfValid`, login happens only after an authentication error. Short
+failures such as 503, 504, or a timeout do not create another session.
 
 ```mermaid
 flowchart TD
@@ -238,17 +209,20 @@ flowchart TD
   LS --> R2([ConnectSuccess / ConnectFailed<br/>sessionCreated = true])
 ```
 
-The outcome is `ConnectSuccess`, `ConnectFailed` or `ConnectCancelled`. Both
-`ConnectSuccess` and `ConnectFailed` say whether a session was created, so the
-caller knows what to clean up.
+The result is `ConnectSuccess`, `ConnectFailed`, or `ConnectCancelled`.
+It also reports whether a new session was created for cleanup.
 
-### TOTP login - `_login`
+### TOTP login
 
-The first attempt sends the password only; a 2FA server answers with
-`TotpRequiredException`, then the loop collects a code via `resolveTotp` and
-retries with `password + totp`. A wrong or reused code re-prompts (with a
-localized reason); a `null` code (user dismissed) returns `ConnectCancelled`.
-Rate-limit or any other error is terminal (`ConnectFailed`).
+The first login uses the password only. If TOTP is required, `resolveTotp`
+asks for a code and login runs again.
+
+| Result | Next step |
+| --- | --- |
+| Success | Check status |
+| Invalid or reused code | Ask again |
+| Cancel | Return `ConnectCancelled` |
+| Rate limit or other error | Return `ConnectFailed` |
 
 ```mermaid
 flowchart TD
@@ -266,7 +240,7 @@ flowchart TD
 
 A successful `createSession` stores the new SID.
 
-## Sequence - add a new server
+## Add sequence
 
 ```mermaid
 sequenceDiagram
@@ -286,7 +260,7 @@ sequenceDiagram
     VM->>B: auth.createSession(password)
     opt server requires 2FA
       VM->>W: resolveTotp(error?)
-      Note over W: TOTP input modal (UI), re-prompted on wrong/reused code
+      Note over W: TOTP input (UI), asked again on a wrong/reused code
       VM->>B: auth.createSession(password, totp)
     end
   end
@@ -300,11 +274,11 @@ sequenceDiagram
   else failure
     W->>W: error snackbar
   else cancelled
-    W->>W: nothing (message already shown by resolveCertificate / TOTP prompt)
+    W->>W: nothing (resolveCertificate / TOTP input already showed it)
   end
 ```
 
-## Sequence - edit an existing server
+## Edit sequence
 
 ```mermaid
 sequenceDiagram
@@ -323,11 +297,11 @@ sequenceDiagram
   end
   VM->>ST: stopAutoRefresh
   VM->>W: resolveCertificate(server)
+  VM->>B: connect (see ConnectServerUseCase.connect)
   opt v6 login requires 2FA
     VM->>W: resolveTotp(error?)
-    Note over W: TOTP input modal (UI), re-prompted on wrong/reused code
+    Note over W: TOTP input (UI), asked again on a wrong/reused code
   end
-  VM->>B: connect (see ConnectServerUseCase.connect)
   alt connection ok
     opt new secret
       VM->>SR: savePassword (v6) / saveToken (v5) at target
@@ -337,7 +311,7 @@ sequenceDiagram
     VM->>SR: delete old / unused password and token (cleanupAfterCommit)
     VM->>SV: deleteSid (cleanupAfterCommit)
   else failure
-    VM->>SR: cleanupFailedAttempt (see the list above)
+    VM->>SR: cleanupFailedAttempt (see the table above)
     VM->>SV: deleteSid (cleanupFailedAttempt)
   end
   VM->>ST: startAutoRefresh (finally)
@@ -347,40 +321,26 @@ sequenceDiagram
   else SaveApiError / SaveDbError / duplicate / urlCheckFailed
     W->>W: error snackbar
   else SaveCancelled
-    W->>W: nothing (message already shown by resolveCertificate / TOTP prompt)
+    W->>W: nothing (resolveCertificate / TOTP input already showed it)
   end
 ```
 
-## Outcome → UI mapping
+## Outcomes
 
-| Outcome              | Widget reaction                                                                |
-| -------------------- | ------------------------------------------------------------------------------ |
-| `SaveSuccess`        | pop → "connected successfully" (add) / "edited successfully" (edit); row saved |
-| `SaveDuplicateUrl`   | "connection already exists" snackbar                                           |
-| `SaveUrlCheckFailed` | "cannot check URL" snackbar                                                    |
-| `SaveApiError`       | status-code-specific error snackbar + log (`handleApiErrorResult`)             |
-| `SaveDbError`        | "cannot save connection data" snackbar                                         |
-| `SaveCancelled`      | nothing - certificate dialog / SSL error / TOTP prompt already shown           |
+| Outcome | UI action |
+| --- | --- |
+| `SaveSuccess` | Close the screen and show success |
+| `SaveDuplicateUrl` | Show "connection already exists" |
+| `SaveUrlCheckFailed` | Show "cannot check URL" |
+| `SaveApiError` | Show the API error |
+| `SaveDbError` | Show "cannot save connection data" |
+| `SaveCancelled` | Do nothing; the dialog already handled it |
 
 ## Notes
 
-- **Create and edit behave symmetrically on certificate cancel**: both
-  adding and editing abort (`SaveCancelled`)
-  when the pin dialog is cancelled or the certificate is blocked; no connection
-  is attempted.
-- The view model never shows UI itself. Every `CertificateBlocked` reason has a
-  snackbar message (`CertificateBlockReason.label`), so a blocked save is never
-  silent.
-- **TOTP (2FA) is v6-only and handled inside login** (`ConnectServerUseCase`).
-  The view model never shows the prompt; it passes the injected `resolveTotp`
-  callback, which the widget backs with the TOTP input modal. Wrong / reused
-  codes re-prompt with a localized reason; a dismissed prompt cancels the whole
-  flow (`SaveCancelled`).
-- **Known limitation**: logging out the new session during cleanup
-  (`auth.deleteCurrentSession`) renews the session on a 401. The renewal reads
-  the **stored** password, not the one being checked. This only happens when
-  the DELETE fails with 401 right after a successful login. See the comment in
+- TOTP is available only in v6.
+- A local `isConnecting` flag controls the loading overlay.
+- Known limit: if `auth.deleteCurrentSession` returns 401, session renewal
+  uses the stored password, not the password being tested. See
   `lib/data/repositories/api/v6/auth_repository.dart`.
-- The connecting overlay is driven by a local `isConnecting` flag toggled around
-  `runAsync`.
-- See also: [ARCHITECTURE.md](ARCHITECTURE.md).
+- See also [ARCHITECTURE.md](ARCHITECTURE.md).

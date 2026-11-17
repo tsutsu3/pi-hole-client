@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
@@ -21,7 +22,7 @@ Future<void> refreshServerStatus(BuildContext context) async {
 
   final address = serversViewModel.selectedServer?.address;
   if (address != null) {
-    serversViewModel.clearTotpReauthDeclined(address);
+    context.read<TotpPromptGuard>().allowPrompt(address);
   }
 
   final success = await statusViewModel.refreshOnce();

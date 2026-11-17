@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
 import 'package:pi_hole_client/ui/core/actions/handle_totp_reauth.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
@@ -13,17 +14,17 @@ import 'package:provider/provider.dart';
 /// Any other error is rethrown to the caller - it is already recorded in the
 /// screen's `Command.errors`, so the error UI keeps working.
 ///
-/// The cancelled-2FA mark is cleared first: a refresh the user explicitly
-/// asks for must be allowed to prompt again. Automatic paths (auto-refresh
-/// ticks, app resume) keep respecting the mark.
+/// The TOTP prompt is allowed first: a refresh the user explicitly asks for
+/// must be allowed to prompt again, even after the user cancelled it.
+/// Automatic paths (auto-refresh ticks, app resume) keep respecting the
+/// cancel.
 Future<void> refreshWithTotpRecovery(
   BuildContext context,
   Future<void> Function() load,
 ) async {
-  final serversViewModel = context.read<ServersViewModel>();
-  final address = serversViewModel.selectedServer?.address;
+  final address = context.read<ServersViewModel>().selectedServer?.address;
   if (address != null) {
-    serversViewModel.clearTotpReauthDeclined(address);
+    context.read<TotpPromptGuard>().allowPrompt(address);
   }
 
   try {

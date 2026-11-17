@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/services/server_connection_service.dart';
 import 'package:pi_hole_client/ui/core/ui/components/totp_input_modal.dart';
@@ -23,7 +24,8 @@ Future<bool> handleTotpReauth(BuildContext context) async {
   if (server == null) return false;
 
   // The user already cancelled 2FA for this server. Don't auto-prompt again
-  if (serversViewModel.isTotpReauthDeclined(server.address)) return false;
+  final totpPromptGuard = context.read<TotpPromptGuard>();
+  if (totpPromptGuard.isDeclined(server.address)) return false;
 
   final statusViewModel = context.read<StatusViewModel>();
 
@@ -34,6 +36,7 @@ Future<bool> handleTotpReauth(BuildContext context) async {
     serversViewModel: serversViewModel,
     server: server,
     createBundle: context.read<CreateRepositoryBundle>(),
+    totpPromptGuard: totpPromptGuard,
     resolveTotp: ({error}) => showTotpInputModal(context, error: error),
     useRootContextOnFailure: true,
     showModal: true,

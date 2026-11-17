@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
@@ -31,6 +32,7 @@ import 'fakes/repositories/api/fake_local_dns_repository.dart';
 import 'fakes/repositories/api/fake_metrics_repository.dart';
 import 'fakes/repositories/api/fake_network_repository.dart';
 import 'fakes/repositories/api/fake_realtime_status_repository.dart';
+import 'fakes/repositories/api/fake_totp_prompt_guard.dart';
 import 'fakes/repositories/local/fake_app_config_repository.dart';
 
 Future<void> initTestApp() async {
@@ -51,6 +53,7 @@ Widget buildTestApp(
   CreateRepositoryBundle? createRepositoryBundle,
   SecureStorageService? secureStorageService,
   ServerRepository? serverRepository,
+  TotpPromptGuard? totpPromptGuard,
   bool useScaffold = true,
   GoRouter? router,
 }) {
@@ -99,6 +102,9 @@ Widget buildTestApp(
         Provider<SecureStorageService>.value(value: secureStorageService),
       if (serverRepository != null)
         Provider<ServerRepository>.value(value: serverRepository),
+      Provider<TotpPromptGuard>.value(
+        value: totpPromptGuard ?? FakeTotpPromptGuard(),
+      ),
     ],
     child: app,
   );

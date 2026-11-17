@@ -27,6 +27,9 @@ class V6SessionCacheStore {
     return cache;
   }
 
+  /// Returns the cache for [address], or null. Does not create one.
+  V6SessionCache? find(String address) => _caches[address];
+
   /// Drops the cache for [address].
   void remove(String address) => _caches.remove(address);
 

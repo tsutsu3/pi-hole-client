@@ -11,6 +11,7 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/secret_input.dart';
@@ -134,10 +135,12 @@ class AddServerViewModel extends ChangeNotifier {
     required StatusViewModel statusViewModel,
     required ServerRepository serverRepository,
     required CreateRepositoryBundle createBundle,
+    required TotpPromptGuard totpPromptGuard,
   }) : _serversViewModel = serversViewModel,
        _statusViewModel = statusViewModel,
        _serverRepository = serverRepository,
-       _createBundle = createBundle {
+       _createBundle = createBundle,
+       _totpPromptGuard = totpPromptGuard {
     saveServer = Command.createAsync<SaveServerRequest, SaveServerOutcome>(
       _saveServer,
       initialValue: const SaveInitial(),
@@ -149,6 +152,7 @@ class AddServerViewModel extends ChangeNotifier {
   final StatusViewModel _statusViewModel;
   final ServerRepository _serverRepository;
   final CreateRepositoryBundle _createBundle;
+  final TotpPromptGuard _totpPromptGuard;
 
   late final Command<SaveServerRequest, SaveServerOutcome> saveServer;
 
@@ -361,8 +365,9 @@ class AddServerViewModel extends ChangeNotifier {
     final ConnectSuccess connected;
     switch (outcome) {
       case ConnectCancelled():
-        // The user closed the TOTP dialog.
-        _serversViewModel.markTotpReauthDeclined(address);
+        // reuseIfValid asks for TOTP only after the old SID failed, so mark it.
+        // forceNew may leave a working old SID, so do not mark it.
+        if (!isNew) _totpPromptGuard.decline(address);
         await _cleanupFailedAttempt(
           bundle: bundle,
           address: address,
@@ -400,7 +405,6 @@ class AddServerViewModel extends ChangeNotifier {
     }
 
     await attempt.cleanupAfterCommit();
-    _serversViewModel.clearTotpReauthDeclined(address);
 
     return SaveSuccess(server);
   }
@@ -558,11 +562,11 @@ class _SaveAttempt {
     // 2. Now safe to drop the old server's credentials.
     if (isAddressChanged) {
       // New credentials already live under the new address; remove the stale
-      // ones left behind under the old address, including its 2FA-declined mark.
+      // ones left behind under the old address. deleteSid also drops the
+      // session cache, so the 2FA-declined mark goes with it.
       await _serverRepository.deleteToken(oldAddress);
       await _serverRepository.deletePassword(oldAddress);
       await _serversViewModel.deleteSid(oldAddress);
-      _serversViewModel.clearTotpReauthDeclined(oldAddress);
     } else if (oldWasV6 && !newIsV6) {
       // Same address, v6 -> v5: the password and the SID are now unused.
       await _serverRepository.deletePassword(targetAddress);

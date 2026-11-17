@@ -6,6 +6,19 @@ import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 
+/// Whether a 2FA server needs the user to enter a TOTP code.
+enum ReauthState {
+  /// No TOTP code is needed.
+  none,
+
+  /// The session expired and the server needs a TOTP code.
+  totpRequired,
+
+  /// The server needs a TOTP code and the user cancelled the prompt.
+  /// Automatic paths must not show the prompt again.
+  declined,
+}
+
 /// Shared session manager for all v6 repositories scoped to the same server.
 ///
 /// One instance is created per server in `RepositoryBundleFactory` and
@@ -30,16 +43,17 @@ class V6SessionCache {
   Future<void>? _pendingRenewal;
   DateTime? _lastRenewalCompletedAt;
 
-  // Set when password-only renewal hits a 2FA server (TotpRequiredException).
-  bool _interactiveReauthRequired = false;
+  ReauthState _reauthState = ReauthState.none;
 
   String get serverAddress => _creds.address;
+
+  ReauthState get reauthState => _reauthState;
 
   // ---------------------------------------------------------------------------
   // Public API
   // ---------------------------------------------------------------------------
   /// Swaps in a freshly built [creds]/[client] while keeping the session state
-  /// (`_sid` and the 2FA gate) intact, so a new bundle reuses this cache.
+  /// (`_sid` and [reauthState]) intact, so a new bundle reuses this cache.
   void rebind({
     required SessionCredentialService creds,
     required PiholeV6ApiClient client,
@@ -53,7 +67,7 @@ class V6SessionCache {
   Future<String> getSid() {
     // A 2FA server is waiting for interactive re-auth; fail fast without a
     // network call so callers surface TotpRequiredException, not a stale SID.
-    if (_interactiveReauthRequired) {
+    if (_reauthState != ReauthState.none) {
       return Future.error(TotpRequiredException());
     }
 
@@ -85,7 +99,7 @@ class V6SessionCache {
 
   /// Saves [sid] to the shared cache and persists it to secure storage.
   Future<void> saveSid(String sid) async {
-    _interactiveReauthRequired = false;
+    _reauthState = ReauthState.none;
     _set(sid);
     await _creds.saveSid(sid);
   }
@@ -98,7 +112,7 @@ class V6SessionCache {
   Future<void> clearAndRenewSid() async {
     // Already waiting for interactive re-auth - don't retry postAuth, which
     // would only fail again and risk the server's 2FA rate limit.
-    if (_interactiveReauthRequired) {
+    if (_reauthState != ReauthState.none) {
       throw TotpRequiredException();
     }
     try {
@@ -106,11 +120,23 @@ class V6SessionCache {
     } on TotpRequiredException {
       // 2FA server: password-only renewal can never succeed. Gate further
       // postAuth attempts and propagate so the UI prompts for a TOTP code.
-      _interactiveReauthRequired = true;
+      _reauthState = ReauthState.totpRequired;
       rethrow;
     } catch (e) {
       logger.w('[V6SessionCache] Session renewal failed: $e');
       await WidgetChannel.sendSidInvalidated(serverAddress: _creds.address);
+    }
+  }
+
+  /// Records that the user cancelled the TOTP prompt.
+  void declineReauth() {
+    _reauthState = ReauthState.declined;
+  }
+
+  /// Lets the TOTP prompt show again after the user cancelled it.
+  void allowReauthPrompt() {
+    if (_reauthState == ReauthState.declined) {
+      _reauthState = ReauthState.totpRequired;
     }
   }
 

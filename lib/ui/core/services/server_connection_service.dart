@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
 import 'package:pi_hole_client/domain/model/dns/dns.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
@@ -47,7 +48,8 @@ import 'package:result_dart/result_dart.dart';
 ///   serversViewModel: serversViewModel,
 ///   server: server,
 ///   createBundle: createBundle,
-/// 　resolveTotp: ({error}) => showTotpInputModal(context, error: error),
+///   totpPromptGuard: totpPromptGuard,
+///   resolveTotp: ({error}) => showTotpInputModal(context, error: error),
 ///   showModal: true,
 /// );
 /// await service.connect();
@@ -66,6 +68,7 @@ class ServerConnectionService {
     required this.serversViewModel,
     required this.server,
     required this.createBundle,
+    required this.totpPromptGuard,
     required this.resolveTotp,
     this.useRootContextOnFailure = false,
     this.showModal = false,
@@ -78,6 +81,7 @@ class ServerConnectionService {
   final ServersViewModel serversViewModel;
   final Server server;
   final CreateRepositoryBundle createBundle;
+  final TotpPromptGuard totpPromptGuard;
   final ResolveTotp resolveTotp;
   final bool useRootContextOnFailure;
   final bool showModal;
@@ -233,8 +237,6 @@ class ServerConnectionService {
   }
 
   Future<void> _onSuccess(Blocking blocking, Server connectedServer) async {
-    serversViewModel.clearTotpReauthDeclined(connectedServer.address);
-
     if (serversViewModel.selectedServer == null &&
         appConfigViewModel.selectedTab == 1) {
       appConfigViewModel.setSelectedTab(4);
@@ -262,7 +264,7 @@ class ServerConnectionService {
   /// (that would re-prompt in a loop); falling back to a different, working
   /// server resumes its auto-refresh.
   void _onTotpCancelled(Server? fallback) {
-    serversViewModel.markTotpReauthDeclined(server.address);
+    totpPromptGuard.decline(server.address);
 
     if (fallback == null) {
       statusViewModel.setServerStatus(LoadStatus.error);
@@ -417,6 +419,7 @@ class ServerConnectionService {
             serversViewModel: serversViewModel,
             server: updated,
             createBundle: createBundle,
+            totpPromptGuard: totpPromptGuard,
             resolveTotp: resolveTotp,
             useRootContextOnFailure: useRootContextOnFailure,
             showModal: showModal,

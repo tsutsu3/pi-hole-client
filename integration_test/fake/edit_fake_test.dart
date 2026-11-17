@@ -187,13 +187,13 @@ void main() {
 
         // Arrange the precondition directly rather than driving a full
         // expired-session/cancel flow.
-        app.servers.markTotpReauthDeclined(address);
+        app.totpPromptGuard.decline(address);
 
         await app.editServer(alias: 'declined-edit-renamed');
         expect(find.text(app.l10n.editServerSuccessfully), findsOneWidget);
 
         expect(
-          app.servers.isTotpReauthDeclined(address),
+          app.totpPromptGuard.isDeclined(address),
           isFalse,
           reason: 'a successful edit must clear a declined TOTP reauth',
         );
@@ -238,7 +238,7 @@ void main() {
         await app.cancelTotpPrompt();
 
         expect(
-          app.servers.isTotpReauthDeclined(address),
+          app.totpPromptGuard.isDeclined(address),
           isTrue,
           reason:
               'cancelling a TOTP prompt during an edit must decline reauth '
@@ -438,9 +438,11 @@ void main() {
       },
     );
 
-    testWidgets('(E18) cancelling that TOTP prompt restores the old password', (
-      tester,
-    ) async {
+    // The user is connected, starts a password change, then cancels the TOTP
+    // prompt. The app must keep working with the old password and session,
+    // and must not ask for a code again.
+    testWidgets('(E18) cancelling that TOTP prompt keeps the old password and '
+        'session', (tester) async {
       final app = AppHarness(tester);
       await app.boot();
 
@@ -457,7 +459,18 @@ void main() {
       );
       expect(find.text(app.l10n.connectedSuccessfully), findsOneWidget);
       final address = app.servers.getServersList.single.address;
+
+      // Connect, so auto-refresh runs with this session.
+      await app.connectServer();
       final sidBefore = await app.sidOf(address);
+
+      // Settings > Servers (the bottom nav has no direct "connect" tab).
+      await tester.tap(
+        find.widgetWithText(NavigationDestination, app.l10n.settings),
+      );
+      await app.settle(frames: 10);
+      await tester.tap(find.widgetWithText(ListTile, app.l10n.servers));
+      await app.settle(frames: 10);
 
       fakeServer
         ..password = 'pw2'
@@ -470,17 +483,36 @@ void main() {
       await tester.tap(find.byIcon(Icons.save_rounded));
       await app.waitForTotpPrompt();
       await app.settle(frames: 3);
+      // Auto-refresh is stopped during the edit and starts again on cancel.
+      final requestsBefore = fakeServer.requestSids.length;
       await app.cancelTotpPrompt();
 
       expect(
         await app.passwordOf(address),
         'pw1',
-        reason: 'cancelling the reauth must restore the old password',
+        reason: 'the cancelled password change is not saved',
       );
       expect(
         await app.sidOf(address),
         sidBefore,
-        reason: 'cancelling the reauth must not touch the existing session',
+        reason: 'the app keeps the old session',
+      );
+      expect(
+        fakeServer.currentSid,
+        sidBefore,
+        reason: 'the old session is still live on the server',
+      );
+
+      // Waiting for a prompt also gives auto-refresh time to run.
+      expect(
+        await app.waitForTotpPrompt(),
+        isFalse,
+        reason: 'the old session works, so no TOTP prompt shows again',
+      );
+      expect(
+        fakeServer.requestSids.skip(requestsBefore),
+        contains(sidBefore),
+        reason: 'auto-refresh keeps using the old session',
       );
     });
   });
@@ -545,7 +577,7 @@ void main() {
         expect(find.text(app.l10n.connectedSuccessfully), findsOneWidget);
         final oldAddress = app.servers.getServersList.single.address;
 
-        app.servers.markTotpReauthDeclined(oldAddress);
+        app.totpPromptGuard.decline(oldAddress);
 
         // Point the server at a different fake instance -- an address
         // change, which replaces rather than edits in place.
@@ -553,7 +585,7 @@ void main() {
         expect(find.text(app.l10n.editServerSuccessfully), findsOneWidget);
 
         expect(
-          app.servers.isTotpReauthDeclined(oldAddress),
+          app.totpPromptGuard.isDeclined(oldAddress),
           isFalse,
           reason:
               "replacing a server must clear the old address's declined "
