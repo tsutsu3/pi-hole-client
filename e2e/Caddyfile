@@ -19,7 +19,9 @@
 # :443 - self-signed HTTPS (Caddy internal CA, untrusted by the device) for the
 # allowUntrustedCert / pinned-certificate scenarios.
 :443 {
-	tls internal
+	tls internal {
+		on_demand
+	}
 	reverse_proxy pihole-v6-test:80
 }
 

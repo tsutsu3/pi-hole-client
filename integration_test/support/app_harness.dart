@@ -311,7 +311,9 @@ class AppHarness {
       // The "allow untrusted certificate" checkbox is checked by default.
       final checkbox = find.byType(CheckboxListTile).first;
       await tester.ensureVisible(checkbox);
-      await settle(frames: 2);
+      // Wait for the scroll to stop. A tap during the overscroll stretch on
+      // Android does not reach the checkbox.
+      await settle(frames: 10);
       await tester.tap(checkbox);
       await settle(frames: 2);
     }
