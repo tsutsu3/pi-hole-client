@@ -20,8 +20,8 @@
     "deploy": "wrangler deploy"
   },
   "dependencies": {
-    "@astrojs/react": "^6.0.6",
-    "@astrojs/starlight": "^0.41.11",
+    "@astrojs/react": "^7.1.9",
+    "@astrojs/starlight": "^0.43.1",
     "@types/react": "^19.3.0",
     "astro": "^7.4.13",
     "clsx": "^2.1.1",
@@ -35,12 +35,11 @@
     "@types/react-dom": "^19.3.0",
     "eslint": "^10.15.0",
     "eslint-plugin-astro": "^3.2.1",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
     "globals": "^17.14.0",
     "prettier": "^3.10.1",
-    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-astro": "^1.1.2",
     "sharp": "^0.35.5",
-    "starlight-links-validator": "^0.25.3",
+    "starlight-links-validator": "^0.27.0",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.73.0",
     "wrangler": "^4.165.0"
