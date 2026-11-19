@@ -23,27 +23,27 @@
     "@astrojs/react": "^6.0.6",
     "@astrojs/starlight": "^0.41.11",
     "@types/react": "^19.3.0",
-    "astro": "^7.4.7",
+    "astro": "^7.4.13",
     "clsx": "^2.1.1",
-    "lucide-react": "^1.61.0",
+    "lucide-react": "^1.76.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.11",
+    "@astrojs/check": "^0.9.12",
     "@eslint/js": "^10.0.1",
     "@types/react-dom": "^19.3.0",
-    "eslint": "^10.13.0",
+    "eslint": "^10.15.0",
     "eslint-plugin-astro": "^3.2.1",
     "eslint-plugin-jsx-a11y": "^6.10.2",
-    "globals": "^17.13.0",
-    "prettier": "^3.9.10",
+    "globals": "^17.14.0",
+    "prettier": "^3.10.1",
     "prettier-plugin-astro": "^0.14.1",
     "sharp": "^0.35.5",
     "starlight-links-validator": "^0.25.3",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.72.0",
-    "wrangler": "^4.151.3"
+    "typescript-eslint": "^8.73.0",
+    "wrangler": "^4.165.0"
   },
   "engines": {
     "node": ">=22.12.0"
