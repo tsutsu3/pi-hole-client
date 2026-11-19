@@ -10,10 +10,29 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # A package goes into the first group that matches it.
     groups:
-      dependencies:
+      # For 0.x packages, a minor bump can break the API.
+      # Dependabot does not know this, so list them by name.
+      zero-ver-minor:
+        patterns:
+          - "intl"
+          - "html"
+          - "window_manager"
+          - "flutter_launcher_icons"
+        update-types:
+          - "minor"
+      major:
         patterns:
           - "*"
+        update-types:
+          - "major"
+      minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
