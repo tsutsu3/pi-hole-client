@@ -22,7 +22,6 @@ updates:
           - "flutter_launcher_icons"
         update-types:
           - "minor"
-          - "major"
       major:
         patterns:
           - "*"
