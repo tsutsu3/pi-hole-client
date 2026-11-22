@@ -132,6 +132,10 @@ class ServerToggleWorkerTest {
             )
         }
         verify(exactly = 0) { prefs.setSidValid(serverId, false) }
+        // The worker must stop here: no widget state is published (broadcast
+        // looks up the bound widgets first), so no "auth required" flicker.
+        verify(exactly = 0) { prefs.getWidgetIdsForServer(any(), any()) }
+        assertEquals(1, server.requestCount)
     }
 
     @Test
