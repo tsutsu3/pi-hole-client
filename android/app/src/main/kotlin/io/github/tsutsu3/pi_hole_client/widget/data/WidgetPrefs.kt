@@ -191,6 +191,36 @@ class WidgetPrefs private constructor(context: Context) {
     }
 
     /**
+     * Stores a fresh SID pushed by Flutter and marks it valid, atomically with
+     * respect to [invalidateSidIfCurrent].
+     */
+    @Synchronized
+    fun updateSession(serverId: String, sid: String) {
+        prefs.edit()
+            .putString(keyForSid(serverId), sid)
+            .putBoolean(keyForSidValid(serverId), true)
+            .apply()
+    }
+
+    /**
+     * Marks the SID invalid only if it is still [usedSid], the one a worker
+     * sent to Pi-hole and got an auth failure for.
+     *
+     * Without this check a worker still running with an expired SID could mark
+     * invalid the new SID the app pushed in the meantime, leaving the widgets
+     * stuck on "authentication required" until the app renews the session again.
+     *
+     * @return `true` if the SID was invalidated, `false` if a newer SID is
+     *   already stored (the caller should refresh again with it).
+     */
+    @Synchronized
+    fun invalidateSidIfCurrent(serverId: String, usedSid: String?): Boolean {
+        if (getSid(serverId) != usedSid) return false
+        setSidValid(serverId, false)
+        return true
+    }
+
+    /**
      * Returns whether the cached SID is still considered valid.
      */
     fun isSidValid(serverId: String): Boolean {

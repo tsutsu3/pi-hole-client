@@ -30,12 +30,13 @@ class MainActivity : FlutterFragmentActivity() {
                         result.error("invalid_args", "sid is required", null)
                         return@setMethodCallHandler
                     }
-                    prefs.saveSid(serverId, sid)
-                    prefs.setSidValid(serverId, true)
+                    prefs.updateSession(serverId, sid)
+                    // APPEND_OR_REPLACE (not KEEP): a refresh still running with
+                    // the old SID must not swallow the one for the new SID.
                     WidgetUpdateHelper.refreshWidgetsForServer(
                         this,
                         serverId,
-                        existingWorkPolicy = ExistingWorkPolicy.KEEP,
+                        existingWorkPolicy = ExistingWorkPolicy.APPEND_OR_REPLACE,
                     )
                     result.success(null)
                 }

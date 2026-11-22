@@ -48,6 +48,19 @@ object WidgetUpdateHelper {
     }
 
     /**
+     * Called by a worker whose request failed with an auth error while the app
+     * had already pushed a newer SID: refresh again (after the running work)
+     * so the widgets use the new session instead of showing "auth required".
+     */
+    fun refreshWithNewerSid(context: Context, serverId: String) {
+        refreshWidgetsForServer(
+            context,
+            serverId,
+            existingWorkPolicy = ExistingWorkPolicy.APPEND_OR_REPLACE,
+        )
+    }
+
+    /**
      * Refreshes all widget instances regardless of server mapping.
      */
     fun refreshAllWidgets(context: Context) {

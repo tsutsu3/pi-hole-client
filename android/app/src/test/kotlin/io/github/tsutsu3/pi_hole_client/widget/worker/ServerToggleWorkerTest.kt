@@ -2,6 +2,7 @@ package io.github.tsutsu3.pi_hole_client.widget.worker
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
+import androidx.work.ExistingWorkPolicy
 import androidx.work.testing.TestListenableWorkerBuilder
 import androidx.work.workDataOf
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
@@ -103,11 +104,34 @@ class ServerToggleWorkerTest {
     fun authFailureOnTheStatusGetInvalidatesTheSession() {
         every { prefs.hasUsableSession(serverId) } returns true
         every { prefs.getSid(serverId) } returns ""
+        every { prefs.invalidateSidIfCurrent(serverId, "") } returns true
         server.enqueue(MockResponse().setResponseCode(401))
 
         runWorker()
 
-        verify { prefs.setSidValid(serverId, false) }
+        verify { prefs.invalidateSidIfCurrent(serverId, "") }
+    }
+
+    @Test
+    fun authFailureWithANewerSidRefreshesInsteadOfInvalidating() {
+        every { prefs.hasUsableSession(serverId) } returns true
+        every { prefs.getSid(serverId) } returns "old"
+        // The app pushed a new SID while the request was in flight.
+        every { prefs.invalidateSidIfCurrent(serverId, "old") } returns false
+        server.enqueue(MockResponse().setResponseCode(401))
+
+        runWorker()
+
+        verify {
+            WidgetUpdateHelper.refreshWidgetsForServer(
+                any(),
+                serverId,
+                any(),
+                any(),
+                ExistingWorkPolicy.APPEND_OR_REPLACE,
+            )
+        }
+        verify(exactly = 0) { prefs.setSidValid(serverId, false) }
     }
 
     @Test
@@ -116,10 +140,11 @@ class ServerToggleWorkerTest {
         every { prefs.getSid(serverId) } returns ""
         server.enqueue(MockResponse().setResponseCode(200).setBody("""{"blocking":"enabled"}"""))
         server.enqueue(MockResponse().setResponseCode(401))
+        every { prefs.invalidateSidIfCurrent(serverId, "") } returns true
 
         runWorker()
 
-        verify { prefs.setSidValid(serverId, false) }
+        verify { prefs.invalidateSidIfCurrent(serverId, "") }
     }
 
     @Test
