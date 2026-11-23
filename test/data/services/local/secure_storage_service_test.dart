@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
+import 'package:result_dart/result_dart.dart';
 import '../utils/mocks.mocks.dart';
 
 void main() {
@@ -12,6 +13,21 @@ void main() {
     mockStorage = MockFlutterSecureStorage();
     service = SecureStorageService(secureStorage: mockStorage);
   });
+
+  /// Checks that [result] failed with a [SecureStorageException] that has
+  /// [message] and the plugin error [cause].
+  void expectStorageFailure(
+    Result<dynamic> result,
+    String message,
+    String cause,
+  ) {
+    expect(
+      result.exceptionOrNull(),
+      isA<SecureStorageException>()
+          .having((e) => e.message, 'message', message)
+          .having((e) => e.cause.toString(), 'cause', cause),
+    );
+  }
 
   group('SecureStorageService', () {
     test('saveValue returns Success on write', () async {
@@ -27,10 +43,10 @@ void main() {
         mockStorage.write(key: anyNamed('key'), value: anyNamed('value')),
       ).thenThrow(Exception('write error'));
       final result = await service.saveValue('testKey', 'testValue');
-      expect(result.isError(), true);
-      expect(
-        result.exceptionOrNull()?.toString(),
-        contains('Failed to save value: Exception: write error'),
+      expectStorageFailure(
+        result,
+        'Failed to save value for testKey',
+        'Exception: write error',
       );
     });
 
@@ -61,11 +77,10 @@ void main() {
         mockStorage.read(key: anyNamed('key')),
       ).thenThrow(Exception('read error'));
       final result = await service.getValue('testKey');
-      expect(result.isError(), true);
-      expect(result.exceptionOrNull(), isNot(isA<ValueNotFoundException>()));
-      expect(
-        result.exceptionOrNull()?.toString(),
-        contains('Failed to read value: Exception: read error'),
+      expectStorageFailure(
+        result,
+        'Failed to read value for testKey',
+        'Exception: read error',
       );
     });
 
@@ -82,10 +97,10 @@ void main() {
         mockStorage.delete(key: anyNamed('key')),
       ).thenThrow(Exception('delete error'));
       final result = await service.deleteValue('testKey');
-      expect(result.isError(), true);
-      expect(
-        result.exceptionOrNull()?.toString(),
-        contains('Failed to delete value: Exception: delete error'),
+      expectStorageFailure(
+        result,
+        'Failed to delete value for testKey',
+        'Exception: delete error',
       );
     });
 
@@ -98,10 +113,10 @@ void main() {
     test('clearAll returns Failure on exception', () async {
       when(mockStorage.deleteAll()).thenThrow(Exception('deleteAll error'));
       final result = await service.clearAll();
-      expect(result.isError(), true);
-      expect(
-        result.exceptionOrNull()?.toString(),
-        contains('Failed to clear all values: Exception: deleteAll error'),
+      expectStorageFailure(
+        result,
+        'Failed to clear all values',
+        'Exception: deleteAll error',
       );
     });
 
@@ -116,10 +131,10 @@ void main() {
     test('readAll returns Failure on exception', () async {
       when(mockStorage.readAll()).thenThrow(Exception('readAll error'));
       final result = await service.readAll();
-      expect(result.isError(), true);
-      expect(
-        result.exceptionOrNull()?.toString(),
-        contains('Failed to read all values: Exception: readAll error'),
+      expectStorageFailure(
+        result,
+        'Failed to read all values',
+        'Exception: readAll error',
       );
     });
   });

@@ -7,6 +7,10 @@ import 'package:pi_hole_client/utils/exceptions.dart';
 void main() {
   group('appLogTypeOf', () {
     final cases = <String, (Object, AppLogType)>{
+      'SecureStorageException': (
+        SecureStorageException('Failed to read value for key'),
+        AppLogType.storage,
+      ),
       'SidNotFoundException': (SidNotFoundException(), AppLogType.session),
       'TotpRequiredException': (TotpRequiredException(), AppLogType.auth),
       'TotpInvalidException': (TotpInvalidException(), AppLogType.auth),

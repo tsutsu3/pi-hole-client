@@ -4,6 +4,8 @@ import 'package:pi_hole_client/utils/exceptions.dart';
 
 /// Returns the [AppLogType] for [error].
 AppLogType appLogTypeOf(Object error) {
+  if (error is SecureStorageException) return AppLogType.storage;
+
   if (error is SidNotFoundException) return AppLogType.session;
 
   if (error is TotpRequiredException ||

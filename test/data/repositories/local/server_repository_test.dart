@@ -3,6 +3,7 @@ import 'package:pi_hole_client/data/repositories/local/secure_data_repository.da
 import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../../../../testing/fakes/services/fake_database_service.dart';
@@ -848,13 +849,13 @@ void main() {
       expect(result.getOrNull(), (token: '', password: ''));
     });
 
-    test('returns Failure when the storage read fails', () async {
+    test('returns the storage error when the read fails', () async {
       await ssSerivce.saveValue('${address}_password', 'pass123');
       ssSerivce.shouldFailRead = true;
 
       final result = await repository.fetchCredentials(address);
 
-      expect(result.isError(), true);
+      expect(result.exceptionOrNull(), isA<SecureStorageException>());
     });
   });
 

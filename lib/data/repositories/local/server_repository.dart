@@ -416,8 +416,8 @@ class LocalServerRepository implements ServerRepository {
     try {
       final token = await _secureStorage.getValue('${address}_token');
       final password = await _secureStorage.getValue('${address}_password');
-      if (_isReadError(token) || _isReadError(password)) {
-        return Failure(Exception('Failed to fetch credentials'));
+      for (final result in [token, password]) {
+        if (_isReadError(result)) return Failure(result.exceptionOrNull()!);
       }
 
       return Success((
