@@ -44,6 +44,7 @@ class ServerPaddWorkerTest {
     fun tearDown() {
         server.shutdown()
         unmockkAll()
+        WidgetPrefs.clearInstanceForTest()
     }
 
     private fun testServer(id: String) = WidgetServer(
