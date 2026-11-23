@@ -13,6 +13,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/config/dependencies.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache_store.dart';
 import 'package:pi_hole_client/data/repositories/local/app_config_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/app_log_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/app_config_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
@@ -198,6 +199,7 @@ Future<Widget> bootstrapApp({
   final storage = secureStorageService ?? SecureStorageService();
   final appConfigRepository = LocalAppConfigRepository(dbService, storage);
   final serverRepository = LocalServerRepository(dbService, storage);
+  final appLogRepository = LocalAppLogRepository();
 
   // ViewModels
   final gravityRepository = LocalGravityRepository(dbService);
@@ -265,6 +267,7 @@ Future<Widget> bootstrapApp({
       dbService: dbService,
       secureStorageService: storage,
       appConfigRepository: appConfigRepository,
+      appLogRepository: appLogRepository,
       serverRepository: serverRepository,
       configProvider: configProvider,
       serversViewModel: serversViewModel,

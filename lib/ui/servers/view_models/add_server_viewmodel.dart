@@ -12,6 +12,7 @@ import 'package:command_it/command_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/app_log_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/secret_input.dart';
@@ -20,6 +21,7 @@ import 'package:pi_hole_client/domain/model/server/server_auth.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection/connect_server_usecase.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_certificate.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_totp.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/app_log_type_of.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/utils/logger.dart';
@@ -136,11 +138,13 @@ class AddServerViewModel extends ChangeNotifier {
     required ServerRepository serverRepository,
     required CreateRepositoryBundle createBundle,
     required TotpPromptGuard totpPromptGuard,
+    required AppLogRepository appLogRepository,
   }) : _serversViewModel = serversViewModel,
        _statusViewModel = statusViewModel,
        _serverRepository = serverRepository,
        _createBundle = createBundle,
-       _totpPromptGuard = totpPromptGuard {
+       _totpPromptGuard = totpPromptGuard,
+       _appLogRepository = appLogRepository {
     saveServer = Command.createAsync<SaveServerRequest, SaveServerOutcome>(
       _saveServer,
       initialValue: const SaveInitial(),
@@ -153,6 +157,7 @@ class AddServerViewModel extends ChangeNotifier {
   final ServerRepository _serverRepository;
   final CreateRepositoryBundle _createBundle;
   final TotpPromptGuard _totpPromptGuard;
+  final AppLogRepository _appLogRepository;
 
   late final Command<SaveServerRequest, SaveServerOutcome> saveServer;
 
@@ -226,6 +231,8 @@ class AddServerViewModel extends ChangeNotifier {
           isNewAddress: true,
           sessionCreated: sessionCreated,
         );
+
+        _recordConnectFailure(error);
 
         return SaveApiError(error, draft.apiVersion);
       case ConnectSuccess():
@@ -384,6 +391,8 @@ class AddServerViewModel extends ChangeNotifier {
           sessionCreated: sessionCreated,
         );
 
+        _recordConnectFailure(error);
+
         return SaveApiError(error, draft.apiVersion);
       case ConnectSuccess():
         connected = outcome;
@@ -416,6 +425,11 @@ class AddServerViewModel extends ChangeNotifier {
       server: server,
       token: server.apiVersion == SupportedApiVersions.v6 ? null : secret,
     );
+  }
+
+  /// Records a failed connection check on the App Logs page.
+  void _recordConnectFailure(Exception error) {
+    _appLogRepository.add(type: appLogTypeOf(error), message: error.toString());
   }
 
   /// Stores [secret] as the password (v6) or the token (v5) of [server].

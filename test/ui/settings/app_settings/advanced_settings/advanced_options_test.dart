@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/app_log_repository.dart';
 import 'package:pi_hole_client/routing/routes.dart';
+import 'package:pi_hole_client/ui/app_logs/view_models/app_logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/app_logs/widgets/app_logs_screen.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
@@ -9,6 +11,7 @@ import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widget
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/chart_visualization_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/reset_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/widgets/advanced_options_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../../../testing/fakes/repositories/local/fake_server_repository.dart';
@@ -31,7 +34,11 @@ GoRouter _createTestRouter() {
       GoRoute(
         path: '/settings/app/advanced/app-logs',
         name: Routes.settingsAppAdvancedAppLogs,
-        builder: (_, _) => const AppLogsScreen(),
+        builder: (context, _) => ChangeNotifierProvider(
+          create: (_) =>
+              AppLogsViewModel(repository: context.read<AppLogRepository>()),
+          child: const AppLogsScreen(),
+        ),
       ),
       GoRoute(
         path: '/settings/app/advanced/reset',

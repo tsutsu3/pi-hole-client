@@ -4,59 +4,58 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 
-import 'dart:async' as _i12;
-import 'dart:ui' as _i14;
+import 'dart:async' as _i11;
+import 'dart:ui' as _i13;
 
 import 'package:command_it/command_it.dart' as _i3;
-import 'package:device_info_plus/device_info_plus.dart' as _i11;
+import 'package:device_info_plus/device_info_plus.dart' as _i10;
 import 'package:flutter/foundation.dart' as _i4;
 import 'package:flutter/material.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i7;
-import 'package:package_info_plus/package_info_plus.dart' as _i10;
+import 'package:package_info_plus/package_info_plus.dart' as _i9;
 import 'package:pi_hole_client/data/repositories/api/interfaces/actions_respository.dart'
-    as _i38;
+    as _i37;
 import 'package:pi_hole_client/data/repositories/api/interfaces/dns_repository.dart'
-    as _i26;
-import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart'
-    as _i23;
-import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart'
-    as _i27;
-import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart'
-    as _i22;
-import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart'
     as _i25;
-import 'package:pi_hole_client/domain/model/app/app_config.dart' as _i13;
-import 'package:pi_hole_client/domain/model/app/app_log.dart' as _i9;
-import 'package:pi_hole_client/domain/model/client/managed_client.dart' as _i30;
-import 'package:pi_hole_client/domain/model/domain/domain.dart' as _i21;
+import 'package:pi_hole_client/data/repositories/api/interfaces/domain_repository.dart'
+    as _i22;
+import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart'
+    as _i26;
+import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart'
+    as _i21;
+import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart'
+    as _i24;
+import 'package:pi_hole_client/domain/model/app/app_config.dart' as _i12;
+import 'package:pi_hole_client/domain/model/client/managed_client.dart' as _i29;
+import 'package:pi_hole_client/domain/model/domain/domain.dart' as _i20;
 import 'package:pi_hole_client/domain/model/enums.dart' as _i8;
-import 'package:pi_hole_client/domain/model/ftl/message.dart' as _i37;
-import 'package:pi_hole_client/domain/model/group/group.dart' as _i33;
-import 'package:pi_hole_client/domain/model/list/adlist.dart' as _i35;
-import 'package:pi_hole_client/domain/model/metrics/queries.dart' as _i20;
-import 'package:pi_hole_client/domain/model/network/network.dart' as _i31;
-import 'package:pi_hole_client/domain/model/query_status.dart' as _i17;
-import 'package:pi_hole_client/domain/model/server/server.dart' as _i16;
+import 'package:pi_hole_client/domain/model/ftl/message.dart' as _i36;
+import 'package:pi_hole_client/domain/model/group/group.dart' as _i32;
+import 'package:pi_hole_client/domain/model/list/adlist.dart' as _i34;
+import 'package:pi_hole_client/domain/model/metrics/queries.dart' as _i19;
+import 'package:pi_hole_client/domain/model/network/network.dart' as _i30;
+import 'package:pi_hole_client/domain/model/query_status.dart' as _i16;
+import 'package:pi_hole_client/domain/model/server/server.dart' as _i15;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart'
     as _i5;
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart'
-    as _i15;
+    as _i14;
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart'
-    as _i24;
+    as _i23;
 import 'package:pi_hole_client/ui/domains/view_models/domains_viewmodel.dart'
-    as _i28;
-import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart' as _i19;
+    as _i27;
+import 'package:pi_hole_client/ui/logs/view_models/logs_viewmodel.dart' as _i18;
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart'
-    as _i34;
+    as _i33;
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/gravity_update_viewmodel.dart'
-    as _i36;
+    as _i35;
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/clients_viewmodel.dart'
-    as _i29;
+    as _i28;
 import 'package:pi_hole_client/ui/settings/server_settings/group_client/view_models/groups_viewmodel.dart'
-    as _i32;
-import 'package:result_dart/result_dart.dart' as _i18;
+    as _i31;
+import 'package:result_dart/result_dart.dart' as _i17;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -241,11 +240,6 @@ class MockAppConfigViewModel extends _i1.Mock
           as bool);
 
   @override
-  List<_i9.AppLog> get logs =>
-      (super.noSuchMethod(Invocation.getter(#logs), returnValue: <_i9.AppLog>[])
-          as List<_i9.AppLog>);
-
-  @override
   int get logAutoRefreshTime =>
       (super.noSuchMethod(
             Invocation.getter(#logAutoRefreshTime),
@@ -298,19 +292,19 @@ class MockAppConfigViewModel extends _i1.Mock
   );
 
   @override
-  void setAppInfo(_i10.PackageInfo? appInfo) => super.noSuchMethod(
+  void setAppInfo(_i9.PackageInfo? appInfo) => super.noSuchMethod(
     Invocation.method(#setAppInfo, [appInfo]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void setAndroidInfo(_i11.AndroidDeviceInfo? deviceInfo) => super.noSuchMethod(
+  void setAndroidInfo(_i10.AndroidDeviceInfo? deviceInfo) => super.noSuchMethod(
     Invocation.method(#setAndroidInfo, [deviceInfo]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void setIosInfo(_i11.IosDeviceInfo? deviceInfo) => super.noSuchMethod(
+  void setIosInfo(_i10.IosDeviceInfo? deviceInfo) => super.noSuchMethod(
     Invocation.method(#setIosInfo, [deviceInfo]),
     returnValueForMissingStub: null,
   );
@@ -334,165 +328,159 @@ class MockAppConfigViewModel extends _i1.Mock
   );
 
   @override
-  void addLog(_i9.AppLog? log) => super.noSuchMethod(
-    Invocation.method(#addLog, [log]),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  _i12.Future<bool> setUseBiometrics(bool? biometrics) =>
+  _i11.Future<bool> setUseBiometrics(bool? biometrics) =>
       (super.noSuchMethod(
             Invocation.method(#setUseBiometrics, [biometrics]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> setImportantInfoReaden(bool? status) =>
+  _i11.Future<bool> setImportantInfoReaden(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setImportantInfoReaden, [status]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> setPassCode(String? code) =>
+  _i11.Future<bool> setPassCode(String? code) =>
       (super.noSuchMethod(
             Invocation.method(#setPassCode, [code]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> setAutoRefreshTime(int? seconds) =>
+  _i11.Future<bool> setAutoRefreshTime(int? seconds) =>
       (super.noSuchMethod(
             Invocation.method(#setAutoRefreshTime, [seconds]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> setLogsPerQuery(double? time) =>
+  _i11.Future<bool> setLogsPerQuery(double? time) =>
       (super.noSuchMethod(
             Invocation.method(#setLogsPerQuery, [time]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> setSendCrashReports(bool? status) =>
+  _i11.Future<bool> setSendCrashReports(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setSendCrashReports, [status]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> setLogAutoRefreshTime(int? seconds) =>
+  _i11.Future<bool> setLogAutoRefreshTime(int? seconds) =>
       (super.noSuchMethod(
             Invocation.method(#setLogAutoRefreshTime, [seconds]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> setLiveLog(bool? status) =>
+  _i11.Future<bool> setLiveLog(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setLiveLog, [status]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> setLivelogPaused(bool? status) =>
+  _i11.Future<bool> setLivelogPaused(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setLivelogPaused, [status]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  void saveFromDb(_i13.AppConfig? config) => super.noSuchMethod(
+  void saveFromDb(_i12.AppConfig? config) => super.noSuchMethod(
     Invocation.method(#saveFromDb, [config]),
     returnValueForMissingStub: null,
   );
 
   @override
-  _i12.Future<bool> setReducedDataCharts(bool? status) =>
+  _i11.Future<bool> setReducedDataCharts(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setReducedDataCharts, [status]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> setHideZeroValues(bool? status) =>
+  _i11.Future<bool> setHideZeroValues(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setHideZeroValues, [status]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> setShowLoadingAnimation(bool? status) =>
+  _i11.Future<bool> setShowLoadingAnimation(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setShowLoadingAnimation, [status]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> setSelectedTheme(_i8.AppThemeMode? value) =>
+  _i11.Future<bool> setSelectedTheme(_i8.AppThemeMode? value) =>
       (super.noSuchMethod(
             Invocation.method(#setSelectedTheme, [value]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> setSelectedLanguage(String? value) =>
+  _i11.Future<bool> setSelectedLanguage(String? value) =>
       (super.noSuchMethod(
             Invocation.method(#setSelectedLanguage, [value]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> setStatisticsVisualizationMode(
+  _i11.Future<bool> setStatisticsVisualizationMode(
     _i8.StatisticsVisualizationMode? value,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#setStatisticsVisualizationMode, [value]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> setHomeVisualizationMode(
+  _i11.Future<bool> setHomeVisualizationMode(
     _i8.HomeVisualizationMode? value,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#setHomeVisualizationMode, [value]),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> restoreAppConfig() =>
+  _i11.Future<bool> restoreAppConfig() =>
       (super.noSuchMethod(
             Invocation.method(#restoreAppConfig, []),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );
@@ -513,45 +501,45 @@ class MockAppConfigViewModel extends _i1.Mock
 /// A class which mocks [ServersViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockServersViewModel extends _i1.Mock implements _i15.ServersViewModel {
+class MockServersViewModel extends _i1.Mock implements _i14.ServersViewModel {
   MockServersViewModel() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Command<_i16.Server, void> get addServer =>
+  _i3.Command<_i15.Server, void> get addServer =>
       (super.noSuchMethod(
             Invocation.getter(#addServer),
-            returnValue: _FakeCommand_1<_i16.Server, void>(
+            returnValue: _FakeCommand_1<_i15.Server, void>(
               this,
               Invocation.getter(#addServer),
             ),
           )
-          as _i3.Command<_i16.Server, void>);
+          as _i3.Command<_i15.Server, void>);
 
   @override
-  _i3.Command<_i16.Server, void> get editServer =>
+  _i3.Command<_i15.Server, void> get editServer =>
       (super.noSuchMethod(
             Invocation.getter(#editServer),
-            returnValue: _FakeCommand_1<_i16.Server, void>(
+            returnValue: _FakeCommand_1<_i15.Server, void>(
               this,
               Invocation.getter(#editServer),
             ),
           )
-          as _i3.Command<_i16.Server, void>);
+          as _i3.Command<_i15.Server, void>);
 
   @override
-  _i3.Command<({_i16.Server newServer, String oldAddress}), void>
+  _i3.Command<({_i15.Server newServer, String oldAddress}), void>
   get replaceServer =>
       (super.noSuchMethod(
             Invocation.getter(#replaceServer),
             returnValue:
                 _FakeCommand_1<
-                  ({_i16.Server newServer, String oldAddress}),
+                  ({_i15.Server newServer, String oldAddress}),
                   void
                 >(this, Invocation.getter(#replaceServer)),
           )
-          as _i3.Command<({_i16.Server newServer, String oldAddress}), void>);
+          as _i3.Command<({_i15.Server newServer, String oldAddress}), void>);
 
   @override
   _i3.Command<String, void> get removeServer =>
@@ -565,23 +553,23 @@ class MockServersViewModel extends _i1.Mock implements _i15.ServersViewModel {
           as _i3.Command<String, void>);
 
   @override
-  _i3.Command<_i16.Server, void> get setDefaultServer =>
+  _i3.Command<_i15.Server, void> get setDefaultServer =>
       (super.noSuchMethod(
             Invocation.getter(#setDefaultServer),
-            returnValue: _FakeCommand_1<_i16.Server, void>(
+            returnValue: _FakeCommand_1<_i15.Server, void>(
               this,
               Invocation.getter(#setDefaultServer),
             ),
           )
-          as _i3.Command<_i16.Server, void>);
+          as _i3.Command<_i15.Server, void>);
 
   @override
-  List<_i16.Server> get getServersList =>
+  List<_i15.Server> get getServersList =>
       (super.noSuchMethod(
             Invocation.getter(#getServersList),
-            returnValue: <_i16.Server>[],
+            returnValue: <_i15.Server>[],
           )
-          as List<_i16.Server>);
+          as List<_i15.Server>);
 
   @override
   bool get unverifiedBannerDismissed =>
@@ -592,40 +580,40 @@ class MockServersViewModel extends _i1.Mock implements _i15.ServersViewModel {
           as bool);
 
   @override
-  List<_i16.Server> get serversWithUnverifiedCertificates =>
+  List<_i15.Server> get serversWithUnverifiedCertificates =>
       (super.noSuchMethod(
             Invocation.getter(#serversWithUnverifiedCertificates),
-            returnValue: <_i16.Server>[],
+            returnValue: <_i15.Server>[],
           )
-          as List<_i16.Server>);
+          as List<_i15.Server>);
 
   @override
   int get numShown =>
       (super.noSuchMethod(Invocation.getter(#numShown), returnValue: 0) as int);
 
   @override
-  List<_i17.QueryStatus> get queryStatuses =>
+  List<_i16.QueryStatus> get queryStatuses =>
       (super.noSuchMethod(
             Invocation.getter(#queryStatuses),
-            returnValue: <_i17.QueryStatus>[],
+            returnValue: <_i16.QueryStatus>[],
           )
-          as List<_i17.QueryStatus>);
+          as List<_i16.QueryStatus>);
 
   @override
-  set addServer(_i3.Command<_i16.Server, void>? value) => super.noSuchMethod(
+  set addServer(_i3.Command<_i15.Server, void>? value) => super.noSuchMethod(
     Invocation.setter(#addServer, value),
     returnValueForMissingStub: null,
   );
 
   @override
-  set editServer(_i3.Command<_i16.Server, void>? value) => super.noSuchMethod(
+  set editServer(_i3.Command<_i15.Server, void>? value) => super.noSuchMethod(
     Invocation.setter(#editServer, value),
     returnValueForMissingStub: null,
   );
 
   @override
   set replaceServer(
-    _i3.Command<({_i16.Server newServer, String oldAddress}), void>? value,
+    _i3.Command<({_i15.Server newServer, String oldAddress}), void>? value,
   ) => super.noSuchMethod(
     Invocation.setter(#replaceServer, value),
     returnValueForMissingStub: null,
@@ -638,7 +626,7 @@ class MockServersViewModel extends _i1.Mock implements _i15.ServersViewModel {
   );
 
   @override
-  set setDefaultServer(_i3.Command<_i16.Server, void>? value) =>
+  set setDefaultServer(_i3.Command<_i15.Server, void>? value) =>
       super.noSuchMethod(
         Invocation.setter(#setDefaultServer, value),
         returnValueForMissingStub: null,
@@ -650,13 +638,13 @@ class MockServersViewModel extends _i1.Mock implements _i15.ServersViewModel {
           as bool);
 
   @override
-  void update(_i14.VoidCallback? onServerSelected) => super.noSuchMethod(
+  void update(_i13.VoidCallback? onServerSelected) => super.noSuchMethod(
     Invocation.method(#update, [onServerSelected]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void setConnectingServer(_i16.Server? server) => super.noSuchMethod(
+  void setConnectingServer(_i15.Server? server) => super.noSuchMethod(
     Invocation.method(#setConnectingServer, [server]),
     returnValueForMissingStub: null,
   );
@@ -674,25 +662,25 @@ class MockServersViewModel extends _i1.Mock implements _i15.ServersViewModel {
   );
 
   @override
-  _i17.QueryStatus? getQueryStatus(String? key) =>
+  _i16.QueryStatus? getQueryStatus(String? key) =>
       (super.noSuchMethod(Invocation.method(#getQueryStatus, [key]))
-          as _i17.QueryStatus?);
+          as _i16.QueryStatus?);
 
   @override
-  _i17.QueryStatus? findQueryStatus(String? key) =>
+  _i16.QueryStatus? findQueryStatus(String? key) =>
       (super.noSuchMethod(Invocation.method(#findQueryStatus, [key]))
-          as _i17.QueryStatus?);
+          as _i16.QueryStatus?);
 
   @override
-  _i12.Future<dynamic> saveFromDb(List<_i16.Server>? servers) =>
+  _i11.Future<dynamic> saveFromDb(List<_i15.Server>? servers) =>
       (super.noSuchMethod(
             Invocation.method(#saveFromDb, [servers]),
-            returnValue: _i12.Future<dynamic>.value(),
+            returnValue: _i11.Future<dynamic>.value(),
           )
-          as _i12.Future<dynamic>);
+          as _i11.Future<dynamic>);
 
   @override
-  void setselectedServer({required _i16.Server? server, bool? toHomeTab}) =>
+  void setselectedServer({required _i15.Server? server, bool? toHomeTab}) =>
       super.noSuchMethod(
         Invocation.method(#setselectedServer, [], {
           #server: server,
@@ -708,69 +696,69 @@ class MockServersViewModel extends _i1.Mock implements _i15.ServersViewModel {
   );
 
   @override
-  _i12.Future<bool> deleteDbData() =>
+  _i11.Future<bool> deleteDbData() =>
       (super.noSuchMethod(
             Invocation.method(#deleteDbData, []),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<bool> resetSelectedServer() =>
+  _i11.Future<bool> resetSelectedServer() =>
       (super.noSuchMethod(
             Invocation.method(#resetSelectedServer, []),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
-  _i12.Future<_i18.ResultDart<String, Exception>> fetchPassword(
+  _i11.Future<_i17.ResultDart<String, Exception>> fetchPassword(
     String? address,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#fetchPassword, [address]),
-            returnValue: _i12.Future<_i18.ResultDart<String, Exception>>.value(
-              _i7.dummyValue<_i18.ResultDart<String, Exception>>(
+            returnValue: _i11.Future<_i17.ResultDart<String, Exception>>.value(
+              _i7.dummyValue<_i17.ResultDart<String, Exception>>(
                 this,
                 Invocation.method(#fetchPassword, [address]),
               ),
             ),
           )
-          as _i12.Future<_i18.ResultDart<String, Exception>>);
+          as _i11.Future<_i17.ResultDart<String, Exception>>);
 
   @override
-  _i12.Future<_i18.ResultDart<({String password, String token}), Exception>>
+  _i11.Future<_i17.ResultDart<({String password, String token}), Exception>>
   fetchCredentials(String? address) =>
       (super.noSuchMethod(
             Invocation.method(#fetchCredentials, [address]),
             returnValue:
-                _i12.Future<
-                  _i18.ResultDart<({String password, String token}), Exception>
+                _i11.Future<
+                  _i17.ResultDart<({String password, String token}), Exception>
                 >.value(
                   _i7.dummyValue<
-                    _i18.ResultDart<
+                    _i17.ResultDart<
                       ({String password, String token}),
                       Exception
                     >
                   >(this, Invocation.method(#fetchCredentials, [address])),
                 ),
           )
-          as _i12.Future<
-            _i18.ResultDart<({String password, String token}), Exception>
+          as _i11.Future<
+            _i17.ResultDart<({String password, String token}), Exception>
           >);
 
   @override
-  _i12.Future<_i18.ResultDart<void, Exception>> deleteSid(String? address) =>
+  _i11.Future<_i17.ResultDart<void, Exception>> deleteSid(String? address) =>
       (super.noSuchMethod(
             Invocation.method(#deleteSid, [address]),
-            returnValue: _i12.Future<_i18.ResultDart<void, Exception>>.value(
-              _i7.dummyValue<_i18.ResultDart<void, Exception>>(
+            returnValue: _i11.Future<_i17.ResultDart<void, Exception>>.value(
+              _i7.dummyValue<_i17.ResultDart<void, Exception>>(
                 this,
                 Invocation.method(#deleteSid, [address]),
               ),
             ),
           )
-          as _i12.Future<_i18.ResultDart<void, Exception>>);
+          as _i11.Future<_i17.ResultDart<void, Exception>>);
 
   @override
   void dispose() => super.noSuchMethod(
@@ -779,13 +767,13 @@ class MockServersViewModel extends _i1.Mock implements _i15.ServersViewModel {
   );
 
   @override
-  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );
@@ -800,7 +788,7 @@ class MockServersViewModel extends _i1.Mock implements _i15.ServersViewModel {
 /// A class which mocks [LogsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLogsViewModel extends _i1.Mock implements _i19.LogsViewModel {
+class MockLogsViewModel extends _i1.Mock implements _i18.LogsViewModel {
   MockLogsViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -900,23 +888,23 @@ class MockLogsViewModel extends _i1.Mock implements _i19.LogsViewModel {
           as Set<_i8.QueryStatusType>);
 
   @override
-  _i4.ValueNotifier<List<_i20.Log>> get logsDisplayNotifier =>
+  _i4.ValueNotifier<List<_i19.Log>> get logsDisplayNotifier =>
       (super.noSuchMethod(
             Invocation.getter(#logsDisplayNotifier),
-            returnValue: _FakeValueNotifier_2<List<_i20.Log>>(
+            returnValue: _FakeValueNotifier_2<List<_i19.Log>>(
               this,
               Invocation.getter(#logsDisplayNotifier),
             ),
           )
-          as _i4.ValueNotifier<List<_i20.Log>>);
+          as _i4.ValueNotifier<List<_i19.Log>>);
 
   @override
-  List<_i20.Log> get logsList =>
+  List<_i19.Log> get logsList =>
       (super.noSuchMethod(
             Invocation.getter(#logsList),
-            returnValue: <_i20.Log>[],
+            returnValue: <_i19.Log>[],
           )
-          as List<_i20.Log>);
+          as List<_i19.Log>);
 
   @override
   _i8.LoadStatus get loadStatus =>
@@ -971,12 +959,12 @@ class MockLogsViewModel extends _i1.Mock implements _i19.LogsViewModel {
           as bool);
 
   @override
-  List<_i20.Log> get logsListDisplay =>
+  List<_i19.Log> get logsListDisplay =>
       (super.noSuchMethod(
             Invocation.getter(#logsListDisplay),
-            returnValue: <_i20.Log>[],
+            returnValue: <_i19.Log>[],
           )
-          as List<_i20.Log>);
+          as List<_i19.Log>);
 
   @override
   bool get hasActiveChips =>
@@ -998,7 +986,7 @@ class MockLogsViewModel extends _i1.Mock implements _i19.LogsViewModel {
   );
 
   @override
-  _i12.Future<_i18.ResultDart<_i21.Domain, Exception>> addDomainToList({
+  _i11.Future<_i17.ResultDart<_i20.Domain, Exception>> addDomainToList({
     required _i8.DomainType? type,
     required String? domain,
   }) =>
@@ -1008,8 +996,8 @@ class MockLogsViewModel extends _i1.Mock implements _i19.LogsViewModel {
               #domain: domain,
             }),
             returnValue:
-                _i12.Future<_i18.ResultDart<_i21.Domain, Exception>>.value(
-                  _i7.dummyValue<_i18.ResultDart<_i21.Domain, Exception>>(
+                _i11.Future<_i17.ResultDart<_i20.Domain, Exception>>.value(
+                  _i7.dummyValue<_i17.ResultDart<_i20.Domain, Exception>>(
                     this,
                     Invocation.method(#addDomainToList, [], {
                       #type: type,
@@ -1018,7 +1006,7 @@ class MockLogsViewModel extends _i1.Mock implements _i19.LogsViewModel {
                   ),
                 ),
           )
-          as _i12.Future<_i18.ResultDart<_i21.Domain, Exception>>);
+          as _i11.Future<_i17.ResultDart<_i20.Domain, Exception>>);
 
   @override
   void setStatusSelected(List<int>? values) => super.noSuchMethod(
@@ -1096,11 +1084,11 @@ class MockLogsViewModel extends _i1.Mock implements _i19.LogsViewModel {
 
   @override
   void update({
-    _i22.MetricsRepository? metricsRepository,
-    _i23.DomainRepository? domainRepository,
+    _i21.MetricsRepository? metricsRepository,
+    _i22.DomainRepository? domainRepository,
     String? apiVersion,
     List<String>? topClientNames,
-    _i14.VoidCallback? onRefreshClients,
+    _i13.VoidCallback? onRefreshClients,
   }) => super.noSuchMethod(
     Invocation.method(#update, [], {
       #metricsRepository: metricsRepository,
@@ -1131,16 +1119,16 @@ class MockLogsViewModel extends _i1.Mock implements _i19.LogsViewModel {
   );
 
   @override
-  _i12.Future<void> initializeLoad() =>
+  _i11.Future<void> initializeLoad() =>
       (super.noSuchMethod(
             Invocation.method(#initializeLoad, []),
-            returnValue: _i12.Future<void>.value(),
-            returnValueForMissingStub: _i12.Future<void>.value(),
+            returnValue: _i11.Future<void>.value(),
+            returnValueForMissingStub: _i11.Future<void>.value(),
           )
-          as _i12.Future<void>);
+          as _i11.Future<void>);
 
   @override
-  _i12.Future<void> applyFilterAndLoad({
+  _i11.Future<void> applyFilterAndLoad({
     DateTime? inStartTime,
     DateTime? inEndTime,
   }) =>
@@ -1149,10 +1137,10 @@ class MockLogsViewModel extends _i1.Mock implements _i19.LogsViewModel {
               #inStartTime: inStartTime,
               #inEndTime: inEndTime,
             }),
-            returnValue: _i12.Future<void>.value(),
-            returnValueForMissingStub: _i12.Future<void>.value(),
+            returnValue: _i11.Future<void>.value(),
+            returnValueForMissingStub: _i11.Future<void>.value(),
           )
-          as _i12.Future<void>);
+          as _i11.Future<void>);
 
   @override
   void resetLogs() => super.noSuchMethod(
@@ -1161,16 +1149,16 @@ class MockLogsViewModel extends _i1.Mock implements _i19.LogsViewModel {
   );
 
   @override
-  _i12.Future<void> enqueueLoadMore() =>
+  _i11.Future<void> enqueueLoadMore() =>
       (super.noSuchMethod(
             Invocation.method(#enqueueLoadMore, []),
-            returnValue: _i12.Future<void>.value(),
-            returnValueForMissingStub: _i12.Future<void>.value(),
+            returnValue: _i11.Future<void>.value(),
+            returnValueForMissingStub: _i11.Future<void>.value(),
           )
-          as _i12.Future<void>);
+          as _i11.Future<void>);
 
   @override
-  void setSelectedLog(_i20.Log? log) => super.noSuchMethod(
+  void setSelectedLog(_i19.Log? log) => super.noSuchMethod(
     Invocation.method(#setSelectedLog, [log]),
     returnValueForMissingStub: null,
   );
@@ -1210,13 +1198,13 @@ class MockLogsViewModel extends _i1.Mock implements _i19.LogsViewModel {
   );
 
   @override
-  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );
@@ -1231,7 +1219,7 @@ class MockLogsViewModel extends _i1.Mock implements _i19.LogsViewModel {
 /// A class which mocks [StatusViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockStatusViewModel extends _i1.Mock implements _i24.StatusViewModel {
+class MockStatusViewModel extends _i1.Mock implements _i23.StatusViewModel {
   MockStatusViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -1297,10 +1285,10 @@ class MockStatusViewModel extends _i1.Mock implements _i24.StatusViewModel {
 
   @override
   void update({
-    _i25.RealtimeStatusRepository? realtimeStatusRepository,
-    _i22.MetricsRepository? metricsRepository,
-    _i26.DnsRepository? dnsRepository,
-    _i27.FtlRepository? ftlRepository,
+    _i24.RealtimeStatusRepository? realtimeStatusRepository,
+    _i21.MetricsRepository? metricsRepository,
+    _i25.DnsRepository? dnsRepository,
+    _i26.FtlRepository? ftlRepository,
     String? apiVersion,
     String? selectedServerAddress,
     String? selectedServerAlias,
@@ -1344,12 +1332,12 @@ class MockStatusViewModel extends _i1.Mock implements _i24.StatusViewModel {
   );
 
   @override
-  _i12.Future<bool> refreshOnce() =>
+  _i11.Future<bool> refreshOnce() =>
       (super.noSuchMethod(
             Invocation.method(#refreshOnce, []),
-            returnValue: _i12.Future<bool>.value(false),
+            returnValue: _i11.Future<bool>.value(false),
           )
-          as _i12.Future<bool>);
+          as _i11.Future<bool>);
 
   @override
   void stopAutoRefresh({bool? showLoadingIndicator = true}) =>
@@ -1367,13 +1355,13 @@ class MockStatusViewModel extends _i1.Mock implements _i24.StatusViewModel {
   );
 
   @override
-  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );
@@ -1388,7 +1376,7 @@ class MockStatusViewModel extends _i1.Mock implements _i24.StatusViewModel {
 /// A class which mocks [DomainsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDomainsViewModel extends _i1.Mock implements _i28.DomainsViewModel {
+class MockDomainsViewModel extends _i1.Mock implements _i27.DomainsViewModel {
   MockDomainsViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -1405,15 +1393,15 @@ class MockDomainsViewModel extends _i1.Mock implements _i28.DomainsViewModel {
           as _i3.Command<void, void>);
 
   @override
-  _i3.Command<_i21.Domain, void> get deleteDomain =>
+  _i3.Command<_i20.Domain, void> get deleteDomain =>
       (super.noSuchMethod(
             Invocation.getter(#deleteDomain),
-            returnValue: _FakeCommand_1<_i21.Domain, void>(
+            returnValue: _FakeCommand_1<_i20.Domain, void>(
               this,
               Invocation.getter(#deleteDomain),
             ),
           )
-          as _i3.Command<_i21.Domain, void>);
+          as _i3.Command<_i20.Domain, void>);
 
   @override
   _i3.Command<({String domain, _i8.DomainKind kind, _i8.DomainType type}), void>
@@ -1432,47 +1420,47 @@ class MockDomainsViewModel extends _i1.Mock implements _i28.DomainsViewModel {
           >);
 
   @override
-  _i3.Command<_i21.Domain, void> get updateDomain =>
+  _i3.Command<_i20.Domain, void> get updateDomain =>
       (super.noSuchMethod(
             Invocation.getter(#updateDomain),
-            returnValue: _FakeCommand_1<_i21.Domain, void>(
+            returnValue: _FakeCommand_1<_i20.Domain, void>(
               this,
               Invocation.getter(#updateDomain),
             ),
           )
-          as _i3.Command<_i21.Domain, void>);
+          as _i3.Command<_i20.Domain, void>);
 
   @override
-  List<_i21.Domain> get allowlistDomains =>
+  List<_i20.Domain> get allowlistDomains =>
       (super.noSuchMethod(
             Invocation.getter(#allowlistDomains),
-            returnValue: <_i21.Domain>[],
+            returnValue: <_i20.Domain>[],
           )
-          as List<_i21.Domain>);
+          as List<_i20.Domain>);
 
   @override
-  List<_i21.Domain> get blocklistDomains =>
+  List<_i20.Domain> get blocklistDomains =>
       (super.noSuchMethod(
             Invocation.getter(#blocklistDomains),
-            returnValue: <_i21.Domain>[],
+            returnValue: <_i20.Domain>[],
           )
-          as List<_i21.Domain>);
+          as List<_i20.Domain>);
 
   @override
-  List<_i21.Domain> get filteredAllowlistDomains =>
+  List<_i20.Domain> get filteredAllowlistDomains =>
       (super.noSuchMethod(
             Invocation.getter(#filteredAllowlistDomains),
-            returnValue: <_i21.Domain>[],
+            returnValue: <_i20.Domain>[],
           )
-          as List<_i21.Domain>);
+          as List<_i20.Domain>);
 
   @override
-  List<_i21.Domain> get filteredBlocklistDomains =>
+  List<_i20.Domain> get filteredBlocklistDomains =>
       (super.noSuchMethod(
             Invocation.getter(#filteredBlocklistDomains),
-            returnValue: <_i21.Domain>[],
+            returnValue: <_i20.Domain>[],
           )
-          as List<_i21.Domain>);
+          as List<_i20.Domain>);
 
   @override
   String get searchTerm =>
@@ -1513,7 +1501,7 @@ class MockDomainsViewModel extends _i1.Mock implements _i28.DomainsViewModel {
   );
 
   @override
-  set deleteDomain(_i3.Command<_i21.Domain, void>? value) => super.noSuchMethod(
+  set deleteDomain(_i3.Command<_i20.Domain, void>? value) => super.noSuchMethod(
     Invocation.setter(#deleteDomain, value),
     returnValueForMissingStub: null,
   );
@@ -1531,7 +1519,7 @@ class MockDomainsViewModel extends _i1.Mock implements _i28.DomainsViewModel {
   );
 
   @override
-  set updateDomain(_i3.Command<_i21.Domain, void>? value) => super.noSuchMethod(
+  set updateDomain(_i3.Command<_i20.Domain, void>? value) => super.noSuchMethod(
     Invocation.setter(#updateDomain, value),
     returnValueForMissingStub: null,
   );
@@ -1542,7 +1530,7 @@ class MockDomainsViewModel extends _i1.Mock implements _i28.DomainsViewModel {
           as bool);
 
   @override
-  void update({_i23.DomainRepository? domainRepository}) => super.noSuchMethod(
+  void update({_i22.DomainRepository? domainRepository}) => super.noSuchMethod(
     Invocation.method(#update, [], {#domainRepository: domainRepository}),
     returnValueForMissingStub: null,
   );
@@ -1554,7 +1542,7 @@ class MockDomainsViewModel extends _i1.Mock implements _i28.DomainsViewModel {
   );
 
   @override
-  void setSelectedDomain(_i21.Domain? domain) => super.noSuchMethod(
+  void setSelectedDomain(_i20.Domain? domain) => super.noSuchMethod(
     Invocation.method(#setSelectedDomain, [domain]),
     returnValueForMissingStub: null,
   );
@@ -1590,13 +1578,13 @@ class MockDomainsViewModel extends _i1.Mock implements _i28.DomainsViewModel {
   );
 
   @override
-  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );
@@ -1611,7 +1599,7 @@ class MockDomainsViewModel extends _i1.Mock implements _i28.DomainsViewModel {
 /// A class which mocks [ClientsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockClientsViewModel extends _i1.Mock implements _i29.ClientsViewModel {
+class MockClientsViewModel extends _i1.Mock implements _i28.ClientsViewModel {
   MockClientsViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -1671,31 +1659,31 @@ class MockClientsViewModel extends _i1.Mock implements _i29.ClientsViewModel {
           >);
 
   @override
-  _i3.Command<_i30.ManagedClient, void> get deleteClient =>
+  _i3.Command<_i29.ManagedClient, void> get deleteClient =>
       (super.noSuchMethod(
             Invocation.getter(#deleteClient),
-            returnValue: _FakeCommand_1<_i30.ManagedClient, void>(
+            returnValue: _FakeCommand_1<_i29.ManagedClient, void>(
               this,
               Invocation.getter(#deleteClient),
             ),
           )
-          as _i3.Command<_i30.ManagedClient, void>);
+          as _i3.Command<_i29.ManagedClient, void>);
 
   @override
-  List<_i30.ManagedClient> get clients =>
+  List<_i29.ManagedClient> get clients =>
       (super.noSuchMethod(
             Invocation.getter(#clients),
-            returnValue: <_i30.ManagedClient>[],
+            returnValue: <_i29.ManagedClient>[],
           )
-          as List<_i30.ManagedClient>);
+          as List<_i29.ManagedClient>);
 
   @override
-  List<_i30.ManagedClient> get filteredClients =>
+  List<_i29.ManagedClient> get filteredClients =>
       (super.noSuchMethod(
             Invocation.getter(#filteredClients),
-            returnValue: <_i30.ManagedClient>[],
+            returnValue: <_i29.ManagedClient>[],
           )
-          as List<_i30.ManagedClient>);
+          as List<_i29.ManagedClient>);
 
   @override
   String get searchTerm =>
@@ -1714,12 +1702,12 @@ class MockClientsViewModel extends _i1.Mock implements _i29.ClientsViewModel {
           as bool);
 
   @override
-  List<_i31.DeviceOption> get deviceOptions =>
+  List<_i30.DeviceOption> get deviceOptions =>
       (super.noSuchMethod(
             Invocation.getter(#deviceOptions),
-            returnValue: <_i31.DeviceOption>[],
+            returnValue: <_i30.DeviceOption>[],
           )
-          as List<_i31.DeviceOption>);
+          as List<_i30.DeviceOption>);
 
   @override
   Map<String, String> get ipToMac =>
@@ -1784,7 +1772,7 @@ class MockClientsViewModel extends _i1.Mock implements _i29.ClientsViewModel {
   );
 
   @override
-  set deleteClient(_i3.Command<_i30.ManagedClient, void>? value) =>
+  set deleteClient(_i3.Command<_i29.ManagedClient, void>? value) =>
       super.noSuchMethod(
         Invocation.setter(#deleteClient, value),
         returnValueForMissingStub: null,
@@ -1820,13 +1808,13 @@ class MockClientsViewModel extends _i1.Mock implements _i29.ClientsViewModel {
   );
 
   @override
-  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );
@@ -1841,7 +1829,7 @@ class MockClientsViewModel extends _i1.Mock implements _i29.ClientsViewModel {
 /// A class which mocks [GroupsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGroupsViewModel extends _i1.Mock implements _i32.GroupsViewModel {
+class MockGroupsViewModel extends _i1.Mock implements _i31.GroupsViewModel {
   MockGroupsViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -1898,31 +1886,31 @@ class MockGroupsViewModel extends _i1.Mock implements _i32.GroupsViewModel {
           >);
 
   @override
-  _i3.Command<_i33.Group, void> get deleteGroup =>
+  _i3.Command<_i32.Group, void> get deleteGroup =>
       (super.noSuchMethod(
             Invocation.getter(#deleteGroup),
-            returnValue: _FakeCommand_1<_i33.Group, void>(
+            returnValue: _FakeCommand_1<_i32.Group, void>(
               this,
               Invocation.getter(#deleteGroup),
             ),
           )
-          as _i3.Command<_i33.Group, void>);
+          as _i3.Command<_i32.Group, void>);
 
   @override
-  List<_i33.Group> get groups =>
+  List<_i32.Group> get groups =>
       (super.noSuchMethod(
             Invocation.getter(#groups),
-            returnValue: <_i33.Group>[],
+            returnValue: <_i32.Group>[],
           )
-          as List<_i33.Group>);
+          as List<_i32.Group>);
 
   @override
-  List<_i33.Group> get filteredGroups =>
+  List<_i32.Group> get filteredGroups =>
       (super.noSuchMethod(
             Invocation.getter(#filteredGroups),
-            returnValue: <_i33.Group>[],
+            returnValue: <_i32.Group>[],
           )
-          as List<_i33.Group>);
+          as List<_i32.Group>);
 
   @override
   String get searchTerm =>
@@ -1983,7 +1971,7 @@ class MockGroupsViewModel extends _i1.Mock implements _i32.GroupsViewModel {
   );
 
   @override
-  set deleteGroup(_i3.Command<_i33.Group, void>? value) => super.noSuchMethod(
+  set deleteGroup(_i3.Command<_i32.Group, void>? value) => super.noSuchMethod(
     Invocation.setter(#deleteGroup, value),
     returnValueForMissingStub: null,
   );
@@ -2012,13 +2000,13 @@ class MockGroupsViewModel extends _i1.Mock implements _i32.GroupsViewModel {
   );
 
   @override
-  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );
@@ -2033,7 +2021,7 @@ class MockGroupsViewModel extends _i1.Mock implements _i32.GroupsViewModel {
 /// A class which mocks [AdlistsViewModel].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAdlistsViewModel extends _i1.Mock implements _i34.AdlistsViewModel {
+class MockAdlistsViewModel extends _i1.Mock implements _i33.AdlistsViewModel {
   MockAdlistsViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -2050,15 +2038,15 @@ class MockAdlistsViewModel extends _i1.Mock implements _i34.AdlistsViewModel {
           as _i3.Command<void, void>);
 
   @override
-  _i3.Command<_i35.Adlist, void> get deleteAdlist =>
+  _i3.Command<_i34.Adlist, void> get deleteAdlist =>
       (super.noSuchMethod(
             Invocation.getter(#deleteAdlist),
-            returnValue: _FakeCommand_1<_i35.Adlist, void>(
+            returnValue: _FakeCommand_1<_i34.Adlist, void>(
               this,
               Invocation.getter(#deleteAdlist),
             ),
           )
-          as _i3.Command<_i35.Adlist, void>);
+          as _i3.Command<_i34.Adlist, void>);
 
   @override
   _i3.Command<
@@ -2098,47 +2086,47 @@ class MockAdlistsViewModel extends _i1.Mock implements _i34.AdlistsViewModel {
           >);
 
   @override
-  _i3.Command<_i35.Adlist, void> get updateAdlist =>
+  _i3.Command<_i34.Adlist, void> get updateAdlist =>
       (super.noSuchMethod(
             Invocation.getter(#updateAdlist),
-            returnValue: _FakeCommand_1<_i35.Adlist, void>(
+            returnValue: _FakeCommand_1<_i34.Adlist, void>(
               this,
               Invocation.getter(#updateAdlist),
             ),
           )
-          as _i3.Command<_i35.Adlist, void>);
+          as _i3.Command<_i34.Adlist, void>);
 
   @override
-  List<_i35.Adlist> get allowlistAdlists =>
+  List<_i34.Adlist> get allowlistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#allowlistAdlists),
-            returnValue: <_i35.Adlist>[],
+            returnValue: <_i34.Adlist>[],
           )
-          as List<_i35.Adlist>);
+          as List<_i34.Adlist>);
 
   @override
-  List<_i35.Adlist> get blocklistAdlists =>
+  List<_i34.Adlist> get blocklistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#blocklistAdlists),
-            returnValue: <_i35.Adlist>[],
+            returnValue: <_i34.Adlist>[],
           )
-          as List<_i35.Adlist>);
+          as List<_i34.Adlist>);
 
   @override
-  List<_i35.Adlist> get filteredAllowlistAdlists =>
+  List<_i34.Adlist> get filteredAllowlistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#filteredAllowlistAdlists),
-            returnValue: <_i35.Adlist>[],
+            returnValue: <_i34.Adlist>[],
           )
-          as List<_i35.Adlist>);
+          as List<_i34.Adlist>);
 
   @override
-  List<_i35.Adlist> get filteredBlocklistAdlists =>
+  List<_i34.Adlist> get filteredBlocklistAdlists =>
       (super.noSuchMethod(
             Invocation.getter(#filteredBlocklistAdlists),
-            returnValue: <_i35.Adlist>[],
+            returnValue: <_i34.Adlist>[],
           )
-          as List<_i35.Adlist>);
+          as List<_i34.Adlist>);
 
   @override
   String get searchTerm =>
@@ -2171,7 +2159,7 @@ class MockAdlistsViewModel extends _i1.Mock implements _i34.AdlistsViewModel {
   );
 
   @override
-  set deleteAdlist(_i3.Command<_i35.Adlist, void>? value) => super.noSuchMethod(
+  set deleteAdlist(_i3.Command<_i34.Adlist, void>? value) => super.noSuchMethod(
     Invocation.setter(#deleteAdlist, value),
     returnValueForMissingStub: null,
   );
@@ -2195,7 +2183,7 @@ class MockAdlistsViewModel extends _i1.Mock implements _i34.AdlistsViewModel {
   );
 
   @override
-  set updateAdlist(_i3.Command<_i35.Adlist, void>? value) => super.noSuchMethod(
+  set updateAdlist(_i3.Command<_i34.Adlist, void>? value) => super.noSuchMethod(
     Invocation.setter(#updateAdlist, value),
     returnValueForMissingStub: null,
   );
@@ -2242,13 +2230,13 @@ class MockAdlistsViewModel extends _i1.Mock implements _i34.AdlistsViewModel {
   );
 
   @override
-  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );
@@ -2264,7 +2252,7 @@ class MockAdlistsViewModel extends _i1.Mock implements _i34.AdlistsViewModel {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGravityUpdateViewModel extends _i1.Mock
-    implements _i36.GravityUpdateViewModel {
+    implements _i35.GravityUpdateViewModel {
   MockGravityUpdateViewModel() {
     _i1.throwOnMissingStub(this);
   }
@@ -2299,12 +2287,12 @@ class MockGravityUpdateViewModel extends _i1.Mock
           as bool);
 
   @override
-  List<_i37.FtlMessage> get messages =>
+  List<_i36.FtlMessage> get messages =>
       (super.noSuchMethod(
             Invocation.getter(#messages),
-            returnValue: <_i37.FtlMessage>[],
+            returnValue: <_i36.FtlMessage>[],
           )
-          as List<_i37.FtlMessage>);
+          as List<_i36.FtlMessage>);
 
   @override
   set removeMessage(_i3.Command<int, void>? value) => super.noSuchMethod(
@@ -2355,8 +2343,8 @@ class MockGravityUpdateViewModel extends _i1.Mock
 
   @override
   void update({
-    _i38.ActionsRepository? actionsRepository,
-    _i27.FtlRepository? ftlRepository,
+    _i37.ActionsRepository? actionsRepository,
+    _i26.FtlRepository? ftlRepository,
     String? serverAddress,
   }) => super.noSuchMethod(
     Invocation.method(#update, [], {
@@ -2368,22 +2356,22 @@ class MockGravityUpdateViewModel extends _i1.Mock
   );
 
   @override
-  _i12.Future<void> load() =>
+  _i11.Future<void> load() =>
       (super.noSuchMethod(
             Invocation.method(#load, []),
-            returnValue: _i12.Future<void>.value(),
-            returnValueForMissingStub: _i12.Future<void>.value(),
+            returnValue: _i11.Future<void>.value(),
+            returnValueForMissingStub: _i11.Future<void>.value(),
           )
-          as _i12.Future<void>);
+          as _i11.Future<void>);
 
   @override
-  _i12.Future<void> start() =>
+  _i11.Future<void> start() =>
       (super.noSuchMethod(
             Invocation.method(#start, []),
-            returnValue: _i12.Future<void>.value(),
-            returnValueForMissingStub: _i12.Future<void>.value(),
+            returnValue: _i11.Future<void>.value(),
+            returnValueForMissingStub: _i11.Future<void>.value(),
           )
-          as _i12.Future<void>);
+          as _i11.Future<void>);
 
   @override
   void reset() => super.noSuchMethod(
@@ -2398,13 +2386,13 @@ class MockGravityUpdateViewModel extends _i1.Mock
   );
 
   @override
-  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#addListener, [listener]),
     returnValueForMissingStub: null,
   );
 
   @override
-  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
     Invocation.method(#removeListener, [listener]),
     returnValueForMissingStub: null,
   );

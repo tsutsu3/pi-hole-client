@@ -5,6 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
+import 'package:pi_hole_client/data/repositories/local/app_log_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/app_log_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
@@ -54,6 +56,7 @@ Widget buildTestApp(
   SecureStorageService? secureStorageService,
   ServerRepository? serverRepository,
   TotpPromptGuard? totpPromptGuard,
+  AppLogRepository? appLogRepository,
   bool useScaffold = true,
   GoRouter? router,
 }) {
@@ -104,6 +107,9 @@ Widget buildTestApp(
         Provider<ServerRepository>.value(value: serverRepository),
       Provider<TotpPromptGuard>.value(
         value: totpPromptGuard ?? FakeTotpPromptGuard(),
+      ),
+      Provider<AppLogRepository>.value(
+        value: appLogRepository ?? LocalAppLogRepository(),
       ),
     ],
     child: app,

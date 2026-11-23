@@ -1,5 +1,7 @@
 import 'package:command_it/command_it.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/data/repositories/local/app_log_repository.dart';
+import 'package:pi_hole_client/domain/model/app/app_log_type.dart';
 import 'package:pi_hole_client/domain/model/dns/dns.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/secret_input.dart';
@@ -70,6 +72,7 @@ void main() {
     late FakeAuthRepository authRepository;
     late FakeDnsRepository dnsRepository;
     late FakeTotpPromptGuard totpPromptGuard;
+    late LocalAppLogRepository appLogRepository;
     String? bundleToken;
 
     setUp(() {
@@ -79,6 +82,7 @@ void main() {
       authRepository = FakeAuthRepository();
       dnsRepository = FakeDnsRepository();
       totpPromptGuard = FakeTotpPromptGuard();
+      appLogRepository = LocalAppLogRepository();
       bundleToken = null;
     });
 
@@ -102,9 +106,17 @@ void main() {
           );
         },
         totpPromptGuard: totpPromptGuard,
+        appLogRepository: appLogRepository,
       );
       addTearDown(vm.dispose);
       return vm;
+    }
+
+    /// Checks that one connection failure was recorded with [message].
+    void expectConnectFailureLog(String message) {
+      final log = appLogRepository.logs.single;
+      expect(log.type, AppLogType.connection.name);
+      expect(log.message, contains(message));
     }
 
     SaveServerRequest createReq({
@@ -179,6 +191,7 @@ void main() {
         });
         expect(bundleToken, isNull);
         expect(authRepository.createSessionCallCount, 1);
+        expect(appLogRepository.logs, isEmpty);
       });
 
       test('v5 success checks with the given token, then stores it', () async {
@@ -242,6 +255,7 @@ void main() {
         expect((outcome as SaveApiError).version, SupportedApiVersions.v6);
         expect(serversViewModel.storedRows, isEmpty);
         expect(serversViewModel.storedSecrets, isEmpty);
+        expectConnectFailureLog('Force createSession failure');
       });
 
       test('a failed status check after the login returns SaveApiError, '
@@ -462,6 +476,7 @@ void main() {
         expect(authRepository.createSessionCallCount, 0);
         expect(statusViewModel.stopAutoRefreshCallCount, 1);
         expect(statusViewModel.startAutoRefreshCallCount, 1);
+        expect(appLogRepository.logs, isEmpty);
       });
 
       test('address change moves the row and the password to the new '
@@ -538,6 +553,7 @@ void main() {
         expectOldServerKept();
         expect(serversViewModel.deletedSidAddresses, [_newAddress]);
         expect(statusViewModel.startAutoRefreshCallCount, 1);
+        expectConnectFailureLog('Force createSession failure');
       });
 
       test('same-address new password is checked with a new login', () async {
