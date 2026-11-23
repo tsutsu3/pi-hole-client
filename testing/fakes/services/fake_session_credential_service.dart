@@ -1,10 +1,12 @@
 import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
 
 class FakeSessionCredentialService implements SessionCredentialService {
   bool shouldFailSave = false;
   bool shouldFailRead = false;
   bool shouldFailSidRead = false;
+  bool shouldFailPasswordRead = false;
   bool shouldFailDelete = false;
   int deleteSidCallCount = 0;
   int saveSidCallCount = 0;
@@ -12,15 +14,17 @@ class FakeSessionCredentialService implements SessionCredentialService {
 
   String addressPassword = 'pass123';
   String addressToken = 'token123';
-  String addressSid = 'sid123';
+
+  /// The stored SID. `null` means no SID is stored.
+  String? addressSid = 'sid123';
 
   @override
   String get address => 'fake_address';
 
   @override
   Future<Result<String>> get password async {
-    if (shouldFailRead) {
-      return Failure(Exception('Forced read failure'));
+    if (shouldFailRead || shouldFailPasswordRead) {
+      return Failure(SecureStorageException('Forced read failure'));
     }
     return Success(addressPassword);
   }
@@ -28,7 +32,7 @@ class FakeSessionCredentialService implements SessionCredentialService {
   @override
   Future<Result<String>> get token async {
     if (shouldFailRead) {
-      return Failure(Exception('Forced read failure'));
+      return Failure(SecureStorageException('Forced read failure'));
     }
     return Success(addressToken);
   }
@@ -36,9 +40,10 @@ class FakeSessionCredentialService implements SessionCredentialService {
   @override
   Future<Result<String>> get sid async {
     if (shouldFailRead || shouldFailSidRead) {
-      return Failure(Exception('Forced read failure'));
+      return Failure(SecureStorageException('Forced read failure'));
     }
-    return Success(addressSid);
+    final sid = addressSid;
+    return sid != null ? Success(sid) : Failure(ValueNotFoundException());
   }
 
   @override

@@ -33,6 +33,17 @@ void main() {
       final result = await repository.fetchBlockingStatus();
       expectError(result, messageContains: 'Forced getDnsBlocking failure');
     });
+
+    test(
+      'returns the renewal error when the session cannot be renewed',
+      () async {
+        creds.addressSid = null;
+        client.shouldFail = true;
+
+        final result = await repository.fetchBlockingStatus();
+        expectError(result, messageContains: 'Forced postAuth failure');
+      },
+    );
   });
 
   group('enableBlocking', () {

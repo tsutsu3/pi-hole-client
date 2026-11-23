@@ -94,7 +94,7 @@ void main() {
       () async {
         client.shouldReturnNoPasswordSession = true;
         creds
-          ..shouldFailSidRead = true
+          ..addressSid = null
           ..addressPassword = 'typed-by-mistake';
 
         final result = await repository.createSession('typed-by-mistake');

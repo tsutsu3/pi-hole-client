@@ -5,6 +5,7 @@ import 'package:pi_hole_client/domain/model/server/server_auth.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
+import 'package:result_dart/result_dart.dart';
 
 /// Whether a 2FA server needs the user to enter a TOTP code.
 enum ReauthState {
@@ -75,9 +76,12 @@ class V6SessionCache {
       final r = await _creds.sid;
       final String sid;
       if (r.isError()) {
-        // No SID + empty password = no-auth server: use an empty SID. A failed
-        // password read is a real storage error, so still throw in that case.
+        // A storage error is not a missing SID. Report it as it is, so that it
+        // does not start a session renewal.
+        _throwIfReadError(r);
+        // No SID + empty password = no-auth server: use an empty SID.
         final pwResult = await _creds.password;
+        _throwIfReadError(pwResult);
         if (pwResult.isError()) throw SidNotFoundException();
         final auth = V6ServerAuth.of(pwResult.getOrThrow());
         switch (auth) {
@@ -109,6 +113,9 @@ class V6SessionCache {
 
   /// Clears the cache and triggers session renewal, deduplicating concurrent
   /// calls so that only one re-authentication request is made.
+  ///
+  /// Throws the error when the renewal fails, so that the caller gets the
+  /// real cause.
   Future<void> clearAndRenewSid() async {
     // Already waiting for interactive re-auth - don't retry postAuth, which
     // would only fail again and risk the server's 2FA rate limit.
@@ -125,6 +132,7 @@ class V6SessionCache {
     } catch (e) {
       logger.w('[V6SessionCache] Session renewal failed: $e');
       await WidgetChannel.sendSidInvalidated(serverAddress: _creds.address);
+      rethrow;
     }
   }
 
@@ -173,9 +181,19 @@ class V6SessionCache {
     _sid = null;
   }
 
+  /// Throws the error of [result] when it is a storage error.
+  /// A missing value ([ValueNotFoundException]) is not thrown.
+  void _throwIfReadError(Result<String> result) {
+    final error = result.exceptionOrNull();
+    if (error != null && error is! ValueNotFoundException) throw error;
+  }
+
   Future<void> _renew() async {
-    final pw = (await _creds.password).getOrNull() ?? '';
-    final auth = V6ServerAuth.of(pw);
+    // A storage error must not look like a no-auth server, which would delete
+    // the SID.
+    final pwResult = await _creds.password;
+    _throwIfReadError(pwResult);
+    final auth = V6ServerAuth.of(pwResult.getOrNull() ?? '');
     switch (auth) {
       case NoAuth():
         _clear();
