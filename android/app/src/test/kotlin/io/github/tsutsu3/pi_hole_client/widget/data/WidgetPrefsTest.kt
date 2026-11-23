@@ -77,6 +77,34 @@ class WidgetPrefsTest {
     }
 
     @Test
+    fun updateSession_savesSidAndMarksItValid() {
+        prefs.saveSid("http://update", "old")
+        prefs.setSidValid("http://update", false)
+
+        prefs.updateSession("http://update", "new")
+
+        assertEquals("new", prefs.getSid("http://update"))
+        assertTrue(prefs.hasUsableSession("http://update"))
+    }
+
+    @Test
+    fun invalidateSidIfCurrent_invalidatesWhenSidUnchanged() {
+        prefs.updateSession("http://same", "abc123")
+
+        assertTrue(prefs.invalidateSidIfCurrent("http://same", "abc123"))
+        assertFalse(prefs.hasUsableSession("http://same"))
+    }
+
+    @Test
+    fun invalidateSidIfCurrent_keepsNewerSidValid() {
+        // A worker got 401 with "old" after the app pushed "new".
+        prefs.updateSession("http://race", "new")
+
+        assertFalse(prefs.invalidateSidIfCurrent("http://race", "old"))
+        assertTrue(prefs.hasUsableSession("http://race"))
+    }
+
+    @Test
     fun remapServer_movesOnlyWidgetsBoundToTheOldServer() {
         prefs.setServerForWidget(1, "http://old")
         prefs.setServerForWidget(2, "http://old")

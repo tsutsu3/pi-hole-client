@@ -11,6 +11,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
 import io.github.tsutsu3.pi_hole_client.widget.WidgetDebugConfig
+import io.github.tsutsu3.pi_hole_client.widget.WidgetUpdateHelper
 import io.github.tsutsu3.pi_hole_client.widget.common.PaddResponseParser
 import io.github.tsutsu3.pi_hole_client.widget.common.PiHoleApiClient
 import io.github.tsutsu3.pi_hole_client.widget.common.piholeUrl
@@ -78,10 +79,17 @@ class ServerPaddWorker(
 
         val resp = client.getWithRetry(piholeUrl(server.address, "/api/padd"), sid)
 
+        if (PiHoleApiClient.isAuthFailure(resp.statusCode) &&
+            !prefs.invalidateSidIfCurrent(serverId, sid)
+        ) {
+            // The app pushed a newer SID while this request was in flight.
+            WidgetUpdateHelper.refreshWithNewerSid(applicationContext, serverId)
+            return Result.success()
+        }
+
         val state = when {
             PiHoleApiClient.isAuthFailure(resp.statusCode) -> {
                 if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Auth failure: ${resp.statusCode}")
-                prefs.setSidValid(serverId, false)
                 PaddResponseParser.placeholderState(serverId, server.alias, WidgetStatus.AUTH_REQUIRED, false)
             }
             resp.statusCode !in 200..299 -> {
