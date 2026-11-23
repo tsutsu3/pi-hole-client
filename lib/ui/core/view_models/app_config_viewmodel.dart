@@ -320,6 +320,7 @@ class AppConfigViewModel with ChangeNotifier {
   }
 
   Future<bool> setDisableDurations(List<int> seconds) async {
+    if (!DisableDurations.isValid(seconds)) return false;
     final updated = await _repository.updateDisableDurations(seconds);
     if (updated.isSuccess()) {
       _disableDurations = List.unmodifiable(seconds);

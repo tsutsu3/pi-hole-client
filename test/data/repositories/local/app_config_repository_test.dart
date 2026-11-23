@@ -229,6 +229,18 @@ void main() {
       );
     });
 
+    test('updates disableDurations in database', () async {
+      final result = await repository.updateDisableDurations([
+        600,
+        1200,
+        2400,
+        3600,
+      ]);
+      expect(result.isSuccess(), true);
+      final data = await repository.fetchAppConfig();
+      expect(data.getOrNull()?.disableDurations, [600, 1200, 2400, 3600]);
+    });
+
     test('updates sendCrashReports in database', () async {
       final result = await repository.updateSendCrashReports(true);
       expect(result.isSuccess(), true);

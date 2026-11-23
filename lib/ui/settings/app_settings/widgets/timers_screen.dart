@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
@@ -78,18 +79,22 @@ class _TimersScreenState extends State<TimersScreen> {
     return seconds;
   }
 
-  bool get _allValid =>
-      List.generate(DisableDurations.count, _seconds).every((s) => s != null);
+  bool get _allValid => _entries.every((s) => s != null);
+
+  /// Current entries, in seconds (null where not valid).
+  List<int?> get _entries => List.generate(DisableDurations.count, _seconds);
 
   Future<void> _save() async {
-    final durations = List.generate(DisableDurations.count, (i) => _seconds(i)!)
-      ..sort();
+    final entries = _entries;
+    final durations = entries.cast<int>().toList()..sort();
     final appConfig = context.read<AppConfigViewModel>();
     final loc = AppLocalizations.of(context);
     final ok = await appConfig.setDisableDurations(durations);
     if (!mounted) return;
     if (ok) {
-      setState(() => _fill(durations));
+      // Show the saved (sorted) values, unless the user changed the form
+      // while saving: then keep their edits.
+      if (listEquals(_entries, entries)) setState(() => _fill(durations));
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfig,

@@ -4,6 +4,7 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/option_box.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/disable_duration_label.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/utils/disable_durations.dart';
 import 'package:provider/provider.dart';
 
 class DisableModal extends StatefulWidget {
@@ -67,9 +68,10 @@ class _DisableModalState extends State<DisableModal> {
       case 1:
       case 2:
       case 3:
-        return context
-            .read<AppConfigViewModel>()
-            .disableDurations[selectedOption!];
+        final durations = context.read<AppConfigViewModel>().disableDurations;
+        return selectedOption! < durations.length
+            ? durations[selectedOption!]
+            : DisableDurations.defaults[selectedOption!];
 
       case 4:
         return 0;
@@ -87,8 +89,12 @@ class _DisableModalState extends State<DisableModal> {
     final mediaQueryData = MediaQuery.of(context);
     // Timed options, set in Settings > App settings > Timers.
     final durations = context.watch<AppConfigViewModel>().disableDurations;
-    String durationLabel(int index) =>
-        disableDurationLabel(durations[index], AppLocalizations.of(context));
+    String durationLabel(int index) => disableDurationLabel(
+      index < durations.length
+          ? durations[index]
+          : DisableDurations.defaults[index],
+      AppLocalizations.of(context),
+    );
 
     Widget options() {
       return Wrap(

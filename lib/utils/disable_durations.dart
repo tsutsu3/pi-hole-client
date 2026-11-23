@@ -20,10 +20,15 @@ abstract final class DisableDurations {
         .split(',')
         .map((e) => int.tryParse(e.trim()))
         .whereType<int>()
-        .where((e) => e >= minSeconds && e <= maxSeconds)
         .toList();
-    return parsed.length == count ? parsed : defaults;
+    return isValid(parsed) ? parsed : defaults;
   }
+
+  /// Whether [durations] has [count] values between [minSeconds] and
+  /// [maxSeconds].
+  static bool isValid(List<int> durations) =>
+      durations.length == count &&
+      durations.every((e) => e >= minSeconds && e <= maxSeconds);
 
   /// Database value for [durations].
   static String serialize(List<int> durations) => durations.join(',');

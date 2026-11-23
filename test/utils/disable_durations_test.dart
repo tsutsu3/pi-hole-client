@@ -25,6 +25,14 @@ void main() {
     });
   });
 
+  test('isValid checks the count and the range', () {
+    expect(DisableDurations.isValid(DisableDurations.defaults), isTrue);
+    expect(DisableDurations.isValid([1, 2, 3, 86400]), isTrue);
+    expect(DisableDurations.isValid([1, 2, 3]), isFalse);
+    expect(DisableDurations.isValid([0, 2, 3, 4]), isFalse);
+    expect(DisableDurations.isValid([1, 2, 3, 86401]), isFalse);
+  });
+
   test('serialize is the inverse of parse', () {
     const durations = [45, 600, 3600, 86400];
     expect(
