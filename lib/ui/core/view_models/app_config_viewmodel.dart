@@ -339,6 +339,7 @@ class AppConfigViewModel with ChangeNotifier {
   }
 
   Future<bool> setWidgetDisableDuration(int seconds) async {
+    if (seconds < 0 || seconds > DisableDurations.maxSeconds) return false;
     final updated = await _repository.updateWidgetDisableDuration(seconds);
     if (updated.isSuccess()) {
       _widgetDisableDuration = seconds;

@@ -171,7 +171,7 @@ class WidgetPrefs private constructor(context: Context) {
 
     /**
      * How long a disable from a widget lasts, in seconds; 0 = indefinitely.
-     * Set in the app (Settings > App settings > Timers).
+     * Set in the app (Advanced settings > Disable timers).
      */
     var widgetDisableDuration: Long
         get() = prefs.getLong(WidgetConstants.KEY_WIDGET_DISABLE_DURATION, 0L).coerceAtLeast(0L)

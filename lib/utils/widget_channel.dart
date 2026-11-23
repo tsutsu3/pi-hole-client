@@ -94,7 +94,8 @@ class WidgetChannel {
     }
   }
 
-  /// Sends the widget settings from Settings > App settings > Timers.
+  /// Sends the widget settings from Settings > App settings > Advanced
+  /// settings > Disable timers.
   ///
   /// [disableDuration]: how long a disable from a widget lasts, in seconds
   /// (0 = indefinitely).
