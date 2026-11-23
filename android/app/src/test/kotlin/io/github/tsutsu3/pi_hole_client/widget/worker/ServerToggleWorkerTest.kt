@@ -12,10 +12,13 @@ import io.github.tsutsu3.pi_hole_client.widget.data.WidgetServer
 import io.mockk.every
 import io.mockk.mockkObject
 import io.mockk.unmockkAll
+import io.mockk.unmockkObject
 import io.mockk.verify
 import kotlinx.coroutines.runBlocking
+import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import okhttp3.mockwebserver.RecordedRequest
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -38,15 +41,7 @@ class ServerToggleWorkerTest {
         serverId = server.url("/").toString().trimEnd('/')
 
         val mock = io.mockk.mockk<WidgetPrefs>(relaxed = true)
-        every { mock.getServerInfo(serverId) } returns WidgetServer(
-            serverId = serverId,
-            alias = "test",
-            address = serverId,
-            apiVersion = "v6",
-            allowUntrustedCert = false,
-            ignoreCertificateErrors = false,
-            pinnedCertificateSha256 = null,
-        )
+        every { mock.getServerInfo(serverId) } returns testServer(serverId)
         every { mock.getWidgetIdsForServer(any(), any()) } returns IntArray(0)
         mockkObject(WidgetPrefs.Companion)
         every { WidgetPrefs.getInstance(any()) } returns mock
@@ -64,6 +59,16 @@ class ServerToggleWorkerTest {
         unmockkAll()
     }
 
+    private fun testServer(id: String) = WidgetServer(
+        serverId = id,
+        alias = "test",
+        address = id,
+        apiVersion = "v6",
+        allowUntrustedCert = false,
+        ignoreCertificateErrors = false,
+        pinnedCertificateSha256 = null,
+    )
+
     private fun runWorker() = runBlocking {
         TestListenableWorkerBuilder<ServerToggleWorker>(
             ApplicationProvider.getApplicationContext<Context>(),
@@ -71,6 +76,34 @@ class ServerToggleWorkerTest {
             .setInputData(workDataOf(WidgetConstants.EXTRA_SERVER_ID to serverId))
             .build()
             .doWork()
+    }
+
+    /** Switches to a real [WidgetPrefs] that holds the server and the SID "old". */
+    private fun useRealPrefs() {
+        unmockkObject(WidgetPrefs.Companion)
+        WidgetPrefs.clearInstanceForTest()
+        prefs = WidgetPrefs.getInstance(ApplicationProvider.getApplicationContext<Context>())
+        prefs.saveServers(listOf(testServer(serverId)))
+        prefs.updateSession(serverId, "old")
+    }
+
+    /**
+     * Answers 401 to [method] and 200 to the other one. With [renewFirst], the
+     * app pushes the SID "new" before the 401.
+     */
+    private fun authFailureOn(method: String, renewFirst: Boolean) = object : Dispatcher() {
+        override fun dispatch(request: RecordedRequest): MockResponse {
+            if (request.method != method) {
+                return MockResponse().setResponseCode(200).setBody("""{"blocking":"enabled"}""")
+            }
+            if (renewFirst) prefs.updateSession(serverId, "new")
+            return MockResponse().setResponseCode(401)
+        }
+    }
+
+    private fun assertSession(sid: String, usable: Boolean) {
+        assertEquals(sid, prefs.getSid(serverId))
+        assertEquals(usable, prefs.hasUsableSession(serverId))
     }
 
     @Test
@@ -159,5 +192,68 @@ class ServerToggleWorkerTest {
 
         verify { WidgetUpdateHelper.refreshWidgetsForServer(any(), serverId, any(), any(), any()) }
         assertEquals(0, server.requestCount)
+    }
+
+    // 1. The widget holds an expired SID "old".
+    // 2. The user taps the toggle. The widget sends the status GET with "old".
+    // 3. Pi-hole answers 401.
+    // 4. The app does nothing.
+    // Expected: "old" becomes invalid.
+    @Test
+    fun authFailureOnTheStatusGetInvalidatesTheSidItUsed() {
+        useRealPrefs()
+        server.dispatcher = authFailureOn("GET", renewFirst = false)
+
+        runWorker()
+
+        assertSession(sid = "old", usable = false)
+    }
+
+    // 1. The widget holds an expired SID "old".
+    // 2. The user taps the toggle. The widget sends the status GET with "old".
+    // 3. Before the 401 arrives, the user opens the app. The app logs in again
+    //    and pushes the new SID "new" to the widget.
+    // 4. The widget gets the 401.
+    // Expected: "new" stays valid.
+    @Test
+    fun authFailureOnTheStatusGetKeepsASidRenewedMeanwhile() {
+        useRealPrefs()
+        server.dispatcher = authFailureOn("GET", renewFirst = true)
+
+        runWorker()
+
+        assertSession(sid = "new", usable = true)
+    }
+
+    // 1. The widget holds the SID "old".
+    // 2. The user taps the toggle. The status GET with "old" succeeds.
+    // 3. The widget sends the toggle POST with "old". Pi-hole answers 401.
+    // 4. The app does nothing.
+    // Expected: "old" becomes invalid.
+    @Test
+    fun authFailureOnTheTogglePostInvalidatesTheSidItUsed() {
+        useRealPrefs()
+        server.dispatcher = authFailureOn("POST", renewFirst = false)
+
+        runWorker()
+
+        assertSession(sid = "old", usable = false)
+    }
+
+    // 1. The widget holds the SID "old".
+    // 2. The user taps the toggle. The status GET with "old" succeeds.
+    // 3. The widget sends the toggle POST with "old".
+    // 4. Before the 401 arrives, the user opens the app. The app logs in again
+    //    and pushes the new SID "new" to the widget.
+    // 5. The widget gets the 401.
+    // Expected: "new" stays valid.
+    @Test
+    fun authFailureOnTheTogglePostKeepsASidRenewedMeanwhile() {
+        useRealPrefs()
+        server.dispatcher = authFailureOn("POST", renewFirst = true)
+
+        runWorker()
+
+        assertSession(sid = "new", usable = true)
     }
 }
