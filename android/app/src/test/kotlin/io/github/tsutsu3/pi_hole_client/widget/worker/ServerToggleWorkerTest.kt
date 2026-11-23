@@ -2,7 +2,6 @@ package io.github.tsutsu3.pi_hole_client.widget.worker
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
-import androidx.work.ExistingWorkPolicy
 import androidx.work.testing.TestListenableWorkerBuilder
 import androidx.work.workDataOf
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
@@ -146,7 +145,7 @@ class ServerToggleWorkerTest {
     }
 
     @Test
-    fun authFailureWithANewerSidRefreshesInsteadOfInvalidating() {
+    fun authFailureWithANewerSidStopsWithoutRefreshing() {
         every { prefs.hasUsableSession(serverId) } returns true
         every { prefs.getSid(serverId) } returns "old"
         // The app pushed a new SID while the request was in flight.
@@ -155,15 +154,8 @@ class ServerToggleWorkerTest {
 
         runWorker()
 
-        verify {
-            WidgetUpdateHelper.refreshWidgetsForServer(
-                any(),
-                serverId,
-                any(),
-                any(),
-                ExistingWorkPolicy.APPEND_OR_REPLACE,
-            )
-        }
+        // sidUpdated has already queued a refresh with the new SID.
+        verify(exactly = 0) { WidgetUpdateHelper.refreshWidgetsForServer(any(), any(), any(), any(), any()) }
         verify(exactly = 0) { prefs.setSidValid(serverId, false) }
         // The worker must stop here: no widget state is published (broadcast
         // looks up the bound widgets first), so no "auth required" flicker.

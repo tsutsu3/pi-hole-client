@@ -5,7 +5,6 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.work.testing.TestListenableWorkerBuilder
 import androidx.work.workDataOf
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
-import io.github.tsutsu3.pi_hole_client.widget.WidgetUpdateHelper
 import io.github.tsutsu3.pi_hole_client.widget.data.WidgetPrefs
 import io.github.tsutsu3.pi_hole_client.widget.data.WidgetServer
 import io.mockk.every
@@ -39,10 +38,6 @@ class ServerBlockingStatusWorkerTest {
         server.start()
         serverId = server.url("/").toString().trimEnd('/')
         prefs = mockWidgetPrefs(serverId)
-
-        // The follow-up refresh needs a real WorkManager; not under test.
-        mockkObject(WidgetUpdateHelper)
-        every { WidgetUpdateHelper.refreshWidgetsForServer(any(), any(), any(), any(), any()) } returns Unit
     }
 
     @After

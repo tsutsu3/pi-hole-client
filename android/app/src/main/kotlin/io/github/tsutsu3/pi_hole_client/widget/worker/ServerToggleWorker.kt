@@ -89,8 +89,7 @@ class ServerToggleWorker(
         if (PiHoleApiClient.isAuthFailure(statusResp.statusCode)) {
             if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Auth failure: ${statusResp.statusCode}")
             if (!prefs.invalidateSidIfCurrent(serverId, sid)) {
-                // A newer SID arrived meanwhile: just refresh, the user can tap again.
-                WidgetUpdateHelper.refreshWithNewerSid(applicationContext, serverId)
+                // A newer SID arrived meanwhile; sidUpdated already queued a refresh with it.
                 return Result.success()
             }
             broadcast(serverId, prefs, ToggleWidgetState(serverId, server.alias, WidgetStatus.AUTH_REQUIRED, false))
@@ -114,7 +113,7 @@ class ServerToggleWorker(
             if (PiHoleApiClient.isAuthFailure(toggleResp.statusCode)) {
                 if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Auth failure in toggle: ${toggleResp.statusCode}")
                 if (!prefs.invalidateSidIfCurrent(serverId, sid)) {
-                    WidgetUpdateHelper.refreshWithNewerSid(applicationContext, serverId)
+                    // A newer SID arrived meanwhile; sidUpdated already queued a refresh with it.
                     return Result.success()
                 }
                 broadcast(serverId, prefs, ToggleWidgetState(serverId, server.alias, WidgetStatus.AUTH_REQUIRED, false))

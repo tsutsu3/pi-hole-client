@@ -10,7 +10,6 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
 import io.github.tsutsu3.pi_hole_client.widget.WidgetDebugConfig
-import io.github.tsutsu3.pi_hole_client.widget.WidgetUpdateHelper
 import io.github.tsutsu3.pi_hole_client.widget.common.PiHoleApiClient
 import io.github.tsutsu3.pi_hole_client.widget.common.piholeUrl
 import io.github.tsutsu3.pi_hole_client.widget.common.ToggleWidgetState
@@ -80,8 +79,7 @@ class ServerBlockingStatusWorker(
         if (PiHoleApiClient.isAuthFailure(resp.statusCode) &&
             !prefs.invalidateSidIfCurrent(serverId, sid)
         ) {
-            // The app pushed a newer SID while this request was in flight.
-            WidgetUpdateHelper.refreshWithNewerSid(applicationContext, serverId)
+            // A newer SID arrived meanwhile; sidUpdated already queued a refresh with it.
             return Result.success()
         }
 
