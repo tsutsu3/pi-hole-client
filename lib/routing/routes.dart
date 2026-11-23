@@ -33,6 +33,7 @@ abstract class Routes {
   static const settingsAppTheme = 'settings/app/theme';
   static const settingsAppLanguage = 'settings/app/language';
   static const settingsAppServers = 'settings/app/servers';
+  static const settingsAppTimers = 'settings/app/timers';
   static const settingsAppAdvanced = 'settings/app/advanced';
 
   // ===== Settings > App > Advanced sub-routes =====

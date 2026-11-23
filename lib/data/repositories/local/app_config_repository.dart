@@ -6,6 +6,7 @@ import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/data/services/utils/database_utils.dart';
 import 'package:pi_hole_client/domain/model/app/app_config.dart';
+import 'package:pi_hole_client/utils/disable_durations.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -185,6 +186,14 @@ class LocalAppConfigRepository implements AppConfigRepository {
   }
 
   @override
+  Future<Result<void>> updateDisableDurations(List<int> seconds) async {
+    return _updateConfigValue(
+      column: 'disableDurations',
+      value: DisableDurations.serialize(seconds),
+    );
+  }
+
+  @override
   Future<Result<void>> updatePassCode(String? passCode) async {
     return _updateSecretConfigValue(key: 'passCode', value: passCode);
   }
@@ -237,6 +246,9 @@ class LocalAppConfigRepository implements AppConfigRepository {
         'statisticsVisualizationMode': 0,
         'homeVisualizationMode': 0,
         'sendCrashReports': 0,
+        'disableDurations': DisableDurations.serialize(
+          DisableDurations.defaults,
+        ),
       });
     } catch (e, st) {
       logger.e('Failed to restore app config: $e\n$st');

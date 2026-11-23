@@ -45,7 +45,7 @@ class DatabaseService {
   /// Returns:
   /// - [Success] containing the opened [Database] instance if successful.
   /// - [Failure] containing an [Exception] if an error occurs during opening.
-  Future<Result<Database>> open({int? latestVersion = 11}) async {
+  Future<Result<Database>> open({int? latestVersion = 12}) async {
     try {
       _db = await openDatabase(
         _path,
@@ -305,7 +305,8 @@ class DatabaseService {
         loadingAnimation NUMERIC NOT NULL,
         statisticsVisualizationMode NUMERIC NOT NULL,
         homeVisualizationMode NUMERIC NOT NULL,
-        sendCrashReports NUMERIC NOT NULL
+        sendCrashReports NUMERIC NOT NULL,
+        disableDurations TEXT NOT NULL DEFAULT '30,60,120,300'
       )
     ''');
 
@@ -393,6 +394,8 @@ class DatabaseService {
         await _upgradeToV10(db);
       case 11:
         await _upgradeToV11(db);
+      case 12:
+        await _upgradeToV12(db);
       default:
         logger.w('Database upgrade to version $version is not handled.');
     }
@@ -849,5 +852,16 @@ class DatabaseService {
   Future<void> _upgradeToV11(Database db) async {
     await db.execute('ALTER TABLE servers ADD COLUMN webPath TEXT');
     logger.d('Database upgraded to version 11');
+  }
+
+  /// Migrates the database to version 12.
+  ///
+  /// Adds the `disableDurations` column to `appConfig`: the timed options of
+  /// the disable menu, in seconds, comma separated.
+  Future<void> _upgradeToV12(Database db) async {
+    await db.execute(
+      "ALTER TABLE appConfig ADD COLUMN disableDurations TEXT NOT NULL DEFAULT '30,60,120,300'",
+    );
+    logger.d('Database upgraded to version 12');
   }
 }

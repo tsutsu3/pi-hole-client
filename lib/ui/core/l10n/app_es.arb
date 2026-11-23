@@ -746,5 +746,19 @@
   "websiteTitle": "Sitio web",
   "welcomeToApp": "Bienvenido a la aplicación",
   "writeEmail": "Escríbeme por correo electrónico.",
-  "writeEmailDetails": "Incluye en el cuerpo del correo todos los detalles posibles: Pi-hole y versión de la interfaz web, cómo reproducir el problema, capturas de pantalla...\n\nToda la información proporcionada será muy bienvenida."
+  "writeEmailDetails": "Incluye en el cuerpo del correo todos los detalles posibles: Pi-hole y versión de la interfaz web, cómo reproducir el problema, capturas de pantalla...\n\nToda la información proporcionada será muy bienvenida.",
+  "timers": "Temporizadores",
+  "timersDescription": "Duraciones ofrecidas al desactivar Pi-hole",
+  "disableMenu": "Menú de desactivación",
+  "disableMenuDescription": "Las cuatro opciones de tiempo que aparecen al desactivar Pi-hole. \"Personalizado\" e \"Indefinidamente\" siempre están disponibles.",
+  "disableMenuOption": "Opción {number}",
+  "disableDurationInvalid": "Introduce un tiempo entre 1 segundo y 24 horas",
+  "timeUnitSeconds": "segundos",
+  "timeUnitMinutes": "minutos",
+  "timeUnitHours": "horas",
+  "timersSaved": "Temporizadores guardados",
+  "timersNotSaved": "No se pudieron guardar los temporizadores",
+  "durationSeconds": "{count, plural, =1{1 segundo} other{{count} segundos}}",
+  "durationMinutes": "{count, plural, =1{1 minuto} other{{count} minutos}}",
+  "durationHours": "{count, plural, =1{1 hora} other{{count} horas}}"
 }

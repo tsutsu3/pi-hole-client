@@ -2409,4 +2409,75 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get writeEmailDetails =>
       'Die Email sollte im Optimalfall folgende Infos enthalten: Pi-hole und Web Interface Version, wie kann der Fehler reproduziert werden, Screenshots...\n\nFür alle Informationen sind wir sehr dankbar.';
+
+  @override
+  String get timers => 'Timer';
+
+  @override
+  String get timersDescription =>
+      'Angebotene Dauern beim Deaktivieren von Pi-hole';
+
+  @override
+  String get disableMenu => 'Deaktivierungsmenü';
+
+  @override
+  String get disableMenuDescription =>
+      'Die vier Zeitoptionen beim Deaktivieren von Pi-hole. „Benutzerdefiniert“ und „Unbegrenzt“ sind immer verfügbar.';
+
+  @override
+  String disableMenuOption(Object number) {
+    return 'Option $number';
+  }
+
+  @override
+  String get disableDurationInvalid =>
+      'Gib eine Zeit zwischen 1 Sekunde und 24 Stunden ein';
+
+  @override
+  String get timeUnitSeconds => 'Sekunden';
+
+  @override
+  String get timeUnitMinutes => 'Minuten';
+
+  @override
+  String get timeUnitHours => 'Stunden';
+
+  @override
+  String get timersSaved => 'Timer gespeichert';
+
+  @override
+  String get timersNotSaved => 'Timer konnten nicht gespeichert werden';
+
+  @override
+  String durationSeconds(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Sekunden',
+      one: '1 Sekunde',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String durationMinutes(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Minuten',
+      one: '1 Minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String durationHours(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Stunden',
+      one: '1 Stunde',
+    );
+    return '$_temp0';
+  }
 }
