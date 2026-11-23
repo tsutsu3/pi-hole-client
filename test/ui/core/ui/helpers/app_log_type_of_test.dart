@@ -41,4 +41,19 @@ void main() {
       });
     }
   });
+
+  group('statusCodeOf', () {
+    final cases = <String, (Object, int?)>{
+      'HttpStatusCodeException': (HttpStatusCodeException(503), 503),
+      'ApiException': (ApiException(message: 'm', statusCode: 404), 404),
+      'ApiException without status code': (ApiException(message: 'm'), null),
+      'other exception': (Exception('unknown'), null),
+    };
+
+    for (final MapEntry(key: name, value: (error, expected)) in cases.entries) {
+      test('$name -> $expected', () {
+        expect(statusCodeOf(error), expected);
+      });
+    }
+  });
 }

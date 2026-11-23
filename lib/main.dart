@@ -207,6 +207,7 @@ Future<Widget> bootstrapApp({
   final serversViewModel = ServersViewModel(
     serverRepository,
     sessionCacheStore: sessionCacheStore,
+    appLogRepository: appLogRepository,
   );
   final configProvider = AppConfigViewModel(appConfigRepository);
   final statusViewModel = StatusViewModel();

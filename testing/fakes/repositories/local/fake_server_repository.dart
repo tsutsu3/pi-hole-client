@@ -1,5 +1,6 @@
 import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
 
 class FakeServerRepository implements ServerRepository {
@@ -180,7 +181,7 @@ class FakeServerRepository implements ServerRepository {
   ) async {
     if (shouldFailFetchCredentials) {
       return Failure(
-        Exception('FakeServerRepository: fetchCredentials failed'),
+        SecureStorageException('FakeServerRepository: fetchCredentials failed'),
       );
     }
     return Success((token: fakeToken, password: fakePassword));

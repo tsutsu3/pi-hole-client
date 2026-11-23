@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:command_it/command_it.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache_store.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/app_log_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/domain/model/enum_converters.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
@@ -11,6 +12,7 @@ import 'package:pi_hole_client/domain/model/query_status.dart';
 import 'package:pi_hole_client/domain/model/query_types.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/app_log_type_of.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:result_dart/result_dart.dart';
@@ -20,8 +22,12 @@ import 'package:result_dart/result_dart.dart';
 typedef ReplaceServerParams = ({String oldAddress, Server newServer});
 
 class ServersViewModel with ChangeNotifier {
-  ServersViewModel(this._repository, {V6SessionCacheStore? sessionCacheStore})
-    : _sessionCacheStore = sessionCacheStore {
+  ServersViewModel(
+    this._repository, {
+    V6SessionCacheStore? sessionCacheStore,
+    AppLogRepository? appLogRepository,
+  }) : _sessionCacheStore = sessionCacheStore,
+       _appLogRepository = appLogRepository {
     addServer = Command.createAsyncNoResult<Server>(_addServer);
     editServer = Command.createAsyncNoResult<Server>(_editServer);
     replaceServer = Command.createAsyncNoResult<ReplaceServerParams>(
@@ -45,6 +51,7 @@ class ServersViewModel with ChangeNotifier {
   VoidCallback? _onServerSelected;
   final ServerRepository _repository;
   final V6SessionCacheStore? _sessionCacheStore;
+  final AppLogRepository? _appLogRepository;
   final List<QueryStatus> _queryStatusesV5 = queryStatusesV5;
   final List<QueryStatus> _queryStatusesV6 = queryStatusesV6;
 
@@ -376,9 +383,22 @@ class ServersViewModel with ChangeNotifier {
   Future<Result<String>> fetchPassword(String address) =>
       _repository.fetchPassword(address);
 
+  /// Reads the saved credentials of [address]. A failed read is recorded on
+  /// the App Logs page.
   Future<Result<({String token, String password})>> fetchCredentials(
     String address,
-  ) => _repository.fetchCredentials(address);
+  ) async {
+    final result = await _repository.fetchCredentials(address);
+    result.onFailure(
+      (error) => _appLogRepository?.add(
+        type: appLogTypeOf(error),
+        message: 'Failed to read the saved credentials ($address): $error',
+        statusCode: statusCodeOf(error),
+      ),
+    );
+
+    return result;
+  }
 
   Future<Result<void>> deleteSid(String address) async {
     final result = await _repository.deleteSid(address);

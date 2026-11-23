@@ -15,13 +15,16 @@ AppLogType appLogTypeOf(Object error) {
     return AppLogType.auth;
   }
 
-  final statusCode = switch (error) {
+  if (statusCodeOf(error) == 401) return AppLogType.auth;
+
+  return AppLogType.connection;
+}
+
+/// Returns the HTTP status code in [error], or null when it has none.
+int? statusCodeOf(Object error) {
+  return switch (error) {
     HttpStatusCodeException(:final statusCode) => statusCode,
     ApiException(:final statusCode) => statusCode,
     _ => null,
   };
-
-  if (statusCode == 401) return AppLogType.auth;
-
-  return AppLogType.connection;
 }

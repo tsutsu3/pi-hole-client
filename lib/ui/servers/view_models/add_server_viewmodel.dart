@@ -429,7 +429,11 @@ class AddServerViewModel extends ChangeNotifier {
 
   /// Records a failed connection check on the App Logs page.
   void _recordConnectFailure(Exception error) {
-    _appLogRepository.add(type: appLogTypeOf(error), message: error.toString());
+    _appLogRepository.add(
+      type: appLogTypeOf(error),
+      message: error.toString(),
+      statusCode: statusCodeOf(error),
+    );
   }
 
   /// Stores [secret] as the password (v6) or the token (v5) of [server].
