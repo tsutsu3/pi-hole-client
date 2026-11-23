@@ -29,15 +29,14 @@ class WidgetPrefsTest {
 
     @Test
     fun getSid_returnsEmptyStringAfterSavingEmpty() {
-        prefs.saveSid("http://no-auth", "")
+        prefs.updateSession("http://no-auth", "")
 
         assertEquals("", prefs.getSid("http://no-auth"))
     }
 
     @Test
     fun hasUsableSession_trueForEmptySidPushedByFlutter() {
-        prefs.saveSid("http://no-auth", "")
-        prefs.setSidValid("http://no-auth", true)
+        prefs.updateSession("http://no-auth", "")
 
         assertTrue(prefs.hasUsableSession("http://no-auth"))
     }
@@ -51,7 +50,7 @@ class WidgetPrefsTest {
 
     @Test
     fun hasUsableSession_falseWhenEmptySidMarkedInvalid() {
-        prefs.saveSid("http://revoked", "")
+        prefs.updateSession("http://revoked", "")
         prefs.setSidValid("http://revoked", false)
 
         assertFalse(prefs.hasUsableSession("http://revoked"))
@@ -59,16 +58,14 @@ class WidgetPrefsTest {
 
     @Test
     fun hasUsableSession_trueForNormalSid() {
-        prefs.saveSid("http://normal", "abc123")
-        prefs.setSidValid("http://normal", true)
+        prefs.updateSession("http://normal", "abc123")
 
         assertTrue(prefs.hasUsableSession("http://normal"))
     }
 
     @Test
     fun hasUsableSession_falseAfterRemoveServer() {
-        prefs.saveSid("http://removed", "")
-        prefs.setSidValid("http://removed", true)
+        prefs.updateSession("http://removed", "")
 
         prefs.removeServer("http://removed")
 
@@ -78,7 +75,7 @@ class WidgetPrefsTest {
 
     @Test
     fun updateSession_savesSidAndMarksItValid() {
-        prefs.saveSid("http://update", "old")
+        prefs.updateSession("http://update", "old")
         prefs.setSidValid("http://update", false)
 
         prefs.updateSession("http://update", "new")

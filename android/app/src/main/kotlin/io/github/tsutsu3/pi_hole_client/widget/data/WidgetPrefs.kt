@@ -170,13 +170,6 @@ class WidgetPrefs private constructor(context: Context) {
     }
 
     /**
-     * Stores SID received from Flutter-authenticated sessions.
-     */
-    fun saveSid(serverId: String, sid: String) {
-        prefs.edit().putString(keyForSid(serverId), sid).apply()
-    }
-
-    /**
      * Returns SID cached by Flutter, if present.
      */
     fun getSid(serverId: String): String? {
