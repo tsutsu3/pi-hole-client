@@ -33,6 +33,7 @@ class MainActivity : FlutterFragmentActivity() {
                     prefs.updateSession(serverId, sid)
                     // APPEND_OR_REPLACE (not KEEP): a refresh still running with
                     // the old SID must not swallow the one for the new SID.
+                    // Workers that find this new SID stop without a refresh and rely on this one.
                     WidgetUpdateHelper.refreshWidgetsForServer(
                         this,
                         serverId,
