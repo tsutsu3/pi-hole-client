@@ -761,5 +761,9 @@
   "durationMinutes": "{count, plural, =1{1 Minute} other{{count} Minuten}}",
   "durationHours": "{count, plural, =1{1 Stunde} other{{count} Stunden}}",
   "blocking": "Blockierung",
-  "disableDurationDuplicate": "Diese Zeit ist schon in der Liste"
+  "disableDurationDuplicate": "Diese Zeit ist schon in der Liste",
+  "timersWidget": "Startbildschirm-Widget",
+  "widgetAutoEnable": "Automatisch wieder aktivieren",
+  "widgetAutoEnableDescription": "Wenn du Pi-hole über ein Widget deaktivierst, wird es nach dieser Zeit wieder aktiviert. Wenn aus, bleibt es deaktiviert, bis du es aktivierst.",
+  "widgetDisableFor": "Deaktivieren für"
 }

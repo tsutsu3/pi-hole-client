@@ -170,6 +170,16 @@ class WidgetPrefs private constructor(context: Context) {
     }
 
     /**
+     * How long a disable from a widget lasts, in seconds; 0 = indefinitely.
+     * Set in the app (Settings > App settings > Timers).
+     */
+    var widgetDisableDuration: Long
+        get() = prefs.getLong(WidgetConstants.KEY_WIDGET_DISABLE_DURATION, 0L).coerceAtLeast(0L)
+        set(value) {
+            prefs.edit().putLong(WidgetConstants.KEY_WIDGET_DISABLE_DURATION, value.coerceAtLeast(0L)).apply()
+        }
+
+    /**
      * Returns SID cached by Flutter, if present.
      */
     fun getSid(serverId: String): String? {

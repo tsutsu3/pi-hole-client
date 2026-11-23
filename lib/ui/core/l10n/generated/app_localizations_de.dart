@@ -2487,4 +2487,17 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get disableDurationDuplicate => 'Diese Zeit ist schon in der Liste';
+
+  @override
+  String get timersWidget => 'Startbildschirm-Widget';
+
+  @override
+  String get widgetAutoEnable => 'Automatisch wieder aktivieren';
+
+  @override
+  String get widgetAutoEnableDescription =>
+      'Wenn du Pi-hole über ein Widget deaktivierst, wird es nach dieser Zeit wieder aktiviert. Wenn aus, bleibt es deaktiviert, bis du es aktivierst.';
+
+  @override
+  String get widgetDisableFor => 'Deaktivieren für';
 }

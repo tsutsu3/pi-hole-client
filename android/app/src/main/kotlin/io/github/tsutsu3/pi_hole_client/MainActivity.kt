@@ -53,6 +53,12 @@ class MainActivity : FlutterFragmentActivity() {
                     result.success(null)
                 }
 
+                "widgetSettingsUpdated" -> {
+                    val seconds = call.argument<Number>("disableDuration")?.toLong() ?: 0L
+                    prefs.widgetDisableDuration = seconds
+                    result.success(null)
+                }
+
                 "serversUpdated" -> {
                     val raw = call.argument<List<Map<String, Any>>>("servers") ?: emptyList()
                     val servers = raw.mapNotNull { item ->

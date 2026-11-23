@@ -17,6 +17,7 @@ abstract interface class AppConfigRepository {
   Future<Result<void>> updateHomeVisualizationMode(int mode);
   Future<Result<void>> updateSendCrashReports(bool sendCrashReports);
   Future<Result<void>> updateDisableDurations(List<int> seconds);
+  Future<Result<void>> updateWidgetDisableDuration(int seconds);
   Future<Result<void>> updatePassCode(String? passCode);
   Future<Result<void>> updateLogAutoRefreshTime(int seconds);
   Future<Result<void>> updateLiveLog(bool liveLog);

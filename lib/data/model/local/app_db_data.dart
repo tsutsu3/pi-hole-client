@@ -17,6 +17,7 @@ class AppDbData {
     required this.homeVisualizationMode,
     required this.sendCrashReports,
     this.disableDurations = defaultDisableDurationsDb,
+    this.widgetDisableDuration = 0,
   });
 
   factory AppDbData.fromMap(Map<String, Object?> map) {
@@ -39,6 +40,7 @@ class AppDbData {
       sendCrashReports: map['sendCrashReports']! as int,
       disableDurations:
           map['disableDurations'] as String? ?? defaultDisableDurationsDb,
+      widgetDisableDuration: map['widgetDisableDuration'] as int? ?? 0,
     );
   }
 
@@ -61,6 +63,7 @@ class AppDbData {
       homeVisualizationMode: instance.homeVisualizationMode,
       sendCrashReports: instance.sendCrashReports,
       disableDurations: instance.disableDurations,
+      widgetDisableDuration: instance.widgetDisableDuration,
     );
   }
 
@@ -87,6 +90,9 @@ class AppDbData {
   /// Timed options of the disable menu, in seconds, comma separated.
   final String disableDurations;
 
+  /// How long a disable from a widget lasts, in seconds (0 = indefinitely).
+  final int widgetDisableDuration;
+
   Map<String, Object?> toDict() {
     return {
       'autoRefreshTime': autoRefreshTime,
@@ -106,6 +112,7 @@ class AppDbData {
       'homeVisualizationMode': homeVisualizationMode,
       'sendCrashReports': sendCrashReports,
       'disableDurations': disableDurations,
+      'widgetDisableDuration': widgetDisableDuration,
     };
   }
 }

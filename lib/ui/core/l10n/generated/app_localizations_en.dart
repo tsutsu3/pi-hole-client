@@ -2443,4 +2443,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get disableDurationDuplicate => 'This time is already in the list';
+
+  @override
+  String get timersWidget => 'Home screen widget';
+
+  @override
+  String get widgetAutoEnable => 'Re-enable automatically';
+
+  @override
+  String get widgetAutoEnableDescription =>
+      'When you disable Pi-hole from a widget, it turns back on after this time. When off, it stays disabled until you enable it.';
+
+  @override
+  String get widgetDisableFor => 'Disable for';
 }
