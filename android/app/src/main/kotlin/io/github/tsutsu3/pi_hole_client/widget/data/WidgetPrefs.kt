@@ -203,8 +203,9 @@ class WidgetPrefs private constructor(context: Context) {
      * invalid the new SID the app pushed in the meantime, leaving the widgets
      * stuck on "authentication required" until the app renews the session again.
      *
-     * @return `true` if the SID was invalidated, `false` if a newer SID is
-     *   already stored (the caller should refresh again with it).
+     * @return `true` if the SID was invalidated. `false` if the stored SID
+     *   changed meanwhile (a new SID or a removed server). Whoever changed it
+     *   already queued a refresh, so the caller just stops.
      */
     @Synchronized
     fun invalidateSidIfCurrent(serverId: String, usedSid: String?): Boolean {

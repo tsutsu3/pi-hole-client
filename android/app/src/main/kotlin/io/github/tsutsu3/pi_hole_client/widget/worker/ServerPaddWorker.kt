@@ -81,7 +81,7 @@ class ServerPaddWorker(
         if (PiHoleApiClient.isAuthFailure(resp.statusCode) &&
             !prefs.invalidateSidIfCurrent(serverId, sid)
         ) {
-            // A newer SID arrived meanwhile; sidUpdated already queued a refresh with it.
+            // The stored SID changed meanwhile; whoever changed it already queued a refresh.
             return Result.success()
         }
 
