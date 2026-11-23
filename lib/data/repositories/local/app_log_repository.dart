@@ -9,6 +9,9 @@ class LocalAppLogRepository implements AppLogRepository {
   LocalAppLogRepository({DateTime Function()? now})
     : _now = now ?? DateTime.now;
 
+  /// The most logs kept. The oldest logs are removed first.
+  static const maxLogs = 500;
+
   final DateTime Function() _now;
   final List<AppLog> _logs = [];
   final StreamController<List<AppLog>> _controller =
@@ -30,10 +33,41 @@ class LocalAppLogRepository implements AppLogRepository {
       AppLog(
         type: type.name,
         dateTime: _now(),
-        message: message,
+        message: redactSecrets(message),
         statusCode: statusCode?.toString(),
       ),
     );
+    if (_logs.length > maxLogs) {
+      _logs.removeRange(0, _logs.length - maxLogs);
+    }
     _controller.add(logs);
   }
+}
+
+final _secretPatterns = [
+  // Query parameters, e.g. `?auth=<v5 token>`.
+  RegExp(
+    r'(?<=[?&](?:auth|sid|password|token|totp)=)[^&\s#]+',
+    caseSensitive: false,
+  ),
+  // JSON values, e.g. `"sid": "..."`.
+  RegExp(
+    r'(?<="(?:sid|password|totp|token)"\s*:\s*)(?:"(?:[^"\\]|\\.)*"|\d+)',
+    caseSensitive: false,
+  ),
+  // Header values, e.g. `X-FTL-SID: ...`.
+  RegExp(
+    r'(?<=(?:X-FTL-SID|Set-Cookie|Cookie|Authorization)\s*[:=]\s*)[^\s,}][^\r\n,}]*',
+    caseSensitive: false,
+  ),
+];
+
+/// Replaces passwords, tokens, session IDs and cookies in [text] with `***`.
+String redactSecrets(String text) {
+  var result = text;
+  for (final pattern in _secretPatterns) {
+    result = result.replaceAll(pattern, '***');
+  }
+
+  return result;
 }

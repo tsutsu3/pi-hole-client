@@ -69,6 +69,8 @@ class AppLogsScreen extends StatelessWidget {
                 itemBuilder: (context, index) => ListTile(
                   title: Text(
                     logs[index].message,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.normal,
