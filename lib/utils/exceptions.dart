@@ -62,6 +62,20 @@ class ValueNotFoundException implements Exception {
   String toString() => 'ValueNotFoundException: $message';
 }
 
+/// Exception indicating that reading or writing the secure storage failed.
+/// [cause] is the error from the storage plugin.
+class SecureStorageException implements Exception {
+  /// Creates a SecureStorageException with a [message] and its [cause].
+  SecureStorageException(this.message, {this.cause});
+  final String message;
+  final Object? cause;
+
+  @override
+  String toString() => cause == null
+      ? 'SecureStorageException: $message'
+      : 'SecureStorageException: $message: $cause';
+}
+
 /// Exception indicating the server requires a TOTP (2FA) code to complete
 /// login. Pi-hole v6 returns this when the password is correct but no TOTP
 /// token was sent (HTTP 400, error key `bad_request`).

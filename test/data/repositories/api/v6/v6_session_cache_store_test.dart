@@ -71,7 +71,7 @@ void main() {
 
     final fresh = store.getOrCreate(
       address: 'http://pi.hole',
-      creds: FakeSessionCredentialService()..shouldFailSidRead = true,
+      creds: FakeSessionCredentialService()..addressSid = null,
       client: FakePiholeV6ApiClient(),
     );
     expect(identical(cache, fresh), isFalse);

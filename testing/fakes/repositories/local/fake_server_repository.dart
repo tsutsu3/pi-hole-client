@@ -1,5 +1,6 @@
 import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
+import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
 
 class FakeServerRepository implements ServerRepository {
@@ -180,7 +181,7 @@ class FakeServerRepository implements ServerRepository {
   ) async {
     if (shouldFailFetchCredentials) {
       return Failure(
-        Exception('FakeServerRepository: fetchCredentials failed'),
+        SecureStorageException('FakeServerRepository: fetchCredentials failed'),
       );
     }
     return Success((token: fakeToken, password: fakePassword));
@@ -190,7 +191,9 @@ class FakeServerRepository implements ServerRepository {
   Future<Result<void>> savePassword(String address, String password) async {
     savePasswordCallCount++;
     if (shouldFailSaveSecret) {
-      return Failure(Exception('FakeServerRepository: savePassword failed'));
+      return Failure(
+        SecureStorageException('FakeServerRepository: savePassword failed'),
+      );
     }
     lastSavedPasswordAddress = address;
     lastSavedPassword = password;
@@ -202,7 +205,9 @@ class FakeServerRepository implements ServerRepository {
   Future<Result<void>> saveToken(String address, String token) async {
     saveTokenCallCount++;
     if (shouldFailSaveSecret) {
-      return Failure(Exception('FakeServerRepository: saveToken failed'));
+      return Failure(
+        SecureStorageException('FakeServerRepository: saveToken failed'),
+      );
     }
     lastSavedTokenAddress = address;
     lastSavedToken = token;

@@ -55,14 +55,27 @@ void main() {
       expect(results, ['sid_shared', 'sid_shared', 'sid_shared']);
     });
 
-    test('throws SidNotFoundException when storage read fails', () async {
+    test('throws the storage error when the storage read fails', () async {
       creds.shouldFailRead = true;
-      await expectLater(cache.getSid(), throwsA(isA<SidNotFoundException>()));
+      await expectLater(cache.getSid(), throwsA(isA<SecureStorageException>()));
     });
+
+    test(
+      'throws the storage error when no SID is stored and the password read fails',
+      () async {
+        creds
+          ..addressSid = null
+          ..shouldFailPasswordRead = true;
+        await expectLater(
+          cache.getSid(),
+          throwsA(isA<SecureStorageException>()),
+        );
+      },
+    );
 
     test('allows retry after storage read failure', () async {
       creds.shouldFailRead = true;
-      await expectLater(cache.getSid(), throwsA(isA<SidNotFoundException>()));
+      await expectLater(cache.getSid(), throwsA(isA<SecureStorageException>()));
 
       creds.shouldFailRead = false;
       final sid = await cache.getSid();
@@ -74,7 +87,7 @@ void main() {
       () async {
         // No app password configured: the server needs no session.
         creds
-          ..shouldFailSidRead = true
+          ..addressSid = null
           ..addressPassword = '';
         final sid = await cache.getSid();
         expect(sid, '');
@@ -84,7 +97,7 @@ void main() {
 
     test('throws when no SID stored but a password is set', () async {
       creds
-        ..shouldFailSidRead = true
+        ..addressSid = null
         ..addressPassword = 'secret';
       await expectLater(cache.getSid(), throwsA(isA<SidNotFoundException>()));
     });
@@ -113,7 +126,10 @@ void main() {
           ..shouldFailSidRead = true
           ..addressPassword = 'secret';
 
-        await expectLater(cache.getSid(), throwsA(isA<SidNotFoundException>()));
+        await expectLater(
+          cache.getSid(),
+          throwsA(isA<SecureStorageException>()),
+        );
         expect(widgetChannel.sidUpdates, isEmpty);
       },
     );
@@ -190,10 +206,39 @@ void main() {
       },
     );
 
+    test('throws the postAuth error when the renewal fails', () async {
+      client.shouldFail = true;
+
+      await expectLater(
+        cache.clearAndRenewSid(),
+        throwsA(
+          isA<Exception>().having(
+            (e) => e.toString(),
+            'message',
+            contains('Forced postAuth failure'),
+          ),
+        ),
+      );
+    });
+
+    test(
+      'throws the storage error and keeps the SID when the password read fails',
+      () async {
+        creds.shouldFailPasswordRead = true;
+
+        await expectLater(
+          cache.clearAndRenewSid(),
+          throwsA(isA<SecureStorageException>()),
+        );
+        expect(client.postAuthCallCount, 0);
+        expect(creds.deleteSidCallCount, 0);
+      },
+    );
+
     test('cache stays cleared after postAuth fails', () async {
       client.shouldFail = true;
       await cache.getSid();
-      await cache.clearAndRenewSid();
+      await expectLater(cache.clearAndRenewSid(), throwsException);
 
       client.shouldFail = false;
       creds.addressSid = 'sid_after_failure';
@@ -225,7 +270,7 @@ void main() {
 
     test('deleteSid is called even when postAuth fails', () async {
       client.shouldFail = true;
-      await cache.clearAndRenewSid();
+      await expectLater(cache.clearAndRenewSid(), throwsException);
       expect(creds.deleteSidCallCount, 1);
     });
 

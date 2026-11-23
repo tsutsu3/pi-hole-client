@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/app_log_repository.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/services/server_connection_service.dart';
 import 'package:pi_hole_client/ui/core/ui/components/totp_input_modal.dart';
@@ -38,6 +39,7 @@ Future<bool> handleTotpReauth(BuildContext context) async {
     createBundle: context.read<CreateRepositoryBundle>(),
     totpPromptGuard: totpPromptGuard,
     resolveTotp: ({error}) => showTotpInputModal(context, error: error),
+    appLogRepository: context.read<AppLogRepository>(),
     useRootContextOnFailure: true,
     showModal: true,
   );

@@ -1,23 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/domain/model/app/app_log.dart';
+import 'package:pi_hole_client/data/repositories/local/app_log_repository.dart';
+import 'package:pi_hole_client/domain/model/app/app_log_type.dart';
+import 'package:pi_hole_client/ui/app_logs/view_models/app_logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/app_logs/widgets/app_log_details_modal.dart';
 import 'package:pi_hole_client/ui/app_logs/widgets/app_logs_screen.dart';
-import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:provider/provider.dart';
 
-import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../testing/test_app.dart';
 
 void main() async {
   await initTestApp();
 
   group('App Log Screen Widget Tests', () {
-    late AppConfigViewModel appConfigViewModel;
+    late LocalAppLogRepository appLogRepository;
 
     setUp(() {
-      appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
+      appLogRepository = LocalAppLogRepository(
+        now: () => DateTime(2025, 01, 22, 10, 50, 31),
+      );
     });
+
+    Widget buildScreen() {
+      return buildTestApp(
+        ChangeNotifierProvider(
+          create: (_) => AppLogsViewModel(repository: appLogRepository),
+          child: const AppLogsScreen(),
+        ),
+        appLogRepository: appLogRepository,
+      );
+    }
 
     testWidgets('should show AppLogsScreen screen with one log', (
       WidgetTester tester,
@@ -44,22 +57,13 @@ void main() async {
             .setMockMethodCallHandler(SystemChannels.platform, null);
       });
 
-      appConfigViewModel.addLog(
-        AppLog(
-          type: 'sample',
-          dateTime: DateTime(2025, 01, 22, 10, 50, 31),
-          message: 'message',
-          statusCode: '200',
-          resBody: 'body',
-        ),
+      appLogRepository.add(
+        type: AppLogType.connection,
+        message: 'message',
+        statusCode: 200,
       );
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const AppLogsScreen(),
-          appConfigViewModel: appConfigViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildScreen());
 
       expect(find.byType(AppLogsScreen), findsOneWidget);
       await tester.pump();
@@ -67,7 +71,7 @@ void main() async {
       expect(find.text('Logs'), findsOneWidget);
       expect(find.byIcon(Icons.share), findsOneWidget);
 
-      expect(find.text('sample'), findsOneWidget);
+      expect(find.text('connection'), findsOneWidget);
       expect(find.text('message'), findsOneWidget);
       expect(find.text('2025-01-22 10:50:31.000'), findsOneWidget);
 
@@ -79,21 +83,21 @@ void main() async {
       expect(log.length, 1);
       expect(log.first.method, 'Clipboard.setData');
 
-      await tester.tap(find.text('sample'));
+      await tester.tap(find.text('connection'));
       await tester.pumpAndSettle();
       expect(find.byType(AppLogDetailsModal), findsOneWidget);
       expect(find.text('Log details'), findsOneWidget);
 
       // Message tab is selected by default
-      expect(find.text('sample'), findsOneWidget);
+      expect(find.text('connection'), findsOneWidget);
 
       await tester.tap(find.text('Status code'));
       await tester.pumpAndSettle();
       expect(find.text('200'), findsOneWidget);
 
-      await tester.tap(find.text('Body'));
+      await tester.tap(find.text('Details'));
       await tester.pumpAndSettle();
-      expect(find.text('body'), findsOneWidget);
+      expect(find.text('[NO DETAILS]'), findsOneWidget);
     });
 
     testWidgets('should show blank screen (no app logs)', (
@@ -109,12 +113,7 @@ void main() async {
 
       // No logs added - logs list is empty by default
 
-      await tester.pumpWidget(
-        buildTestApp(
-          const AppLogsScreen(),
-          appConfigViewModel: appConfigViewModel,
-        ),
-      );
+      await tester.pumpWidget(buildScreen());
 
       expect(find.byType(AppLogsScreen), findsOneWidget);
       await tester.pump();
@@ -122,7 +121,7 @@ void main() async {
       expect(find.text('Logs'), findsOneWidget);
 
       // check log message
-      expect(find.text('sample'), findsNothing);
+      expect(find.text('connection'), findsNothing);
 
       // can't tap on share icon because there are no logs
       await tester.tap(find.byIcon(Icons.share));

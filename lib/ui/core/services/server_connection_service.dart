@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/app_log_repository.dart';
 import 'package:pi_hole_client/domain/model/dns/dns.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
@@ -12,6 +13,7 @@ import 'package:pi_hole_client/domain/use_cases/server_connection/connect_server
 import 'package:pi_hole_client/domain/use_cases/server_connection/resolve_totp.dart';
 import 'package:pi_hole_client/ui/core/actions/pin_and_save.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/app_log_type_of.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/globals.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/responsive.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
@@ -49,6 +51,7 @@ import 'package:result_dart/result_dart.dart';
 ///   server: server,
 ///   createBundle: createBundle,
 ///   totpPromptGuard: totpPromptGuard,
+///   appLogRepository: appLogRepository,
 ///   resolveTotp: ({error}) => showTotpInputModal(context, error: error),
 ///   showModal: true,
 /// );
@@ -70,6 +73,7 @@ class ServerConnectionService {
     required this.createBundle,
     required this.totpPromptGuard,
     required this.resolveTotp,
+    required this.appLogRepository,
     this.useRootContextOnFailure = false,
     this.showModal = false,
     this.fetchTlsCertificate = fetchTlsCertificateInfo,
@@ -83,6 +87,7 @@ class ServerConnectionService {
   final CreateRepositoryBundle createBundle;
   final TotpPromptGuard totpPromptGuard;
   final ResolveTotp resolveTotp;
+  final AppLogRepository appLogRepository;
   final bool useRootContextOnFailure;
   final bool showModal;
   final TlsCertificateFetcher fetchTlsCertificate;
@@ -161,6 +166,7 @@ class ServerConnectionService {
         error: e,
         stackTrace: st,
       );
+      _recordFailure('Unexpected error during server connection', e);
       if (serversViewModel.connectingServer == server) {
         _abortConnection(previouslySelectedServer);
       }
@@ -280,11 +286,24 @@ class ServerConnectionService {
     }
   }
 
+  /// Records a failure of this connection on the App Logs page.
+  void _recordFailure(String message, Object error) {
+    appLogRepository.add(
+      type: appLogTypeOf(error),
+      message: message,
+      serverAddress: server.address,
+      details: '$error',
+      statusCode: statusCodeOf(error),
+    );
+  }
+
   Future<void> _onFailure(
     Server? fallback,
     Exception? error,
     LoadStatus previousStatus,
   ) async {
+    if (error != null) _recordFailure('Failed to connect', error);
+
     if (fallback == null) {
       statusViewModel.setServerStatus(LoadStatus.error);
     } else {
@@ -421,6 +440,7 @@ class ServerConnectionService {
             createBundle: createBundle,
             totpPromptGuard: totpPromptGuard,
             resolveTotp: resolveTotp,
+            appLogRepository: appLogRepository,
             useRootContextOnFailure: useRootContextOnFailure,
             showModal: showModal,
             fetchTlsCertificate: fetchTlsCertificate,

@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/data/repositories/local/app_log_repository.dart';
+import 'package:pi_hole_client/domain/model/app/app_log_type.dart';
 import 'package:pi_hole_client/domain/model/dns/dns.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
@@ -96,14 +98,35 @@ void main() async {
     late AppConfigViewModel appConfigViewModel;
     late FakeAuthRepository authRepository;
     late FakeTotpPromptGuard totpPromptGuard;
+    late LocalAppLogRepository appLogRepository;
 
     setUp(() {
-      serversViewModel = FakeServersViewModel();
+      appLogRepository = LocalAppLogRepository();
+      serversViewModel = FakeServersViewModel(
+        appLogRepository: appLogRepository,
+      );
       statusViewModel = FakeStatusViewModel();
       appConfigViewModel = AppConfigViewModel(FakeAppConfigRepository());
       authRepository = FakeAuthRepository();
       totpPromptGuard = FakeTotpPromptGuard();
     });
+
+    /// Checks the app logs: one log of [type] and [statusCode] for [server],
+    /// or no log when [type] is null.
+    void expectAppLog({
+      AppLogType? type,
+      String? statusCode,
+      Server server = _serverV6,
+    }) {
+      if (type == null) {
+        expect(appLogRepository.logs, isEmpty, reason: 'app logs');
+        return;
+      }
+      final log = appLogRepository.logs.single;
+      expect(log.type, type.name, reason: 'log type');
+      expect(log.statusCode, statusCode, reason: 'log status code');
+      expect(log.serverAddress, server.address, reason: 'log server');
+    }
 
     /// Pumps a minimal app and returns a [BuildContext] living under a
     /// [MaterialApp] (so AppLocalizations / ScaffoldMessenger are available).
@@ -120,6 +143,7 @@ void main() async {
           appConfigViewModel: appConfigViewModel,
           serversViewModel: serversViewModel,
           statusViewModel: statusViewModel,
+          appLogRepository: appLogRepository,
         ),
       );
       await tester.pump();
@@ -147,6 +171,7 @@ void main() async {
         ),
         totpPromptGuard: totpPromptGuard,
         resolveTotp: resolveTotp ?? ({error}) async => null,
+        appLogRepository: appLogRepository,
         fetchTlsCertificate:
             fetchTlsCertificate ?? FakeTlsCertificateFetcher().call,
       );
@@ -172,6 +197,47 @@ void main() async {
         greaterThanOrEqualTo(1),
       );
       expect(serversViewModel.connectingServer, isNull);
+      expectAppLog();
+    });
+
+    testWidgets(
+      'a failed credential read is recorded and the connection goes on',
+      (tester) async {
+        serversViewModel
+          ..selectedServer = _serverV6
+          ..failFetchCredentials = true;
+        final ctx = await pumpContext(tester);
+
+        await buildService(
+          ctx,
+          server: _serverV6,
+          dns: FakeDnsRepository(),
+        ).connect();
+        await tester.pump();
+
+        expect(serversViewModel.selectedServer, _serverV6);
+        expect(statusViewModel.getServerStatus, LoadStatus.loaded);
+        expectAppLog(type: AppLogType.storage);
+      },
+    );
+
+    testWidgets('a rejected login is recorded as auth', (tester) async {
+      serversViewModel.selectedServer = _otherV6;
+      final ctx = await pumpContext(tester);
+
+      await buildService(
+        ctx,
+        server: _serverV6,
+        // preCheck 401 -> login -> the status check is still 401.
+        dns: _SeqDns([
+          HttpStatusCodeException(401, 'unauthorized'),
+          HttpStatusCodeException(401, 'unauthorized'),
+        ]),
+      ).connect();
+      await tester.pump();
+
+      expect(serversViewModel.selectedServer, _otherV6);
+      expectAppLog(type: AppLogType.auth, statusCode: '401');
     });
 
     testWidgets('v6 passwordless server connects without creating a session', (
@@ -192,6 +258,7 @@ void main() async {
       expect(authRepository.createSessionCallCount, 0);
       expect(serversViewModel.selectedServer, _serverV6);
       expect(statusViewModel.getServerStatus, LoadStatus.loaded);
+      expectAppLog();
     });
 
     testWidgets('expired session on a 2FA server prompts and connects', (
@@ -217,6 +284,7 @@ void main() async {
       expect(authRepository.lastTotp, '123456');
       expect(serversViewModel.selectedServer, _serverV6);
       expect(serversViewModel.connectingServer, isNull);
+      expectAppLog();
     });
 
     testWidgets('an unexpected error still releases the connecting guard', (
@@ -238,6 +306,11 @@ void main() async {
       // Without the catch, connectingServer would stay set to this server and
       // silently no-op every future reconnect attempt until an app restart.
       expect(serversViewModel.connectingServer, isNull);
+      expectAppLog(type: AppLogType.connection);
+      expect(
+        appLogRepository.logs.single.message,
+        'Unexpected error during server connection',
+      );
     });
 
     testWidgets('invalid TOTP re-prompts then connects', (tester) async {
@@ -263,6 +336,7 @@ void main() async {
       expect(authRepository.createSessionCallCount, 3);
       expect(authRepository.lastTotp, '123456');
       expect(serversViewModel.selectedServer, _serverV6);
+      expectAppLog();
     });
 
     testWidgets('reused TOTP re-prompts then connects', (tester) async {
@@ -286,6 +360,7 @@ void main() async {
 
       expect(prompts, 2);
       expect(serversViewModel.selectedServer, _serverV6);
+      expectAppLog();
     });
 
     testWidgets('rate-limited TOTP aborts the connection', (tester) async {
@@ -308,6 +383,7 @@ void main() async {
       // Falls back to the previously selected server.
       expect(serversViewModel.selectedServer, _otherV6);
       expect(serversViewModel.connectingServer, isNull);
+      expectAppLog(type: AppLogType.auth);
     });
 
     testWidgets('cancelling the TOTP prompt keeps the previous server', (
@@ -333,6 +409,7 @@ void main() async {
         statusViewModel.startAutoRefreshCallCount,
         greaterThanOrEqualTo(1),
       );
+      expectAppLog();
     });
 
     testWidgets(
@@ -360,6 +437,7 @@ void main() async {
         expect(statusViewModel.startAutoRefreshCallCount, 0);
         expect(statusViewModel.getServerStatus, LoadStatus.error);
         expect(totpPromptGuard.declinedAddresses, [_serverV6.address]);
+        expectAppLog();
       },
     );
 
@@ -380,6 +458,7 @@ void main() async {
         expect(serversViewModel.selectedServer, _otherV6);
         expect(statusViewModel.startAutoRefreshCallCount, 0);
         expect(statusViewModel.getServerStatus, LoadStatus.error);
+        expectAppLog(type: AppLogType.connection, statusCode: '503');
       },
     );
 
@@ -403,6 +482,7 @@ void main() async {
         statusViewModel.startAutoRefreshCallCount,
         greaterThanOrEqualTo(1),
       );
+      expectAppLog(type: AppLogType.connection, statusCode: '503');
     });
 
     testWidgets('transient 503 does not create a session', (tester) async {
@@ -419,6 +499,7 @@ void main() async {
       expect(authRepository.createSessionCallCount, 0);
       expect(serversViewModel.selectedServer, _otherV6);
       expect(serversViewModel.connectingServer, isNull);
+      expectAppLog(type: AppLogType.connection, statusCode: '503');
     });
 
     testWidgets('a concurrent connect to the same server is ignored', (
@@ -439,6 +520,7 @@ void main() async {
       expect(authRepository.createSessionCallCount, 0);
       expect(serversViewModel.setselectedServerCallCount, 0);
       expect(statusViewModel.stopAutoRefreshCallCount, 0);
+      expectAppLog();
     });
 
     testWidgets('a v5 server connects without any TOTP flow', (tester) async {
@@ -458,6 +540,7 @@ void main() async {
         statusViewModel.startAutoRefreshCallCount,
         greaterThanOrEqualTo(1),
       );
+      expectAppLog();
     });
 
     group('certificate checks', () {
@@ -497,6 +580,7 @@ void main() async {
           message == null ? findsNothing : findsOneWidget,
           reason: 'snackbar',
         );
+        expectAppLog();
       }
 
       /// Checks the state after one recovery run on [_serverHttpsPinned].
@@ -518,6 +602,7 @@ void main() async {
           storedPin,
           reason: 'pin of the selected server',
         );
+        expectAppLog();
       }
 
       // connect(): a server with no pin and an untrusted certificate.

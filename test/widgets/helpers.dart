@@ -28,8 +28,9 @@ import 'package:pi_hole_client/data/model/v6/metrics/query.dart';
 import 'package:pi_hole_client/data/model/v6/network/devices.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
+import 'package:pi_hole_client/data/repositories/local/app_log_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/app_log_repository.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
-import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/domain/model/client/managed_client.dart';
 import 'package:pi_hole_client/domain/model/domain/domain.dart' as domain_model;
 import 'package:pi_hole_client/domain/model/enums.dart';
@@ -1503,6 +1504,7 @@ class TestSetupHelper {
                     serverAddress: serversViewModel.selectedServer?.address,
                   ),
             ),
+            Provider<AppLogRepository>.value(value: LocalAppLogRepository()),
             Provider<SecureStorageService>(
               create: (_) => SecureStorageService(),
             ),
@@ -1636,6 +1638,7 @@ class TestSetupHelper {
                 serverAddress: serversViewModel.selectedServer?.address,
               ),
         ),
+        Provider<AppLogRepository>.value(value: LocalAppLogRepository()),
         Provider<SecureStorageService>(create: (_) => SecureStorageService()),
       ],
       child: child,
@@ -1664,15 +1667,6 @@ class TestSetupHelper {
       mockConfigProvider.setHideZeroValues(any),
     ).thenAnswer((_) async => true);
     when(mockConfigProvider.restoreAppConfig()).thenAnswer((_) async => true);
-    when(mockConfigProvider.logs).thenReturn([
-      AppLog(
-        type: 'sample',
-        dateTime: DateTime(2025, 01, 22, 10, 50, 31),
-        message: 'message',
-        statusCode: '200',
-        resBody: 'body',
-      ),
-    ]);
     when(mockConfigProvider.appThemeMode).thenReturn(AppThemeMode.system);
     when(mockConfigProvider.selectedLanguage).thenReturn('en');
     when(mockConfigProvider.getAutoRefreshTime).thenReturn(5);

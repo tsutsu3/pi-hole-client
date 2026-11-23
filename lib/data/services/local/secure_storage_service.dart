@@ -24,7 +24,7 @@ class SecureStorageService {
   ///
   /// Returns a [Result<void>] indicating the outcome:
   /// - [Success] containing no value if the operation succeeded.
-  /// - [Failure] if an exception occurred.
+  /// - [Failure] with [SecureStorageException] if the write fails.
   Future<Result<void>> saveValue(String key, String value) async {
     try {
       await _secureStorage.write(key: key, value: value);
@@ -34,7 +34,9 @@ class SecureStorageService {
     } catch (e, st) {
       logger.e('Failed to save value: $e\n$st');
 
-      return Failure(Exception('Failed to save value: $e\n$st'));
+      return Failure(
+        SecureStorageException('Failed to save value for $key', cause: e),
+      );
     }
   }
 
@@ -43,7 +45,7 @@ class SecureStorageService {
   /// Returns a [Result<String>] with:
   /// - [Success] containing the value if found.
   /// - [Failure] with [ValueNotFoundException] if not found.
-  /// - [Failure] with another exception if the read fails.
+  /// - [Failure] with [SecureStorageException] if the read fails.
   Future<Result<String>> getValue(String key) async {
     try {
       final value = await _secureStorage.read(key: key);
@@ -58,7 +60,9 @@ class SecureStorageService {
     } catch (e, st) {
       logger.e('Failed to read value: $e\n$st');
 
-      return Failure(Exception('Failed to read value: $e\n$st'));
+      return Failure(
+        SecureStorageException('Failed to read value for $key', cause: e),
+      );
     }
   }
 
@@ -66,7 +70,7 @@ class SecureStorageService {
   ///
   /// Returns a [Result<void>] indicating the outcome:
   /// - [Success] containing no value if the operation succeeded.
-  /// - [Failure] if an error occurred.
+  /// - [Failure] with [SecureStorageException] if the operation fails.
   Future<Result<void>> deleteValue(String key) async {
     try {
       await _secureStorage.delete(key: key);
@@ -76,7 +80,9 @@ class SecureStorageService {
     } catch (e, st) {
       logger.e('Failed to delete value: $e\n$st');
 
-      return Failure(Exception('Failed to delete value: $e\n$st'));
+      return Failure(
+        SecureStorageException('Failed to delete value for $key', cause: e),
+      );
     }
   }
 
@@ -84,7 +90,7 @@ class SecureStorageService {
   ///
   /// Returns a [Result<void>] indicating the outcome:
   /// - [Success] containing no value if the operation succeeded.
-  /// - [Failure] if an error occurred.
+  /// - [Failure] with [SecureStorageException] if the operation fails.
   Future<Result<void>> clearAll() async {
     try {
       await _secureStorage.deleteAll();
@@ -94,7 +100,9 @@ class SecureStorageService {
     } catch (e, st) {
       logger.e('Failed to clear all values: $e\n$st');
 
-      return Failure(Exception('Failed to clear all values: $e\n$st'));
+      return Failure(
+        SecureStorageException('Failed to clear all values', cause: e),
+      );
     }
   }
 
@@ -102,7 +110,7 @@ class SecureStorageService {
   ///
   /// Returns a [Result<Map<String, String>>] with:
   /// - [Success] containing a map of all key-value pairs.
-  /// - [Failure] if an error occurs.
+  /// - [Failure] with [SecureStorageException] if the read fails.
   Future<Result<Map<String, String>>> readAll() async {
     try {
       final allValues = await _secureStorage.readAll();
@@ -112,7 +120,9 @@ class SecureStorageService {
     } catch (e, st) {
       logger.e('Failed to read all values: $e\n$st');
 
-      return Failure(Exception('Failed to read all values: $e\n$st'));
+      return Failure(
+        SecureStorageException('Failed to read all values', cause: e),
+      );
     }
   }
 }

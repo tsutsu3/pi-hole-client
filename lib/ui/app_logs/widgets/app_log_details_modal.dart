@@ -17,17 +17,15 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
   String generateBody() {
     switch (valueToShow) {
       case 'message':
-        return widget.log.message;
+        return [widget.log.message, ?widget.log.serverAddress].join('\n');
 
       case 'statusCode':
         return widget.log.statusCode != null
             ? widget.log.statusCode.toString()
             : '[NO STAUS CODE]';
 
-      case 'body':
-        return widget.log.resBody != null
-            ? widget.log.resBody.toString()
-            : '[NO RESPONSE BODY]';
+      case 'details':
+        return widget.log.details ?? '[NO DETAILS]';
 
       default:
         return '';
@@ -152,7 +150,7 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
                     topRight: Radius.circular(15),
                     bottomRight: Radius.circular(15),
                   ),
-                  onTap: () => setState(() => valueToShow = 'body'),
+                  onTap: () => setState(() => valueToShow = 'details'),
                   child: AnimatedContainer(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 15,
@@ -168,16 +166,16 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
                       border: Border.all(
                         color: Theme.of(context).colorScheme.primary,
                       ),
-                      color: valueToShow == 'body'
+                      color: valueToShow == 'details'
                           ? Theme.of(context).colorScheme.primary
                           : Theme.of(
                               context,
                             ).colorScheme.primary.withValues(alpha: 0.05),
                     ),
                     child: Text(
-                      'Body',
+                      'Details',
                       style: TextStyle(
-                        color: valueToShow == 'body' ? Colors.white : null,
+                        color: valueToShow == 'details' ? Colors.white : null,
                       ),
                     ),
                   ),

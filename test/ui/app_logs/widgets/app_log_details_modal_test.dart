@@ -11,8 +11,9 @@ void main() async {
     type: 'error',
     dateTime: DateTime(2025, 1, 1, 12, 0),
     message: 'Something went wrong',
+    serverAddress: 'http://pi.hole',
+    details: 'HttpException: internal',
     statusCode: '500',
-    resBody: '{"error":"internal"}',
   );
 
   group('AppLogDetailsModal', () {
@@ -25,7 +26,7 @@ void main() async {
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(buildTestApp(AppLogDetailsModal(log: baseLog)));
-      expect(find.text('Something went wrong'), findsOneWidget);
+      expect(find.text('Something went wrong\nhttp://pi.hole'), findsOneWidget);
     });
 
     testWidgets('switches to status code tab and shows status code', (
@@ -39,15 +40,15 @@ void main() async {
       expect(find.text('500'), findsOneWidget);
     });
 
-    testWidgets('switches to body tab and shows response body', (
+    testWidgets('switches to details tab and shows the details', (
       WidgetTester tester,
     ) async {
       await tester.pumpWidget(buildTestApp(AppLogDetailsModal(log: baseLog)));
 
-      await tester.tap(find.text('Body'));
+      await tester.tap(find.text('Details'));
       await tester.pumpAndSettle();
 
-      expect(find.text('{"error":"internal"}'), findsOneWidget);
+      expect(find.text('HttpException: internal'), findsOneWidget);
     });
 
     testWidgets('shows [NO STAUS CODE] when statusCode is null', (
@@ -58,7 +59,6 @@ void main() async {
         dateTime: DateTime(2025, 1, 1),
         message: 'msg',
         statusCode: null,
-        resBody: null,
       );
 
       await tester.pumpWidget(buildTestApp(AppLogDetailsModal(log: log)));
@@ -69,7 +69,7 @@ void main() async {
       expect(find.text('[NO STAUS CODE]'), findsOneWidget);
     });
 
-    testWidgets('shows [NO RESPONSE BODY] when resBody is null', (
+    testWidgets('shows [NO DETAILS] when details is null', (
       WidgetTester tester,
     ) async {
       final log = AppLog(
@@ -77,15 +77,14 @@ void main() async {
         dateTime: DateTime(2025, 1, 1),
         message: 'msg',
         statusCode: null,
-        resBody: null,
       );
 
       await tester.pumpWidget(buildTestApp(AppLogDetailsModal(log: log)));
 
-      await tester.tap(find.text('Body'));
+      await tester.tap(find.text('Details'));
       await tester.pumpAndSettle();
 
-      expect(find.text('[NO RESPONSE BODY]'), findsOneWidget);
+      expect(find.text('[NO DETAILS]'), findsOneWidget);
     });
 
     testWidgets('Close button closes the dialog', (WidgetTester tester) async {

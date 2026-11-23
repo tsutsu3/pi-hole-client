@@ -4,7 +4,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/app_config_repository.dart';
 import 'package:pi_hole_client/domain/model/app/app_config.dart';
-import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/l10n/languages.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -40,7 +39,6 @@ class AppConfigViewModel with ChangeNotifier {
   bool _liveLog = true;
   bool _isLivelogPaused = true;
 
-  final List<AppLog> _logs = [];
   final AppConfigRepository _repository;
 
   AppColors get colors =>
@@ -158,10 +156,6 @@ class AppConfigViewModel with ChangeNotifier {
     return _sendCrashReports == 1;
   }
 
-  List<AppLog> get logs {
-    return _logs;
-  }
-
   int get logAutoRefreshTime {
     return _logAutoRefreshTime;
   }
@@ -223,11 +217,6 @@ class AppConfigViewModel with ChangeNotifier {
 
   void setValidVibrator(bool valid) {
     _validVibrator = valid;
-    notifyListeners();
-  }
-
-  void addLog(AppLog log) {
-    _logs.add(log);
     notifyListeners();
   }
 

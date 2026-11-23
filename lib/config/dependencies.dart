@@ -3,6 +3,7 @@ import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache_store.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/app_config_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/app_log_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/interfaces/server_repository.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
@@ -20,7 +21,7 @@ import 'package:provider/single_child_widget.dart';
 ///
 /// Layers:
 /// 1. Services (DatabaseService, SecureStorageService)
-/// 2. Repositories (AppConfigRepository, ServerRepository)
+/// 2. Repositories (AppConfigRepository, AppLogRepository, ServerRepository)
 /// 3. ViewModels (AppConfigViewModel, ServersViewModel)
 /// 3.5. RepositoryBundle - recreated when the selected server changes
 /// 4. Dependent ViewModels (StatusViewModel, LogsViewModel, GravityUpdateViewModel)
@@ -28,6 +29,7 @@ List<SingleChildWidget> createProviders({
   required DatabaseService dbService,
   required SecureStorageService secureStorageService,
   required AppConfigRepository appConfigRepository,
+  required AppLogRepository appLogRepository,
   required ServerRepository serverRepository,
   required AppConfigViewModel configProvider,
   required ServersViewModel serversViewModel,
@@ -62,6 +64,7 @@ List<SingleChildWidget> createProviders({
 
     // Layer 2: Repositories
     Provider<AppConfigRepository>(create: (_) => appConfigRepository),
+    Provider<AppLogRepository>.value(value: appLogRepository),
     Provider<ServerRepository>(create: (_) => serverRepository),
 
     // Layer 3: ViewModels

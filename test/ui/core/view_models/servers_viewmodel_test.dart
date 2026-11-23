@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/v6_session_cache_store.dart';
+import 'package:pi_hole_client/data/repositories/local/app_log_repository.dart';
+import 'package:pi_hole_client/domain/model/app/app_log_type.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/query_types.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
@@ -452,6 +454,36 @@ void main() async {
       var callbackFired = false;
       serversViewModel.update(() => callbackFired = true);
       expect(callbackFired, false);
+    });
+
+    group('fetchCredentials', () {
+      late LocalAppLogRepository appLogRepository;
+      late ServersViewModel vm;
+
+      setUp(() {
+        appLogRepository = LocalAppLogRepository();
+        vm = ServersViewModel(repository, appLogRepository: appLogRepository);
+      });
+
+      tearDown(() => vm.dispose());
+
+      test('returns the credentials and records nothing', () async {
+        final result = await vm.fetchCredentials(server.address);
+
+        expect(result.isSuccess(), isTrue);
+        expect(appLogRepository.logs, isEmpty);
+      });
+
+      test('records a failed read as storage', () async {
+        repository.shouldFailFetchCredentials = true;
+
+        final result = await vm.fetchCredentials(server.address);
+
+        expect(result.isError(), isTrue);
+        final log = appLogRepository.logs.single;
+        expect(log.type, AppLogType.storage.name);
+        expect(log.serverAddress, server.address);
+      });
     });
 
     group('v5 server branches', () {

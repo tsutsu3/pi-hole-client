@@ -54,7 +54,6 @@ void main() {
         HomeVisualizationMode.lineArea,
       );
       expect(appConfigViewModel.sendCrashReports, false);
-      expect(appConfigViewModel.logs, []);
       expect(listenerCalled, false);
     });
 
@@ -99,13 +98,6 @@ void main() {
       expect(appConfigViewModel.validVibrator, true);
       expect(listenerCalled, true);
     });
-
-    // TODO:
-    // test('addLog adds log and notifies listeners', () {
-    //   final log = AppLog(message: 'Test log');
-    //   appConfigViewModel.addLog(log);
-    //   expect(appConfigViewModel.logs, [log]);
-    // });
 
     test('setUseBiometrics updates value and notifies listeners', () async {
       final result = await appConfigViewModel.setUseBiometrics(true);

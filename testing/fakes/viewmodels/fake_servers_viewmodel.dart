@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:pi_hole_client/data/repositories/local/interfaces/app_log_repository.dart';
 import 'package:pi_hole_client/domain/model/server/server.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:result_dart/result_dart.dart';
@@ -13,13 +14,16 @@ import '../repositories/local/fake_server_repository.dart';
 /// to [FakeServerRepository] since Command fields cannot be overridden in
 /// subclasses - the real Command logic runs against the fake repository.
 class FakeServersViewModel extends ServersViewModel {
-  factory FakeServersViewModel() {
+  factory FakeServersViewModel({AppLogRepository? appLogRepository}) {
     final repo = FakeServerRepository();
-    return FakeServersViewModel._internal(repo);
+    return FakeServersViewModel._internal(repo, appLogRepository);
   }
 
-  FakeServersViewModel._internal(FakeServerRepository super.repo)
-    : _fakeRepo = repo;
+  FakeServersViewModel._internal(
+    FakeServerRepository super.repo,
+    AppLogRepository? appLogRepository,
+  ) : _fakeRepo = repo,
+      super(appLogRepository: appLogRepository);
 
   final FakeServerRepository _fakeRepo;
 

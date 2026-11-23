@@ -5,6 +5,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/dns_repository.d
 import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/app_log_repository.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/domain/model/ftl/metrics.dart';
 import 'package:pi_hole_client/domain/model/ftl/sensor.dart';
@@ -15,6 +16,7 @@ import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/domain/use_cases/realtime_status/realtime_status_usecase.dart';
 import 'package:pi_hole_client/domain/use_cases/realtime_status/realtime_status_usecase_v5.dart';
 import 'package:pi_hole_client/domain/use_cases/realtime_status/realtime_status_usecase_v6.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/app_log_type_of.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/widget_channel.dart';
@@ -28,6 +30,12 @@ import 'package:pi_hole_client/utils/widget_channel.dart';
 /// All timer/fetch logic now lives here; ViewModel->ViewModel communication
 /// is eliminated via value + callback injection through [update].
 class StatusViewModel with ChangeNotifier {
+  StatusViewModel({AppLogRepository? appLogRepository})
+    : _appLogRepository = appLogRepository;
+
+  /// Records refresh failures on the App Logs page.
+  final AppLogRepository? _appLogRepository;
+
   // ---------------------------------------------------------------------------
   // Dependencies (injected via [update] from ProxyProvider)
   // ---------------------------------------------------------------------------
@@ -69,6 +77,9 @@ class StatusViewModel with ChangeNotifier {
   // Raised when auto-refresh stops on a TLS error (e.g. pin mismatch); the UI
   // shows the recovery dialog, then clears it.
   Exception? _fatalConnectionError;
+
+  // Whether the current failure of the selected server is already recorded.
+  bool _failureRecorded = false;
 
   // ---------------------------------------------------------------------------
   // Getters - API unchanged from the former StatusViewModel so that all 15+
@@ -181,6 +192,7 @@ class StatusViewModel with ChangeNotifier {
       final wasRunning = _isAutoRefreshRunning;
       stopAutoRefresh();
       _fatalConnectionError = null;
+      _failureRecorded = false;
       _realtimeStatus = null;
       _overtimeData = null;
       _ftlDnsMetrics = null;
@@ -222,6 +234,7 @@ class StatusViewModel with ChangeNotifier {
   /// async user-triggered operation.
   void setServerStatus(LoadStatus status) {
     _serverStatus = status;
+    if (status == LoadStatus.loaded) _failureRecorded = false;
     notifyListeners();
   }
 
@@ -314,6 +327,32 @@ class StatusViewModel with ChangeNotifier {
   bool _isSslError(Object? error) =>
       error is HttpStatusCodeException && error.statusCode == 495;
 
+  /// Records a refresh failure of the selected server on the App Logs page.
+  ///
+  /// Only the first failure is recorded until the server is loaded again, so
+  /// that a server that stays down does not add a log on every refresh.
+  void _recordFailure(String message, Object error) {
+    if (_failureRecorded) return;
+    _failureRecorded = true;
+    _addLog(message, error);
+  }
+
+  /// Lets the next failure be recorded, after the server is loaded again.
+  void _setServerLoaded() {
+    _serverStatus = LoadStatus.loaded;
+    _failureRecorded = false;
+  }
+
+  void _addLog(String message, Object error) {
+    _appLogRepository?.add(
+      type: appLogTypeOf(error),
+      message: message,
+      serverAddress: _selectedServerAddress,
+      details: '$error',
+      statusCode: statusCodeOf(error),
+    );
+  }
+
   // Stops auto-refresh and signals the UI on a fatal connection error that
   // needs interactive recovery: a TLS error (pin mismatch) or a 2FA server
   // requiring a TOTP code (TotpRequiredException).
@@ -326,6 +365,9 @@ class StatusViewModel with ChangeNotifier {
       'Fatal connection error during status refresh; '
       'stopping auto-refresh: $error',
     );
+    // Always recorded: auto-refresh stops here, so it cannot repeat.
+    _addLog('Auto-refresh stopped', error!);
+    _failureRecorded = true;
     _serverStatus = LoadStatus.error;
     _statusLoading = LoadStatus.error;
     _stopAutoRefresh(showLoadingIndicator: false);
@@ -385,7 +427,7 @@ class StatusViewModel with ChangeNotifier {
     }
 
     if (statusOk && overtimeOk && metricsOk) {
-      _serverStatus = LoadStatus.loaded;
+      _setServerLoaded();
       notifyListeners();
 
       return true;
@@ -450,6 +492,7 @@ class StatusViewModel with ChangeNotifier {
       },
       (error) {
         if (_handleFatalConnectionError(error, selectedUrlBefore)) return false;
+        _recordFailure('Status refresh failed', error);
         _statusLoading = LoadStatus.error;
         notifyListeners();
 
@@ -486,6 +529,7 @@ class StatusViewModel with ChangeNotifier {
         return true;
       },
       (error) {
+        _recordFailure('Overtime refresh failed', error);
         _overtimeDataLoading = LoadStatus.error;
         notifyListeners();
 
@@ -523,6 +567,7 @@ class StatusViewModel with ChangeNotifier {
         // v5 returns NotSupportedException for metrics - that's OK.
         // Genuine errors (e.g. network) should propagate as failure.
         if (error is NotSupportedException) return true;
+        _recordFailure('Metrics refresh failed', error);
 
         return false;
       },
@@ -551,6 +596,7 @@ class StatusViewModel with ChangeNotifier {
       return false;
     }
 
+    // Failures are not recorded: they do not change the server status.
     systemResult.fold((system) => _ftlSystem = system, (_) {});
     sensorResult.fold((sensor) => _ftlSensor = sensor, (_) {});
 
@@ -602,7 +648,7 @@ class StatusViewModel with ChangeNotifier {
           _realtimeStatus = status;
           _statusLoading = LoadStatus.loaded;
           if (_serverStatus != LoadStatus.loaded) {
-            _serverStatus = LoadStatus.loaded;
+            _setServerLoaded();
           }
           notifyListeners();
 
@@ -619,6 +665,7 @@ class StatusViewModel with ChangeNotifier {
         (error) {
           if (_handleFatalConnectionError(error, selectedUrlBefore)) return;
           if (selectedUrlBefore == _selectedServerAddress) {
+            _recordFailure('Status refresh failed', error);
             var changed = false;
             if (_serverStatus == LoadStatus.loaded) {
               logger.w(
@@ -699,12 +746,13 @@ class StatusViewModel with ChangeNotifier {
           _overtimeData = overTime;
           _overtimeDataLoading = LoadStatus.loaded;
           if (_serverStatus != LoadStatus.loaded) {
-            _serverStatus = LoadStatus.loaded;
+            _setServerLoaded();
           }
           notifyListeners();
         },
         (error) {
           if (selectedUrlBefore == _selectedServerAddress) {
+            _recordFailure('Overtime refresh failed', error);
             var changed = false;
             if (_serverStatus == LoadStatus.loaded) {
               logger.w(
@@ -786,7 +834,8 @@ class StatusViewModel with ChangeNotifier {
           notifyListeners();
         },
         (error) {
-          // v5 returns NotSupportedException - that's OK
+          // v5 returns NotSupportedException - that's OK.
+          // Not recorded: this timer does not change the server status.
         },
       );
     }

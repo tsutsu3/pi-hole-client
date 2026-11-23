@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/repository_bundle.dart';
 import 'package:pi_hole_client/data/repositories/api/v6/totp_prompt_guard.dart';
+import 'package:pi_hole_client/data/repositories/local/interfaces/app_log_repository.dart';
 
 import 'package:pi_hole_client/ui/core/services/server_connection_service.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -107,6 +108,7 @@ class ServerLabel extends StatelessWidget {
             createBundle: context.read<CreateRepositoryBundle>(),
             totpPromptGuard: context.read<TotpPromptGuard>(),
             resolveTotp: ({error}) => showTotpInputModal(context, error: error),
+            appLogRepository: context.read<AppLogRepository>(),
           );
 
           await service.connect();

@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pi_hole_client/ui/app_logs/view_models/app_logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/app_logs/widgets/app_log_details_modal.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
-import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 class AppLogsScreen extends StatelessWidget {
@@ -13,17 +13,18 @@ class AppLogsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigViewModel = Provider.of<AppConfigViewModel>(context);
+    final logs = context.watch<AppLogsViewModel>().logs;
 
     Future<void> copyLogsClipboard() async {
-      final logsString = appConfigViewModel.logs
+      final logsString = logs
           .map(
             (log) => {
               'type': log.type,
               'dateTime': log.dateTime.toString(),
               'message': log.message,
-              'statusCode': log.statusCode.toString(),
-              'resBody': log.resBody.toString(),
+              'serverAddress': log.serverAddress,
+              'details': log.details,
+              'statusCode': log.statusCode,
             },
           )
           .toList();
@@ -54,9 +55,7 @@ class AppLogsScreen extends StatelessWidget {
         title: Text(AppLocalizations.of(context).logs),
         actions: [
           IconButton(
-            onPressed: appConfigViewModel.logs.isNotEmpty
-                ? copyLogsClipboard
-                : null,
+            onPressed: logs.isNotEmpty ? copyLogsClipboard : null,
             icon: const Icon(Icons.share),
             tooltip: AppLocalizations.of(context).copyLogsClipboard,
           ),
@@ -64,13 +63,15 @@ class AppLogsScreen extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: appConfigViewModel.logs.isNotEmpty
+        child: logs.isNotEmpty
             ? ListView.builder(
                 padding: EdgeInsets.zero,
-                itemCount: appConfigViewModel.logs.length,
+                itemCount: logs.length,
                 itemBuilder: (context, index) => ListTile(
                   title: Text(
-                    appConfigViewModel.logs[index].message,
+                    logs[index].message,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.normal,
@@ -78,22 +79,24 @@ class AppLogsScreen extends StatelessWidget {
                     ),
                   ),
                   subtitle: Text(
-                    appConfigViewModel.logs[index].dateTime.toString(),
+                    [
+                      ?logs[index].serverAddress,
+                      logs[index].dateTime.toString(),
+                    ].join('\n'),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.normal,
                       color: Theme.of(context).listTileTheme.textColor,
                     ),
                   ),
-                  trailing: Text(appConfigViewModel.logs[index].type),
+                  trailing: Text(logs[index].type),
                   onTap: () => {
                     showDialog(
                       context: context,
                       useRootNavigator:
                           false, // Prevents unexpected app exit on mobile when pressing back
-                      builder: (context) => AppLogDetailsModal(
-                        log: appConfigViewModel.logs[index],
-                      ),
+                      builder: (context) =>
+                          AppLogDetailsModal(log: logs[index]),
                     ),
                   },
                 ),
