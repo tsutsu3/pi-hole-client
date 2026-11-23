@@ -392,7 +392,9 @@ class ServersViewModel with ChangeNotifier {
     result.onFailure(
       (error) => _appLogRepository?.add(
         type: appLogTypeOf(error),
-        message: 'Failed to read the saved credentials ($address): $error',
+        message: 'Failed to read the saved credentials',
+        serverAddress: address,
+        details: '$error',
         statusCode: statusCodeOf(error),
       ),
     );

@@ -9,10 +9,13 @@ abstract interface class AppLogRepository {
   /// Emits the new [logs] each time a log is added.
   Stream<List<AppLog>> get logsStream;
 
-  /// Adds a log entry.
+  /// Adds a log entry. [message] is a short summary, and [details] is the
+  /// error text.
   void add({
     required AppLogType type,
     required String message,
+    String? serverAddress,
+    String? details,
     int? statusCode,
   });
 }

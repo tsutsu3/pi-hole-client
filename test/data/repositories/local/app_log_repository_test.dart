@@ -19,7 +19,9 @@ void main() {
     test('add stores the log with the type name and the current time', () {
       repository.add(
         type: AppLogType.connection,
-        message: 'Network connection failed.',
+        message: 'Failed to connect',
+        serverAddress: 'http://pi.hole',
+        details: 'Network connection failed.',
         statusCode: 503,
       );
 
@@ -27,7 +29,9 @@ void main() {
         AppLog(
           type: 'connection',
           dateTime: now,
-          message: 'Network connection failed.',
+          message: 'Failed to connect',
+          serverAddress: 'http://pi.hole',
+          details: 'Network connection failed.',
           statusCode: '503',
         ),
       ]);
@@ -74,16 +78,16 @@ void main() {
       expect(messages.last, '${LocalAppLogRepository.maxLogs}');
     });
 
-    test('add hides secrets in the message', () {
+    test('add hides secrets in the message and the details', () {
       repository.add(
         type: AppLogType.connection,
         message: 'uri=http://pi.hole/admin/api.php?auth=abc123',
+        details: 'uri=http://pi.hole/admin/api.php?auth=abc123',
       );
 
-      expect(
-        repository.logs.single.message,
-        'uri=http://pi.hole/admin/api.php?auth=***',
-      );
+      final log = repository.logs.single;
+      expect(log.message, 'uri=http://pi.hole/admin/api.php?auth=***');
+      expect(log.details, 'uri=http://pi.hole/admin/api.php?auth=***');
     });
   });
 

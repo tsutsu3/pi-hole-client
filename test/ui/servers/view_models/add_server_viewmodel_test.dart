@@ -112,16 +112,17 @@ void main() {
       return vm;
     }
 
-    /// Checks the app logs: one log of [type] whose message contains
-    /// [message], or no log when [type] is null.
-    void expectAppLog({AppLogType? type, String? message}) {
+    /// Checks the app logs: one log of [type] whose details contain
+    /// [details], or no log when [type] is null.
+    void expectAppLog({AppLogType? type, String? details}) {
       if (type == null) {
         expect(appLogRepository.logs, isEmpty, reason: 'app logs');
         return;
       }
       final log = appLogRepository.logs.single;
       expect(log.type, type.name, reason: 'log type');
-      expect(log.message, contains(message), reason: 'log message');
+      expect(log.details, contains(details), reason: 'log details');
+      expect(log.serverAddress, isNotNull, reason: 'log server');
     }
 
     SaveServerRequest createReq({
@@ -266,7 +267,7 @@ void main() {
         expect(serversViewModel.storedSecrets, isEmpty);
         expectAppLog(
           type: AppLogType.connection,
-          message: 'Force createSession failure',
+          details: 'Force createSession failure',
         );
       });
 
@@ -284,7 +285,7 @@ void main() {
         expect(serversViewModel.storedSecrets, isEmpty);
         expect(serversViewModel.deletedSidAddresses, [_oldAddress]);
         expect(authRepository.deleteCurrentSessionCallCount, 1);
-        expectAppLog(type: AppLogType.connection, message: '503');
+        expectAppLog(type: AppLogType.connection, details: '503');
       });
 
       test('a failed password save returns SaveDbError before the DB '
@@ -300,7 +301,7 @@ void main() {
         expect(serversViewModel.deletedSidAddresses, [_oldAddress]);
         expect(serversViewModel.addServerCallCount, 0);
         expect(authRepository.deleteCurrentSessionCallCount, 1);
-        expectAppLog(type: AppLogType.storage, message: 'savePassword failed');
+        expectAppLog(type: AppLogType.storage, details: 'savePassword failed');
       });
 
       test(
@@ -440,7 +441,7 @@ void main() {
         expect(serversViewModel.storedSecrets, isEmpty);
         // Prompted once; the rate-limit response stops the loop.
         expect(promptCount, 1);
-        expectAppLog(type: AppLogType.auth, message: 'TotpRateLimitException');
+        expectAppLog(type: AppLogType.auth, details: 'TotpRateLimitException');
       });
     });
 
@@ -583,7 +584,7 @@ void main() {
         expect(statusViewModel.startAutoRefreshCallCount, 1);
         expectAppLog(
           type: AppLogType.connection,
-          message: 'Force createSession failure',
+          details: 'Force createSession failure',
         );
       });
 
@@ -600,7 +601,7 @@ void main() {
         expect(authRepository.lastPassword, 'new-pass');
         expectAppLog(
           type: AppLogType.connection,
-          message: 'Force createSession failure',
+          details: 'Force createSession failure',
         );
       });
 
@@ -632,7 +633,7 @@ void main() {
           expectOldServerKept();
           // 503 is transient -> no new login, to avoid duplicate sessions.
           expect(authRepository.createSessionCallCount, 0);
-          expectAppLog(type: AppLogType.connection, message: '503');
+          expectAppLog(type: AppLogType.connection, details: '503');
         },
       );
 
@@ -885,7 +886,7 @@ void main() {
           );
           expectAppLog(
             type: AppLogType.connection,
-            message: 'Force createSession failure',
+            details: 'Force createSession failure',
           );
         });
 
@@ -907,7 +908,7 @@ void main() {
           );
           expectAppLog(
             type: AppLogType.connection,
-            message: 'Force fetchBlockingStatus failure',
+            details: 'Force fetchBlockingStatus failure',
           );
         });
 
@@ -930,7 +931,7 @@ void main() {
           expect(serversViewModel.editServerCallCount, 0);
           expectAppLog(
             type: AppLogType.storage,
-            message: 'savePassword failed',
+            details: 'savePassword failed',
           );
         });
 

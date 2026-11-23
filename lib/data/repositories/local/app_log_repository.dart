@@ -27,6 +27,8 @@ class LocalAppLogRepository implements AppLogRepository {
   void add({
     required AppLogType type,
     required String message,
+    String? serverAddress,
+    String? details,
     int? statusCode,
   }) {
     _logs.add(
@@ -34,6 +36,8 @@ class LocalAppLogRepository implements AppLogRepository {
         type: type.name,
         dateTime: _now(),
         message: redactSecrets(message),
+        serverAddress: serverAddress,
+        details: details == null ? null : redactSecrets(details),
         statusCode: statusCode?.toString(),
       ),
     );

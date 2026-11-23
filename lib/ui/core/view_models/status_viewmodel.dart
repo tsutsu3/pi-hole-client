@@ -346,7 +346,9 @@ class StatusViewModel with ChangeNotifier {
   void _addLog(String message, Object error) {
     _appLogRepository?.add(
       type: appLogTypeOf(error),
-      message: '$message ($_selectedServerAddress): $error',
+      message: message,
+      serverAddress: _selectedServerAddress,
+      details: '$error',
       statusCode: statusCodeOf(error),
     );
   }

@@ -482,7 +482,7 @@ void main() async {
         expect(result.isError(), isTrue);
         final log = appLogRepository.logs.single;
         expect(log.type, AppLogType.storage.name);
-        expect(log.message, contains(server.address));
+        expect(log.serverAddress, server.address);
       });
     });
 

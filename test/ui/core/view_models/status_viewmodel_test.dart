@@ -484,19 +484,16 @@ void main() {
 
     tearDown(() => vm.dispose());
 
-    /// Checks the app logs as (type, message start, status code), in order.
+    /// Checks the app logs as (type, message, status code), in order.
     void expectAppLogs(List<(AppLogType, String, String?)> expected) {
       expect(
         appLogRepository.logs
-            .map(
-              (log) =>
-                  (log.type, log.message.split(' (').first, log.statusCode),
-            )
+            .map((log) => (log.type, log.message, log.statusCode))
             .toList(),
         expected.map((e) => (e.$1.name, e.$2, e.$3)).toList(),
       );
       for (final log in appLogRepository.logs) {
-        expect(log.message, contains('http://pi.hole'));
+        expect(log.serverAddress, 'http://pi.hole');
       }
     }
 

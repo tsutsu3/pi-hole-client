@@ -15,7 +15,10 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppLog {
 
- String get type; DateTime get dateTime; String get message; String? get statusCode; String? get resBody;
+ String get type; DateTime get dateTime;/// A short summary, e.g. `Failed to connect`.
+ String get message;/// The address of the server the log is about.
+ String? get serverAddress;/// The error, e.g. the exception text.
+ String? get details; String? get statusCode;
 /// Create a copy of AppLog
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +30,20 @@ $AppLogCopyWith<AppLog> get copyWith => _$AppLogCopyWithImpl<AppLog>(this as App
 @override
 bool operator ==(Object other) {
   final _this = this as AppLog;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppLog&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.dateTime, _this.dateTime) || other.dateTime == _this.dateTime)&&(identical(other.message, _this.message) || other.message == _this.message)&&(identical(other.statusCode, _this.statusCode) || other.statusCode == _this.statusCode)&&(identical(other.resBody, _this.resBody) || other.resBody == _this.resBody));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppLog&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.dateTime, _this.dateTime) || other.dateTime == _this.dateTime)&&(identical(other.message, _this.message) || other.message == _this.message)&&(identical(other.serverAddress, _this.serverAddress) || other.serverAddress == _this.serverAddress)&&(identical(other.details, _this.details) || other.details == _this.details)&&(identical(other.statusCode, _this.statusCode) || other.statusCode == _this.statusCode));
 }
 
 
 @override
 int get hashCode {
   final _this = this as AppLog;
-  return Object.hash(runtimeType,_this.type,_this.dateTime,_this.message,_this.statusCode,_this.resBody);
+  return Object.hash(runtimeType,_this.type,_this.dateTime,_this.message,_this.serverAddress,_this.details,_this.statusCode);
 }
 
 @override
 String toString() {
   final _this = this as AppLog;
-  return 'AppLog(type: ${_this.type}, dateTime: ${_this.dateTime}, message: ${_this.message}, statusCode: ${_this.statusCode}, resBody: ${_this.resBody})';
+  return 'AppLog(type: ${_this.type}, dateTime: ${_this.dateTime}, message: ${_this.message}, serverAddress: ${_this.serverAddress}, details: ${_this.details}, statusCode: ${_this.statusCode})';
 }
 
 
@@ -51,7 +54,7 @@ abstract mixin class $AppLogCopyWith<$Res>  {
   factory $AppLogCopyWith(AppLog value, $Res Function(AppLog) _then) = _$AppLogCopyWithImpl;
 @useResult
 $Res call({
- String type, DateTime dateTime, String message, String? statusCode, String? resBody
+ String type, DateTime dateTime, String message, String? serverAddress, String? details, String? statusCode
 });
 
 
@@ -68,13 +71,14 @@ class _$AppLogCopyWithImpl<$Res>
 
 /// Create a copy of AppLog
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? dateTime = null,Object? message = null,Object? statusCode = freezed,Object? resBody = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? dateTime = null,Object? message = null,Object? serverAddress = freezed,Object? details = freezed,Object? statusCode = freezed,}) {
   return _then(AppLog(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String,dateTime: null == dateTime ? _self.dateTime : dateTime // ignore: cast_nullable_to_non_nullable
 as DateTime,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,statusCode: freezed == statusCode ? _self.statusCode : statusCode // ignore: cast_nullable_to_non_nullable
-as String?,resBody: freezed == resBody ? _self.resBody : resBody // ignore: cast_nullable_to_non_nullable
+as String,serverAddress: freezed == serverAddress ? _self.serverAddress : serverAddress // ignore: cast_nullable_to_non_nullable
+as String?,details: freezed == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
+as String?,statusCode: freezed == statusCode ? _self.statusCode : statusCode // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -157,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String type,  DateTime dateTime,  String message,  String? statusCode,  String? resBody)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String type,  DateTime dateTime,  String message,  String? serverAddress,  String? details,  String? statusCode)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppLog() when $default != null:
-return $default(_that.type,_that.dateTime,_that.message,_that.statusCode,_that.resBody);case _:
+return $default(_that.type,_that.dateTime,_that.message,_that.serverAddress,_that.details,_that.statusCode);case _:
   return orElse();
 
 }
@@ -178,10 +182,10 @@ return $default(_that.type,_that.dateTime,_that.message,_that.statusCode,_that.r
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String type,  DateTime dateTime,  String message,  String? statusCode,  String? resBody)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String type,  DateTime dateTime,  String message,  String? serverAddress,  String? details,  String? statusCode)  $default,) {final _that = this;
 switch (_that) {
 case _AppLog():
-return $default(_that.type,_that.dateTime,_that.message,_that.statusCode,_that.resBody);}
+return $default(_that.type,_that.dateTime,_that.message,_that.serverAddress,_that.details,_that.statusCode);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -195,10 +199,10 @@ return $default(_that.type,_that.dateTime,_that.message,_that.statusCode,_that.r
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String type,  DateTime dateTime,  String message,  String? statusCode,  String? resBody)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String type,  DateTime dateTime,  String message,  String? serverAddress,  String? details,  String? statusCode)?  $default,) {final _that = this;
 switch (_that) {
 case _AppLog() when $default != null:
-return $default(_that.type,_that.dateTime,_that.message,_that.statusCode,_that.resBody);case _:
+return $default(_that.type,_that.dateTime,_that.message,_that.serverAddress,_that.details,_that.statusCode);case _:
   return null;
 
 }
@@ -210,14 +214,18 @@ return $default(_that.type,_that.dateTime,_that.message,_that.statusCode,_that.r
 
 
 class _AppLog implements AppLog {
-  const _AppLog({required this.type, required this.dateTime, required this.message, this.statusCode, this.resBody});
+  const _AppLog({required this.type, required this.dateTime, required this.message, this.serverAddress, this.details, this.statusCode});
   
 
 @override final  String type;
 @override final  DateTime dateTime;
+/// A short summary, e.g. `Failed to connect`.
 @override final  String message;
+/// The address of the server the log is about.
+@override final  String? serverAddress;
+/// The error, e.g. the exception text.
+@override final  String? details;
 @override final  String? statusCode;
-@override final  String? resBody;
 
 /// Create a copy of AppLog
 /// with the given fields replaced by the non-null parameter values.
@@ -229,18 +237,18 @@ _$AppLogCopyWith<_AppLog> get copyWith => __$AppLogCopyWithImpl<_AppLog>(this, _
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppLog&&(identical(other.type, type) || other.type == type)&&(identical(other.dateTime, dateTime) || other.dateTime == dateTime)&&(identical(other.message, message) || other.message == message)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode)&&(identical(other.resBody, resBody) || other.resBody == resBody));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppLog&&(identical(other.type, type) || other.type == type)&&(identical(other.dateTime, dateTime) || other.dateTime == dateTime)&&(identical(other.message, message) || other.message == message)&&(identical(other.serverAddress, serverAddress) || other.serverAddress == serverAddress)&&(identical(other.details, details) || other.details == details)&&(identical(other.statusCode, statusCode) || other.statusCode == statusCode));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,type,dateTime,message,statusCode,resBody);
+    return Object.hash(runtimeType,type,dateTime,message,serverAddress,details,statusCode);
 }
 
 @override
 String toString() {
-    return 'AppLog(type: $type, dateTime: $dateTime, message: $message, statusCode: $statusCode, resBody: $resBody)';
+    return 'AppLog(type: $type, dateTime: $dateTime, message: $message, serverAddress: $serverAddress, details: $details, statusCode: $statusCode)';
 }
 
 
@@ -251,7 +259,7 @@ abstract mixin class _$AppLogCopyWith<$Res> implements $AppLogCopyWith<$Res> {
   factory _$AppLogCopyWith(_AppLog value, $Res Function(_AppLog) _then) = __$AppLogCopyWithImpl;
 @override @useResult
 $Res call({
- String type, DateTime dateTime, String message, String? statusCode, String? resBody
+ String type, DateTime dateTime, String message, String? serverAddress, String? details, String? statusCode
 });
 
 
@@ -268,13 +276,14 @@ class __$AppLogCopyWithImpl<$Res>
 
 /// Create a copy of AppLog
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? dateTime = null,Object? message = null,Object? statusCode = freezed,Object? resBody = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? dateTime = null,Object? message = null,Object? serverAddress = freezed,Object? details = freezed,Object? statusCode = freezed,}) {
   return _then(_AppLog(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String,dateTime: null == dateTime ? _self.dateTime : dateTime // ignore: cast_nullable_to_non_nullable
 as DateTime,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,statusCode: freezed == statusCode ? _self.statusCode : statusCode // ignore: cast_nullable_to_non_nullable
-as String?,resBody: freezed == resBody ? _self.resBody : resBody // ignore: cast_nullable_to_non_nullable
+as String,serverAddress: freezed == serverAddress ? _self.serverAddress : serverAddress // ignore: cast_nullable_to_non_nullable
+as String?,details: freezed == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
+as String?,statusCode: freezed == statusCode ? _self.statusCode : statusCode // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

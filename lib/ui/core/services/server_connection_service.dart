@@ -290,7 +290,9 @@ class ServerConnectionService {
   void _recordFailure(String message, Object error) {
     appLogRepository.add(
       type: appLogTypeOf(error),
-      message: '$message (${server.address}): $error',
+      message: message,
+      serverAddress: server.address,
+      details: '$error',
       statusCode: statusCodeOf(error),
     );
   }

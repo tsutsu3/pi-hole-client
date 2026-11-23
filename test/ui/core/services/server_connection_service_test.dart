@@ -125,7 +125,7 @@ void main() async {
       final log = appLogRepository.logs.single;
       expect(log.type, type.name, reason: 'log type');
       expect(log.statusCode, statusCode, reason: 'log status code');
-      expect(log.message, contains(server.address), reason: 'log message');
+      expect(log.serverAddress, server.address, reason: 'log server');
     }
 
     /// Pumps a minimal app and returns a [BuildContext] living under a
@@ -309,7 +309,7 @@ void main() async {
       expectAppLog(type: AppLogType.connection);
       expect(
         appLogRepository.logs.single.message,
-        contains('Unexpected error during server connection'),
+        'Unexpected error during server connection',
       );
     });
 

@@ -95,9 +95,9 @@ void main() async {
       await tester.pumpAndSettle();
       expect(find.text('200'), findsOneWidget);
 
-      await tester.tap(find.text('Body'));
+      await tester.tap(find.text('Details'));
       await tester.pumpAndSettle();
-      expect(find.text('[NO RESPONSE BODY]'), findsOneWidget);
+      expect(find.text('[NO DETAILS]'), findsOneWidget);
     });
 
     testWidgets('should show blank screen (no app logs)', (

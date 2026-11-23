@@ -22,8 +22,9 @@ class AppLogsScreen extends StatelessWidget {
               'type': log.type,
               'dateTime': log.dateTime.toString(),
               'message': log.message,
-              'statusCode': log.statusCode.toString(),
-              'resBody': log.resBody.toString(),
+              'serverAddress': log.serverAddress,
+              'details': log.details,
+              'statusCode': log.statusCode,
             },
           )
           .toList();
@@ -78,7 +79,10 @@ class AppLogsScreen extends StatelessWidget {
                     ),
                   ),
                   subtitle: Text(
-                    logs[index].dateTime.toString(),
+                    [
+                      ?logs[index].serverAddress,
+                      logs[index].dateTime.toString(),
+                    ].join('\n'),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.normal,

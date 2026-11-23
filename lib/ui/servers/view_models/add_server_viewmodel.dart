@@ -232,7 +232,7 @@ class AddServerViewModel extends ChangeNotifier {
           sessionCreated: sessionCreated,
         );
 
-        _recordFailure('Failed to connect (${server.address})', error);
+        _recordFailure('Failed to connect', server, error);
 
         return SaveApiError(error, draft.apiVersion);
       case ConnectSuccess():
@@ -391,7 +391,7 @@ class AddServerViewModel extends ChangeNotifier {
           sessionCreated: sessionCreated,
         );
 
-        _recordFailure('Failed to connect (${server.address})', error);
+        _recordFailure('Failed to connect', server, error);
 
         return SaveApiError(error, draft.apiVersion);
       case ConnectSuccess():
@@ -428,10 +428,12 @@ class AddServerViewModel extends ChangeNotifier {
   }
 
   /// Records [error] on the App Logs page.
-  void _recordFailure(String message, Object error) {
+  void _recordFailure(String message, Server server, Object error) {
     _appLogRepository.add(
       type: appLogTypeOf(error),
-      message: '$message: $error',
+      message: message,
+      serverAddress: server.address,
+      details: '$error',
       statusCode: statusCodeOf(error),
     );
   }
@@ -444,10 +446,8 @@ class AddServerViewModel extends ChangeNotifier {
         ? await _serverRepository.savePassword(server.address, secret)
         : await _serverRepository.saveToken(server.address, secret);
     result.onFailure(
-      (error) => _recordFailure(
-        'Failed to save the credentials (${server.address})',
-        error,
-      ),
+      (error) =>
+          _recordFailure('Failed to save the credentials', server, error),
     );
 
     return result.isSuccess();
