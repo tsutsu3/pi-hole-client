@@ -10,6 +10,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
 import io.github.tsutsu3.pi_hole_client.widget.WidgetDebugConfig
+import io.github.tsutsu3.pi_hole_client.widget.common.WidgetStatus
 import io.github.tsutsu3.pi_hole_client.widget.ui.compact.CompactWidgetProvider
 import io.github.tsutsu3.pi_hole_client.widget.ui.stats.PiHoleWidgetProvider
 import io.github.tsutsu3.pi_hole_client.widget.ui.toggle.ToggleWidgetProvider
@@ -178,6 +179,50 @@ class WidgetPrefs private constructor(context: Context) {
         set(value) {
             prefs.edit().putLong(WidgetConstants.KEY_WIDGET_DISABLE_DURATION, value.coerceAtLeast(0L)).apply()
         }
+
+    /**
+     * Disable limit: Pi-hole can be disabled at most once in this many
+     * seconds (0 = no limit). Applies to the app and the widgets.
+     */
+    var disableCooldown: Long
+        get() = prefs.getLong(WidgetConstants.KEY_DISABLE_COOLDOWN, 0L).coerceAtLeast(0L)
+        set(value) {
+            prefs.edit().putLong(WidgetConstants.KEY_DISABLE_COOLDOWN, value.coerceAtLeast(0L)).apply()
+        }
+
+    /** Records that Pi-hole on [serverId] was just disabled (app or widget). */
+    fun recordDisable(serverId: String, nowMs: Long = System.currentTimeMillis()) {
+        prefs.edit().putLong("${WidgetConstants.KEY_LAST_DISABLE_AT_PREFIX}$serverId", nowMs).apply()
+    }
+
+    /** Milliseconds before Pi-hole on [serverId] can be disabled again; 0 when allowed. */
+    fun disableCooldownRemainingMs(serverId: String, nowMs: Long = System.currentTimeMillis()): Long {
+        val cooldownMs = disableCooldown * 1000L
+        val last = prefs.getLong("${WidgetConstants.KEY_LAST_DISABLE_AT_PREFIX}$serverId", 0L)
+        if (cooldownMs == 0L || last <= 0L) return 0L
+        val elapsed = (nowMs - last).coerceAtLeast(0L)
+        return (cooldownMs - elapsed).coerceAtLeast(0L)
+    }
+
+    /**
+     * Remembers the last blocking status shown by the widgets, so a tap can
+     * be checked against the disable limit without asking Pi-hole first
+     * (also when it can't be reached). Errors keep the previous value.
+     */
+    fun rememberBlockingStatus(serverId: String, status: WidgetStatus) {
+        val enabled = when (status) {
+            WidgetStatus.BLOCKING_ON -> true
+            WidgetStatus.BLOCKING_OFF -> false
+            else -> return
+        }
+        prefs.edit().putBoolean("${WidgetConstants.KEY_LAST_BLOCKING_ENABLED_PREFIX}$serverId", enabled).apply()
+    }
+
+    /** Last known blocking status: true = enabled, false = disabled, null = unknown. */
+    fun lastKnownBlockingEnabled(serverId: String): Boolean? {
+        val key = "${WidgetConstants.KEY_LAST_BLOCKING_ENABLED_PREFIX}$serverId"
+        return if (prefs.contains(key)) prefs.getBoolean(key, true) else null
+    }
 
     /**
      * Returns SID cached by Flutter, if present.

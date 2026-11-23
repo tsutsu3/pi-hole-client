@@ -6,10 +6,12 @@ import androidx.work.testing.TestListenableWorkerBuilder
 import androidx.work.workDataOf
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
 import io.github.tsutsu3.pi_hole_client.widget.WidgetUpdateHelper
+import io.github.tsutsu3.pi_hole_client.widget.common.showDisableLimitToast
 import io.github.tsutsu3.pi_hole_client.widget.data.WidgetPrefs
 import io.github.tsutsu3.pi_hole_client.widget.data.WidgetServer
 import io.mockk.every
 import io.mockk.mockkObject
+import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.unmockkObject
 import io.mockk.verify
@@ -168,6 +170,48 @@ class ServerToggleWorkerTest {
         assertEquals(false, body.getBoolean("blocking"))
         assertEquals(3600L, body.getLong("timer"))
         verify { WidgetUpdateHelper.scheduleDelayedRefresh(any(), serverId, 3600L) }
+    }
+
+    @Test
+    fun disableIsRefusedDuringTheDisableLimit() {
+        every { prefs.hasUsableSession(serverId) } returns true
+        every { prefs.getSid(serverId) } returns ""
+        every { prefs.disableCooldownRemainingMs(serverId, any()) } returns 600_000L
+        mockkStatic("io.github.tsutsu3.pi_hole_client.widget.common.DisableLimitToastKt")
+        every { showDisableLimitToast(any(), any()) } returns Unit
+        server.enqueue(MockResponse().setResponseCode(200).setBody("""{"blocking":"enabled"}"""))
+
+        runWorker()
+
+        // Only the status GET: no POST to disable.
+        assertEquals(1, server.requestCount)
+        verify(exactly = 0) { prefs.recordDisable(any(), any()) }
+        verify { showDisableLimitToast(any(), 600_000L) }
+    }
+
+    @Test
+    fun enableIsAllowedDuringTheDisableLimit() {
+        every { prefs.hasUsableSession(serverId) } returns true
+        every { prefs.getSid(serverId) } returns ""
+        every { prefs.disableCooldownRemainingMs(serverId, any()) } returns 600_000L
+        server.enqueue(MockResponse().setResponseCode(200).setBody("""{"blocking":"disabled"}"""))
+        server.enqueue(MockResponse().setResponseCode(200).setBody("{}"))
+
+        runWorker()
+
+        assertEquals(2, server.requestCount)
+    }
+
+    @Test
+    fun successfulDisableIsRecordedForTheDisableLimit() {
+        every { prefs.hasUsableSession(serverId) } returns true
+        every { prefs.getSid(serverId) } returns ""
+        server.enqueue(MockResponse().setResponseCode(200).setBody("""{"blocking":"enabled"}"""))
+        server.enqueue(MockResponse().setResponseCode(200).setBody("{}"))
+
+        runWorker()
+
+        verify { prefs.recordDisable(serverId, any()) }
     }
 
     @Test

@@ -330,5 +330,27 @@ void main() {
       expect(rows, hasLength(1));
       expect(rows!.first['widgetDisableDuration'], 0);
     });
+
+    test('v13 -> v14 adds disableCooldown set to 0', () async {
+      final v13 = await databaseFactory.openDatabase(
+        path,
+        options: OpenDatabaseOptions(
+          version: 13,
+          onCreate: (db, _) async {
+            await db.execute('CREATE TABLE appConfig (theme NUMERIC NOT NULL)');
+            await db.insert('appConfig', {'theme': 1});
+          },
+        ),
+      );
+      await v13.close();
+
+      final dbService = DatabaseService(path: path);
+      await dbService.open(latestVersion: 14);
+      final rows = (await dbService.query('appConfig')).getOrNull();
+      await dbService.close();
+
+      expect(rows, hasLength(1));
+      expect(rows!.first['disableCooldown'], 0);
+    });
   });
 }

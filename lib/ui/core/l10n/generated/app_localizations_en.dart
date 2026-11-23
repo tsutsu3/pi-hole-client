@@ -2456,4 +2456,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get widgetDisableFor => 'Disable for';
+
+  @override
+  String get disableLimit => 'Disable limit';
+
+  @override
+  String get disableLimitEnable => 'Limit how often Pi-hole can be disabled';
+
+  @override
+  String get disableLimitDescription =>
+      'Pi-hole can be disabled once in this time, from the app or a widget, counted from the last disable. Enabling is always allowed.';
+
+  @override
+  String get disableLimitOnceEvery => 'Once every';
+
+  @override
+  String get disableLimitInvalid => 'Enter a time between 1 second and 7 days';
+
+  @override
+  String disableCooldownActive(Object remaining) {
+    return 'Pi-hole can be disabled again in $remaining';
+  }
 }

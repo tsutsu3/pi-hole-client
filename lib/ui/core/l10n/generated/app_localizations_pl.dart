@@ -2480,4 +2480,26 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get widgetDisableFor => 'Wyłącz na';
+
+  @override
+  String get disableLimit => 'Limit wyłączeń';
+
+  @override
+  String get disableLimitEnable =>
+      'Ogranicz, jak często można wyłączyć Pi-hole';
+
+  @override
+  String get disableLimitDescription =>
+      'Pi-hole można wyłączyć raz w tym czasie, w aplikacji lub z widżetu, licząc od ostatniego wyłączenia. Włączenie jest zawsze możliwe.';
+
+  @override
+  String get disableLimitOnceEvery => 'Raz na';
+
+  @override
+  String get disableLimitInvalid => 'Wpisz czas od 1 sekundy do 7 dni';
+
+  @override
+  String disableCooldownActive(Object remaining) {
+    return 'Pi-hole będzie można ponownie wyłączyć za $remaining';
+  }
 }

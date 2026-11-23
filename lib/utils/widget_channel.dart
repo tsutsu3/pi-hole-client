@@ -99,16 +99,51 @@ class WidgetChannel {
   ///
   /// [disableDuration]: how long a disable from a widget lasts, in seconds
   /// (0 = indefinitely).
+  /// [disableCooldown]: Pi-hole can be disabled at most once in this time,
+  /// in seconds (0 = no limit).
   static Future<void> sendWidgetSettingsUpdated({
     required int disableDuration,
+    required int disableCooldown,
   }) async {
     if (!_isSupported()) return;
     try {
       await _channel.invokeMethod('widgetSettingsUpdated', {
         'disableDuration': disableDuration,
+        'disableCooldown': disableCooldown,
       });
     } catch (e) {
       logger.w('Widget widgetSettingsUpdated failed: $e');
+    }
+  }
+
+  /// Time left before Pi-hole on [serverAddress] can be disabled again
+  /// (disable limit). [Duration.zero] when allowed or not supported.
+  static Future<Duration> getDisableCooldownRemaining(
+    String serverAddress,
+  ) async {
+    if (!_isSupported()) return Duration.zero;
+    try {
+      final ms = await _channel.invokeMethod<int>(
+        'getDisableCooldownRemaining',
+        {'serverId': serverAddress},
+      );
+      return Duration(milliseconds: ms ?? 0);
+    } catch (e) {
+      logger.w('Widget getDisableCooldownRemaining failed: $e');
+      return Duration.zero;
+    }
+  }
+
+  /// Records that Pi-hole on [serverAddress] was just disabled from the app,
+  /// so the disable limit also counts it.
+  static Future<void> sendDisableRecorded(String serverAddress) async {
+    if (!_isSupported()) return;
+    try {
+      await _channel.invokeMethod('disableRecorded', {
+        'serverId': serverAddress,
+      });
+    } catch (e) {
+      logger.w('Widget disableRecorded failed: $e');
     }
   }
 

@@ -1704,6 +1704,7 @@ class TestSetupHelper {
       mockConfigProvider.disableDurations,
     ).thenReturn(const [30, 60, 120, 300]);
     when(mockConfigProvider.widgetDisableDuration).thenReturn(0);
+    when(mockConfigProvider.disableCooldown).thenReturn(0);
     when(mockConfigProvider.loadingAnimation).thenReturn(true);
     when(
       mockConfigProvider.setShowLoadingAnimation(any),

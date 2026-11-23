@@ -199,6 +199,11 @@ class LocalAppConfigRepository implements AppConfigRepository {
   }
 
   @override
+  Future<Result<void>> updateDisableCooldown(int seconds) async {
+    return _updateConfigValue(column: 'disableCooldown', value: seconds);
+  }
+
+  @override
   Future<Result<void>> updatePassCode(String? passCode) async {
     return _updateSecretConfigValue(key: 'passCode', value: passCode);
   }
@@ -255,6 +260,7 @@ class LocalAppConfigRepository implements AppConfigRepository {
           DisableDurations.defaults,
         ),
         'widgetDisableDuration': 0,
+        'disableCooldown': 0,
       });
     } catch (e, st) {
       logger.e('Failed to restore app config: $e\n$st');

@@ -237,6 +237,7 @@ Future<Widget> bootstrapApp({
   await WidgetChannel.sendServersUpdated(serversViewModel.getServersList);
   await WidgetChannel.sendWidgetSettingsUpdated(
     disableDuration: configProvider.widgetDisableDuration,
+    disableCooldown: configProvider.disableCooldown,
   );
 
   // Reclaim secure-storage entries (token/password/sid) orphaned by servers

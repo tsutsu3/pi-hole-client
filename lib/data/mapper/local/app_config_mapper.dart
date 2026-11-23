@@ -31,5 +31,6 @@ extension AppDbDataMapper on AppDbData {
     passCode: passCode,
     disableDurations: DisableDurations.parse(disableDurations),
     widgetDisableDuration: widgetDisableDuration,
+    disableCooldown: disableCooldown,
   );
 }

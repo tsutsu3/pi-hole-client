@@ -30,5 +30,9 @@ sealed class AppConfig with _$AppConfig {
     /// How long a disable from a home screen widget lasts, in seconds.
     /// 0 = indefinitely.
     @Default(0) int widgetDisableDuration,
+
+    /// Pi-hole can be disabled at most once in this time, in seconds.
+    /// 0 = no limit. Android only.
+    @Default(0) int disableCooldown,
   }) = _AppConfig;
 }

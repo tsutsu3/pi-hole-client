@@ -256,6 +256,11 @@ class MockAppConfigViewModel extends _i1.Mock
           as int);
 
   @override
+  int get disableCooldown =>
+      (super.noSuchMethod(Invocation.getter(#disableCooldown), returnValue: 0)
+          as int);
+
+  @override
   int get logAutoRefreshTime =>
       (super.noSuchMethod(
             Invocation.getter(#logAutoRefreshTime),
@@ -403,6 +408,14 @@ class MockAppConfigViewModel extends _i1.Mock
   _i11.Future<bool> setWidgetDisableDuration(int? seconds) =>
       (super.noSuchMethod(
             Invocation.method(#setWidgetDisableDuration, [seconds]),
+            returnValue: _i11.Future<bool>.value(false),
+          )
+          as _i11.Future<bool>);
+
+  @override
+  _i11.Future<bool> setDisableCooldown(int? seconds) =>
+      (super.noSuchMethod(
+            Invocation.method(#setDisableCooldown, [seconds]),
             returnValue: _i11.Future<bool>.value(false),
           )
           as _i11.Future<bool>);

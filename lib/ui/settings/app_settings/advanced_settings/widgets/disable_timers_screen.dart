@@ -30,7 +30,8 @@ enum _TimeUnit {
 /// Settings > App settings > Advanced settings > Disable timers.
 ///
 /// Sets the timed options of the disable menu and, on Android, how long a
-/// disable from a home screen widget lasts.
+/// disable from a home screen widget lasts and how often Pi-hole can be
+/// disabled.
 class DisableTimersScreen extends StatefulWidget {
   const DisableTimersScreen({super.key});
 
@@ -53,12 +54,38 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
   final TextEditingController _widgetController = TextEditingController();
   _TimeUnit _widgetUnit = _TimeUnit.hours;
 
+  // Disable limit (Android only).
+  bool _limitEnabled = false;
+  final TextEditingController _limitController = TextEditingController();
+  _TimeUnit _limitUnit = _TimeUnit.hours;
+
+  /// Longest disable limit: 7 days.
+  static const _maxLimitSeconds = 7 * 86400;
+
   @override
   void initState() {
     super.initState();
     final appConfig = context.read<AppConfigViewModel>();
     _fill(appConfig.disableDurations);
     _fillWidget(appConfig.widgetDisableDuration);
+    _fillLimit(appConfig.disableCooldown);
+  }
+
+  void _fillLimit(int seconds) {
+    _limitEnabled = seconds > 0;
+    final value = seconds > 0 ? seconds : 4 * 3600;
+    _limitUnit = _TimeUnit.bestFor(value);
+    _limitController.text = (value ~/ _limitUnit.factor).toString();
+  }
+
+  /// Disable limit in seconds (0 = no limit), or null if not valid.
+  int? get _limitSeconds {
+    if (!_limitEnabled) return 0;
+    return _toSeconds(
+      _limitController.text,
+      _limitUnit,
+      max: _maxLimitSeconds,
+    );
   }
 
   void _fillWidget(int seconds) {
@@ -81,6 +108,7 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
       c.dispose();
     }
     _widgetController.dispose();
+    _limitController.dispose();
     super.dispose();
   }
 
@@ -98,14 +126,17 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
   /// Duration in seconds of option [i], or null if not valid.
   int? _seconds(int i) => _toSeconds(_controllers[i].text, _units[i]);
 
-  int? _toSeconds(String text, _TimeUnit unit) {
+  int? _toSeconds(
+    String text,
+    _TimeUnit unit, {
+    int max = DisableDurations.maxSeconds,
+  }) {
     final value = int.tryParse(text.trim());
     if (value == null) return null;
     // Compare before multiplying, so a huge number cannot overflow.
     if (value > DisableDurations.maxSeconds ~/ unit.factor) return null;
     final seconds = value * unit.factor;
-    if (seconds < DisableDurations.minSeconds ||
-        seconds > DisableDurations.maxSeconds) {
+    if (seconds < DisableDurations.minSeconds || seconds > max) {
       return null;
     }
     return seconds;
@@ -126,7 +157,8 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
     final entries = _entries;
     return entries.every((s) => s != null) &&
         entries.toSet().length == entries.length &&
-        (!WidgetChannel.isSupported || _widgetSeconds != null);
+        (!WidgetChannel.isSupported ||
+            (_widgetSeconds != null && _limitSeconds != null));
   }
 
   /// Current entries, in seconds (null where not valid).
@@ -135,21 +167,26 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
   Future<void> _save() async {
     final entries = _entries;
     final widgetSeconds = _widgetSeconds;
+    final limitSeconds = _limitSeconds;
     final durations = entries.cast<int>().toList()..sort();
     final appConfig = context.read<AppConfigViewModel>();
     final loc = AppLocalizations.of(context);
     var ok = await appConfig.setDisableDurations(durations);
     if (WidgetChannel.isSupported) {
       ok = await appConfig.setWidgetDisableDuration(widgetSeconds!) && ok;
+      ok = await appConfig.setDisableCooldown(limitSeconds!) && ok;
     }
     if (!mounted) return;
     if (ok) {
       // Show the saved (sorted) values, unless the user changed the form
       // while saving: then keep their edits.
-      if (listEquals(_entries, entries) && _widgetSeconds == widgetSeconds) {
+      if (listEquals(_entries, entries) &&
+          _widgetSeconds == widgetSeconds &&
+          _limitSeconds == limitSeconds) {
         setState(() {
           _fill(durations);
           _fillWidget(appConfig.widgetDisableDuration);
+          _fillLimit(appConfig.disableCooldown);
         });
       }
       showSuccessSnackBar(
@@ -262,6 +299,30 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
     ];
   }
 
+  List<Widget> _limitSection(AppLocalizations loc) {
+    return [
+      SectionLabel(label: loc.disableLimit),
+      SwitchListTile(
+        key: const Key('disableLimitEnabled'),
+        title: Text(loc.disableLimitEnable),
+        subtitle: Text(loc.disableLimitDescription),
+        value: _limitEnabled,
+        onChanged: (value) => setState(() => _limitEnabled = value),
+      ),
+      if (_limitEnabled)
+        _durationRow(
+          fieldKey: const Key('disableLimitDuration'),
+          unitId: 'disableLimitDurationUnit',
+          label: loc.disableLimitOnceEvery,
+          controller: _limitController,
+          unit: _limitUnit,
+          onUnitChanged: (unit) => setState(() => _limitUnit = unit),
+          errorText: _limitSeconds == null ? loc.disableLimitInvalid : null,
+          loc: loc,
+        ),
+    ];
+  }
+
   /// Just wide enough for the longest unit name plus the arrow, so the
   /// text field gets the rest of the row in every language.
   double _unitMenuWidth(AppLocalizations loc) {
@@ -328,6 +389,7 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
             ),
             for (var i = 0; i < DisableDurations.count; i++) _optionRow(i, loc),
             if (WidgetChannel.isSupported) ..._widgetSection(loc),
+            if (WidgetChannel.isSupported) ..._limitSection(loc),
             Padding(
               padding: const EdgeInsets.all(16),
               child: FilledButton(

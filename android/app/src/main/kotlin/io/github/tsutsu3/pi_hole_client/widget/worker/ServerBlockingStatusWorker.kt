@@ -108,6 +108,7 @@ class ServerBlockingStatusWorker(
     }
 
     private suspend fun broadcast(serverId: String, prefs: WidgetPrefs, state: ToggleWidgetState) {
+        prefs.rememberBlockingStatus(serverId, state.status)
         val glanceManager = GlanceAppWidgetManager(applicationContext)
         for (widgetId in boundToggleIds(serverId, prefs)) {
             val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue

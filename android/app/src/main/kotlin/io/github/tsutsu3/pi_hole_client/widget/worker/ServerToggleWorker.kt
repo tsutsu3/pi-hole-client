@@ -16,6 +16,7 @@ import io.github.tsutsu3.pi_hole_client.widget.common.piholeUrl
 import io.github.tsutsu3.pi_hole_client.widget.common.ToggleWidgetState
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetStatus
 import io.github.tsutsu3.pi_hole_client.widget.common.parseBlockingStatus
+import io.github.tsutsu3.pi_hole_client.widget.common.showDisableLimitToast
 import io.github.tsutsu3.pi_hole_client.widget.data.WidgetPrefs
 import io.github.tsutsu3.pi_hole_client.widget.data.updateFromToggle
 import io.github.tsutsu3.pi_hole_client.widget.data.updateStatusFrom
@@ -105,6 +106,21 @@ class ServerToggleWorker(
             val currentBlocking = JSONObject(statusResp.body).optString("blocking")
             val nextBlocking = currentBlocking != "enabled"
 
+            // Disable limit: refuse a disable before the time set in the app.
+            // Enabling is always allowed.
+            if (!nextBlocking) {
+                val remainingMs = prefs.disableCooldownRemainingMs(serverId)
+                if (remainingMs > 0L) {
+                    showDisableLimitToast(applicationContext, remainingMs)
+                    broadcast(
+                        serverId,
+                        prefs,
+                        ToggleWidgetState(serverId, server.alias, parseBlockingStatus(currentBlocking), true),
+                    )
+                    return Result.success()
+                }
+            }
+
             val body = JSONObject()
             body.put("blocking", nextBlocking)
             // A disable lasts as set in the app (0 = indefinitely). Enabling
@@ -133,6 +149,7 @@ class ServerToggleWorker(
             broadcast(serverId, prefs, ToggleWidgetState(serverId, server.alias, finalStatus, true))
 
             if (toggleResp.statusCode in 200..299) {
+                if (!nextBlocking) prefs.recordDisable(serverId)
                 // Immediately reflect the new blocking state in Stats and Compact widgets
                 // so they update in sync with the Toggle widget without waiting for PADD.
                 broadcastStatusToStatsWidgets(serverId, prefs, finalStatus)
@@ -153,6 +170,7 @@ class ServerToggleWorker(
     }
 
     private suspend fun broadcast(serverId: String, prefs: WidgetPrefs, state: ToggleWidgetState) {
+        prefs.rememberBlockingStatus(serverId, state.status)
         val manager = AppWidgetManager.getInstance(applicationContext)
         val glanceManager = GlanceAppWidgetManager(applicationContext)
         val toggleIds = prefs.getWidgetIdsForServer(

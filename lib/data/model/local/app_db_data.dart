@@ -18,6 +18,7 @@ class AppDbData {
     required this.sendCrashReports,
     this.disableDurations = defaultDisableDurationsDb,
     this.widgetDisableDuration = 0,
+    this.disableCooldown = 0,
   });
 
   factory AppDbData.fromMap(Map<String, Object?> map) {
@@ -41,6 +42,7 @@ class AppDbData {
       disableDurations:
           map['disableDurations'] as String? ?? defaultDisableDurationsDb,
       widgetDisableDuration: map['widgetDisableDuration'] as int? ?? 0,
+      disableCooldown: map['disableCooldown'] as int? ?? 0,
     );
   }
 
@@ -64,6 +66,7 @@ class AppDbData {
       sendCrashReports: instance.sendCrashReports,
       disableDurations: instance.disableDurations,
       widgetDisableDuration: instance.widgetDisableDuration,
+      disableCooldown: instance.disableCooldown,
     );
   }
 
@@ -93,6 +96,10 @@ class AppDbData {
   /// How long a disable from a widget lasts, in seconds (0 = indefinitely).
   final int widgetDisableDuration;
 
+  /// Pi-hole can be disabled at most once in this time, in seconds
+  /// (0 = no limit).
+  final int disableCooldown;
+
   Map<String, Object?> toDict() {
     return {
       'autoRefreshTime': autoRefreshTime,
@@ -113,6 +120,7 @@ class AppDbData {
       'sendCrashReports': sendCrashReports,
       'disableDurations': disableDurations,
       'widgetDisableDuration': widgetDisableDuration,
+      'disableCooldown': disableCooldown,
     };
   }
 }

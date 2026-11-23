@@ -197,6 +197,9 @@ class _HomeFab extends StatelessWidget {
                 if (statusVM.isServerLoading) return;
                 if (serversVM.selectedServer == null) return;
                 if (serversVM.selectedServerEnabled == true) {
+                  // Disable limit: say how long to wait instead of the menu.
+                  if (await showDisableCooldownIfActive(context)) return;
+                  if (!context.mounted) return;
                   if (width > ResponsiveConstants.medium) {
                     await showDialog(
                       context: context,

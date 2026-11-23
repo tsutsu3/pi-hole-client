@@ -45,7 +45,7 @@ class DatabaseService {
   /// Returns:
   /// - [Success] containing the opened [Database] instance if successful.
   /// - [Failure] containing an [Exception] if an error occurs during opening.
-  Future<Result<Database>> open({int? latestVersion = 13}) async {
+  Future<Result<Database>> open({int? latestVersion = 14}) async {
     try {
       _db = await openDatabase(
         _path,
@@ -307,7 +307,8 @@ class DatabaseService {
         homeVisualizationMode NUMERIC NOT NULL,
         sendCrashReports NUMERIC NOT NULL,
         disableDurations TEXT NOT NULL DEFAULT '30,60,120,300',
-        widgetDisableDuration NUMERIC NOT NULL DEFAULT 0
+        widgetDisableDuration NUMERIC NOT NULL DEFAULT 0,
+        disableCooldown NUMERIC NOT NULL DEFAULT 0
       )
     ''');
 
@@ -399,6 +400,8 @@ class DatabaseService {
         await _upgradeToV12(db);
       case 13:
         await _upgradeToV13(db);
+      case 14:
+        await _upgradeToV14(db);
       default:
         logger.w('Database upgrade to version $version is not handled.');
     }
@@ -877,5 +880,16 @@ class DatabaseService {
       'ALTER TABLE appConfig ADD COLUMN widgetDisableDuration NUMERIC NOT NULL DEFAULT 0',
     );
     logger.d('Database upgraded to version 13');
+  }
+
+  /// Migrates the database to version 14.
+  ///
+  /// Adds the `disableCooldown` column to `appConfig`: Pi-hole can be
+  /// disabled at most once in this time, in seconds (0 = no limit).
+  Future<void> _upgradeToV14(Database db) async {
+    await db.execute(
+      'ALTER TABLE appConfig ADD COLUMN disableCooldown NUMERIC NOT NULL DEFAULT 0',
+    );
+    logger.d('Database upgraded to version 14');
   }
 }
