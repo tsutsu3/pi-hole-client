@@ -59,9 +59,6 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
   final TextEditingController _limitController = TextEditingController();
   _TimeUnit _limitUnit = _TimeUnit.hours;
 
-  /// Longest disable limit: 7 days.
-  static const _maxLimitSeconds = 7 * 86400;
-
   @override
   void initState() {
     super.initState();
@@ -84,7 +81,7 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
     return _toSeconds(
       _limitController.text,
       _limitUnit,
-      max: _maxLimitSeconds,
+      max: AppConfigViewModel.maxDisableCooldown,
     );
   }
 

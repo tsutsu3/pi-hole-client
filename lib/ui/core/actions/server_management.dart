@@ -112,7 +112,7 @@ Future<void> disableServer(int time, BuildContext context) async {
   }
 }
 
-/// Disable limit (Settings > App settings > Timers, Android only).
+/// Disable limit (Advanced settings > Disable timers, Android only).
 ///
 /// If Pi-hole on the selected server can't be disabled yet, shows how long
 /// to wait and returns true.

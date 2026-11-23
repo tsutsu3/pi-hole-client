@@ -190,6 +190,9 @@ void main() async {
     });
 
     Future<void> pumpScreen(WidgetTester tester) async {
+      // Tall screen: the whole list is built, so every section can be found.
+      await tester.binding.setSurfaceSize(const Size(800, 2400));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
       await tester.pumpWidget(
         buildTestApp(
           const DisableTimersScreen(),
@@ -241,6 +244,48 @@ void main() async {
       await tapSave(tester);
 
       expect(appConfigViewModel.widgetDisableDuration, 7200);
+    });
+
+    testWidgets('disable limit is off by default', (tester) async {
+      await pumpScreen(tester);
+
+      expect(find.text('Disable limit'), findsOneWidget);
+      final toggle = tester.widget<SwitchListTile>(
+        find.byKey(const Key('disableLimitEnabled')),
+      );
+      expect(toggle.value, isFalse);
+      expect(find.byKey(const Key('disableLimitDuration')), findsNothing);
+    });
+
+    testWidgets('turning the disable limit on saves it', (tester) async {
+      await pumpScreen(tester);
+
+      await tester.ensureVisible(find.byKey(const Key('disableLimitEnabled')));
+      await tester.tap(find.byKey(const Key('disableLimitEnabled')));
+      await tester.pumpAndSettle();
+      // Default suggestion: 4 hours.
+      await tapSave(tester);
+
+      expect(appConfigViewModel.disableCooldown, 4 * 3600);
+    });
+
+    testWidgets('a disable limit over 7 days is not accepted', (tester) async {
+      await pumpScreen(tester);
+
+      await tester.ensureVisible(find.byKey(const Key('disableLimitEnabled')));
+      await tester.tap(find.byKey(const Key('disableLimitEnabled')));
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.byKey(const Key('disableLimitDuration')));
+      await tester.enterText(
+        find.byKey(const Key('disableLimitDuration')),
+        '200',
+      );
+      await tester.pump();
+
+      expect(
+        find.text('Enter a time between 1 second and 7 days'),
+        findsOneWidget,
+      );
     });
 
     testWidgets('turning it off saves indefinitely (0)', (tester) async {
