@@ -112,11 +112,16 @@ void main() {
       return vm;
     }
 
-    /// Checks that one connection failure was recorded with [message].
-    void expectConnectFailureLog(String message) {
+    /// Checks the app logs: one log of [type] whose message contains
+    /// [message], or no log when [type] is null.
+    void expectAppLog({AppLogType? type, String? message}) {
+      if (type == null) {
+        expect(appLogRepository.logs, isEmpty, reason: 'app logs');
+        return;
+      }
       final log = appLogRepository.logs.single;
-      expect(log.type, AppLogType.connection.name);
-      expect(log.message, contains(message));
+      expect(log.type, type.name, reason: 'log type');
+      expect(log.message, contains(message), reason: 'log message');
     }
 
     SaveServerRequest createReq({
@@ -191,7 +196,7 @@ void main() {
         });
         expect(bundleToken, isNull);
         expect(authRepository.createSessionCallCount, 1);
-        expect(appLogRepository.logs, isEmpty);
+        expectAppLog();
       });
 
       test('v5 success checks with the given token, then stores it', () async {
@@ -208,6 +213,7 @@ void main() {
         expect(bundleToken, 'token');
         // v5 has no session.
         expect(authRepository.createSessionCallCount, 0);
+        expectAppLog();
       });
 
       test('v6 passwordless success stores an empty password', () async {
@@ -218,6 +224,7 @@ void main() {
         expect(outcome, isA<SaveSuccess>());
         expect(serversViewModel.storedSecrets, {'${_oldAddress}_password': ''});
         expect(authRepository.lastPassword, '');
+        expectAppLog();
       });
 
       test('returns SaveDuplicateUrl and stores nothing', () async {
@@ -229,6 +236,7 @@ void main() {
         expect(outcome, isA<SaveDuplicateUrl>());
         expect(serversViewModel.storedRows, isEmpty);
         expect(serversViewModel.storedSecrets, isEmpty);
+        expectAppLog();
       });
 
       test(
@@ -242,6 +250,7 @@ void main() {
           expect(outcome, isA<SaveUrlCheckFailed>());
           expect(serversViewModel.storedRows, isEmpty);
           expect(serversViewModel.storedSecrets, isEmpty);
+          expectAppLog();
         },
       );
 
@@ -255,7 +264,10 @@ void main() {
         expect((outcome as SaveApiError).version, SupportedApiVersions.v6);
         expect(serversViewModel.storedRows, isEmpty);
         expect(serversViewModel.storedSecrets, isEmpty);
-        expectConnectFailureLog('Force createSession failure');
+        expectAppLog(
+          type: AppLogType.connection,
+          message: 'Force createSession failure',
+        );
       });
 
       test('a failed status check after the login returns SaveApiError, '
@@ -272,6 +284,7 @@ void main() {
         expect(serversViewModel.storedSecrets, isEmpty);
         expect(serversViewModel.deletedSidAddresses, [_oldAddress]);
         expect(authRepository.deleteCurrentSessionCallCount, 1);
+        expectAppLog(type: AppLogType.connection, message: '503');
       });
 
       test('a failed password save returns SaveDbError before the DB '
@@ -287,21 +300,25 @@ void main() {
         expect(serversViewModel.deletedSidAddresses, [_oldAddress]);
         expect(serversViewModel.addServerCallCount, 0);
         expect(authRepository.deleteCurrentSessionCallCount, 1);
+        expectAppLog(type: AppLogType.storage, message: 'savePassword failed');
       });
 
-      test('a failed DB write returns SaveDbError and removes the stored '
-          'password', () async {
-        serversViewModel.shouldFailAddServer = true;
-        final vm = buildViewModel();
+      test(
+        'a failed DB write returns SaveDbError and removes the stored password',
+        () async {
+          serversViewModel.shouldFailAddServer = true;
+          final vm = buildViewModel();
 
-        final outcome = await vm.saveServer.runAsync(createReq());
+          final outcome = await vm.saveServer.runAsync(createReq());
 
-        expect(outcome, isA<SaveDbError>());
-        expect(serversViewModel.storedRows, isEmpty);
-        expect(serversViewModel.storedSecrets, isEmpty);
-        expect(serversViewModel.deletedSidAddresses, [_oldAddress]);
-        expect(authRepository.deleteCurrentSessionCallCount, 1);
-      });
+          expect(outcome, isA<SaveDbError>());
+          expect(serversViewModel.storedRows, isEmpty);
+          expect(serversViewModel.storedSecrets, isEmpty);
+          expect(serversViewModel.deletedSidAddresses, [_oldAddress]);
+          expect(authRepository.deleteCurrentSessionCallCount, 1);
+          expectAppLog();
+        },
+      );
 
       test('a cancelled certificate returns SaveCancelled', () async {
         final vm = buildViewModel();
@@ -313,6 +330,7 @@ void main() {
         expect(outcome, isA<SaveCancelled>());
         expect(serversViewModel.storedSecrets, isEmpty);
         expect(authRepository.createSessionCallCount, 0);
+        expectAppLog();
       });
 
       test('2FA server: prompts for a code then returns SaveSuccess', () async {
@@ -330,6 +348,7 @@ void main() {
         expect(authRepository.lastTotp, '123456');
         // First password-only attempt + the password+totp retry.
         expect(authRepository.createSessionCallCount, 2);
+        expectAppLog();
       });
 
       test('2FA cancel returns SaveCancelled and stores nothing', () async {
@@ -345,6 +364,7 @@ void main() {
         expect(serversViewModel.storedSecrets, isEmpty);
         // Only the password-only attempt ran; no retry after the user cancelled.
         expect(authRepository.createSessionCallCount, 1);
+        expectAppLog();
       });
 
       test('2FA re-prompts on an invalid code then succeeds', () async {
@@ -371,6 +391,7 @@ void main() {
         expect(errors, [null, TotpPromptError.invalid]);
         // password-only + invalid code + valid code.
         expect(authRepository.createSessionCallCount, 3);
+        expectAppLog();
       });
 
       test('2FA re-prompts on a reused code then succeeds', () async {
@@ -394,6 +415,7 @@ void main() {
         expect(errors, [null, TotpPromptError.reused]);
         // password-only + reused code + accepted code.
         expect(authRepository.createSessionCallCount, 3);
+        expectAppLog();
       });
 
       test('2FA rate limit is terminal (SaveApiError, no re-prompt)', () async {
@@ -418,6 +440,7 @@ void main() {
         expect(serversViewModel.storedSecrets, isEmpty);
         // Prompted once; the rate-limit response stops the loop.
         expect(promptCount, 1);
+        expectAppLog(type: AppLogType.auth, message: 'TotpRateLimitException');
       });
     });
 
@@ -446,6 +469,7 @@ void main() {
           expect(outcome, isA<SaveSuccess>());
           expect((outcome as SaveSuccess).server.webPath, '/admin2');
           expect(serversViewModel.storedRows[address]?.webPath, '/admin2');
+          expectAppLog();
         });
       }
     });
@@ -476,7 +500,7 @@ void main() {
         expect(authRepository.createSessionCallCount, 0);
         expect(statusViewModel.stopAutoRefreshCallCount, 1);
         expect(statusViewModel.startAutoRefreshCallCount, 1);
-        expect(appLogRepository.logs, isEmpty);
+        expectAppLog();
       });
 
       test('address change moves the row and the password to the new '
@@ -496,6 +520,7 @@ void main() {
         // A new address always logs in; the old session is logged out.
         expect(authRepository.createSessionCallCount, 1);
         expect(authRepository.deleteCurrentSessionCallCount, 1);
+        expectAppLog();
       });
 
       test('a cancelled certificate returns SaveCancelled', () async {
@@ -509,6 +534,7 @@ void main() {
         expectOldServerKept();
         expect(statusViewModel.stopAutoRefreshCallCount, 1);
         expect(statusViewModel.startAutoRefreshCallCount, 1);
+        expectAppLog();
       });
 
       test(
@@ -523,6 +549,7 @@ void main() {
 
           expect(outcome, isA<SaveDuplicateUrl>());
           expectOldServerKept();
+          expectAppLog();
         },
       );
 
@@ -538,6 +565,7 @@ void main() {
 
           expect(outcome, isA<SaveUrlCheckFailed>());
           expectOldServerKept();
+          expectAppLog();
         },
       );
 
@@ -553,7 +581,10 @@ void main() {
         expectOldServerKept();
         expect(serversViewModel.deletedSidAddresses, [_newAddress]);
         expect(statusViewModel.startAutoRefreshCallCount, 1);
-        expectConnectFailureLog('Force createSession failure');
+        expectAppLog(
+          type: AppLogType.connection,
+          message: 'Force createSession failure',
+        );
       });
 
       test('same-address new password is checked with a new login', () async {
@@ -567,6 +598,10 @@ void main() {
         expect(outcome, isA<SaveApiError>());
         expectOldServerKept();
         expect(authRepository.lastPassword, 'new-pass');
+        expectAppLog(
+          type: AppLogType.connection,
+          message: 'Force createSession failure',
+        );
       });
 
       test('same-address unchanged password logs in again on a 401', () async {
@@ -580,6 +615,7 @@ void main() {
         expect(serversViewModel.storedRows[_oldAddress]!.alias, 'alias');
         expect(authRepository.lastPassword, 'pass');
         expect(authRepository.createSessionCallCount, 1);
+        expectAppLog();
       });
 
       test(
@@ -596,6 +632,7 @@ void main() {
           expectOldServerKept();
           // 503 is transient -> no new login, to avoid duplicate sessions.
           expect(authRepository.createSessionCallCount, 0);
+          expectAppLog(type: AppLogType.connection, message: '503');
         },
       );
 
@@ -609,6 +646,7 @@ void main() {
         expect(outcome, isA<SaveDbError>());
         expectOldServerKept();
         expect(statusViewModel.startAutoRefreshCallCount, 1);
+        expectAppLog();
       });
 
       test('(E15) same-address v6->v5 stores the token and removes the '
@@ -633,6 +671,7 @@ void main() {
         // v5 has no session; the old v6 session is logged out.
         expect(authRepository.createSessionCallCount, 0);
         expect(authRepository.deleteCurrentSessionCallCount, 1);
+        expectAppLog();
       });
 
       test('(E16) same-address v5->v6 logs in with the new password (2FA '
@@ -667,6 +706,7 @@ void main() {
         expect(authRepository.lastTotp, '123456');
         // First password-only attempt + the password+totp retry.
         expect(authRepository.createSessionCallCount, 2);
+        expectAppLog();
       });
 
       test('same-address v5->v6 treats an unchanged secret as new', () async {
@@ -692,6 +732,7 @@ void main() {
         expect(serversViewModel.storedSecrets, {
           '${_oldAddress}_password': 'v6-pass',
         });
+        expectAppLog();
       });
 
       test('auto refresh starts again when the save throws', () async {
@@ -707,6 +748,7 @@ void main() {
         expectOldServerKept();
         expect(statusViewModel.stopAutoRefreshCallCount, 1);
         expect(statusViewModel.startAutoRefreshCallCount, 1);
+        expectAppLog();
       });
 
       // What an edit leaves behind when a step fails or the user cancels.
@@ -784,6 +826,7 @@ void main() {
             totpDeclinedAddress: null,
             sessionsLoggedOut: 0,
           );
+          expectAppLog();
         });
 
         test(
@@ -802,6 +845,7 @@ void main() {
               totpDeclinedAddress: _oldAddress,
               sessionsLoggedOut: 0,
             );
+            expectAppLog();
           },
         );
 
@@ -821,6 +865,7 @@ void main() {
             // No session was created, so there is nothing to log out.
             sessionsLoggedOut: 0,
           );
+          expectAppLog();
         });
 
         test('same address: login failure keeps the old server', () async {
@@ -837,6 +882,10 @@ void main() {
             deletedSids: [],
             totpDeclinedAddress: null,
             sessionsLoggedOut: 0,
+          );
+          expectAppLog(
+            type: AppLogType.connection,
+            message: 'Force createSession failure',
           );
         });
 
@@ -855,6 +904,10 @@ void main() {
             deletedSids: [_oldAddress],
             totpDeclinedAddress: null,
             sessionsLoggedOut: 1,
+          );
+          expectAppLog(
+            type: AppLogType.connection,
+            message: 'Force fetchBlockingStatus failure',
           );
         });
 
@@ -875,6 +928,10 @@ void main() {
             sessionsLoggedOut: 1,
           );
           expect(serversViewModel.editServerCallCount, 0);
+          expectAppLog(
+            type: AppLogType.storage,
+            message: 'savePassword failed',
+          );
         });
 
         test('same address: DB failure keeps the checked password', () async {
@@ -893,6 +950,7 @@ void main() {
             totpDeclinedAddress: null,
             sessionsLoggedOut: 1,
           );
+          expectAppLog();
         });
 
         test('address changed: DB failure removes the new-address password '
@@ -911,6 +969,7 @@ void main() {
             totpDeclinedAddress: null,
             sessionsLoggedOut: 1,
           );
+          expectAppLog();
         });
       });
     });

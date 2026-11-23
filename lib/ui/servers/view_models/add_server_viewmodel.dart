@@ -232,7 +232,7 @@ class AddServerViewModel extends ChangeNotifier {
           sessionCreated: sessionCreated,
         );
 
-        _recordConnectFailure(error);
+        _recordFailure('Failed to connect (${server.address})', error);
 
         return SaveApiError(error, draft.apiVersion);
       case ConnectSuccess():
@@ -391,7 +391,7 @@ class AddServerViewModel extends ChangeNotifier {
           sessionCreated: sessionCreated,
         );
 
-        _recordConnectFailure(error);
+        _recordFailure('Failed to connect (${server.address})', error);
 
         return SaveApiError(error, draft.apiVersion);
       case ConnectSuccess():
@@ -427,21 +427,28 @@ class AddServerViewModel extends ChangeNotifier {
     );
   }
 
-  /// Records a failed connection check on the App Logs page.
-  void _recordConnectFailure(Exception error) {
+  /// Records [error] on the App Logs page.
+  void _recordFailure(String message, Object error) {
     _appLogRepository.add(
       type: appLogTypeOf(error),
-      message: error.toString(),
+      message: '$message: $error',
       statusCode: statusCodeOf(error),
     );
   }
 
   /// Stores [secret] as the password (v6) or the token (v5) of [server].
-  /// Returns false when the write fails.
+  /// Returns false when the write fails. A failed write is recorded on the
+  /// App Logs page.
   Future<bool> _saveSecret(Server server, String secret) async {
     final result = server.apiVersion == SupportedApiVersions.v6
         ? await _serverRepository.savePassword(server.address, secret)
         : await _serverRepository.saveToken(server.address, secret);
+    result.onFailure(
+      (error) => _recordFailure(
+        'Failed to save the credentials (${server.address})',
+        error,
+      ),
+    );
 
     return result.isSuccess();
   }

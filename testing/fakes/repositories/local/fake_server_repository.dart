@@ -191,7 +191,9 @@ class FakeServerRepository implements ServerRepository {
   Future<Result<void>> savePassword(String address, String password) async {
     savePasswordCallCount++;
     if (shouldFailSaveSecret) {
-      return Failure(Exception('FakeServerRepository: savePassword failed'));
+      return Failure(
+        SecureStorageException('FakeServerRepository: savePassword failed'),
+      );
     }
     lastSavedPasswordAddress = address;
     lastSavedPassword = password;
@@ -203,7 +205,9 @@ class FakeServerRepository implements ServerRepository {
   Future<Result<void>> saveToken(String address, String token) async {
     saveTokenCallCount++;
     if (shouldFailSaveSecret) {
-      return Failure(Exception('FakeServerRepository: saveToken failed'));
+      return Failure(
+        SecureStorageException('FakeServerRepository: saveToken failed'),
+      );
     }
     lastSavedTokenAddress = address;
     lastSavedToken = token;
