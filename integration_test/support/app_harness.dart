@@ -8,6 +8,7 @@ import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/domain/model/server/api_versions.dart';
 import 'package:pi_hole_client/main.dart' as app;
 import 'package:pi_hole_client/pi_hole_client.dart';
+import 'package:pi_hole_client/ui/app_logs/widgets/app_logs_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
@@ -330,6 +331,41 @@ class AppHarness {
     // catch the outcome snackbar before it auto-dismisses
     await waitFor(find.byType(SnackBar));
     await settle(frames: 4);
+  }
+
+  /// Closes the add or edit server screen without saving.
+  Future<void> closeServerForm() async {
+    final close = find.byType(CloseButton);
+    await tester.tap(
+      close.evaluate().isNotEmpty ? close : find.byIcon(Icons.clear_rounded),
+    );
+    await settle(frames: 5);
+  }
+
+  /// Opens Settings > Advanced setup > App logs from the bottom bar.
+  Future<void> openAppLogs() async {
+    final texts = (
+      settings: l10n.settings,
+      advanced: l10n.advancedAppSetupDescription,
+      appLogs: l10n.appLogs,
+    );
+    await tester.tap(
+      find.widgetWithText(NavigationDestination, texts.settings),
+    );
+    await settle(frames: 5);
+    await tester.tap(find.text(texts.advanced));
+    await settle(frames: 5);
+    // The tile is far down the list, so it is not built until scrolled to.
+    final appLogs = find.text(texts.appLogs);
+    await tester.scrollUntilVisible(
+      appLogs,
+      300,
+      scrollable: find.byType(Scrollable).last,
+    );
+    await settle(frames: 2);
+    await tester.tap(appLogs);
+    await waitFor(find.byType(AppLogsScreen));
+    await settle(frames: 3);
   }
 
   /// Opens the edit screen via the tile's `more_vert` > Edit, and waits for

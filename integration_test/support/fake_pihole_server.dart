@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import '../../testing/models/v6/metrics.dart';
+
 /// Minimal in-process Pi-hole **v6** API stand-in, for state-transition tests
 /// (TOTP flows, session lifecycle) that are impractical to drive
 /// deterministically against a real Pi-hole.
@@ -9,8 +11,10 @@ import 'dart:io';
 /// `integration_test/COVERAGE.md`'s "Fake server" notes. It only implements
 /// what `postAuth`/`getAuth`/`deleteAuth` and the blocking-status probe used
 /// during connect need: `POST/GET/DELETE /api/auth` and `GET/POST
-/// /api/dns/blocking`. Everything else responds `200 {}` so unimplemented
-/// polling (stats, over-time data, metrics) doesn't hang or crash the app.
+/// /api/dns/blocking`. It also answers the stats that auto-refresh reads
+/// (`/api/stats/*` and `/api/history*`) with fixed data, so that auto-refresh
+/// succeeds. Everything else responds `200 {}` so other unimplemented polling
+/// (e.g. FTL metrics) doesn't hang or crash the app.
 ///
 /// One instance == one fake Pi-hole == one session at a time. Configure the
 /// scenario via the public fields *before* driving the app, then call
@@ -115,7 +119,7 @@ class FakePiholeServer {
               'error': {'key': 'unauthorized', 'message': 'Invalid session'},
             });
           } else {
-            await _respond(request, 200, {});
+            await _respond(request, 200, _statsJson(request.uri) ?? {});
           }
       }
     } catch (e) {
@@ -123,6 +127,27 @@ class FakePiholeServer {
         'error': {'key': 'internal', 'message': '$e'},
       });
     }
+  }
+
+  /// Valid answers for the stats that auto-refresh reads (home screen status
+  /// and over-time data), so that auto-refresh succeeds as on a real Pi-hole.
+  /// Returns null for other paths.
+  Map<String, dynamic>? _statsJson(Uri uri) {
+    final blocked = uri.queryParameters['blocked'] == 'true';
+
+    return switch (uri.path) {
+      '/api/stats/summary' => kSrvGetStatsSummary.toJson(),
+      '/api/stats/upstreams' => kSrvGetStatsUpstreams.toJson(),
+      '/api/stats/top_domains' =>
+        (blocked ? kSrvGetStatsTopDomainsBlocked : kSrvGetStatsTopDomains)
+            .toJson(),
+      '/api/stats/top_clients' =>
+        (blocked ? kSrvGetStatsTopClientsBlocked : kSrvGetStatsTopClients)
+            .toJson(),
+      '/api/history' => kSrvGetHistory.toJson(),
+      '/api/history/clients' => kSrvGetHistoryClient.toJson(),
+      _ => null,
+    };
   }
 
   /// A password-less Pi-hole ignores the sid header, so everything is allowed;
