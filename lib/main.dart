@@ -210,7 +210,7 @@ Future<Widget> bootstrapApp({
     appLogRepository: appLogRepository,
   );
   final configProvider = AppConfigViewModel(appConfigRepository);
-  final statusViewModel = StatusViewModel();
+  final statusViewModel = StatusViewModel(appLogRepository: appLogRepository);
   final logsViewModel = LogsViewModel();
   final domainsViewModel = DomainsViewModel();
   final gravityUpdateViewModel = GravityUpdateViewModel(

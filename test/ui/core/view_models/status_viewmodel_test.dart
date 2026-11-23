@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/data/repositories/local/app_log_repository.dart';
+import 'package:pi_hole_client/domain/model/app/app_log_type.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/view_models/status_viewmodel.dart';
 import 'package:pi_hole_client/utils/exceptions.dart';
@@ -464,6 +466,145 @@ void main() {
         await Future<void>.microtask(() {});
 
         expect(vm.isAutoRefreshRunning, isTrue);
+      },
+    );
+  });
+
+  // ---------------------------------------------------------------------------
+  // App logs - a failure is recorded only when the status changes
+  // ---------------------------------------------------------------------------
+  group('StatusViewModel - app logs', () {
+    late LocalAppLogRepository appLogRepository;
+    late StatusViewModel vm;
+
+    setUp(() {
+      appLogRepository = LocalAppLogRepository();
+      vm = StatusViewModel(appLogRepository: appLogRepository);
+    });
+
+    tearDown(() => vm.dispose());
+
+    /// Checks the app logs as (type, message start, status code), in order.
+    void expectAppLogs(List<(AppLogType, String, String?)> expected) {
+      expect(
+        appLogRepository.logs
+            .map(
+              (log) =>
+                  (log.type, log.message.split(' (').first, log.statusCode),
+            )
+            .toList(),
+        expected.map((e) => (e.$1.name, e.$2, e.$3)).toList(),
+      );
+      for (final log in appLogRepository.logs) {
+        expect(log.message, contains('http://pi.hole'));
+      }
+    }
+
+    test('a successful refresh records nothing', () async {
+      _setup(vm);
+
+      await vm.refreshOnce();
+
+      expectAppLogs([]);
+    });
+
+    // One case per fetch that can set the server status to error.
+    const oneShotFailures = {
+      'status': 'Status refresh failed',
+      'overtime': 'Overtime refresh failed',
+      'metrics': 'Metrics refresh failed',
+    };
+    for (final MapEntry(key: name, value: message) in oneShotFailures.entries) {
+      test('a failed one-shot $name fetch is recorded', () async {
+        _setup(
+          vm,
+          realtimeStatusRepository: FakeRealTimeStatusRepository()
+            ..shouldFail = name == 'status',
+          metricsRepository: FakeMetricsRepository()
+            ..shouldFail = name == 'overtime',
+          ftlRepository: FakeFtlRepository()..shouldFail = name == 'metrics',
+        );
+
+        final ok = await vm.refreshOnce();
+
+        expect(ok, isFalse);
+        expectAppLogs([(AppLogType.connection, message, null)]);
+      });
+    }
+
+    test(
+      'a failed refresh is recorded once while the server stays down',
+      () async {
+        final repo = FakeRealTimeStatusRepository()..shouldFail = true;
+        _setup(vm, realtimeStatusRepository: repo);
+
+        await vm.refreshOnce();
+        await vm.refreshOnce();
+
+        expectAppLogs([(AppLogType.connection, 'Status refresh failed', null)]);
+      },
+    );
+
+    test('a new failure after a recovery is recorded again', () async {
+      final repo = FakeRealTimeStatusRepository()..shouldFail = true;
+      _setup(vm, realtimeStatusRepository: repo);
+
+      await vm.refreshOnce();
+      repo.shouldFail = false;
+      await vm.refreshOnce();
+      repo.shouldFail = true;
+      await vm.refreshOnce();
+
+      expectAppLogs([
+        (AppLogType.connection, 'Status refresh failed', null),
+        (AppLogType.connection, 'Status refresh failed', null),
+      ]);
+    });
+
+    test('a TLS error that stops auto-refresh is recorded', () async {
+      final repo = FakeRealTimeStatusRepository()
+        ..shouldFail = true
+        ..failureError = HttpStatusCodeException(495, 'SSL handshake failed');
+      _setup(vm, realtimeStatusRepository: repo);
+
+      await vm.refreshOnce();
+
+      expectAppLogs([(AppLogType.connection, 'Auto-refresh stopped', '495')]);
+    });
+
+    test('a needed TOTP code that stops auto-refresh is recorded', () async {
+      final repo = FakeRealTimeStatusRepository()
+        ..shouldFail = true
+        ..failureError = TotpRequiredException();
+      _setup(vm, realtimeStatusRepository: repo);
+
+      await vm.refreshOnce();
+
+      expectAppLogs([(AppLogType.auth, 'Auto-refresh stopped', null)]);
+    });
+
+    test('the first auto-refresh failure is recorded', () async {
+      final repo = FakeRealTimeStatusRepository()..shouldFail = true;
+      _setup(vm, realtimeStatusRepository: repo);
+
+      vm.startAutoRefresh();
+      await pumpEventQueue();
+
+      expectAppLogs([(AppLogType.connection, 'Status refresh failed', null)]);
+    });
+
+    test(
+      'an overtime failure that finds the server down is recorded',
+      () async {
+        final metrics = FakeMetricsRepository()..shouldFail = true;
+        _setup(vm, metricsRepository: metrics);
+
+        vm.startAutoRefresh();
+        await pumpEventQueue();
+
+        expectAppLogs([
+          (AppLogType.connection, 'Overtime refresh failed', null),
+        ]);
       },
     );
   });
