@@ -83,7 +83,8 @@ void main() async {
       appLogRepository.add(
         type: AppLogType.connection,
         message: 'message',
-        statusCode: 200,
+        serverAddress: 'http://pi.hole',
+        statusCode: 503,
       );
 
       await tester.pumpWidget(buildScreen());
@@ -91,12 +92,14 @@ void main() async {
       expect(find.byType(AppLogsScreen), findsOneWidget);
       await tester.pump();
 
-      expect(find.text('Logs'), findsOneWidget);
+      expect(find.text('App logs'), findsOneWidget);
       expect(find.byIcon(Icons.share), findsOneWidget);
 
-      expect(find.text('connection'), findsOneWidget);
+      expect(find.text('2025-01-22'), findsOneWidget);
+      expect(find.byIcon(Icons.cloud_off_rounded), findsOneWidget);
       expect(find.text('message'), findsOneWidget);
-      expect(find.text('2025-01-22 10:50:31.000'), findsOneWidget);
+      expect(find.text('http://pi.hole · 503'), findsOneWidget);
+      expect(find.text('10:50:31'), findsOneWidget);
 
       await tester.tap(find.byIcon(Icons.share));
       await tester.pump(const Duration(seconds: 1));
@@ -106,7 +109,7 @@ void main() async {
       expect(log.length, 1);
       expect(log.first.method, 'Clipboard.setData');
 
-      await tester.tap(find.text('connection'));
+      await tester.tap(find.text('message'));
       await tester.pumpAndSettle();
       expect(find.byType(AppLogDetailsScreen), findsOneWidget);
       expect(find.text('Log details'), findsOneWidget);
@@ -130,10 +133,8 @@ void main() async {
       expect(find.byType(AppLogsScreen), findsOneWidget);
       await tester.pump();
 
-      expect(find.text('Logs'), findsOneWidget);
-
-      // check log message
-      expect(find.text('connection'), findsNothing);
+      expect(find.text('App logs'), findsOneWidget);
+      expect(find.text('No saved logs'), findsOneWidget);
 
       // can't tap on share icon because there are no logs
       await tester.tap(find.byIcon(Icons.share));

@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:pi_hole_client/domain/model/app/app_log_type.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/ui/app_logs/widgets/app_log_details_screen.dart';
 import 'package:pi_hole_client/ui/app_logs/widgets/app_logs_screen.dart';
 
 import '../support/app_harness.dart';
@@ -12,10 +13,19 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   group('app logs', () {
-    /// Checks that the App Logs page shows one log with [message] and [type].
-    void expectAppLog(String message, AppLogType type) {
+    /// Checks that the App Logs page shows one log with [message], and that
+    /// its details screen shows [type].
+    Future<void> expectAppLog(
+      AppHarness app,
+      String message,
+      AppLogType type,
+    ) async {
       expect(find.byType(AppLogsScreen), findsOneWidget);
       expect(find.text(message), findsOneWidget);
+
+      await app.tester.tap(find.text(message));
+      await app.settle();
+      expect(find.byType(AppLogDetailsScreen), findsOneWidget);
       expect(find.text(type.name), findsOneWidget);
     }
 
@@ -41,7 +51,7 @@ void main() {
       await app.closeServerForm();
       await app.openAppLogs();
 
-      expectAppLog('Failed to connect', AppLogType.auth);
+      await expectAppLog(app, 'Failed to connect', AppLogType.auth);
     });
 
     testWidgets('a failed auto-refresh is recorded', (tester) async {
@@ -72,7 +82,7 @@ void main() {
 
       await app.openAppLogs();
 
-      expectAppLog('Status refresh failed', AppLogType.auth);
+      await expectAppLog(app, 'Status refresh failed', AppLogType.auth);
     });
   });
 }

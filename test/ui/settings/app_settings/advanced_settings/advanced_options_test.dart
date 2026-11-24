@@ -294,7 +294,7 @@ void main() async {
       await tester.tap(find.text('App logs'));
       await tester.pumpAndSettle();
       expect(find.byType(AppLogsScreen), findsOneWidget);
-      expect(find.text('Logs'), findsOneWidget);
+      expect(find.text('App logs'), findsOneWidget);
     });
 
     testWidgets('should show Reset Application screen', (
