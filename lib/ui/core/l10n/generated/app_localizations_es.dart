@@ -545,6 +545,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get contactEmail => 'Contactar por email';
 
   @override
+  String get copyLogClipboard => 'Copiar log al portapapeles';
+
+  @override
   String get copyLogsClipboard => 'Copiar logs al portapapeles';
 
   @override
@@ -626,6 +629,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get deleting => 'Eliminando...';
+
+  @override
+  String get details => 'Detalles';
 
   @override
   String get device => 'Dispositivo';
@@ -1419,6 +1425,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get logAutoRefreshTime => 'Intervalo de actualización de registros';
 
   @override
+  String get logCopiedClipboard => 'Log copiado al portapapeles';
+
+  @override
   String get logDetails => 'Detalles del registro';
 
   @override
@@ -1657,6 +1666,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get others => 'Otros';
+
+  @override
+  String get overview => 'Información general';
 
   @override
   String get passCodeNotSaved => 'No se ha podido guardar el código.';
@@ -2099,6 +2111,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get status => 'Estado';
+
+  @override
+  String get statusCode => 'Código de estado';
 
   @override
   String get statusDisabled => 'Estado: desactivado';

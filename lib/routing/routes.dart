@@ -47,6 +47,8 @@ abstract class Routes {
   static const settingsAppAdvancedLogsQuantityLoad =
       'settings/app/advanced/logs-quantity-load';
   static const settingsAppAdvancedAppLogs = 'settings/app/advanced/app-logs';
+  static const settingsAppAdvancedAppLogsDetails =
+      'settings/app/advanced/app-logs/details';
   static const settingsAppAdvancedReset = 'settings/app/advanced/reset';
 
   // ===== Settings > Server sub-routes =====

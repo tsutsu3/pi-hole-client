@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/app_logs/view_models/app_logs_viewmodel.dart';
-import 'package:pi_hole_client/ui/app_logs/widgets/app_log_details_modal.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:provider/provider.dart';
@@ -90,15 +91,10 @@ class AppLogsScreen extends StatelessWidget {
                     ),
                   ),
                   trailing: Text(logs[index].type),
-                  onTap: () => {
-                    showDialog(
-                      context: context,
-                      useRootNavigator:
-                          false, // Prevents unexpected app exit on mobile when pressing back
-                      builder: (context) =>
-                          AppLogDetailsModal(log: logs[index]),
-                    ),
-                  },
+                  onTap: () => context.pushNamed(
+                    Routes.settingsAppAdvancedAppLogsDetails,
+                    extra: logs[index],
+                  ),
                 ),
               )
             : Center(

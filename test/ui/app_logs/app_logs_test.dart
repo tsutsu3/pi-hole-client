@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pi_hole_client/data/repositories/local/app_log_repository.dart';
+import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/domain/model/app/app_log_type.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/app_logs/view_models/app_logs_viewmodel.dart';
-import 'package:pi_hole_client/ui/app_logs/widgets/app_log_details_modal.dart';
+import 'package:pi_hole_client/ui/app_logs/widgets/app_log_details_screen.dart';
 import 'package:pi_hole_client/ui/app_logs/widgets/app_logs_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -23,12 +26,32 @@ void main() async {
     });
 
     Widget buildScreen() {
+      final router = GoRouter(
+        initialLocation: '/app-logs',
+        routes: [
+          GoRoute(
+            path: '/app-logs',
+            name: Routes.settingsAppAdvancedAppLogs,
+            builder: (_, _) => ChangeNotifierProvider(
+              create: (_) => AppLogsViewModel(repository: appLogRepository),
+              child: const AppLogsScreen(),
+            ),
+            routes: [
+              GoRoute(
+                path: 'details',
+                name: Routes.settingsAppAdvancedAppLogsDetails,
+                builder: (_, state) =>
+                    AppLogDetailsScreen(log: state.extra! as AppLog),
+              ),
+            ],
+          ),
+        ],
+      );
+
       return buildTestApp(
-        ChangeNotifierProvider(
-          create: (_) => AppLogsViewModel(repository: appLogRepository),
-          child: const AppLogsScreen(),
-        ),
+        const SizedBox.shrink(),
         appLogRepository: appLogRepository,
+        router: router,
       );
     }
 
@@ -85,19 +108,8 @@ void main() async {
 
       await tester.tap(find.text('connection'));
       await tester.pumpAndSettle();
-      expect(find.byType(AppLogDetailsModal), findsOneWidget);
+      expect(find.byType(AppLogDetailsScreen), findsOneWidget);
       expect(find.text('Log details'), findsOneWidget);
-
-      // Message tab is selected by default
-      expect(find.text('connection'), findsOneWidget);
-
-      await tester.tap(find.text('Status code'));
-      await tester.pumpAndSettle();
-      expect(find.text('200'), findsOneWidget);
-
-      await tester.tap(find.text('Details'));
-      await tester.pumpAndSettle();
-      expect(find.text('[NO DETAILS]'), findsOneWidget);
     });
 
     testWidgets('should show blank screen (no app logs)', (
