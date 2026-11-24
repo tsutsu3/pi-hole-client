@@ -63,7 +63,7 @@ class AppLogsScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: logs.isNotEmpty ? copyLogsClipboard : null,
-            icon: const Icon(Icons.share),
+            icon: const Icon(Icons.copy_rounded),
             tooltip: AppLocalizations.of(context).copyLogsClipboard,
           ),
           const SizedBox(width: 10),

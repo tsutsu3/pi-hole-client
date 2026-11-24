@@ -93,7 +93,7 @@ void main() async {
       await tester.pump();
 
       expect(find.text('App logs'), findsOneWidget);
-      expect(find.byIcon(Icons.share), findsOneWidget);
+      expect(find.byIcon(Icons.copy_rounded), findsOneWidget);
 
       expect(find.text('2025-01-22'), findsOneWidget);
       expect(find.byIcon(Icons.cloud_off_rounded), findsOneWidget);
@@ -101,7 +101,7 @@ void main() async {
       expect(find.text('http://pi.hole · 503'), findsOneWidget);
       expect(find.text('10:50:31'), findsOneWidget);
 
-      await tester.tap(find.byIcon(Icons.share));
+      await tester.tap(find.byIcon(Icons.copy_rounded));
       await tester.pump(const Duration(seconds: 1));
       await tester.pumpAndSettle(const Duration(seconds: 1));
       expect(find.byType(SnackBar), findsOneWidget);
@@ -137,7 +137,7 @@ void main() async {
       expect(find.text('No saved logs'), findsOneWidget);
 
       // can't tap on share icon because there are no logs
-      await tester.tap(find.byIcon(Icons.share));
+      await tester.tap(find.byIcon(Icons.copy_rounded));
       await tester.pumpAndSettle();
       expect(find.text('Logs copied to clipboard'), findsNothing);
     });
