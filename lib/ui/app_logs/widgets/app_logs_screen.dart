@@ -8,8 +8,10 @@ import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/app_logs/view_models/app_logs_viewmodel.dart';
 import 'package:pi_hole_client/ui/app_logs/widgets/app_log_type_icon.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/formats.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/format.dart';
 import 'package:provider/provider.dart';
 
@@ -39,21 +41,10 @@ class AppLogsScreen extends StatelessWidget {
 
       if (!context.mounted) return;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            AppLocalizations.of(context).logsCopiedClipboard,
-            style: TextStyle(
-              color: Theme.of(
-                context,
-              ).extension<AppColors>()!.snackBarNeutralText,
-            ),
-          ),
-          backgroundColor: Theme.of(
-            context,
-          ).extension<AppColors>()!.snackBarNeutral,
-          duration: const Duration(seconds: 3),
-        ),
+      showNeutralSnackBar(
+        context: context,
+        appConfigViewModel: context.read<AppConfigViewModel>(),
+        label: AppLocalizations.of(context).logsCopiedClipboard,
       );
     }
 
@@ -71,15 +62,20 @@ class AppLogsScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: logs.isNotEmpty
-            ? ListView(
-                padding: EdgeInsets.zero,
-                children: [
+            ? CustomScrollView(
+                slivers: [
                   for (final group in vm.logsByDay) ...[
-                    SectionLabel(
-                      label: formatTimestamp(group.day, 'yyyy-MM-dd'),
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                    SliverToBoxAdapter(
+                      child: SectionLabel(
+                        label: formatTimestamp(group.day, kUnifiedDateFormat),
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                      ),
                     ),
-                    for (final log in group.logs) _AppLogTile(log: log),
+                    // Builds only the rows on screen (up to 500 logs).
+                    SliverList.builder(
+                      itemCount: group.logs.length,
+                      itemBuilder: (_, i) => _AppLogTile(log: group.logs[i]),
+                    ),
                   ],
                 ],
               )
