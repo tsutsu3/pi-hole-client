@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pi_hole_client/domain/model/app/app_log.dart';
@@ -112,10 +113,40 @@ class _DetailsBoxState extends State<_DetailsBox> {
   // Shared with the Scrollbar, so that the bar is shown on mobile too.
   final _scrollController = ScrollController();
 
+  // Where the mouse wheel scroll goes to. Null when no wheel scroll is running.
+  double? _wheelTarget;
+
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  /// Scrolls one line for each wheel step, with a short animation.
+  ///
+  /// By default, one wheel step jumps about 3 lines at once. That is too much
+  /// for a box that shows only 5 lines.
+  void _onPointerSignal(PointerSignalEvent event, double lineHeight) {
+    if (event is! PointerScrollEvent || event.scrollDelta.dy == 0) return;
+    final position = _scrollController.position;
+    if (position.maxScrollExtent == 0) return;
+
+    GestureBinding.instance.pointerSignalResolver.register(event, (_) {
+      final target =
+          ((_wheelTarget ?? position.pixels) +
+                  event.scrollDelta.dy.sign * lineHeight)
+              .clamp(position.minScrollExtent, position.maxScrollExtent);
+      _wheelTarget = target;
+      _scrollController
+          .animateTo(
+            target,
+            duration: const Duration(milliseconds: 100),
+            curve: Curves.easeOut,
+          )
+          .whenComplete(() {
+            if (_wheelTarget == target) _wheelTarget = null;
+          });
+    });
   }
 
   @override
@@ -146,12 +177,24 @@ class _DetailsBoxState extends State<_DetailsBox> {
             behavior: ScrollConfiguration.of(
               context,
             ).copyWith(scrollbars: false),
-            child: SingleChildScrollView(
-              controller: _scrollController,
-              padding: const EdgeInsets.all(_padding),
-              child: SizedBox(
-                width: double.infinity,
-                child: SelectableText(widget.details),
+            // Selection outside the scroll view, so that dragging a selection
+            // past an edge scrolls the box like a text field does.
+            child: SelectionArea(
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                // The Listener is inside the scroll view, so that it handles the
+                // wheel before the scroll view does.
+                child: Listener(
+                  onPointerSignal: (event) =>
+                      _onPointerSignal(event, lineHeight),
+                  child: Padding(
+                    padding: const EdgeInsets.all(_padding),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(widget.details),
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
