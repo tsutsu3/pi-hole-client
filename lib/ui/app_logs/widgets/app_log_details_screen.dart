@@ -4,10 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:pi_hole_client/domain/model/app/app_log.dart';
 import 'package:pi_hole_client/ui/app_logs/widgets/app_log_type_icon.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/formats.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/format.dart';
+import 'package:provider/provider.dart';
 
 class AppLogDetailsScreen extends StatelessWidget {
   const AppLogDetailsScreen({required this.log, super.key});
@@ -23,21 +25,19 @@ class AppLogDetailsScreen extends StatelessWidget {
       await Clipboard.setData(
         ClipboardData(text: appLogToText(log, dateTime: dateTime)),
       );
-
       if (!context.mounted) return;
-
-      final appColors = Theme.of(context).extension<AppColors>()!;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            loc.logCopiedClipboard,
-            style: TextStyle(color: appColors.snackBarNeutralText),
-          ),
-          backgroundColor: appColors.snackBarNeutral,
-          duration: const Duration(seconds: 3),
-        ),
+      showNeutralSnackBar(
+        context: context,
+        appConfigViewModel: context.read<AppConfigViewModel>(),
+        label: loc.logCopiedClipboard,
       );
     }
+
+    Widget tile(IconData icon, String title, String value) => ListTile(
+      leading: Icon(icon),
+      title: Text(title),
+      subtitle: Text(value),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -55,33 +55,13 @@ class AppLogDetailsScreen extends StatelessWidget {
         child: ListView(
           children: [
             SectionLabel(label: loc.overview),
-            ListTile(
-              leading: const Icon(Icons.subject_rounded),
-              title: Text(loc.summary),
-              subtitle: Text(log.message),
-            ),
-            ListTile(
-              leading: Icon(appLogTypeIcon(log.type)),
-              title: Text(loc.type),
-              subtitle: Text(log.type),
-            ),
-            ListTile(
-              leading: const Icon(Icons.access_time_outlined),
-              title: Text(loc.time),
-              subtitle: Text(dateTime),
-            ),
+            tile(Icons.subject_rounded, loc.summary, log.message),
+            tile(appLogTypeIcon(log.type), loc.type, log.type),
+            tile(Icons.access_time_outlined, loc.time, dateTime),
             if (log.serverAddress != null)
-              ListTile(
-                leading: const Icon(Icons.dns_rounded),
-                title: Text(loc.serverAddress),
-                subtitle: Text(log.serverAddress!),
-              ),
+              tile(Icons.dns_rounded, loc.serverAddress, log.serverAddress!),
             if (log.statusCode != null)
-              ListTile(
-                leading: const Icon(Icons.numbers_rounded),
-                title: Text(loc.statusCode),
-                subtitle: Text(log.statusCode!),
-              ),
+              tile(Icons.numbers_rounded, loc.statusCode, log.statusCode!),
             if (log.details != null) ...[
               SectionLabel(label: loc.details),
               Padding(
@@ -189,10 +169,7 @@ class _DetailsBoxState extends State<_DetailsBox> {
                       _onPointerSignal(event, lineHeight),
                   child: Padding(
                     padding: const EdgeInsets.all(_padding),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Text(widget.details),
-                    ),
+                    child: Text(widget.details),
                   ),
                 ),
               ),
