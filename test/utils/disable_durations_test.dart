@@ -19,6 +19,10 @@ void main() {
       expect(DisableDurations.parse('30,60,x,300'), DisableDurations.defaults);
       expect(DisableDurations.parse('0,60,120,300'), DisableDurations.defaults);
       expect(
+        DisableDurations.parse('60,60,120,300'),
+        DisableDurations.defaults,
+      );
+      expect(
         DisableDurations.parse('30,60,120,86401'),
         DisableDurations.defaults,
       );

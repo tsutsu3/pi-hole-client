@@ -26,13 +26,13 @@ import 'package:pi_hole_client/ui/settings/about/widgets/licenses_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/widgets/privacy_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/chart_visualization_screen.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/disable_timers_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/log_refresh_interval_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/reset_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/widgets/advanced_options_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/widgets/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/widgets/theme_screen.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/widgets/timers_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/view_models/adlists_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/adlists/widgets/adlist_screen_factory.dart';
@@ -227,11 +227,6 @@ GoRouter createAppRouter({
                         builder: (context, state) => const ServersScreen(),
                       ),
                       GoRoute(
-                        path: '/settings/app/timers',
-                        name: Routes.settingsAppTimers,
-                        builder: (context, state) => const TimersScreen(),
-                      ),
-                      GoRoute(
                         path: '/settings/app/advanced',
                         name: Routes.settingsAppAdvanced,
                         builder: (context, state) =>
@@ -239,6 +234,12 @@ GoRouter createAppRouter({
                       ),
 
                       // ── Settings > App > Advanced ──
+                      GoRoute(
+                        path: '/settings/app/advanced/disable-timers',
+                        name: Routes.settingsAppAdvancedDisableTimers,
+                        builder: (context, state) =>
+                            const DisableTimersScreen(),
+                      ),
                       GoRoute(
                         path: '/settings/app/advanced/chart-visualization',
                         name: Routes.settingsAppAdvancedChartVisualization,

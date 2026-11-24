@@ -1,4 +1,5 @@
-/// Timed options of the disable menu (Settings > App settings > Timers).
+/// Timed options of the disable menu
+/// (Settings > App settings > Advanced settings > Disable timers).
 ///
 /// Stored in the database as seconds, comma separated (`30,60,120,300`).
 abstract final class DisableDurations {
@@ -24,10 +25,11 @@ abstract final class DisableDurations {
     return isValid(parsed) ? parsed : defaults;
   }
 
-  /// Whether [durations] has [count] values between [minSeconds] and
-  /// [maxSeconds].
+  /// Whether [durations] has [count] different values between [minSeconds]
+  /// and [maxSeconds].
   static bool isValid(List<int> durations) =>
       durations.length == count &&
+      durations.toSet().length == count &&
       durations.every((e) => e >= minSeconds && e <= maxSeconds);
 
   /// Database value for [durations].

@@ -105,12 +105,6 @@ class SettingsScreen extends StatelessWidget {
             onTap: () => navigateToSetting(Routes.settingsAppServers),
           ),
           ListTile(
-            leading: const Icon(Icons.timer_rounded),
-            title: Text(AppLocalizations.of(context).timers),
-            subtitle: Text(AppLocalizations.of(context).timersDescription),
-            onTap: () => navigateToSetting(Routes.settingsAppTimers),
-          ),
-          ListTile(
             leading: const Icon(Icons.settings_rounded),
             title: Text(AppLocalizations.of(context).advancedSetup),
             subtitle: Text(

@@ -2305,10 +2305,10 @@ class AppLocalizationsJa extends AppLocalizations {
       'メール本文には可能な限り詳細を記載してください：Pi-holeおよびWebインターフェースのバージョン、問題の再現方法、スクリーンショットなど。\n\n提供される情報はすべて歓迎します。';
 
   @override
-  String get timers => 'タイマー';
+  String get disableTimers => '無効化タイマー';
 
   @override
-  String get timersDescription => 'Pi-holeを無効化するときの時間';
+  String get disableTimersDescription => 'Pi-holeを無効化するときの時間';
 
   @override
   String get disableMenu => '無効化メニュー';
@@ -2335,10 +2335,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get timeUnitHours => '時間';
 
   @override
-  String get timersSaved => 'タイマーを保存しました';
+  String get timersSaved => '無効化タイマーを保存しました';
 
   @override
-  String get timersNotSaved => 'タイマーを保存できませんでした';
+  String get timersNotSaved => '無効化タイマーを保存できませんでした';
 
   @override
   String durationSeconds(num count) {
@@ -2369,4 +2369,10 @@ class AppLocalizationsJa extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get blocking => 'ブロック';
+
+  @override
+  String get disableDurationDuplicate => 'この時間はすでにリストにあります';
 }

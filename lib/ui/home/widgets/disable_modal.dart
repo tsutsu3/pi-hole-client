@@ -87,7 +87,8 @@ class _DisableModalState extends State<DisableModal> {
   @override
   Widget build(BuildContext context) {
     final mediaQueryData = MediaQuery.of(context);
-    // Timed options, set in Settings > App settings > Timers.
+    // Timed options, set in Settings > App settings > Advanced settings >
+    // Disable timers.
     final durations = context.watch<AppConfigViewModel>().disableDurations;
     String durationLabel(int index) => disableDurationLabel(
       index < durations.length

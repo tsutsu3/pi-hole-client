@@ -2407,10 +2407,11 @@ class AppLocalizationsEs extends AppLocalizations {
       'Incluye en el cuerpo del correo todos los detalles posibles: Pi-hole y versión de la interfaz web, cómo reproducir el problema, capturas de pantalla...\n\nToda la información proporcionada será muy bienvenida.';
 
   @override
-  String get timers => 'Temporizadores';
+  String get disableTimers => 'Temporizadores de desactivación';
 
   @override
-  String get timersDescription => 'Duraciones ofrecidas al desactivar Pi-hole';
+  String get disableTimersDescription =>
+      'Duraciones ofrecidas al desactivar Pi-hole';
 
   @override
   String get disableMenu => 'Menú de desactivación';
@@ -2438,10 +2439,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get timeUnitHours => 'horas';
 
   @override
-  String get timersSaved => 'Temporizadores guardados';
+  String get timersSaved => 'Temporizadores de desactivación guardados';
 
   @override
-  String get timersNotSaved => 'No se pudieron guardar los temporizadores';
+  String get timersNotSaved =>
+      'No se pudieron guardar los temporizadores de desactivación';
 
   @override
   String durationSeconds(num count) {
@@ -2475,4 +2477,10 @@ class AppLocalizationsEs extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get blocking => 'Bloqueo';
+
+  @override
+  String get disableDurationDuplicate => 'Este tiempo ya está en la lista';
 }

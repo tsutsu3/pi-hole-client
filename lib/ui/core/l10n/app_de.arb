@@ -746,8 +746,8 @@
   "welcomeToApp": "Willkommen in der App",
   "writeEmail": "Schreiben Sie mir per E-Mail.",
   "writeEmailDetails": "Die Email sollte im Optimalfall folgende Infos enthalten: Pi-hole und Web Interface Version, wie kann der Fehler reproduziert werden, Screenshots...\n\nFür alle Informationen sind wir sehr dankbar.",
-  "timers": "Timer",
-  "timersDescription": "Angebotene Dauern beim Deaktivieren von Pi-hole",
+  "disableTimers": "Deaktivierungs-Timer",
+  "disableTimersDescription": "Angebotene Dauern beim Deaktivieren von Pi-hole",
   "disableMenu": "Deaktivierungsmenü",
   "disableMenuDescription": "Die vier Zeitoptionen beim Deaktivieren von Pi-hole. „Benutzerdefiniert“ und „Unbegrenzt“ sind immer verfügbar.",
   "disableMenuOption": "Option {number}",
@@ -755,9 +755,11 @@
   "timeUnitSeconds": "Sekunden",
   "timeUnitMinutes": "Minuten",
   "timeUnitHours": "Stunden",
-  "timersSaved": "Timer gespeichert",
-  "timersNotSaved": "Timer konnten nicht gespeichert werden",
+  "timersSaved": "Deaktivierungs-Timer gespeichert",
+  "timersNotSaved": "Deaktivierungs-Timer konnten nicht gespeichert werden",
   "durationSeconds": "{count, plural, =1{1 Sekunde} other{{count} Sekunden}}",
   "durationMinutes": "{count, plural, =1{1 Minute} other{{count} Minuten}}",
-  "durationHours": "{count, plural, =1{1 Stunde} other{{count} Stunden}}"
+  "durationHours": "{count, plural, =1{1 Stunde} other{{count} Stunden}}",
+  "blocking": "Blockierung",
+  "disableDurationDuplicate": "Diese Zeit ist schon in der Liste"
 }

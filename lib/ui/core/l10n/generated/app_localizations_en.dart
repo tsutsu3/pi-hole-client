@@ -2368,10 +2368,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Include on the body of the email all the possible details: Pi-hole and web interface version, how to reproduce the issue, screenshots...\n\nAll provided information will be very welcome.';
 
   @override
-  String get timers => 'Timers';
+  String get disableTimers => 'Disable timers';
 
   @override
-  String get timersDescription => 'Durations offered when you disable Pi-hole';
+  String get disableTimersDescription =>
+      'Durations offered when you disable Pi-hole';
 
   @override
   String get disableMenu => 'Disable menu';
@@ -2399,10 +2400,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get timeUnitHours => 'hours';
 
   @override
-  String get timersSaved => 'Timers saved';
+  String get timersSaved => 'Disable timers saved';
 
   @override
-  String get timersNotSaved => 'Timers could not be saved';
+  String get timersNotSaved => 'Disable timers could not be saved';
 
   @override
   String durationSeconds(num count) {
@@ -2436,4 +2437,10 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get blocking => 'Blocking';
+
+  @override
+  String get disableDurationDuplicate => 'This time is already in the list';
 }

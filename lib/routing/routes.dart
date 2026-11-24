@@ -33,12 +33,13 @@ abstract class Routes {
   static const settingsAppTheme = 'settings/app/theme';
   static const settingsAppLanguage = 'settings/app/language';
   static const settingsAppServers = 'settings/app/servers';
-  static const settingsAppTimers = 'settings/app/timers';
   static const settingsAppAdvanced = 'settings/app/advanced';
 
   // ===== Settings > App > Advanced sub-routes =====
   static const settingsAppAdvancedChartVisualization =
       'settings/app/advanced/chart-visualization';
+  static const settingsAppAdvancedDisableTimers =
+      'settings/app/advanced/disable-timers';
   static const settingsAppAdvancedStatsRefreshTime =
       'settings/app/advanced/stats-refresh-time';
   static const settingsAppAdvancedLogRefreshInterval =

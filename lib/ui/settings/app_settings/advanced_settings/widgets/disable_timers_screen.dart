@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/disable_durations.dart';
@@ -25,17 +26,17 @@ enum _TimeUnit {
   }
 }
 
-/// Settings > App settings > Timers.
+/// Settings > App settings > Advanced settings > Disable timers.
 ///
 /// Sets the timed options of the disable menu.
-class TimersScreen extends StatefulWidget {
-  const TimersScreen({super.key});
+class DisableTimersScreen extends StatefulWidget {
+  const DisableTimersScreen({super.key});
 
   @override
-  State<TimersScreen> createState() => _TimersScreenState();
+  State<DisableTimersScreen> createState() => _DisableTimersScreenState();
 }
 
-class _TimersScreenState extends State<TimersScreen> {
+class _DisableTimersScreenState extends State<DisableTimersScreen> {
   final List<TextEditingController> _controllers = List.generate(
     DisableDurations.count,
     (_) => TextEditingController(),
@@ -79,7 +80,22 @@ class _TimersScreenState extends State<TimersScreen> {
     return seconds;
   }
 
-  bool get _allValid => _entries.every((s) => s != null);
+  /// Error to show under option [i]: out of range, or the same time as an
+  /// earlier option. Null when the option is fine.
+  String? _error(int i, AppLocalizations loc) {
+    final seconds = _seconds(i);
+    if (seconds == null) return loc.disableDurationInvalid;
+    for (var j = 0; j < i; j++) {
+      if (_seconds(j) == seconds) return loc.disableDurationDuplicate;
+    }
+    return null;
+  }
+
+  bool get _allValid {
+    final entries = _entries;
+    return entries.every((s) => s != null) &&
+        entries.toSet().length == entries.length;
+  }
 
   /// Current entries, in seconds (null where not valid).
   List<int?> get _entries => List.generate(DisableDurations.count, _seconds);
@@ -121,7 +137,6 @@ class _TimersScreenState extends State<TimersScreen> {
   }
 
   Widget _optionRow(int i, AppLocalizations loc) {
-    final valid = _seconds(i) != null;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       child: Row(
@@ -136,7 +151,7 @@ class _TimersScreenState extends State<TimersScreen> {
               onChanged: (_) => setState(() {}),
               decoration: InputDecoration(
                 labelText: loc.disableMenuOption(i + 1),
-                errorText: valid ? null : loc.disableDurationInvalid,
+                errorText: _error(i, loc),
                 errorMaxLines: 2,
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -145,25 +160,44 @@ class _TimersScreenState extends State<TimersScreen> {
             ),
           ),
           const SizedBox(width: 12),
-          Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: DropdownButton<_TimeUnit>(
-              value: _units[i],
-              onChanged: (unit) {
-                if (unit == null) return;
-                setState(() => _units[i] = unit);
-              },
-              items: [
-                for (final unit in _TimeUnit.values)
-                  DropdownMenuItem(
-                    value: unit,
-                    child: Text(_unitLabel(unit, loc)),
-                  ),
-              ],
-            ),
+          _unitMenu(
+            id: 'disableDurationUnit$i',
+            unit: _units[i],
+            onSelected: (unit) => setState(() => _units[i] = unit),
+            loc: loc,
           ),
         ],
       ),
+    );
+  }
+
+  /// Time unit picker, as tall as the text field next to it.
+  Widget _unitMenu({
+    required String id,
+    required _TimeUnit unit,
+    required ValueChanged<_TimeUnit> onSelected,
+    required AppLocalizations loc,
+  }) {
+    return DropdownMenu<_TimeUnit>(
+      // A new key when the unit changes from code (e.g. after saving), so
+      // the menu shows it: initialSelection is read only once.
+      key: ValueKey('$id-${unit.name}'),
+      width: 132,
+      initialSelection: unit,
+      requestFocusOnTap: false,
+      enableSearch: false,
+      inputDecorationTheme: const InputDecorationTheme(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+      ),
+      onSelected: (value) {
+        if (value != null) onSelected(value);
+      },
+      dropdownMenuEntries: [
+        for (final value in _TimeUnit.values)
+          DropdownMenuEntry(value: value, label: _unitLabel(value, loc)),
+      ],
     );
   }
 
@@ -172,17 +206,11 @@ class _TimersScreenState extends State<TimersScreen> {
     final loc = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(loc.timers)),
+      appBar: AppBar(title: Text(loc.disableTimers)),
       body: SafeArea(
         child: ListView(
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 4),
-              child: Text(
-                loc.disableMenu,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
+            SectionLabel(label: loc.disableMenu),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
               child: Text(

@@ -2390,10 +2390,11 @@ class AppLocalizationsPl extends AppLocalizations {
       'W treści e-maila umieść wszystkie możliwe szczegóły: wersję Pi-hole i interfejsu sieciowego, sposób odtworzenia problemu, zrzuty ekranu...\n\nWszystkie dostarczone informacje będą bardzo mile widziane.';
 
   @override
-  String get timers => 'Liczniki czasu';
+  String get disableTimers => 'Liczniki wyłączania';
 
   @override
-  String get timersDescription => 'Czasy proponowane przy wyłączaniu Pi-hole';
+  String get disableTimersDescription =>
+      'Czasy proponowane przy wyłączaniu Pi-hole';
 
   @override
   String get disableMenu => 'Menu wyłączania';
@@ -2420,10 +2421,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get timeUnitHours => 'godziny';
 
   @override
-  String get timersSaved => 'Zapisano liczniki czasu';
+  String get timersSaved => 'Zapisano liczniki wyłączania';
 
   @override
-  String get timersNotSaved => 'Nie udało się zapisać liczników czasu';
+  String get timersNotSaved => 'Nie udało się zapisać liczników wyłączania';
 
   @override
   String durationSeconds(num count) {
@@ -2460,4 +2461,10 @@ class AppLocalizationsPl extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get blocking => 'Blokowanie';
+
+  @override
+  String get disableDurationDuplicate => 'Ten czas jest już na liście';
 }

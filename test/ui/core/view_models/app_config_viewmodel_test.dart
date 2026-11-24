@@ -165,6 +165,10 @@ void main() {
         await appConfigViewModel.setDisableDurations([0, 60, 120, 300]),
         false,
       );
+      expect(
+        await appConfigViewModel.setDisableDurations([60, 60, 120, 300]),
+        false,
+      );
       expect(appConfigViewModel.disableDurations, [30, 60, 120, 300]);
       expect(listenerCalled, false);
     });

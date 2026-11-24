@@ -4580,17 +4580,17 @@ abstract class AppLocalizations {
   /// **'Include on the body of the email all the possible details: Pi-hole and web interface version, how to reproduce the issue, screenshots...\n\nAll provided information will be very welcome.'**
   String get writeEmailDetails;
 
-  /// No description provided for @timers.
+  /// No description provided for @disableTimers.
   ///
   /// In en, this message translates to:
-  /// **'Timers'**
-  String get timers;
+  /// **'Disable timers'**
+  String get disableTimers;
 
-  /// No description provided for @timersDescription.
+  /// No description provided for @disableTimersDescription.
   ///
   /// In en, this message translates to:
   /// **'Durations offered when you disable Pi-hole'**
-  String get timersDescription;
+  String get disableTimersDescription;
 
   /// No description provided for @disableMenu.
   ///
@@ -4637,13 +4637,13 @@ abstract class AppLocalizations {
   /// No description provided for @timersSaved.
   ///
   /// In en, this message translates to:
-  /// **'Timers saved'**
+  /// **'Disable timers saved'**
   String get timersSaved;
 
   /// No description provided for @timersNotSaved.
   ///
   /// In en, this message translates to:
-  /// **'Timers could not be saved'**
+  /// **'Disable timers could not be saved'**
   String get timersNotSaved;
 
   /// No description provided for @durationSeconds.
@@ -4663,6 +4663,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 hour} other{{count} hours}}'**
   String durationHours(num count);
+
+  /// No description provided for @blocking.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocking'**
+  String get blocking;
+
+  /// No description provided for @disableDurationDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'This time is already in the list'**
+  String get disableDurationDuplicate;
 }
 
 class _AppLocalizationsDelegate
