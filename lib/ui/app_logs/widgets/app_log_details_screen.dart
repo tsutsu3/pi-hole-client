@@ -85,18 +85,76 @@ class AppLogDetailsScreen extends StatelessWidget {
               SectionLabel(label: loc.details),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                child: Card(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: SelectableText(log.details!),
-                  ),
-                ),
+                child: _DetailsBox(details: log.details!),
               ),
             ],
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// A read-only text box that scrolls when [details] has more than 5 lines.
+class _DetailsBox extends StatefulWidget {
+  const _DetailsBox({required this.details});
+
+  final String details;
+
+  @override
+  State<_DetailsBox> createState() => _DetailsBoxState();
+}
+
+class _DetailsBoxState extends State<_DetailsBox> {
+  static const _maxLines = 5;
+  static const _padding = 16.0;
+
+  // Shared with the Scrollbar, so that the bar is shown on mobile too.
+  final _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final style = DefaultTextStyle.of(context).style;
+    final lineHeight =
+        MediaQuery.textScalerOf(context).scale(style.fontSize ?? 14) *
+        (style.height ?? 1.2);
+
+    return Container(
+      constraints: BoxConstraints(
+        maxHeight: lineHeight * _maxLines + _padding * 2,
+      ),
+      decoration: BoxDecoration(
+        border: Border.all(color: Theme.of(context).colorScheme.outline),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+      ),
+      // Keep the bar inside the rounded border.
+      child: ScrollbarTheme(
+        data: ScrollbarTheme.of(
+          context,
+        ).copyWith(crossAxisMargin: 4, mainAxisMargin: 10),
+        child: Scrollbar(
+          controller: _scrollController,
+          thumbVisibility: true,
+          // Hide the bar that desktop adds by default, so that only one is shown.
+          child: ScrollConfiguration(
+            behavior: ScrollConfiguration.of(
+              context,
+            ).copyWith(scrollbars: false),
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              padding: const EdgeInsets.all(_padding),
+              child: SizedBox(
+                width: double.infinity,
+                child: SelectableText(widget.details),
+              ),
+            ),
+          ),
         ),
       ),
     );
