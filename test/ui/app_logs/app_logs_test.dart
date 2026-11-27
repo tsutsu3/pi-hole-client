@@ -141,5 +141,28 @@ void main() async {
       await tester.pumpAndSettle();
       expect(find.text('Logs copied to clipboard'), findsNothing);
     });
+
+    testWidgets('shows an error snackbar when the copy fails', (tester) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, (call) async {
+            if (call.method == 'Clipboard.setData') {
+              throw PlatformException(code: 'error');
+            }
+            return null;
+          });
+      addTearDown(
+        () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(SystemChannels.platform, null),
+      );
+      appLogRepository.add(type: AppLogType.connection, message: 'message');
+
+      await tester.pumpWidget(buildScreen());
+      await tester.pump();
+      await tester.tap(find.byIcon(Icons.copy_rounded));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Failed to copy the logs'), findsOneWidget);
+      expect(find.text('Logs copied to clipboard'), findsNothing);
+    });
   });
 }

@@ -1431,6 +1431,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get logCopiedClipboard => 'Log in die Zwischenablage kopiert';
 
   @override
+  String get logCopyFailed => 'Log konnte nicht kopiert werden';
+
+  @override
   String get logDetails => 'Log Details';
 
   @override
@@ -1449,6 +1452,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get logsCopiedClipboard => 'Logs in die Zwischenablage kopiert';
+
+  @override
+  String get logsCopyFailed => 'Logs konnten nicht kopiert werden';
 
   @override
   String get logsPerQueryLabel =>

@@ -37,13 +37,26 @@ class AppLogsScreen extends StatelessWidget {
             },
           )
           .toList();
-      await Clipboard.setData(ClipboardData(text: jsonEncode(logsString)));
+
+      final appConfigViewModel = context.read<AppConfigViewModel>();
+
+      try {
+        await Clipboard.setData(ClipboardData(text: jsonEncode(logsString)));
+      } on PlatformException {
+        if (!context.mounted) return;
+        showErrorSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: AppLocalizations.of(context).logsCopyFailed,
+        );
+        return;
+      }
 
       if (!context.mounted) return;
 
       showNeutralSnackBar(
         context: context,
-        appConfigViewModel: context.read<AppConfigViewModel>(),
+        appConfigViewModel: appConfigViewModel,
         label: AppLocalizations.of(context).logsCopiedClipboard,
       );
     }

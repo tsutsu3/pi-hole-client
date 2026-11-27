@@ -2774,6 +2774,12 @@ abstract class AppLocalizations {
   /// **'Log copied to clipboard'**
   String get logCopiedClipboard;
 
+  /// No description provided for @logCopyFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to copy the log'**
+  String get logCopyFailed;
+
   /// No description provided for @logDetails.
   ///
   /// In en, this message translates to:
@@ -2809,6 +2815,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Logs copied to clipboard'**
   String get logsCopiedClipboard;
+
+  /// No description provided for @logsCopyFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to copy the logs'**
+  String get logsCopyFailed;
 
   /// No description provided for @logsPerQueryLabel.
   ///

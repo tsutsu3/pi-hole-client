@@ -1361,6 +1361,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get logCopiedClipboard => 'ログがクリップボードにコピーされました';
 
   @override
+  String get logCopyFailed => 'ログをコピーできませんでした';
+
+  @override
   String get logDetails => 'ログの詳細';
 
   @override
@@ -1377,6 +1380,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get logsCopiedClipboard => 'ログがクリップボードにコピーされました';
+
+  @override
+  String get logsCopyFailed => 'ログをコピーできませんでした';
 
   @override
   String get logsPerQueryLabel => 'APIへの各ログリクエストに使用される時間間隔を選択します。';

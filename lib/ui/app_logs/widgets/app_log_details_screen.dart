@@ -22,13 +22,26 @@ class AppLogDetailsScreen extends StatelessWidget {
     final dateTime = formatTimestamp(log.dateTime, kUnifiedDateTimeLogFormat);
 
     Future<void> copyLogClipboard() async {
-      await Clipboard.setData(
-        ClipboardData(text: appLogToText(log, dateTime: dateTime)),
-      );
+      final appConfigViewModel = context.read<AppConfigViewModel>();
+
+      try {
+        await Clipboard.setData(
+          ClipboardData(text: appLogToText(log, dateTime: dateTime)),
+        );
+      } on PlatformException {
+        if (!context.mounted) return;
+        showErrorSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: loc.logCopyFailed,
+        );
+        return;
+      }
+
       if (!context.mounted) return;
       showNeutralSnackBar(
         context: context,
-        appConfigViewModel: context.read<AppConfigViewModel>(),
+        appConfigViewModel: appConfigViewModel,
         label: loc.logCopiedClipboard,
       );
     }

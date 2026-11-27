@@ -1398,6 +1398,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logCopiedClipboard => 'Log copied to clipboard';
 
   @override
+  String get logCopyFailed => 'Failed to copy the log';
+
+  @override
   String get logDetails => 'Log details';
 
   @override
@@ -1415,6 +1418,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logsCopiedClipboard => 'Logs copied to clipboard';
+
+  @override
+  String get logsCopyFailed => 'Failed to copy the logs';
 
   @override
   String get logsPerQueryLabel =>

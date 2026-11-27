@@ -83,6 +83,27 @@ void main() async {
         'Details: {"error": "unauthorized"}',
       );
     });
+
+    testWidgets('shows an error snackbar when the copy fails', (tester) async {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(SystemChannels.platform, (call) async {
+            if (call.method == 'Clipboard.setData') {
+              throw PlatformException(code: 'error');
+            }
+            return null;
+          });
+      addTearDown(
+        () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .setMockMethodCallHandler(SystemChannels.platform, null),
+      );
+
+      await pumpScreen(tester, fullLog);
+      await tester.tap(find.byIcon(Icons.copy_rounded));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Failed to copy the log'), findsOneWidget);
+      expect(find.text('Log copied to clipboard'), findsNothing);
+    });
   });
 
   group('appLogToText', () {
