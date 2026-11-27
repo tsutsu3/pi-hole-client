@@ -109,6 +109,34 @@ void main() async {
       expect(button.onPressed, isNull);
     });
 
+    testWidgets('a very long number is cut to 5 digits and rejected', (
+      tester,
+    ) async {
+      await pumpScreen(tester);
+
+      await tester.tap(
+        find.byKey(const ValueKey('disableDurationUnit3-minutes')),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('hours').last);
+      await tester.pumpAndSettle();
+      // Times 3600 this would overflow to 3600 (1 hour) without the checks.
+      await tester.enterText(
+        find.byKey(const Key('disableDuration3')),
+        '1152921504606846977',
+      );
+      await tester.pump();
+
+      expect(find.text('11529'), findsOneWidget);
+      expect(
+        find.text('Enter a time between 1 second and 24 hours'),
+        findsOneWidget,
+      );
+      await tester.ensureVisible(find.text('Save'));
+      final button = tester.widget<FilledButton>(find.byType(FilledButton));
+      expect(button.onPressed, isNull);
+    });
+
     testWidgets('the same time twice shows an error and blocks saving', (
       tester,
     ) async {

@@ -68,10 +68,15 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
     }
   }
 
+  /// Digits allowed in a duration field: enough for the largest value.
+  static const _maxDigits = '${DisableDurations.maxSeconds}'.length;
+
   /// Duration in seconds of option [i], or null if not valid.
   int? _seconds(int i) {
     final value = int.tryParse(_controllers[i].text.trim());
     if (value == null) return null;
+    // Compare before multiplying, so a huge number cannot overflow.
+    if (value > DisableDurations.maxSeconds ~/ _units[i].factor) return null;
     final seconds = value * _units[i].factor;
     if (seconds < DisableDurations.minSeconds ||
         seconds > DisableDurations.maxSeconds) {
@@ -147,7 +152,10 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
               key: Key('disableDuration$i'),
               controller: _controllers[i],
               keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(_maxDigits),
+              ],
               onChanged: (_) => setState(() {}),
               decoration: InputDecoration(
                 labelText: loc.disableMenuOption(i + 1),
