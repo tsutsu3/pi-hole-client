@@ -269,6 +269,24 @@ void main() async {
       expect(appConfigViewModel.disableCooldown, 4 * 3600);
     });
 
+    testWidgets('a disable limit over 24 hours is accepted', (tester) async {
+      await pumpScreen(tester);
+
+      await tester.ensureVisible(find.byKey(const Key('disableLimitEnabled')));
+      await tester.tap(find.byKey(const Key('disableLimitEnabled')));
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.byKey(const Key('disableLimitDuration')));
+      // Unit is hours: 30 hours is over the disable menu max, under 7 days.
+      await tester.enterText(
+        find.byKey(const Key('disableLimitDuration')),
+        '30',
+      );
+      await tester.pump();
+      await tapSave(tester);
+
+      expect(appConfigViewModel.disableCooldown, 30 * 3600);
+    });
+
     testWidgets('a disable limit over 7 days is not accepted', (tester) async {
       await pumpScreen(tester);
 

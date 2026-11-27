@@ -117,9 +117,6 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
     }
   }
 
-  /// Digits allowed in a duration field: enough for the largest value.
-  static const _maxDigits = '${DisableDurations.maxSeconds}'.length;
-
   /// Duration in seconds of option [i], or null if not valid.
   int? _seconds(int i) => _toSeconds(_controllers[i].text, _units[i]);
 
@@ -131,7 +128,7 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
     final value = int.tryParse(text.trim());
     if (value == null) return null;
     // Compare before multiplying, so a huge number cannot overflow.
-    if (value > DisableDurations.maxSeconds ~/ unit.factor) return null;
+    if (value > max ~/ unit.factor) return null;
     final seconds = value * unit.factor;
     if (seconds < DisableDurations.minSeconds || seconds > max) {
       return null;
@@ -234,6 +231,7 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
     required ValueChanged<_TimeUnit> onUnitChanged,
     required String? errorText,
     required AppLocalizations loc,
+    int maxSeconds = DisableDurations.maxSeconds,
   }) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
@@ -247,7 +245,8 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
               keyboardType: TextInputType.number,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(_maxDigits),
+                // Enough digits for the largest value, so it cannot overflow.
+                LengthLimitingTextInputFormatter('$maxSeconds'.length),
               ],
               onChanged: (_) => setState(() {}),
               decoration: InputDecoration(
@@ -316,6 +315,7 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
           onUnitChanged: (unit) => setState(() => _limitUnit = unit),
           errorText: _limitSeconds == null ? loc.disableLimitInvalid : null,
           loc: loc,
+          maxSeconds: AppConfigViewModel.maxDisableCooldown,
         ),
     ];
   }
