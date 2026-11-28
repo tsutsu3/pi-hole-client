@@ -6,6 +6,7 @@ import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/utils/disable_durations.dart';
+import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
 
 enum _TimeUnit {
@@ -28,7 +29,9 @@ enum _TimeUnit {
 
 /// Settings > App settings > Advanced settings > Disable timers.
 ///
-/// Sets the timed options of the disable menu.
+/// Sets the timed options of the disable menu and, on Android, how long a
+/// disable from a home screen widget lasts and how often Pi-hole can be
+/// disabled.
 class DisableTimersScreen extends StatefulWidget {
   const DisableTimersScreen({super.key});
 
@@ -46,10 +49,54 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
     _TimeUnit.seconds,
   );
 
+  // Widget disable duration (Android only).
+  bool _widgetAutoEnable = false;
+  final TextEditingController _widgetController = TextEditingController();
+  _TimeUnit _widgetUnit = _TimeUnit.hours;
+
+  // Disable limit (Android only).
+  bool _limitEnabled = false;
+  final TextEditingController _limitController = TextEditingController();
+  _TimeUnit _limitUnit = _TimeUnit.hours;
+
   @override
   void initState() {
     super.initState();
-    _fill(context.read<AppConfigViewModel>().disableDurations);
+    final appConfig = context.read<AppConfigViewModel>();
+    _fill(appConfig.disableDurations);
+    _fillWidget(appConfig.widgetDisableDuration);
+    _fillLimit(appConfig.disableCooldown);
+  }
+
+  void _fillLimit(int seconds) {
+    _limitEnabled = seconds > 0;
+    final value = seconds > 0 ? seconds : 4 * 3600;
+    _limitUnit = _TimeUnit.bestFor(value);
+    _limitController.text = (value ~/ _limitUnit.factor).toString();
+  }
+
+  /// Disable limit in seconds (0 = no limit), or null if not valid.
+  int? get _limitSeconds {
+    if (!_limitEnabled) return 0;
+    return _toSeconds(
+      _limitController.text,
+      _limitUnit,
+      max: AppConfigViewModel.maxDisableCooldown,
+    );
+  }
+
+  void _fillWidget(int seconds) {
+    _widgetAutoEnable = seconds > 0;
+    final value = seconds > 0 ? seconds : 3600;
+    _widgetUnit = _TimeUnit.bestFor(value);
+    _widgetController.text = (value ~/ _widgetUnit.factor).toString();
+  }
+
+  /// Widget disable duration in seconds (0 = indefinitely), or null if the
+  /// entered time is not valid.
+  int? get _widgetSeconds {
+    if (!_widgetAutoEnable) return 0;
+    return _toSeconds(_widgetController.text, _widgetUnit);
   }
 
   @override
@@ -57,6 +104,8 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
     for (final c in _controllers) {
       c.dispose();
     }
+    _widgetController.dispose();
+    _limitController.dispose();
     super.dispose();
   }
 
@@ -68,18 +117,20 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
     }
   }
 
-  /// Digits allowed in a duration field: enough for the largest value.
-  static const _maxDigits = '${DisableDurations.maxSeconds}'.length;
-
   /// Duration in seconds of option [i], or null if not valid.
-  int? _seconds(int i) {
-    final value = int.tryParse(_controllers[i].text.trim());
+  int? _seconds(int i) => _toSeconds(_controllers[i].text, _units[i]);
+
+  int? _toSeconds(
+    String text,
+    _TimeUnit unit, {
+    int max = DisableDurations.maxSeconds,
+  }) {
+    final value = int.tryParse(text.trim());
     if (value == null) return null;
     // Compare before multiplying, so a huge number cannot overflow.
-    if (value > DisableDurations.maxSeconds ~/ _units[i].factor) return null;
-    final seconds = value * _units[i].factor;
-    if (seconds < DisableDurations.minSeconds ||
-        seconds > DisableDurations.maxSeconds) {
+    if (value > max ~/ unit.factor) return null;
+    final seconds = value * unit.factor;
+    if (seconds < DisableDurations.minSeconds || seconds > max) {
       return null;
     }
     return seconds;
@@ -99,7 +150,9 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
   bool get _allValid {
     final entries = _entries;
     return entries.every((s) => s != null) &&
-        entries.toSet().length == entries.length;
+        entries.toSet().length == entries.length &&
+        (!WidgetChannel.isSupported ||
+            (_widgetSeconds != null && _limitSeconds != null));
   }
 
   /// Current entries, in seconds (null where not valid).
@@ -107,15 +160,29 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
 
   Future<void> _save() async {
     final entries = _entries;
+    final widgetSeconds = _widgetSeconds;
+    final limitSeconds = _limitSeconds;
     final durations = entries.cast<int>().toList()..sort();
     final appConfig = context.read<AppConfigViewModel>();
     final loc = AppLocalizations.of(context);
-    final ok = await appConfig.setDisableDurations(durations);
+    var ok = await appConfig.setDisableDurations(durations);
+    if (WidgetChannel.isSupported) {
+      ok = await appConfig.setWidgetDisableDuration(widgetSeconds!) && ok;
+      ok = await appConfig.setDisableCooldown(limitSeconds!) && ok;
+    }
     if (!mounted) return;
     if (ok) {
       // Show the saved (sorted) values, unless the user changed the form
       // while saving: then keep their edits.
-      if (listEquals(_entries, entries)) setState(() => _fill(durations));
+      if (listEquals(_entries, entries) &&
+          _widgetSeconds == widgetSeconds &&
+          _limitSeconds == limitSeconds) {
+        setState(() {
+          _fill(durations);
+          _fillWidget(appConfig.widgetDisableDuration);
+          _fillLimit(appConfig.disableCooldown);
+        });
+      }
       showSuccessSnackBar(
         context: context,
         appConfigViewModel: appConfig,
@@ -142,6 +209,30 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
   }
 
   Widget _optionRow(int i, AppLocalizations loc) {
+    return _durationRow(
+      fieldKey: Key('disableDuration$i'),
+      unitId: 'disableDurationUnit$i',
+      label: loc.disableMenuOption(i + 1),
+      controller: _controllers[i],
+      unit: _units[i],
+      onUnitChanged: (unit) => setState(() => _units[i] = unit),
+      errorText: _error(i, loc),
+      loc: loc,
+    );
+  }
+
+  /// A time: number field plus unit menu.
+  Widget _durationRow({
+    required Key fieldKey,
+    required String unitId,
+    required String label,
+    required TextEditingController controller,
+    required _TimeUnit unit,
+    required ValueChanged<_TimeUnit> onUnitChanged,
+    required String? errorText,
+    required AppLocalizations loc,
+    int maxSeconds = DisableDurations.maxSeconds,
+  }) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       child: Row(
@@ -149,17 +240,18 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
         children: [
           Expanded(
             child: TextField(
-              key: Key('disableDuration$i'),
-              controller: _controllers[i],
+              key: fieldKey,
+              controller: controller,
               keyboardType: TextInputType.number,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(_maxDigits),
+                // Enough digits for the largest value, so it cannot overflow.
+                LengthLimitingTextInputFormatter('$maxSeconds'.length),
               ],
               onChanged: (_) => setState(() {}),
               decoration: InputDecoration(
-                labelText: loc.disableMenuOption(i + 1),
-                errorText: _error(i, loc),
+                labelText: label,
+                errorText: errorText,
                 errorMaxLines: 2,
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -169,14 +261,63 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
           ),
           const SizedBox(width: 12),
           _unitMenu(
-            id: 'disableDurationUnit$i',
-            unit: _units[i],
-            onSelected: (unit) => setState(() => _units[i] = unit),
+            id: unitId,
+            unit: unit,
+            onSelected: onUnitChanged,
             loc: loc,
           ),
         ],
       ),
     );
+  }
+
+  List<Widget> _widgetSection(AppLocalizations loc) {
+    return [
+      SectionLabel(label: loc.timersWidget),
+      SwitchListTile(
+        key: const Key('widgetAutoEnable'),
+        title: Text(loc.widgetAutoEnable),
+        subtitle: Text(loc.widgetAutoEnableDescription),
+        value: _widgetAutoEnable,
+        onChanged: (value) => setState(() => _widgetAutoEnable = value),
+      ),
+      if (_widgetAutoEnable)
+        _durationRow(
+          fieldKey: const Key('widgetDisableDuration'),
+          unitId: 'widgetDisableDurationUnit',
+          label: loc.widgetDisableFor,
+          controller: _widgetController,
+          unit: _widgetUnit,
+          onUnitChanged: (unit) => setState(() => _widgetUnit = unit),
+          errorText: _widgetSeconds == null ? loc.disableDurationInvalid : null,
+          loc: loc,
+        ),
+    ];
+  }
+
+  List<Widget> _limitSection(AppLocalizations loc) {
+    return [
+      SectionLabel(label: loc.disableLimit),
+      SwitchListTile(
+        key: const Key('disableLimitEnabled'),
+        title: Text(loc.disableLimitEnable),
+        subtitle: Text(loc.disableLimitDescription),
+        value: _limitEnabled,
+        onChanged: (value) => setState(() => _limitEnabled = value),
+      ),
+      if (_limitEnabled)
+        _durationRow(
+          fieldKey: const Key('disableLimitDuration'),
+          unitId: 'disableLimitDurationUnit',
+          label: loc.disableLimitOnceEvery,
+          controller: _limitController,
+          unit: _limitUnit,
+          onUnitChanged: (unit) => setState(() => _limitUnit = unit),
+          errorText: _limitSeconds == null ? loc.disableLimitInvalid : null,
+          loc: loc,
+          maxSeconds: AppConfigViewModel.maxDisableCooldown,
+        ),
+    ];
   }
 
   /// Just wide enough for the longest unit name plus the arrow, so the
@@ -244,6 +385,8 @@ class _DisableTimersScreenState extends State<DisableTimersScreen> {
               ),
             ),
             for (var i = 0; i < DisableDurations.count; i++) _optionRow(i, loc),
+            if (WidgetChannel.isSupported) ..._widgetSection(loc),
+            if (WidgetChannel.isSupported) ..._limitSection(loc),
             Padding(
               padding: const EdgeInsets.all(16),
               child: FilledButton(

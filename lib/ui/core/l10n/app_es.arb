@@ -762,5 +762,15 @@
   "durationMinutes": "{count, plural, =1{1 minuto} other{{count} minutos}}",
   "durationHours": "{count, plural, =1{1 hora} other{{count} horas}}",
   "blocking": "Bloqueo",
-  "disableDurationDuplicate": "Este tiempo ya está en la lista"
+  "disableDurationDuplicate": "Este tiempo ya está en la lista",
+  "timersWidget": "Widget de la pantalla de inicio",
+  "widgetAutoEnable": "Reactivar automáticamente",
+  "widgetAutoEnableDescription": "Al desactivar Pi-hole desde un widget, se vuelve a activar tras este tiempo. Si está apagado, sigue desactivado hasta que lo actives.",
+  "widgetDisableFor": "Desactivar durante",
+  "disableLimit": "Límite de desactivación",
+  "disableLimitEnable": "Limitar con qué frecuencia se puede desactivar Pi-hole",
+  "disableLimitDescription": "Pi-hole se puede desactivar una vez en este tiempo, desde la app o un widget, contando desde la última desactivación. Activar siempre está permitido.",
+  "disableLimitOnceEvery": "Una vez cada",
+  "disableLimitInvalid": "Introduce un tiempo entre 1 segundo y 7 días",
+  "disableCooldownActive": "Pi-hole se podrá desactivar de nuevo en {remaining}"
 }

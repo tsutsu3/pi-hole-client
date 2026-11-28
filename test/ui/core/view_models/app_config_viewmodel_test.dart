@@ -185,6 +185,35 @@ void main() {
       expect(appConfigViewModel.disableDurations, [30, 60, 120, 300]);
     });
 
+    test(
+      'setWidgetDisableDuration updates value and notifies listeners',
+      () async {
+        final result = await appConfigViewModel.setWidgetDisableDuration(3600);
+        expect(result, true);
+        expect(appConfigViewModel.widgetDisableDuration, 3600);
+        expect(listenerCalled, true);
+      },
+    );
+
+    test('setWidgetDisableDuration rejects values out of range', () async {
+      expect(await appConfigViewModel.setWidgetDisableDuration(-1), false);
+      expect(await appConfigViewModel.setWidgetDisableDuration(86401), false);
+      expect(appConfigViewModel.widgetDisableDuration, 0);
+    });
+
+    test('setDisableCooldown updates value and notifies listeners', () async {
+      final result = await appConfigViewModel.setDisableCooldown(14400);
+      expect(result, true);
+      expect(appConfigViewModel.disableCooldown, 14400);
+      expect(listenerCalled, true);
+    });
+
+    test('setDisableCooldown rejects values out of range', () async {
+      expect(await appConfigViewModel.setDisableCooldown(-1), false);
+      expect(await appConfigViewModel.setDisableCooldown(7 * 86400 + 1), false);
+      expect(appConfigViewModel.disableCooldown, 0);
+    });
+
     test('setSendCrashReports updates value and notifies listeners', () async {
       final result = await appConfigViewModel.setSendCrashReports(true);
       expect(result, true);

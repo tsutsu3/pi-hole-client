@@ -43,4 +43,5 @@
     <string name="widget_toggle_description">Quick toggle to enable/disable Pi-hole blocking</string>
     <string name="widget_compact_description">Compact view with blocking stats and toggle</string>
     <string name="widget_full_description">Full dashboard with stats, system info, and toggle</string>
+    <string name="widget_disable_limit_toast">Pi-hole can be disabled again in %1$s</string>
 </resources>

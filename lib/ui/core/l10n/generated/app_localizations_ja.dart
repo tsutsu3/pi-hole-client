@@ -2375,4 +2375,38 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get disableDurationDuplicate => 'この時間はすでにリストにあります';
+
+  @override
+  String get timersWidget => 'ホーム画面ウィジェット';
+
+  @override
+  String get widgetAutoEnable => '自動的に再有効化';
+
+  @override
+  String get widgetAutoEnableDescription =>
+      'ウィジェットからPi-holeを無効化すると、この時間の後に再び有効になります。オフの場合は、有効にするまで無効のままです。';
+
+  @override
+  String get widgetDisableFor => '無効化する時間';
+
+  @override
+  String get disableLimit => '無効化の制限';
+
+  @override
+  String get disableLimitEnable => 'Pi-holeを無効化できる頻度を制限する';
+
+  @override
+  String get disableLimitDescription =>
+      'アプリまたはウィジェットから、この時間内に1回だけPi-holeを無効化できます（最後の無効化から数えます）。有効化はいつでも可能です。';
+
+  @override
+  String get disableLimitOnceEvery => '間隔';
+
+  @override
+  String get disableLimitInvalid => '1秒から7日までの時間を入力してください';
+
+  @override
+  String disableCooldownActive(Object remaining) {
+    return 'Pi-holeは$remaining後に再び無効化できます';
+  }
 }

@@ -9,6 +9,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import io.github.tsutsu3.pi_hole_client.widget.common.showDisableLimitToast
 import io.github.tsutsu3.pi_hole_client.widget.data.WidgetPrefs
 import io.github.tsutsu3.pi_hole_client.widget.worker.ServerBlockingStatusWorker
 import io.github.tsutsu3.pi_hole_client.widget.worker.ServerPaddWorker
@@ -193,6 +194,16 @@ object WidgetUpdateHelper {
      * in-flight toggle and leave Pi-hole in an inconsistent state.
      */
     fun enqueueServerToggle(context: Context, serverId: String) {
+        // Disable limit: when the widget shows Pi-hole enabled and a disable
+        // is not allowed yet, answer at once (no network needed).
+        val prefs = WidgetPrefs.getInstance(context)
+        if (prefs.lastKnownBlockingEnabled(serverId) == true) {
+            val remainingMs = prefs.disableCooldownRemainingMs(serverId)
+            if (remainingMs > 0L) {
+                showDisableLimitToast(context, remainingMs)
+                return
+            }
+        }
         val request = OneTimeWorkRequestBuilder<ServerToggleWorker>()
             .setInputData(workDataOf(WidgetConstants.EXTRA_SERVER_ID to serverId))
             .build()

@@ -30,5 +30,7 @@ extension AppDbDataMapper on AppDbData {
     sendCrashReports: sendCrashReports == 1,
     passCode: passCode,
     disableDurations: DisableDurations.parse(disableDurations),
+    widgetDisableDuration: widgetDisableDuration,
+    disableCooldown: disableCooldown,
   );
 }

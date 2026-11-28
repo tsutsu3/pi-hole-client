@@ -761,5 +761,15 @@
   "durationMinutes": "{count, plural, =1{1 minuta} few{{count} minuty} other{{count} minut}}",
   "durationHours": "{count, plural, =1{1 godzina} few{{count} godziny} other{{count} godzin}}",
   "blocking": "Blokowanie",
-  "disableDurationDuplicate": "Ten czas jest już na liście"
+  "disableDurationDuplicate": "Ten czas jest już na liście",
+  "timersWidget": "Widżet na ekranie głównym",
+  "widgetAutoEnable": "Włącz ponownie automatycznie",
+  "widgetAutoEnableDescription": "Po wyłączeniu Pi-hole z widżetu włączy się ponownie po tym czasie. Gdy opcja jest wyłączona, Pi-hole pozostaje wyłączony, dopóki go nie włączysz.",
+  "widgetDisableFor": "Wyłącz na",
+  "disableLimit": "Limit wyłączeń",
+  "disableLimitEnable": "Ogranicz, jak często można wyłączyć Pi-hole",
+  "disableLimitDescription": "Pi-hole można wyłączyć raz w tym czasie, w aplikacji lub z widżetu, licząc od ostatniego wyłączenia. Włączenie jest zawsze możliwe.",
+  "disableLimitOnceEvery": "Raz na",
+  "disableLimitInvalid": "Wpisz czas od 1 sekundy do 7 dni",
+  "disableCooldownActive": "Pi-hole będzie można ponownie wyłączyć za {remaining}"
 }

@@ -2,6 +2,7 @@ package io.github.tsutsu3.pi_hole_client.widget.data
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
+import io.github.tsutsu3.pi_hole_client.widget.common.WidgetStatus
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -20,6 +21,48 @@ class WidgetPrefsTest {
     fun setUp() {
         WidgetPrefs.clearInstanceForTest()
         prefs = WidgetPrefs.getInstance(ApplicationProvider.getApplicationContext<Context>())
+    }
+
+    @Test
+    fun disableCooldown_noLimitByDefault() {
+        prefs.recordDisable("http://a", nowMs = 1_000L)
+        assertEquals(0L, prefs.disableCooldownRemainingMs("http://a", nowMs = 2_000L))
+    }
+
+    @Test
+    fun disableCooldown_countsFromTheLastDisablePerServer() {
+        prefs.disableCooldown = 3600L
+        prefs.recordDisable("http://a", nowMs = 1_000_000L)
+
+        assertEquals(3_000_000L, prefs.disableCooldownRemainingMs("http://a", nowMs = 1_600_000L))
+        assertEquals(0L, prefs.disableCooldownRemainingMs("http://a", nowMs = 4_600_000L))
+        assertEquals(0L, prefs.disableCooldownRemainingMs("http://b", nowMs = 1_600_000L))
+    }
+
+    @Test
+    fun rememberBlockingStatus_keepsTheLastKnownStateOnErrors() {
+        assertNull(prefs.lastKnownBlockingEnabled("http://a"))
+
+        prefs.rememberBlockingStatus("http://a", WidgetStatus.BLOCKING_ON)
+        prefs.rememberBlockingStatus("http://a", WidgetStatus.ERROR)
+        assertEquals(true, prefs.lastKnownBlockingEnabled("http://a"))
+
+        prefs.rememberBlockingStatus("http://a", WidgetStatus.BLOCKING_OFF)
+        assertEquals(false, prefs.lastKnownBlockingEnabled("http://a"))
+    }
+
+    @Test
+    fun widgetDisableDuration_defaultsToIndefinitely() {
+        assertEquals(0L, prefs.widgetDisableDuration)
+    }
+
+    @Test
+    fun widgetDisableDuration_keepsTheValueAndRejectsNegatives() {
+        prefs.widgetDisableDuration = 1800L
+        assertEquals(1800L, prefs.widgetDisableDuration)
+
+        prefs.widgetDisableDuration = -5L
+        assertEquals(0L, prefs.widgetDisableDuration)
     }
 
     @Test

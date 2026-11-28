@@ -763,5 +763,15 @@
   "durationMinutes": "{count, plural, other{{count}分}}",
   "durationHours": "{count, plural, other{{count}時間}}",
   "blocking": "ブロック",
-  "disableDurationDuplicate": "この時間はすでにリストにあります"
+  "disableDurationDuplicate": "この時間はすでにリストにあります",
+  "timersWidget": "ホーム画面ウィジェット",
+  "widgetAutoEnable": "自動的に再有効化",
+  "widgetAutoEnableDescription": "ウィジェットからPi-holeを無効化すると、この時間の後に再び有効になります。オフの場合は、有効にするまで無効のままです。",
+  "widgetDisableFor": "無効化する時間",
+  "disableLimit": "無効化の制限",
+  "disableLimitEnable": "Pi-holeを無効化できる頻度を制限する",
+  "disableLimitDescription": "アプリまたはウィジェットから、この時間内に1回だけPi-holeを無効化できます（最後の無効化から数えます）。有効化はいつでも可能です。",
+  "disableLimitOnceEvery": "間隔",
+  "disableLimitInvalid": "1秒から7日までの時間を入力してください",
+  "disableCooldownActive": "Pi-holeは{remaining}後に再び無効化できます"
 }

@@ -109,6 +109,7 @@ class ServerPaddWorker(
     }
 
     private suspend fun broadcast(serverId: String, prefs: WidgetPrefs, state: WidgetState) {
+        prefs.rememberBlockingStatus(serverId, state.status)
         val glanceManager = GlanceAppWidgetManager(applicationContext)
         for ((widgetId, widget) in boundWidgets(serverId, prefs)) {
             val glanceId = runCatching { glanceManager.getGlanceIdBy(widgetId) }.getOrNull() ?: continue

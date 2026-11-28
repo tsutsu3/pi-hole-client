@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/disable_timers_screen.dart';
+import 'package:pi_hole_client/utils/widget_channel.dart';
 
 import '../../../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 import '../../../../../testing/test_app.dart';
+
+const widgetChannel = MethodChannel('pihole/widget');
 
 void main() async {
   await initTestApp();
@@ -163,6 +167,155 @@ void main() async {
       expect(find.text('Disable timers could not be saved'), findsOneWidget);
       expect(appConfigViewModel.disableDurations, [30, 60, 120, 300]);
       expect(fieldText(tester, 0), '45');
+    });
+  });
+
+  group('DisableTimersScreen widget section (Android)', () {
+    late FakeAppConfigRepository fakeRepo;
+    late AppConfigViewModel appConfigViewModel;
+
+    setUp(() {
+      WidgetChannel.debugIsSupportedOverride = true;
+      // Answer the widget channel calls at once (no Android side in tests).
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(widgetChannel, (_) async => null);
+      fakeRepo = FakeAppConfigRepository();
+      appConfigViewModel = AppConfigViewModel(fakeRepo);
+    });
+
+    tearDown(() {
+      WidgetChannel.debugIsSupportedOverride = null;
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(widgetChannel, null);
+    });
+
+    Future<void> pumpScreen(WidgetTester tester) async {
+      // Tall screen: the whole list is built, so every section can be found.
+      await tester.binding.setSurfaceSize(const Size(800, 2400));
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      await tester.pumpWidget(
+        buildTestApp(
+          const DisableTimersScreen(),
+          appConfigViewModel: appConfigViewModel,
+        ),
+      );
+      await tester.pumpAndSettle();
+    }
+
+    Future<void> tapSave(WidgetTester tester) async {
+      await tester.ensureVisible(find.text('Save'));
+      await tester.tap(find.text('Save'));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('is hidden on other platforms', (tester) async {
+      WidgetChannel.debugIsSupportedOverride = false;
+      await pumpScreen(tester);
+
+      expect(find.text('Home screen widget'), findsNothing);
+    });
+
+    testWidgets('indefinitely by default: no duration field', (tester) async {
+      await pumpScreen(tester);
+
+      expect(find.text('Home screen widget'), findsOneWidget);
+      final toggle = tester.widget<SwitchListTile>(
+        find.byKey(const Key('widgetAutoEnable')),
+      );
+      expect(toggle.value, isFalse);
+      expect(find.byKey(const Key('widgetDisableDuration')), findsNothing);
+    });
+
+    testWidgets('turning it on saves the duration', (tester) async {
+      await pumpScreen(tester);
+
+      await tester.ensureVisible(find.byKey(const Key('widgetAutoEnable')));
+      await tester.tap(find.byKey(const Key('widgetAutoEnable')));
+      await tester.pumpAndSettle();
+      // Default suggestion: 1 hour.
+      await tester.ensureVisible(
+        find.byKey(const Key('widgetDisableDuration')),
+      );
+      await tester.enterText(
+        find.byKey(const Key('widgetDisableDuration')),
+        '2',
+      );
+      await tester.pump();
+      await tapSave(tester);
+
+      expect(appConfigViewModel.widgetDisableDuration, 7200);
+    });
+
+    testWidgets('disable limit is off by default', (tester) async {
+      await pumpScreen(tester);
+
+      expect(find.text('Disable limit'), findsOneWidget);
+      final toggle = tester.widget<SwitchListTile>(
+        find.byKey(const Key('disableLimitEnabled')),
+      );
+      expect(toggle.value, isFalse);
+      expect(find.byKey(const Key('disableLimitDuration')), findsNothing);
+    });
+
+    testWidgets('turning the disable limit on saves it', (tester) async {
+      await pumpScreen(tester);
+
+      await tester.ensureVisible(find.byKey(const Key('disableLimitEnabled')));
+      await tester.tap(find.byKey(const Key('disableLimitEnabled')));
+      await tester.pumpAndSettle();
+      // Default suggestion: 4 hours.
+      await tapSave(tester);
+
+      expect(appConfigViewModel.disableCooldown, 4 * 3600);
+    });
+
+    testWidgets('a disable limit over 24 hours is accepted', (tester) async {
+      await pumpScreen(tester);
+
+      await tester.ensureVisible(find.byKey(const Key('disableLimitEnabled')));
+      await tester.tap(find.byKey(const Key('disableLimitEnabled')));
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.byKey(const Key('disableLimitDuration')));
+      // Unit is hours: 30 hours is over the disable menu max, under 7 days.
+      await tester.enterText(
+        find.byKey(const Key('disableLimitDuration')),
+        '30',
+      );
+      await tester.pump();
+      await tapSave(tester);
+
+      expect(appConfigViewModel.disableCooldown, 30 * 3600);
+    });
+
+    testWidgets('a disable limit over 7 days is not accepted', (tester) async {
+      await pumpScreen(tester);
+
+      await tester.ensureVisible(find.byKey(const Key('disableLimitEnabled')));
+      await tester.tap(find.byKey(const Key('disableLimitEnabled')));
+      await tester.pumpAndSettle();
+      await tester.ensureVisible(find.byKey(const Key('disableLimitDuration')));
+      await tester.enterText(
+        find.byKey(const Key('disableLimitDuration')),
+        '200',
+      );
+      await tester.pump();
+
+      expect(
+        find.text('Enter a time between 1 second and 7 days'),
+        findsOneWidget,
+      );
+    });
+
+    testWidgets('turning it off saves indefinitely (0)', (tester) async {
+      await appConfigViewModel.setWidgetDisableDuration(1800);
+      await pumpScreen(tester);
+
+      await tester.ensureVisible(find.byKey(const Key('widgetAutoEnable')));
+      await tester.tap(find.byKey(const Key('widgetAutoEnable')));
+      await tester.pumpAndSettle();
+      await tapSave(tester);
+
+      expect(appConfigViewModel.widgetDisableDuration, 0);
     });
   });
 }

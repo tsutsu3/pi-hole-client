@@ -9,6 +9,7 @@ import 'package:pi_hole_client/ui/core/l10n/languages.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/utils/disable_durations.dart';
 import 'package:pi_hole_client/utils/logger.dart';
+import 'package:pi_hole_client/utils/widget_channel.dart';
 
 class AppConfigViewModel with ChangeNotifier {
   AppConfigViewModel(this._repository);
@@ -36,6 +37,8 @@ class AppConfigViewModel with ChangeNotifier {
   HomeVisualizationMode _homeVisualizationMode = HomeVisualizationMode.lineArea;
   int _sendCrashReports = 0;
   List<int> _disableDurations = DisableDurations.defaults;
+  int _widgetDisableDuration = 0;
+  int _disableCooldown = 0;
   String _selectedLanguage = 'en';
   int _logAutoRefreshTime = 5;
   bool _liveLog = true;
@@ -160,6 +163,17 @@ class AppConfigViewModel with ChangeNotifier {
 
   /// Timed options of the disable menu, in seconds.
   List<int> get disableDurations => _disableDurations;
+
+  /// How long a disable from a home screen widget lasts, in seconds.
+  /// 0 = indefinitely.
+  int get widgetDisableDuration => _widgetDisableDuration;
+
+  /// Pi-hole can be disabled at most once in this time, in seconds.
+  /// 0 = no limit. Android only.
+  int get disableCooldown => _disableCooldown;
+
+  /// Longest disable limit: 7 days.
+  static const maxDisableCooldown = 7 * 86400;
 
   int get logAutoRefreshTime {
     return _logAutoRefreshTime;
@@ -332,6 +346,40 @@ class AppConfigViewModel with ChangeNotifier {
     }
   }
 
+  Future<bool> setWidgetDisableDuration(int seconds) async {
+    if (seconds < 0 || seconds > DisableDurations.maxSeconds) return false;
+    final updated = await _repository.updateWidgetDisableDuration(seconds);
+    if (updated.isSuccess()) {
+      _widgetDisableDuration = seconds;
+      await WidgetChannel.sendWidgetSettingsUpdated(
+        disableDuration: _widgetDisableDuration,
+        disableCooldown: _disableCooldown,
+      );
+      notifyListeners();
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> setDisableCooldown(int seconds) async {
+    if (seconds < 0 || seconds > maxDisableCooldown) return false;
+    final updated = await _repository.updateDisableCooldown(seconds);
+    if (updated.isSuccess()) {
+      _disableCooldown = seconds;
+      await WidgetChannel.sendWidgetSettingsUpdated(
+        disableDuration: _widgetDisableDuration,
+        disableCooldown: _disableCooldown,
+      );
+      notifyListeners();
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<bool> setLogAutoRefreshTime(int seconds) async {
     final updated = await _repository.updateLogAutoRefreshTime(seconds);
     if (updated.isSuccess()) {
@@ -386,6 +434,8 @@ class AppConfigViewModel with ChangeNotifier {
     _homeVisualizationMode = config.homeVisualizationMode;
     _sendCrashReports = config.sendCrashReports ? 1 : 0;
     _disableDurations = config.disableDurations;
+    _widgetDisableDuration = config.widgetDisableDuration;
+    _disableCooldown = config.disableCooldown;
 
     if (config.passCode != null) {
       _appUnlocked = false;
@@ -502,6 +552,12 @@ class AppConfigViewModel with ChangeNotifier {
       _homeVisualizationMode = HomeVisualizationMode.lineArea;
       _sendCrashReports = 0;
       _disableDurations = DisableDurations.defaults;
+      _widgetDisableDuration = 0;
+      _disableCooldown = 0;
+      await WidgetChannel.sendWidgetSettingsUpdated(
+        disableDuration: 0,
+        disableCooldown: 0,
+      );
 
       notifyListeners();
 

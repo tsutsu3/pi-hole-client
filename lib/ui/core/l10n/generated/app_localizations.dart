@@ -4675,6 +4675,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This time is already in the list'**
   String get disableDurationDuplicate;
+
+  /// No description provided for @timersWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Home screen widget'**
+  String get timersWidget;
+
+  /// No description provided for @widgetAutoEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-enable automatically'**
+  String get widgetAutoEnable;
+
+  /// No description provided for @widgetAutoEnableDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'When you disable Pi-hole from a widget, it turns back on after this time. When off, it stays disabled until you enable it.'**
+  String get widgetAutoEnableDescription;
+
+  /// No description provided for @widgetDisableFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable for'**
+  String get widgetDisableFor;
+
+  /// No description provided for @disableLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable limit'**
+  String get disableLimit;
+
+  /// No description provided for @disableLimitEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Limit how often Pi-hole can be disabled'**
+  String get disableLimitEnable;
+
+  /// No description provided for @disableLimitDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Pi-hole can be disabled once in this time, from the app or a widget, counted from the last disable. Enabling is always allowed.'**
+  String get disableLimitDescription;
+
+  /// No description provided for @disableLimitOnceEvery.
+  ///
+  /// In en, this message translates to:
+  /// **'Once every'**
+  String get disableLimitOnceEvery;
+
+  /// No description provided for @disableLimitInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a time between 1 second and 7 days'**
+  String get disableLimitInvalid;
+
+  /// No description provided for @disableCooldownActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Pi-hole can be disabled again in {remaining}'**
+  String disableCooldownActive(Object remaining);
 }
 
 class _AppLocalizationsDelegate

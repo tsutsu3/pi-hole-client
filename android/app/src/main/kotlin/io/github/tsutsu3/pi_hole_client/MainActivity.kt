@@ -53,6 +53,23 @@ class MainActivity : FlutterFragmentActivity() {
                     result.success(null)
                 }
 
+                "widgetSettingsUpdated" -> {
+                    val seconds = call.argument<Number>("disableDuration")?.toLong() ?: 0L
+                    prefs.widgetDisableDuration = seconds
+                    prefs.disableCooldown = call.argument<Number>("disableCooldown")?.toLong() ?: 0L
+                    result.success(null)
+                }
+
+                "getDisableCooldownRemaining" -> {
+                    val serverId = call.argument<String>("serverId")
+                    result.success(if (serverId == null) 0L else prefs.disableCooldownRemainingMs(serverId))
+                }
+
+                "disableRecorded" -> {
+                    call.argument<String>("serverId")?.let { prefs.recordDisable(it) }
+                    result.success(null)
+                }
+
                 "serversUpdated" -> {
                     val raw = call.argument<List<Map<String, Any>>>("servers") ?: emptyList()
                     val servers = raw.mapNotNull { item ->

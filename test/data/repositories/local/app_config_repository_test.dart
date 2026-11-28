@@ -241,6 +241,20 @@ void main() {
       expect(data.getOrNull()?.disableDurations, [600, 1200, 2400, 3600]);
     });
 
+    test('updates widgetDisableDuration in database', () async {
+      final result = await repository.updateWidgetDisableDuration(1800);
+      expect(result.isSuccess(), true);
+      final data = await repository.fetchAppConfig();
+      expect(data.getOrNull()?.widgetDisableDuration, 1800);
+    });
+
+    test('updates disableCooldown in database', () async {
+      final result = await repository.updateDisableCooldown(14400);
+      expect(result.isSuccess(), true);
+      final data = await repository.fetchAppConfig();
+      expect(data.getOrNull()?.disableCooldown, 14400);
+    });
+
     test('updates sendCrashReports in database', () async {
       final result = await repository.updateSendCrashReports(true);
       expect(result.isSuccess(), true);

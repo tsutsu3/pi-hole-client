@@ -2483,4 +2483,40 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get disableDurationDuplicate => 'Este tiempo ya está en la lista';
+
+  @override
+  String get timersWidget => 'Widget de la pantalla de inicio';
+
+  @override
+  String get widgetAutoEnable => 'Reactivar automáticamente';
+
+  @override
+  String get widgetAutoEnableDescription =>
+      'Al desactivar Pi-hole desde un widget, se vuelve a activar tras este tiempo. Si está apagado, sigue desactivado hasta que lo actives.';
+
+  @override
+  String get widgetDisableFor => 'Desactivar durante';
+
+  @override
+  String get disableLimit => 'Límite de desactivación';
+
+  @override
+  String get disableLimitEnable =>
+      'Limitar con qué frecuencia se puede desactivar Pi-hole';
+
+  @override
+  String get disableLimitDescription =>
+      'Pi-hole se puede desactivar una vez en este tiempo, desde la app o un widget, contando desde la última desactivación. Activar siempre está permitido.';
+
+  @override
+  String get disableLimitOnceEvery => 'Una vez cada';
+
+  @override
+  String get disableLimitInvalid =>
+      'Introduce un tiempo entre 1 segundo y 7 días';
+
+  @override
+  String disableCooldownActive(Object remaining) {
+    return 'Pi-hole se podrá desactivar de nuevo en $remaining';
+  }
 }
