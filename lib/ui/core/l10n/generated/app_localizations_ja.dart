@@ -522,6 +522,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contactEmail => 'メールで連絡';
 
   @override
+  String get copyLogClipboard => 'このログをクリップボードにコピー';
+
+  @override
   String get copyLogsClipboard => 'ログをクリップボードにコピー';
 
   @override
@@ -599,6 +602,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get deleting => '削除中...';
+
+  @override
+  String get details => '詳細';
 
   @override
   String get device => 'デバイス';
@@ -1352,6 +1358,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get logAutoRefreshTime => 'ログの更新間隔';
 
   @override
+  String get logCopiedClipboard => 'ログがクリップボードにコピーされました';
+
+  @override
+  String get logCopyFailed => 'ログをコピーできませんでした';
+
+  @override
   String get logDetails => 'ログの詳細';
 
   @override
@@ -1368,6 +1380,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get logsCopiedClipboard => 'ログがクリップボードにコピーされました';
+
+  @override
+  String get logsCopyFailed => 'ログをコピーできませんでした';
 
   @override
   String get logsPerQueryLabel => 'APIへの各ログリクエストに使用される時間間隔を選択します。';
@@ -1579,6 +1594,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get others => 'その他';
+
+  @override
+  String get overview => '概要';
 
   @override
   String get passCodeNotSaved => 'パスコードを保存できませんでした。';
@@ -2002,6 +2020,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get status => 'ステータス';
+
+  @override
+  String get statusCode => 'ステータスコード';
 
   @override
   String get statusDisabled => 'ステータス：無効';

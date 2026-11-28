@@ -2,10 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pi_hole_client/domain/model/app/app_log.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/app_logs/view_models/app_logs_viewmodel.dart';
-import 'package:pi_hole_client/ui/app_logs/widgets/app_log_details_modal.dart';
+import 'package:pi_hole_client/ui/app_logs/widgets/app_log_type_icon.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/themes/theme.dart';
+import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/formats.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/utils/format.dart';
 import 'package:provider/provider.dart';
 
 class AppLogsScreen extends StatelessWidget {
@@ -13,7 +20,9 @@ class AppLogsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logs = context.watch<AppLogsViewModel>().logs;
+    final vm = context.watch<AppLogsViewModel>();
+    final logs = vm.logs;
+    final colorScheme = Theme.of(context).colorScheme;
 
     Future<void> copyLogsClipboard() async {
       final logsString = logs
@@ -28,35 +37,37 @@ class AppLogsScreen extends StatelessWidget {
             },
           )
           .toList();
-      await Clipboard.setData(ClipboardData(text: jsonEncode(logsString)));
+
+      final appConfigViewModel = context.read<AppConfigViewModel>();
+
+      try {
+        await Clipboard.setData(ClipboardData(text: jsonEncode(logsString)));
+      } on PlatformException {
+        if (!context.mounted) return;
+        showErrorSnackBar(
+          context: context,
+          appConfigViewModel: appConfigViewModel,
+          label: AppLocalizations.of(context).logsCopyFailed,
+        );
+        return;
+      }
 
       if (!context.mounted) return;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            AppLocalizations.of(context).logsCopiedClipboard,
-            style: TextStyle(
-              color: Theme.of(
-                context,
-              ).extension<AppColors>()!.snackBarNeutralText,
-            ),
-          ),
-          backgroundColor: Theme.of(
-            context,
-          ).extension<AppColors>()!.snackBarNeutral,
-          duration: const Duration(seconds: 3),
-        ),
+      showNeutralSnackBar(
+        context: context,
+        appConfigViewModel: appConfigViewModel,
+        label: AppLocalizations.of(context).logsCopiedClipboard,
       );
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).logs),
+        title: Text(AppLocalizations.of(context).appLogs),
         actions: [
           IconButton(
             onPressed: logs.isNotEmpty ? copyLogsClipboard : null,
-            icon: const Icon(Icons.share),
+            icon: const Icon(Icons.copy_rounded),
             tooltip: AppLocalizations.of(context).copyLogsClipboard,
           ),
           const SizedBox(width: 10),
@@ -64,52 +75,67 @@ class AppLogsScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: logs.isNotEmpty
-            ? ListView.builder(
-                padding: EdgeInsets.zero,
-                itemCount: logs.length,
-                itemBuilder: (context, index) => ListTile(
-                  title: Text(
-                    logs[index].message,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      color: Theme.of(context).colorScheme.onSurface,
+            ? CustomScrollView(
+                slivers: [
+                  for (final group in vm.logsByDay) ...[
+                    SliverToBoxAdapter(
+                      child: SectionLabel(
+                        label: formatTimestamp(group.day, kUnifiedDateFormat),
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                      ),
                     ),
-                  ),
-                  subtitle: Text(
-                    [
-                      ?logs[index].serverAddress,
-                      logs[index].dateTime.toString(),
-                    ].join('\n'),
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                      color: Theme.of(context).listTileTheme.textColor,
+                    // Builds only the rows on screen (up to 500 logs).
+                    SliverList.builder(
+                      itemCount: group.logs.length,
+                      itemBuilder: (_, i) => _AppLogTile(log: group.logs[i]),
                     ),
-                  ),
-                  trailing: Text(logs[index].type),
-                  onTap: () => {
-                    showDialog(
-                      context: context,
-                      useRootNavigator:
-                          false, // Prevents unexpected app exit on mobile when pressing back
-                      builder: (context) =>
-                          AppLogDetailsModal(log: logs[index]),
-                    ),
-                  },
-                ),
+                  ],
+                ],
               )
             : Center(
-                child: Text(
-                  AppLocalizations.of(context).noSavedLogs,
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.receipt_long_rounded,
+                      size: 48,
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      AppLocalizations.of(context).noSavedLogs,
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
                 ),
               ),
+      ),
+    );
+  }
+}
+
+class _AppLogTile extends StatelessWidget {
+  const _AppLogTile({required this.log});
+
+  final AppLog log;
+
+  @override
+  Widget build(BuildContext context) {
+    final subtitle = [?log.serverAddress, ?log.statusCode].join(' · ');
+
+    return ListTile(
+      leading: Icon(appLogTypeIcon(log.type)),
+      title: Text(log.message, maxLines: 1, overflow: TextOverflow.ellipsis),
+      subtitle: subtitle.isNotEmpty
+          ? Text(subtitle, maxLines: 1, overflow: TextOverflow.ellipsis)
+          : null,
+      trailing: Text(formatTimestamp(log.dateTime, 'HH:mm:ss')),
+      onTap: () => context.pushNamed(
+        Routes.settingsAppAdvancedAppLogsDetails,
+        extra: log,
       ),
     );
   }

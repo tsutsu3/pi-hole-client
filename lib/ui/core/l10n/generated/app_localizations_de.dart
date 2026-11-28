@@ -548,6 +548,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get contactEmail => 'Per Email kontaktieren';
 
   @override
+  String get copyLogClipboard => 'Log in die Zwischenablage kopieren';
+
+  @override
   String get copyLogsClipboard => 'Logs in die Zwischenablage kopieren';
 
   @override
@@ -629,6 +632,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get deleting => 'Wird gelöscht...';
+
+  @override
+  String get details => 'Details';
 
   @override
   String get device => 'Gerät';
@@ -1422,6 +1428,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get logAutoRefreshTime => 'Aktualisierungsintervall für Protokolle';
 
   @override
+  String get logCopiedClipboard => 'Log in die Zwischenablage kopiert';
+
+  @override
+  String get logCopyFailed => 'Log konnte nicht kopiert werden';
+
+  @override
   String get logDetails => 'Log Details';
 
   @override
@@ -1440,6 +1452,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get logsCopiedClipboard => 'Logs in die Zwischenablage kopiert';
+
+  @override
+  String get logsCopyFailed => 'Logs konnten nicht kopiert werden';
 
   @override
   String get logsPerQueryLabel =>
@@ -1662,6 +1677,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get others => 'Andere';
+
+  @override
+  String get overview => 'Übersicht';
 
   @override
   String get passCodeNotSaved => 'Passwort konnte nicht gespeichert werden.';
@@ -2103,6 +2121,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get status => 'Status';
+
+  @override
+  String get statusCode => 'Statuscode';
 
   @override
   String get statusDisabled => 'Status: Inaktiv';

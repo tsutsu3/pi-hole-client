@@ -1124,6 +1124,12 @@ abstract class AppLocalizations {
   /// **'Contact by email'**
   String get contactEmail;
 
+  /// No description provided for @copyLogClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy log to clipboard'**
+  String get copyLogClipboard;
+
   /// No description provided for @copyLogsClipboard.
   ///
   /// In en, this message translates to:
@@ -1279,6 +1285,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Deleting...'**
   String get deleting;
+
+  /// No description provided for @details.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get details;
 
   /// No description provided for @device.
   ///
@@ -2756,6 +2768,18 @@ abstract class AppLocalizations {
   /// **'Log refresh interval'**
   String get logAutoRefreshTime;
 
+  /// No description provided for @logCopiedClipboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Log copied to clipboard'**
+  String get logCopiedClipboard;
+
+  /// No description provided for @logCopyFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to copy the log'**
+  String get logCopyFailed;
+
   /// No description provided for @logDetails.
   ///
   /// In en, this message translates to:
@@ -2791,6 +2815,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Logs copied to clipboard'**
   String get logsCopiedClipboard;
+
+  /// No description provided for @logsCopyFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to copy the logs'**
+  String get logsCopyFailed;
 
   /// No description provided for @logsPerQueryLabel.
   ///
@@ -3211,6 +3241,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Others'**
   String get others;
+
+  /// No description provided for @overview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get overview;
 
   /// No description provided for @passCodeNotSaved.
   ///
@@ -4039,6 +4075,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Status'**
   String get status;
+
+  /// No description provided for @statusCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Status code'**
+  String get statusCode;
 
   /// No description provided for @statusDisabled.
   ///

@@ -536,6 +536,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contactEmail => 'Contact by email';
 
   @override
+  String get copyLogClipboard => 'Copy log to clipboard';
+
+  @override
   String get copyLogsClipboard => 'Copy logs to clipboard';
 
   @override
@@ -615,6 +618,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleting => 'Deleting...';
+
+  @override
+  String get details => 'Details';
 
   @override
   String get device => 'Device';
@@ -1389,6 +1395,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logAutoRefreshTime => 'Log refresh interval';
 
   @override
+  String get logCopiedClipboard => 'Log copied to clipboard';
+
+  @override
+  String get logCopyFailed => 'Failed to copy the log';
+
+  @override
   String get logDetails => 'Log details';
 
   @override
@@ -1406,6 +1418,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logsCopiedClipboard => 'Logs copied to clipboard';
+
+  @override
+  String get logsCopyFailed => 'Failed to copy the logs';
 
   @override
   String get logsPerQueryLabel =>
@@ -1628,6 +1643,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get others => 'Others';
+
+  @override
+  String get overview => 'Overview';
 
   @override
   String get passCodeNotSaved => 'Passcode couldn\'t be saved.';
@@ -2061,6 +2079,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get status => 'Status';
+
+  @override
+  String get statusCode => 'Status code';
 
   @override
   String get statusDisabled => 'Status: disabled';
