@@ -185,6 +185,22 @@ void main() {
       expect(appConfigViewModel.disableDurations, [30, 60, 120, 300]);
     });
 
+    test(
+      'setWidgetDisableDuration updates value and notifies listeners',
+      () async {
+        final result = await appConfigViewModel.setWidgetDisableDuration(3600);
+        expect(result, true);
+        expect(appConfigViewModel.widgetDisableDuration, 3600);
+        expect(listenerCalled, true);
+      },
+    );
+
+    test('setWidgetDisableDuration rejects values out of range', () async {
+      expect(await appConfigViewModel.setWidgetDisableDuration(-1), false);
+      expect(await appConfigViewModel.setWidgetDisableDuration(86401), false);
+      expect(appConfigViewModel.widgetDisableDuration, 0);
+    });
+
     test('setSendCrashReports updates value and notifies listeners', () async {
       final result = await appConfigViewModel.setSendCrashReports(true);
       expect(result, true);

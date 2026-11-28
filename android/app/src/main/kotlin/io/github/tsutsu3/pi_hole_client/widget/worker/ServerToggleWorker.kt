@@ -107,7 +107,10 @@ class ServerToggleWorker(
 
             val body = JSONObject()
             body.put("blocking", nextBlocking)
-            body.put("timer", JSONObject.NULL)
+            // A disable lasts as set in the app (0 = indefinitely). Enabling
+            // never has a timer.
+            val disableSeconds = if (nextBlocking) 0L else prefs.widgetDisableDuration
+            body.put("timer", if (disableSeconds > 0L) disableSeconds else JSONObject.NULL)
             val toggleResp = client.post(piholeUrl(server.address, "/api/dns/blocking"), sid, body.toString())
 
             if (PiHoleApiClient.isAuthFailure(toggleResp.statusCode)) {
@@ -136,6 +139,10 @@ class ServerToggleWorker(
                 // Pi-hole resets TLS connections for up to ~1-2 s after a blocking toggle.
                 // Full PADD refresh (stats counts, uptime, etc.) runs after stabilization.
                 WidgetUpdateHelper.enqueueServerPadd(applicationContext, serverId, 1000L)
+                // Show the new state when Pi-hole re-enables itself.
+                if (disableSeconds > 0L) {
+                    WidgetUpdateHelper.scheduleDelayedRefresh(applicationContext, serverId, disableSeconds)
+                }
             }
         } catch (e: JSONException) {
             if (WidgetDebugConfig.DEBUG) Log.w(TAG, "Invalid JSON response: ${e.message}")

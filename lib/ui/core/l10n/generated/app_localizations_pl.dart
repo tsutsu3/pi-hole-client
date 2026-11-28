@@ -2467,4 +2467,17 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get disableDurationDuplicate => 'Ten czas jest już na liście';
+
+  @override
+  String get timersWidget => 'Widżet na ekranie głównym';
+
+  @override
+  String get widgetAutoEnable => 'Włącz ponownie automatycznie';
+
+  @override
+  String get widgetAutoEnableDescription =>
+      'Po wyłączeniu Pi-hole z widżetu włączy się ponownie po tym czasie. Gdy opcja jest wyłączona, Pi-hole pozostaje wyłączony, dopóki go nie włączysz.';
+
+  @override
+  String get widgetDisableFor => 'Wyłącz na';
 }

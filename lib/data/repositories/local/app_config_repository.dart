@@ -194,6 +194,11 @@ class LocalAppConfigRepository implements AppConfigRepository {
   }
 
   @override
+  Future<Result<void>> updateWidgetDisableDuration(int seconds) async {
+    return _updateConfigValue(column: 'widgetDisableDuration', value: seconds);
+  }
+
+  @override
   Future<Result<void>> updatePassCode(String? passCode) async {
     return _updateSecretConfigValue(key: 'passCode', value: passCode);
   }
@@ -249,6 +254,7 @@ class LocalAppConfigRepository implements AppConfigRepository {
         'disableDurations': DisableDurations.serialize(
           DisableDurations.defaults,
         ),
+        'widgetDisableDuration': 0,
       });
     } catch (e, st) {
       logger.e('Failed to restore app config: $e\n$st');

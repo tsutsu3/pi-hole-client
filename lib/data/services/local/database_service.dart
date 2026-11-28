@@ -45,7 +45,7 @@ class DatabaseService {
   /// Returns:
   /// - [Success] containing the opened [Database] instance if successful.
   /// - [Failure] containing an [Exception] if an error occurs during opening.
-  Future<Result<Database>> open({int? latestVersion = 12}) async {
+  Future<Result<Database>> open({int? latestVersion = 13}) async {
     try {
       _db = await openDatabase(
         _path,
@@ -306,7 +306,8 @@ class DatabaseService {
         statisticsVisualizationMode NUMERIC NOT NULL,
         homeVisualizationMode NUMERIC NOT NULL,
         sendCrashReports NUMERIC NOT NULL,
-        disableDurations TEXT NOT NULL DEFAULT '30,60,120,300'
+        disableDurations TEXT NOT NULL DEFAULT '30,60,120,300',
+        widgetDisableDuration NUMERIC NOT NULL DEFAULT 0
       )
     ''');
 
@@ -396,6 +397,8 @@ class DatabaseService {
         await _upgradeToV11(db);
       case 12:
         await _upgradeToV12(db);
+      case 13:
+        await _upgradeToV13(db);
       default:
         logger.w('Database upgrade to version $version is not handled.');
     }
@@ -863,5 +866,16 @@ class DatabaseService {
       "ALTER TABLE appConfig ADD COLUMN disableDurations TEXT NOT NULL DEFAULT '30,60,120,300'",
     );
     logger.d('Database upgraded to version 12');
+  }
+
+  /// Migrates the database to version 13.
+  ///
+  /// Adds the `widgetDisableDuration` column to `appConfig`: how long a
+  /// disable from a home screen widget lasts, in seconds (0 = indefinitely).
+  Future<void> _upgradeToV13(Database db) async {
+    await db.execute(
+      'ALTER TABLE appConfig ADD COLUMN widgetDisableDuration NUMERIC NOT NULL DEFAULT 0',
+    );
+    logger.d('Database upgraded to version 13');
   }
 }

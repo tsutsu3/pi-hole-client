@@ -178,6 +178,14 @@ class FakeAppConfigRepository implements AppConfigRepository {
   }
 
   @override
+  Future<Result<void>> updateWidgetDisableDuration(int seconds) async {
+    if (shouldFailUpdate) {
+      return Failure(Exception('Simulated updateWidgetDisableDuration error'));
+    }
+    return Success.unit();
+  }
+
+  @override
   Future<Result<void>> updatePassCode(String? passCode) async {
     if (shouldFailUpdate) {
       return Failure(Exception('Simulated updatePassCode error'));

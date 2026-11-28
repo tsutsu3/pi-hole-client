@@ -761,5 +761,9 @@
   "durationMinutes": "{count, plural, =1{1 minute} other{{count} minutes}}",
   "durationHours": "{count, plural, =1{1 hour} other{{count} hours}}",
   "blocking": "Blocking",
-  "disableDurationDuplicate": "This time is already in the list"
+  "disableDurationDuplicate": "This time is already in the list",
+  "timersWidget": "Home screen widget",
+  "widgetAutoEnable": "Re-enable automatically",
+  "widgetAutoEnableDescription": "When you disable Pi-hole from a widget, it turns back on after this time. When off, it stays disabled until you enable it.",
+  "widgetDisableFor": "Disable for"
 }

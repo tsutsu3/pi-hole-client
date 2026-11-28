@@ -4675,6 +4675,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This time is already in the list'**
   String get disableDurationDuplicate;
+
+  /// No description provided for @timersWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Home screen widget'**
+  String get timersWidget;
+
+  /// No description provided for @widgetAutoEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-enable automatically'**
+  String get widgetAutoEnable;
+
+  /// No description provided for @widgetAutoEnableDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'When you disable Pi-hole from a widget, it turns back on after this time. When off, it stays disabled until you enable it.'**
+  String get widgetAutoEnableDescription;
+
+  /// No description provided for @widgetDisableFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable for'**
+  String get widgetDisableFor;
 }
 
 class _AppLocalizationsDelegate

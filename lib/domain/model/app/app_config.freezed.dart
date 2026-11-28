@@ -16,7 +16,9 @@ T _$identity<T>(T value) => value;
 mixin _$AppConfig {
 
  int get autoRefreshTime; AppThemeMode get theme; String get language; bool get reducedDataCharts; double get logsPerQuery; int get logAutoRefreshTime; bool get liveLog; bool get isLivelogPaused; bool get useBiometricAuth; bool get importantInfoReaden; bool get hideZeroValues; bool get loadingAnimation; StatisticsVisualizationMode get statisticsVisualizationMode; HomeVisualizationMode get homeVisualizationMode; bool get sendCrashReports; String? get passCode;/// Timed options of the disable menu, in seconds.
- List<int> get disableDurations;
+ List<int> get disableDurations;/// How long a disable from a home screen widget lasts, in seconds.
+/// 0 = indefinitely.
+ int get widgetDisableDuration;
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,20 +30,20 @@ $AppConfigCopyWith<AppConfig> get copyWith => _$AppConfigCopyWithImpl<AppConfig>
 @override
 bool operator ==(Object other) {
   final _this = this as AppConfig;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfig&&(identical(other.autoRefreshTime, _this.autoRefreshTime) || other.autoRefreshTime == _this.autoRefreshTime)&&(identical(other.theme, _this.theme) || other.theme == _this.theme)&&(identical(other.language, _this.language) || other.language == _this.language)&&(identical(other.reducedDataCharts, _this.reducedDataCharts) || other.reducedDataCharts == _this.reducedDataCharts)&&(identical(other.logsPerQuery, _this.logsPerQuery) || other.logsPerQuery == _this.logsPerQuery)&&(identical(other.logAutoRefreshTime, _this.logAutoRefreshTime) || other.logAutoRefreshTime == _this.logAutoRefreshTime)&&(identical(other.liveLog, _this.liveLog) || other.liveLog == _this.liveLog)&&(identical(other.isLivelogPaused, _this.isLivelogPaused) || other.isLivelogPaused == _this.isLivelogPaused)&&(identical(other.useBiometricAuth, _this.useBiometricAuth) || other.useBiometricAuth == _this.useBiometricAuth)&&(identical(other.importantInfoReaden, _this.importantInfoReaden) || other.importantInfoReaden == _this.importantInfoReaden)&&(identical(other.hideZeroValues, _this.hideZeroValues) || other.hideZeroValues == _this.hideZeroValues)&&(identical(other.loadingAnimation, _this.loadingAnimation) || other.loadingAnimation == _this.loadingAnimation)&&(identical(other.statisticsVisualizationMode, _this.statisticsVisualizationMode) || other.statisticsVisualizationMode == _this.statisticsVisualizationMode)&&(identical(other.homeVisualizationMode, _this.homeVisualizationMode) || other.homeVisualizationMode == _this.homeVisualizationMode)&&(identical(other.sendCrashReports, _this.sendCrashReports) || other.sendCrashReports == _this.sendCrashReports)&&(identical(other.passCode, _this.passCode) || other.passCode == _this.passCode)&&const DeepCollectionEquality().equals(other.disableDurations, _this.disableDurations));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppConfig&&(identical(other.autoRefreshTime, _this.autoRefreshTime) || other.autoRefreshTime == _this.autoRefreshTime)&&(identical(other.theme, _this.theme) || other.theme == _this.theme)&&(identical(other.language, _this.language) || other.language == _this.language)&&(identical(other.reducedDataCharts, _this.reducedDataCharts) || other.reducedDataCharts == _this.reducedDataCharts)&&(identical(other.logsPerQuery, _this.logsPerQuery) || other.logsPerQuery == _this.logsPerQuery)&&(identical(other.logAutoRefreshTime, _this.logAutoRefreshTime) || other.logAutoRefreshTime == _this.logAutoRefreshTime)&&(identical(other.liveLog, _this.liveLog) || other.liveLog == _this.liveLog)&&(identical(other.isLivelogPaused, _this.isLivelogPaused) || other.isLivelogPaused == _this.isLivelogPaused)&&(identical(other.useBiometricAuth, _this.useBiometricAuth) || other.useBiometricAuth == _this.useBiometricAuth)&&(identical(other.importantInfoReaden, _this.importantInfoReaden) || other.importantInfoReaden == _this.importantInfoReaden)&&(identical(other.hideZeroValues, _this.hideZeroValues) || other.hideZeroValues == _this.hideZeroValues)&&(identical(other.loadingAnimation, _this.loadingAnimation) || other.loadingAnimation == _this.loadingAnimation)&&(identical(other.statisticsVisualizationMode, _this.statisticsVisualizationMode) || other.statisticsVisualizationMode == _this.statisticsVisualizationMode)&&(identical(other.homeVisualizationMode, _this.homeVisualizationMode) || other.homeVisualizationMode == _this.homeVisualizationMode)&&(identical(other.sendCrashReports, _this.sendCrashReports) || other.sendCrashReports == _this.sendCrashReports)&&(identical(other.passCode, _this.passCode) || other.passCode == _this.passCode)&&const DeepCollectionEquality().equals(other.disableDurations, _this.disableDurations)&&(identical(other.widgetDisableDuration, _this.widgetDisableDuration) || other.widgetDisableDuration == _this.widgetDisableDuration));
 }
 
 
 @override
 int get hashCode {
   final _this = this as AppConfig;
-  return Object.hash(runtimeType,_this.autoRefreshTime,_this.theme,_this.language,_this.reducedDataCharts,_this.logsPerQuery,_this.logAutoRefreshTime,_this.liveLog,_this.isLivelogPaused,_this.useBiometricAuth,_this.importantInfoReaden,_this.hideZeroValues,_this.loadingAnimation,_this.statisticsVisualizationMode,_this.homeVisualizationMode,_this.sendCrashReports,_this.passCode,const DeepCollectionEquality().hash(_this.disableDurations));
+  return Object.hash(runtimeType,_this.autoRefreshTime,_this.theme,_this.language,_this.reducedDataCharts,_this.logsPerQuery,_this.logAutoRefreshTime,_this.liveLog,_this.isLivelogPaused,_this.useBiometricAuth,_this.importantInfoReaden,_this.hideZeroValues,_this.loadingAnimation,_this.statisticsVisualizationMode,_this.homeVisualizationMode,_this.sendCrashReports,_this.passCode,const DeepCollectionEquality().hash(_this.disableDurations),_this.widgetDisableDuration);
 }
 
 @override
 String toString() {
   final _this = this as AppConfig;
-  return 'AppConfig(autoRefreshTime: ${_this.autoRefreshTime}, theme: ${_this.theme}, language: ${_this.language}, reducedDataCharts: ${_this.reducedDataCharts}, logsPerQuery: ${_this.logsPerQuery}, logAutoRefreshTime: ${_this.logAutoRefreshTime}, liveLog: ${_this.liveLog}, isLivelogPaused: ${_this.isLivelogPaused}, useBiometricAuth: ${_this.useBiometricAuth}, importantInfoReaden: ${_this.importantInfoReaden}, hideZeroValues: ${_this.hideZeroValues}, loadingAnimation: ${_this.loadingAnimation}, statisticsVisualizationMode: ${_this.statisticsVisualizationMode}, homeVisualizationMode: ${_this.homeVisualizationMode}, sendCrashReports: ${_this.sendCrashReports}, passCode: ${_this.passCode}, disableDurations: ${_this.disableDurations})';
+  return 'AppConfig(autoRefreshTime: ${_this.autoRefreshTime}, theme: ${_this.theme}, language: ${_this.language}, reducedDataCharts: ${_this.reducedDataCharts}, logsPerQuery: ${_this.logsPerQuery}, logAutoRefreshTime: ${_this.logAutoRefreshTime}, liveLog: ${_this.liveLog}, isLivelogPaused: ${_this.isLivelogPaused}, useBiometricAuth: ${_this.useBiometricAuth}, importantInfoReaden: ${_this.importantInfoReaden}, hideZeroValues: ${_this.hideZeroValues}, loadingAnimation: ${_this.loadingAnimation}, statisticsVisualizationMode: ${_this.statisticsVisualizationMode}, homeVisualizationMode: ${_this.homeVisualizationMode}, sendCrashReports: ${_this.sendCrashReports}, passCode: ${_this.passCode}, disableDurations: ${_this.disableDurations}, widgetDisableDuration: ${_this.widgetDisableDuration})';
 }
 
 
@@ -52,7 +54,7 @@ abstract mixin class $AppConfigCopyWith<$Res>  {
   factory $AppConfigCopyWith(AppConfig value, $Res Function(AppConfig) _then) = _$AppConfigCopyWithImpl;
 @useResult
 $Res call({
- int autoRefreshTime, AppThemeMode theme, String language, bool reducedDataCharts, double logsPerQuery, int logAutoRefreshTime, bool liveLog, bool isLivelogPaused, bool useBiometricAuth, bool importantInfoReaden, bool hideZeroValues, bool loadingAnimation, StatisticsVisualizationMode statisticsVisualizationMode, HomeVisualizationMode homeVisualizationMode, bool sendCrashReports, String? passCode, List<int> disableDurations
+ int autoRefreshTime, AppThemeMode theme, String language, bool reducedDataCharts, double logsPerQuery, int logAutoRefreshTime, bool liveLog, bool isLivelogPaused, bool useBiometricAuth, bool importantInfoReaden, bool hideZeroValues, bool loadingAnimation, StatisticsVisualizationMode statisticsVisualizationMode, HomeVisualizationMode homeVisualizationMode, bool sendCrashReports, String? passCode, List<int> disableDurations, int widgetDisableDuration
 });
 
 
@@ -69,7 +71,7 @@ class _$AppConfigCopyWithImpl<$Res>
 
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? autoRefreshTime = null,Object? theme = null,Object? language = null,Object? reducedDataCharts = null,Object? logsPerQuery = null,Object? logAutoRefreshTime = null,Object? liveLog = null,Object? isLivelogPaused = null,Object? useBiometricAuth = null,Object? importantInfoReaden = null,Object? hideZeroValues = null,Object? loadingAnimation = null,Object? statisticsVisualizationMode = null,Object? homeVisualizationMode = null,Object? sendCrashReports = null,Object? passCode = freezed,Object? disableDurations = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? autoRefreshTime = null,Object? theme = null,Object? language = null,Object? reducedDataCharts = null,Object? logsPerQuery = null,Object? logAutoRefreshTime = null,Object? liveLog = null,Object? isLivelogPaused = null,Object? useBiometricAuth = null,Object? importantInfoReaden = null,Object? hideZeroValues = null,Object? loadingAnimation = null,Object? statisticsVisualizationMode = null,Object? homeVisualizationMode = null,Object? sendCrashReports = null,Object? passCode = freezed,Object? disableDurations = null,Object? widgetDisableDuration = null,}) {
   return _then(AppConfig(
 autoRefreshTime: null == autoRefreshTime ? _self.autoRefreshTime : autoRefreshTime // ignore: cast_nullable_to_non_nullable
 as int,theme: null == theme ? _self.theme : theme // ignore: cast_nullable_to_non_nullable
@@ -88,7 +90,8 @@ as StatisticsVisualizationMode,homeVisualizationMode: null == homeVisualizationM
 as HomeVisualizationMode,sendCrashReports: null == sendCrashReports ? _self.sendCrashReports : sendCrashReports // ignore: cast_nullable_to_non_nullable
 as bool,passCode: freezed == passCode ? _self.passCode : passCode // ignore: cast_nullable_to_non_nullable
 as String?,disableDurations: null == disableDurations ? _self.disableDurations : disableDurations // ignore: cast_nullable_to_non_nullable
-as List<int>,
+as List<int>,widgetDisableDuration: null == widgetDisableDuration ? _self.widgetDisableDuration : widgetDisableDuration // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -170,10 +173,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int autoRefreshTime,  AppThemeMode theme,  String language,  bool reducedDataCharts,  double logsPerQuery,  int logAutoRefreshTime,  bool liveLog,  bool isLivelogPaused,  bool useBiometricAuth,  bool importantInfoReaden,  bool hideZeroValues,  bool loadingAnimation,  StatisticsVisualizationMode statisticsVisualizationMode,  HomeVisualizationMode homeVisualizationMode,  bool sendCrashReports,  String? passCode,  List<int> disableDurations)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int autoRefreshTime,  AppThemeMode theme,  String language,  bool reducedDataCharts,  double logsPerQuery,  int logAutoRefreshTime,  bool liveLog,  bool isLivelogPaused,  bool useBiometricAuth,  bool importantInfoReaden,  bool hideZeroValues,  bool loadingAnimation,  StatisticsVisualizationMode statisticsVisualizationMode,  HomeVisualizationMode homeVisualizationMode,  bool sendCrashReports,  String? passCode,  List<int> disableDurations,  int widgetDisableDuration)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppConfig() when $default != null:
-return $default(_that.autoRefreshTime,_that.theme,_that.language,_that.reducedDataCharts,_that.logsPerQuery,_that.logAutoRefreshTime,_that.liveLog,_that.isLivelogPaused,_that.useBiometricAuth,_that.importantInfoReaden,_that.hideZeroValues,_that.loadingAnimation,_that.statisticsVisualizationMode,_that.homeVisualizationMode,_that.sendCrashReports,_that.passCode,_that.disableDurations);case _:
+return $default(_that.autoRefreshTime,_that.theme,_that.language,_that.reducedDataCharts,_that.logsPerQuery,_that.logAutoRefreshTime,_that.liveLog,_that.isLivelogPaused,_that.useBiometricAuth,_that.importantInfoReaden,_that.hideZeroValues,_that.loadingAnimation,_that.statisticsVisualizationMode,_that.homeVisualizationMode,_that.sendCrashReports,_that.passCode,_that.disableDurations,_that.widgetDisableDuration);case _:
   return orElse();
 
 }
@@ -191,10 +194,10 @@ return $default(_that.autoRefreshTime,_that.theme,_that.language,_that.reducedDa
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int autoRefreshTime,  AppThemeMode theme,  String language,  bool reducedDataCharts,  double logsPerQuery,  int logAutoRefreshTime,  bool liveLog,  bool isLivelogPaused,  bool useBiometricAuth,  bool importantInfoReaden,  bool hideZeroValues,  bool loadingAnimation,  StatisticsVisualizationMode statisticsVisualizationMode,  HomeVisualizationMode homeVisualizationMode,  bool sendCrashReports,  String? passCode,  List<int> disableDurations)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int autoRefreshTime,  AppThemeMode theme,  String language,  bool reducedDataCharts,  double logsPerQuery,  int logAutoRefreshTime,  bool liveLog,  bool isLivelogPaused,  bool useBiometricAuth,  bool importantInfoReaden,  bool hideZeroValues,  bool loadingAnimation,  StatisticsVisualizationMode statisticsVisualizationMode,  HomeVisualizationMode homeVisualizationMode,  bool sendCrashReports,  String? passCode,  List<int> disableDurations,  int widgetDisableDuration)  $default,) {final _that = this;
 switch (_that) {
 case _AppConfig():
-return $default(_that.autoRefreshTime,_that.theme,_that.language,_that.reducedDataCharts,_that.logsPerQuery,_that.logAutoRefreshTime,_that.liveLog,_that.isLivelogPaused,_that.useBiometricAuth,_that.importantInfoReaden,_that.hideZeroValues,_that.loadingAnimation,_that.statisticsVisualizationMode,_that.homeVisualizationMode,_that.sendCrashReports,_that.passCode,_that.disableDurations);}
+return $default(_that.autoRefreshTime,_that.theme,_that.language,_that.reducedDataCharts,_that.logsPerQuery,_that.logAutoRefreshTime,_that.liveLog,_that.isLivelogPaused,_that.useBiometricAuth,_that.importantInfoReaden,_that.hideZeroValues,_that.loadingAnimation,_that.statisticsVisualizationMode,_that.homeVisualizationMode,_that.sendCrashReports,_that.passCode,_that.disableDurations,_that.widgetDisableDuration);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -208,10 +211,10 @@ return $default(_that.autoRefreshTime,_that.theme,_that.language,_that.reducedDa
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int autoRefreshTime,  AppThemeMode theme,  String language,  bool reducedDataCharts,  double logsPerQuery,  int logAutoRefreshTime,  bool liveLog,  bool isLivelogPaused,  bool useBiometricAuth,  bool importantInfoReaden,  bool hideZeroValues,  bool loadingAnimation,  StatisticsVisualizationMode statisticsVisualizationMode,  HomeVisualizationMode homeVisualizationMode,  bool sendCrashReports,  String? passCode,  List<int> disableDurations)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int autoRefreshTime,  AppThemeMode theme,  String language,  bool reducedDataCharts,  double logsPerQuery,  int logAutoRefreshTime,  bool liveLog,  bool isLivelogPaused,  bool useBiometricAuth,  bool importantInfoReaden,  bool hideZeroValues,  bool loadingAnimation,  StatisticsVisualizationMode statisticsVisualizationMode,  HomeVisualizationMode homeVisualizationMode,  bool sendCrashReports,  String? passCode,  List<int> disableDurations,  int widgetDisableDuration)?  $default,) {final _that = this;
 switch (_that) {
 case _AppConfig() when $default != null:
-return $default(_that.autoRefreshTime,_that.theme,_that.language,_that.reducedDataCharts,_that.logsPerQuery,_that.logAutoRefreshTime,_that.liveLog,_that.isLivelogPaused,_that.useBiometricAuth,_that.importantInfoReaden,_that.hideZeroValues,_that.loadingAnimation,_that.statisticsVisualizationMode,_that.homeVisualizationMode,_that.sendCrashReports,_that.passCode,_that.disableDurations);case _:
+return $default(_that.autoRefreshTime,_that.theme,_that.language,_that.reducedDataCharts,_that.logsPerQuery,_that.logAutoRefreshTime,_that.liveLog,_that.isLivelogPaused,_that.useBiometricAuth,_that.importantInfoReaden,_that.hideZeroValues,_that.loadingAnimation,_that.statisticsVisualizationMode,_that.homeVisualizationMode,_that.sendCrashReports,_that.passCode,_that.disableDurations,_that.widgetDisableDuration);case _:
   return null;
 
 }
@@ -223,7 +226,7 @@ return $default(_that.autoRefreshTime,_that.theme,_that.language,_that.reducedDa
 
 
 class _AppConfig implements AppConfig {
-  const _AppConfig({required this.autoRefreshTime, required this.theme, required this.language, required this.reducedDataCharts, required this.logsPerQuery, required this.logAutoRefreshTime, required this.liveLog, required this.isLivelogPaused, required this.useBiometricAuth, required this.importantInfoReaden, required this.hideZeroValues, required this.loadingAnimation, required this.statisticsVisualizationMode, required this.homeVisualizationMode, required this.sendCrashReports, this.passCode,  List<int> disableDurations = DisableDurations.defaults}): _disableDurations = disableDurations;
+  const _AppConfig({required this.autoRefreshTime, required this.theme, required this.language, required this.reducedDataCharts, required this.logsPerQuery, required this.logAutoRefreshTime, required this.liveLog, required this.isLivelogPaused, required this.useBiometricAuth, required this.importantInfoReaden, required this.hideZeroValues, required this.loadingAnimation, required this.statisticsVisualizationMode, required this.homeVisualizationMode, required this.sendCrashReports, this.passCode,  List<int> disableDurations = DisableDurations.defaults, this.widgetDisableDuration = 0}): _disableDurations = disableDurations;
   
 
 @override final  int autoRefreshTime;
@@ -251,6 +254,9 @@ class _AppConfig implements AppConfig {
   return EqualUnmodifiableListView(_disableDurations);
 }
 
+/// How long a disable from a home screen widget lasts, in seconds.
+/// 0 = indefinitely.
+@override@JsonKey() final  int widgetDisableDuration;
 
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
@@ -262,18 +268,18 @@ _$AppConfigCopyWith<_AppConfig> get copyWith => __$AppConfigCopyWithImpl<_AppCon
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfig&&(identical(other.autoRefreshTime, autoRefreshTime) || other.autoRefreshTime == autoRefreshTime)&&(identical(other.theme, theme) || other.theme == theme)&&(identical(other.language, language) || other.language == language)&&(identical(other.reducedDataCharts, reducedDataCharts) || other.reducedDataCharts == reducedDataCharts)&&(identical(other.logsPerQuery, logsPerQuery) || other.logsPerQuery == logsPerQuery)&&(identical(other.logAutoRefreshTime, logAutoRefreshTime) || other.logAutoRefreshTime == logAutoRefreshTime)&&(identical(other.liveLog, liveLog) || other.liveLog == liveLog)&&(identical(other.isLivelogPaused, isLivelogPaused) || other.isLivelogPaused == isLivelogPaused)&&(identical(other.useBiometricAuth, useBiometricAuth) || other.useBiometricAuth == useBiometricAuth)&&(identical(other.importantInfoReaden, importantInfoReaden) || other.importantInfoReaden == importantInfoReaden)&&(identical(other.hideZeroValues, hideZeroValues) || other.hideZeroValues == hideZeroValues)&&(identical(other.loadingAnimation, loadingAnimation) || other.loadingAnimation == loadingAnimation)&&(identical(other.statisticsVisualizationMode, statisticsVisualizationMode) || other.statisticsVisualizationMode == statisticsVisualizationMode)&&(identical(other.homeVisualizationMode, homeVisualizationMode) || other.homeVisualizationMode == homeVisualizationMode)&&(identical(other.sendCrashReports, sendCrashReports) || other.sendCrashReports == sendCrashReports)&&(identical(other.passCode, passCode) || other.passCode == passCode)&&const DeepCollectionEquality().equals(other.disableDurations, _disableDurations));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppConfig&&(identical(other.autoRefreshTime, autoRefreshTime) || other.autoRefreshTime == autoRefreshTime)&&(identical(other.theme, theme) || other.theme == theme)&&(identical(other.language, language) || other.language == language)&&(identical(other.reducedDataCharts, reducedDataCharts) || other.reducedDataCharts == reducedDataCharts)&&(identical(other.logsPerQuery, logsPerQuery) || other.logsPerQuery == logsPerQuery)&&(identical(other.logAutoRefreshTime, logAutoRefreshTime) || other.logAutoRefreshTime == logAutoRefreshTime)&&(identical(other.liveLog, liveLog) || other.liveLog == liveLog)&&(identical(other.isLivelogPaused, isLivelogPaused) || other.isLivelogPaused == isLivelogPaused)&&(identical(other.useBiometricAuth, useBiometricAuth) || other.useBiometricAuth == useBiometricAuth)&&(identical(other.importantInfoReaden, importantInfoReaden) || other.importantInfoReaden == importantInfoReaden)&&(identical(other.hideZeroValues, hideZeroValues) || other.hideZeroValues == hideZeroValues)&&(identical(other.loadingAnimation, loadingAnimation) || other.loadingAnimation == loadingAnimation)&&(identical(other.statisticsVisualizationMode, statisticsVisualizationMode) || other.statisticsVisualizationMode == statisticsVisualizationMode)&&(identical(other.homeVisualizationMode, homeVisualizationMode) || other.homeVisualizationMode == homeVisualizationMode)&&(identical(other.sendCrashReports, sendCrashReports) || other.sendCrashReports == sendCrashReports)&&(identical(other.passCode, passCode) || other.passCode == passCode)&&const DeepCollectionEquality().equals(other.disableDurations, _disableDurations)&&(identical(other.widgetDisableDuration, widgetDisableDuration) || other.widgetDisableDuration == widgetDisableDuration));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,autoRefreshTime,theme,language,reducedDataCharts,logsPerQuery,logAutoRefreshTime,liveLog,isLivelogPaused,useBiometricAuth,importantInfoReaden,hideZeroValues,loadingAnimation,statisticsVisualizationMode,homeVisualizationMode,sendCrashReports,passCode,const DeepCollectionEquality().hash(_disableDurations));
+    return Object.hash(runtimeType,autoRefreshTime,theme,language,reducedDataCharts,logsPerQuery,logAutoRefreshTime,liveLog,isLivelogPaused,useBiometricAuth,importantInfoReaden,hideZeroValues,loadingAnimation,statisticsVisualizationMode,homeVisualizationMode,sendCrashReports,passCode,const DeepCollectionEquality().hash(_disableDurations),widgetDisableDuration);
 }
 
 @override
 String toString() {
-    return 'AppConfig(autoRefreshTime: $autoRefreshTime, theme: $theme, language: $language, reducedDataCharts: $reducedDataCharts, logsPerQuery: $logsPerQuery, logAutoRefreshTime: $logAutoRefreshTime, liveLog: $liveLog, isLivelogPaused: $isLivelogPaused, useBiometricAuth: $useBiometricAuth, importantInfoReaden: $importantInfoReaden, hideZeroValues: $hideZeroValues, loadingAnimation: $loadingAnimation, statisticsVisualizationMode: $statisticsVisualizationMode, homeVisualizationMode: $homeVisualizationMode, sendCrashReports: $sendCrashReports, passCode: $passCode, disableDurations: $disableDurations)';
+    return 'AppConfig(autoRefreshTime: $autoRefreshTime, theme: $theme, language: $language, reducedDataCharts: $reducedDataCharts, logsPerQuery: $logsPerQuery, logAutoRefreshTime: $logAutoRefreshTime, liveLog: $liveLog, isLivelogPaused: $isLivelogPaused, useBiometricAuth: $useBiometricAuth, importantInfoReaden: $importantInfoReaden, hideZeroValues: $hideZeroValues, loadingAnimation: $loadingAnimation, statisticsVisualizationMode: $statisticsVisualizationMode, homeVisualizationMode: $homeVisualizationMode, sendCrashReports: $sendCrashReports, passCode: $passCode, disableDurations: $disableDurations, widgetDisableDuration: $widgetDisableDuration)';
 }
 
 
@@ -284,7 +290,7 @@ abstract mixin class _$AppConfigCopyWith<$Res> implements $AppConfigCopyWith<$Re
   factory _$AppConfigCopyWith(_AppConfig value, $Res Function(_AppConfig) _then) = __$AppConfigCopyWithImpl;
 @override @useResult
 $Res call({
- int autoRefreshTime, AppThemeMode theme, String language, bool reducedDataCharts, double logsPerQuery, int logAutoRefreshTime, bool liveLog, bool isLivelogPaused, bool useBiometricAuth, bool importantInfoReaden, bool hideZeroValues, bool loadingAnimation, StatisticsVisualizationMode statisticsVisualizationMode, HomeVisualizationMode homeVisualizationMode, bool sendCrashReports, String? passCode, List<int> disableDurations
+ int autoRefreshTime, AppThemeMode theme, String language, bool reducedDataCharts, double logsPerQuery, int logAutoRefreshTime, bool liveLog, bool isLivelogPaused, bool useBiometricAuth, bool importantInfoReaden, bool hideZeroValues, bool loadingAnimation, StatisticsVisualizationMode statisticsVisualizationMode, HomeVisualizationMode homeVisualizationMode, bool sendCrashReports, String? passCode, List<int> disableDurations, int widgetDisableDuration
 });
 
 
@@ -301,7 +307,7 @@ class __$AppConfigCopyWithImpl<$Res>
 
 /// Create a copy of AppConfig
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? autoRefreshTime = null,Object? theme = null,Object? language = null,Object? reducedDataCharts = null,Object? logsPerQuery = null,Object? logAutoRefreshTime = null,Object? liveLog = null,Object? isLivelogPaused = null,Object? useBiometricAuth = null,Object? importantInfoReaden = null,Object? hideZeroValues = null,Object? loadingAnimation = null,Object? statisticsVisualizationMode = null,Object? homeVisualizationMode = null,Object? sendCrashReports = null,Object? passCode = freezed,Object? disableDurations = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? autoRefreshTime = null,Object? theme = null,Object? language = null,Object? reducedDataCharts = null,Object? logsPerQuery = null,Object? logAutoRefreshTime = null,Object? liveLog = null,Object? isLivelogPaused = null,Object? useBiometricAuth = null,Object? importantInfoReaden = null,Object? hideZeroValues = null,Object? loadingAnimation = null,Object? statisticsVisualizationMode = null,Object? homeVisualizationMode = null,Object? sendCrashReports = null,Object? passCode = freezed,Object? disableDurations = null,Object? widgetDisableDuration = null,}) {
   return _then(_AppConfig(
 autoRefreshTime: null == autoRefreshTime ? _self.autoRefreshTime : autoRefreshTime // ignore: cast_nullable_to_non_nullable
 as int,theme: null == theme ? _self.theme : theme // ignore: cast_nullable_to_non_nullable
@@ -320,7 +326,8 @@ as StatisticsVisualizationMode,homeVisualizationMode: null == homeVisualizationM
 as HomeVisualizationMode,sendCrashReports: null == sendCrashReports ? _self.sendCrashReports : sendCrashReports // ignore: cast_nullable_to_non_nullable
 as bool,passCode: freezed == passCode ? _self.passCode : passCode // ignore: cast_nullable_to_non_nullable
 as String?,disableDurations: null == disableDurations ? _self._disableDurations : disableDurations // ignore: cast_nullable_to_non_nullable
-as List<int>,
+as List<int>,widgetDisableDuration: null == widgetDisableDuration ? _self.widgetDisableDuration : widgetDisableDuration // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

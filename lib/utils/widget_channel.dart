@@ -14,6 +14,9 @@ class WidgetChannel {
 
   static bool _isSupported() => debugIsSupportedOverride ?? Platform.isAndroid;
 
+  /// Whether home screen widgets exist on this platform (Android).
+  static bool get isSupported => _isSupported();
+
   static Future<void> sendSidUpdated({
     required String serverAddress,
     required String sid,
@@ -88,6 +91,24 @@ class WidgetChannel {
       });
     } catch (e) {
       logger.w('Widget serverReplaced failed: $e');
+    }
+  }
+
+  /// Sends the widget settings from Settings > App settings > Advanced
+  /// settings > Disable timers.
+  ///
+  /// [disableDuration]: how long a disable from a widget lasts, in seconds
+  /// (0 = indefinitely).
+  static Future<void> sendWidgetSettingsUpdated({
+    required int disableDuration,
+  }) async {
+    if (!_isSupported()) return;
+    try {
+      await _channel.invokeMethod('widgetSettingsUpdated', {
+        'disableDuration': disableDuration,
+      });
+    } catch (e) {
+      logger.w('Widget widgetSettingsUpdated failed: $e');
     }
   }
 

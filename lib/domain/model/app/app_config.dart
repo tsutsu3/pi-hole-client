@@ -26,5 +26,9 @@ sealed class AppConfig with _$AppConfig {
 
     /// Timed options of the disable menu, in seconds.
     @Default(DisableDurations.defaults) List<int> disableDurations,
+
+    /// How long a disable from a home screen widget lasts, in seconds.
+    /// 0 = indefinitely.
+    @Default(0) int widgetDisableDuration,
   }) = _AppConfig;
 }

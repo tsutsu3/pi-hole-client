@@ -23,6 +23,20 @@ class WidgetPrefsTest {
     }
 
     @Test
+    fun widgetDisableDuration_defaultsToIndefinitely() {
+        assertEquals(0L, prefs.widgetDisableDuration)
+    }
+
+    @Test
+    fun widgetDisableDuration_keepsTheValueAndRejectsNegatives() {
+        prefs.widgetDisableDuration = 1800L
+        assertEquals(1800L, prefs.widgetDisableDuration)
+
+        prefs.widgetDisableDuration = -5L
+        assertEquals(0L, prefs.widgetDisableDuration)
+    }
+
+    @Test
     fun getSid_returnsNullWhenNeverSaved() {
         assertNull(prefs.getSid("http://never-saved"))
     }
