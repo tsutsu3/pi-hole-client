@@ -4579,6 +4579,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Include on the body of the email all the possible details: Pi-hole and web interface version, how to reproduce the issue, screenshots...\n\nAll provided information will be very welcome.'**
   String get writeEmailDetails;
+
+  /// No description provided for @disableTimers.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable timers'**
+  String get disableTimers;
+
+  /// No description provided for @disableTimersDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Durations offered when you disable Pi-hole'**
+  String get disableTimersDescription;
+
+  /// No description provided for @disableMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable menu'**
+  String get disableMenu;
+
+  /// No description provided for @disableMenuDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'The four timed options shown when you disable Pi-hole. \"Custom\" and \"Indefinitely\" are always available.'**
+  String get disableMenuDescription;
+
+  /// No description provided for @disableMenuOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Option {number}'**
+  String disableMenuOption(Object number);
+
+  /// No description provided for @disableDurationInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a time between 1 second and 24 hours'**
+  String get disableDurationInvalid;
+
+  /// No description provided for @timeUnitSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'seconds'**
+  String get timeUnitSeconds;
+
+  /// No description provided for @timeUnitMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'minutes'**
+  String get timeUnitMinutes;
+
+  /// No description provided for @timeUnitHours.
+  ///
+  /// In en, this message translates to:
+  /// **'hours'**
+  String get timeUnitHours;
+
+  /// No description provided for @timersSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable timers saved'**
+  String get timersSaved;
+
+  /// No description provided for @timersNotSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable timers could not be saved'**
+  String get timersNotSaved;
+
+  /// No description provided for @durationSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 second} other{{count} seconds}}'**
+  String durationSeconds(num count);
+
+  /// No description provided for @durationMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 minute} other{{count} minutes}}'**
+  String durationMinutes(num count);
+
+  /// No description provided for @durationHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 hour} other{{count} hours}}'**
+  String durationHours(num count);
+
+  /// No description provided for @blocking.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocking'**
+  String get blocking;
+
+  /// No description provided for @disableDurationDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'This time is already in the list'**
+  String get disableDurationDuplicate;
 }
 
 class _AppLocalizationsDelegate

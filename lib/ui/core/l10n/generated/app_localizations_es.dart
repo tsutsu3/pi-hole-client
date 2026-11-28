@@ -2405,4 +2405,82 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get writeEmailDetails =>
       'Incluye en el cuerpo del correo todos los detalles posibles: Pi-hole y versión de la interfaz web, cómo reproducir el problema, capturas de pantalla...\n\nToda la información proporcionada será muy bienvenida.';
+
+  @override
+  String get disableTimers => 'Temporizadores de desactivación';
+
+  @override
+  String get disableTimersDescription =>
+      'Duraciones ofrecidas al desactivar Pi-hole';
+
+  @override
+  String get disableMenu => 'Menú de desactivación';
+
+  @override
+  String get disableMenuDescription =>
+      'Las cuatro opciones de tiempo que aparecen al desactivar Pi-hole. \"Personalizado\" e \"Indefinidamente\" siempre están disponibles.';
+
+  @override
+  String disableMenuOption(Object number) {
+    return 'Opción $number';
+  }
+
+  @override
+  String get disableDurationInvalid =>
+      'Introduce un tiempo entre 1 segundo y 24 horas';
+
+  @override
+  String get timeUnitSeconds => 'segundos';
+
+  @override
+  String get timeUnitMinutes => 'minutos';
+
+  @override
+  String get timeUnitHours => 'horas';
+
+  @override
+  String get timersSaved => 'Temporizadores de desactivación guardados';
+
+  @override
+  String get timersNotSaved =>
+      'No se pudieron guardar los temporizadores de desactivación';
+
+  @override
+  String durationSeconds(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count segundos',
+      one: '1 segundo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String durationMinutes(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutos',
+      one: '1 minuto',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String durationHours(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count horas',
+      one: '1 hora',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get blocking => 'Bloqueo';
+
+  @override
+  String get disableDurationDuplicate => 'Este tiempo ya está en la lista';
 }

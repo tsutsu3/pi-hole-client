@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/utils/disable_durations.dart';
 
 part 'app_config.freezed.dart';
 
@@ -22,5 +23,8 @@ sealed class AppConfig with _$AppConfig {
     required HomeVisualizationMode homeVisualizationMode,
     required bool sendCrashReports,
     String? passCode,
+
+    /// Timed options of the disable menu, in seconds.
+    @Default(DisableDurations.defaults) List<int> disableDurations,
   }) = _AppConfig;
 }

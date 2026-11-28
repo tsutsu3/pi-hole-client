@@ -9,6 +9,7 @@ import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
 import 'package:pi_hole_client/ui/core/view_models/servers_viewmodel.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/app_unlock_setup_modal.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/chart_visualization_screen.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/disable_timers_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/reset_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/widgets/advanced_options_screen.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,11 @@ GoRouter _createTestRouter() {
         path: '/settings/app/advanced',
         name: Routes.settingsAppAdvanced,
         builder: (_, _) => const AdvancedOptionsScreen(),
+      ),
+      GoRoute(
+        path: '/settings/app/advanced/disable-timers',
+        name: Routes.settingsAppAdvancedDisableTimers,
+        builder: (_, _) => const DisableTimersScreen(),
       ),
       GoRoute(
         path: '/settings/app/advanced/chart-visualization',
@@ -206,6 +212,33 @@ void main() async {
       expect(find.text('Settings updated successfully.'), findsOneWidget);
     });
 
+    testWidgets('should show Disable timers screen', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(
+        buildTestApp(
+          const SizedBox(),
+          appConfigViewModel: appConfigViewModel,
+          serversViewModel: serversViewModel,
+          router: _createTestRouter(),
+        ),
+      );
+
+      expect(find.text('Blocking'), findsOneWidget);
+      await tester.tap(find.text('Disable timers'));
+      await tester.pumpAndSettle();
+      expect(find.byType(DisableTimersScreen), findsOneWidget);
+      expect(find.text('Disable menu'), findsOneWidget);
+    });
+
     testWidgets('should show Statistics display mode screen', (
       WidgetTester tester,
     ) async {
@@ -288,6 +321,9 @@ void main() async {
       await tester.scrollUntilVisible(find.text('Reset application'), 100);
 
       expect(find.text('Reset application'), findsOneWidget);
+      // The new Blocking section pushes this item further down.
+      await tester.ensureVisible(find.text('Reset application'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Reset application'));
       await tester.pumpAndSettle();
       expect(find.byType(ResetScreen), findsOneWidget);

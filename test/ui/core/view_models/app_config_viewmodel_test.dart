@@ -147,6 +147,44 @@ void main() {
       expect(listenerCalled, true);
     });
 
+    test('setDisableDurations updates value and notifies listeners', () async {
+      final result = await appConfigViewModel.setDisableDurations([
+        600,
+        1200,
+        2400,
+        3600,
+      ]);
+      expect(result, true);
+      expect(appConfigViewModel.disableDurations, [600, 1200, 2400, 3600]);
+      expect(listenerCalled, true);
+    });
+
+    test('setDisableDurations rejects a list that is not valid', () async {
+      expect(await appConfigViewModel.setDisableDurations([60, 120]), false);
+      expect(
+        await appConfigViewModel.setDisableDurations([0, 60, 120, 300]),
+        false,
+      );
+      expect(
+        await appConfigViewModel.setDisableDurations([60, 60, 120, 300]),
+        false,
+      );
+      expect(appConfigViewModel.disableDurations, [30, 60, 120, 300]);
+      expect(listenerCalled, false);
+    });
+
+    test('setDisableDurations returns false when saving fails', () async {
+      repository.shouldFailUpdate = true;
+      final result = await appConfigViewModel.setDisableDurations([
+        600,
+        1200,
+        2400,
+        3600,
+      ]);
+      expect(result, false);
+      expect(appConfigViewModel.disableDurations, [30, 60, 120, 300]);
+    });
+
     test('setSendCrashReports updates value and notifies listeners', () async {
       final result = await appConfigViewModel.setSendCrashReports(true);
       expect(result, true);

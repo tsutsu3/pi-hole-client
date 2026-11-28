@@ -240,6 +240,14 @@ class MockAppConfigViewModel extends _i1.Mock
           as bool);
 
   @override
+  List<int> get disableDurations =>
+      (super.noSuchMethod(
+            Invocation.getter(#disableDurations),
+            returnValue: <int>[],
+          )
+          as List<int>);
+
+  @override
   int get logAutoRefreshTime =>
       (super.noSuchMethod(
             Invocation.getter(#logAutoRefreshTime),
@@ -371,6 +379,14 @@ class MockAppConfigViewModel extends _i1.Mock
   _i11.Future<bool> setSendCrashReports(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setSendCrashReports, [status]),
+            returnValue: _i11.Future<bool>.value(false),
+          )
+          as _i11.Future<bool>);
+
+  @override
+  _i11.Future<bool> setDisableDurations(List<int>? seconds) =>
+      (super.noSuchMethod(
+            Invocation.method(#setDisableDurations, [seconds]),
             returnValue: _i11.Future<bool>.value(false),
           )
           as _i11.Future<bool>);

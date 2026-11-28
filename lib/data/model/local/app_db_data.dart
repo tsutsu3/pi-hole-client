@@ -16,6 +16,7 @@ class AppDbData {
     required this.statisticsVisualizationMode,
     required this.homeVisualizationMode,
     required this.sendCrashReports,
+    this.disableDurations = defaultDisableDurationsDb,
   });
 
   factory AppDbData.fromMap(Map<String, Object?> map) {
@@ -36,6 +37,8 @@ class AppDbData {
       statisticsVisualizationMode: map['statisticsVisualizationMode']! as int,
       homeVisualizationMode: map['homeVisualizationMode']! as int,
       sendCrashReports: map['sendCrashReports']! as int,
+      disableDurations:
+          map['disableDurations'] as String? ?? defaultDisableDurationsDb,
     );
   }
 
@@ -57,8 +60,12 @@ class AppDbData {
       statisticsVisualizationMode: instance.statisticsVisualizationMode,
       homeVisualizationMode: instance.homeVisualizationMode,
       sendCrashReports: instance.sendCrashReports,
+      disableDurations: instance.disableDurations,
     );
   }
+
+  /// Default timed options of the disable menu, in seconds.
+  static const defaultDisableDurationsDb = '30,60,120,300';
 
   final int autoRefreshTime;
   final int theme;
@@ -76,6 +83,9 @@ class AppDbData {
   final int statisticsVisualizationMode; // 0 = list, 1 = pie
   final int homeVisualizationMode; // 0 = line area, 1 = bar
   final int sendCrashReports;
+
+  /// Timed options of the disable menu, in seconds, comma separated.
+  final String disableDurations;
 
   Map<String, Object?> toDict() {
     return {
@@ -95,6 +105,7 @@ class AppDbData {
       'statisticsVisualizationMode': statisticsVisualizationMode,
       'homeVisualizationMode': homeVisualizationMode,
       'sendCrashReports': sendCrashReports,
+      'disableDurations': disableDurations,
     };
   }
 }

@@ -38,6 +38,8 @@ abstract class Routes {
   // ===== Settings > App > Advanced sub-routes =====
   static const settingsAppAdvancedChartVisualization =
       'settings/app/advanced/chart-visualization';
+  static const settingsAppAdvancedDisableTimers =
+      'settings/app/advanced/disable-timers';
   static const settingsAppAdvancedStatsRefreshTime =
       'settings/app/advanced/stats-refresh-time';
   static const settingsAppAdvancedLogRefreshInterval =

@@ -7,6 +7,7 @@ import 'package:pi_hole_client/domain/model/app/app_config.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
 import 'package:pi_hole_client/ui/core/l10n/languages.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
+import 'package:pi_hole_client/utils/disable_durations.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
 class AppConfigViewModel with ChangeNotifier {
@@ -34,6 +35,7 @@ class AppConfigViewModel with ChangeNotifier {
       StatisticsVisualizationMode.list;
   HomeVisualizationMode _homeVisualizationMode = HomeVisualizationMode.lineArea;
   int _sendCrashReports = 0;
+  List<int> _disableDurations = DisableDurations.defaults;
   String _selectedLanguage = 'en';
   int _logAutoRefreshTime = 5;
   bool _liveLog = true;
@@ -155,6 +157,9 @@ class AppConfigViewModel with ChangeNotifier {
   bool get sendCrashReports {
     return _sendCrashReports == 1;
   }
+
+  /// Timed options of the disable menu, in seconds.
+  List<int> get disableDurations => _disableDurations;
 
   int get logAutoRefreshTime {
     return _logAutoRefreshTime;
@@ -314,6 +319,19 @@ class AppConfigViewModel with ChangeNotifier {
     }
   }
 
+  Future<bool> setDisableDurations(List<int> seconds) async {
+    if (!DisableDurations.isValid(seconds)) return false;
+    final updated = await _repository.updateDisableDurations(seconds);
+    if (updated.isSuccess()) {
+      _disableDurations = List.unmodifiable(seconds);
+      notifyListeners();
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<bool> setLogAutoRefreshTime(int seconds) async {
     final updated = await _repository.updateLogAutoRefreshTime(seconds);
     if (updated.isSuccess()) {
@@ -367,6 +385,7 @@ class AppConfigViewModel with ChangeNotifier {
     _statisticsVisualizationMode = config.statisticsVisualizationMode;
     _homeVisualizationMode = config.homeVisualizationMode;
     _sendCrashReports = config.sendCrashReports ? 1 : 0;
+    _disableDurations = config.disableDurations;
 
     if (config.passCode != null) {
       _appUnlocked = false;
@@ -482,6 +501,7 @@ class AppConfigViewModel with ChangeNotifier {
       _statisticsVisualizationMode = StatisticsVisualizationMode.list;
       _homeVisualizationMode = HomeVisualizationMode.lineArea;
       _sendCrashReports = 0;
+      _disableDurations = DisableDurations.defaults;
 
       notifyListeners();
 

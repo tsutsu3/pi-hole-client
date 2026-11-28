@@ -275,7 +275,7 @@ void main() {
       await v10.close();
 
       final dbService = DatabaseService(path: path);
-      await dbService.open();
+      await dbService.open(latestVersion: 11);
       final rows = (await dbService.query('servers')).getOrNull();
       await dbService.close();
 
@@ -283,6 +283,30 @@ void main() {
       expect(rows!.first['alias'], 'Local');
       expect(rows.first.containsKey('webPath'), isTrue);
       expect(rows.first['webPath'], isNull);
+    });
+
+    test('v11 -> v12 adds disableDurations with the default values', () async {
+      // A minimal appConfig table as it is in version 11.
+      final v11 = await databaseFactory.openDatabase(
+        path,
+        options: OpenDatabaseOptions(
+          version: 11,
+          onCreate: (db, _) async {
+            await db.execute('CREATE TABLE appConfig (theme NUMERIC NOT NULL)');
+            await db.insert('appConfig', {'theme': 1});
+          },
+        ),
+      );
+      await v11.close();
+
+      final dbService = DatabaseService(path: path);
+      await dbService.open(latestVersion: 12);
+      final rows = (await dbService.query('appConfig')).getOrNull();
+      await dbService.close();
+
+      expect(rows, hasLength(1));
+      expect(rows!.first['theme'], 1);
+      expect(rows.first['disableDurations'], '30,60,120,300');
     });
   });
 }

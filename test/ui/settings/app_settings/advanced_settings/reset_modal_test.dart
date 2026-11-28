@@ -75,6 +75,9 @@ void main() async {
       expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       expect(find.text('Reset application'), findsOneWidget);
 
+      // The new Blocking section pushes this item further down.
+      await tester.ensureVisible(find.text('Reset application'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Reset application'));
       await tester.pumpAndSettle();
       expect(find.text('Erase app data'), findsNWidgets(2));
@@ -107,6 +110,9 @@ void main() async {
       expect(find.byType(AdvancedOptionsScreen), findsOneWidget);
       expect(find.text('Reset application'), findsOneWidget);
 
+      // The new Blocking section pushes this item further down.
+      await tester.ensureVisible(find.text('Reset application'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Reset application'));
       await tester.pumpAndSettle();
       expect(find.text('Erase app data'), findsNWidgets(2));

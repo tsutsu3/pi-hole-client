@@ -747,5 +747,21 @@
   "websiteTitle": "Webサイト",
   "welcomeToApp": "アプリへようこそ",
   "writeEmail": "メールで私に書いてください。",
-  "writeEmailDetails": "メール本文には可能な限り詳細を記載してください：Pi-holeおよびWebインターフェースのバージョン、問題の再現方法、スクリーンショットなど。\n\n提供される情報はすべて歓迎します。"
+  "writeEmailDetails": "メール本文には可能な限り詳細を記載してください：Pi-holeおよびWebインターフェースのバージョン、問題の再現方法、スクリーンショットなど。\n\n提供される情報はすべて歓迎します。",
+  "disableTimers": "無効化タイマー",
+  "disableTimersDescription": "Pi-holeを無効化するときの時間",
+  "disableMenu": "無効化メニュー",
+  "disableMenuDescription": "Pi-holeを無効化するときに表示される4つの時間です。「カスタム」と「無期限」は常に選べます。",
+  "disableMenuOption": "選択肢 {number}",
+  "disableDurationInvalid": "1秒から24時間までの時間を入力してください",
+  "timeUnitSeconds": "秒",
+  "timeUnitMinutes": "分",
+  "timeUnitHours": "時間",
+  "timersSaved": "無効化タイマーを保存しました",
+  "timersNotSaved": "無効化タイマーを保存できませんでした",
+  "durationSeconds": "{count, plural, other{{count}秒}}",
+  "durationMinutes": "{count, plural, other{{count}分}}",
+  "durationHours": "{count, plural, other{{count}時間}}",
+  "blocking": "ブロック",
+  "disableDurationDuplicate": "この時間はすでにリストにあります"
 }

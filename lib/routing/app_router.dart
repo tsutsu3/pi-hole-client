@@ -26,6 +26,7 @@ import 'package:pi_hole_client/ui/settings/about/widgets/licenses_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/widgets/privacy_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/chart_visualization_screen.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/disable_timers_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/log_refresh_interval_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/widgets/reset_screen.dart';
@@ -233,6 +234,12 @@ GoRouter createAppRouter({
                       ),
 
                       // ── Settings > App > Advanced ──
+                      GoRoute(
+                        path: '/settings/app/advanced/disable-timers',
+                        name: Routes.settingsAppAdvancedDisableTimers,
+                        builder: (context, state) =>
+                            const DisableTimersScreen(),
+                      ),
                       GoRoute(
                         path: '/settings/app/advanced/chart-visualization',
                         name: Routes.settingsAppAdvancedChartVisualization,

@@ -1,6 +1,7 @@
 import 'package:pi_hole_client/data/model/local/app_db_data.dart';
 import 'package:pi_hole_client/domain/model/app/app_config.dart';
 import 'package:pi_hole_client/domain/model/enums.dart';
+import 'package:pi_hole_client/utils/disable_durations.dart';
 
 extension AppDbDataMapper on AppDbData {
   AppConfig toDomain() => AppConfig(
@@ -28,5 +29,6 @@ extension AppDbDataMapper on AppDbData {
         : HomeVisualizationMode.lineArea,
     sendCrashReports: sendCrashReports == 1,
     passCode: passCode,
+    disableDurations: DisableDurations.parse(disableDurations),
   );
 }

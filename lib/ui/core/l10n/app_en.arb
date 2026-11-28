@@ -745,5 +745,21 @@
   "websiteTitle": "Website",
   "welcomeToApp": "Welcome to the App",
   "writeEmail": "Write me by email.",
-  "writeEmailDetails": "Include on the body of the email all the possible details: Pi-hole and web interface version, how to reproduce the issue, screenshots...\n\nAll provided information will be very welcome."
+  "writeEmailDetails": "Include on the body of the email all the possible details: Pi-hole and web interface version, how to reproduce the issue, screenshots...\n\nAll provided information will be very welcome.",
+  "disableTimers": "Disable timers",
+  "disableTimersDescription": "Durations offered when you disable Pi-hole",
+  "disableMenu": "Disable menu",
+  "disableMenuDescription": "The four timed options shown when you disable Pi-hole. \"Custom\" and \"Indefinitely\" are always available.",
+  "disableMenuOption": "Option {number}",
+  "disableDurationInvalid": "Enter a time between 1 second and 24 hours",
+  "timeUnitSeconds": "seconds",
+  "timeUnitMinutes": "minutes",
+  "timeUnitHours": "hours",
+  "timersSaved": "Disable timers saved",
+  "timersNotSaved": "Disable timers could not be saved",
+  "durationSeconds": "{count, plural, =1{1 second} other{{count} seconds}}",
+  "durationMinutes": "{count, plural, =1{1 minute} other{{count} minutes}}",
+  "durationHours": "{count, plural, =1{1 hour} other{{count} hours}}",
+  "blocking": "Blocking",
+  "disableDurationDuplicate": "This time is already in the list"
 }

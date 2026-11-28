@@ -1700,6 +1700,9 @@ class TestSetupHelper {
     when(mockConfigProvider.selectedTab).thenReturn(0);
     when(mockConfigProvider.importantInfoReaden).thenReturn(true);
     when(mockConfigProvider.sendCrashReports).thenReturn(false);
+    when(
+      mockConfigProvider.disableDurations,
+    ).thenReturn(const [30, 60, 120, 300]);
     when(mockConfigProvider.loadingAnimation).thenReturn(true);
     when(
       mockConfigProvider.setShowLoadingAnimation(any),

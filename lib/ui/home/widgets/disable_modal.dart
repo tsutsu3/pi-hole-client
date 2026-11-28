@@ -2,6 +2,10 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/option_box.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/disable_duration_label.dart';
+import 'package:pi_hole_client/ui/core/view_models/app_config_viewmodel.dart';
+import 'package:pi_hole_client/utils/disable_durations.dart';
+import 'package:provider/provider.dart';
 
 class DisableModal extends StatefulWidget {
   const DisableModal({
@@ -61,16 +65,13 @@ class _DisableModalState extends State<DisableModal> {
   int _getTime() {
     switch (selectedOption) {
       case 0:
-        return 30;
-
       case 1:
-        return 60;
-
       case 2:
-        return 120;
-
       case 3:
-        return 300;
+        final durations = context.read<AppConfigViewModel>().disableDurations;
+        return selectedOption! < durations.length
+            ? durations[selectedOption!]
+            : DisableDurations.defaults[selectedOption!];
 
       case 4:
         return 0;
@@ -86,6 +87,15 @@ class _DisableModalState extends State<DisableModal> {
   @override
   Widget build(BuildContext context) {
     final mediaQueryData = MediaQuery.of(context);
+    // Timed options, set in Settings > App settings > Advanced settings >
+    // Disable timers.
+    final durations = context.watch<AppConfigViewModel>().disableDurations;
+    String durationLabel(int index) => disableDurationLabel(
+      index < durations.length
+          ? durations[index]
+          : DisableDurations.defaults[index],
+      AppLocalizations.of(context),
+    );
 
     Widget options() {
       return Wrap(
@@ -132,7 +142,7 @@ class _DisableModalState extends State<DisableModal> {
                           ? Theme.of(context).colorScheme.onSecondaryContainer
                           : Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
-                    child: Text(AppLocalizations.of(context).seconds30),
+                    child: Text(durationLabel(0)),
                   ),
                 ),
               ),
@@ -156,7 +166,7 @@ class _DisableModalState extends State<DisableModal> {
                           ? Theme.of(context).colorScheme.onSecondaryContainer
                           : Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
-                    child: Text(AppLocalizations.of(context).minute1),
+                    child: Text(durationLabel(1)),
                   ),
                 ),
               ),
@@ -185,7 +195,7 @@ class _DisableModalState extends State<DisableModal> {
                           ? Theme.of(context).colorScheme.onSecondaryContainer
                           : Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
-                    child: Text(AppLocalizations.of(context).minutes2),
+                    child: Text(durationLabel(2)),
                   ),
                 ),
               ),
@@ -214,7 +224,7 @@ class _DisableModalState extends State<DisableModal> {
                           ? Theme.of(context).colorScheme.onSecondaryContainer
                           : Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
-                    child: Text(AppLocalizations.of(context).minutes5),
+                    child: Text(durationLabel(3)),
                   ),
                 ),
               ),

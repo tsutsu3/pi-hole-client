@@ -745,5 +745,21 @@
   "websiteTitle": "Strona internetowa",
   "welcomeToApp": "Witaj w aplikacji",
   "writeEmail": "Napisz do mnie na e-mail.",
-  "writeEmailDetails": "W treści e-maila umieść wszystkie możliwe szczegóły: wersję Pi-hole i interfejsu sieciowego, sposób odtworzenia problemu, zrzuty ekranu...\n\nWszystkie dostarczone informacje będą bardzo mile widziane."
+  "writeEmailDetails": "W treści e-maila umieść wszystkie możliwe szczegóły: wersję Pi-hole i interfejsu sieciowego, sposób odtworzenia problemu, zrzuty ekranu...\n\nWszystkie dostarczone informacje będą bardzo mile widziane.",
+  "disableTimers": "Liczniki wyłączania",
+  "disableTimersDescription": "Czasy proponowane przy wyłączaniu Pi-hole",
+  "disableMenu": "Menu wyłączania",
+  "disableMenuDescription": "Cztery opcje czasu wyświetlane przy wyłączaniu Pi-hole. „Niestandardowo” i „Bezterminowo” są zawsze dostępne.",
+  "disableMenuOption": "Opcja {number}",
+  "disableDurationInvalid": "Wpisz czas od 1 sekundy do 24 godzin",
+  "timeUnitSeconds": "sekundy",
+  "timeUnitMinutes": "minuty",
+  "timeUnitHours": "godziny",
+  "timersSaved": "Zapisano liczniki wyłączania",
+  "timersNotSaved": "Nie udało się zapisać liczników wyłączania",
+  "durationSeconds": "{count, plural, =1{1 sekunda} few{{count} sekundy} other{{count} sekund}}",
+  "durationMinutes": "{count, plural, =1{1 minuta} few{{count} minuty} other{{count} minut}}",
+  "durationHours": "{count, plural, =1{1 godzina} few{{count} godziny} other{{count} godzin}}",
+  "blocking": "Blokowanie",
+  "disableDurationDuplicate": "Ten czas jest już na liście"
 }

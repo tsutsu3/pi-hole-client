@@ -2366,4 +2366,81 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get writeEmailDetails =>
       'Include on the body of the email all the possible details: Pi-hole and web interface version, how to reproduce the issue, screenshots...\n\nAll provided information will be very welcome.';
+
+  @override
+  String get disableTimers => 'Disable timers';
+
+  @override
+  String get disableTimersDescription =>
+      'Durations offered when you disable Pi-hole';
+
+  @override
+  String get disableMenu => 'Disable menu';
+
+  @override
+  String get disableMenuDescription =>
+      'The four timed options shown when you disable Pi-hole. \"Custom\" and \"Indefinitely\" are always available.';
+
+  @override
+  String disableMenuOption(Object number) {
+    return 'Option $number';
+  }
+
+  @override
+  String get disableDurationInvalid =>
+      'Enter a time between 1 second and 24 hours';
+
+  @override
+  String get timeUnitSeconds => 'seconds';
+
+  @override
+  String get timeUnitMinutes => 'minutes';
+
+  @override
+  String get timeUnitHours => 'hours';
+
+  @override
+  String get timersSaved => 'Disable timers saved';
+
+  @override
+  String get timersNotSaved => 'Disable timers could not be saved';
+
+  @override
+  String durationSeconds(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count seconds',
+      one: '1 second',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String durationMinutes(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes',
+      one: '1 minute',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String durationHours(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hours',
+      one: '1 hour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get blocking => 'Blocking';
+
+  @override
+  String get disableDurationDuplicate => 'This time is already in the list';
 }
